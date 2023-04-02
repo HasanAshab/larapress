@@ -16,5 +16,13 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HasanAshab/ExpressExtended.git"
+  },
+  "bugs": {
+    "url": "https://github.com/HasanAshab/ExpressExtended/issues"
+  },
+  "homepage": "https://github.com/HasanAshab/ExpressExtended#readme"
 }
