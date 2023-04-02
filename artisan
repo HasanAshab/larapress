@@ -2,6 +2,7 @@ const args = process.argv;
 const fs = require('fs');
 
 if(/^make:/.test(args[2])){
+  loadDir();
   const name = args[3];
   const templateName = args[2].split(':')[1];
   const template = fs.readFileSync(`templates/${templateName}`, 'utf-8');
@@ -24,5 +25,14 @@ if(/^make:/.test(args[2])){
   }
   catch(e){
     console.log(e);
+  }
+}
+
+function loadDir(){
+  dirs = ['controllers', 'database', 'database/schemas', 'database/models']
+  for(dir of dirs){
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+    }
   }
 }
