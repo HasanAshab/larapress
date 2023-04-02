@@ -1,6 +1,6 @@
 {
-  "name": "express-extended",
-  "version": "1.0.0",
+  "name": "express-extended-kit",
+  "version": "1.0.1",
   "description": "This is a extended starter kit of express made by Hasan Ashab Founder of Samer Agency. it is more optimized for big projects. it has a command line helper",
   "main": "app.js",
   "scripts": {
