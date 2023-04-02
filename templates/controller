@@ -1,0 +1,7 @@
+class {{name}} {
+  index = (req, res)=>{
+    //
+  }
+}
+
+module.exports = {{name}};
