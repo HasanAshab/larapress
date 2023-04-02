@@ -29,7 +29,7 @@ if(/^make:/.test(args[2])){
 }
 
 function loadDir(){
-  dirs = ['controllers', 'database', 'database/schemas', 'database/models']
+  dirs = ['controllers', 'database', 'database/schemas', 'database/models', 'static'];
   for(dir of dirs){
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);

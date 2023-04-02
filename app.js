@@ -19,7 +19,7 @@ app.use('/', require(path.join(__dirname, '/routes/web')));
 app.use('/api', require(path.join(__dirname, '/routes/api')));
 
 // Connecting to database
-if (connectToDB) {
+if (connectToDB === "true") {
   const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/test';
   mongoose.connect(dbUrl, {
     useNewUrlParser: true, useUnifiedTopology: true
@@ -32,5 +32,5 @@ if (connectToDB) {
 
 // Listening for clients
 app.listen(port, ()=> {
-  console.log(`Serving running on [http://127.0.0.1:${port}] ...`);
+  console.log(`Server running on [http://127.0.0.1:${port}] ...`);
 });
