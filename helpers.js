@@ -6,7 +6,7 @@ const controller = (filename)=>{
 
 const model = (filename)=>{
   const path = require('path');
-  return require(path.join(__dirname, `/database/models/${filename}`));
+  return require(path.join(__dirname, `/models/${filename}`));
 }
 
 module.exports = {

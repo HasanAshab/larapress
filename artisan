@@ -7,18 +7,7 @@ if(/^make:/.test(args[2])){
   const templateName = args[2].split(':')[1];
   const template = fs.readFileSync(`templates/${templateName}`, 'utf-8');
   const content = template.replace(/{{name}}/g, name);
-  
-  if(templateName === 'controller'){
-    filepath = `controllers/${name}.js`;
-  }
-  
-  else if(templateName === 'schema'){
-    filepath = `database/schemas/${name}.js`;
-  }
-  
-  else if(templateName === 'model'){
-    filepath = `database/models/${name}.js`;
-  }
+  const filepath = `${templateName}s/${name}.js`;
   try{
     fs.writeFileSync(filepath, content, { flag: 'wx' });
     console.log(`\nFile created successfully: [${filepath}]\n`);
@@ -29,7 +18,7 @@ if(/^make:/.test(args[2])){
 }
 
 function loadDir(){
-  dirs = ['controllers', 'database', 'database/schemas', 'database/models', 'static'];
+  dirs = ['controllers', 'models', 'static']
   for(dir of dirs){
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);
