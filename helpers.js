@@ -4,6 +4,12 @@ const controller = (filename)=>{
   return new controllerClass;
 }
 
+const model = (filename)=>{
+  const path = require('path');
+  return require(path.join(__dirname, `/database/models/${filename}`));
+}
+
 module.exports = {
-  controller
+  controller,
+  model
 }

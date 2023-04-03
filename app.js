@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const { engine } = require('express-handlebars');
 const app = express();
 const port = process.env.PORT || 8000;
 const connectToDB = process.env.DB_CONNECT;
@@ -14,6 +15,11 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+// Registering Handlebars template engine
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars');
+app.set('views', './views');
+
 // Route groups
 app.use('/', require(path.join(__dirname, '/routes/web')));
 app.use('/api', require(path.join(__dirname, '/routes/api')));
@@ -24,10 +30,10 @@ if (connectToDB === "true") {
   mongoose.connect(dbUrl, {
     useNewUrlParser: true, useUnifiedTopology: true
   }).then(() => {
-    console.log('Connected to MongoDB');
+    console.log('Connected to MongoDB!');
   }).catch((error) => {
     console.error(error);
-  });;
+  });
 }
 
 // Listening for clients
