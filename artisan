@@ -1,5 +1,6 @@
 const args = process.argv;
 const fs = require('fs');
+const { setEnv, randStr } = require('./helpers');
 
 if(/^make:/.test(args[2])){
   loadDir();
@@ -17,8 +18,17 @@ if(/^make:/.test(args[2])){
   }
 }
 
+else if(/^secret:/.test(args[2])){
+  const key = args[2].split(':')[1].toUpperCase() + '_SECRET';
+  const secret = randStr(100);
+  let obj = {};
+  obj[key] = secret;
+  setEnv(obj);
+  console.log(`\nSecret generated: ${secret}\n`);
+}
+
 function loadDir(){
-  dirs = ['controllers', 'models', 'static']
+  dirs = ['controllers', 'models', 'middlewares', 'static'];
   for(dir of dirs){
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);

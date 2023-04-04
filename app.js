@@ -4,6 +4,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { engine } = require('express-handlebars');
+const session = require('express-session');
 const app = express();
 const port = process.env.PORT || 8000;
 const connectToDB = process.env.DB_CONNECT;
@@ -14,6 +15,16 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(bodyParser.json());
+
+// configure session middleware
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: Number(process.env.COOKIE_MAX_AGE)
+  }
+}));
 
 // Registering Handlebars template engine
 app.engine('handlebars', engine());
