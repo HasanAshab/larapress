@@ -1,0 +1,57 @@
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const VerificationMail = mail('VerificationMail');
+const Token = model('Token');
+const Notifiable = trait('Notifiable');
+const bcryptRounds = Number (process.env.BCRYPT_ROUNDS);
+
+const UserSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    maxlength: 20
+  },
+  email: {
+    type: String,
+    unique: true,
+  },
+  password: String,
+  tokenVersion:{
+    type: Number,
+    default: 0
+  },
+  isAdmin:{
+    type: Boolean,
+    default: false
+  },
+  emailVerified:{
+    type: Boolean,
+    default: false
+  },
+  createdAt:{
+    type: Date,
+    default: Date.now(),
+  },
+});
+
+UserSchema.plugin(Notifiable);
+
+UserSchema.methods.sendVerificationEmail = async function () {
+  if(this.emailVerified){
+    return Promise.reject("Account already verified");
+  }
+  await Token.deleteMany({
+    userId: this._id,
+    for: 'email_verification'
+  });
+  const resetToken = randStr(128);
+  const hash = await bcrypt.hash(resetToken, bcryptRounds);
+  const token = await Token.create({
+    userId: this._id,
+    token: hash,
+    for: 'email_verification'
+  });
+  const link = url(`/api/auth/verify?id=${this._id}&token=${resetToken}`);
+  return this.notify(new VerificationMail({link}));
+}
+
+module.exports = mongoose.model('User', UserSchema);

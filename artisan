@@ -1,21 +1,31 @@
 const args = process.argv;
 const fs = require('fs');
-const { setEnv, randStr } = require('./helpers');
+const { componentPaths } = require('./main/register');
+
+const loadDir = path => {
+  if (!fs.existsSync(path)) {
+    fs.mkdirSync(path);
+  }
+}
+
+const getPathFor = (componentName, name) => {
+  const componentPath = componentPaths[componentName];
+  if(!componentPath){
+    throw new Error(`Component ${componentName} not available!`);
+  }
+  loadDir(componentPath)
+  const filepath = `${componentPath}/${name}.js`;
+  return filepath;
+}
 
 if(/^make:/.test(args[2])){
-  loadDir();
   const name = args[3];
-  const templateName = args[2].split(':')[1];
-  const template = fs.readFileSync(`templates/${templateName}`, 'utf-8');
+  const componentName = args[2].split(':')[1];
+  const template = fs.readFileSync(`templates/${componentName}`, 'utf-8');
   const content = template.replace(/{{name}}/g, name);
-  const filepath = `${templateName}s/${name}.js`;
-  try{
-    fs.writeFileSync(filepath, content, { flag: 'wx' });
-    console.log(`\nFile created successfully: [${filepath}]\n`);
-  }
-  catch(e){
-    console.log(e);
-  }
+  const filepath = getPathFor(componentName, name);
+  fs.writeFileSync(filepath, content, { flag: 'wx' });
+  console.log(`\nFile created successfully: [${filepath}]\n`);
 }
 
 else if(/^secret:/.test(args[2])){
@@ -25,13 +35,4 @@ else if(/^secret:/.test(args[2])){
   obj[key] = secret;
   setEnv(obj);
   console.log(`\nSecret generated: ${secret}\n`);
-}
-
-function loadDir(){
-  dirs = ['controllers', 'models', 'middlewares', 'static'];
-  for(dir of dirs){
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
-    }
-  }
 }

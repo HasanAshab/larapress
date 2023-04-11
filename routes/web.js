@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { controller, middleware } = require('../helpers');
 
 // Here should be register all endpoints for web
-router.get('/', middleware('auth'), (req, res)=>{
-  res.send('Hello from web');
+router.get('/', (req, res)=>{
+  res.render('postman', {layout:false});
 });
 
 module.exports = router;

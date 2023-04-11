@@ -1,8 +1,15 @@
-const { model } = require('../helpers');
+const { body } = require('express-validator');
+const User = model('User');
 
 class {{name}} {
-  index = (req, res)=>{
-    //
+  static index = {
+    validator:[
+      //
+    ],
+    
+    method: (req, res)=>{
+      //
+    }
   }
 }
 

@@ -1,0 +1,11 @@
+class {{name}} {
+  view = '';
+  subject = '{{name}}';
+
+  constructor(data = {}){
+    this.data = data;
+  }
+  
+}
+
+module.exports = {{name}};
