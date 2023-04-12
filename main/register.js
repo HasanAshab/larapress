@@ -16,12 +16,9 @@ const routes = (app) => {
 // Register all middlewares with a name
 const middlewares = {
   'auth': './app/http/middlewares/Authenticate',
-  'guest': './app/http/middlewares/RedirectIfAuthenticated',
   'verified': './app/http/middlewares/EnsureEmailIsVerified',
   'error.log': './app/http/middlewares/LogErrorStack',
   'error.response': './app/http/middlewares/HandleClientError',
-  'validation.helper': './app/http/middlewares/InsertValidationHelper',
-  'validation.message': './app/http/middlewares/SendValidationMessage'
 }
 
 const componentPaths = {

@@ -1,9 +1,10 @@
 class BaseController {
   static wrapMethods = (cls) => {
     const methods = Object.getOwnPropertyNames(cls);
+    //console.log(methods)
     for (const method of methods) {
-      if(typeof cls[method].method !== 'undefined'){
-        cls[method].method = this.withTryCatch(cls[method].method);
+      if(!['length', 'name', 'prototype'].includes(method)){
+        cls[method] = this.withTryCatch(cls[method]);
       }
     }
   }

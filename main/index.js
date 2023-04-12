@@ -21,9 +21,6 @@ app.set('views', './views');
 // Registering all global helpers 
 require('./register').helpers(global);
 
-// Registering all global middlewares
-app.use(middleware('validation.helper'));
-
 // Registering all group routes 
 require('./register').routes(app);
 
