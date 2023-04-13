@@ -1,0 +1,7 @@
+class {{name}} {
+  static dispatch = (event) => {
+    //
+  }
+}
+
+module.exports = {{name}};

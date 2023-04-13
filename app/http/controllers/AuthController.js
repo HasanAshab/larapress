@@ -1,5 +1,4 @@
 const BaseController = controller('BaseController');
-const { body } = require('express-validator');
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -20,9 +19,7 @@ class AuthController {
       password: Joi.string().min(8).required(),
       password_confirmation: Joi.string().required().valid(Joi.ref('password')),
     });
-    const {
-      error
-    } = schema.validate(req.body);
+    const { error } = schema.validate(req.body);
     if (error) throw error;
 
     const {
@@ -266,6 +263,16 @@ class AuthController {
   static profile = (req, res) => {
     res.json(req.user);
   }
+  
+  static test = async (req, res) => {
+    //return res.json(await User.find({$text:{$search:req.body.q}}))
+    //req.app.emit('test2', 8)
+    const Test = event('Test');
+    new Test('je')
+    res.json('yeh')
+  }
+  
+  
 }
 
 BaseController.wrapMethods(AuthController);

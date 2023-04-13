@@ -5,16 +5,16 @@ const path = require('path');
 const mongoose = require('mongoose');
 const { componentPaths } = require('./main/register');
 
+app = () => {
+  return require(path.join(__dirname, `main/app`));
+}
+
 url = (path) => {
   return `${process.env.APP_URL}${path}`;
 }
 
 storage = (storage_path) => {
   return path.join(__dirname, path.join('storage', storage_path));
-}
-
-public = (public_path) => {
-  return path.join(storage('public'), public_path);
 }
 
 controller = (filename)=> {
@@ -24,8 +24,17 @@ controller = (filename)=> {
 model = (filename)=> {
   return require(path.join(__dirname, `${componentPaths.model}/${filename}`));
 }
+
 trait = (filename)=> {
   return require(path.join(__dirname, `${componentPaths.trait}/${filename}`));
+}
+
+event = (filename)=> {
+  return require(path.join(__dirname, `${componentPaths.event}/${filename}`));
+}
+
+listener = (filename)=> {
+  return require(path.join(__dirname, `${componentPaths.listener}/${filename}`));
 }
 
 middleware = (keys) => {
@@ -80,17 +89,20 @@ const log = (data) => {
   }
   fs.appendFile(path, `${data}\n\n\n`, (err) =>{
     if(err){
-      console.error(err);
+      throw err;
     }
   });
 }
 
 module.exports = {
+  app,
   url,
   storage,
   controller,
   model,
   trait,
+  event,
+  listener,
   middleware,
   util,
   setEnv,

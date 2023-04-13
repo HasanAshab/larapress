@@ -1,0 +1,10 @@
+class {{name}} {
+  static name = '{{name}}';
+  
+  constructor (data){
+    this.data = data;
+    app().emit({{name}}.name, this);
+  }
+}
+
+module.exports = {{name}};

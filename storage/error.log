@@ -1,165 +1,6 @@
-MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
-
-
-MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
-
-
-MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
-
-
-MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
-
-
-MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
-
-
-MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
-
-
-MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
-
-
-MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
-
-
-Error: jd
-    at method (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:209:12)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
-    at Function.handle (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:175:3)
-
-
-ReferenceError: next is not defined
-    at method (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:209:7)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
-    at Function.handle (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:175:3)
-
-
-MongooseError: Operation `users.find()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
-
-
-MongooseError: Operation `users.find()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
-
-
-TypeError: req.user is not a function
-    at method (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:204:20)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
-    at Function.handle (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:175:3)
-
-
-TypeError: Cannot read properties of undefined (reading 'map')
-    at req.validate (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/InsertValidationHelper.js:25:42)
-    at method (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:200:11)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
-
-
-TypeError: req.validate is not a function
-    at method (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:201:11)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
-    at Function.handle (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:175:3)
-
-
-ReferenceError: error is not defined
-    at req.validate (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/InsertValidationHelper.js:38:46)
-    at method (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:201:11)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
-
-
-ReferenceError: jdj is not defined
-    at profile (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:201:16)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
-    at Function.handle (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:175:3)
-    at router (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:47:12)
-
-
-ReferenceError: auth is not defined
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/EnsureEmailIsVerified.js:4:12
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:30:14
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-
-
 JsonWebTokenError: jwt malformed
     at module.exports [as verify] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/jsonwebtoken/verify.js:70:17)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:20:31
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:19:33
     at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
     at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
     at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
@@ -172,7 +13,7 @@ JsonWebTokenError: jwt malformed
 
 JsonWebTokenError: jwt malformed
     at module.exports [as verify] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/jsonwebtoken/verify.js:70:17)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:20:31
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:19:33
     at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
     at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
     at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
@@ -185,7 +26,7 @@ JsonWebTokenError: jwt malformed
 
 JsonWebTokenError: jwt malformed
     at module.exports [as verify] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/jsonwebtoken/verify.js:70:17)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:20:31
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:19:33
     at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
     at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
     at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
@@ -196,48 +37,9 @@ JsonWebTokenError: jwt malformed
     at Function.handle (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:175:3)
 
 
-Error: djdj
-    at profile (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:261:11)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/EnsureEmailIsVerified.js:4:14
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:30:16
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-
-
-Error: djdj
-    at profile (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:260:11)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/EnsureEmailIsVerified.js:4:14
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
-    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:30:16
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-
-
-ValidationError: "email" must be a valid email
-
-
-ValidationError: "email" must be a valid email
-
-
-ValidationError: "password_confirmation" must be [ref:password]
-
-
-ValidationError: "name" is required
-
-
-ValidationError: "name" is required
-
-
-ValidationError: "name" is required
-
-
-Error: djdj
-    at register (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:23:10)
+JsonWebTokenError: jwt malformed
+    at module.exports [as verify] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/jsonwebtoken/verify.js:70:17)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:19:33
     at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
     at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
     at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
@@ -246,17 +48,11 @@ Error: djdj
     at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
     at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
     at Function.handle (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:175:3)
-    at router (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:47:12)
 
 
-ValidationError: "name" is required
-
-
-ValidationError: "name" is required
-
-
-Error: id
-    at register (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:25:11)
+JsonWebTokenError: jwt malformed
+    at module.exports [as verify] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/jsonwebtoken/verify.js:70:17)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:19:33
     at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
     at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
     at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
@@ -265,54 +61,141 @@ Error: id
     at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
     at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
     at Function.handle (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:175:3)
-    at router (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:47:12)
 
 
-ValidationError: "name" is required
+JsonWebTokenError: jwt malformed
+    at module.exports [as verify] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/jsonwebtoken/verify.js:70:17)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:19:33
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:175:3)
 
 
-ValidationError: "name" is required
+JsonWebTokenError: jwt malformed
+    at module.exports [as verify] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/jsonwebtoken/verify.js:70:17)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:19:33
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:175:3)
 
 
-undefined
+JsonWebTokenError: jwt malformed
+    at module.exports [as verify] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/jsonwebtoken/verify.js:70:17)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:19:33
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:175:3)
 
 
-undefined
+JsonWebTokenError: jwt malformed
+    at module.exports [as verify] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/jsonwebtoken/verify.js:70:17)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:19:33
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:175:3)
 
 
-ValidationError: "name" is required
+JsonWebTokenError: jwt malformed
+    at module.exports [as verify] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/jsonwebtoken/verify.js:70:17)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:19:33
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:175:3)
 
 
-ValidationError: "name" is required
+MongoServerError: "$search" had the wrong type. Expected string, found null
+    at Connection.onMessage (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/mongodb/lib/cmap/connection.js:201:30)
+    at MessageStream.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/mongodb/lib/cmap/connection.js:59:60)
+    at MessageStream.emit (node:events:512:28)
+    at processIncomingData (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/mongodb/lib/cmap/message_stream.js:124:16)
+    at MessageStream._write (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/mongodb/lib/cmap/message_stream.js:33:9)
+    at writeOrBuffer (node:internal/streams/writable:392:12)
+    at _write (node:internal/streams/writable:333:10)
+    at Writable.write (node:internal/streams/writable:337:10)
+    at TLSSocket.ondata (node:internal/streams/readable:766:22)
+    at TLSSocket.emit (node:events:512:28)
 
 
-ValidationError: "name" is required
+TypeError: req.app.emmit is not a function
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:269:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:175:3)
 
 
-ValidationError: "email" must be a valid email
+Error: Cannot find module '../events/Test'
+Require stack:
+- /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js
+- /data/data/com.termux/files/home/js/express/SamerBlog_test/helpers.js
+- /data/data/com.termux/files/home/js/express/SamerBlog_test/main/register.js
+- /data/data/com.termux/files/home/js/express/SamerBlog_test/main/app.js
+- /data/data/com.termux/files/home/js/express/SamerBlog_test/main/index.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1090:15)
+    at Module._load (node:internal/modules/cjs/loader:934:27)
+    at Module.require (node:internal/modules/cjs/loader:1157:19)
+    at require (node:internal/modules/helpers:119:18)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:270:18)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
 
 
-ValidationError: "password" is required
+ReferenceError: Must call super constructor in derived class before accessing 'this' or returning from derived constructor
+    at new test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/events/Test.js:4:5)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:271:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
 
 
-ValidationError: "password_confirmation" is required
-
-
-ValidationError: "password" is required
-
-
-ValidationError: "email" must be a valid email
-
-
-ValidationError: "email" is required
-
-
-ValidationError: "password" is required
-
-
-MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
+ReferenceError: Must call super constructor in derived class before accessing 'this' or returning from derived constructor
+    at new test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/events/Test.js:4:5)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:271:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
 
 
