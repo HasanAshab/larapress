@@ -1,7 +1,8 @@
 const args = process.argv;
 const fs = require('fs');
-const { componentPaths } = require('./main/register');
-
+const crypto = require('crypto');
+const componentPaths = require('./register/componentPaths');
+const { setEnv } = require('./helpers');
 const loadDir = path => {
   if (!fs.existsSync(path)) {
     fs.mkdirSync(path);
@@ -30,7 +31,7 @@ if(/^make:/.test(args[2])){
 
 else if(/^secret:/.test(args[2])){
   const key = args[2].split(':')[1].toUpperCase() + '_SECRET';
-  const secret = randStr(100);
+  const secret = crypto.randomBytes(32).toString('hex');
   let obj = {};
   obj[key] = secret;
   setEnv(obj);

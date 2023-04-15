@@ -199,3 +199,677 @@ ReferenceError: Must call super constructor in derived class before accessing 't
     at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
 
 
+Error: Cannot find module '/data/data/com.termux/files/home/js/express/SamerBlog_test/app/events/Test'
+Require stack:
+- /data/data/com.termux/files/home/js/express/SamerBlog_test/helpers.js
+- /data/data/com.termux/files/home/js/express/SamerBlog_test/main/register.js
+- /data/data/com.termux/files/home/js/express/SamerBlog_test/main/app.js
+- /data/data/com.termux/files/home/js/express/SamerBlog_test/main/index.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1090:15)
+    at Module._load (node:internal/modules/cjs/loader:934:27)
+    at Module.require (node:internal/modules/cjs/loader:1157:19)
+    at require (node:internal/modules/helpers:119:18)
+    at event (/data/data/com.termux/files/home/js/express/SamerBlog_test/helpers.js:33:10)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:270:18)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/CacheResponse.js:17:7
+
+
+ReferenceError: cache is not defined
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:272:14)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/CacheResponse.js:17:7
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+
+
+TypeError: Store.file is not a function
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:275:11)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at done (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:45:7)
+    at indicateDone (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:49:68)
+    at Multipart.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:166:7)
+    at Multipart.emit (node:events:512:28)
+    at emitCloseNT (node:internal/streams/destroy:132:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:81:21)
+
+
+ReferenceError: fs is not defined
+    at Store.file (/data/data/com.termux/files/home/js/express/SamerBlog_test/utils/Store.js:3:5)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:275:11)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at done (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:45:7)
+    at indicateDone (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:49:68)
+    at Multipart.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:166:7)
+    at Multipart.emit (node:events:512:28)
+    at emitCloseNT (node:internal/streams/destroy:132:10)
+
+
+ReferenceError: reqire is not defined
+    at Object.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/utils/Store.js:1:12)
+    at Module._compile (node:internal/modules/cjs/loader:1275:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1329:10)
+    at Module.load (node:internal/modules/cjs/loader:1133:32)
+    at Module._load (node:internal/modules/cjs/loader:972:12)
+    at Module.require (node:internal/modules/cjs/loader:1157:19)
+    at require (node:internal/modules/helpers:119:18)
+    at util (/data/data/com.termux/files/home/js/express/SamerBlog_test/helpers.js:61:10)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:274:19)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+
+
+TypeError [ERR_INVALID_ARG_TYPE]: The "cb" argument must be of type function. Received undefined
+    at maybeCallback (node:fs:170:3)
+    at Object.writeFile (node:fs:2177:14)
+    at Store.file (/data/data/com.termux/files/home/js/express/SamerBlog_test/utils/Store.js:5:8)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:275:11)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at done (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:45:7)
+    at indicateDone (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:49:68)
+    at Multipart.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:166:7)
+
+
+Error: Cannot find module '/data/data/com.termux/files/home/js/express/SamerBlog_test/utils/Store'
+Require stack:
+- /data/data/com.termux/files/home/js/express/SamerBlog_test/helpers.js
+- /data/data/com.termux/files/home/js/express/SamerBlog_test/main/register.js
+- /data/data/com.termux/files/home/js/express/SamerBlog_test/main/app.js
+- /data/data/com.termux/files/home/js/express/SamerBlog_test/main/index.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1090:15)
+    at Module._load (node:internal/modules/cjs/loader:934:27)
+    at Module.require (node:internal/modules/cjs/loader:1157:19)
+    at require (node:internal/modules/helpers:119:18)
+    at util (/data/data/com.termux/files/home/js/express/SamerBlog_test/helpers.js:61:10)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:274:19)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at done (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:45:7)
+
+
+TypeError [ERR_INVALID_ARG_TYPE]: The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+    at new NodeError (node:internal/errors:399:5)
+    at Hash.update (node:internal/crypto/hash:109:11)
+    at hashFileName (/data/data/com.termux/files/home/js/express/SamerBlog_test/helpers.js:89:41)
+    at Storage.putFile (/data/data/com.termux/files/home/js/express/SamerBlog_test/utils/Storage.js:6:18)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:275:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at done (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:45:7)
+    at indicateDone (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:49:68)
+
+
+ReferenceError: buffer is not defined
+    at Storage.putFile (/data/data/com.termux/files/home/js/express/SamerBlog_test/utils/Storage.js:6:17)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:276:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at done (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:45:7)
+    at indicateDone (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:49:68)
+    at Multipart.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:166:7)
+    at Multipart.emit (node:events:512:28)
+    at emitCloseNT (node:internal/streams/destroy:132:10)
+
+
+TypeError [ERR_INVALID_ARG_TYPE]: The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+    at new NodeError (node:internal/errors:399:5)
+    at Hash.update (node:internal/crypto/hash:109:11)
+    at hashFileName (/data/data/com.termux/files/home/js/express/SamerBlog_test/helpers.js:89:41)
+    at Storage.putFile (/data/data/com.termux/files/home/js/express/SamerBlog_test/utils/Storage.js:7:18)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:276:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at done (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:45:7)
+    at indicateDone (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:49:68)
+
+
+TypeError [ERR_INVALID_ARG_TYPE]: The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+    at new NodeError (node:internal/errors:399:5)
+    at Hash.update (node:internal/crypto/hash:109:11)
+    at hashFileName (/data/data/com.termux/files/home/js/express/SamerBlog_test/helpers.js:89:41)
+    at Storage.putFile (/data/data/com.termux/files/home/js/express/SamerBlog_test/utils/Storage.js:7:18)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:276:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at done (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:45:7)
+    at indicateDone (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:49:68)
+
+
+TypeError [ERR_INVALID_ARG_TYPE]: The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+    at new NodeError (node:internal/errors:399:5)
+    at Hash.update (node:internal/crypto/hash:109:11)
+    at hashFileName (/data/data/com.termux/files/home/js/express/SamerBlog_test/helpers.js:89:42)
+    at Storage.putFile (/data/data/com.termux/files/home/js/express/SamerBlog_test/utils/Storage.js:6:18)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:276:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at done (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:45:7)
+    at indicateDone (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:49:68)
+
+
+TypeError [ERR_INVALID_ARG_TYPE]: The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+    at new NodeError (node:internal/errors:399:5)
+    at Hash.update (node:internal/crypto/hash:109:11)
+    at hashFileName (/data/data/com.termux/files/home/js/express/SamerBlog_test/helpers.js:89:44)
+    at Storage.putFile (/data/data/com.termux/files/home/js/express/SamerBlog_test/utils/Storage.js:6:18)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:276:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at done (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:45:7)
+    at indicateDone (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:49:68)
+
+
+TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string. Received undefined
+    at new NodeError (node:internal/errors:399:5)
+    at validateString (node:internal/validators:163:11)
+    at Object.join (node:path:1176:7)
+    at Storage.putFile (/data/data/com.termux/files/home/js/express/SamerBlog_test/utils/Storage.js:7:27)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:276:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at done (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:45:7)
+    at indicateDone (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:49:68)
+
+
+TypeError: crypto.createHash is not a function
+    at Storage.hashFileName (/data/data/com.termux/files/home/js/express/SamerBlog_test/utils/Storage.js:14:25)
+    at Storage.putFile (/data/data/com.termux/files/home/js/express/SamerBlog_test/utils/Storage.js:6:26)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:276:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at done (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:45:7)
+    at indicateDone (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:49:68)
+    at Multipart.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:166:7)
+    at Multipart.emit (node:events:512:28)
+
+
+MulterError: Unexpected field
+    at wrappedFileFilter (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/index.js:40:19)
+    at Multipart.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:107:7)
+    at Multipart.emit (node:events:512:28)
+    at HeaderParser.cb (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/busboy/lib/types/multipart.js:358:14)
+    at HeaderParser.push (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/busboy/lib/types/multipart.js:162:20)
+    at SBMH.ssCb [as _cb] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/busboy/lib/types/multipart.js:394:37)
+    at feed (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/streamsearch/lib/sbmh.js:219:14)
+    at SBMH.push (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/streamsearch/lib/sbmh.js:104:16)
+    at Multipart._write (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/busboy/lib/types/multipart.js:567:19)
+    at writeOrBuffer (node:internal/streams/writable:392:12)
+
+
+MulterError: Unexpected field
+    at wrappedFileFilter (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/index.js:40:19)
+    at Multipart.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:107:7)
+    at Multipart.emit (node:events:512:28)
+    at HeaderParser.cb (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/busboy/lib/types/multipart.js:358:14)
+    at HeaderParser.push (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/busboy/lib/types/multipart.js:162:20)
+    at SBMH.ssCb [as _cb] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/busboy/lib/types/multipart.js:394:37)
+    at feed (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/streamsearch/lib/sbmh.js:219:14)
+    at SBMH.push (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/streamsearch/lib/sbmh.js:104:16)
+    at Multipart._write (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/busboy/lib/types/multipart.js:567:19)
+    at writeOrBuffer (node:internal/streams/writable:392:12)
+
+
+TypeError: Joi.file is not a function
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:266:18)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at done (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:45:7)
+    at indicateDone (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:49:68)
+    at Multipart.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:166:7)
+    at Multipart.emit (node:events:512:28)
+    at emitCloseNT (node:internal/streams/destroy:132:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:81:21)
+
+
+Error: Invalid signature!
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:15:10
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:175:3)
+    at router (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:47:12)
+
+
+TypeError: crypto.randomBytes is not a function
+    at URL.generateSignature (/data/data/com.termux/files/home/js/express/SamerBlog_test/utils/URL.js:11:30)
+    at URL.signed (/data/data/com.termux/files/home/js/express/SamerBlog_test/utils/URL.js:5:27)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:266:18)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
+
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.setHeader (node:_http_outgoing:662:11)
+    at ServerResponse.header (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:278:15)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:14:21
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.setHeader (node:_http_outgoing:662:11)
+    at ServerResponse.header (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:275:10)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:14:21
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.setHeader (node:_http_outgoing:662:11)
+    at ServerResponse.header (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:275:10)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:14:21
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.setHeader (node:_http_outgoing:662:11)
+    at ServerResponse.header (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:275:10)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:14:21
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.setHeader (node:_http_outgoing:662:11)
+    at ServerResponse.header (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:278:15)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:14:21
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+
+
+Error: Cache timeout must be a positive number
+    at Cache.put (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/memory-cache/index.js:16:13)
+    at URL.signed (/data/data/com.termux/files/home/js/express/SamerBlog_test/utils/URL.js:8:11)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:266:18)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
+
+
+Error: Cache timeout must be a positive number
+    at Cache.put (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/memory-cache/index.js:16:13)
+    at URL.signed (/data/data/com.termux/files/home/js/express/SamerBlog_test/utils/URL.js:8:11)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:266:18)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
+
+
+RangeError [ERR_HTTP_INVALID_STATUS_CODE]: Invalid status code: 6000
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.writeHead (node:_http_server:339:11)
+    at ServerResponse._implicitHeader (node:_http_server:330:8)
+    at write_ (node:_http_outgoing:907:9)
+    at ServerResponse.end (node:_http_outgoing:1015:5)
+    at ServerResponse.send (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:232:10)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:278:15)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:266:9)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+
+
+RangeError [ERR_HTTP_INVALID_STATUS_CODE]: Invalid status code: 6000
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.writeHead (node:_http_server:339:11)
+    at ServerResponse._implicitHeader (node:_http_server:330:8)
+    at write_ (node:_http_outgoing:907:9)
+    at ServerResponse.end (node:_http_outgoing:1015:5)
+    at ServerResponse.send (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:232:10)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:278:15)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:266:9)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.setHeader (node:_http_outgoing:662:11)
+    at ServerResponse.header (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:278:15)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:14:21
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.setHeader (node:_http_outgoing:662:11)
+    at ServerResponse.header (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:275:10)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:14:21
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+
+
+ReferenceError: ket is not defined
+    at URL.signed (/data/data/com.termux/files/home/js/express/SamerBlog_test/utils/URL.js:10:18)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:266:18)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
+
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.setHeader (node:_http_outgoing:662:11)
+    at ServerResponse.header (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:278:15)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:14:21
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.setHeader (node:_http_outgoing:662:11)
+    at ServerResponse.header (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:278:15)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:14:21
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.setHeader (node:_http_outgoing:662:11)
+    at ServerResponse.header (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:275:10)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:14:21
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.setHeader (node:_http_outgoing:662:11)
+    at ServerResponse.header (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:275:10)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:14:21
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.setHeader (node:_http_outgoing:662:11)
+    at ServerResponse.header (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:275:10)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:14:21
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.setHeader (node:_http_outgoing:662:11)
+    at ServerResponse.header (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:275:10)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:14:21
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+
+
+TypeError: Assignment to constant variable.
+    at route (/data/data/com.termux/files/home/js/express/SamerBlog_test/helpers.js:26:16)
+    at test (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:266:14)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
+
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.setHeader (node:_http_outgoing:662:11)
+    at ServerResponse.header (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:278:15)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:16:21
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.setHeader (node:_http_outgoing:662:11)
+    at ServerResponse.header (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:275:10)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:16:21
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.setHeader (node:_http_outgoing:662:11)
+    at ServerResponse.header (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:278:15)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:14:21
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.setHeader (node:_http_outgoing:662:11)
+    at ServerResponse.header (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:278:15)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:14:21
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+
+
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:399:5)
+    at ServerResponse.setHeader (node:_http_outgoing:662:11)
+    at ServerResponse.header (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/response.js:278:15)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/ValidateSignature.js:14:21
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+
+
+JsonWebTokenError: jwt malformed
+    at module.exports [as verify] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/jsonwebtoken/verify.js:70:17)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:19:33
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/index.js:175:3)
+
+
+MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
+    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
+    at listOnTimeout (node:internal/timers:568:17)
+    at process.processTimers (node:internal/timers:511:7)
+
+
+TypeError: req.user.attachFile is not a function
+    at profile (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:261:14)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/EnsureEmailIsVerified.js:5:16
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:30:16
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+
+Error: dhdh
+    at profile (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:261:11)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/EnsureEmailIsVerified.js:5:16
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:30:16
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+
+Error: dhdh
+    at profile (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:261:11)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/EnsureEmailIsVerified.js:5:16
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:30:16
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+
+Error: dhdh
+    at profile (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:261:11)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/EnsureEmailIsVerified.js:5:16
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:30:16
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+
+Error: dhdh
+    at profile (/data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/AuthController.js:261:11)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/controllers/BaseController.js:15:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/EnsureEmailIsVerified.js:5:16
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/express/lib/router/route.js:144:13)
+    at /data/data/com.termux/files/home/js/express/SamerBlog_test/app/http/middlewares/Authenticate.js:30:16
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+
+MulterError: Unexpected field
+    at wrappedFileFilter (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/index.js:40:19)
+    at Multipart.<anonymous> (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/multer/lib/make-middleware.js:107:7)
+    at Multipart.emit (node:events:512:28)
+    at HeaderParser.cb (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/busboy/lib/types/multipart.js:358:14)
+    at HeaderParser.push (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/busboy/lib/types/multipart.js:162:20)
+    at SBMH.ssCb [as _cb] (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/busboy/lib/types/multipart.js:394:37)
+    at feed (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/streamsearch/lib/sbmh.js:219:14)
+    at SBMH.push (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/streamsearch/lib/sbmh.js:104:16)
+    at Multipart._write (/data/data/com.termux/files/home/js/express/SamerBlog_test/node_modules/busboy/lib/types/multipart.js:567:19)
+    at writeOrBuffer (node:internal/streams/writable:392:12)
+
+

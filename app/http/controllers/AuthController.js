@@ -2,6 +2,7 @@ const BaseController = controller('BaseController');
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const User = model('User');
 const Token = model('Token');
 const ForgotPasswordMail = mail('ForgotPasswordMail');
@@ -38,6 +39,7 @@ class AuthController {
     const user = await User.create({
       name, email, password: hash
     });
+    await user.attachFile('profile', req.file);
     const token = jwt.sign({
       userId: user._id, version: user.tokenVersion
     }, jwtSecret, {
@@ -149,9 +151,8 @@ class AuthController {
         userId: user._id,
         for: 'password_reset'
       }).then();
-      const resetToken = randStr(128);
-      const hash = await bcrypt.hash(resetToken,
-        bcryptRounds);
+      const resetToken = crypto.randomBytes(32).toString('hex');
+      const hash = await bcrypt.hash(resetToken, bcryptRounds);
       const token = Token.create({
         userId: user._id,
         token: hash,
@@ -168,16 +169,13 @@ class AuthController {
     })
   }
 
-  static resetPassword = async (req,
-    res) => {
+  static resetPassword = async (req, res) => {
     const schema = Joi.object({
       email: Joi.string().email().required(),
       password: Joi.string().min(8).required(),
       token: Joi.string().required(),
     });
-    const {
-      error
-    } = schema.validate(req.body);
+    const { error } = schema.validate(req.body);
     if (error) throw error;
     const {
       id,
@@ -264,16 +262,13 @@ class AuthController {
     res.json(req.user);
   }
   
-  static test = async (req, res) => {
-    //return res.json(await User.find({$text:{$search:req.body.q}}))
-    //req.app.emit('test2', 8)
-    const Test = event('Test');
-    new Test('je')
-    res.json('yeh')
+  static t = (req, res) => {
+    console.log(req.file)
+    res.json('dj');
   }
-  
-  
 }
+
+//curl -X POST   -F "name=John Doe"   -F "email=john@example.com"   -F "password=haomao.12"   -F "password_confirmation=haomao.12"   -F "profile=@helpers.js" http://127.0.0.1:8000/api/auth/register
 
 BaseController.wrapMethods(AuthController);
 module.exports = AuthController;

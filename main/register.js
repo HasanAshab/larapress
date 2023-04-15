@@ -1,33 +1,5 @@
-// Register all route groups here
-routes = {
-  '/': '../routes/web',
-  '/api': '../routes/api',
-}
-
-// Register all middlewares with a name
-middlewares = {
-  'auth': './app/http/middlewares/Authenticate',
-  'verified': './app/http/middlewares/EnsureEmailIsVerified',
-  'admin': './app/http/middlewares/CheckIfTheUserIsAdmin',
-  'limit': './app/http/middlewares/LimitRequestRate',
-  'error.log': './app/http/middlewares/LogErrorStack',
-  'error.response': './app/http/middlewares/HandleClientError',
-}
-
-// Register all events with listener
-events = {
-  //
-}
-
-componentPaths = {
-  'model': 'app/models',
-  'trait': 'app/traits',
-  'mail': 'app/mails',
-  'event': 'app/events',
-  'listener': 'app/listeners',
-  'controller': 'app/http/controllers',
-  'middleware': 'app/http/middlewares',
-}
+const events = require('../register/events');
+const routes = require('../register/routes');
 
 registerEvents = (app) => {
   const { event, listener } = require('../helpers');
@@ -55,10 +27,6 @@ helpers = (global) => {
 
 module.exports = {
   helpers,
-  routes,
-  middlewares,
-  events,
   registerEvents,
   registerRoutes,
-  componentPaths,
 };

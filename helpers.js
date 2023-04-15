@@ -3,14 +3,32 @@ dotenv.config();
 const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
-const { componentPaths } = require('./main/register');
+const componentPaths = require('./register/componentPaths');
+const urls = require('./register/urls');
+const Middlewares = require('./register/middlewares.js');
 
 app = () => {
   return require(path.join(__dirname, `main/app`));
 }
 
+route = (name) => {
+  return `${process.env.APP_URL}${path}`;
+}
+
 url = (path) => {
   return `${process.env.APP_URL}${path}`;
+}
+
+route = (name, data = null) => {
+  let endpoint = urls[name];
+  if(data){
+    const regex = /:(\w+)/g;
+    const params = endpoint.match(regex);
+    for (const param of params){
+      endpoint = endpoint.replace(param, data[param.slice(1)])
+    }
+  }
+  return `${process.env.APP_URL}${endpoint}`;
 }
 
 storage = (storage_path) => {
@@ -38,7 +56,6 @@ listener = (filename)=> {
 }
 
 middleware = (keys) => {
-  const Middlewares = require('./main/register').middlewares;
   if (typeof keys === 'object') {
     const middlewares = [];
     for (const key of keys) {
@@ -50,10 +67,10 @@ middleware = (keys) => {
     }
     return middlewares;
   }
-  const [name, param] = keys.split(':');
+  const [name, params] = keys.split(':');
   const middlewarePath = Middlewares[name];
   const middleware = require(middlewarePath);
-  return middleware(param);
+  return middleware(...params.split(','));
 }
 
 util = (filename) => {
@@ -70,16 +87,6 @@ setEnv = (envValues) => {
     envConfig[key] = value;
   }
   fs.writeFileSync('.env', Object.entries(envConfig).map(([k, v]) => `${k}=${v}`).join('\n'));
-}
-
-randStr = (length) => {
-  const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let randomString = "";
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * charset.length);
-    randomString += charset[randomIndex];
-  }
-  return randomString;
 }
 
 const log = (data) => {
@@ -106,7 +113,6 @@ module.exports = {
   middleware,
   util,
   setEnv,
-  randStr,
   mail,
-  log
+  log,
 }

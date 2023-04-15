@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const { engine } = require('express-handlebars');
 const register = require('./register');
 const app = express();
-const port = process.env.PORT || 8000;
+const port = Number(process.env.PORT) || 8000;
 
 // Domains that can only access the API
 app.use(cors({
@@ -13,7 +13,8 @@ app.use(cors({
 }));
 
 // Registering static folder
-app.use('/static', express.static('storage/public'));
+app.use('/static', express.static('storage/public/static'));
+
 
 // Registering middlewares for request body 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -37,8 +38,14 @@ register.registerRoutes(app);
 app.use(middleware(['error.log', 'error.response']));
 
 // Listening for clients
-app.listen(port, ()=> {
+const server = app.listen(port, ()=> {
   console.log(`Server running on [http://127.0.0.1:${port}] ...`);
 });
+
+server.on('connection', socket => {
+  const now = new Date();
+  const time = now.toLocaleTimeString('en-US', { hour12: true });
+  console.log(`*New connection: [${time}]`)
+})
 
 module.exports = app;

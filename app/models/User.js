@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const VerificationMail = mail('VerificationMail');
 const Token = model('Token');
 const Notifiable = trait('Notifiable');
+const Mediable = trait('Mediable');
 const bcryptRounds = Number (process.env.BCRYPT_ROUNDS);
 
 const UserSchema = new mongoose.Schema({
@@ -34,6 +36,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.plugin(Notifiable);
+UserSchema.plugin(Mediable);
 
 UserSchema.methods.sendVerificationEmail = async function () {
   if(this.emailVerified){
@@ -43,7 +46,7 @@ UserSchema.methods.sendVerificationEmail = async function () {
     userId: this._id,
     for: 'email_verification'
   });
-  const resetToken = randStr(128);
+  const resetToken = crypto.randomBytes(32).toString('hex');
   const hash = await bcrypt.hash(resetToken, bcryptRounds);
   const token = await Token.create({
     userId: this._id,
