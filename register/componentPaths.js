@@ -5,6 +5,7 @@ componentPaths = {
   'event': 'app/events',
   'listener': 'app/listeners',
   'controller': 'app/http/controllers',
+  'validation': 'app/http/validations',
   'middleware': 'app/http/middlewares',
 }
 

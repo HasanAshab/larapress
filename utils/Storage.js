@@ -9,6 +9,7 @@ class Storage {
     fs.writeFile(filePath, file.buffer, (err) => {
       if (err) throw err;
     });
+    return filePath;
   }
   
   static hashFileName = (fileName) => {

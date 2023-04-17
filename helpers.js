@@ -56,21 +56,53 @@ listener = (filename)=> {
 }
 
 middleware = (keys) => {
-  if (typeof keys === 'object') {
+  if (keys instanceof Array) {
     const middlewares = [];
     for (const key of keys) {
-      const [name,
-        param] = key.split(':');
-      const middlewarePath = Middlewares[name];
-      const middleware = require(middlewarePath);
-      middlewares.push(middleware(param));
+      const [name, params] = key.split(':');
+      const middlewarePaths = Middlewares[name];
+      if(middlewarePaths instanceof Array){
+        const funcBasedParams = typeof params !== 'undefined'
+          ? params.split('|')
+          : undefined;
+        for (let i = 0; i < middlewarePaths.length; i++){
+          const middleware = require(middlewarePaths[i]);
+          const pureMiddleware = funcBasedParams && typeof funcBasedParams[i] !== 'undefined'
+            ? middleware(...funcBasedParams[i].split(','))
+            : middleware();
+          middlewares.push(pureMiddleware);
+        }
+      }
+      else {
+        const middleware = require(middlewarePaths);
+        const pureMiddleware = params
+          ? middleware(...params.split(','))
+          : middleware();
+        middlewares.push(pureMiddleware);
+      }
     }
     return middlewares;
   }
   const [name, params] = keys.split(':');
-  const middlewarePath = Middlewares[name];
-  const middleware = require(middlewarePath);
-  return middleware(...params.split(','));
+  const middlewarePaths = Middlewares[name];
+  if(middlewarePaths instanceof Array){
+    const middlewares = [];
+    const funcBasedParams = typeof params !== 'undefined'
+          ? params.split('|')
+          : undefined;
+    for (let i = 0; i < middlewarePaths.length; i++){
+      const middleware = require(middlewarePaths[i]);
+      const pureMiddleware = funcBasedParams && typeof funcBasedParams[i] !== 'undefined'
+        ? middleware(...funcBasedParams[i].split(','))
+        : middleware();
+      middlewares.push(pureMiddleware);
+    }
+    return middlewares;
+  }
+  const middleware = require(middlewarePaths);
+  return params
+    ? middleware(...params.split(','))
+    : middleware();
 }
 
 util = (filename) => {

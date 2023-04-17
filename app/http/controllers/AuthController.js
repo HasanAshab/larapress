@@ -1,5 +1,5 @@
 const BaseController = controller('BaseController');
-const Joi = require('joi');
+const joi = require('joi');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
@@ -14,15 +14,6 @@ const tokenLifespan = Number (process.env.TOKEN_LIFESPAN);
 
 class AuthController {
   static register = async (req, res) => {
-    const schema = Joi.object({
-      email: Joi.string().email().required(),
-      name: Joi.string().required(),
-      password: Joi.string().min(8).required(),
-      password_confirmation: Joi.string().required().valid(Joi.ref('password')),
-    });
-    const { error } = schema.validate(req.body);
-    if (error) throw error;
-
     const {
       name,
       email,
@@ -52,15 +43,6 @@ class AuthController {
   }
 
   static async login(req, res) {
-    const schema = Joi.object({
-      email: Joi.string().email().required(),
-      password: Joi.string().required(),
-    });
-    const {
-      error
-    } = schema.validate(req.body);
-    if (error) throw error;
-
     const {
       email,
       password
@@ -87,14 +69,6 @@ class AuthController {
   }
 
   static verifyEmail = async (req, res) => {
-    const schema = Joi.object({
-      id: Joi.string().required(),
-      token: Joi.string().required(),
-    });
-    const {
-      error
-    } = schema.validate(req.body);
-    if (error) throw error;
     const {
       id,
       token
@@ -135,13 +109,6 @@ class AuthController {
   }
 
   static forgotPassword = async (req, res) => {
-    const schema = Joi.object({
-      email: Joi.string().email().required(),
-    });
-    const {
-      error
-    } = schema.validate(req.body);
-    if (error) throw error;
     const email = req.body.email;
     const user = await User.findOne({
       email
@@ -170,14 +137,7 @@ class AuthController {
   }
 
   static resetPassword = async (req, res) => {
-    const schema = Joi.object({
-      email: Joi.string().email().required(),
-      password: Joi.string().min(8).required(),
-      token: Joi.string().required(),
-    });
-    const { error } = schema.validate(req.body);
-    if (error) throw error;
-    const {
+   const {
       id,
       token,
       password
@@ -219,17 +179,7 @@ class AuthController {
   }
 
   static changePassword = async (req, res) => {
-    const schema = Joi.object({
-      old_password: Joi.string().required(),
-      password: Joi.string().min(8).required(),
-    });
-    const {
-      error
-    } = schema.validate(req.body);
-    if (error) throw error;
     const user = req.user;
-    return user.notify(new PasswordChanged);
-
     const {
       old_password,
       password
@@ -263,8 +213,11 @@ class AuthController {
   }
   
   static t = (req, res) => {
-    console.log(req.file)
-    res.json('dj');
+    
+    
+    //User.findOne().then()
+    //console.log(req.file)
+    res.json('ddkj');
   }
 }
 

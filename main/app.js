@@ -25,6 +25,20 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 
+/*
+app.use((req, res, next) => {
+  req.validate = (on, schema) => {
+    const { error, value } = schema.validate(req[on]);
+    if (error) {
+      return next(error);
+    }
+    req.validatedData = value;
+    return next();
+  }
+  return next();
+});
+
+*/
 // Registering all global helpers 
 register.helpers(global);
 
@@ -34,8 +48,8 @@ register.registerEvents(app);
 // Registering all group routes 
 register.registerRoutes(app);
 
-// Registering global error handling middlewares
-app.use(middleware(['error.log', 'error.response']));
+// Registering global error handling middleware
+app.use(middleware('error.handle'));
 
 // Listening for clients
 const server = app.listen(port, ()=> {
@@ -46,6 +60,6 @@ server.on('connection', socket => {
   const now = new Date();
   const time = now.toLocaleTimeString('en-US', { hour12: true });
   console.log(`*New connection: [${time}]`)
-})
+});
 
 module.exports = app;

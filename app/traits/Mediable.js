@@ -2,7 +2,7 @@ const Media = model('Media');
 const Storage = util('Storage');
 
 module.exports = schema => {
-  schema.methods.media = async function() {
+  schema.methods.files = async function() {
     return await Media.find({
       mediableId: this._id,
       mediableType: this.constructor.modelName

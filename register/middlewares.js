@@ -1,14 +1,20 @@
 // Register all middlewares with a name
 middlewares = {
   'auth': './app/http/middlewares/Authenticate',
-  'verified': './app/http/middlewares/EnsureEmailIsVerified',
+  'verified': [
+    './app/http/middlewares/Authenticate',
+    './app/http/middlewares/EnsureEmailIsVerified'
+  ],
   'admin': './app/http/middlewares/CheckIfTheUserIsAdmin',
   'limit': './app/http/middlewares/LimitRequestRate',
   'signed': './app/http/middlewares/ValidateSignature',
   'cache': './app/http/middlewares/CacheResponse',
-  'upload': './app/http/middlewares/UploadFile',
-  'error.log': './app/http/middlewares/LogErrorStack',
-  'error.response': './app/http/middlewares/HandleClientError',
+  'upload': [
+    './app/http/middlewares/UploadFile',
+    './app/http/middlewares/CheckContentTypeIsMultipart'
+  ],
+  'validate': './app/http/middlewares/ValidateRequest',
+  'error.handle': './app/http/middlewares/ErrorHandler',
 }
 
 module.exports = middlewares;
