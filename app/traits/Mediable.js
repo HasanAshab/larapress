@@ -41,4 +41,9 @@ module.exports = schema => {
     }
     this.save().then();
   }
+  
+  schema.methods.getFilesByName = async function(name) {
+    return await Media.find({name, mediableId: this._id});
+  }
+  
 }

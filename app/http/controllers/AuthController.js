@@ -220,6 +220,7 @@ class AuthController {
   };
 
   static profile = async (req, res) => {
+    return res.json(req.user.getFilesByName('h'))
     const user = await req.user.populate({
       path: "media",
       match: {
