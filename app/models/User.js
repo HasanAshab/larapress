@@ -29,6 +29,11 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  media: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Media'
+  }],
+  
   createdAt:{
     type: Date,
     default: Date.now(),

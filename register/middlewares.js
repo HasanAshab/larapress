@@ -13,6 +13,7 @@ middlewares = {
     './app/http/middlewares/UploadFile',
     './app/http/middlewares/CheckContentTypeIsMultipart'
   ],
+  'upload.helpers': './app/http/middlewares/AppendUploadHelpers',
   'validate': './app/http/middlewares/ValidateRequest',
   'error.handle': './app/http/middlewares/ErrorHandler',
 }

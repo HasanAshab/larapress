@@ -10,18 +10,35 @@ module.exports = schema => {
   }
 
 
-  schema.methods.attachFile = function(name, file) {
+  schema.methods.attachFile = async function(name, file) {
     const path = Storage.putFile('public/uploads', file);
-    Media.create({
+    const media = new Media({
       name,
       mediableId: this._id,
       mediableType: this.constructor.modelName,
       mimetype: file.mimetype,
       path
-    }).then();
+    });
+    media.link = route('file.serve', {id:media._id});
+    media.save().then();
+    this.media.push(media._id);
+    this.save().then();
   }
 
   schema.methods.attachFiles = function(files) {
-    //
+    for (name of Object.keys(files)){
+      const path = Storage.putFile('public/uploads', files[name]);
+      const media = new Media({
+        name,
+        mediableId: this._id,
+        mediableType: this.constructor.modelName,
+        mimetype: file.mimetype,
+        path
+      });
+      media.link = route('file.serve', {id:media._id});
+      media.save().then();
+      this.media.push(media._id);
+    }
+    this.save().then();
   }
 }

@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { engine } = require('express-handlebars');
 const register = require('./register');
+const multer = require('multer')
 const app = express();
 const port = Number(process.env.PORT) || 8000;
 
@@ -25,22 +26,13 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 
-/*
-app.use((req, res, next) => {
-  req.validate = (on, schema) => {
-    const { error, value } = schema.validate(req[on]);
-    if (error) {
-      return next(error);
-    }
-    req.validatedData = value;
-    return next();
-  }
-  return next();
-});
 
-*/
 // Registering all global helpers 
 register.helpers(global);
+
+// Registering middlewares for Upload
+app.use(multer().any());
+app.use(middleware('upload.helpers'));
 
 // Registering all event and listeners
 register.registerEvents(app);

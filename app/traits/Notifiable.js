@@ -1,4 +1,4 @@
-const Mail = util('Mail')
+const Mail = util('Mail');
 
 module.exports = schema => {
   schema.methods.notify = function(mailable) {

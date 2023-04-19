@@ -5,14 +5,11 @@ const MediaSchema = new mongoose.Schema({
   mediableType: String,
   mimetype: String,
   path: String,
+  link: String,
   createdAt: {
     type: Date,
     default: Date.now(),
   },
-});
-
-MediaSchema.virtual('link').get(function() {
-  return url('');
 });
 
 module.exports = mongoose.model('Media', MediaSchema);

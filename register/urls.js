@@ -1,6 +1,6 @@
 // Register urls here to make it dynamic
 urls = {
-  'prot': '/api/auth/p/:id',
+  'file.serve': '/api/media/:id',
 }
 
 module.exports = urls;

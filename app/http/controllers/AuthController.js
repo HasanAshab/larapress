@@ -208,20 +208,24 @@ class AuthController {
     user.notify(new PasswordChanged);
   }
 
-  static profile = (req, res) => {
-    res.json(req.user);
+  static profile = async (req, res) => {
+    const user = await req.user.populate({
+      path: 'media',
+      match: { name: 'profile' },
+      select: 'name link'
+    });
+    res.json(user);
   }
   
   static t = (req, res) => {
-    
-    
-    //User.findOne().then()
-    //console.log(req.file)
-    res.json('ddkj');
+    console.log(req.files)
+    res.json('done');
   }
 }
 
-//curl -X POST   -F "name=John Doe"   -F "email=john@example.com"   -F "password=haomao.12"   -F "password_confirmation=haomao.12"   -F "profile=@helpers.js" http://127.0.0.1:8000/api/auth/register
+//curl -X POST   -F "name=John Doe"   -F "email=john10@example.com"   -F "password=haomao.12"   -F "password_confirmation=haomao.12"   -F "profile=@p.jpg" http://127.0.0.1:8000/api/auth/register
+
+//curl -X POST -F "name=omi" -F "profile=@p.jpg" http://127.0.0.1:8000/api/auth
 
 BaseController.wrapMethods(AuthController);
 module.exports = AuthController;

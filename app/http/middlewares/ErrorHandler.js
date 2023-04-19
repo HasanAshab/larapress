@@ -5,11 +5,11 @@ module.exports = () => {
     const statusCode = err.statusCode || 500;
 
     log(`${req.originalUrl} - ${req.method} - ${req.ip}\nStatus: ${statusCode}\nStack: ${err.stack}`);
-    
+
     if (err instanceof multer.MulterError){
       return res.status(400).json({
         success: false,
-        message: err.message
+        message: err.code
       });
     }
     

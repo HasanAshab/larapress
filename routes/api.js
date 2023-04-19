@@ -21,10 +21,11 @@ authRouter.post('/password/forgot', middleware('validate:ForgotPassword'), AuthC
 authRouter.post('/password/reset', middleware('validate:ResetPassword'), AuthController.resetPassword);
 authRouter.post('/password/change', middleware('validate:ChangePassword'), AuthController.changePassword);
 
-authRouter.get('/profile', middleware('verified:api'), AuthController.profile);
+authRouter.get('/profile', middleware('auth:api'), AuthController.profile);
 
-//authRouter.post('/', middleware('upload:file,image'), AuthController.t);
-//authRouter.get('/', middleware('validate:Test'), AuthController.t);
+//authRouter.post('/', middleware('upload:files,*,2'), AuthController.t);
+//authRouter.post('/', AuthController.t);
+authRouter.post('/', middleware('validate:Test'), AuthController.t);
 
 router.get('/media/:id', MediaController.index);
 
