@@ -9,11 +9,6 @@ middlewares = {
   'limit': './app/http/middlewares/LimitRequestRate',
   'signed': './app/http/middlewares/ValidateSignature',
   'cache': './app/http/middlewares/CacheResponse',
-  'upload': [
-    './app/http/middlewares/UploadFile',
-    './app/http/middlewares/CheckContentTypeIsMultipart'
-  ],
-  'upload.helpers': './app/http/middlewares/AppendUploadHelpers',
   'validate': './app/http/middlewares/ValidateRequest',
   'error.handle': './app/http/middlewares/ErrorHandler',
 }

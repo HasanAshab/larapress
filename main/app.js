@@ -30,9 +30,8 @@ app.set('views', './views');
 // Registering all global helpers 
 register.helpers(global);
 
-// Registering middlewares for Upload
+// Registering middleware for File Upload
 app.use(multer().any());
-app.use(middleware('upload.helpers'));
 
 // Registering all event and listeners
 register.registerEvents(app);

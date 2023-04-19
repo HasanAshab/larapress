@@ -2242,3 +2242,29 @@ Stack: Error: The profil field is required!
     at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
 
 
+/api/auth/register - POST - ::ffff:127.0.0.1
+Status: 500
+Stack: Error: Unexpected end of form
+    at Multipart._final (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/busboy/lib/types/multipart.js:588:17)
+    at callFinal (node:internal/streams/writable:700:12)
+    at prefinish (node:internal/streams/writable:712:7)
+    at finishMaybe (node:internal/streams/writable:722:5)
+    at Writable.end (node:internal/streams/writable:634:5)
+    at onend (node:internal/streams/readable:705:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+{"errno":-2,"code":"ENOENT","syscall":"open","path":"/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/views/emails/verification.handlebars"}
+
+
+/api/auth/register - POST - ::ffff:127.0.0.1
+Status: 500
+Stack: TypeError: Cannot read properties of undefined (reading '0')
+    at register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:34:55)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/BaseController.js:14:16
+
+
+{"errno":-2,"code":"ENOENT","syscall":"open","path":"/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/views/emails/verification.handlebars"}
+
+

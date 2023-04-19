@@ -3,14 +3,13 @@ const router = express.Router();
 const authRouter = express.Router();
 const AuthController = controller('AuthController');
 const MediaController = controller('MediaController');
-const multer = require('multer');
 
 router.use(middleware('limit:60'));
 router.use('/auth', authRouter);
 
 
 // Endpoints to authenticate users
-authRouter.post('/register', middleware(['upload:profile,image', 'validate:Register']), AuthController.register);
+authRouter.post('/register', middleware('validate:Register'), AuthController.register);
 authRouter.post('/login', AuthController.login);
 
 
@@ -25,7 +24,7 @@ authRouter.get('/profile', middleware('auth:api'), AuthController.profile);
 
 //authRouter.post('/', middleware('upload:files,*,2'), AuthController.t);
 //authRouter.post('/', AuthController.t);
-authRouter.post('/', middleware('validate:Test'), AuthController.t);
+//authRouter.post('/', middleware('validate:Test'), AuthController.t);
 
 router.get('/media/:id', MediaController.index);
 

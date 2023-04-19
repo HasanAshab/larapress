@@ -1,11 +1,15 @@
 const joi = require('joi'); 
 
 class ForgotPassword {
-  static target = 'body';
-  
-  static schema = joi.object({
-    email: joi.string().email().required(),
-  });
+
+  static schema = {
+    urlencoded: {
+      target: 'body',
+      rules: joi.object({
+        email: joi.string().email().required(),
+      })
+    }
+  }
 
 }
 

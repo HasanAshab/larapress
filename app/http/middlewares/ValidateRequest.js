@@ -1,17 +1,20 @@
-const FileValidator = util('FileValidator');
+const FileValidator = util("FileValidator");
 
 parseFiles = (req) => {
   const files = {};
-  for(const file of req.files){
-    if(files[file.fieldname]){
-      files[file.fieldname].push(file)
+  req.files.forEach((file) => {
+    if (files[file.fieldname]) {
+      if (Array.isArray(files[file.fieldname])) {
+        files[file.fieldname].push(file);
+      } else {
+        files[file.fieldname] = [files[file.fieldname], file];
+      }
+    } else {
+      files[file.fieldname] = file;
     }
-    else{
-      files[file.fieldname] = [file];
-    }
-  }
+  });
   req.files = files;
-}
+};
 
 module.exports = (requestName) => {
   const ValidationRule = require(`../validations/${requestName}`);
@@ -21,19 +24,19 @@ module.exports = (requestName) => {
     if (error) {
       return res.status(400).json({
         success: false,
-        message: error.details[0].message
+        message: error.details[0].message,
       });
     }
-    
-    if (typeof multipart !== 'undefined'){
-      const contentType = req.headers['content-type'];
-      if (!contentType || !contentType.startsWith('multipart/form-data')) {
+
+    if (typeof multipart !== "undefined") {
+      const contentType = req.headers["content-type"];
+      if (!contentType || !contentType.startsWith("multipart/form-data")) {
         return res.status(400).json({
           success: false,
-          message: 'Only multipart/form-data requests are allowed'
+          message: "Only multipart/form-data requests are allowed",
         });
       }
-    parseFiles(req);
+      parseFiles(req);
       const error = FileValidator.validate(req.files, multipart);
       if (error) {
         return res.status(400).json({
@@ -44,5 +47,5 @@ module.exports = (requestName) => {
     }
 
     next();
-  }
-}
+  };
+};

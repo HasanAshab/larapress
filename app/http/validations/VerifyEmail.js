@@ -1,12 +1,16 @@
 const joi = require('joi'); 
 
 class VerifyEmail {
-  static target = 'body';
-  
-  static schema = joi.object({
-    id: joi.string().required(),
-    token: joi.string().required(),
-  });
+
+  static schema = {
+    urlencoded: {
+      target: 'body',
+      rules:joi.object({
+        id: joi.string().required(),
+        token: joi.string().required(),
+      })
+    }
+  }
 
 }
 
