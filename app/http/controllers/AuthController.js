@@ -50,7 +50,7 @@ class AuthController {
     });
   };
 
-  static async login(req, res) {
+  static login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({
       email,
@@ -79,7 +79,7 @@ class AuthController {
       success: true,
       message: "Credentials not match!",
     });
-  }
+  };
 
   static verifyEmail = async (req, res) => {
     const { id, token } = req.query;
@@ -219,8 +219,7 @@ class AuthController {
     user.notify(new PasswordChanged());
   };
 
-  static profile = async (req, res) => {
-    return res.json(req.user.getFilesByName('h'))
+  static profile = async (req, res, next) => {
     const user = await req.user.populate({
       path: "media",
       match: {
@@ -237,7 +236,7 @@ class AuthController {
   };
 }
 
-//curl -X POST   -F "name=John Doe"   -F "email=john10@example.com"   -F "password=haomao.12"   -F "password_confirmation=haomao.12"   -F "profile=@p.jpg" http://127.0.0.1:8000/api/auth/register
+//curl -X POST   -F "name=John Doe"   -F "email=john105@example.com"   -F "password=haomao.12"   -F "password_confirmation=haomao.12"   -F "profile=@p.jpg" http://127.0.0.1:8000/api/auth/register
 
 //curl -X POST -F "name=omi" -F "profile=@p.jpg" http://127.0.0.1:8000/api/auth
 
