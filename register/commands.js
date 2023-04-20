@@ -1,6 +1,13 @@
 // Register all commands here
 commands = {
-  'create:admin': './app/commands/CreateAdmin',
+  invoked: {
+    //
+  },
+  
+  nested: {
+    'make': './app/commands/Make',
+    'secret': './app/commands/GenerateSecret',
+  }
 }
 
 module.exports = commands;

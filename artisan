@@ -1,55 +1,24 @@
 const args = process.argv;
-const fs = require('fs');
-const crypto = require('crypto');
-const componentPaths = require('./register/componentPaths');
-const commands = require('./register/commands');
-const { setEnv } = require('./helpers');
+const commands = require("./register/commands");
 
-const loadDir = path => {
-  if (!fs.existsSync(path)) {
-    fs.mkdirSync(path);
+try {
+  const commandArgs = args.splice(3);
+  if (args[2].includes(":")) {
+    const [commandKey, subComand] = args[2].split(":");
+    const CommandClass = require(commands.nested[commandKey]);
+    var command =
+      new CommandClass()[subComand] || new CommandClass(subComand).handle;
+  } else {
+    const CommandClass = require(commands.invoked[args[2]]);
+    var command = new CommandClass().handle;
   }
-}
-
-const getPathFor = (componentName, name) => {
-  const componentPath = componentPaths[componentName];
-  if(!componentPath){
-    throw new Error(`Component ${componentName} not available!`);
+  if (command.length !== commandArgs.length) {
+    return console.log("\x1b[31m", "\n Number of Argument is Invalid!\n");
   }
-  loadDir(componentPath)
-  const filepath = `${componentPath}/${name}.js`;
-  return filepath;
-}
-
-if(/^make:/.test(args[2])){
-  const name = args[3];
-  const componentName = args[2].split(':')[1];
-  const template = fs.readFileSync(`templates/${componentName}`, 'utf-8');
-  const content = template.replace(/{{name}}/g, name);
-  const filepath = getPathFor(componentName, name);
-  fs.writeFileSync(filepath, content, { flag: 'wx' });
-  console.log(`\nFile created successfully: [${filepath}]\n`);
-}
-
-else if(/^secret:/.test(args[2])){
-  const key = args[2].split(':')[1].toUpperCase() + '_SECRET';
-  const secret = crypto.randomBytes(32).toString('hex');
-  let obj = {};
-  obj[key] = secret;
-  setEnv(obj);
-  console.log(`\nSecret generated: ${secret}\n`);
-}
-
-else {
-  try{
-  const command = require(commands[args[2]]);
-  commandArgs = args.splice(3);
-  if(command.length !== commandArgs.length){
-    //
+  command(...commandArgs);
+} catch (err) {
+  if (err instanceof TypeError) {
+    console.log("\x1b[31m", "\n Command not found!\n");
   }
-  }
-  catch (err){
-    console.log("\x1b[31m", 'Command not found!')
-  }
+  console.log(err);
 }
-

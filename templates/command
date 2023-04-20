@@ -1,5 +1,10 @@
-const {{name}} = () => {
-  //
+const Command = require('./Command');
+class {{name}} extends Command {
+  
+  handle = () => {
+    //
+  }
+  
 }
 
 
