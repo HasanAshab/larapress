@@ -2,7 +2,9 @@ const args = process.argv;
 const fs = require('fs');
 const crypto = require('crypto');
 const componentPaths = require('./register/componentPaths');
+const commands = require('./register/commands');
 const { setEnv } = require('./helpers');
+
 const loadDir = path => {
   if (!fs.existsSync(path)) {
     fs.mkdirSync(path);
@@ -37,3 +39,17 @@ else if(/^secret:/.test(args[2])){
   setEnv(obj);
   console.log(`\nSecret generated: ${secret}\n`);
 }
+
+else {
+  try{
+  const command = require(commands[args[2]]);
+  commandArgs = args.splice(3);
+  if(command.length !== commandArgs.length){
+    //
+  }
+  }
+  catch (err){
+    console.log("\x1b[31m", 'Command not found!')
+  }
+}
+
