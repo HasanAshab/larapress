@@ -1,6 +1,6 @@
-const Command = require("./Command");
+const Command = require(base("app/commands/Command");
 const crypto = require('crypto');
-const { setEnv } = require('../../helpers');
+const { setEnv } = require(base('helpers'));
 
 class GenerateSecret extends Command {
   handle = () => {

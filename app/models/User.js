@@ -1,11 +1,10 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
-const VerificationMail = mail("VerificationMail");
-const Token = model("Token");
-const Authenticatable = trait("Authenticatable");
-const Notifiable = trait("Notifiable");
-const Mediable = trait("Mediable");
+const VerificationMail = require(base("app/mails/VerificationMail"));
+const Token = require(base("app/models/Token"));
+const Notifiable = require(base("app/traits/Notifiable"));
+const Mediable = require(base("app/traits/Mediable"));
 const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
 
 const UserSchema = new mongoose.Schema({
@@ -46,7 +45,7 @@ const UserSchema = new mongoose.Schema({
 UserSchema.plugin(Notifiable);
 UserSchema.plugin(Mediable);
 
-schema.methods.sendVerificationEmail = async function () {
+UserSchema.methods.sendVerificationEmail = async function () {
   if (this.emailVerified) {
     return Promise.reject("Account already verified");
   }
@@ -64,5 +63,15 @@ schema.methods.sendVerificationEmail = async function () {
   const link = url(`/api/auth/verify?id=${this._id}&token=${resetToken}`);
   return this.notify(new VerificationMail({ link }));
 };
+
+
+UserSchema.pre('save', async function(next) {
+  if (!this.isModified("password")) {
+    return next();
+  }
+  const hash = await bcrypt.hash(this.password, bcryptRounds);
+  this.password = hash;
+  next();
+});
 
 module.exports = mongoose.model("User", UserSchema);

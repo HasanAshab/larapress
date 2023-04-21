@@ -1,5 +1,5 @@
-const Media = model("Media");
-const Storage = util("Storage");
+const Media = require(base("app/models/Media"));
+const Storage = require(base("utils/Storage"));
 
 module.exports = (schema) => {
   

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = model('User');
+const User = require(base('app/models/User'));
 
 module.exports = (driver = 'web') => {
   const redirectTo = '/login';

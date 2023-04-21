@@ -1,12 +1,12 @@
-const BaseController = controller("BaseController");
+const BaseController = require(base("app/http/controllers/BaseController"));
 const joi = require("joi");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
-const User = model("User");
-const Token = model("Token");
-const ForgotPasswordMail = mail("ForgotPasswordMail");
-const PasswordChanged = mail("PasswordChanged");
+const User = require(base("app/models/User"));
+const Token = require(base("app/models/Token"));
+const ForgotPasswordMail = require(base("app/mails/ForgotPasswordMail"));
+const PasswordChanged = require(base("app/mails/PasswordChanged"));
 const frontendUrl = process.env.FRONTEND_URL;
 const jwtSecret = process.env.JWT_SECRET;
 const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
@@ -25,11 +25,10 @@ class AuthController {
         message: "Email already exist!",
       });
     }
-    const hash = await bcrypt.hash(password, bcryptRounds);
     const user = await User.create({
       name,
       email,
-      password: hash,
+      password,
     });
     await user.attachFile("profile", req.files.profile);
     const token = jwt.sign(
@@ -135,10 +134,9 @@ class AuthController {
         for: "password_reset",
       }).then();
       const resetToken = crypto.randomBytes(32).toString("hex");
-      const hash = await bcrypt.hash(resetToken, bcryptRounds);
       const token = Token.create({
         userId: user._id,
-        token: hash,
+        token: resetToken,
         for: "password_reset",
       }).then();
       const link = `${frontendUrl}/password/reset?id=${user._id}&token=${resetToken}`;
@@ -180,8 +178,7 @@ class AuthController {
         message: "New password should not be same as old one!",
       });
     }
-    const hash = await bcrypt.hash(password, bcryptRounds);
-    user.password = hash;
+    user.password = password;
     user.tokenVersion++;
     user.save().then();
     resetToken.deleteOne().then();
@@ -208,8 +205,7 @@ class AuthController {
         message: "New password should not be same as old one!",
       });
     }
-    const hash = await bcrypt.hash(password, bcryptRounds);
-    user.password = hash;
+    user.password = password;
     user.tokenVersion++;
     user.save().then();
     return res.json({

@@ -5,13 +5,7 @@ const bodyParser = require('body-parser');
 const { engine } = require('express-handlebars');
 const register = require('./register');
 const multer = require('multer');
-const path = require('path');
 const app = express();
-
-// Connecting to database
-if (process.env.DB_CONNECT === "true") {
-  require('./db');
-}
 
 // Domains that can only access the API
 app.use(cors({

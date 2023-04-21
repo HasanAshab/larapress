@@ -1,17 +1,18 @@
-const Command = require("./Command");
-const componentPaths = require("../../register/componentPaths");
-const fs = require("fs");
-const path = require("path");
+const Command = require(base('app/commands/Command'));
+const User = require(base('app/models/User'));
+const componentPaths = require(base('register/componentPaths'));
+const fs = require('fs');
+const path = require('path');
 
 class Make extends Command {
   admin = async (name, email, password) => {
-    this.setup();
-    const User = require('../models/User');
+    await this.connect();
     const user = await User.create({
       name,
       email,
       password,
       isAdmin: true,
+      emailVerified: true,
     });
     this.success('Admin account created successfully!');
   }
@@ -21,14 +22,14 @@ class Make extends Command {
     try {
       var template = fs.readFileSync(
         path.join(__dirname, `../../templates/${this.subCommand}`),
-        "utf-8"
+        'utf-8'
       );
     } catch {
-      this.error("Component not available");
+      this.error('Component not available');
     }
     const content = template.replace(/{{name}}/g, name);
     const filepath = this._getPathFor(this.subCommand, name);
-    fs.writeFileSync(filepath, content, { flag: "wx" });
+    fs.writeFileSync(filepath, content, { flag: 'wx' });
     this.success(`File created successfully: [${filepath}]`);
   };
 

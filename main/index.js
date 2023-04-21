@@ -11,3 +11,14 @@ server.on('connection', socket => {
   const time = now.toLocaleTimeString('en-US', { hour12: true });
   console.log(`*New connection: [${time}]`)
 });
+
+
+// Connecting to database
+if (process.env.DB_CONNECT === "true") {
+  const connection = require('./connection');
+    connection.then(() => {
+      console.log('connected to MongoDB...');
+    }).catch((err) => {
+    console.error(err);
+  });
+}

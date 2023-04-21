@@ -21,4 +21,5 @@ class Register {
     }
   }
 }
-    module.exports = Register;
+    
+module.exports = Register;

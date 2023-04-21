@@ -1,12 +1,12 @@
-require("dotenv").config();
+require('dotenv').config();
+require('./main/register').helpers();
 const args = process.argv;
-const commands = require("./register/commands");
-global.__basedir = __dirname;
+const commands = require('./register/commands');
 
 try {
   const commandArgs = args.splice(3);
-  if (args[2].includes(":")) {
-    const [commandKey, subComand] = args[2].split(":");
+  if (args[2].includes(':')) {
+    const [commandKey, subComand] = args[2].split(':');
     const CommandClass = require(commands.nested[commandKey]);
     var command =
       new CommandClass()[subComand] || new CommandClass(subComand).handle;
@@ -15,12 +15,12 @@ try {
     var command = new CommandClass().handle;
   }
   if (command.length !== commandArgs.length) {
-    return console.log("\x1b[31m", "\n Number of Argument is Invalid!\n");
+    return console.log('\x1b[31m', '\n Number of Argument is Invalid!\n');
   }
   command(...commandArgs);
 } catch (err) {
   if (err instanceof TypeError) {
-    console.log("\x1b[31m", "\n Command not found!\n");
+    console.log('\x1b[31m', '\n Command not found!\n');
   }
   console.log(err);
 }
