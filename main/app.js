@@ -31,9 +31,6 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 
-// Set global variable for root directory path
-global.__basedir = path.join(__dirname, '..');
-
 // Registering all global helpers
 register.helpers();
 

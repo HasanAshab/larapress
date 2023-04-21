@@ -1,5 +1,7 @@
+require("dotenv").config();
 const args = process.argv;
 const commands = require("./register/commands");
+global.__basedir = __dirname;
 
 try {
   const commandArgs = args.splice(3);

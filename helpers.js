@@ -3,16 +3,13 @@ dotenv.config();
 const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
-const componentPaths = require('./register/componentPaths');
-const urls = require('./register/urls');
-const Middlewares = require('./register/middlewares.js');
+const componentPaths = require(path.join(__dirname, '/register/componentPaths'));
+const urls = require(path.join(__dirname, '/register/urls'));
+const Middlewares = require(path.join(__dirname, '/register/middlewares'));
+
 
 app = () => {
   return require(path.join(__dirname, `main/app`));
-}
-
-route = (name) => {
-  return `${process.env.APP_URL}${path}`;
 }
 
 url = (path) => {
@@ -33,6 +30,10 @@ route = (name, data = null) => {
 
 storage = (storage_path) => {
   return path.join(__dirname, path.join('storage', storage_path));
+}
+
+base = (base_path = '') => {
+  return path.join(__dirname, base_path);
 }
 
 controller = (filename)=> {
@@ -66,7 +67,7 @@ middleware = (keys) => {
           ? params.split('|')
           : undefined;
         for (let i = 0; i < middlewarePaths.length; i++){
-          const middleware = require(middlewarePaths[i]);
+          const middleware = require(path.join(__dirname, middlewarePaths[i]));
           const pureMiddleware = funcBasedParams && typeof funcBasedParams[i] !== 'undefined'
             ? middleware(...funcBasedParams[i].split(','))
             : middleware();
@@ -74,7 +75,7 @@ middleware = (keys) => {
         }
       }
       else {
-        const middleware = require(middlewarePaths);
+        const middleware = require(path.join(__dirname, middlewarePaths));
         const pureMiddleware = params
           ? middleware(...params.split(','))
           : middleware();
@@ -91,7 +92,7 @@ middleware = (keys) => {
           ? params.split('|')
           : undefined;
     for (let i = 0; i < middlewarePaths.length; i++){
-      const middleware = require(middlewarePaths[i]);
+      const middleware = require(path.join(__dirname, middlewarePaths[i]));
       const pureMiddleware = funcBasedParams && typeof funcBasedParams[i] !== 'undefined'
         ? middleware(...funcBasedParams[i].split(','))
         : middleware();
@@ -99,7 +100,7 @@ middleware = (keys) => {
     }
     return middlewares;
   }
-  const middleware = require(middlewarePaths);
+  const middleware = require(path.join(__dirname, middlewarePaths));
   return params
     ? middleware(...params.split(','))
     : middleware();
