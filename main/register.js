@@ -1,5 +1,6 @@
 const events = require('../register/events');
 const routes = require('../register/routes');
+const path = require('path');
 
 registerEvents = (app) => {
   const { event, listener } = require('../helpers');
@@ -18,8 +19,8 @@ registerRoutes = (app) => {
   });
 }
 
-helpers = (global) => {
-  const helpers = require('../helpers');
+helpers = () => {
+  const helpers = require(path.join(__dirname, '../helpers'));
   Object.keys(helpers).forEach((name) => {
     global[name] = helpers[name];
   })

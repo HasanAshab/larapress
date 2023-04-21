@@ -1,12 +1,17 @@
 require('dotenv').config();
-const cors = require('cors')
+const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const { engine } = require('express-handlebars');
 const register = require('./register');
-const multer = require('multer')
+const multer = require('multer');
+const path = require('path');
 const app = express();
-const port = Number(process.env.PORT) || 8000;
+
+// Connecting to database
+if (process.env.DB_CONNECT === "true") {
+  require('./db');
+}
 
 // Domains that can only access the API
 app.use(cors({
@@ -26,9 +31,11 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 
+// Set global variable for root directory path
+global.__basedir = path.join(__dirname, '..');
 
-// Registering all global helpers 
-register.helpers(global);
+// Registering all global helpers
+register.helpers();
 
 // Registering middleware for File Upload
 app.use(multer().any());
@@ -41,16 +48,5 @@ register.registerRoutes(app);
 
 // Registering global error handling middleware
 app.use(middleware('error.handle'));
-
-// Listening for clients
-const server = app.listen(port, ()=> {
-  console.log(`Server running on [http://127.0.0.1:${port}] ...`);
-});
-
-server.on('connection', socket => {
-  const now = new Date();
-  const time = now.toLocaleTimeString('en-US', { hour12: true });
-  console.log(`*New connection: [${time}]`)
-});
 
 module.exports = app;

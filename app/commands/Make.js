@@ -4,7 +4,15 @@ const fs = require("fs");
 const path = require("path");
 
 class Make extends Command {
-  admin = (name, email, password) => {
+  admin = async (name, email, password) => {
+    this.setup();
+    const User = require('../models/User');
+    const user = await User.create({
+      name,
+      email,
+      password,
+      isAdmin: true,
+    });
     this.success('Admin account created successfully!');
   }
   
@@ -16,7 +24,7 @@ class Make extends Command {
         "utf-8"
       );
     } catch {
-      return this.error("Component not available");
+      this.error("Component not available");
     }
     const content = template.replace(/{{name}}/g, name);
     const filepath = this._getPathFor(this.subCommand, name);
