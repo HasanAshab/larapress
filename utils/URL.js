@@ -13,8 +13,7 @@ class URL {
   }
 
   static generateSignature = () => {
-    const signature = crypto.randomBytes(16).toString('hex');
-    return signature;
+    return crypto.randomBytes(16).toString('hex');
   }
 }
 

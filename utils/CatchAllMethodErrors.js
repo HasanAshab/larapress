@@ -1,4 +1,4 @@
-class BaseController {
+class CatchAllMethodErrors {
   static wrapMethods = (cls) => {
     const methods = Object.getOwnPropertyNames(cls);
     for (const method of methods) {
@@ -21,4 +21,4 @@ class BaseController {
 }
 
 
-module.exports = BaseController;
+module.exports = CatchAllMethodErrors;

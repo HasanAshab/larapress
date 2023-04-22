@@ -1,4 +1,4 @@
-const BaseController = require(base("app/http/controllers/BaseController"));
+const CatchAllMethodErrors = require(base("utils/CatchAllMethodErrors"));
 const joi = require("joi");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
@@ -15,11 +15,7 @@ const tokenLifespan = Number(process.env.TOKEN_LIFESPAN);
 class AuthController {
   static register = async (req, res) => {
     const { name, email, password } = req.body;
-    if (
-      await User.findOne({
-        email,
-      })
-    ) {
+    if (await User.findOne({email})) {
       return res.status(400).json({
         success: false,
         message: "Email already exist!",
@@ -41,7 +37,7 @@ class AuthController {
         expiresIn: tokenLifespan,
       }
     );
-    user.sendVerificationEmail().then();
+    user.sendVerificationEmail().catch((err) => log(err));
     res.json({
       success: true,
       message: "Verification email sent!",
@@ -99,7 +95,7 @@ class AuthController {
         message: "Invalid or expired token!",
       });
     }
-    User.findByIdAndUpdate(
+    await User.findByIdAndUpdate(
       id,
       {
         emailVerified: true,
@@ -107,8 +103,8 @@ class AuthController {
       {
         new: false,
       }
-    ).then();
-    verificationToken.deleteOne().then();
+    );
+    verificationToken.deleteOne().catch((err) => log(err));
     res.json({
       success: true,
       message: "Email verified!",
@@ -116,7 +112,7 @@ class AuthController {
   };
 
   static resendEmailVerification = (req, res) => {
-    req.user.sendVerificationEmail().then();
+    req.user.sendVerificationEmail().catch((err) => log(err));
     return res.json({
       success: true,
       message: "Verification email sent!",
@@ -132,19 +128,15 @@ class AuthController {
       Token.deleteMany({
         userId: user._id,
         for: "password_reset",
-      }).then();
+      }).catch((err) => log(err));
       const resetToken = crypto.randomBytes(32).toString("hex");
-      const token = Token.create({
+      const token = await Token.create({
         userId: user._id,
         token: resetToken,
         for: "password_reset",
-      }).then();
+      });
       const link = `${frontendUrl}/password/reset?id=${user._id}&token=${resetToken}`;
-      user.notify(
-        new ForgotPasswordMail({
-          link,
-        })
-      );
+      user.notify(new ForgotPasswordMail({link}));
     }
     return res.json({
       success: true,
@@ -180,8 +172,8 @@ class AuthController {
     }
     user.password = password;
     user.tokenVersion++;
-    user.save().then();
-    resetToken.deleteOne().then();
+    await user.save();
+    resetToken.deleteOne().catch((err) => log(err));
     return res.json({
       success: false,
       message: "Password reset successfully!",
@@ -207,7 +199,7 @@ class AuthController {
     }
     user.password = password;
     user.tokenVersion++;
-    user.save().then();
+    await user.save();
     return res.json({
       success: false,
       message: "Password changed successfully!",
@@ -215,7 +207,7 @@ class AuthController {
     user.notify(new PasswordChanged());
   };
 
-  static profile = async (req, res, next) => {
+  static profile = async (req, res) => {
     const user = await req.user.populate({
       path: "media",
       match: {
@@ -225,16 +217,15 @@ class AuthController {
     });
     res.json(user);
   };
-
-  static t = (req, res) => {
-    console.log(req.files);
-    res.json("done");
-  };
+  
+  static updateProfile = (req, res) => {
+    res.json(req.user)
+  }
 }
 
 //curl -X POST   -F "name=John Doe"   -F "email=john105@example.com"   -F "password=haomao.12"   -F "password_confirmation=haomao.12"   -F "profile=@p.jpg" http://127.0.0.1:8000/api/auth/register
 
 //curl -X POST -F "name=omi" -F "profile=@p.jpg" http://127.0.0.1:8000/api/auth
 
-BaseController.wrapMethods(AuthController);
+CatchAllMethodErrors.wrapMethods(AuthController);
 module.exports = AuthController;

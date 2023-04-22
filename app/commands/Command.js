@@ -5,8 +5,8 @@ class Command {
     this.subCommand = subCommand;
   }
 
-  message = (text) => {
-    console.log('\n', text, '\n');
+  alert = (text) => {
+    console.log('\x1b[33m', text);
   }
 
   success = (text) => {

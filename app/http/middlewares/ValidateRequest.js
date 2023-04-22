@@ -17,7 +17,7 @@ parseFiles = (req) => {
 };
 
 module.exports = (requestName) => {
-  const ValidationRule = require(`../validations/${requestName}`);
+  const ValidationRule = require(base(`app/http/validations/${requestName}`));
   const { urlencoded, multipart } = ValidationRule.schema;
   return (req, res, next) => {
     const { error } = urlencoded.rules.validate(req[urlencoded.target]);

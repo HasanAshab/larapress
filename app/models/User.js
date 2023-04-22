@@ -35,7 +35,6 @@ const UserSchema = new mongoose.Schema({
       ref: "Media",
     },
   ],
-
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -47,9 +46,9 @@ UserSchema.plugin(Mediable);
 
 UserSchema.methods.sendVerificationEmail = async function () {
   if (this.emailVerified) {
-    return Promise.reject("Account already verified");
+    return false;
   }
-  await Token.deleteMany({
+  Token.deleteMany({
     userId: this._id,
     for: "email_verification",
   });

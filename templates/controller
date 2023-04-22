@@ -1,17 +1,11 @@
-const BaseController = controller('BaseController');
-const Joi = require('joi');
+const CatchAllMethodErrors = require(base("utils/CatchAllMethodErrors"));
 const User = model('User');
 
 class {{name}} {
   static index = (req, res) => {
-    const schema = Joi.object({
-      //
-    });
-    const { error } = schema.validate(req.body);
-    if (error) throw error;
     //
   }
 }
 
-BaseController.wrapMethods({{name}});
+CatchAllMethodErrors.wrapMethods({{name}});
 module.exports = {{name}};

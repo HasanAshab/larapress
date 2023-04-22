@@ -1,18 +1,13 @@
-const Media = model('Media');
+const CatchAllMethodErrors = require(base("utils/CatchAllMethodErrors"));
+const Media = require(base('app/models/Media'));
 
 class MediaController {
   static index = async (req, res) => {
-    try{
-      const media = await Media.findById(req.params.id);
-      return res.sendFile(media.path);
-    }
-    catch (err) {
-      res.status(404).json({
-        success: false,
-        message: 'Media not found!'
-      });
-    }
+    const media = await Media.findById(req.params.id);
+    return res.sendFile(media.path);
   }
 }
 
+
+CatchAllMethodErrors.wrapMethods(MediaController);
 module.exports = MediaController;

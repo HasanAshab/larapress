@@ -19,8 +19,6 @@ try {
   }
   command(...commandArgs);
 } catch (err) {
-  if (err instanceof TypeError) {
-    console.log('\x1b[31m', '\n Command not found!\n');
-  }
   console.log(err);
+  process.exit(1);
 }

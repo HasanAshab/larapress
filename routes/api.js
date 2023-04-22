@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const authRouter = express.Router();
-const AuthController = controller('AuthController');
-const MediaController = controller('MediaController');
+const AuthController = require(base('app/http/controllers/AuthController'));
+const MediaController = require(base('app/http/controllers/MediaController'));
 
 router.use(middleware('limit:60'));
 router.use('/auth', authRouter);
@@ -20,12 +20,11 @@ authRouter.post('/password/forgot', middleware('validate:ForgotPassword'), AuthC
 authRouter.post('/password/reset', middleware('validate:ResetPassword'), AuthController.resetPassword);
 authRouter.post('/password/change', middleware('validate:ChangePassword'), AuthController.changePassword);
 
-authRouter.get('/profile', middleware('auth:api'), AuthController.profile);
+authRouter.route('/profile')
+.get(middleware('auth:api'), AuthController.profile)
+.put(middleware('auth:api'), middleware('validate:UpdateProfile'), AuthController.updateProfile);
 
-//authRouter.post('/', middleware('upload:files,*,2'), AuthController.t);
-//authRouter.post('/', AuthController.t);
-//authRouter.post('/', middleware('validate:Test'), AuthController.t);
-
+// Endpoints for serving files
 router.get('/media/:id', MediaController.index);
 
 module.exports = router;

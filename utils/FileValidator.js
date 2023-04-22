@@ -32,7 +32,10 @@ class FileValidator {
   };
 
   static maxFiles = (files, fieldName, maxFileCount) => {
-    if ((files instanceof Array && files.length > maxFileCount) || maxFileCount < 1) {
+    if (
+      (files instanceof Array && files.length > maxFileCount) ||
+      maxFileCount < 1
+    ) {
       throw new Error(
         `The ${fieldName} field max file count should be ${maxFileCount}`
       );
@@ -45,24 +48,23 @@ class FileValidator {
 
   static validate = (files, rules) => {
     for (const [fieldName, validators] of Object.entries(rules)) {
-      if (!files[fieldName]) {
-        return `The ${fieldName} field is required!`;
-      }
-      for (const [validator, options] of Object.entries(validators)) {
-        try {
-          if (validator === "maxFiles") {
-            FileValidator[validator](files[fieldName], fieldName, options);
-          } else {
-            if (files[fieldName] instanceof Array) {
-              for (const file of files[fieldName]) {
-                FileValidator[validator](file, fieldName, options);
-              }
-            } else {
+      if (files[fieldName]) {
+        for (const [validator, options] of Object.entries(validators)) {
+          try {
+            if (validator === "maxFiles") {
               FileValidator[validator](files[fieldName], fieldName, options);
+            } else {
+              if (files[fieldName] instanceof Array) {
+                for (const file of files[fieldName]) {
+                  FileValidator[validator](file, fieldName, options);
+                }
+              } else {
+                FileValidator[validator](files[fieldName], fieldName, options);
+              }
             }
+          } catch (error) {
+            return error.message;
           }
-        } catch (error) {
-          return error.message;
         }
       }
     }
