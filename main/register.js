@@ -3,12 +3,10 @@ const routes = require('../register/routes');
 const path = require('path');
 
 registerEvents = (app) => {
-  const { event, listener } = require('../helpers');
   Object.keys(events).forEach((key, index) => {
-    const Event = event(key);
     for(const listenerName of events[key]){
-      const Listener = listener(listenerName);
-      app.on(Event.name, Listener.dispatch);
+      const listener = require(base(`app/listeners/${listenerName}`));
+      app.on(key, listener);
     }
   });
 }

@@ -36,26 +36,6 @@ base = (base_path = '') => {
   return path.join(__dirname, base_path);
 }
 
-controller = (filename)=> {
-  return require(path.join(__dirname, `${componentPaths.controller}/${filename}`));
-}
-
-model = (filename)=> {
-  return require(path.join(__dirname, `${componentPaths.model}/${filename}`));
-}
-
-trait = (filename)=> {
-  return require(path.join(__dirname, `${componentPaths.trait}/${filename}`));
-}
-
-event = (filename)=> {
-  return require(path.join(__dirname, `${componentPaths.event}/${filename}`));
-}
-
-listener = (filename)=> {
-  return require(path.join(__dirname, `${componentPaths.listener}/${filename}`));
-}
-
 middleware = (keys) => {
   if (keys instanceof Array) {
     const middlewares = [];
@@ -104,14 +84,6 @@ middleware = (keys) => {
   return params
     ? middleware(...params.split(','))
     : middleware();
-}
-
-util = (filename) => {
-  return require(path.join(__dirname, `utils/${filename}`));
-}
-
-mail = (filename) => {
-  return require(path.join(__dirname, `${componentPaths.mail}/${filename}`));
 }
 
 setEnv = (envValues) => {
