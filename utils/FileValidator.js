@@ -1,6 +1,6 @@
 class FileValidator {
   static required = (file, fieldName, option) => {
-    if (option && (!file || Object.keys(file).length === 0)) {
+    if (option && !file) {
       throw new Error(`The ${fieldName} field is required!`);
     }
   };
@@ -48,12 +48,18 @@ class FileValidator {
 
   static validate = (files, rules) => {
     for (const [fieldName, validators] of Object.entries(rules)) {
-      if (files[fieldName]) {
+      if (!files[fieldName] && validators.required) {
+        return `The ${fieldName} field is required!`;
+      }
         for (const [validator, options] of Object.entries(validators)) {
           try {
-            if (validator === "maxFiles") {
+            if(validator === "required" && !options){
+              break;
+            }
+            else if (validator === "maxFiles") {
               FileValidator[validator](files[fieldName], fieldName, options);
-            } else {
+            }
+            else{
               if (files[fieldName] instanceof Array) {
                 for (const file of files[fieldName]) {
                   FileValidator[validator](file, fieldName, options);
@@ -66,7 +72,6 @@ class FileValidator {
             return error.message;
           }
         }
-      }
     }
   };
 }

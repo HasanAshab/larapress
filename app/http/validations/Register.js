@@ -13,8 +13,8 @@ class Register {
       })
     },
     multipart: {
-      profile: {
-        required: true,
+      profil: {
+        required: false,
         mimetypes: ['image/jpeg', 'image/png'],
         maxFiles: 1,
         max: 1000*1000,
