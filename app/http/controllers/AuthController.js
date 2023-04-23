@@ -49,8 +49,9 @@ class AuthController {
   };
 
   static login = async (req, res) => {
-        throw new Error('sj')
-
+    const Artisan = require(base('utils/Artisan'));
+    return Artisan.call('make:admin', ['tom', 'tom2@test', 'haomao.12']);
+    
     const { email, password } = req.body;
     const user = await User.findOne({
       email,

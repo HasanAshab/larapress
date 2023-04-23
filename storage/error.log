@@ -606,3 +606,178 @@ Stack: Error: sj
     at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
 
 
+/api/auth/login - POST - ::ffff:127.0.0.1
+Stack: TypeError: commands.invoked[commandName] is not a constructor
+    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:5:5)
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth/login - POST - ::ffff:127.0.0.1
+Stack: Error: Cannot find module './app/commands/Test'
+Require stack:
+- /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js
+- /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js
+- /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.js
+- /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/main/register.js
+- /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/main/app.js
+- /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/main/index.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1090:15)
+    at Module._load (node:internal/modules/cjs/loader:934:27)
+    at Module.require (node:internal/modules/cjs/loader:1157:19)
+    at new require (node:internal/modules/helpers:119:18)
+    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:5:5)
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+
+
+/api/auth/login - POST - ::ffff:127.0.0.1
+Stack: TypeError: Class constructor Test cannot be invoked without 'new'
+    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:5:53)
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth/login - POST - ::ffff:127.0.0.1
+Stack: TypeError: Class constructor Test cannot be invoked without 'new'
+    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:5:63)
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth/login - POST - ::ffff:127.0.0.1
+Stack: TypeError: a.handle is not a function
+    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:7:7)
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth/login - POST - ::ffff:127.0.0.1
+Stack: TypeError: a.handle is not a function
+    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:7:7)
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth/login - POST - ::ffff:127.0.0.1
+Stack: TypeError: a.handle is not a function
+    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:7:7)
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth/login - POST - ::ffff:127.0.0.1
+Stack: Error: EEXIST: file already exists, open 'app/models/undefined.js'
+    at Object.openSync (node:fs:585:3)
+    at Object.writeFileSync (node:fs:2229:35)
+    at handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/commands/Make.js:30:8)
+    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:5:43)
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+
+
+/api/auth/login - POST - ::ffff:127.0.0.1
+Stack: Error: Invalid Argument Count!
+    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:7:13)
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth/login - POST - ::ffff:127.0.0.1
+Stack: Error: Invalid Argument Count!
+    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:7:13)
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth/login - POST - ::ffff:127.0.0.1
+Stack: Error: EEXIST: file already exists, open 'app/models/js.js'
+    at Object.openSync (node:fs:585:3)
+    at Object.writeFileSync (node:fs:2229:35)
+    at handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/commands/Make.js:30:8)
+    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:9:12)
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+
+
+/api/auth/login - POST - ::ffff:127.0.0.1
+Stack: MongoServerError: E11000 duplicate key error collection: test.users index: email_1 dup key: { email: "tom@test" }
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongodb/lib/operations/insert.js:50:33
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongodb/lib/cmap/connection_pool.js:327:25
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongodb/lib/sdam/server.js:207:17
+    at handleOperationResult (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongodb/lib/sdam/server.js:323:20)
+    at Connection.onMessage (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongodb/lib/cmap/connection.js:213:9)
+    at MessageStream.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongodb/lib/cmap/connection.js:59:60)
+    at MessageStream.emit (node:events:512:28)
+    at processIncomingData (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongodb/lib/cmap/message_stream.js:124:16)
+    at MessageStream._write (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongodb/lib/cmap/message_stream.js:33:9)
+    at writeOrBuffer (node:internal/streams/writable:392:12)
+
+

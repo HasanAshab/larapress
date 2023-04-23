@@ -1,8 +1,9 @@
 const path = require('path');
 
 class Command {
-  constructor(subCommand = null) {
+  constructor(subCommand = null, fromShell = true) {
     this.subCommand = subCommand;
+    this.fromShell = fromShell;
   }
 
   alert = (text) => {
@@ -11,12 +12,16 @@ class Command {
 
   success = (text) => {
     console.log('\x1b[32m', '\n', text, '\n');
-    process.exit(0);
+    if(this.fromShell){
+      process.exit(0);
+    }
   }
 
   error = (text) => {
     console.log('\x1b[31m', '\n', text, '\n');
-    process.exit(1);
+    if(this.fromShell){
+      process.exit(0);
+    }
   }
   
   connect = async () => {

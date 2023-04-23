@@ -20,10 +20,7 @@ class Make extends Command {
   
   handle = (name) => {
     try {
-      var template = fs.readFileSync(
-        path.join(__dirname, `../../templates/${this.subCommand}`),
-        'utf-8'
-      );
+      var template = fs.readFileSync(base(`templates/${this.subCommand}`), 'utf-8');
     } catch {
       this.error('Component not available');
     }
@@ -42,8 +39,7 @@ class Make extends Command {
   _getPathFor = (componentName, name) => {
     const componentPath = componentPaths[componentName];
     this._loadDir(componentPath);
-    const filepath = `${componentPath}/${name}.js`;
-    return filepath;
+    return path.join(componentPath, `${name}.js`);
   };
 }
 
