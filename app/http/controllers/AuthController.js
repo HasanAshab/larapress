@@ -1,12 +1,11 @@
-const CatchAllMethodErrors = require(base("utils/CatchAllMethodErrors"));
-const joi = require("joi");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
-const crypto = require("crypto");
-const User = require(base("app/models/User"));
-const Token = require(base("app/models/Token"));
-const ForgotPasswordMail = require(base("app/mails/ForgotPasswordMail"));
-const PasswordChanged = require(base("app/mails/PasswordChanged"));
+const joi = require('joi');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
+const User = require(base('app/models/User'));
+const Token = require(base('app/models/Token'));
+const ForgotPasswordMail = require(base('app/mails/ForgotPasswordMail'));
+const PasswordChanged = require(base('app/mails/PasswordChanged'));
 const frontendUrl = process.env.FRONTEND_URL;
 const jwtSecret = process.env.JWT_SECRET;
 const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
@@ -15,10 +14,11 @@ const tokenLifespan = Number(process.env.TOKEN_LIFESPAN);
 class AuthController {
   static register = async (req, res) => {
     const { name, email, password } = req.body;
+    const logo = req.files.logo;
     if (await User.findOne({email})) {
       return res.status(400).json({
         success: false,
-        message: "Email already exist!",
+        message: 'Email already exist!',
       });
     }
     const user = await User.create({
@@ -26,7 +26,10 @@ class AuthController {
       email,
       password,
     });
-    await user.attachFile("profile", req.files.profile);
+    if (logo){
+      await user.attachFile('logo', logo, true);
+    }
+    
     const token = jwt.sign(
       {
         userId: user._id,
@@ -40,12 +43,14 @@ class AuthController {
     user.sendVerificationEmail().catch((err) => log(err));
     res.json({
       success: true,
-      message: "Verification email sent!",
+      message: 'Verification email sent!',
       token,
     });
   };
 
   static login = async (req, res) => {
+        throw new Error('sj')
+
     const { email, password } = req.body;
     const user = await User.findOne({
       email,
@@ -65,14 +70,14 @@ class AuthController {
         );
         return res.json({
           success: true,
-          message: "Logged in successfully!",
+          message: 'Logged in successfully!',
           token,
         });
       }
     }
     res.status(401).json({
       success: true,
-      message: "Credentials not match!",
+      message: 'Credentials not match!',
     });
   };
 
@@ -80,19 +85,19 @@ class AuthController {
     const { id, token } = req.query;
     const verificationToken = await Token.findOne({
       userId: id,
-      for: "email_verification",
+      for: 'email_verification',
     });
     if (!verificationToken) {
       return res.status(401).json({
         success: false,
-        message: "Invalid or expired token!",
+        message: 'Invalid or expired token!',
       });
     }
     const tokenMatch = await bcrypt.compare(token, verificationToken.token);
     if (!tokenMatch) {
       return res.status(401).json({
         success: false,
-        message: "Invalid or expired token!",
+        message: 'Invalid or expired token!',
       });
     }
     await User.findByIdAndUpdate(
@@ -107,7 +112,7 @@ class AuthController {
     verificationToken.deleteOne().catch((err) => log(err));
     res.json({
       success: true,
-      message: "Email verified!",
+      message: 'Email verified!',
     });
   };
 
@@ -115,7 +120,7 @@ class AuthController {
     req.user.sendVerificationEmail().catch((err) => log(err));
     return res.json({
       success: true,
-      message: "Verification email sent!",
+      message: 'Verification email sent!',
     });
   };
 
@@ -127,20 +132,20 @@ class AuthController {
     if (user) {
       Token.deleteMany({
         userId: user._id,
-        for: "password_reset",
+        for: 'password_reset',
       }).catch((err) => log(err));
-      const resetToken = crypto.randomBytes(32).toString("hex");
+      const resetToken = crypto.randomBytes(32).toString('hex');
       const token = await Token.create({
         userId: user._id,
         token: resetToken,
-        for: "password_reset",
+        for: 'password_reset',
       });
       const link = `${frontendUrl}/password/reset?id=${user._id}&token=${resetToken}`;
       user.notify(new ForgotPasswordMail({link}));
     }
     return res.json({
       success: true,
-      message: "Password reset email sent!",
+      message: 'Password reset email sent!',
     });
   };
 
@@ -153,21 +158,21 @@ class AuthController {
     if (!resetToken || !user) {
       return res.status(401).json({
         success: false,
-        message: "Invalid or expired token!",
+        message: 'Invalid or expired token!',
       });
     }
     const tokenMatch = await bcrypt.compare(token, resetToken.token);
     if (!tokenMatch) {
       return res.status(401).json({
         success: false,
-        message: "Invalid or expired token!",
+        message: 'Invalid or expired token!',
       });
     }
     const oldPasswordMatch = await bcrypt.compare(password, user.password);
     if (oldPasswordMatch) {
       return res.status(400).json({
         success: false,
-        message: "New password should not be same as old one!",
+        message: 'New password should not be same as old one!',
       });
     }
     user.password = password;
@@ -176,7 +181,7 @@ class AuthController {
     resetToken.deleteOne().catch((err) => log(err));
     return res.json({
       success: false,
-      message: "Password reset successfully!",
+      message: 'Password reset successfully!',
     });
     user.notify(new PasswordChanged());
   };
@@ -188,13 +193,13 @@ class AuthController {
     if (!oldPasswordMatch) {
       return res.status(401).json({
         success: false,
-        message: "Incorrect password!",
+        message: 'Incorrect password!',
       });
     }
     if (old_password === password) {
       return res.status(400).json({
         success: false,
-        message: "New password should not be same as old one!",
+        message: 'New password should not be same as old one!',
       });
     }
     user.password = password;
@@ -202,20 +207,13 @@ class AuthController {
     await user.save();
     return res.json({
       success: false,
-      message: "Password changed successfully!",
+      message: 'Password changed successfully!',
     });
     user.notify(new PasswordChanged());
   };
 
-  static profile = async (req, res) => {
-    const user = await req.user.populate({
-      path: "media",
-      match: {
-        name: "profile",
-      },
-      select: "name link",
-    });
-    res.json(user);
+  static profile = (req, res) => {
+    res.json(req.user);
   };
   
   static updateProfile = (req, res) => {
@@ -223,9 +221,8 @@ class AuthController {
   }
 }
 
-//curl -X POST   -F "name=John Doe"   -F "email=john105@example.com"   -F "password=haomao.12"   -F "password_confirmation=haomao.12"   -F "profile=@p.jpg" http://127.0.0.1:8000/api/auth/register
+//curl -X POST   -F 'name=John Doe'   -F 'email=john108@example.com'   -F 'password=haomao.12'   -F 'password_confirmation=haomao.12'   -F 'profile=@p.jpg' http://127.0.0.1:8000/api/auth/register
 
-//curl -X POST -F "name=omi" -F "profile=@p.jpg" http://127.0.0.1:8000/api/auth
+//curl -X POST -F 'name=omi' -F 'profile=@p.jpg' http://127.0.0.1:8000/api/auth
 
-CatchAllMethodErrors.wrapMethods(AuthController);
 module.exports = AuthController;

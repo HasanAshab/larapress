@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const authRouter = express.Router();
-const AuthController = require(base('app/http/controllers/AuthController'));
-const MediaController = require(base('app/http/controllers/MediaController'));
+const AuthController = controller('AuthController');
+const MediaController = controller('MediaController');
 
 router.use(middleware('limit:60'));
 router.use('/auth', authRouter);
@@ -26,6 +26,7 @@ authRouter.route('/profile')
 
 // Endpoints for serving files
 router.get('/media/:id', MediaController.index);
+router.get('/media/static/:filename', MediaController.serveStatic);
 
 
 module.exports = router;

@@ -1,4 +1,3 @@
-const CatchAllMethodErrors = require(base("utils/CatchAllMethodErrors"));
 const Media = require(base('app/models/Media'));
 
 class MediaController {
@@ -6,8 +5,10 @@ class MediaController {
     const media = await Media.findById(req.params.id);
     return res.sendFile(media.path);
   }
+  
+  static serveStatic = (req, res) => {
+    return res.sendFile(storage('static'));
+  }
 }
 
-
-CatchAllMethodErrors.wrapMethods(MediaController);
 module.exports = MediaController;

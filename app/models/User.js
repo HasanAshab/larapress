@@ -21,6 +21,10 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  logoUrl: {
+    type: String,
+    default: url('/static/user-profile.jpg'),
+  },
   isAdmin: {
     type: Boolean,
     default: false,
@@ -29,12 +33,6 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  media: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Media",
-    },
-  ],
   createdAt: {
     type: Date,
     default: Date.now(),

@@ -36,6 +36,13 @@ base = (base_path = '') => {
   return path.join(__dirname, base_path);
 }
 
+controller = (fileName) => {
+  const Controller = require(base(`app/http/controllers/${fileName}`));
+  const CatchAllMethodErrors = require(base('utils/CatchAllMethodErrors'));
+  CatchAllMethodErrors.wrapMethods(Controller);
+  return Controller;
+}
+
 middleware = (keys) => {
   if (keys instanceof Array) {
     const middlewares = [];
@@ -110,6 +117,7 @@ module.exports = {
   app,
   url,
   storage,
+  controller,
   middleware,
   setEnv,
   log,

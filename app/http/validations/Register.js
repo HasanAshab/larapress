@@ -6,14 +6,14 @@ class Register {
     urlencoded: {
       target: 'body',
       rules: joi.object({
-        name: joi.string().required(),
+        name: joi.string().min(3).max(12).required(),
         email: joi.string().email().required(),
         password: joi.string().min(8).required(),
         password_confirmation: joi.string().required().valid(joi.ref('password')),
       })
     },
     multipart: {
-      profil: {
+      logo: {
         required: false,
         mimetypes: ['image/jpeg', 'image/png'],
         maxFiles: 1,

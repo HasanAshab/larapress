@@ -13,7 +13,7 @@ app.use(cors({
 }));
 
 // Registering static folder
-app.use('/static', express.static('storage/public/static'));
+app.use('/static', express.static('./storage/public/static'));
 
 
 // Registering middlewares for request body 
