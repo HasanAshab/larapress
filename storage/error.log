@@ -138,3 +138,36 @@ Stack: SyntaxError: Unexpected token '-', "------WebK"... is not valid JSON
     at endReadableNT (node:internal/streams/readable:1359:12)
 
 
+/api/auth/verify?id=6444e2845da1d382b8f3e081&token=e5f92e954171743fc02afba815ceb5e22d0e0bfc0145fe95b5581193ba465646 - GET - ::ffff:127.0.0.1
+Stack: Error: Illegal arguments: string, undefined
+    at _async (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bcryptjs/dist/bcrypt.js:286:46)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bcryptjs/dist/bcrypt.js:307:17
+    at new Promise (<anonymous>)
+    at bcrypt.compare (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bcryptjs/dist/bcrypt.js:306:20)
+    at verifyEmail (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:99:37)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:16
+
+
+/api/auth/verify?id=6444e2845da1d382b8f3e081&token=327f73fe88cf358ed786e9c9fd8ef5be71993e53695e28c34371fa18bc1c2f2f - GET - ::ffff:127.0.0.1
+Stack: Error: Illegal arguments: string, undefined
+    at _async (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bcryptjs/dist/bcrypt.js:286:46)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bcryptjs/dist/bcrypt.js:307:17
+    at new Promise (<anonymous>)
+    at bcrypt.compare (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bcryptjs/dist/bcrypt.js:306:20)
+    at verifyEmail (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:100:37)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:16
+
+
+/api/auth/verify?id=6444e2845da1d382b8f3e081&token=327f73fe88cf358ed786e9c9fd8ef5be71993e53695e28c34371fa18bc1c2f2f - GET - ::ffff:127.0.0.1
+Stack: Error: Illegal arguments: string, undefined
+    at _async (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bcryptjs/dist/bcrypt.js:286:46)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bcryptjs/dist/bcrypt.js:307:17
+    at new Promise (<anonymous>)
+    at bcrypt.compare (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bcryptjs/dist/bcrypt.js:306:20)
+    at verifyEmail (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:103:37)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:16
+
+

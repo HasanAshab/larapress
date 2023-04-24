@@ -46,18 +46,13 @@ UserSchema.methods.sendVerificationEmail = async function () {
   if (this.emailVerified) {
     return false;
   }
-  Token.deleteMany({
-    userId: this._id,
-    for: "email_verification",
-  });
-  const resetToken = crypto.randomBytes(32).toString("hex");
-  const hash = await bcrypt.hash(resetToken, bcryptRounds);
+  const verificationToken = crypto.randomBytes(32).toString("hex");
   const token = await Token.create({
     userId: this._id,
-    token: hash,
+    token: verificationToken,
     for: "email_verification",
   });
-  const link = url(`/api/auth/verify?id=${this._id}&token=${resetToken}`);
+  const link = url(`/api/auth/verify?id=${this._id}&token=${verificationToken}`);
   return this.notify(new VerificationMail({ link }));
 };
 

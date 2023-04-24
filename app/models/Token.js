@@ -5,14 +5,13 @@ const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
 const TokenSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
+    ref: "User",
   },
   token: String,
   for: String,
-  created_at: {
+  createdAt: {
     type: Date,
-    default: Date.now(),
-    expires: 3600,
+    default: Date.now()
   },
 });
 

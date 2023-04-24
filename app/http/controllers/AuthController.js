@@ -87,9 +87,11 @@ class AuthController {
     const verificationToken = await Token.findOne({
       userId: id,
       for: 'email_verification',
-    });
+    },
+    {},
+    { sort: { 'createdAt' : -1 } }
+    );
     if (!verificationToken) {
-      console.log('nai')
       return res.status(401).json({
         success: false,
         message: 'Invalid or expired token!',
@@ -97,7 +99,6 @@ class AuthController {
     }
     const tokenMatch = await bcrypt.compare(token, verificationToken.token);
     if (!tokenMatch) {
-      console.log('mat')
       return res.status(401).json({
         success: false,
         message: 'Invalid or expired token!',
