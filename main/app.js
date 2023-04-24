@@ -26,7 +26,10 @@ app.set('view engine', 'handlebars');
 app.set('views', './views');
 
 // Registering all global helpers
-register.helpers();
+register.registerHelpers();
+
+// Registering all Cron Jobs
+register.registerJobs();
 
 // Registering middleware for File Upload
 app.use(multer().any());

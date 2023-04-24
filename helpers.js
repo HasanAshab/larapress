@@ -12,6 +12,10 @@ app = () => {
   return require(path.join(__dirname, `main/app`));
 }
 
+isClass = (target) => {
+  return typeof target === 'function' && /^\s*class\s+/.test(target.toString());
+}
+
 url = (path) => {
   return `${process.env.APP_URL}${path}`;
 }
@@ -115,6 +119,7 @@ const log = (data) => {
 
 module.exports = {
   app,
+  isClass,
   url,
   storage,
   controller,

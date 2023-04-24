@@ -1,15 +1,10 @@
 require('dotenv').config();
-require('./main/register').helpers();
+require('./main/register').registerHelpers();
 const args = process.argv;
 const Artisan = require(base('utils/Artisan'));
 
 try {
-  const commandArgs = args.splice(3);
-  const command = Artisan.getCommand(args[2]);
-  if (command.length !== commandArgs.length) {
-    return console.log('\x1b[31m', '\n Number of Argument is Invalid!\n');
-  }
-  command(...commandArgs);
+  Artisan.getCommand(args.splice(2))();
 } catch (err) {
   console.log(err);
   process.exit(1);

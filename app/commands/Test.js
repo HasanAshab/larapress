@@ -2,8 +2,8 @@ const Command = require(base('app/commands/Command'));
 
 class Test extends Command {
   
-  handle = () => {
-    console.log("hshs")
+  handle = (msg) => {
+    console.log(msg)
   }
   
 }
