@@ -1,4 +1,4 @@
 {
-  "/": "../routes/web",
-  "/api": "../routes/api"
+  "/": "routes/web",
+  "/api": "routes/api"
 }

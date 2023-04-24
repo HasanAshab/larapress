@@ -7,11 +7,6 @@ const componentPaths = require(path.join(__dirname, '/register/componentPaths'))
 const urls = require(path.join(__dirname, '/register/urls'));
 const Middlewares = require(path.join(__dirname, '/register/middlewares'));
 
-
-app = () => {
-  return require(path.join(__dirname, `main/app`));
-}
-
 isClass = (target) => {
   return typeof target === 'function' && /^\s*class\s+/.test(target.toString());
 }
@@ -118,7 +113,6 @@ const log = (data) => {
 }
 
 module.exports = {
-  app,
   isClass,
   url,
   storage,
