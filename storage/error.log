@@ -1,783 +1,140 @@
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "ididdiejsj" (type string) at path "_id" for model "Media"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
-    at SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1613:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
-    at Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4791:12)
-    at Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2177:10)
-    at model.Query._findOneAndDelete (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:3406:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4321:28)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:67:7)
-
-
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "ididdiejsj" (type string) at path "_id" for model "Media"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
-    at SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1613:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
-    at Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4791:12)
-    at Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2177:10)
-    at model.Query._findOneAndDelete (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:3406:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4321:28)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:67:7)
-
-
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "ididdiejsj" (type string) at path "_id" for model "Media"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
-    at SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1613:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
-    at Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4791:12)
-    at Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2177:10)
-    at model.Query._findOneAndDelete (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:3406:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4321:28)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:67:7)
-
-
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "ididdiejsj" (type string) at path "_id" for model "Media"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
-    at SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1613:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
-    at Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4791:12)
-    at Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2177:10)
-    at model.Query._findOneAndDelete (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:3406:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4321:28)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:67:7)
-
-
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "ididdiejsj" (type string) at path "_id" for model "Media"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
-    at SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1613:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
-    at Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4791:12)
-    at Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2177:10)
-    at model.Query._findOneAndDelete (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:3406:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4321:28)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:67:7)
-
-
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
-
-
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "ididdiejsj" (type string) at path "_id" for model "Media"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
-    at SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1613:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
-    at Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4791:12)
-    at Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2177:10)
-    at model.Query._findOneAndDelete (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:3406:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4321:28)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:67:7)
-
-
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "ididdiejsj" (type string) at path "_id" for model "Media"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
-    at SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1613:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
-    at Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4791:12)
-    at Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2177:10)
-    at model.Query._findOneAndDelete (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:3406:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4321:28)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:67:7)
-
-
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "ididdiejsj" (type string) at path "_id" for model "Media"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
-    at SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1613:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
-    at Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4791:12)
-    at Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2177:10)
-    at model.Query._findOneAndDelete (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:3406:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4321:28)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:67:7)
-
-
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "ididdiejsj" (type string) at path "_id" for model "Media"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
-    at SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1613:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
-    at Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4791:12)
-    at Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2177:10)
-    at model.Query._findOneAndDelete (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:3406:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4321:28)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:67:7)
-
-
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "ididdiejsj" (type string) at path "_id" for model "Media"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
-    at SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1613:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
-    at Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4791:12)
-    at Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2177:10)
-    at model.Query._findOneAndDelete (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:3406:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4321:28)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:83:7)
-
-
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "ididdiejsj" (type string) at path "_id" for model "Media"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
-    at SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1613:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
-    at Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4791:12)
-    at Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2177:10)
-    at model.Query._findOneAndDelete (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:3406:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4321:28)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:83:7)
-
-
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "ididdiejsj" (type string) at path "_id" for model "Media"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
-    at SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1613:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
-    at Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4791:12)
-    at Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2177:10)
-    at model.Query._findOneAndDelete (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:3406:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4321:28)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:83:7)
-
-
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "ididdiejsj" (type string) at path "_id" for model "Media"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
-    at SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1613:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
-    at Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4791:12)
-    at Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2177:10)
-    at model.Query._findOneAndDelete (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:3406:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4321:28)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:83:7)
-
-
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "ididdiejsj" (type string) at path "_id" for model "Media"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
-    at SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1613:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
-    at Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4791:12)
-    at Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2177:10)
-    at model.Query._findOne (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2465:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4321:28)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:67:19)
-
-
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: TypeError: Cannot read properties of null (reading 'path')
-    at schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:68:18)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async profile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:223:5)
-    at async /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/BaseController.js:14:16
-
-
-{"errno":-2,"code":"ENOENT","syscall":"open","path":"/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/views/emails/verification.handlebars"}
-
-
-/api/auth/profile?email=john10@example.com&password=haomao.12 - GET - ::ffff:127.0.0.1
-Stack: TypeError: Cannot read properties of null (reading 'path')
-    at schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:68:18)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async profile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:223:5)
-    at async /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/BaseController.js:14:16
-
-
-/api/auth/profile?email=john10@example.com&password=haomao.12 - GET - ::ffff:127.0.0.1
-Stack: MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
-
-
-/api/auth/profile?email=john10@example.com&password=haomao.12 - GET - ::ffff:127.0.0.1
-Stack: TypeError: Cannot read properties of null (reading 'path')
-    at schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:68:18)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async profile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:223:5)
-    at async /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/BaseController.js:14:16
-
-
-{"errno":-2,"code":"ENOENT","syscall":"open","path":"/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/views/emails/verification.handlebars"}
-
-
-/api/auth/profile?email=john10@example.com&password=haomao.12 - GET - ::ffff:127.0.0.1
-Stack: TypeError [ERR_INVALID_ARG_TYPE]: The "cb" argument must be of type function. Received undefined
-    at makeCallback (node:fs:179:3)
-    at unlink (node:fs:1778:14)
-    at schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:68:5)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async profile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:223:5)
-    at async /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/BaseController.js:14:16
-
-
-/api/auth/profile?email=john10@example.com&password=haomao.12 - GET - ::ffff:127.0.0.1
-Stack: Error: ENOENT: no such file or directory, unlink '/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/storage/public/uploads/1681981513967_dea0df353fcc369.jpg'
-
-
-/api/auth/profile?email=john10@example.com&password=haomao.12 - GET - ::ffff:127.0.0.1
-Stack: TypeError: Cannot read properties of null (reading 'path')
-    at schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:68:18)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async profile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:223:5)
-    at async /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/BaseController.js:14:16
-
-
-{"errno":-2,"code":"ENOENT","syscall":"open","path":"/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/views/emails/verification.handlebars"}
-
-
-/api/auth/profile?email=john10@example.com&password=haomao.12 - GET - ::ffff:127.0.0.1
-Stack: TypeError [ERR_INVALID_ARG_TYPE]: The "cb" argument must be of type function. Received an instance of Object
-    at makeCallback (node:fs:179:3)
-    at unlink (node:fs:1778:14)
-    at schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:68:5)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async profile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:223:5)
-    at async /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/BaseController.js:14:16
-
-
-{"errno":-2,"code":"ENOENT","syscall":"unlink","path":"/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/storage/public/uploads/1681981970705_dea0df353fcc369.jpg"}
-
-
-{"errno":-2,"code":"ENOENT","syscall":"open","path":"/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/views/emails/verification.handlebars"}
-
-
-/api/auth/profile?email=john10@example.com - GET - ::ffff:127.0.0.1
-Stack: ReferenceError: media is not defined
-    at schema.methods.removeFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:67:5)
-    at profile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:223:20)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/BaseController.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/Authenticate.js:30:16
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-
-
-{"errno":-2,"code":"ENOENT","syscall":"open","path":"/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/views/emails/verification.handlebars"}
-
-
-{"errno":-2,"code":"ENOENT","syscall":"open","path":"/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/views/emails/verification.handlebars"}
-
-
-/api/auth/profile?email=john10@example.com - GET - ::ffff:127.0.0.1
-Stack: TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string or an instance of Buffer or URL. Received undefined
-    at unlink (node:fs:1779:10)
-    at model.Query.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/models/Media.js:19:3)
-    at callMiddlewareFunction (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:628:27)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:93:7)
-    at Kareem.execPre (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:122:8)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4396:28
-    at new Promise (<anonymous>)
-    at _executePreHooks (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4395:10)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4320:11)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-
-
-/api/auth/profile?email=john10@example.com - GET - ::ffff:127.0.0.1
-Stack: TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string or an instance of Buffer or URL. Received undefined
-    at unlink (node:fs:1779:10)
-    at model.Query.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/models/Media.js:18:3)
-    at callMiddlewareFunction (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:628:27)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:93:7)
-    at Kareem.execPre (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:122:8)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4396:28
-    at new Promise (<anonymous>)
-    at _executePreHooks (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4395:10)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4320:11)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-
-
-/api/auth/profile?email=john10@example.com - GET - ::ffff:127.0.0.1
-Stack: TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string or an instance of Buffer or URL. Received undefined
-    at unlink (node:fs:1779:10)
-    at model.Query.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/models/Media.js:19:3)
-    at callMiddlewareFunction (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:628:27)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:93:7)
-    at Kareem.execPre (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:122:8)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4396:28
-    at new Promise (<anonymous>)
-    at _executePreHooks (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4395:10)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4320:11)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-
-
-/api/auth/profile?email=john10@example.com - GET - ::ffff:127.0.0.1
-Stack: TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string or an instance of Buffer or URL. Received undefined
-    at unlink (node:fs:1779:10)
-    at model.Query.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/models/Media.js:19:3)
-    at callMiddlewareFunction (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:628:27)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:93:7)
-    at Kareem.execPre (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:122:8)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4396:28
-    at new Promise (<anonymous>)
-    at _executePreHooks (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4395:10)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4320:11)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-
-
-/api/auth/profile?email=john10@example.com - GET - ::ffff:127.0.0.1
-Stack: TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string or an instance of Buffer or URL. Received undefined
-    at unlink (node:fs:1779:10)
-    at model.Query.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/models/Media.js:19:3)
-    at callMiddlewareFunction (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:628:27)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:93:7)
-    at Kareem.execPre (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:122:8)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4396:28
-    at new Promise (<anonymous>)
-    at _executePreHooks (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4395:10)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4320:11)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-
-
-/api/auth/profile?email=john10@example.com - GET - ::ffff:127.0.0.1
-Stack: TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string or an instance of Buffer or URL. Received undefined
-    at unlink (node:fs:1779:10)
-    at model.Query.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/models/Media.js:19:3)
-    at callMiddlewareFunction (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:628:27)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:93:7)
-    at Kareem.execPre (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:122:8)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4396:28
-    at new Promise (<anonymous>)
-    at _executePreHooks (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4395:10)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4320:11)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-
-
-/api/auth/profile?email=john10@example.com - GET - ::ffff:127.0.0.1
-Stack: TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string or an instance of Buffer or URL. Received undefined
-    at unlink (node:fs:1779:10)
-    at model.Query.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/models/Media.js:19:3)
-    at callMiddlewareFunction (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:628:27)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:93:7)
-    at Kareem.execPre (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/kareem/index.js:122:8)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4396:28
-    at new Promise (<anonymous>)
-    at _executePreHooks (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4395:10)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4320:11)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-
-
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: Error: jjd
-    at profile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:219:11)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/BaseController.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/Authenticate.js:30:16
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-
-
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: Error: jjd
-    at profile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:219:11)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/Authenticate.js:30:16
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-
-
-/api/media/643afb12cf3de410907024a - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "643afb12cf3de410907024a" (type string) at path "_id" for model "Media"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
-    at SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1613:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
-    at Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4791:12)
-    at Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2177:10)
-    at model.Query._findOne (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2465:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4321:28)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/MediaController.js:6:21)
-
-
-/api/media/643afb12cf3de410907024a - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "643afb12cf3de410907024a" (type string) at path "_id" for model "Media"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
-    at SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1613:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
-    at Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4791:12)
-    at Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2177:10)
-    at model.Query._findOne (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2465:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4321:28)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/MediaController.js:6:21)
-
-
-/api/auth/profile - GET - ::ffff:127.0.0.1
-Stack: TypeError: Cannot read properties of undefined (reading 'populate')
-    at profile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:219:33)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
+/api/auth/register - POST - ::ffff:127.0.0.1
+Stack: SyntaxError: Unexpected token '-', "------WebK"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createStrictSyntaxError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:169:10)
+    at parse (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:86:15)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:204:9)
+    at invokeCallback (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:238:16)
+    at done (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:512:28)
+    at endReadableNT (node:internal/streams/readable:1359:12)
 
 
 /api/auth/register - POST - ::ffff:127.0.0.1
-Stack: MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
+Stack: SyntaxError: Unexpected token '-', "------WebK"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createStrictSyntaxError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:169:10)
+    at parse (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:86:15)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:204:9)
+    at invokeCallback (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:238:16)
+    at done (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:512:28)
+    at endReadableNT (node:internal/streams/readable:1359:12)
 
 
 /api/auth/register - POST - ::ffff:127.0.0.1
-Stack: MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
+Stack: SyntaxError: Unexpected token '-', "------WebK"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createStrictSyntaxError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:169:10)
+    at parse (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:86:15)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:204:9)
+    at invokeCallback (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:238:16)
+    at done (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:512:28)
+    at endReadableNT (node:internal/streams/readable:1359:12)
 
 
 /api/auth/register - POST - ::ffff:127.0.0.1
-Stack: MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
+Stack: SyntaxError: Unexpected token '-', "------WebK"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createStrictSyntaxError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:169:10)
+    at parse (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:86:15)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:204:9)
+    at invokeCallback (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:238:16)
+    at done (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:512:28)
+    at endReadableNT (node:internal/streams/readable:1359:12)
 
 
 /api/auth/register - POST - ::ffff:127.0.0.1
-Stack: MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
+Stack: SyntaxError: Unexpected token '-', "------WebK"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createStrictSyntaxError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:169:10)
+    at parse (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:86:15)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:204:9)
+    at invokeCallback (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:238:16)
+    at done (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:512:28)
+    at endReadableNT (node:internal/streams/readable:1359:12)
 
 
 /api/auth/register - POST - ::ffff:127.0.0.1
-Stack: MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
+Stack: SyntaxError: Unexpected token '-', "------WebK"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createStrictSyntaxError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:169:10)
+    at parse (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:86:15)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:204:9)
+    at invokeCallback (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:238:16)
+    at done (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:512:28)
+    at endReadableNT (node:internal/streams/readable:1359:12)
 
 
 /api/auth/register - POST - ::ffff:127.0.0.1
-Stack: MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
-
-
-/api/media/643afb12cf3de410907024aa - GET - ::ffff:127.0.0.1
-Stack: MongooseError: Operation `media.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
+Stack: SyntaxError: Unexpected token '-', "------WebK"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createStrictSyntaxError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:169:10)
+    at parse (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:86:15)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:204:9)
+    at invokeCallback (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:238:16)
+    at done (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:512:28)
+    at endReadableNT (node:internal/streams/readable:1359:12)
 
 
 /api/auth/register - POST - ::ffff:127.0.0.1
-Stack: TypeError: Cannot read properties of undefined (reading 'originalname')
-    at Storage.putFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Storage.js:7:44)
-    at schema.methods.attachFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.js:21:26)
-    at register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:29:32)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:16
-
-
-{}
-
-
-{}
-
-
-{}
-
-
-{}
-
-
-{}
-
-
-/api/auth/profile - PUT - ::ffff:127.0.0.1
-Stack: MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
-
-
-/api/auth/login - POST - ::ffff:127.0.0.1
-Stack: Error: sj
-    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:15)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
+Stack: Error: Multipart: Boundary not found
+    at new Multipart (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/busboy/lib/types/multipart.js:233:13)
+    at getInstance (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/busboy/lib/index.js:33:12)
+    at module.exports (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/busboy/lib/index.js:56:10)
+    at multerMiddleware (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/multer/lib/make-middleware.js:27:16)
     at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:286:9
     at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
     at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
+    at jsonParser (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:122:7)
 
 
-/api/auth/login - POST - ::ffff:127.0.0.1
-Stack: Error: sj
-    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:15)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
+/api/auth/register - POST - ::ffff:127.0.0.1
+Stack: SyntaxError: Unexpected token '-', "------WebK"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createStrictSyntaxError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:169:10)
+    at parse (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:86:15)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:204:9)
+    at invokeCallback (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:238:16)
+    at done (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:512:28)
+    at endReadableNT (node:internal/streams/readable:1359:12)
 
 
-/api/auth/login - POST - ::ffff:127.0.0.1
-Stack: Error: sj
-    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:15)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
-
-
-/api/auth/login - POST - ::ffff:127.0.0.1
-Stack: Error: sj
-    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:52:15)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
-
-
-/api/auth/login - POST - ::ffff:127.0.0.1
-Stack: Error: sj
-    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:52:15)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
-
-
-/api/auth/login - POST - ::ffff:127.0.0.1
-Stack: TypeError: commands.invoked[commandName] is not a constructor
-    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:5:5)
-    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-
-
-/api/auth/login - POST - ::ffff:127.0.0.1
-Stack: Error: Cannot find module './app/commands/Test'
-Require stack:
-- /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js
-- /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js
-- /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.js
-- /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/main/register.js
-- /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/main/app.js
-- /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/main/index.js
-    at Module._resolveFilename (node:internal/modules/cjs/loader:1090:15)
-    at Module._load (node:internal/modules/cjs/loader:934:27)
-    at Module.require (node:internal/modules/cjs/loader:1157:19)
-    at new require (node:internal/modules/helpers:119:18)
-    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:5:5)
-    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-
-
-/api/auth/login - POST - ::ffff:127.0.0.1
-Stack: TypeError: Class constructor Test cannot be invoked without 'new'
-    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:5:53)
-    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-
-
-/api/auth/login - POST - ::ffff:127.0.0.1
-Stack: TypeError: Class constructor Test cannot be invoked without 'new'
-    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:5:63)
-    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-
-
-/api/auth/login - POST - ::ffff:127.0.0.1
-Stack: TypeError: a.handle is not a function
-    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:7:7)
-    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-
-
-/api/auth/login - POST - ::ffff:127.0.0.1
-Stack: TypeError: a.handle is not a function
-    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:7:7)
-    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-
-
-/api/auth/login - POST - ::ffff:127.0.0.1
-Stack: TypeError: a.handle is not a function
-    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:7:7)
-    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-
-
-/api/auth/login - POST - ::ffff:127.0.0.1
-Stack: Error: EEXIST: file already exists, open 'app/models/undefined.js'
-    at Object.openSync (node:fs:585:3)
-    at Object.writeFileSync (node:fs:2229:35)
-    at handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/commands/Make.js:30:8)
-    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:5:43)
-    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-
-
-/api/auth/login - POST - ::ffff:127.0.0.1
-Stack: Error: Invalid Argument Count!
-    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:7:13)
-    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-
-
-/api/auth/login - POST - ::ffff:127.0.0.1
-Stack: Error: Invalid Argument Count!
-    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:7:13)
-    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-
-
-/api/auth/login - POST - ::ffff:127.0.0.1
-Stack: Error: EEXIST: file already exists, open 'app/models/js.js'
-    at Object.openSync (node:fs:585:3)
-    at Object.writeFileSync (node:fs:2229:35)
-    at handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/commands/Make.js:30:8)
-    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:9:12)
-    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:53:20)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-
-
-/api/auth/login - POST - ::ffff:127.0.0.1
-Stack: MongoServerError: E11000 duplicate key error collection: test.users index: email_1 dup key: { email: "tom@test" }
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongodb/lib/operations/insert.js:50:33
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongodb/lib/cmap/connection_pool.js:327:25
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongodb/lib/sdam/server.js:207:17
-    at handleOperationResult (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongodb/lib/sdam/server.js:323:20)
-    at Connection.onMessage (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongodb/lib/cmap/connection.js:213:9)
-    at MessageStream.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongodb/lib/cmap/connection.js:59:60)
-    at MessageStream.emit (node:events:512:28)
-    at processIncomingData (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongodb/lib/cmap/message_stream.js:124:16)
-    at MessageStream._write (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongodb/lib/cmap/message_stream.js:33:9)
-    at writeOrBuffer (node:internal/streams/writable:392:12)
+/api/auth/register - POST - ::ffff:127.0.0.1
+Stack: SyntaxError: Unexpected token '-', "------WebK"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createStrictSyntaxError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:169:10)
+    at parse (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:86:15)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:204:9)
+    at invokeCallback (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:238:16)
+    at done (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:512:28)
+    at endReadableNT (node:internal/streams/readable:1359:12)
 
 

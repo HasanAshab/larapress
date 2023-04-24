@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
+const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
 
 const TokenSchema = new mongoose.Schema({
   userId: {

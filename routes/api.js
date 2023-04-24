@@ -21,12 +21,10 @@ authRouter.post('/password/reset', middleware('validate:ResetPassword'), AuthCon
 authRouter.post('/password/change', middleware('validate:ChangePassword'), AuthController.changePassword);
 
 authRouter.route('/profile')
-.get(middleware('auth:api'), AuthController.profile)
+.get(middleware('verified:api'), AuthController.profile)
 .put(middleware('auth:api'), middleware('validate:UpdateProfile'), AuthController.updateProfile);
 
 // Endpoints for serving files
 router.get('/media/:id', MediaController.index);
-router.get('/media/static/:filename', MediaController.serveStatic);
-
 
 module.exports = router;

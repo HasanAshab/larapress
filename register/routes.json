@@ -1,0 +1,4 @@
+{
+  "/": "../routes/web",
+  "/api": "../routes/api"
+}

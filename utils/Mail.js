@@ -23,13 +23,13 @@ class Mail {
       const hbs = handlebars.create({
         extname: '.handlebars',
         defaultLayout: 'main',
-        layoutsDir: '../views/layouts',
-        partialsDir: '../views/partials'
+        layoutsDir: base('views/layouts'),
+        partialsDir: base('views/partials')
       });
 
       transporter.use('compile', nodemailerHbs({
         viewEngine: hbs,
-        viewPath: '../views/emails',
+        viewPath: base('views/emails'),
         extName: '.handlebars'
       }));
       if (typeof this.email === 'array'){

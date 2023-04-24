@@ -89,6 +89,7 @@ class AuthController {
       for: 'email_verification',
     });
     if (!verificationToken) {
+      console.log('nai')
       return res.status(401).json({
         success: false,
         message: 'Invalid or expired token!',
@@ -96,6 +97,7 @@ class AuthController {
     }
     const tokenMatch = await bcrypt.compare(token, verificationToken.token);
     if (!tokenMatch) {
+      console.log('mat')
       return res.status(401).json({
         success: false,
         message: 'Invalid or expired token!',
@@ -217,8 +219,20 @@ class AuthController {
     res.json(req.user);
   };
   
-  static updateProfile = (req, res) => {
-    res.json(req.user)
+  static updateProfile = async (req, res) => {
+    const { name, email } = req.body;
+    req.user.name = name;
+    req.user.email = email;
+    req.user.emailVerified = false;
+    const result = await req.user.save();
+    if(result){
+      req.user.sendVerificationEmail();
+      return res.json({
+        success: true,
+        message: 'Verification email sent!',
+      });
+    }
+    
   }
 }
 

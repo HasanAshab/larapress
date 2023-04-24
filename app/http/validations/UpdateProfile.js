@@ -6,16 +6,20 @@ class UpdateProfile {
     urlencoded: {
       target: 'body',
       rules:joi.object({
-        name: joi.string().required(),
+        name: joi.string().min(3).max(12).required(),
+        email: joi.string().email().required(),
       })
     },
+    /*
     multipart: {
       profile: {
+        required: false,
         mimetypes: ['image/jpeg', 'image/png'],
         maxFiles: 1,
         max: 1000*1000,
       },
     }
+    */
   }
 
 }

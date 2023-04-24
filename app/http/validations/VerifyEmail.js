@@ -4,7 +4,7 @@ class VerifyEmail {
 
   static schema = {
     urlencoded: {
-      target: 'body',
+      target: 'query',
       rules:joi.object({
         id: joi.string().required(),
         token: joi.string().required(),
