@@ -17,6 +17,9 @@ class Make extends Command {
     this.success('Admin account created successfully!');
   }
   
+  test = (name, type){
+    console.log(name, type)
+  }
   
   handle = (name) => {
     try {

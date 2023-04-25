@@ -1,5 +1,6 @@
 require('dotenv').config();
-require('./main/register').registerHelpers();
+require('./helpers');
+console.log(global)
 const args = process.argv;
 const Artisan = require(base('utils/Artisan'));
 

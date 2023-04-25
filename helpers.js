@@ -1,11 +1,14 @@
 const dotenv = require('dotenv');
-dotenv.config();
 const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
 const componentPaths = require(path.join(__dirname, '/register/componentPaths'));
 const urls = require(path.join(__dirname, '/register/urls'));
 const Middlewares = require(path.join(__dirname, '/register/middlewares'));
+
+base = (base_path = '') => {
+  return path.join(__dirname, base_path);
+}
 
 isClass = (target) => {
   return typeof target === 'function' && /^\s*class\s+/.test(target.toString());
@@ -31,9 +34,6 @@ storage = (storage_path) => {
   return path.join(__dirname, path.join('storage', storage_path));
 }
 
-base = (base_path = '') => {
-  return path.join(__dirname, base_path);
-}
 
 controller = (fileName) => {
   const Controller = require(base(`app/http/controllers/${fileName}`));

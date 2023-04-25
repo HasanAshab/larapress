@@ -1,24 +1,17 @@
 const path = require('path');
 const cron = require('node-cron');
-const events = require(path.join(__dirname, '../register/events'));
-const routes = require(path.join(__dirname, '../register/routes'));
-const helpers = require(path.join(__dirname, '../helpers'));
-const jobs = require(path.join(__dirname, '../register/jobs'));
+const events = require(base('register/events'));
+const routes = require(base('register/routes'));
+const jobs = require(base('register/jobs'));
 
-registerHelpers = () => {
-  for(const [name, helper] of Object.entries(helpers)){
-    global[name] = helper;
-  }
-}
-
-registerJobs = () => {
-  const Artisan = require(path.join(__dirname, '../utils/Artisan'));
+const registerJobs = () => {
+  const Artisan = require(base('/utils/Artisan'));
   for(const [command, schedule] of Object.entries(jobs)){
     cron.schedule(schedule, Artisan.getCommand(command));
   }
 }
 
-registerEvents = (app) => {
+const registerEvents = (app) => {
   for(const [event, listenerNames] of Object.entries(events)){
     for(const listenerName of listenerNames){
       const listener = require(base(`app/listeners/${listenerName}`));
@@ -27,14 +20,13 @@ registerEvents = (app) => {
   }
 }
 
-registerRoutes = (app) => {
+const registerRoutes = (app) => {
   for(const [endpoint, routerPath] of Object.entries(routes)){
     app.use(endpoint, require(base(routerPath)));
   }
 }
 
 module.exports = {
-  registerHelpers,
   registerEvents,
   registerRoutes,
   registerJobs,
