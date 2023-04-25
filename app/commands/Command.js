@@ -1,9 +1,10 @@
 const path = require('path');
 
 class Command {
-  constructor(subCommand = null, fromShell = true) {
+  constructor(subCommand = null, fromShell = true, flags = []) {
     this.subCommand = subCommand;
     this.fromShell = fromShell;
+    this.flags = flags;
   }
 
   alert = (text) => {

@@ -17,14 +17,16 @@ class Make extends Command {
     this.success('Admin account created successfully!');
   }
   
-  test = (name, type){
-    console.log(name, type)
-  }
-  
   handle = (name) => {
     try {
-      var template = fs.readFileSync(base(`templates/${this.subCommand}`), 'utf-8');
-    } catch {
+      if(this.flags.length === 0){
+        var template = fs.readFileSync(base(`templates/${this.subCommand}`), 'utf-8');
+      }
+      else{
+        var template = fs.readFileSync(base(`templates/${this.subCommand}/${this.flags[0]}`), 'utf-8');
+      }
+    } 
+    catch {
       this.error('Component not available');
     }
     const content = template.replace(/{{name}}/g, name);

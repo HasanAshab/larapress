@@ -100,7 +100,7 @@ setEnv = (envValues) => {
   fs.writeFileSync('.env', Object.entries(envConfig).map(([k, v]) => `${k}=${v}`).join('\n'));
 }
 
-const log = (data) => {
+log = (data) => {
   const path = './storage/error.log';
   if(typeof data === 'object'){
     data = JSON.stringify(data);

@@ -171,3 +171,31 @@ Stack: Error: Illegal arguments: string, undefined
     at async /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:16
 
 
+/api/auth/register - POST - ::ffff:127.0.0.1
+Stack: SyntaxError: Unexpected token '-', "------WebK"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createStrictSyntaxError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:169:10)
+    at parse (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:86:15)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:204:9)
+    at invokeCallback (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:238:16)
+    at done (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:512:28)
+    at endReadableNT (node:internal/streams/readable:1359:12)
+
+
+/api/auth/register - POST - ::ffff:127.0.0.1
+Stack: SyntaxError: Unexpected token '-', "------WebK"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at createStrictSyntaxError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:169:10)
+    at parse (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:86:15)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/read.js:128:18
+    at AsyncResource.runInAsyncScope (node:async_hooks:204:9)
+    at invokeCallback (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:238:16)
+    at done (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:512:28)
+    at endReadableNT (node:internal/streams/readable:1359:12)
+
+

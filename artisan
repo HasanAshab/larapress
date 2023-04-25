@@ -1,6 +1,6 @@
 require('dotenv').config();
 require('./helpers');
-console.log(global)
+
 const args = process.argv;
 const Artisan = require(base('utils/Artisan'));
 
