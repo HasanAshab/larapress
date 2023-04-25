@@ -19,19 +19,19 @@ class Make extends Command {
   
   handle = (name) => {
     try {
-      if(this.flags.length === 0){
-        var template = fs.readFileSync(base(`templates/${this.subCommand}`), 'utf-8');
-      }
-      else{
-        var template = fs.readFileSync(base(`templates/${this.subCommand}/${this.flags[0]}`), 'utf-8');
-      }
+      var template = this._getTemplate(name);
     } 
     catch {
       this.error('Component not available');
     }
     const content = template.replace(/{{name}}/g, name);
-    const filepath = this._getPathFor(this.subCommand, name);
-    fs.writeFileSync(filepath, content, { flag: 'wx' });
+    const filepath = this._getPath(this.subCommand, name);
+    try{
+      fs.writeFileSync(base(filepath), content, { flag: 'wx' });
+    }
+    catch {
+      this.error('Component already exist!');
+    }
     this.success(`File created successfully: [${filepath}]`);
   };
 
@@ -41,10 +41,18 @@ class Make extends Command {
     }
   };
 
-  _getPathFor = (componentName, name) => {
-    const componentPath = componentPaths[componentName];
-    this._loadDir(componentPath);
-    return path.join(componentPath, `${name}.js`);
+  _getTemplate = (name) => {
+    const path = (this.hasFlags)
+      ? base(`templates/${this.subCommand}/${this.flags[0]}`)
+      : base(`templates/${this.subCommand}`);
+    return fs.readFileSync(path, 'utf-8');
+  }
+
+  _getPath = (componentName, name) => {
+    const pathSchema = (this.hasFlags)
+      ? componentPaths[componentName][this.flags[0]]
+      : componentPaths[componentName];
+    return pathSchema.replace('{{name}}', name);
   };
 }
 

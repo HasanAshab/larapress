@@ -2,7 +2,6 @@ const dotenv = require('dotenv');
 const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
-const componentPaths = require(path.join(__dirname, '/register/componentPaths'));
 const urls = require(path.join(__dirname, '/register/urls'));
 const Middlewares = require(path.join(__dirname, '/register/middlewares'));
 

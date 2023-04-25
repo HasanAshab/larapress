@@ -5,6 +5,7 @@ class Command {
     this.subCommand = subCommand;
     this.fromShell = fromShell;
     this.flags = flags;
+    this.hasFlags = flags.length > 0;
   }
 
   alert = (text) => {
