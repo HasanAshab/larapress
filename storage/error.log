@@ -199,3 +199,44 @@ Stack: SyntaxError: Unexpected token '-', "------WebK"... is not valid JSON
     at endReadableNT (node:internal/streams/readable:1359:12)
 
 
+/api/auth/login - POST - ::ffff:127.0.0.1
+Stack: TypeError: args.forEach is not a function
+    at Artisan.parseArgs (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:39:10)
+    at Artisan.getCommand (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:9:39)
+    at Artisan.call (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/Artisan.js:5:20)
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:40:20)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:22
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+
+
+/api/auth/login - POST - ::ffff:127.0.0.1
+Stack: TypeError: user.createToken is not a function
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:46:28)
+    at async /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:16
+
+
+/api/auth/login - POST - ::ffff:127.0.0.1
+Stack: ReferenceError: jwt is not defined
+    at schema.methods.createToken (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/HasApiTokens.js:13:5)
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:46:28)
+    at async /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/utils/CatchAllMethodErrors.js:14:16
+
+
+/api/auth/profile?email=john108@example.com&password=haomao.12 - GET - ::ffff:127.0.0.1
+Stack: JsonWebTokenError: jwt malformed
+    at module.exports [as verify] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/jsonwebtoken/verify.js:70:17)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/Authenticate.js:19:33
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
+
+

@@ -1,16 +1,15 @@
-const joi = require('joi'); 
+const Joi = require('joi'); 
 
 class UpdateProfile {
 
   static schema = {
     urlencoded: {
       target: 'body',
-      rules:joi.object({
-        name: joi.string().min(3).max(12).required(),
-        email: joi.string().email().required(),
+      rules:Joi.object({
+        name: Joi.string().min(3).max(12).required(),
+        email: Joi.string().email().required(),
       })
     },
-    /*
     multipart: {
       profile: {
         required: false,
@@ -19,7 +18,6 @@ class UpdateProfile {
         max: 1000*1000,
       },
     }
-    */
   }
 
 }

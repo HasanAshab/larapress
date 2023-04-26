@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Media = require(base("app/models/Media"));
 const Storage = require(base("utils/Storage"));
 
-module.exports = (schema) => {
+module.exports = schema => {
   schema.add({
     media: [{
       type: mongoose.Schema.Types.ObjectId,

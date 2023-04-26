@@ -3,6 +3,8 @@ const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const VerificationMail = require(base("app/mails/VerificationMail"));
 const Token = require(base("app/models/Token"));
+const HasFactory = require(base("app/traits/HasFactory"));
+const HasApiTokens = require(base("app/traits/HasApiTokens"));
 const Notifiable = require(base("app/traits/Notifiable"));
 const Mediable = require(base("app/traits/Mediable"));
 const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
@@ -17,10 +19,6 @@ const UserSchema = new mongoose.Schema({
     unique: true,
   },
   password: String,
-  tokenVersion: {
-    type: Number,
-    default: 0,
-  },
   logoUrl: {
     type: String,
     default: url('/static/user-profile.jpg'),
@@ -39,6 +37,8 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
+UserSchema.plugin(HasFactory);
+UserSchema.plugin(HasApiTokens);
 UserSchema.plugin(Notifiable);
 UserSchema.plugin(Mediable);
 

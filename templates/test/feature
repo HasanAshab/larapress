@@ -1,0 +1,9 @@
+const request = require("supertest");
+const app = require(base("main/app"));
+
+describe('{{name}}', () => {
+  it('Should ...', async () => {
+    const response = await request(app).get('/');
+    expect(response.statusCode).toBe(200);
+  });
+});

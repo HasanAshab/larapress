@@ -1,7 +1,7 @@
 const path = require('path');
 
 class Command {
-  constructor(subCommand = null, fromShell = true, flags = []) {
+  constructor(subCommand, fromShell = true, flags = []) {
     this.subCommand = subCommand;
     this.fromShell = fromShell;
     this.flags = flags;
@@ -9,18 +9,18 @@ class Command {
   }
 
   alert = (text) => {
-    console.log('\x1b[33m', text);
+    console.log('\x1b[33m', text, '\x1b[0m');
   }
 
   success = (text) => {
-    console.log('\x1b[32m', '\n', text, '\n');
+    console.log('\x1b[32m', '\n', text, '\n', '\x1b[0m');
     if(this.fromShell){
       process.exit(0);
     }
   }
 
   error = (text) => {
-    console.log('\x1b[31m', '\n', text, '\n');
+    console.log('\x1b[31m', '\n', text, '\n', '\x1b[0m');
     if(this.fromShell){
       process.exit(0);
     }

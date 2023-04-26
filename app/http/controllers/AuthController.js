@@ -1,5 +1,3 @@
-const joi = require('joi');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const User = require(base('app/models/User'));
@@ -7,9 +5,7 @@ const Token = require(base('app/models/Token'));
 const ForgotPasswordMail = require(base('app/mails/ForgotPasswordMail'));
 const PasswordChanged = require(base('app/mails/PasswordChanged'));
 const frontendUrl = process.env.FRONTEND_URL;
-const jwtSecret = process.env.JWT_SECRET;
 const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
-const tokenLifespan = Number(process.env.TOKEN_LIFESPAN);
 
 class AuthController {
   static register = async (req, res) => {
@@ -29,19 +25,9 @@ class AuthController {
     if (logo){
       await user.attachFile('logo', logo, true);
     }
-    
-    const token = jwt.sign(
-      {
-        userId: user._id,
-        version: user.tokenVersion,
-      },
-      jwtSecret,
-      {
-        expiresIn: tokenLifespan,
-      }
-    );
+    const token = user.createToken();
     user.sendVerificationEmail().catch((err) => log(err));
-    res.json({
+    res.status(201).json({
       success: true,
       message: 'Verification email sent!',
       token,
@@ -49,9 +35,6 @@ class AuthController {
   };
 
   static login = async (req, res) => {
-    const Artisan = require(base('utils/Artisan'));
-    return Artisan.call('make:admin', ['tom', 'tom2@test', 'haomao.12']);
-    
     const { email, password } = req.body;
     const user = await User.findOne({
       email,
@@ -59,16 +42,7 @@ class AuthController {
     if (user) {
       const match = await bcrypt.compare(password, user.password);
       if (match) {
-        const token = jwt.sign(
-          {
-            userId: user._id,
-            version: user.tokenVersion,
-          },
-          jwtSecret,
-          {
-            expiresIn: tokenLifespan,
-          }
-        );
+        const token = user.createToken();
         return res.json({
           success: true,
           message: 'Logged in successfully!',

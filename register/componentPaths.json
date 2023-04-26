@@ -1,6 +1,7 @@
 {
   "model": "app/models/{{name}}.js",
   "trait": "app/traits/{{name}}.js",
+  "factory": "app/factories/{{name}}.js",
   "mail": "app/mails/{{name}}.js",
   "listener": "app/listeners/{{name}}.js",
   "controller": "app/http/controllers/{{name}}.js",

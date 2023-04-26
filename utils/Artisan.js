@@ -1,4 +1,4 @@
-const commands = require(base("register/commands"));
+const commands = require(base('register/commands'));
 
 class Artisan {
   static call = (input) => {
@@ -9,13 +9,13 @@ class Artisan {
     const { params, flags } = Artisan.parseArgs(args);
 
     if (!Array.isArray(params)) {
-      params = params.split(" ");
+      params = params.split(' ');
     }
-    if (params[0].includes(":")) {
-      const [commandKey, subComand] = params[0].split(":");
+    if (params[0].includes(':')) {
+      const [commandKey, subComand] = params[0].split(':');
       const CommandClass = require(base(commands.nested[commandKey]));
       if (!isClass(CommandClass)) {
-        throw new Error("Command not found!");
+        throw new Error('Command not found!');
       }
       var command =
         new CommandClass(undefined, fromShell, flags)[subComand] ||
@@ -23,12 +23,12 @@ class Artisan {
     } else {
       const CommandClass = require(base(commands.invoked[params[0]]));
       if (!isClass(CommandClass)) {
-        throw new Error("Command not found!");
+        throw new Error('Command not found!');
       }
       var command = new CommandClass(undefined, fromShell, flags).handle;
     }
     if (command.length !== params.length - 1) {
-      throw new Error("Number of Argument is Invalid!");
+      throw new Error('Number of Argument is Invalid!');
     }
     return command.bind(...params);
   }
@@ -36,7 +36,7 @@ class Artisan {
   static parseArgs(args){
     const flags = [];
     const params = [];
-    args.map((arg) => {
+    args.forEach((arg, index) => {
       if(arg.startsWith('--')){
         flags.push(arg.replace('--', ''));
       }

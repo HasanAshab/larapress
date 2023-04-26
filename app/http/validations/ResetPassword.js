@@ -1,14 +1,14 @@
-const joi = require('joi'); 
+const Joi = require('joi'); 
 
 class ResetPassword {
 
   static schema = {
     urlencoded: {
       target: 'body',
-      rules: joi.object({
-        email: joi.string().email().required(),
-        password: joi.string().min(8).required(),
-        token: joi.string().required(),
+      rules: Joi.object({
+        email: Joi.string().email().required(),
+        password: Joi.string().min(8).required(),
+        token: Joi.string().required(),
       })
     }
   }

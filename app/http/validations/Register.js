@@ -1,15 +1,15 @@
-const joi = require('joi');
+const Joi = require('joi');
 
 class Register {
 
   static schema = {
     urlencoded: {
       target: 'body',
-      rules: joi.object({
-        name: joi.string().min(3).max(12).required(),
-        email: joi.string().email().required(),
-        password: joi.string().min(8).required(),
-        password_confirmation: joi.string().required().valid(joi.ref('password')),
+      rules: Joi.object({
+        name: Joi.string().min(3).max(12).required(),
+        email: Joi.string().email().required(),
+        password: Joi.string().min(8).required(),
+        password_confirmation: Joi.string().required().valid(Joi.ref('password')),
       })
     },
     multipart: {
