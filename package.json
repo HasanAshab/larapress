@@ -4,7 +4,7 @@
   "description": "This is a extended starter kit of express made by Hasan Ashab CO Founder of Samer Agency. it is more optimized for big projects. it has a command line helper",
   "main": "main/index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest",
+    "test": "jest",
     "start": "node main/index.js",
     "dev": "nodemon main/index.js"
   },
@@ -14,7 +14,6 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
-    "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-handlebars": "^7.0.4",
@@ -24,16 +23,15 @@
     "jsonwebtoken": "^9.0.0",
     "memory-cache": "^0.2.0",
     "mongoose": "^7.0.3",
-    "msw": "^1.2.1",
     "multer": "^1.4.5-lts.1",
     "node-cron": "^3.0.2",
-    "node-model-factory": "^2.0.3",
     "nodemailer": "^6.9.1",
     "nodemailer-express-handlebars": "^6.1.0",
     "supertest": "^6.3.3"
   },
   "devDependencies": {
     "jest": "^29.5.0",
+    "nodemailer-mock": "^2.0.1",
     "nodemon": "^2.0.22"
   },
   "repository": {

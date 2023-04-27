@@ -25,7 +25,7 @@ class AuthController {
       await user.attachFile('logo', logo, true);
     }
     const token = user.createToken();
-    user.sendVerificationEmail().catch((err) => log(err));
+    await user.sendVerificationEmail();
     res.status(201).json({
       success: true,
       message: 'Verification email sent!',
@@ -93,8 +93,8 @@ class AuthController {
     });
   };
 
-  static resendEmailVerification = (req, res) => {
-    req.user.sendVerificationEmail().catch((err) => log(err));
+  static resendEmailVerification = async (req, res) => {
+    await req.user.sendVerificationEmail();
     return res.json({
       success: true,
       message: 'Verification email sent!',
@@ -175,7 +175,7 @@ class AuthController {
       success: false,
       message: 'Password changed successfully!',
     });
-    user.notify(new PasswordChanged());
+    await user.notify(new PasswordChanged());
   };
 
   static profile = (req, res) => {
@@ -189,7 +189,7 @@ class AuthController {
     req.user.emailVerified = false;
     const result = await req.user.save();
     if(result){
-      req.user.sendVerificationEmail();
+      await req.user.sendVerificationEmail();
       return res.json({
         success: true,
         message: 'Verification email sent!',

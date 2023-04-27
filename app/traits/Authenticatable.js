@@ -23,7 +23,7 @@ module.exports = (schema) => {
       for: "email_verification",
     });
     const link = url(`/api/auth/verify?id=${this._id}&token=${verificationToken}`);
-    const result = this.notify(new VerificationMail({ link }));
+    const result = await this.notify(new VerificationMail({ link }));
     return result? verificationToken : false;
   };
 
@@ -39,7 +39,7 @@ module.exports = (schema) => {
       for: "password_reset",
     });
     const link = `${frontendUrl}/password/reset?id=${this._id}&token=${resetToken}`;
-    const result = this.notify(new ForgotPasswordMail({ link }));
+    const result = await this.notify(new ForgotPasswordMail({ link }));
     return result? resetToken : false;
   };
 };

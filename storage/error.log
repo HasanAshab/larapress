@@ -1,77 +1,28 @@
-{"code":"ERR_INVALID_ARG_TYPE"}
+{}
 
 
-{"code":"ERR_INVALID_ARG_TYPE"}
+/api/auth/register - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot set properties of undefined (setting 'mailer')
+    at new Mail (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/mailer/index.js:45:33)
+    at Object.<anonymous>.module.exports.createTransport (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/nodemailer.js:53:14)
+    at new NodemailerMockTransport (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer-mock/dist/nodemailer-mock.js:236:68)
+    at Object.NodemailerMocked.createTransport (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer-mock/dist/nodemailer-mock.js:64:36)
+    at Function.createTransport [as setTransporter] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.js:26:24)
+    at Function.setTransporter [as send] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.js:62:12)
+    at model.send [as notify] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Notifiable.js:5:38)
+    at model.notify [as sendVerificationEmail] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Authenticatable.js:26:31)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:28:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/CatchAllMethodErrors.js:14:16
 
 
-{"code":"EAUTH","response":"535 5.7.0 The email limit is reached. Please upgrade your plan https://mailtrap.io/billing/plans/testing","responseCode":535,"command":"AUTH PLAIN"}
-
-
-{"code":"EAUTH","response":"535 5.7.0 The email limit is reached. Please upgrade your plan https://mailtrap.io/billing/plans/testing","responseCode":535,"command":"AUTH PLAIN"}
-
-
-{"code":"EAUTH","response":"535 5.7.0 The email limit is reached. Please upgrade your plan https://mailtrap.io/billing/plans/testing","responseCode":535,"command":"AUTH PLAIN"}
-
-
-{"code":"EAUTH","response":"535 5.7.0 The email limit is reached. Please upgrade your plan https://mailtrap.io/billing/plans/testing","responseCode":535,"command":"AUTH PLAIN"}
-
-
-{"code":"EAUTH","response":"535 5.7.0 The email limit is reached. Please upgrade your plan https://mailtrap.io/billing/plans/testing","responseCode":535,"command":"AUTH PLAIN"}
-
-
-{"code":"EAUTH","response":"535 5.7.0 The email limit is reached. Please upgrade your plan https://mailtrap.io/billing/plans/testing","responseCode":535,"command":"AUTH PLAIN"}
-
-
-{"code":"EAUTH","response":"535 5.7.0 The email limit is reached. Please upgrade your plan https://mailtrap.io/billing/plans/testing","responseCode":535,"command":"AUTH PLAIN"}
-
-
-/api/auth/password/change - PUT - ::ffff:127.0.0.1
-Stack: TypeError: Cannot read properties of undefined (reading 'password')
-    at password (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:170:70)
-    at fn (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/CatchAllMethodErrors.js:14:22)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:49:5)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
-    at router (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:47:12)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:286:9
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express-rate-limit/dist/index.cjs:244:7
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express-rate-limit/dist/index.cjs:152:5
-
-
-{"code":"EAUTH","response":"535 5.7.0 The email limit is reached. Please upgrade your plan https://mailtrap.io/billing/plans/testing","responseCode":535,"command":"AUTH PLAIN"}
-
-
-{"code":"EAUTH","response":"535 5.7.0 The email limit is reached. Please upgrade your plan https://mailtrap.io/billing/plans/testing","responseCode":535,"command":"AUTH PLAIN"}
-
-
-/api/auth/password/forgot - POST - ::ffff:127.0.0.1
-Stack: ReferenceError: user is not defined
-    at schema.methods.sendResetPasswordEmail (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Authenticatable.js:31:15)
-    at forgotPassword (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:111:18)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/CatchAllMethodErrors.js:14:16
-
-
-/api/auth/password/forgot - POST - ::ffff:127.0.0.1
-Stack: ReferenceError: frontendUrl is not defined
-    at schema.methods.sendResetPasswordEmail (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Authenticatable.js:40:18)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async forgotPassword (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:111:7)
-    at async /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/CatchAllMethodErrors.js:14:16
-
-
-{"code":"EAUTH","response":"535 5.7.0 The email limit is reached. Please upgrade your plan https://mailtrap.io/billing/plans/testing","responseCode":535,"command":"AUTH PLAIN"}
+/api/auth/register - POST - ::ffff:127.0.0.1
+Stack: ReferenceError: email is not defined
+    at Function.email [as send] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.js:70:57)
+    at model.send [as notify] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Notifiable.js:5:38)
+    at model.notify [as sendVerificationEmail] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Authenticatable.js:26:31)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:28:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/CatchAllMethodErrors.js:14:16
 
 

@@ -1,64 +1,76 @@
 const nodemailer = require("nodemailer");
-const handlebars = require('express-handlebars');
-const nodemailerHbs = require('nodemailer-express-handlebars');
+const handlebars = require("express-handlebars");
+const nodemailerMock = require("nodemailer-mock");
+const nodemailerHbs = require("nodemailer-express-handlebars");
 
 class Mail {
-
   static to = (email) => {
     this.email = email;
     return this;
-  }
+  };
 
-  static send = async (mailable) => {
-    try {
-      const transporter = nodemailer.createTransport({
+  static setTransporter = (data) => {
+    if (data) {
+      this.transporter = nodemailer.createTransport(data);
+    } else if (process.env.NODE_ENV !== "test") {
+      this.transporter = nodemailer.createTransport({
         host: process.env.MAIL_HOST,
         port: process.env.MAIL_PORT,
         auth: {
           user: process.env.MAIL_USERNAME,
           pass: process.env.MAIL_PASSWORD,
-        }
+        },
       });
-
-      const hbs = handlebars.create({
-        extname: '.handlebars',
-        defaultLayout: 'main',
-        layoutsDir: base('views/layouts'),
-        partialsDir: base('views/partials')
+    } else {
+      this.transporter = nodemailerMock.createTransport({
+        host: "127.0.0.1",
+        port: -100,
       });
-
-      transporter.use('compile', nodemailerHbs({
-        viewEngine: hbs,
-        viewPath: base('views/emails'),
-        extName: '.handlebars'
-      }));
-      if (typeof this.email === 'array'){
-        for (email of this.email){
-          await transporter.sendMail({
-            from: `${process.env.MAIL_FROM_NAME} <${process.env.MAIL_FROM_ADDRESS}>`,
-            to: email,
-            subject: mailable.subject,
-            template: mailable.view,
-            context: mailable.data
-          });
-        }
-      }
-      else {
-        await transporter.sendMail({
-          from: `${process.env.MAIL_FROM_NAME} <${process.env.MAIL_FROM_ADDRESS}>`,
-          to: this.email,
-          subject: mailable.subject,
-          template: mailable.view,
-          context: mailable.data
-        });
-      }
-      return true;
-    } catch (error) {
-      log(error)
-      return false;
     }
-  }
-}
+    return this;
+  };
 
+  static setTemplateEngine = () => {
+    const hbs = handlebars.create({
+      extname: ".handlebars",
+      defaultLayout: "main",
+      layoutsDir: base("views/layouts"),
+      partialsDir: base("views/partials"),
+    });
+
+    this.transporter.use(
+      "compile",
+      nodemailerHbs({
+        viewEngine: hbs,
+        viewPath: base("views/emails"),
+        extName: ".handlebars",
+      })
+    );
+  };
+
+  static getRecipient = (email) => {
+    return {
+      from: `${process.env.MAIL_FROM_NAME} <${process.env.MAIL_FROM_ADDRESS}>`,
+      to: email,
+      subject: this.mailable.subject,
+      template: this.mailable.view,
+      context: this.mailable.data,
+    };
+  };
+
+  static send = async (mailable) => {
+    this.mailable = mailable;
+    this.setTransporter();
+    this.setTemplateEngine();
+    if (Array.isArray(this.email)) {
+      for (email of this.email) {
+        await this.transporter.sendMail(this.getRecipient(email));
+      }
+    } else {
+      await this.transporter.sendMail(this.getRecipient(this.email));
+    }
+    return true;
+  };
+}
 
 module.exports = Mail;
