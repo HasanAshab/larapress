@@ -15,6 +15,9 @@ module.exports = (schema) => {
           ?models[0]
           :models;
       },
+      dummyData: (data) => {
+        return factory.merge(data);
+      }
     }
   }
 }

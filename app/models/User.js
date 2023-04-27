@@ -12,7 +12,7 @@ const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
-    maxlength: 20,
+    maxlength: 12,
   },
   email: {
     type: String,

@@ -24,8 +24,9 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', base('views'));
 
-// Registering middleware for File Upload
+// Registering global middlewares
 app.use(multer().any());
+app.use(middleware('response.wrap'));
 
 // Registering all event and listeners
 register.registerEvents(app);

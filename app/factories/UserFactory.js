@@ -4,7 +4,7 @@ const Factory = require(base('app/factories/Factory'));
 class UserFactory extends Factory {
   definition = () => {
     return {
-      name: faker.name.findName().substr(0, 20),
+      name: faker.name.firstName(),
       email: faker.internet.email(),
       password: "password",
     };

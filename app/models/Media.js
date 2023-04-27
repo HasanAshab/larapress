@@ -15,7 +15,9 @@ const MediaSchema = new mongoose.Schema({
 });
 
 MediaSchema.pre(['remove', 'deleteOne', 'findOneAndDelete', 'deleteMany'], function(next) {
-  unlink(this.path, (err) => log(err));
+  if (process.env.NODE_ENV !== "test") {
+    unlink(this.path, () => log(err));
+  }
   next();
 });
 

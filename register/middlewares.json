@@ -9,5 +9,6 @@
   "signed": "/app/http/middlewares/ValidateSignature",
   "cache": "/app/http/middlewares/CacheResponse",
   "validate": "/app/http/middlewares/ValidateRequest",
+  "response.wrap": "/app/http/middlewares/WrapResponse",
   "error.handle": "/app/http/middlewares/ErrorHandler"
 }

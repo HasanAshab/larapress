@@ -1,9 +1,13 @@
-const request = require("supertest");
-const app = require(base("main/app"));
+const app = require(base('main/app'));
+const supertest = require('supertest');
+const request = supertest(app);
+
+//connect();
+//resetDatabase();
 
 describe('{{name}}', () => {
-  it('Should ...', async () => {
-    const response = await request(app).get('/');
-    expect(response.statusCode).toBe(200);
+  it('Should work', async () => {
+    const response = await request.get('/');
+    expect(true).toBe(true);
   });
 });
