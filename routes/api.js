@@ -21,8 +21,8 @@ authRouter.post('/login', AuthController.login);
 //authRouter.put('/password/change', middleware('validate:ChangePassword'), AuthController.changePassword);
 
 authRouter.route('/profile')
-.get(middleware('verified:api'), AuthController.profile)
-.put(middleware('auth:api'), middleware('validate:UpdateProfile'), AuthController.updateProfile);
+.get(middleware('auth:api'), AuthController.profile)
+.put(middleware(['auth:api', 'validate:UpdateProfile']), AuthController.updateProfile);
 
 // Endpoints for serving files
 //router.get('/media/:id', MediaController.index);

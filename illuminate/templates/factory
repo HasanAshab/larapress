@@ -1,5 +1,5 @@
 const faker = require("faker");
-const Factory = require(base('app/factories/Factory'));
+const Factory = require(base('illuminate/factories/Factory'));
 
 class {{name}} extends Factory {
   definition = () => {

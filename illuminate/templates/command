@@ -1,4 +1,4 @@
-const Command = require(base('app/commands/Command'));
+const Command = require(base('illuminate/commands/Command'));
 
 class {{name}} extends Command {
   

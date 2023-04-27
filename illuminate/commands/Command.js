@@ -1,11 +1,12 @@
-const path = require('path');
-
 class Command {
-  constructor(subCommand, fromShell = true, flags = []) {
+  constructor(subCommand, fromShell = true, flags = {}) {
     this.subCommand = subCommand;
     this.fromShell = fromShell;
     this.flags = flags;
-    this.hasFlags = flags.length > 0;
+  }
+  
+  hasFlag = (name) => {
+    return this.flags[name] !== undefined 
   }
 
   alert = (text) => {

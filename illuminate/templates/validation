@@ -1,11 +1,11 @@
-const joi = require('joi'); 
+const Joi = require('joi'); 
 
 class {{name}} {
 
   static schema = {
     urlencoded: {
       target: 'body',
-      rules:joi.object({
+      rules: Joi.object({
         //
       })
     },

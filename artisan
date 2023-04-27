@@ -2,11 +2,12 @@ require('dotenv').config();
 require('./helpers');
 
 const args = process.argv;
-const Artisan = require(base('utils/Artisan'));
+const Artisan = require(base('illuminate/utils/Artisan'));
 
 try {
   Artisan.getCommand(args.splice(2))();
-} catch (err) {
+} 
+catch (err) {
   console.log(err);
   process.exit(1);
 }

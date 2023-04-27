@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Media = require(base("app/models/Media"));
-const Storage = require(base("utils/Storage"));
+const Storage = require(base("illuminate/utils/Storage"));
 
 module.exports = schema => {
   schema.add({

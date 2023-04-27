@@ -34,11 +34,12 @@ class Artisan {
   }
   
   static parseArgs(args){
-    const flags = [];
+    const flags = {};
     const params = [];
     args.forEach((arg, index) => {
       if(arg.startsWith('--')){
-        flags.push(arg.replace('--', ''));
+        const [key, value] = arg.replace('--', '').split('=');
+        flags[key] = value ? value : true;
       }
       else{
         params.push(arg);
