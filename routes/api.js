@@ -16,9 +16,9 @@ authRouter.post('/login', AuthController.login);
 //authRouter.get('/verify', middleware('validate:VerifyEmail'), AuthController.verifyEmail);
 //authRouter.post('/verify/resend', middleware('auth:api'), AuthController.resendEmailVerification);
 
-//authRouter.post('/password/forgot', middleware('validate:ForgotPassword'), AuthController.forgotPassword);
+authRouter.post('/password/forgot', middleware('validate:ForgotPassword'), AuthController.forgotPassword);
 //authRouter.put('/password/reset', middleware('validate:ResetPassword'), AuthController.resetPassword);
-//authRouter.put('/password/change', middleware('validate:ChangePassword'), AuthController.changePassword);
+authRouter.put('/password/change', middleware(['auth:api', 'validate:ChangePassword']), AuthController.changePassword);
 
 authRouter.route('/profile')
 .get(middleware('auth:api'), AuthController.profile)

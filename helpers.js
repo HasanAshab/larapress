@@ -36,7 +36,7 @@ storage = (storage_path) => {
 
 controller = (fileName) => {
   const Controller = require(base(`app/http/controllers/${fileName}`));
-  const CatchAllMethodErrors = require(base('utils/CatchAllMethodErrors'));
+  const CatchAllMethodErrors = require(base('illuminate/utils/CatchAllMethodErrors'));
   CatchAllMethodErrors.wrapMethods(Controller);
   return Controller;
 }

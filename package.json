@@ -4,7 +4,7 @@
   "description": "This is a extended starter kit of express made by Hasan Ashab CO Founder of Samer Agency. it is more optimized for big projects. it has a command line helper",
   "main": "main/index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest --detectOpenHandles",
+    "test": "cross-env NODE_ENV=test jest",
     "start": "node main/index.js",
     "dev": "nodemon main/index.js"
   },

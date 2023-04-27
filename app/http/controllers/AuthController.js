@@ -4,7 +4,6 @@ const User = require(base('app/models/User'));
 const Token = require(base('app/models/Token'));
 const ForgotPasswordMail = require(base('app/mails/ForgotPasswordMail'));
 const PasswordChanged = require(base('app/mails/PasswordChanged'));
-const frontendUrl = process.env.FRONTEND_URL;
 const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
 
 class AuthController {
@@ -108,18 +107,7 @@ class AuthController {
       email,
     });
     if (user) {
-      Token.deleteMany({
-        userId: user._id,
-        for: 'password_reset',
-      }).catch((err) => log(err));
-      const resetToken = crypto.randomBytes(32).toString('hex');
-      const token = await Token.create({
-        userId: user._id,
-        token: resetToken,
-        for: 'password_reset',
-      });
-      const link = `${frontendUrl}/password/reset?id=${user._id}&token=${resetToken}`;
-      user.notify(new ForgotPasswordMail({link}));
+      await user.sendResetPasswordEmail();
     }
     return res.json({
       success: true,

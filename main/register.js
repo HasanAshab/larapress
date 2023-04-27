@@ -1,11 +1,11 @@
 const path = require('path');
 const cron = require('node-cron');
+const Artisan = require(base('illuminate/utils/Artisan'));
 const events = require(base('register/events'));
 const routes = require(base('register/routes'));
 const jobs = require(base('register/jobs'));
 
 const registerJobs = () => {
-  const Artisan = require(base('/utils/Artisan'));
   for(const [command, schedule] of Object.entries(jobs)){
     cron.schedule(schedule, Artisan.getCommand(command));
   }
