@@ -1,8 +1,12 @@
+const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
+const AuthenticationError = require(base('app/exceptions/AuthenticationError'));
 const VerificationMail = require(base("app/mails/VerificationMail"));
 const ForgotPasswordMail = require(base("app/mails/ForgotPasswordMail"));
+const PasswordChanged = require(base("app/mails/PasswordChanged"));
 const Token = require(base("app/models/Token"));
 const frontendUrl = process.env.FRONTEND_URL;
+const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
 
 module.exports = (schema) => {
   schema.add({
@@ -43,8 +47,26 @@ module.exports = (schema) => {
     return result? resetToken : false;
   };
   
-  schema.methods.resetPassword = async function () {
-    
+  schema.methods.resetPassword = async function (token, newPassword) {
+    const resetToken = await Token.findOne({
+      userId: this._id,
+    });
+    if (!resetToken) {
+      new AuthenticationError().throw('INVALID_OR_EXPIRED_TOKEN');
+    }
+    const tokenMatch = await bcrypt.compare(token, resetToken.token);
+    if (!tokenMatch) {
+      new AuthenticationError().throw('INVALID_OR_EXPIRED_TOKEN');
+    }
+    const oldPasswordMatch = await bcrypt.compare(newPassword, this.password);
+    if (oldPasswordMatch) {
+      new AuthenticationError().throw('PASSWORD_SHOULD_DIFFERENT');
+    }
+    this.password = newPassword;
+    this.tokenVersion++;
+    await this.save();
+    resetToken.deleteOne().catch((err) => log(err));
+    this.notify(new PasswordChanged());
   }
   
 };

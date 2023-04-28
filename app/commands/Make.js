@@ -28,15 +28,14 @@ class Make extends Command {
     try {
       fs.writeFileSync(base(filepath), content, { flag: "wx" });
     } catch {
-      console.log(err);
       this.error("Component already exist!");
     }
     this.success(`File created successfully: [${filepath}]`);
   };
 
-  _loadDir = (path) => {
-    if (!fs.existsSync(path)) {
-      fs.mkdirSync(path);
+  _loadDir = (dir) => {
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
     }
   };
 
@@ -51,7 +50,9 @@ class Make extends Command {
     const pathSchema = this.hasFlag("type")
       ? componentPaths[componentName][this.flags.type]
       : componentPaths[componentName];
-    return pathSchema.replace("{{name}}", name);
+    const componentPath = pathSchema.replace("{{name}}", name);
+    this._loadDir(path.dirname(componentPath));
+    return componentPath;
   };
 }
 

@@ -17,7 +17,6 @@ describe('Auth', () => {
     user = await User.factory().create();
     token = user.createToken();
   });
-  /*
 
   it('should register a user', async () => {
     const dummyUser = User.factory().dummyData();
@@ -129,9 +128,24 @@ describe('Auth', () => {
     expect(sentMails[0].to).toBe(user.email);
     expect(sentMails[0].template).toBe('forgotPassword');
   });
-  */
-  
+
   it('should reset password', async () => {
-    
+    const resetToken = await user.sendResetPasswordEmail();
+    nodemailerMock.mock.reset();
+    const newPassword = 'new-password';
+    const response = await request
+      .put('/api/auth/password/reset')
+      .field('id', user._id.toString())
+      .field('password', newPassword)
+      .field('token', resetToken);
+      
+    user = await User.findById(user._id);
+    const passwordMatch = await bcrypt.compare(newPassword, user.password)
+    expect(response.statusCode).toBe(200);
+    expect(passwordMatch).toBe(true);
+    const sentMails = nodemailerMock.mock.sentMail();
+    expect(sentMails).toHaveLength(1);
+    expect(sentMails[0].to).toBe(user.email);
+    expect(sentMails[0].template).toBe('passwordChanged');
   });
 });

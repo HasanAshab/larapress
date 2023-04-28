@@ -1,0 +1,9 @@
+const Exception = require(base('illuminate/exceptions/Exception'));
+
+class {{name}} extends Exception {
+  errors = {
+    //
+  }
+}
+
+module.exports = {{name}};

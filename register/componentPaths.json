@@ -4,6 +4,7 @@
   "factory": "app/factories/{{name}}.js",
   "mail": "app/mails/{{name}}.js",
   "listener": "app/listeners/{{name}}.js",
+  "exception": "app/exceptions/{{name}}.js",
   "controller": "app/http/controllers/{{name}}.js",
   "validation": "app/http/validations/{{name}}.js",
   "middleware": "app/http/middlewares/{{name}}.js",
