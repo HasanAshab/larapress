@@ -1,13 +1,22 @@
-class Exception {
+class Exception extends Error {
+  constructor(message = "An error occurred") {
+    super(message);
+    this.name = this.constructor.name;
+  }
+
   throw = (name) => {
-    const error = new Error;
+    if (!this.errors.hasOwnProperty(name)) {
+      throw new Error(`Error type '${name}' does not exist`);
+    }
+
+    const error = new Error();
     error.name = this.constructor.name;
     error.type = name;
-    for(const [key, value] of Object.entries(this.errors[name])){
+    for (const [key, value] of Object.entries(this.errors[name])) {
       error[key] = value;
     }
     throw error;
-  }
+  };
 }
 
 module.exports = Exception;
