@@ -171,11 +171,11 @@ class AuthController {
     user.password = password;
     user.tokenVersion++;
     await user.save();
+    await user.notify(new PasswordChanged());
     return res.json({
       success: false,
       message: 'Password changed successfully!',
     });
-    await user.notify(new PasswordChanged());
   };
 
   static profile = (req, res) => {

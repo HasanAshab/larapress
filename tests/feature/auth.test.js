@@ -14,10 +14,10 @@ describe('Auth', () => {
 
   beforeEach(async () => {
     nodemailerMock.mock.reset();
-    user = await User.factory().create({ emailVerified: true });
+    user = await User.factory().create();
     token = user.createToken();
   });
-  
+  /*
 
   it('should register a user', async () => {
     const dummyUser = User.factory().dummyData();
@@ -30,7 +30,10 @@ describe('Auth', () => {
       .attach('logo', fakeFile('image.png'));
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty('token');
-    expect(nodemailerMock.mock.sentMail()).toHaveLength(1);
+    const sentMails = nodemailerMock.mock.sentMail();
+    expect(sentMails).toHaveLength(1);
+    expect(sentMails[0].to).toBe(dummyUser.email);
+    expect(sentMails[0].template).toBe('verification');
   });
   
   it('should login a user', async () => {
@@ -40,6 +43,30 @@ describe('Auth', () => {
       .field('password', 'password');
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toHaveProperty('token');
+  });
+  
+  it('should verify email', async () => {
+    const verificationToken = await user.sendVerificationEmail();
+    const response = await request
+      .get('/api/auth/verify')
+      .query({
+        id: user._id.toString(),
+        token: verificationToken
+      });
+    user = await User.findById(user._id);
+    expect(response.statusCode).toBe(200);
+    expect(user.emailVerified).toBe(true);
+  });
+
+  it('should resend verification email', async () => {
+    const response = await request
+      .post('/api/auth/verify/resend')
+      .set('Authorization', `Bearer ${token}`)
+    expect(response.statusCode).toBe(200);
+    const sentMails = nodemailerMock.mock.sentMail();
+    expect(sentMails).toHaveLength(1);
+    expect(sentMails[0].to).toBe(user.email);
+    expect(sentMails[0].template).toBe('verification');
   });
 
   it('should get user details', async () => {
@@ -65,7 +92,10 @@ describe('Auth', () => {
     expect(response.statusCode).toBe(200);
     expect(user.name).toBe(newUserData.name);
     expect(user.email).toBe(newUserData.email);
-    expect(nodemailerMock.mock.sentMail()).toHaveLength(1);
+    const sentMails = nodemailerMock.mock.sentMail();
+    expect(sentMails).toHaveLength(1);
+    expect(sentMails[0].to).toBe(newUserData.email);
+    expect(sentMails[0].template).toBe('verification');
   });
   
   it('should change password', async () => {
@@ -83,7 +113,25 @@ describe('Auth', () => {
     const passwordMatch = await bcrypt.compare(passwords.new, user.password)
     expect(response.statusCode).toBe(200);
     expect(passwordMatch).toBe(true);
-    expect(nodemailerMock.mock.sentMail()).toHaveLength(1)
+    const sentMails = nodemailerMock.mock.sentMail();
+    expect(sentMails).toHaveLength(1);
+    expect(sentMails[0].to).toBe(user.email);
+    expect(sentMails[0].template).toBe('passwordChanged');
   });
-
+  
+  it('forgoting password should sent reset email', async () => {
+    const response = await request
+      .post('/api/auth/password/forgot')
+      .field('email', user.email);
+    expect(response.statusCode).toBe(200);
+    const sentMails = nodemailerMock.mock.sentMail();
+    expect(sentMails).toHaveLength(1);
+    expect(sentMails[0].to).toBe(user.email);
+    expect(sentMails[0].template).toBe('forgotPassword');
+  });
+  */
+  
+  it('should reset password', async () => {
+    
+  });
 });

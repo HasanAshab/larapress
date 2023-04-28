@@ -42,4 +42,9 @@ module.exports = (schema) => {
     const result = await this.notify(new ForgotPasswordMail({ link }));
     return result? resetToken : false;
   };
+  
+  schema.methods.resetPassword = async function () {
+    
+  }
+  
 };
