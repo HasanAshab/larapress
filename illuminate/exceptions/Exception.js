@@ -1,5 +1,5 @@
 class Exception extends Error {
-  constructor(message = "An error occurred") {
+  constructor(message = "Internal Server Error!") {
     super(message);
     this.name = this.constructor.name;
   }

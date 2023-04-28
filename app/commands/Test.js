@@ -5,7 +5,7 @@ const AuthenticationError = require(base('app/exceptions/AuthenticationError'));
 class Test extends Command {
   
   handle = async (msg) => {
-    new AuthenticationError().throw('INVALID_OR_EXPIRED_TOKEN')
+    new AuthenticationError().throw('sjsb')
     this.success(this.hasFlag('hzh'));
   }
   
