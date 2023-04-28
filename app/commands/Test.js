@@ -1,12 +1,12 @@
 const Command = require(base('illuminate/commands/Command'));
 const User = require(base('app/models/User'));
-const AuthenticationError = require(base('app/exceptions/AuthenticationError'));
+const TestJob = require(base('app/jobs/Test'));
 
 class Test extends Command {
   
   handle = async (msg) => {
-    new AuthenticationError().throw('sjsb')
-    this.success(this.hasFlag('hzh'));
+    new TestJob().dispatch('do something').delay(2000);
+    this.success();
   }
   
 }

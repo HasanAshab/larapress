@@ -3,10 +3,10 @@ const cron = require('node-cron');
 const Artisan = require(base('illuminate/utils/Artisan'));
 const events = require(base('register/events'));
 const routes = require(base('register/routes'));
-const jobs = require(base('register/jobs'));
+const tasks = require(base('register/tasks'));
 
-const registerJobs = () => {
-  for(const [command, schedule] of Object.entries(jobs)){
+const registerTasks = () => {
+  for(const [command, schedule] of Object.entries(tasks)){
     cron.schedule(schedule, Artisan.getCommand(command));
   }
 }
@@ -29,5 +29,5 @@ const registerRoutes = (app) => {
 module.exports = {
   registerEvents,
   registerRoutes,
-  registerJobs,
+  registerTasks,
 };
