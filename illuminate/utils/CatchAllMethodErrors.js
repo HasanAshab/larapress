@@ -1,5 +1,5 @@
 class CatchAllMethodErrors {
-  static wrapMethods = (cls) => {
+  wrapMethods(cls){
     const methods = Object.getOwnPropertyNames(cls);
     for (const method of methods) {
       if(!['length', 'name', 'prototype'].includes(method)){
@@ -8,7 +8,7 @@ class CatchAllMethodErrors {
     }
   }
   
-  static withTryCatch = (fn) => {
+  withTryCatch(fn){
     return async function(...args) {
       try {
         return await fn(...args);

@@ -4,8 +4,10 @@ const Token = require(base("app/models/Token"));
 const ForgotPasswordMail = require(base("app/mails/ForgotPasswordMail"));
 const PasswordChanged = require(base("app/mails/PasswordChanged"));
 
-class AuthController {
-  static register = async (req, res) => {
+const Controller = require(base('illuminate/controllers/Controller'));
+
+class AuthController extends Controller{
+  async register(req, res){
     const { name, email, password } = req.body;
     const logo = req.files.logo;
     if (await User.findOne({ email })) {
@@ -31,7 +33,7 @@ class AuthController {
     });
   };
 
-  static login = async (req, res) => {
+  async login(req, res){
     const { email, password } = req.body;
     const user = await User.findOne({
       email,
@@ -53,7 +55,7 @@ class AuthController {
     });
   };
 
-  static verifyEmail = async (req, res) => {
+  async verifyEmail(req, res){
     const { id, token } = req.query;
     const verificationToken = await Token.findOne(
       {
@@ -92,7 +94,7 @@ class AuthController {
     });
   };
 
-  static resendEmailVerification = async (req, res) => {
+  async resendEmailVerification(req, res){
     await req.user.sendVerificationEmail();
     return res.json({
       success: true,
@@ -100,7 +102,7 @@ class AuthController {
     });
   };
 
-  static forgotPassword = async (req, res) => {
+  async forgotPassword(req, res){
     const email = req.body.email;
     const user = await User.findOne({
       email,
@@ -114,7 +116,7 @@ class AuthController {
     });
   };
 
-  static resetPassword = async (req, res) => {
+  async resetPassword(req, res){
     const { id, token, password } = req.body;
     const user = await User.findById(id);
     if (user) {
@@ -130,7 +132,7 @@ class AuthController {
     });
   };
 
-  static changePassword = async (req, res) => {
+  async changePassword(req, res){
     const user = req.user;
     const { old_password, password } = req.body;
     const oldPasswordMatch = await bcrypt.compare(old_password, user.password);
@@ -156,11 +158,11 @@ class AuthController {
     });
   };
 
-  static profile = (req, res) => {
+  async profile(req, res){
     res.json(req.user);
   };
 
-  static updateProfile = async (req, res) => {
+  async updateProfile(req, res){
     const { name, email } = req.body;
     req.user.name = name;
     req.user.email = email;

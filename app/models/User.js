@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const Authenticatable = require(base("app/traits/Authenticatable"));
+const Timestamps = require(base("app/traits/Timestamps"));
 const HasFactory = require(base("app/traits/HasFactory"));
 const HasApiTokens = require(base("app/traits/HasApiTokens"));
 const Notifiable = require(base("app/traits/Notifiable"));
@@ -32,6 +33,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.plugin(Authenticatable);
+UserSchema.plugin(Timestamps);
 UserSchema.plugin(HasFactory);
 UserSchema.plugin(HasApiTokens);
 UserSchema.plugin(Notifiable);

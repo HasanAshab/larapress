@@ -42,7 +42,7 @@ module.exports = (schema) => {
       token: resetToken,
       for: "password_reset",
     });
-    const link = `${frontendUrl}/password/reset?id=${this._id}&token=${resetToken}`;
+    const link = clientUrl(`/password/reset?id=${this._id}&token=${resetToken}`);
     const result = await this.notify(new ForgotPasswordMail({ link }));
     return result? resetToken : false;
   };

@@ -1,5 +1,5 @@
 class Factory {
-  merge = (data) => {
+  merge(data){
     const modelData = this.definition();
     if(!data){
       return modelData;

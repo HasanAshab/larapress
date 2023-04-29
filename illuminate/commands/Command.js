@@ -5,22 +5,22 @@ class Command {
     this.flags = flags;
   }
   
-  hasFlag = (name) => {
+  hasFlag(name){
     return this.flags[name] !== undefined 
   }
 
-  alert = (text) => {
+  alert(text){
     console.log('\x1b[33m', text, '\x1b[0m');
   }
 
-  success = (text) => {
+  success(text){
     console.log('\x1b[32m', '\n', text, '\n', '\x1b[0m');
     if(this.fromShell){
       process.exit(0);
     }
   }
 
-  error = (text) => {
+  error(text){
     console.log('\x1b[31m', '\n', text, '\n', '\x1b[0m');
     if(this.fromShell){
       process.exit(0);

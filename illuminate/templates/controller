@@ -1,7 +1,7 @@
-const User = model('User');
+const User = require(base('app/models/User'));
 
 class {{name}} {
-  static index = (req, res) => {
+  async index(req, res){
     //
   }
 }

@@ -4,12 +4,12 @@ const nodemailerMock = require("nodemailer-mock");
 const nodemailerHbs = require("nodemailer-express-handlebars");
 
 class Mail {
-  static to = (email) => {
+  static to(email){
     this.email = email;
     return this;
   };
 
-  static setTransporter = (data) => {
+  static setTransporter(data){
     if (data) {
       this.transporter = nodemailer.createTransport(data);
     } else if (process.env.NODE_ENV !== "test") {
@@ -30,7 +30,7 @@ class Mail {
     return this;
   };
 
-  static setTemplateEngine = () => {
+  static setTemplateEngine(){
     const hbs = handlebars.create({
       extname: ".handlebars",
       defaultLayout: "main",
@@ -48,7 +48,7 @@ class Mail {
     );
   };
 
-  static getRecipient = (email) => {
+  static getRecipient(email){
     return {
       from: `${process.env.MAIL_FROM_NAME} <${process.env.MAIL_FROM_ADDRESS}>`,
       to: email,
@@ -58,7 +58,7 @@ class Mail {
     };
   };
 
-  static send = async (mailable) => {
+  static async send(mailable){
     this.mailable = mailable;
     this.setTransporter();
     this.setTemplateEngine();

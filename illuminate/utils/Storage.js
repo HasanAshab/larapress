@@ -3,8 +3,8 @@ const path = require("path");
 const crypto = require("crypto");
 
 class Storage {
-  static putFile = (storage_path, file) => {
-    const hash = Storage.hashFileName(file.originalname);
+  static putFile(storage_path, file){
+    const hash = this.hashFileName(file.originalname);
     const filePath = path.join(storage(storage_path), hash);
     if (process.env.NODE_ENV !== "test") {
       fs.writeFile(filePath, file.buffer, (err) => {
@@ -14,7 +14,7 @@ class Storage {
     return filePath;
   };
 
-  static hashFileName = (fileName) => {
+  static hashFileName(fileName){
     const hash = crypto
       .createHash("md5")
       .update(fileName)

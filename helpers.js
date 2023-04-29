@@ -13,12 +13,27 @@ isClass = (target) => {
   return typeof target === 'function' && /^\s*class\s+/.test(target.toString());
 }
 
-url = (path) => {
-  return `${process.env.APP_URL}${path}`;
+url = (url_path) => {
+  const domain = process.env.APP_DOMAIN;
+  const port = process.env.APP_PORT;
+  const protocol = 'http';
+  //const protocol = port === '443'? 'https' : 'http';
+  return `${protocol}://${path.join(`${domain}:${port}`, url_path)}`;
+}
+
+clientUrl = (url_path) => {
+  const domain = process.env.CLIENT_DOMAIN;
+  const port = process.env.CLIENT_PORT;
+  const protocol = 'http';
+  //const protocol = port === '443'? 'https' : 'http';
+  return `${protocol}://${path.join(`${domain}:${port}`, url_path)}`;
 }
 
 route = (name, data = null) => {
   let endpoint = urls[name];
+  if(!endpoint){
+    return null;
+  }
   if(data){
     const regex = /:(\w+)/g;
     const params = endpoint.match(regex);
@@ -36,9 +51,9 @@ storage = (storage_path) => {
 
 controller = (fileName) => {
   const Controller = require(base(`app/http/controllers/${fileName}`));
-  const CatchAllMethodErrors = require(base('illuminate/utils/CatchAllMethodErrors'));
-  CatchAllMethodErrors.wrapMethods(Controller);
-  return Controller;
+  //const CatchAllMethodErrors = require(base('illuminate/utils/CatchAllMethodErrors'));
+  //CatchAllMethodErrors.wrapMethods(Controller);
+  return new Controller();
 }
 
 middleware = (keys) => {

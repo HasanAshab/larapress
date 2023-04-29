@@ -4,7 +4,7 @@ class Exception extends Error {
     this.name = this.constructor.name;
   }
 
-  throw = (name) => {
+  throw(name){
     if (!this.errors.hasOwnProperty(name)) {
       throw new Error(`Error type '${name}' does not exist`);
     }

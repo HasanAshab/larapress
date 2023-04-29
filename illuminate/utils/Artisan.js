@@ -2,12 +2,12 @@ const commands = require(base('register/commands'));
 const ArtisanError = require(base("app/exceptions/ArtisanError"));
 
 class Artisan {
-  static call = (input) => {
-    return Artisan.getCommand(input, false)();
+  static call(input){
+    return this.getCommand(input, false)();
   }
 
-  static getCommand = (args, fromShell = true) => {
-    const { params, flags } = Artisan.parseArgs(args);
+  static getCommand(args, fromShell = true){
+    const { params, flags } = this.parseArgs(args);
 
     if (!Array.isArray(params)) {
       params = params.split(' ');

@@ -2,7 +2,7 @@ const faker = require("faker");
 const Factory = require(base('illuminate/factories/Factory'));
 
 class {{name}} extends Factory {
-  definition = () => {
+  definition(){
     return {
       //
     };

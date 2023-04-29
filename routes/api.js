@@ -25,6 +25,6 @@ authRouter.route('/profile')
   .put(middleware(['auth:api', 'validate:UpdateProfile']), AuthController.updateProfile);
 
 // Endpoints for serving files
-//router.get('/media/:id', MediaController.index);
+router.get('/media/:id', middleware('validate:MediaServe'), MediaController.index);
 
 module.exports = router;
