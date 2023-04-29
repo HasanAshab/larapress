@@ -20,14 +20,15 @@ module.exports = (requestName) => {
   const ValidationRule = require(base(`app/http/validations/${requestName}`));
   const { urlencoded, multipart } = ValidationRule.schema;
   return (req, res, next) => {
-    const { error } = urlencoded.rules.validate(req[urlencoded.target]);
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        message: error.details[0].message,
-      });
+    if (typeof urlencoded !== "undefined") {
+      const { error } = urlencoded.rules.validate(req[urlencoded.target]);
+      if (error) {
+        return res.status(400).json({
+          success: false,
+          message: error.details[0].message,
+        });
+      }
     }
-
     if (typeof multipart !== "undefined") {
       const contentType = req.headers["content-type"];
       if (!contentType || !contentType.startsWith("multipart/form-data")) {
@@ -37,11 +38,11 @@ module.exports = (requestName) => {
         });
       }
       parseFiles(req);
-      const error = FileValidator.validate(req.files, multipart);
+      const error = multipart.validate(req.files);
       if (error) {
         return res.status(400).json({
           success: false,
-          message: error
+          message: error,
         });
       }
     }

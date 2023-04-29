@@ -57,8 +57,13 @@ class Mail {
       context: this.mailable.data,
     };
   };
-
-  static async send(mailable){
+  
+  static after(miliseconds){
+    this.delay = miliseconds;
+    return this;
+  }
+  
+  static async dispatch(mailable){
     this.mailable = mailable;
     this.setTransporter();
     this.setTemplateEngine();
@@ -70,6 +75,17 @@ class Mail {
       await this.transporter.sendMail(this.getRecipient(this.email));
     }
     return true;
+  }
+
+  static async send(mailable){
+    if(mailable.shouldQueue){
+      mailable.setQueue();
+      mailable.queue.process(job => this.dispatch(job.data));
+      return await mailable.queue.add(mailable, { delay: this.delay || 0 });
+    }
+    else{
+      return await this.dispatch(mailable);
+    }
   };
 }
 

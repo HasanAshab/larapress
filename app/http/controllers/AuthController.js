@@ -7,6 +7,12 @@ const PasswordChanged = require(base("app/mails/PasswordChanged"));
 const Controller = require(base('illuminate/controllers/Controller'));
 
 class AuthController extends Controller{
+  
+  async t(req, res){
+    res.json(req.files.file)
+  }
+
+  
   async register(req, res){
     const { name, email, password } = req.body;
     const logo = req.files.logo;

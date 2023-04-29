@@ -1,78 +1,27 @@
 class FileValidator {
-  static required = (file, fieldName, option) => {
-    if (option && !file) {
-      throw new Error(`The ${fieldName} field is required!`);
-    }
+  
+  static rules(obj){
+    this.rules = obj;
+    return this;
+  }
+  
+  static required(){
+    //this.required = true;
+    return this;
   };
-
-  static max = (file, fieldName, maxSize) => {
-    if (file.size > maxSize) {
-      throw new Error(
-        `The ${fieldName} file max size is ${maxSize / 1000000} MB!`
-      );
-    }
+  
+  static max(){
+    //this.max = true;
+    return this;
   };
-
-  static min = (file, fieldName, minSize) => {
-    if (file.size < minSize) {
-      throw new Error(
-        `The ${fieldName} file min size is ${minSize / 1000000} MB!`
-      );
-    }
-  };
-
-  static mimetypes = (file, fieldName, validMimetypes) => {
-    if (!validMimetypes.includes(file.mimetype)) {
-      throw new Error(
-        `The ${fieldName} file mimetype should be ${validMimetypes.join(
-          " or "
-        )}!`
-      );
-    }
-  };
-
-  static maxFiles = (files, fieldName, maxFileCount) => {
-    if (
-      (files instanceof Array && files.length > maxFileCount) ||
-      maxFileCount < 1
-    ) {
-      throw new Error(
-        `The ${fieldName} field max file count should be ${maxFileCount}`
-      );
-    }
-  };
-
-  static custom = (file, fieldName, cb) => {
+  
+  static custom(file, fieldName, cb){
     cb(file);
+    return this;
   };
 
-  static validate = (files, rules) => {
-    for (const [fieldName, validators] of Object.entries(rules)) {
-      if (!files[fieldName] && validators.required) {
-        return `The ${fieldName} field is required!`;
-      }
-        for (const [validator, options] of Object.entries(validators)) {
-          try {
-            if(validator === "required" && !options){
-              break;
-            }
-            else if (validator === "maxFiles") {
-              FileValidator[validator](files[fieldName], fieldName, options);
-            }
-            else{
-              if (files[fieldName] instanceof Array) {
-                for (const file of files[fieldName]) {
-                  FileValidator[validator](file, fieldName, options);
-                }
-              } else {
-                FileValidator[validator](files[fieldName], fieldName, options);
-              }
-            }
-          } catch (error) {
-            return error.message;
-          }
-        }
-    }
+  static validate(files){
+    console.log(this.rules.file.required)
   };
 }
 
