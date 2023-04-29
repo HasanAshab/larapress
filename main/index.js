@@ -37,4 +37,6 @@ if (nodeEnv !== "production") {
 
 const TestJob = require(base('app/jobs/Test'));
 
-new TestJob({a:'ss'}).exec();
+for(let i = 1; i < 11; i++){
+ new TestJob(i).exec(2000);
+}

@@ -1,10 +1,9 @@
-const Queue = require("bull");
-const redisUrl = process.env.REDIS_URL;
+const Queueable = require(base('illuminate/queue/Queueable'));
 
-class Job {
+class Job extends Queueable {
   constructor(data) {
+    super()
     this.data = data;
-    this.shouldQueue = false;
   }
 
   async dispatch() {
@@ -12,15 +11,13 @@ class Job {
   }
 
   async exec(milliseconds) {
-    if (!milliseconds) {
-      return await this.dispatch(this.data);
-    }
-    this.shouldQueue = true;
-    const myQueue = new Queue("my-queue", redisUrl);
-    myQueue.process(async (job) => {
+    if (milliseconds) {
+      this.setQueue();
+      this.queue.process(job => this.dispatch(job.data));
+      await this.queue.add(this.data, { delay: milliseconds });
+    } else {
       await this.dispatch(this.data);
-    });
-    await myQueue.add(this.data, { delay: milliseconds });
+    }
   }
 }
 
