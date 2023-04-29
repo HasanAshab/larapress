@@ -1,22 +1,21 @@
 require("dotenv").config();
 require("../helpers");
 
-const register = require("./register");
-const app = require("./app");
+const register = require(base("main/register"));
+const app = require(base("main/app"));
+const DB = require(base("illuminate/utils/DB"));
 const port = Number(process.env.PORT) || 8000;
 const connectToDB = Boolean(process.env.DB_CONNECT) || true;
 const nodeEnv = process.env.NODE_ENV;
 
 // Connecting to database
 if (connectToDB) {
-  const connection = require("./connection");
-  connection
-    .then(() => {
-      console.log("connected to MongoDB...");
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  console.log('Connecting to database...')
+  DB.connect().then(() => {
+    console.log('done!');
+  }).catch((err) => {
+    console.log(err);
+  })
 }
 
 // Registering all Cron Jobs
@@ -33,10 +32,4 @@ if (nodeEnv !== "production") {
     const time = now.toLocaleTimeString("en-US", { hour12: true });
     console.log(`*New connection: [${time}]`);
   });
-}
-
-const TestJob = require(base('app/jobs/Test'));
-
-for(let i = 1; i < 11; i++){
- new TestJob(i).exec(2000);
 }

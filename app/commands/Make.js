@@ -1,4 +1,5 @@
 const Command = require(base("illuminate/commands/Command"));
+const DB = require(base("illuminate/utils/DB"));
 const User = require(base("app/models/User"));
 const componentPaths = require(base("register/componentPaths"));
 const fs = require("fs");
@@ -6,7 +7,7 @@ const path = require("path");
 
 class Make extends Command {
   admin = async (name, email, password) => {
-    await this.connect();
+    await DB.connect();
     const user = await User.create({
       name,
       email,

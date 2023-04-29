@@ -1,4 +1,5 @@
 const commands = require(base('register/commands'));
+const ArtisanError = require(base("app/exceptions/ArtisanError"));
 
 class Artisan {
   static call = (input) => {
@@ -15,7 +16,7 @@ class Artisan {
       const [commandKey, subComand] = params[0].split(':');
       const CommandClass = require(base(commands.nested[commandKey]));
       if (!isClass(CommandClass)) {
-        throw new Error('Command not found!');
+        new ArtisanError().throw('COMMAND_NOT_FOUND');
       }
       var command =
         new CommandClass(undefined, fromShell, flags)[subComand] ||
@@ -23,12 +24,12 @@ class Artisan {
     } else {
       const CommandClass = require(base(commands.invoked[params[0]]));
       if (!isClass(CommandClass)) {
-        throw new Error('Command not found!');
+        new ArtisanError().throw('COMMAND_NOT_FOUND');
       }
       var command = new CommandClass(undefined, fromShell, flags).handle;
     }
     if (command.length !== params.length - 1) {
-      throw new Error('Number of Argument is Invalid!');
+      new ArtisanError().throw('INVALID_ARG_COUNT');
     }
     return command.bind(...params);
   }

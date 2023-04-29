@@ -26,16 +26,6 @@ class Command {
       process.exit(0);
     }
   }
-  
-  connect = async () => {
-    const connection = require(base('main/connection'));
-    try{
-      await connection;
-    }
-    catch (err){
-      console.error(err);
-    }
-  }
 }
 
 module.exports = Command;
