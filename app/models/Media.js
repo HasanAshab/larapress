@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { unlink } = require('fs');
+const Timestamps = require(base("app/traits/Timestamps"));
 
 const MediaSchema = new mongoose.Schema({
   name: String,
@@ -8,11 +9,9 @@ const MediaSchema = new mongoose.Schema({
   mimetype: String,
   path: String,
   link: String,
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-  },
 });
+
+MediaSchema.plugin(Timestamps)
 
 MediaSchema.pre(['remove', 'deleteOne', 'findOneAndDelete', 'deleteMany'], function(next) {
   if (process.env.NODE_ENV !== "test") {

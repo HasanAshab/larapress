@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
 const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
+const Timestamps = require(base("app/traits/Timestamps"));
 
 const TokenSchema = new mongoose.Schema({
   userId: {
@@ -9,11 +10,9 @@ const TokenSchema = new mongoose.Schema({
   },
   token: String,
   for: String,
-  createdAt: {
-    type: Date,
-    default: Date.now()
-  },
 });
+
+TokenSchema.plugin(Timestamps);
 
 TokenSchema.pre('save', async function(next) {
   if (!this.isModified("token")) {

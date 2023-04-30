@@ -9,7 +9,8 @@ const Controller = require(base('illuminate/controllers/Controller'));
 class AuthController extends Controller{
   
   async t(req, res){
-    res.json(req.files.file)
+    //res.json(req.files.file)
+    res.json('ok')
   }
 
   

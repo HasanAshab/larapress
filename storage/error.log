@@ -1,0 +1,154 @@
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: this.rules is not iterable
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:22:28)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: this.rules is not iterable
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:22:28)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot convert undefined or null to object
+    at Function.entries (<anonymous>)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:22:43)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: rules is not iterable
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:50:34)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: ReferenceError: object is not defined
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:50:41)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'fieldName')
+    at requiredValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:8:22)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:53:9)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'files')
+    at requiredValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:8:22)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:53:9)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'fieldName')
+    at requiredValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:8:22)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:53:9)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'fieldName')
+    at requiredValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:8:22)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:54:9)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file1 field is required!
+    at FileValidator.requiredValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:9:13)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:49:33)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file2 field is required!
+    at FileValidator.requiredValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:9:13)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:49:33)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+

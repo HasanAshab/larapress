@@ -1,9 +1,8 @@
-module.exports = schema => {
-  schema.statics.example = function() {
-    //
-  }
-  
-  schema.methods.example = function() {
-    //
-  }
-}
+module.exports = (schema) => {
+  schema.add({
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
+  });
+};
