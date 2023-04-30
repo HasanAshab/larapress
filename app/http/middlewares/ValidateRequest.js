@@ -1,5 +1,3 @@
-const FileValidator = require(base("illuminate/utils/FileValidator"));
-
 parseFiles = (req) => {
   const files = {};
   req.files.forEach((file) => {

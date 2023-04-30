@@ -152,3 +152,521 @@ Stack: Error: The file2 field is required!
     at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
 
 
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file1 field is required!
+    at FileValidator.requiredValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:8:13)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:58:33)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file1 field is required!
+    at FileValidator.requiredValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:8:13)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:59:33)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file1 field is required!
+    at FileValidator.requiredValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:8:13)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:59:33)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file2 field is required!
+    at FileValidator.requiredValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:8:13)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:59:33)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: ReferenceError: file is not defined
+    at FileValidator.maxValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:13:5)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:59:33)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file2 field is required!
+    at FileValidator.requiredValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:8:13)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:59:33)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file2 field is required!
+    at FileValidator.requiredValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:8:13)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:59:33)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file2 field is required!
+    at FileValidator.requiredValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:8:13)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:57:12)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file2 field is required!
+    at FileValidator.requiredValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:8:13)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:56:12)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file2 field is required!
+    at FileValidator.requiredValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:8:13)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:57:12)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: ReferenceError: fieldName is not defined
+    at FileValidator.maxValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:14:30)
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:53:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:65:16)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file file max size is 0.0002 MB!
+    at FileValidator.maxValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:14:13)
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:53:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:65:16)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file file max size is 0.0002 MB!
+    at FileValidator.maxValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:14:13)
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:53:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:65:16)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file file max size is 0.0002 MB!
+    at FileValidator.maxValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:14:13)
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:73:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:87:16)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'size')
+    at FileValidator.maxValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:13:19)
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:73:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:91:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'size')
+    at FileValidator.maxValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:16:19)
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:76:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:95:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'size')
+    at FileValidator.maxValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:18:19)
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:78:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:97:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'size')
+    at FileValidator.maxValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:18:19)
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:78:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:98:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'size')
+    at FileValidator.maxValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:18:19)
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:78:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:98:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'size')
+    at FileValidator.maxValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:18:19)
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:78:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:98:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: this[rule] is not a function
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:69:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:97:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: this[rule] is not a function
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:69:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:100:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: this[rule] is not a function
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:69:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:100:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: this[rule] is not a function
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:70:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:101:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: this[rule] is not a function
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:70:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:102:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: this[rule] is not a function
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:70:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:102:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file file min size is 0.0002 MB!
+    at FileValidator.minValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:28:13)
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:69:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:100:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file field min size is 0.0002 MB!
+    at FileValidator.minValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:28:13)
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:69:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:100:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file field min size is 0.0002 MB!
+    at FileValidator.minValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:28:13)
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:69:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:100:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'file')
+    at FileValidator.maxLengthValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:12:18)
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:69:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:100:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'file')
+    at FileValidator.maxLengthValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:12:18)
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:69:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:103:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: ReferenceError: maxFileCount is not defined
+    at FileValidator.removeUnnecessaryRules (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:87:64)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:98:10)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file field max file count should be 1
+    at FileValidator.removeUnnecessaryRules (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:86:17)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:98:10)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file field max file count should be 1
+    at FileValidator.removeUnnecessaryRules (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:86:17)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:98:10)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file field mimetype should be image/png!
+    at FileValidator.mimetypesValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:37:13)
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:72:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:104:16)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error: The file field mimetype should be image/png or image/peg!
+    at FileValidator.mimetypesValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:37:13)
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:72:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:104:16)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+
+/api/auth - POST - ::ffff:127.0.0.1
+Stack: Error
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/validations/t.js:10:17
+    at FileValidator.customValidator (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:46:5)
+    at FileValidator.fireValidatorFor (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:72:31)
+    at FileValidator.validate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/FileValidator.js:104:16)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:42:31
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+
+

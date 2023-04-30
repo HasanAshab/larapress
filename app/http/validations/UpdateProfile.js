@@ -1,4 +1,5 @@
 const Joi = require('joi'); 
+const FileValidator = require(base("illuminate/utils/FileValidator"));
 
 class UpdateProfile {
 
@@ -11,12 +12,7 @@ class UpdateProfile {
       })
     },
     multipart: {
-      profile: {
-        required: false,
-        mimetypes: ['image/jpeg', 'image/png'],
-        maxFiles: 1,
-        max: 1000*1000,
-      },
+      logo: new FileValidator().required().max(1000*1000).maxLength(1).mimetypes(['image/jpeg', 'image/png']),
     }
   }
 

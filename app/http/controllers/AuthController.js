@@ -170,6 +170,7 @@ class AuthController extends Controller{
   };
 
   async updateProfile(req, res){
+    //here
     const { name, email } = req.body;
     req.user.name = name;
     req.user.email = email;
