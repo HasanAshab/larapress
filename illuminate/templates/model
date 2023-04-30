@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Timestamps = require(base("app/traits/Timestamps"));
 const HasFactory = require(base("app/traits/HasFactory"));
 
 const {{name}}Schema = new mongoose.Schema({
@@ -8,6 +9,7 @@ const {{name}}Schema = new mongoose.Schema({
   },
 });
 
+{{name}}Schema.plugin(Timestamps);
 {{name}}Schema.plugin(HasFactory);
 
 module.exports = mongoose.model('{{name}}', {{name}}Schema);
