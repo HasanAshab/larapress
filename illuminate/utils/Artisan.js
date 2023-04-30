@@ -29,7 +29,7 @@ class Artisan {
       var command = new CommandClass(undefined, fromShell, flags).handle;
     }
     if (command.length !== params.length - 1) {
-      new ArtisanError().throw('INVALID_ARG_COUNT');
+      new ArtisanError().throw('INVALID_ARG_COUNT', command.length);
     }
     return command.bind(...params);
   }

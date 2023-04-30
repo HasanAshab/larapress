@@ -4,7 +4,7 @@ class Exception extends Error {
     this.name = this.constructor.name;
   }
 
-  throw(name){
+  throw(name, field){
     if (!this.errors.hasOwnProperty(name)) {
       throw new Error(`Error type '${name}' does not exist`);
     }
@@ -13,7 +13,9 @@ class Exception extends Error {
     error.name = this.constructor.name;
     error.type = name;
     for (const [key, value] of Object.entries(this.errors[name])) {
-      error[key] = value;
+      error[key] = (field && key === 'message')
+        ? value.replace(':', field)
+        : value;
     }
     throw error;
   };

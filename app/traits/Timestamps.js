@@ -5,4 +5,10 @@ module.exports = (schema) => {
       default: Date.now(),
     },
   });
+
+  schema.statics.whereDateBetween = async function (startDate, endDate) {
+    return await this.find({
+      date: { $gte: startDate, $lte: endDate },
+    });
+  };
 };
