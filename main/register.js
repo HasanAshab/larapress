@@ -14,7 +14,7 @@ const registerTasks = () => {
 const registerEvents = (app) => {
   for(const [event, listenerNames] of Object.entries(events)){
     for(const listenerName of listenerNames){
-      const listener = require(base(`app/listeners/${listenerName}`));
+      const listener = require(base(`app/listeners/${listenerName}`)).dispatch;
       app.on(event, listener);
     }
   }

@@ -1,12 +1,8 @@
-const Queueable = require(base('illuminate/queue/Queueable'));
-
-class ForgotPasswordMail extends Queueable {
+class ForgotPasswordMail {
   view = 'forgotPassword';
   subject = 'Reset Password';
-  shouldQueue = true;
-  
+
   constructor(data = {}){
-    super();
     this.data = data;
   }
 }

@@ -3,7 +3,7 @@ const crypto = require("crypto");
 const AuthenticationError = require(base('app/exceptions/AuthenticationError'));
 const VerificationMail = require(base("app/mails/VerificationMail"));
 const ForgotPasswordMail = require(base("app/mails/ForgotPasswordMail"));
-const PasswordChanged = require(base("app/mails/PasswordChanged"));
+const PasswordChangedMail = require(base("app/mails/PasswordChangedMail"));
 const Token = require(base("app/models/Token"));
 const frontendUrl = process.env.FRONTEND_URL;
 const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
@@ -66,7 +66,7 @@ module.exports = (schema) => {
     this.tokenVersion++;
     await this.save();
     resetToken.deleteOne().catch((err) => log(err));
-    this.notify(new PasswordChanged());
+    this.notify(new PasswordChangedMail());
   }
   
 };

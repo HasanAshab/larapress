@@ -4,12 +4,15 @@ const nodemailerMock = require("nodemailer-mock");
 const nodemailerHbs = require("nodemailer-express-handlebars");
 
 class Mail {
-  static to(email){
+  static to(email) {
     this.email = email;
     return this;
-  };
+  }
 
-  static setTransporter(data){
+  static setTransporter(data) {
+    if(typeof this.transporter !== 'undefined'){
+      return this;
+    }
     if (data) {
       this.transporter = nodemailer.createTransport(data);
     } else if (process.env.NODE_ENV !== "test") {
@@ -28,9 +31,9 @@ class Mail {
       });
     }
     return this;
-  };
+  }
 
-  static setTemplateEngine(){
+  static setTemplateEngine() {
     const hbs = handlebars.create({
       extname: ".handlebars",
       defaultLayout: "main",
@@ -46,9 +49,9 @@ class Mail {
         extName: ".handlebars",
       })
     );
-  };
+  }
 
-  static getRecipient(email){
+  static getRecipient(email) {
     return {
       from: `${process.env.MAIL_FROM_NAME} <${process.env.MAIL_FROM_ADDRESS}>`,
       to: email,
@@ -56,37 +59,41 @@ class Mail {
       template: this.mailable.view,
       context: this.mailable.data,
     };
-  };
-  
-  static after(miliseconds){
-    this.delay = miliseconds;
+  }
+
+  static delay(miliseconds) {
+    this.dispatchAfter = miliseconds;
     return this;
   }
-  
-  static async dispatch(mailable){
+
+  static async dispatch(mailable) {
     this.mailable = mailable;
     this.setTransporter();
     this.setTemplateEngine();
     if (Array.isArray(this.email)) {
-      for (email of this.email) {
+      for (let email of this.email) {
+        email = email instanceof Object ? email.email : email;
         await this.transporter.sendMail(this.getRecipient(email));
       }
     } else {
-      await this.transporter.sendMail(this.getRecipient(this.email));
+      const email = this.email instanceof Object ? this.email.email : this.email;
+      console.log(email);
+      await this.transporter.sendMail(this.getRecipient(email));
     }
     return true;
   }
 
-  static async send(mailable){
-    if(mailable.shouldQueue){
+  static async send(mailable) {
+    if (mailable.shouldQueue) {
       mailable.setQueue();
-      mailable.queue.process(job => this.dispatch(job.data));
-      return await mailable.queue.add(mailable, { delay: this.delay || 0 });
-    }
-    else{
+      mailable.queue.process((job) => this.dispatch(job.data));
+      return await mailable.queue.add(mailable, {
+        delay: this.dispatchAfter || 0,
+      });
+    } else {
       return await this.dispatch(mailable);
     }
-  };
+  }
 }
 
 module.exports = Mail;

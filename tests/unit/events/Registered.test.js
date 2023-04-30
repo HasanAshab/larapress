@@ -3,7 +3,7 @@ const app = require(base('main/app'));
 //connect();
 //resetDatabase();
 
-describe('{{name}}', () => {
+describe('events/Registered', () => {
   it('Should work', async () => {
     expect(true).toBe(true);
   });

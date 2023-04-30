@@ -29,6 +29,9 @@ module.exports = (requestName) => {
         });
       }
     }
+    parseFiles(req);
+
+    /*
     if (typeof multipart !== "undefined") {
       const contentType = req.headers["content-type"];
       if (!contentType || !contentType.startsWith("multipart/form-data")) {
@@ -46,7 +49,7 @@ module.exports = (requestName) => {
         });
       }
     }
-
+*/
     next();
   };
 };

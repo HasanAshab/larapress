@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const User = require(base("app/models/User"));
 const Token = require(base("app/models/Token"));
 const ForgotPasswordMail = require(base("app/mails/ForgotPasswordMail"));
-const PasswordChanged = require(base("app/mails/PasswordChanged"));
+const PasswordChangedMail = require(base("app/mails/PasswordChangedMail"));
 
 const Controller = require(base('illuminate/controllers/Controller'));
 
@@ -31,7 +31,7 @@ class AuthController extends Controller{
       await user.attachFile("logo", logo, true);
     }
     const token = user.createToken();
-    await user.sendVerificationEmail();
+    req.app.emit('Registered', user);
     res.status(201).json({
       success: true,
       message: "Verification email sent!",
@@ -157,7 +157,7 @@ class AuthController extends Controller{
     user.password = password;
     user.tokenVersion++;
     await user.save();
-    await user.notify(new PasswordChanged());
+    await user.notify(new PasswordChangedMail());
     return res.json({
       success: false,
       message: "Password changed successfully!",

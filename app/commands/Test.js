@@ -6,9 +6,8 @@ const Mail = require(base('illuminate/utils/Mail'));
 class Test extends Command {
   
   handle = async () => {
-    for(let i = 0; i < 3; i++){
-      Mail.to('foo@gmail.com').after(5000).send(new ForgotPassword({link:'blabla'}));
-    }
+    const users = 't1@gmail.com'
+    Mail.to(users).send(new ForgotPassword({link:'blabla'}));
     console.log('sending started..')
   }
 }
