@@ -28,6 +28,7 @@
     "node-cron": "^3.0.2",
     "nodemailer": "^6.9.1",
     "nodemailer-express-handlebars": "^6.1.0",
+    "redis": "^4.6.6",
     "supertest": "^6.3.3"
   },
   "devDependencies": {
