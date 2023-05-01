@@ -4,10 +4,8 @@ const ForgotPassword = require(base("app/mails/ForgotPasswordMail"));
 const DB = require(base("illuminate/utils/DB"));
 
 class Test extends Command {
-  handle = async () => {
-    await DB.connect()
-    const users = await User.whereDateBetween(Date, Date);
-    this.success(users)
+  handle(){
+    this.success(this.flags)
   };
 }
 

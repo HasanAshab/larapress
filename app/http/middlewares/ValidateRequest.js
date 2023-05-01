@@ -14,10 +14,17 @@ parseFiles = (req) => {
   req.files = files;
 };
 
-module.exports = (requestName) => {
-  const ValidationRule = require(base(`app/http/validations/${requestName}`));
-  const { urlencoded, multipart } = ValidationRule.schema;
+module.exports = () => {
   return (req, res, next) => {
+    const handlerName = req.route.stack[req.route.stack.length - 1].name;
+    const ValidationRuleName = capitalizeFirstLetter(handlerName);
+    try{
+      var ValidationRule = require(base(`app/http/validations/${ValidationRuleName}`));
+    }
+    catch{
+      return next();
+    }
+    const { urlencoded, multipart } = ValidationRule.schema;
     if (typeof urlencoded !== "undefined") {
       const { error } = urlencoded.rules.validate(req[urlencoded.target]);
       if (error) {

@@ -13,6 +13,10 @@ isClass = (target) => {
   return typeof target === 'function' && /^\s*class\s+/.test(target.toString());
 }
 
+capitalizeFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 url = (url_path) => {
   const domain = process.env.APP_DOMAIN;
   const port = process.env.APP_PORT;
@@ -51,9 +55,8 @@ storage = (storage_path) => {
 
 controller = (fileName) => {
   const Controller = require(base(`app/http/controllers/${fileName}`));
-  //const CatchAllMethodErrors = require(base('illuminate/utils/CatchAllMethodErrors'));
-  //CatchAllMethodErrors.wrapMethods(Controller);
-  return new Controller();
+  const controller = new Controller();
+  return controller;
 }
 
 middleware = (keys) => {

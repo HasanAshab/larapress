@@ -27,6 +27,7 @@ app.set('views', base('views'));
 // Registering global middlewares
 app.use(multer().any());
 app.use(middleware('response.wrap'));
+app.use(middleware('validate'));
 
 // Registering all event and listeners
 register.registerEvents(app);
