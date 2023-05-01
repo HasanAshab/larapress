@@ -1,9 +1,9 @@
 const Exception = require(base('illuminate/exceptions/Exception'));
 
 class CacheError extends Exception {
-  errors = {
-    INVALID_DRIVER:{
-      message: 'The : Driver is Not Available',
+  static errors = {
+    INVALID_DRIVER: {
+      message: 'The ":driver" Driver is Not Available',
       status: 500
     }
   }

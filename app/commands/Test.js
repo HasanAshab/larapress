@@ -2,13 +2,12 @@ const Command = require(base("illuminate/commands/Command"));
 const Cache = require(base("illuminate/utils/Cache"));
 const User = require(base("app/models/User"));
 const DB = require(base("illuminate/utils/DB"));
+const AuthenticationError = require(base('app/exceptions/AuthenticationError'));
 
 
 class Test extends Command {
   async handle(){
-    Cache.put('foo', 'data', 100)
-    const data = await Cache.driver('redis').get('foo');
-    console.log(data);
+    throw AuthenticationError.type('PASSWORD_SHOULD_DIFFERENT').create({ehe:'hee'});
   };
 }
 

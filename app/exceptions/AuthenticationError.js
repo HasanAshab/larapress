@@ -1,7 +1,7 @@
 const Exception = require(base('illuminate/exceptions/Exception'));
 
 class AuthenticationError extends Exception {
-  errors = {
+  static errors = {
     INVALID_OR_EXPIRED_TOKEN: {
       status: 401,
       message: 'Invalid or expired token!'

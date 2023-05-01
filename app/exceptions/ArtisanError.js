@@ -1,7 +1,7 @@
 const Exception = require(base('illuminate/exceptions/Exception'));
 
 class ArtisanError extends Exception {
-  errors = {
+  static errors = {
     COMMAND_NOT_FOUND:{
       status: 404,
       message: 'Command not found!',
@@ -9,7 +9,7 @@ class ArtisanError extends Exception {
     
     REQUIRED_PARAM_MISSING:{
       status: 400,
-      message: 'The ":" Param is Required!',
+      message: 'The ":param" Param is Required!',
     }
   }
 }

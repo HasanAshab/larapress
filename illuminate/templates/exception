@@ -1,7 +1,7 @@
 const Exception = require(base('illuminate/exceptions/Exception'));
 
 class {{name}} extends Exception {
-  errors = {
+  static errors = {
     //
   }
 }
