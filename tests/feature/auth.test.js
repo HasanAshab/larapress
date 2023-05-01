@@ -42,7 +42,7 @@ describe('Auth', () => {
     expect(sentMails[0].template).toBe('verification');
     */
   });
-/*
+
   it('should login a user', async () => {
     const response = await request
       .post('/api/auth/login')
@@ -155,6 +155,4 @@ describe('Auth', () => {
     expect(sentMails[0].to).toBe(user.email);
     expect(sentMails[0].template).toBe('passwordChanged');
   });
-  */
-
 });

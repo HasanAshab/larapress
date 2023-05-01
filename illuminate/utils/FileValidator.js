@@ -3,7 +3,7 @@ class FileValidator {
     this.rules = { required: false };
   }
 
-  static object(obj) {
+  static fields(obj) {
     this.object = obj;
     return this;
   }
@@ -77,7 +77,7 @@ class FileValidator {
     for (const [fieldName, { rules }] of Object.entries(this.object)) {
       if (!files[fieldName]) {
         if (rules.required) {
-          throw new Error(`The ${this.fieldName} field is required!`);
+          throw new Error(`The ${fieldName} field is required!`);
         }
         delete this.object[fieldName];
       } else {
@@ -112,7 +112,6 @@ class FileValidator {
 }
 
 FileValidator.addRules();
-
 module.exports = FileValidator;
 
 //curl -X POST -F 'file=@storage/test_files/image.png' http://127.0.0.1:8000/api/auth

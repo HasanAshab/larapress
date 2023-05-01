@@ -77,7 +77,6 @@ class Mail {
       }
     } else {
       const email = this.email instanceof Object ? this.email.email : this.email;
-      console.log(email);
       await this.transporter.sendMail(this.getRecipient(email));
     }
     return true;

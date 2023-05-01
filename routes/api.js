@@ -27,6 +27,4 @@ authRouter.route('/profile')
 // Endpoints for serving files
 router.get('/media/:id', middleware('validate:MediaServe'), MediaController.index);
 
-authRouter.post('/', middleware('validate:t'), AuthController.t);
-
 module.exports = router;

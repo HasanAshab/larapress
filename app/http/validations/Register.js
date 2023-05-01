@@ -13,9 +13,9 @@ class Register {
         password_confirmation: Joi.string().required().valid(Joi.ref('password')),
       })
     },
-    multipart: {
-      logo: new FileValidator().required().max(1000*1000).maxLength(1).mimetypes(['image/jpeg', 'image/png']),
-    }
+    multipart: FileValidator.fields({
+      logo: new FileValidator().max(1000*1000).maxLength(1).mimetypes(['image/jpeg', 'image/png']),
+    })
   }
 }
     

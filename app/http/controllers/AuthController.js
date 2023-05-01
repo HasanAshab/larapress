@@ -7,13 +7,6 @@ const PasswordChangedMail = require(base("app/mails/PasswordChangedMail"));
 const Controller = require(base('illuminate/controllers/Controller'));
 
 class AuthController extends Controller{
-  
-  async t(req, res){
-    //res.json(req.files.file)
-    res.json('ok')
-  }
-
-  
   async register(req, res){
     const { name, email, password } = req.body;
     const logo = req.files.logo;
@@ -170,14 +163,19 @@ class AuthController extends Controller{
   };
 
   async updateProfile(req, res){
-    //here
     const { name, email } = req.body;
-    req.user.name = name;
-    req.user.email = email;
-    req.user.emailVerified = false;
-    const result = await req.user.save();
+    const logo = req.files.logo;
+    const user = req.user;
+    user.name = name;
+    user.email = email;
+    user.emailVerified = false;
+    const result = await user.save();
+    if (logo) {
+      await user.removeFiles("logo");
+      await user.attachFile("logo", logo, true);
+    }
     if (result) {
-      await req.user.sendVerificationEmail();
+      await user.sendVerificationEmail();
       return res.json({
         success: true,
         message: "Verification email sent!",

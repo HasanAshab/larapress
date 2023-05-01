@@ -81,9 +81,4 @@ module.exports = schema => {
       mediableId: this._id,
     });
   }
-
-  schema.methods.removeFile = async function (_id) {
-    return await Media.deleteOne({_id});
-  }
-
 }
