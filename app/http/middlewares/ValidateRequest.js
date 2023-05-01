@@ -22,7 +22,6 @@ module.exports = (requestName) => {
       const { error } = urlencoded.rules.validate(req[urlencoded.target]);
       if (error) {
         return res.status(400).json({
-          success: false,
           message: error.details[0].message,
         });
       }
@@ -32,7 +31,6 @@ module.exports = (requestName) => {
       const contentType = req.headers["content-type"];
       if (!contentType || !contentType.startsWith("multipart/form-data")) {
         return res.status(400).json({
-          success: false,
           message: "Only multipart/form-data requests are allowed",
         });
       }
@@ -40,7 +38,6 @@ module.exports = (requestName) => {
       const error = multipart.validate(req.files);
       if (error) {
         return res.status(400).json({
-          success: false,
           message: error,
         });
       }

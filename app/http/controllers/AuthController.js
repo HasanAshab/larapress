@@ -1,10 +1,9 @@
+const Controller = require(base('illuminate/controllers/Controller'));
 const bcrypt = require("bcryptjs");
 const User = require(base("app/models/User"));
 const Token = require(base("app/models/Token"));
 const ForgotPasswordMail = require(base("app/mails/ForgotPasswordMail"));
 const PasswordChangedMail = require(base("app/mails/PasswordChangedMail"));
-
-const Controller = require(base('illuminate/controllers/Controller'));
 
 class AuthController extends Controller{
   async register(req, res){
@@ -12,7 +11,6 @@ class AuthController extends Controller{
     const logo = req.files.logo;
     if (await User.findOne({ email })) {
       return res.status(400).json({
-        success: false,
         message: "Email already exist!",
       });
     }
@@ -27,7 +25,6 @@ class AuthController extends Controller{
     const token = user.createToken();
     req.app.emit('Registered', user);
     res.status(201).json({
-      success: true,
       message: "Verification email sent!",
       token,
     });
@@ -43,14 +40,12 @@ class AuthController extends Controller{
       if (match) {
         const token = user.createToken();
         return res.json({
-          success: true,
           message: "Logged in successfully!",
           token,
         });
       }
     }
     res.status(401).json({
-      success: true,
       message: "Credentials not match!",
     });
   };
@@ -67,14 +62,12 @@ class AuthController extends Controller{
     );
     if (!verificationToken) {
       return res.status(401).json({
-        success: false,
         message: "Invalid or expired token!",
       });
     }
     const tokenMatch = await bcrypt.compare(token, verificationToken.token);
     if (!tokenMatch) {
       return res.status(401).json({
-        success: false,
         message: "Invalid or expired token!",
       });
     }
@@ -89,7 +82,6 @@ class AuthController extends Controller{
     );
     verificationToken.deleteOne().catch((err) => log(err));
     res.json({
-      success: true,
       message: "Email verified!",
     });
   };
@@ -97,7 +89,6 @@ class AuthController extends Controller{
   async resendEmailVerification(req, res){
     await req.user.sendVerificationEmail();
     return res.json({
-      success: true,
       message: "Verification email sent!",
     });
   };
@@ -111,7 +102,6 @@ class AuthController extends Controller{
       await user.sendResetPasswordEmail();
     }
     return res.json({
-      success: true,
       message: "Password reset email sent!",
     });
   };
@@ -122,12 +112,10 @@ class AuthController extends Controller{
     if (user) {
       await user.resetPassword(token, password)
       return res.json({
-        success: true,
         message: "Password reset successfully!",
       });
     }
     return res.status(404).json({
-      success: false,
       message: "User not found!",
     });
   };
@@ -138,13 +126,11 @@ class AuthController extends Controller{
     const oldPasswordMatch = await bcrypt.compare(old_password, user.password);
     if (!oldPasswordMatch) {
       return res.status(401).json({
-        success: false,
         message: "Incorrect password!",
       });
     }
     if (old_password === password) {
       return res.status(400).json({
-        success: false,
         message: "New password should not be same as old one!",
       });
     }
@@ -153,7 +139,6 @@ class AuthController extends Controller{
     await user.save();
     await user.notify(new PasswordChangedMail());
     return res.json({
-      success: false,
       message: "Password changed successfully!",
     });
   };
@@ -177,7 +162,6 @@ class AuthController extends Controller{
     if (result) {
       await user.sendVerificationEmail();
       return res.json({
-        success: true,
         message: "Verification email sent!",
       });
     }

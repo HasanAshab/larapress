@@ -1,11 +1,14 @@
-module.exports = (key = "data") => {
+module.exports = () => {
   return (req, res, next) => {
-    const original = res.json;
-    res.json = function (data) {
-      const wrappedData = {};
-      wrappedData[key] = data;
-      original.call(this, wrappedData);
+    const originalJson = res.json;
+    res.json = function (response) {
+      const { data, message } = response;
+      const success = res.statusCode >= 200 && res.statusCode < 300;
+      const wrappedData = (typeof data === 'undefined' && typeof message === 'undefined')
+        ?{ success, data:response }
+        :{ success, data, message };
+      originalJson.call(res, wrappedData);
     };
     next();
-  }
-}
+  };
+};

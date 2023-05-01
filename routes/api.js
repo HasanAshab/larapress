@@ -10,7 +10,7 @@ router.use('/auth', authRouter);
 
 // Endpoints to authenticate users
 authRouter.post('/register', middleware('validate:Register'), AuthController.register);
-authRouter.post('/login', AuthController.login);
+authRouter.post('/login', middleware('validate:Login'), AuthController.login);
 
 
 authRouter.get('/verify', middleware('validate:VerifyEmail'), AuthController.verifyEmail);
