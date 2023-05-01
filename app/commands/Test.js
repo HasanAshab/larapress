@@ -4,8 +4,10 @@ const ForgotPassword = require(base("app/mails/ForgotPasswordMail"));
 const DB = require(base("illuminate/utils/DB"));
 
 class Test extends Command {
+  ab = 12
   handle(){
-    this.success(this.flags)
+    console.log('dns')
+    this.success(this.ab)
   };
 }
 

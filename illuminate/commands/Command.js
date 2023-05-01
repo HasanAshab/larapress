@@ -1,12 +1,6 @@
 const ArtisanError = require(base("app/exceptions/ArtisanError"));
 
 class Command {
-  constructor(subCommand, fromShell = true, flags = {}) {
-    this.subCommand = subCommand;
-    this.fromShell = fromShell;
-    this.flags = flags;
-  }
-  
   hasFlag(name){
     return this.flags[name] !== undefined 
   }

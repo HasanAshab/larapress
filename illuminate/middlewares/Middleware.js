@@ -1,6 +1,6 @@
 const { passErrorsToHandler } = require(base('illuminate/foundation'));
 
-class Controller {
+class Middleware {
   constructor() {
     const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(this));
     for (const method of methods) {
@@ -11,4 +11,4 @@ class Controller {
   }
 }
 
-module.exports = Controller;
+module.exports = Middleware;

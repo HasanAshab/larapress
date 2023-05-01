@@ -3,3 +3,11 @@ module.exports = () => {
     next();
   }
 }
+
+class {{name}} extends Middleware {
+  handle(req, res, next) => {
+    next();
+  }
+}
+
+module.exports = {{name}};

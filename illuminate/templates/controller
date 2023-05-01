@@ -1,7 +1,7 @@
 const User = require(base('app/models/User'));
 
 class {{name}} {
-  async index(req, res){
+  index = async (req, res) => {
     //
   }
 }

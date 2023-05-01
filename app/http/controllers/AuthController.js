@@ -6,7 +6,7 @@ const ForgotPasswordMail = require(base("app/mails/ForgotPasswordMail"));
 const PasswordChangedMail = require(base("app/mails/PasswordChangedMail"));
 
 class AuthController extends Controller{
-  register = (req, res) => {
+  register = async (req, res) => {
     const { name, email, password } = req.body;
     const logo = req.files.logo;
     if (await User.findOne({ email })) {
@@ -30,7 +30,7 @@ class AuthController extends Controller{
     });
   };
 
-  login = (req, res) => {
+  login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({
       email,
@@ -50,7 +50,7 @@ class AuthController extends Controller{
     });
   };
 
-  verifyEmail = (req, res) => {
+  verifyEmail = async (req, res) => {
     const { id, token } = req.query;
     const verificationToken = await Token.findOne(
       {
@@ -86,14 +86,14 @@ class AuthController extends Controller{
     });
   };
 
-  resendEmailVerification = (req, res) => {
+  resendEmailVerification = async (req, res) => {
     await req.user.sendVerificationEmail();
     return res.json({
       message: "Verification email sent!",
     });
   };
 
-  forgotPassword = (req, res) => {
+  forgotPassword = async (req, res) => {
     const email = req.body.email;
     const user = await User.findOne({
       email,
@@ -106,7 +106,7 @@ class AuthController extends Controller{
     });
   };
 
-  resetPassword = (req, res) => {
+  resetPassword = async (req, res) => {
     const { id, token, password } = req.body;
     const user = await User.findById(id);
     if (user) {
@@ -120,7 +120,7 @@ class AuthController extends Controller{
     });
   };
 
-  changePassword = (req, res) => {
+  changePassword = async (req, res) => {
     const user = req.user;
     const { old_password, password } = req.body;
     const oldPasswordMatch = await bcrypt.compare(old_password, user.password);
@@ -143,11 +143,11 @@ class AuthController extends Controller{
     });
   };
 
-  profile = (req, res) => {
+  profile = async (req, res) => {
     res.json(req.user);
   };
 
-  updateProfile = (req, res) => {
+  updateProfile = async (req, res) => {
     const { name, email } = req.body;
     const logo = req.files.logo;
     const user = req.user;

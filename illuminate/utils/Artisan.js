@@ -1,49 +1,43 @@
-const commands = require(base('register/commands'));
+const commands = require(base("register/commands"));
 const ArtisanError = require(base("app/exceptions/ArtisanError"));
 
 class Artisan {
-  static call(input){
-    return this.getCommand(input, false)();
-  }
-
-  static getCommand(args, fromShell = true){
-    const { params, flags } = this.parseArgs(args);
-
-    if (!Array.isArray(params)) {
-      params = params.split(' ');
-    }
-    if (params[0].includes(':')) {
-      const [commandKey, subComand] = params[0].split(':');
-      const CommandClass = require(base(commands.nested[commandKey]));
+  static call(args, fromShell = true) {
+    const baseInput = args[0];
+    const { params, flags } = this.parseArgs(args.splice(1));
+    if (baseInput.includes(":")) {
+      var [commandKey, subComand] = baseInput.split(":");
+      var CommandClass = require(base(commands.nested[commandKey]));
       if (!isClass(CommandClass)) {
-        new ArtisanError().throw('COMMAND_NOT_FOUND');
+        new ArtisanError().throw("COMMAND_NOT_FOUND");
       }
-      var command =
-        new CommandClass(undefined, fromShell, flags)[subComand] ||
-        new CommandClass(subComand, fromShell, flags).handle;
     } else {
-      const CommandClass = require(base(commands.invoked[params[0]]));
+      var CommandClass = require(base(commands.invoked[baseInput]));
       if (!isClass(CommandClass)) {
-        new ArtisanError().throw('COMMAND_NOT_FOUND');
+        new ArtisanError().throw("COMMAND_NOT_FOUND");
       }
-      var command = new CommandClass(undefined, fromShell, flags).handle;
     }
-    if (command.length !== params.length - 1) {
-      new ArtisanError().throw('INVALID_ARG_COUNT', command.length);
+    var commandClass = new CommandClass();
+    commandClass.subComand = subComand;
+    commandClass.fromShell = fromShell;
+    commandClass.flags = flags;
+    commandClass.params = params;
+    if (commandClass[subComand]) {
+      return commandClass[subComand]();
+    } else {
+      return commandClass.handle();
     }
-    return command.bind(...params);
   }
-  
-  static parseArgs(args){
-    const flags = {};
-    const params = [];
+
+  static parseArgs(args) {
+    const flags = [];
+    const params = {};
     args.forEach((arg, index) => {
-      if(arg.startsWith('--')){
-        const [key, value] = arg.replace('--', '').split('=');
-        flags[key] = value ? value : true;
-      }
-      else{
-        params.push(arg);
+      if (arg.startsWith("--")) {
+        flags.push(arg.replace("--", ""));
+      } else if (arg.includes("=")) {
+        const [key, value] = arg.split("=");
+        params[key] = value;
       }
     });
     return { params, flags };

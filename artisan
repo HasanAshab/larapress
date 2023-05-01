@@ -5,7 +5,7 @@ const args = process.argv;
 const Artisan = require(base('illuminate/utils/Artisan'));
 
 try {
-  Artisan.getCommand(args.splice(2))();
+  Artisan.call(args.splice(2));
 } 
 catch (err) {
   console.log(err);
