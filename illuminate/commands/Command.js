@@ -1,10 +1,9 @@
 const ArtisanError = require(base("app/exceptions/ArtisanError"));
 
 class Command {
-  
   requiredParams(requiredParamsName){
     for(const name of requiredParamsName){
-      if(typeof this.params[name] !== 'undefined'){
+      if(typeof this.params[name] === 'undefined'){
         new ArtisanError().throw('REQUIRED_PARAM_MISSING', name);
       }
     }

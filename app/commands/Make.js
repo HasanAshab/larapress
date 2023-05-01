@@ -6,9 +6,9 @@ const fs = require("fs");
 const path = require("path");
 
 class Make extends Command {
-  admin = async () => {
-    this.requiredFlags(['name', 'email', 'password']);
-    const { name, email, password } = this.flags;
+  async admin(){
+    this.requiredParams(['name', 'email', 'password']);
+    const { name, email, password } = this.params;
     await DB.connect();
     const user = await User.create({
       name,
@@ -20,7 +20,9 @@ class Make extends Command {
     this.success("Admin account created successfully!");
   };
 
-  handle = (name) => {
+  handle(){
+    this.requiredParams(['name']);
+    const name = this.params.name;
     try {
       var template = this._getTemplate(name);
       var content = template.replace(/{{name}}/g, name);
@@ -43,15 +45,15 @@ class Make extends Command {
   };
 
   _getTemplate(name){
-    const path = this.hasFlag("type")
-      ? base(`illuminate/templates/${this.subCommand}/${this.flags.type}`)
+    const path = this.params.type
+      ? base(`illuminate/templates/${this.subCommand}/${this.params.type}`)
       : base(`illuminate/templates/${this.subCommand}`);
     return fs.readFileSync(path, "utf-8");
   };
 
   _getPath(componentName, name){
-    const pathSchema = this.hasFlag("type")
-      ? componentPaths[componentName][this.flags.type]
+    const pathSchema = this.params.type
+      ? componentPaths[componentName][this.params.type]
       : componentPaths[componentName];
     const componentPath = pathSchema.replace("{{name}}", name);
     this._loadDir(path.dirname(componentPath));

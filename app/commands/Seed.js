@@ -4,12 +4,13 @@ const DB = require(base("illuminate/utils/DB"));
 
 class Seed extends Command {
   handle = async () => {
-    await DB.connect()
-    this.requiredFlags(['count']);
+    this.requiredParams(['model', 'count']);
+    await DB.connect();
+    const { model, count } = this.params;
     try{
-      const Model = require(base(`app/models/${this.subCommand}`));
+      const Model = require(base(`app/models/${model}`));
       this.alert('Seeding started...');
-      await Model.factory(this.flags.count).create()
+      await Model.factory(count).create()
       this.success('Seeded successfully!');
     }
     catch{

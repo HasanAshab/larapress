@@ -1,12 +1,12 @@
 {
   "invoked": {
-    "test": "app/commands/Test"
+    "test": "app/commands/Test",
+    "secret": "app/commands/GenerateSecret",
+    "seed": "app/commands/Seed"
   },
   
   "nested": {
     "make": "app/commands/Make",
-    "secret": "app/commands/GenerateSecret",
-    "clear": "app/commands/Clear",
-    "seed": "app/commands/Seed"
+    "clear": "app/commands/Clear"
   }
 }

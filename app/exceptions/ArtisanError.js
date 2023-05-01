@@ -7,14 +7,9 @@ class ArtisanError extends Exception {
       message: 'Command not found!',
     },
     
-    INVALID_ARG_COUNT:{
+    REQUIRED_PARAM_MISSING:{
       status: 400,
-      message: 'Number of Arguments Should be :',
-    },
-    
-    REQUIRED_FLAG_MISSING:{
-      status: 400,
-      message: 'The ":" Flag is Required!',
+      message: 'The ":" Param is Required!',
     }
   }
 }

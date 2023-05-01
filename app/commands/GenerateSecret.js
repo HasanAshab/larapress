@@ -1,10 +1,11 @@
-const Command = require(base("illuminate/commands/Command");
+const Command = require(base("illuminate/commands/Command"));
 const crypto = require('crypto');
 const { setEnv } = require(base('helpers'));
 
 class GenerateSecret extends Command {
   handle = () => {
-    const key = this.subCommand.toUpperCase() + "_SECRET";
+    this.requiredParams(['for']);
+    const key = this.params.for.toUpperCase() + "_SECRET";
     const secret = crypto.randomBytes(32).toString("hex");
     let obj = {};
     obj[key] = secret;
