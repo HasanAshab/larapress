@@ -1,43 +1,29 @@
-const jwt = require('jsonwebtoken');
-const User = require(base('app/models/User'));
+const jwt = require("jsonwebtoken");
+const User = require(base("app/models/User"));
+const AuthenticationError = require(base("app/exceptions/AuthenticationError"));
 
-module.exports = (driver = 'web') => {
-  const redirectTo = '/login';
+module.exports = () => {
   return async (req, res, next) => {
     try {
-      let user = null;
-      if (driver === 'web') {
-        const userId = req.session.userId;
-        if (userId) {
-          user = await User.findById(userId);
-        }
-      } else if (driver === 'api') {
-        const authHeader = req.headers.authorization;
-        if (authHeader) {
-          const token = authHeader.split(' ')[1];
-          if (token) {
+      const authHeader = req.headers.authorization;
+      if (authHeader) {
+        const token = authHeader.split(" ")[1];
+        if (token) {
+          try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             user = await User.findById(decoded.userId);
-            if (user.tokenVersion !== decoded.version) {
-              user = null;
+            if (user.tokenVersion === decoded.version) {
+              req.user = user;
+              return next();
             }
+          } catch {
+            new AuthenticationError().throw("INVALID_OR_EXPIRED_TOKEN");
           }
         }
       }
-
-      if (user) {
-        req.user = user;
-        return next();
-      }
-
-      return (driver === 'api')
-      ? res.status(401).json({
-        success: false,
-        message: 'Invalid token!'
-      }): res.redirect(redirectTo);
+      new AuthenticationError().throw("INVALID_OR_EXPIRED_TOKEN");
+    } catch (err) {
+      next(err);
     }
-    catch(err) {
-      next(err)
-    }
-  }
-}
+  };
+};
