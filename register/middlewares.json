@@ -1,4 +1,5 @@
 {
+  "test": "/app/http/middlewares/Test",
   "auth": "/app/http/middlewares/Authenticate",
   "verified": [
     "/app/http/middlewares/Authenticate",

@@ -60,7 +60,11 @@ controller = (fileName) => {
 }
 
 middleware = (keys) => {
-  if (keys instanceof Array) {
+  getMiddleware = (middlewarePath, options) => {
+    const MiddlewareClass = require(path.join(__dirname, middlewarePath));
+    return new MiddlewareClass(options).handle;
+  }
+  if (Array.isArray(keys)) {
     const middlewares = [];
     for (const key of keys) {
       const [name, params] = key.split(':');
@@ -70,19 +74,13 @@ middleware = (keys) => {
           ? params.split('|')
           : undefined;
         for (let i = 0; i < middlewarePaths.length; i++){
-          const middleware = require(path.join(__dirname, middlewarePaths[i]));
-          const pureMiddleware = funcBasedParams && typeof funcBasedParams[i] !== 'undefined'
-            ? middleware(...funcBasedParams[i].split(','))
-            : middleware();
-          middlewares.push(pureMiddleware);
+          const middleware = getMiddleware(middlewarePaths[i], funcBasedParams[i] && funcBasedParams[i].split(','));
+          middlewares.push(middleware);
         }
       }
       else {
-        const middleware = require(path.join(__dirname, middlewarePaths));
-        const pureMiddleware = params
-          ? middleware(...params.split(','))
-          : middleware();
-        middlewares.push(pureMiddleware);
+        const middleware = getMiddleware(middlewarePaths, params && params.split(','));
+        middlewares.push(middleware);
       }
     }
     return middlewares;
@@ -95,18 +93,12 @@ middleware = (keys) => {
           ? params.split('|')
           : undefined;
     for (let i = 0; i < middlewarePaths.length; i++){
-      const middleware = require(path.join(__dirname, middlewarePaths[i]));
-      const pureMiddleware = funcBasedParams && typeof funcBasedParams[i] !== 'undefined'
-        ? middleware(...funcBasedParams[i].split(','))
-        : middleware();
-      middlewares.push(pureMiddleware);
+      const middleware = getMiddleware(middlewarePaths[i], funcBasedParams[i] && funcBasedParams[i].split(','));
+      middlewares.push(middleware);
     }
     return middlewares;
   }
-  const middleware = require(path.join(__dirname, middlewarePaths));
-  return params
-    ? middleware(...params.split(','))
-    : middleware();
+  return getMiddleware(middlewarePaths, params && params.split(','));
 }
 
 setEnv = (envValues) => {

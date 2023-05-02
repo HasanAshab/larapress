@@ -1,11 +1,7 @@
-module.exports = () => {
-  return (req, res, next) => {
-    next();
-  }
-}
+const Middleware = require(base('illuminate/middlewares/Middleware'));
 
 class {{name}} extends Middleware {
-  handle(req, res, next) => {
+  handle(req, res, next){
     next();
   }
 }
