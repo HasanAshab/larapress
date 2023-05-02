@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const AuthController = controller('AuthController');
 
+
+router.get('/', AuthController.t);
+
 // Endpoints to authenticate users
 router.post('/register', AuthController.register);
 router.post('/login', AuthController.login);

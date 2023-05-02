@@ -6,6 +6,12 @@ const ForgotPasswordMail = require(base("app/mails/ForgotPasswordMail"));
 const PasswordChangedMail = require(base("app/mails/PasswordChangedMail"));
 
 class AuthController extends Controller{
+  t(req, res){
+    const resp = {ja:"shsj"}
+    res.status(200).json(resp)
+  }
+  
+  //@TODO arrow func 
   register = async (req, res) => {
     const { name, email, password } = req.body;
     const logo = req.files.logo;

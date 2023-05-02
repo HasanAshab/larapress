@@ -13,6 +13,10 @@ isClass = (target) => {
   return typeof target === 'function' && /^\s*class\s+/.test(target.toString());
 }
 
+isObject = (value) => {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
 capitalizeFirstLetter = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }

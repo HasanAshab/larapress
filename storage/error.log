@@ -335,3 +335,45 @@ Stack: TypeError: (intermediate value).throw is not a function
     at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
 
 
+/api/auth/verify/resend - POST - ::ffff:127.0.0.1
+Stack: TypeError: (intermediate value).throw is not a function
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/Authenticate.js:20:42)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/foundation.js:13:9
+
+
+/api/auth/profile - GET - ::ffff:127.0.0.1
+Stack: TypeError: (intermediate value).throw is not a function
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/Authenticate.js:20:42)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/foundation.js:13:9
+
+
+/api/auth/profile - PUT - ::ffff:127.0.0.1
+Stack: TypeError: (intermediate value).throw is not a function
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/Authenticate.js:20:42)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/foundation.js:13:9
+
+
+/api/auth/password/change - PUT - ::ffff:127.0.0.1
+Stack: TypeError: (intermediate value).throw is not a function
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/Authenticate.js:20:42)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/foundation.js:13:9
+
+
+/api/auth - GET - ::ffff:127.0.0.1
+Stack: TypeError: Cannot set properties of undefined (setting 'a')
+    at res.json (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/WrapResponse.js:24:33)
+    at t (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:14:21)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/foundation.js:13:15
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:9:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/foundation.js:13:15
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+
+

@@ -7,7 +7,7 @@ const passErrorsToHandler = (fn) => {
         next(err);
       }
     };
-  } else if (fn.length === 3) {
+  }
     return async function (req, res, next) {
       try {
         await fn(req, res, next);
@@ -15,7 +15,7 @@ const passErrorsToHandler = (fn) => {
         next(err);
       }
     };
-  }
+  /*  
   return async function (...args) {
     try {
       await fn(...args);
@@ -23,6 +23,7 @@ const passErrorsToHandler = (fn) => {
       args[fn.length - 1](err);
     }
   };
+  */
 };
 
 module.exports = {
