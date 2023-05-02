@@ -251,3 +251,87 @@ Stack: Error
     at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
 
 
+/api/auth/profile - GET - ::ffff:127.0.0.1
+Stack: TypeError: (intermediate value).throw is not a function
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/Authenticate.js:24:36)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/foundation.js:13:15
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
+
+
+/api/auth/profile - GET - ::ffff:127.0.0.1
+Stack: TypeError: (intermediate value).throw is not a function
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/Authenticate.js:24:36)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/foundation.js:13:15
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
+
+
+/api/auth/profile - GET - ::ffff:127.0.0.1
+Stack: TypeError: (intermediate value).throw is not a function
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/Authenticate.js:24:36)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/foundation.js:13:15
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
+
+
+/api/auth/profile - GET - ::ffff:127.0.0.1
+Stack: TypeError: (intermediate value).throw is not a function
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/Authenticate.js:24:36)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/foundation.js:13:15
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
+
+
+/api/auth/profile - PUT - ::ffff:127.0.0.1
+Stack: TypeError: (intermediate value).throw is not a function
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/Authenticate.js:24:36)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/foundation.js:13:15
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:140:7)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:140:7)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+
+/api/auth/profile - PUT - ::ffff:127.0.0.1
+Stack: TypeError: (intermediate value).throw is not a function
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/Authenticate.js:24:36)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/foundation.js:13:15
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:140:7)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:140:7)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+
+

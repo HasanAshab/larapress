@@ -24,6 +24,11 @@ class Make extends Command {
     this.requiredParams(["name", "prefix"]);
     this.handle();
   }
+  
+  async router() {
+    this.requiredParams(["name", "prefix"]);
+    this.handle();
+  }
 
   handle() {
     this.requiredParams(["name"]);

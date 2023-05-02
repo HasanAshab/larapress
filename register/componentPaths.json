@@ -13,5 +13,6 @@
   "test": {
     "feature": "tests/feature/{{name}}.test.js",
     "unit": "tests/unit/{{name}}.test.js"
-  }
+  },
+  "router": "routes/{{prefix}}/{{name}}.js"
 }
