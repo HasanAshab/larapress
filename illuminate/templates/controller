@@ -2,7 +2,7 @@ const Controller = require(base('illuminate/controllers/Controller'));
 const User = require(base('app/models/User'));
 
 class {{name}} extends Controller {
-  index = async (req, res) => {
+  async index(req, res){
     //
   }
 }

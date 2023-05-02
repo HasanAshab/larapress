@@ -11,9 +11,7 @@ class ErrorHandler extends Middleware{
       ?res.status(status).json({
         message: 'Internal server error!' 
       })
-      :res.status(status).json({
-        message: message
-      });
+      :res.status(status).json({message});
   };
 }
 

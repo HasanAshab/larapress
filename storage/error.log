@@ -237,3 +237,17 @@ Stack: TypeError: Cannot read properties of undefined (reading 'schema')
     at router (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:47:12)
 
 
+/api/auth/login - POST - ::ffff:127.0.0.1
+Stack: Error
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/AuthController.js:35:11)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/foundation.js:13:15
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.js:9:14)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/foundation.js:13:15
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+
+

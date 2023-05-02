@@ -12,7 +12,6 @@ class Controller {
   }
   
   _insertValidator(fn){
-    console.log(fn.toString())
     const controllerPrefix = this.constructor.name.replace('Controller', '');
     const validationSubPath = `${controllerPrefix}/${capitalizeFirstLetter(fn.name)}`;
     return [

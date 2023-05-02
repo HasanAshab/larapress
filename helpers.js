@@ -55,8 +55,7 @@ storage = (storage_path) => {
 
 controller = (fileName) => {
   const Controller = require(base(`app/http/controllers/${fileName}`));
-  const controller = new Controller();
-  return controller;
+  return new Controller();
 }
 
 middleware = (keys) => {

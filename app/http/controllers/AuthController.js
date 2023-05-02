@@ -31,12 +31,8 @@ class AuthController extends Controller{
   };
 
   async login(req, res, next){
-    // Error handler not firing
-    //throw new Error
     const { email, password } = req.body;
-    const user = await User.findOne({
-      email,
-    });
+    const user = await User.findOne({email});
     if (user) {
       const match = await bcrypt.compare(password, user.password);
       if (match) {
