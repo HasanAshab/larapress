@@ -4,7 +4,9 @@ const authRouter = express.Router();
 const AuthController = controller('AuthController');
 const MediaController = controller('MediaController');
 
-router.use(middleware('limit:60'));
+console.log(AuthController.login)
+
+//router.use(middleware('limit:60'));
 router.use('/auth', authRouter);
 
 

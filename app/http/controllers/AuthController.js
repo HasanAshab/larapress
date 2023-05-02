@@ -30,7 +30,7 @@ class AuthController extends Controller{
     });
   };
 
-  login = async (req, res) => {
+  async login(req, res){
     const { email, password } = req.body;
     const user = await User.findOne({
       email,

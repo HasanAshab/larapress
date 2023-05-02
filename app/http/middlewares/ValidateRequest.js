@@ -1,27 +1,11 @@
-parseFiles = (req) => {
-  const files = {};
-  req.files.forEach((file) => {
-    if (files[file.fieldname]) {
-      if (Array.isArray(files[file.fieldname])) {
-        files[file.fieldname].push(file);
-      } else {
-        files[file.fieldname] = [files[file.fieldname], file];
-      }
-    } else {
-      files[file.fieldname] = file;
-    }
-  });
-  req.files = files;
-};
+const Middleware = require(base("illuminate/middlewares/Middleware"));
+const path = require('path');
 
-module.exports = () => {
-  return (req, res, next) => {
-    const handlerName = req.route.stack[req.route.stack.length - 1].name;
-    const ValidationRuleName = capitalizeFirstLetter(handlerName);
-    try{
-      var ValidationRule = require(base(`app/http/validations/${ValidationRuleName}`));
-    }
-    catch{
+class ValidateRequest extends Middleware {
+  handle(req, res, next) {
+    try {
+      var ValidationRule = require(base(path.join('app/http/validations/', this.options[0])));
+    } catch {
       return next();
     }
     const { urlencoded, multipart } = ValidationRule.schema;
@@ -41,7 +25,7 @@ module.exports = () => {
           message: "Only multipart/form-data requests are allowed",
         });
       }
-      parseFiles(req);
+      this._parseFiles(req);
       const error = multipart.validate(req.files);
       if (error) {
         return res.status(400).json({
@@ -50,5 +34,23 @@ module.exports = () => {
       }
     }
     next();
-  };
-};
+  }
+
+  _parseFiles(req) {
+    const files = {};
+    req.files.forEach((file) => {
+      if (files[file.fieldname]) {
+        if (Array.isArray(files[file.fieldname])) {
+          files[file.fieldname].push(file);
+        } else {
+          files[file.fieldname] = [files[file.fieldname], file];
+        }
+      } else {
+        files[file.fieldname] = file;
+      }
+    });
+    req.files = files;
+  }
+}
+
+module.exports = ValidateRequest;

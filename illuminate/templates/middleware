@@ -1,7 +1,7 @@
 const Middleware = require(base('illuminate/middlewares/Middleware'));
 
 class {{name}} extends Middleware {
-  handle(req, res, next){
+  async handle(req, res, next){
     next();
   }
 }

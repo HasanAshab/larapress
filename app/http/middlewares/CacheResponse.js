@@ -1,7 +1,8 @@
+const Middleware = require(base('illuminate/middlewares/Middleware'));
 const Cache = require(base("illuminate/utils/Cache"));
 
-module.exports = (expiryTime = 2 * 60 * 1000) => {
-  return (req, res, next) => {
+class CacheResponse extends Middleware {
+ handle(req, res, next){
     const key = '__route__' + req.originalUrl || req.url;
     const cachedBody = Cache.get(key);
     if (cachedBody) {
@@ -10,10 +11,12 @@ module.exports = (expiryTime = 2 * 60 * 1000) => {
     else {
       res.sendResponse = res.json;
       res.json = (body) => {
-        Cache.put(key, body, expiryTime);
+        Cache.put(key, body, this.options[0]);
         res.sendResponse(body);
       };
       next();
     }
   }
 }
+
+module.exports = CacheResponse;

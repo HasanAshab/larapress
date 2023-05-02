@@ -1,18 +1,14 @@
-module.exports = () => {
-  return (req, res, next) => {
-    try {
-      if (req.user.emailVerified) {
-        return next();
-      }
+const Middleware = require(base("illuminate/middlewares/Middleware"));
 
-      return (req.get('Content-Type') === 'application/json')
-      ? res.status(401).json({
-        success: false,
-        message: 'Your have to verify your email to perfom this action!'
-      }): res.redirect(req.header('Referer') || '/')
+class EnsureEmailIsVerified extends Middleware {
+  handle(req, res, next) {
+    if (req.user.emailVerified) {
+      return next();
     }
-    catch(err) {
-      next(err)
-    }
+    return res.status(401).json({
+      message: "Your have to verify your email to perfom this action!",
+    });
   }
 }
+
+module.exports = EnsureEmailIsVerified;

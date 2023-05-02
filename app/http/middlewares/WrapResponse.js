@@ -1,5 +1,7 @@
-module.exports = () => {
-  return (req, res, next) => {
+const Middleware = require(base("illuminate/middlewares/Middleware"));
+
+class WrapResponse extends Middleware {
+  handle(req, res, next){
     const originalJson = res.json;
     res.json = function (response) {
       const { data, message } = response;
@@ -12,3 +14,5 @@ module.exports = () => {
     next();
   };
 };
+
+module.exports = WrapResponse;

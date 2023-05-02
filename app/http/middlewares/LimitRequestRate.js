@@ -1,8 +1,13 @@
-const RateLimit = require('express-rate-limit');
+const Middleware = require(base("illuminate/middlewares/Middleware"));
+const RateLimit = require("express-rate-limit");
 
-module.exports = (requestCount) => {
-  return RateLimit({
-    windowMs: 60 * 1000, // 1 min
-    max: requestCount
-  });
+class LimitRequestRate extends Middleware {
+  handle() {
+    return RateLimit({
+      windowMs: 60 * 1000, // 1 min
+      max: this.options[0],
+    });
+  }
 }
+
+module.exports = LimitRequestRate;
