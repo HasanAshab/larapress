@@ -6,8 +6,8 @@ const fs = require("fs");
 const path = require("path");
 
 class Make extends Command {
-  async admin(){
-    this.requiredParams(['name', 'email', 'password']);
+  async admin() {
+    this.requiredParams(["name", "email", "password"]);
     const { name, email, password } = this.params;
     await DB.connect();
     const user = await User.create({
@@ -18,10 +18,15 @@ class Make extends Command {
       emailVerified: true,
     });
     this.success("Admin account created successfully!");
-  };
+  }
 
-  handle(){
-    this.requiredParams(['name']);
+  async validation() {
+    this.requiredParams(["name", "prefix"]);
+    this.handle();
+  }
+
+  handle() {
+    this.requiredParams(["name"]);
     const name = this.params.name;
     try {
       var template = this._getTemplate(name);
@@ -36,29 +41,31 @@ class Make extends Command {
       this.error("Component already exist!");
     }
     this.success(`File created successfully: [${filepath}]`);
-  };
+  }
 
-  _loadDir(dir){
+  _loadDir(dir) {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);
     }
-  };
+  }
 
-  _getTemplate(name){
+  _getTemplate(name) {
     const path = this.params.type
       ? base(`illuminate/templates/${this.subCommand}/${this.params.type}`)
       : base(`illuminate/templates/${this.subCommand}`);
     return fs.readFileSync(path, "utf-8");
-  };
+  }
 
-  _getPath(componentName, name){
+  _getPath(componentName) {
     const pathSchema = this.params.type
       ? componentPaths[componentName][this.params.type]
       : componentPaths[componentName];
-    const componentPath = pathSchema.replace("{{name}}", name);
+    const componentPath = pathSchema.replace(/{{(\w+)}}/g, (match, key) => {
+      return this.params[key] || match;
+    });
     this._loadDir(path.dirname(componentPath));
     return componentPath;
-  };
+  }
 }
 
 module.exports = Make;
