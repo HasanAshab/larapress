@@ -52,15 +52,15 @@ module.exports = (schema) => {
       userId: this._id,
     });
     if (!resetToken) {
-      new AuthenticationError().throw('INVALID_OR_EXPIRED_TOKEN');
+      throw AuthenticationError.type('INVALID_OR_EXPIRED_TOKEN').create();
     }
     const tokenMatch = await bcrypt.compare(token, resetToken.token);
     if (!tokenMatch) {
-      new AuthenticationError().throw('INVALID_OR_EXPIRED_TOKEN');
+      throw AuthenticationError.type('INVALID_OR_EXPIRED_TOKEN').create();
     }
     const oldPasswordMatch = await bcrypt.compare(newPassword, this.password);
     if (oldPasswordMatch) {
-      new AuthenticationError().throw('PASSWORD_SHOULD_DIFFERENT');
+      throw AuthenticationError.type('PASSWORD_SHOULD_DIFFERENT').create();
     }
     this.password = newPassword;
     this.tokenVersion++;
