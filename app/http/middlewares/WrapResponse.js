@@ -7,15 +7,6 @@ class WrapResponse extends Middleware {
       const { data, message } = response;
       const success = res.statusCode >= 200 && res.statusCode < 300;
       const wrappedData = { success };
-      /*
-      if(typeof data !== 'undefined' && typeof message !== 'undefined'){
-        wrappedData.data = data;
-        wrappedData.message = message;
-      }
-      else {
-        wrappedData.data = response;
-      }
-*/
       if (isObject(response)) {
         wrappedData.data = {};
         for (const [key, value] of Object.entries(response)) {
