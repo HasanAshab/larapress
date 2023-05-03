@@ -11,8 +11,7 @@ class AuthController extends Controller{
     res.status(200).json(resp)
   }
   
-  //@TODO arrow func 
-  register = async (req, res) => {
+  async register(req, res){
     const { name, email, password } = req.body;
     const logo = req.files.logo;
     if (await User.findOne({ email })) {
@@ -36,7 +35,7 @@ class AuthController extends Controller{
     });
   };
 
-  async login(req, res, next){
+  async login(req, res){
     const { email, password } = req.body;
     const user = await User.findOne({email});
     if (user) {
@@ -54,7 +53,7 @@ class AuthController extends Controller{
     });
   };
 
-  verifyEmail = async (req, res) => {
+  async verifyEmail(req, res){
     const { id, token } = req.query;
     const verificationToken = await Token.findOne(
       {
@@ -90,14 +89,14 @@ class AuthController extends Controller{
     });
   };
 
-  resendEmailVerification = async (req, res) => {
+  async resendEmailVerification(req, res){
     await req.user.sendVerificationEmail();
     return res.json({
       message: "Verification email sent!",
     });
   };
 
-  forgotPassword = async (req, res) => {
+  async forgotPassword(req, res){
     const email = req.body.email;
     const user = await User.findOne({
       email,
@@ -110,7 +109,7 @@ class AuthController extends Controller{
     });
   };
 
-  resetPassword = async (req, res) => {
+  async resetPassword(req, res){
     const { id, token, password } = req.body;
     const user = await User.findById(id);
     if (user) {
@@ -124,7 +123,7 @@ class AuthController extends Controller{
     });
   };
 
-  changePassword = async (req, res) => {
+  async changePassword(req, res){
     const user = req.user;
     const { old_password, password } = req.body;
     const oldPasswordMatch = await bcrypt.compare(old_password, user.password);
@@ -147,11 +146,11 @@ class AuthController extends Controller{
     });
   };
 
-  profile = async (req, res) => {
+  async profile(req, res){
     res.json(req.user);
   };
 
-  updateProfile = async (req, res) => {
+  async updateProfile(req, res){
     const { name, email } = req.body;
     const logo = req.files.logo;
     const user = req.user;
