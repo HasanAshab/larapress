@@ -55,6 +55,7 @@ class FileValidator {
       name.replace("Validator", "")
     );
     rules.push("required");
+    rules.push("maxLength");
     for (let i in rules) {
       FileValidator.prototype[rules[i]] = function (value = true) {
         this.rules[rules[i]] = value;
