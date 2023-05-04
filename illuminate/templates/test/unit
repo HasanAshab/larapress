@@ -1,6 +1,7 @@
 const app = require(base('main/app'));
+const DB = require(base("illuminate/utils/DB"));
 
-//connect();
+//DB.connect();
 //resetDatabase();
 
 describe('{{name}}', () => {

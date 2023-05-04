@@ -5,7 +5,7 @@ const DB = require(base("illuminate/utils/DB"));
 
 class Test extends Command {
   async handle(){
-    //middleware('test:aa')()
+    this.success(this.params.msg)
   };
 }
 

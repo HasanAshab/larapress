@@ -15,10 +15,3 @@ global.resetDatabase = () => {
     });
   });
 };
-
-global.connect = async () => {
-  await mongoose.connect(dbUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-};

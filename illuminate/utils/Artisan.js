@@ -28,6 +28,10 @@ class Artisan {
       return commandClass.handle();
     }
   }
+  
+  static getCommand(input, fromShell = false){
+    return () => this.call(input.split(' '), fromShell);
+  }
 
   static parseArgs(args) {
     const flags = [];

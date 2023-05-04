@@ -1,13 +1,13 @@
 const { generateEndpointsFromDirTree } = require(base("illuminate/foundation"));
-const cron = require("node-cron");
+const nodeCron = require("node-cron");
 const swaggerUi = require('swagger-ui-express');
 const Artisan = require(base("illuminate/utils/Artisan"));
 const events = require(base("register/events"));
-const tasks = require(base("register/tasks"));
+const crons = require(base("register/cron"));
 
-const registerTasks = () => {
-  for (const [command, schedule] of Object.entries(tasks)) {
-    cron.schedule(schedule, Artisan.getCommand(command));
+const registerCronJobs = () => {
+  for (const [command, schedule] of Object.entries(crons)) {
+    nodeCron.schedule(schedule, Artisan.getCommand(command));
   }
 };
 

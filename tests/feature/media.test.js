@@ -1,8 +1,9 @@
 const app = require(base('main/app'));
 const supertest = require('supertest');
+const DB = require(base("illuminate/utils/DB"));
 const request = supertest(app);
 
-//connect();
+//DB.connect();
 //resetDatabase();
 
 const Media = require(base('app/models/Media'));

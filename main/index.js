@@ -21,7 +21,7 @@ if (connectToDB === "true") {
 }
 
 // Registering all Cron Jobs
-register.registerTasks();
+register.registerCronJobs();
 
 // Listening for clients
 const server = app.listen(port, () => {

@@ -1,12 +1,13 @@
 const app = require(base('main/app'));
 const supertest = require('supertest');
+const DB = require(base("illuminate/utils/DB"));
 const request = supertest(app);
 const bcrypt = require('bcryptjs');
 const User = require(base('app/models/User'));
 const nodemailerMock = require("nodemailer-mock");
 const events = require('events');
 
-connect();
+DB.connect();
 resetDatabase();
   
 describe('Auth', () => {
