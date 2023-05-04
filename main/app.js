@@ -31,9 +31,6 @@ app.use(middleware('response.wrap'));
 // Registering all event and listeners
 register.registerEvents(app);
 
-// Registering Api documentation
-register.registerDocs(app);
-
 // Registering all group routes 
 register.registerRoutes(app);
 

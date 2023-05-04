@@ -1,4 +1,6 @@
-const FileValidatorError = require(base("illuminate/exceptions/utils/FileValidatorError"));
+const FileValidatorError = require(base(
+  "illuminate/exceptions/utils/FileValidatorError"
+));
 
 class FileValidator {
   constructor() {
@@ -12,26 +14,27 @@ class FileValidator {
 
   static maxValidator(bytes) {
     if (this.file.size > bytes) {
-      throw new Error(
-        `The ${this.fieldName} field max size is ${bytes / 1000000} MB!`
-      );
+      throw FileValidatorError.type("TOO_LARGE_FILE").create({
+        fieldName: this.fieldName,
+        size: `${bytes / 1000000} MB!`,
+      });
     }
   }
   static minValidator(bytes) {
     if (this.file.size < bytes) {
-      throw new Error(
-        `The ${this.fieldName} field min size is ${bytes / 1000000} MB!`
-      );
+      throw FileValidatorError.type("TOO_SMALL_FILE").create({
+        fieldName: this.fieldName,
+        size: `${bytes / 1000000} MB!`,
+      });
     }
   }
 
   static mimetypesValidator(validMimetypes) {
     if (!validMimetypes.includes(this.file.mimetype)) {
-      throw new Error(
-        `The ${this.fieldName} field mimetype should be ${validMimetypes.join(
-          " or "
-        )}!`
-      );
+      throw FileValidatorError.type("INVALID_MIMETYPE").create({
+        fieldName: this.fieldName,
+        mimetypes: validMimetypes.join(" or "),
+      });
     }
   }
 
@@ -70,14 +73,17 @@ class FileValidator {
     for (const [fieldName, { rules }] of Object.entries(this.object)) {
       if (!files[fieldName]) {
         if (rules.required) {
-          throw new Error(`The ${fieldName} field is required!`);
+          throw FileValidatorError.type("REQUIRED_FIELD_MISSING").create({
+            fieldName,
+          });
         }
         delete this.object[fieldName];
       } else {
         if (Array.isArray(files[fieldName]) && files[fieldName].length > rules.maxLength) {
-          throw new Error(
-            `The ${fieldName} field max file parts should be ${rules.maxLength}`
-          );
+          throw FileValidatorError.type("TOO_MANY_PARTS").create({
+            fieldName,
+            maxLength: rules.maxLength,
+          });
         }
         delete this.object[fieldName].rules.required;
         delete this.object[fieldName].rules.maxLength;
@@ -104,5 +110,3 @@ class FileValidator {
 
 FileValidator.addRules();
 module.exports = FileValidator;
-
-//curl -X POST -F 'file=@storage/test_files/image.png' http://127.0.0.1:8000/api/auth

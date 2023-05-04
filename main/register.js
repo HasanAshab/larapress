@@ -1,3 +1,4 @@
+const { generateEndpointsFromDirTree } = require(base("illuminate/foundation"));
 const cron = require("node-cron");
 const swaggerUi = require('swagger-ui-express');
 const Artisan = require(base("illuminate/utils/Artisan"));
