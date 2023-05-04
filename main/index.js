@@ -5,17 +5,19 @@ const register = require(base("main/register"));
 const app = require(base("main/app"));
 const DB = require(base("illuminate/utils/DB"));
 const port = Number(process.env.PORT) || 8000;
-const connectToDB = process.env.DB_CONNECT || 'true';
+const connectToDB = process.env.DB_CONNECT || "true";
 const nodeEnv = process.env.NODE_ENV;
 
 // Connecting to database
-if (connectToDB === 'true') {
-  console.log('Connecting to database...')
-  DB.connect().then(() => {
-    console.log('done!');
-  }).catch((err) => {
-    console.log(err);
-  })
+if (connectToDB === "true") {
+  console.log("Connecting to database...");
+  DB.connect()
+    .then(() => {
+      console.log("done!");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 // Registering all Cron Jobs

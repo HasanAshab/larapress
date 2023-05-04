@@ -1,6 +1,6 @@
 const memoryCache = require("memory-cache");
 const { createClient } = require("redis");
-const CacheError = require(base("app/exceptions/CacheError"));
+const CacheError = require(base("illuminate/exceptions/utils/CacheError"));
 const redisUrl = process.env.REDIS_URL;
 const defaultDriver = process.env.CACHE;
 
@@ -26,7 +26,7 @@ class Cache {
   }
 
   static fileDriver() {
-    return "data from file driver";
+    throw new Error('This should be implemented');
   }
 
   static async get(...params) {
@@ -38,7 +38,7 @@ class Cache {
     try {
       return await this[`${this._driver}Driver`]();
     } catch {
-      new CacheError().throw("INVALID_DRIVER");
+      throw CacheError.type("INVALID_DRIVER").create();
     }
   }
 
@@ -51,7 +51,7 @@ class Cache {
     try {
       return this[`${this._driver}Driver`]();
     } catch {
-      new CacheError().throw("INVALID_DRIVER");
+      throw CacheError.type("INVALID_DRIVER").create();
     }
   }
 }

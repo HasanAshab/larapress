@@ -3,8 +3,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { engine } = require('express-handlebars');
 const multer = require('multer');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require(base('doc.json'));
 const register = require(base('main/register'));
 const app = express();
 
@@ -34,7 +32,7 @@ app.use(middleware('response.wrap'));
 register.registerEvents(app);
 
 // Registering Api documentation
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+register.registerDocs(app);
 
 // Registering all group routes 
 register.registerRoutes(app);

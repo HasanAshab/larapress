@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const AuthController = controller('AuthController');
-
-
-router.get('/', AuthController.t);
+const AuthController = require(base('app/http/controllers/AuthController'));
 
 // Endpoints to authenticate users
 router.post('/register', AuthController.register);

@@ -1,3 +1,5 @@
+const FileValidatorError = require(base("illuminate/exceptions/utils/FileValidatorError"));
+
 class FileValidator {
   constructor() {
     this.rules = { required: false };
@@ -6,15 +8,6 @@ class FileValidator {
   static fields(obj) {
     this.object = obj;
     return this;
-  }
-
-  static maxLengthValidator(maxFileCount, files) {
-    files = files[this.fieldName];
-    if (Array.isArray(files) && files.length > maxFileCount) {
-      throw new Error(
-        `The ${this.fieldName} field max file count should be ${maxFileCount}`
-      );
-    }
   }
 
   static maxValidator(bytes) {
@@ -81,10 +74,9 @@ class FileValidator {
         }
         delete this.object[fieldName];
       } else {
-        //here
         if (Array.isArray(files[fieldName]) && files[fieldName].length > rules.maxLength) {
           throw new Error(
-            `The ${fieldName} field max file count should be ${rules.maxLength}`
+            `The ${fieldName} field max file parts should be ${rules.maxLength}`
           );
         }
         delete this.object[fieldName].rules.required;
@@ -93,7 +85,6 @@ class FileValidator {
     }
   }
 
-  //!file and !required
   static validate(files) {
     this.removeUnnecessaryRules(files);
     for (const [fieldName, { rules }] of Object.entries(this.object)) {

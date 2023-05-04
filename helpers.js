@@ -21,7 +21,7 @@ capitalizeFirstLetter = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-url = (url_path) => {
+url = (url_path = '') => {
   const domain = process.env.APP_DOMAIN;
   const port = process.env.APP_PORT;
   const protocol = 'http';
@@ -54,12 +54,6 @@ route = (name, data = null) => {
 
 storage = (storage_path) => {
   return path.join(__dirname, path.join('storage', storage_path));
-}
-
-
-controller = (fileName) => {
-  const Controller = require(base(`app/http/controllers/${fileName}`));
-  return new Controller();
 }
 
 middleware = (keys) => {
@@ -128,7 +122,6 @@ module.exports = {
   isClass,
   url,
   storage,
-  controller,
   middleware,
   setEnv,
   log,

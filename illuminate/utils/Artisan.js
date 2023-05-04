@@ -1,5 +1,5 @@
 const commands = require(base("register/commands"));
-const ArtisanError = require(base("app/exceptions/ArtisanError"));
+const ArtisanError = require(base("illuminate/exceptions/utils/ArtisanError"));
 
 class Artisan {
   static call(args, fromShell = true) {
@@ -9,12 +9,12 @@ class Artisan {
       var [commandKey, subCommand] = baseInput.split(":");
       var CommandClass = require(base(commands.nested[commandKey]));
       if (!isClass(CommandClass)) {
-        new ArtisanError().throw("COMMAND_NOT_FOUND");
+        throw ArtisanError.type("COMMAND_NOT_FOUND").create();
       }
     } else {
       var CommandClass = require(base(commands.invoked[baseInput]));
       if (!isClass(CommandClass)) {
-        new ArtisanError().throw("COMMAND_NOT_FOUND");
+        throw ArtisanError.type("COMMAND_NOT_FOUND").create();
       }
     }
     var commandClass = new CommandClass();

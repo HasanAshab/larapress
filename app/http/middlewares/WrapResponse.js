@@ -12,8 +12,13 @@ class WrapResponse extends Middleware {
         for (const [key, value] of Object.entries(response)) {
           if (["data", "message"].includes(key)) {
             wrappedData[key] = value;
-          } else {
+          }else {
+            if(key === 'data'){
+              wrappedData.data = value;
+            }
+            else{
             wrappedData.data[key] = value;
+            }
           }
         }
       } else {

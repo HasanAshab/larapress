@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const MediaController = controller('MediaController');
+const MediaController = require(base('app/http/controllers/MediaController'));
 
 // Endpoints for serving files
-router.get('/media/:id', MediaController.index);
+router.get('/:id', MediaController.index);
 
 module.exports = router;
