@@ -1,13 +1,5 @@
-const { generateEndpointsFromDirTree } = require(base("illuminate/foundation"));
+const { generateEndpointsFromDirTree } = require(base("illuminate/utils"));
 const doc = require(base("doc/base"));
-
-const Joi = require("joi");
-// console.log(
-//   Joi.object({
-//     a: Joi.number().required(),
-//     b: Joi.string().required(),
-//   }).$_terms.keys[0].schema._flags.presence //type
-// );
 
 doc.paths = {};
 const subDocRootPath = base("doc/parts");
@@ -30,25 +22,22 @@ generateEndpointsFromDirTree(subDocRootPath, (endpoint, path) => {
         }
       }
       if (typeof multipart !== "undefined") {
-        methodDoc.consumes = [
-          "multipart/form-data"
-        ];
-        for (const [name, {rules}] of Object.entries(multipart.object)) {
+        methodDoc.consumes = ["multipart/form-data"];
+        for (const [name, { rules }] of Object.entries(multipart.object)) {
           const parameter = {
             name,
-            in: 'formData',
-            type: rules.mimetypes.join(' || '),
+            in: "formData",
+            type: rules.mimetypes.join(" || "),
             required: rules.required,
           };
           methodDoc.parameters.push(parameter);
         }
       }
-    } catch (e){
+    } catch (e) {
       continue;
     }
     pathDoc[method] = methodDoc;
   }
-           // console.log(pathDoc)
 
   doc.paths[endpoint] = pathDoc;
 });

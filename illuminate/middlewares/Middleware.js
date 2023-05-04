@@ -1,4 +1,4 @@
-const { passErrorsToHandler } = require(base('illuminate/foundation'));
+const { passErrorsToHandler } = require(base('illuminate/utils'));
 
 class Middleware {
   constructor(options = []) {
