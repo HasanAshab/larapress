@@ -37,10 +37,4 @@ register.registerRoutes(app);
 // Registering global error handling middleware
 app.use(middleware('error.handle'));
 
-
-const swaggerUi = require("swagger-ui-express");
-const doc = require(base("doc/parse"));
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(doc));
-
-
 module.exports = app;
