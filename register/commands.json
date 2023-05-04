@@ -2,6 +2,7 @@
   "invoked": {
     "test": "app/commands/Test",
     "secret": "app/commands/GenerateSecret",
+    "doc": "app/commands/GenerateDoc",
     "seed": "app/commands/Seed"
   },
   

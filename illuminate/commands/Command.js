@@ -4,7 +4,7 @@ class Command {
   requiredParams(requiredParamsName){
     for(const name of requiredParamsName){
       if(typeof this.params[name] === 'undefined'){
-        throw ArtisanError.type("REQUIRED_PARAM_MISSING").create();
+        throw ArtisanError.type("REQUIRED_PARAM_MISSING").create({param:name});
       }
     }
     return true;
