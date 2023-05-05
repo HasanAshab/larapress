@@ -20,6 +20,114 @@ window.onload = function() {
       "http"
     ],
     "paths": {
+      "/auth/login": {
+        "post": {
+          "summary": "Login a User",
+          "description": "Returns api token if credentials match",
+          "validationPath": "/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/validations/Auth/Login",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "token": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "email",
+              "in": "body",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "password",
+              "in": "body",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
+      },
+      "/auth/profile": {
+        "get": {
+          "summary": "Get user details",
+          "description": "need bearer token",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": []
+        },
+        "put": {
+          "summary": "Update user details",
+          "validationPath": "/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/validations/Auth/UpdateProfile",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "in": "body",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "email",
+              "in": "body",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "logo",
+              "in": "formData",
+              "type": "image/jpeg || image/png",
+              "required": false
+            }
+          ],
+          "consumes": [
+            "multipart/form-data"
+          ]
+        }
+      },
       "/auth/register": {
         "post": {
           "summary": "Sign-up a User",
@@ -36,8 +144,13 @@ window.onload = function() {
                   "message": {
                     "type": "string"
                   },
-                  "token": {
-                    "type": "string"
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "token": {
+                        "type": "string"
+                      }
+                    }
                   }
                 }
               }
@@ -77,6 +190,171 @@ window.onload = function() {
           ],
           "consumes": [
             "multipart/form-data"
+          ]
+        }
+      },
+      "/auth/verify": {
+        "get": {
+          "summary": "Verify User account",
+          "description": "Generally this endpoint will sent to user email with a token. user can use the token here to verify their account. After verification they will redirect to Frontend app",
+          "validationPath": "/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/validations/Auth/VerifyEmail",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "in": "query",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "token",
+              "in": "query",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
+      },
+      "/auth/verify/resend": {
+        "get": {
+          "summary": "Resend account verification email",
+          "description": "need bearer token",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": []
+        }
+      },
+      "/auth/password/change": {
+        "put": {
+          "summary": "Change password",
+          "description": "need bearer token",
+          "validationPath": "/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/validations/Auth/ChangePassword",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "old_password",
+              "in": "body",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "password",
+              "in": "body",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
+      },
+      "/auth/password/forgot": {
+        "post": {
+          "summary": "Forgot password",
+          "description": "This will sent an password reset email if user is exist on the app",
+          "validationPath": "/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/validations/Auth/ForgotPassword",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "email",
+              "in": "body",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
+      },
+      "/auth/password/reset": {
+        "put": {
+          "summary": "Reset password",
+          "validationPath": "/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/validations/Auth/ResetPassword",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "in": "body",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "password",
+              "in": "body",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "token",
+              "in": "body",
+              "type": "string",
+              "required": true
+            }
           ]
         }
       }

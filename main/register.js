@@ -30,5 +30,5 @@ const registerRoutes = (app) => {
 module.exports = {
   registerEvents,
   registerRoutes,
-  registerTasks,
+  registerCronJobs,
 };

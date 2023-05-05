@@ -1,7 +1,6 @@
 require("dotenv").config();
 require("../helpers");
 const mongoose = require("mongoose");
-const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/test";
 
 global.fakeFile = (name) => {
   return storage(`test_files/${name}`);

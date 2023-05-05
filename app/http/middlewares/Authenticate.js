@@ -11,17 +11,18 @@ class Authenticate extends Middleware {
       if (token) {
         try {
           const decoded = jwt.verify(token, process.env.JWT_SECRET);
-          user = await User.findById(decoded.userId);
+          const user = await User.findById(decoded.userId);
           if (user.tokenVersion === decoded.version) {
             req.user = user;
             return next();
           }
-        } catch {
-          new AuthenticationError().throw("INVALID_OR_EXPIRED_TOKEN");
+        } catch (err){
+          if(err instanceof jwt.JsonWebTokenError) throw AuthenticationError.type("INVALID_OR_EXPIRED_TOKEN").create();
+          throw err;
         }
       }
     }
-    new AuthenticationError().throw("INVALID_OR_EXPIRED_TOKEN");
+    throw AuthenticationError.type("INVALID_OR_EXPIRED_TOKEN").create();
   }
 }
 

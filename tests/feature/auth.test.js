@@ -36,12 +36,7 @@ describe('Auth', () => {
       expect(user.email).toEqual(dummyUser.email);
       done();
     });
-    /*
-    const sentMails = nodemailerMock.mock.sentMail();
-    expect(sentMails).toHaveLength(3);
-    expect(sentMails[0].to).toBe(dummyUser.email);
-    expect(sentMails[0].template).toBe('verification');
-    */
+
   });
 
   it('should login a user', async () => {
@@ -65,7 +60,7 @@ describe('Auth', () => {
     expect(response.statusCode).toBe(200);
     expect(user.emailVerified).toBe(true);
   });
-
+  
   it('should resend verification email', async () => {
     const response = await request
       .post('/api/auth/verify/resend')
@@ -84,6 +79,7 @@ describe('Auth', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.data.email).toBe(user.email);
   });
+  
   
   it('should update user details', async () => {
     const newUserData = {
@@ -137,6 +133,7 @@ describe('Auth', () => {
     expect(sentMails[0].to).toBe(user.email);
     expect(sentMails[0].template).toBe('forgotPassword');
   });
+  
   it('should reset password', async () => {
     const resetToken = await user.sendResetPasswordEmail();
     nodemailerMock.mock.reset();

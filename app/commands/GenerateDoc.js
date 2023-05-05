@@ -7,10 +7,9 @@ const doc = require(base("doc/parse"));
 
 class GenerateDoc extends Command {
   async handle() {
-    this.requiredParams(["output"]);
     this.alert("starting server...");
     this._setupServer();
-    this.outputDir = base(this.params.output);
+    this.outputDir = base('/doc/public');
     this.baseUrl = "http://127.0.0.1:8000/docs";
     this._loadDir(this.outputDir);
     this.alert('fetching index.html...');

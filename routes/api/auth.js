@@ -8,7 +8,7 @@ router.post('/login', AuthController.login);
 
 
 router.get('/verify', AuthController.verifyEmail);
-router.post('/verify/resend', middleware('auth:api'), AuthController.resendEmailVerification);
+router.post('/verify/resend', middleware('auth'), AuthController.resendEmailVerification);
 
 router.post('/password/forgot', AuthController.forgotPassword);
 router.put('/password/reset', AuthController.resetPassword);

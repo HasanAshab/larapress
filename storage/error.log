@@ -1,21 +1,5 @@
-/api/media/643afb12cf3de410907024aa - GET - ::ffff:127.0.0.1
-Stack: TypeError: Cannot read properties of null (reading 'path')
-    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/MediaController.js:7:31)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/foundation.js:13:9
-
-
-/api/media/643afb12cf3de410907024aa - GET - ::ffff:127.0.0.1
-Stack: MongooseError: Operation `media.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at process.processTimers (node:internal/timers:511:7)
-
-
-/api/media/643afb12cf3de410907024aa - GET - ::ffff:127.0.0.1
-Stack: TypeError: Cannot read properties of null (reading 'path')
-    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/controllers/MediaController.js:12:31)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/foundation.js:13:9
+function(req, res, next) {
+    app.handle(req, res, next);
+  }
 
 

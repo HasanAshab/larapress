@@ -142,7 +142,7 @@ class AuthController extends Controller{
   };
 
   async profile(req, res){
-    res.json(req.user);
+    return res.json({data:req.user});
   };
 
   async updateProfile(req, res){
