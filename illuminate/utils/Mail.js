@@ -8,6 +8,10 @@ class Mail {
     this.email = email;
     return this;
   }
+  
+  static mock(){
+    this.dontQueue = true;
+  }
 
   static setTransporter(data) {
     if(typeof this.transporter !== 'undefined'){
@@ -83,7 +87,7 @@ class Mail {
   }
 
   static async send(mailable) {
-    if (mailable.shouldQueue) {
+    if (!this.dontQueue && mailable.shouldQueue) {
       mailable.setQueue();
       mailable.queue.process((job) => this.dispatch(job.data));
       return await mailable.queue.add(mailable, {
