@@ -6,14 +6,21 @@ const User = require(base('app/models/User'));
 const SendEmailVerificationNotification = require(base('app/listeners/SendEmailVerificationNotification'));
 const SendNewUserJoinedNotificationToAdmins = require(base('app/listeners/SendNewUserJoinedNotificationToAdmins'));
 
-DB.connect();
-resetDatabase();
 
 describe('Registered Event', () => {
   let user;
+  
+  beforeAll(async () => {
+    Mail.mock();
+    await DB.connect();
+  });
+
+  afterAll(async () => {
+    await DB.disconnect();
+  });
 
   beforeEach(async () => {
-    Mail.mock();
+    await resetDatabase();
     nodemailerMock.mock.reset();
     user = await User.factory().create();
   });
@@ -31,8 +38,9 @@ describe('Registered Event', () => {
     await SendNewUserJoinedNotificationToAdmins.dispatch(user);
     const mails = nodemailerMock.mock.getSentMail();
     expect(mails).toHaveLength(3);
-    // match 'to' and 'email'
-    expect(mails[0].to).toBe(admins[0].email);
-    expect(mails[0].template).toBe('newUserJoined');
+    for(let i = 0; i < 3; i++){
+      expect(mails[i].to).toBe(admins[i].email);
+      expect(mails[i].template).toBe('newUserJoined');
+    }
   });
 });

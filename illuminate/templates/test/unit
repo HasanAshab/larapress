@@ -1,10 +1,22 @@
 const app = require(base('main/app'));
 const DB = require(base("illuminate/utils/DB"));
 
-//DB.connect();
-//resetDatabase();
 
 describe('{{name}}', () => {
+  /*
+  beforeAll(async () => {
+    await DB.connect();
+  });
+
+  afterAll(async () => {
+    await DB.disconnect();
+  });
+
+  beforeEach(async () => {
+    await resetDatabase();
+  })
+*/
+
   it('Should work', async () => {
     expect(true).toBe(true);
   });

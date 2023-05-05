@@ -2,13 +2,25 @@ const app = require(base("main/app"));
 const supertest = require("supertest");
 const DB = require(base("illuminate/utils/DB"));
 const request = supertest(app);
+const Storage = require(base("illuminate/utils/Storage"));
 const Media = require(base("app/models/Media"));
 
-//resetDatabase();
-
 describe("Media", () => {
-  it("should responds with a file", async () => {
+  
+  beforeAll(async () => {
     await DB.connect();
+  });
+
+  afterAll(async () => {
+    await DB.disconnect();
+  });
+
+  beforeEach(async () => {
+    await resetDatabase();
+    Storage.mock();
+  });
+
+  it("should responds with a file", async () => {
     const media = await Media.create({
       path: fakeFile("image.png"),
     });

@@ -10,7 +10,7 @@ class Mail {
   }
   
   static mock(){
-    this.dontQueue = true;
+    this.isMocked = true;
   }
 
   static setTransporter(data) {
@@ -19,7 +19,12 @@ class Mail {
     }
     if (data) {
       this.transporter = nodemailer.createTransport(data);
-    } else if (process.env.NODE_ENV !== "test") {
+    } else if (this.isMocked) {
+      this.transporter = nodemailerMock.createTransport({
+        host: "127.0.0.1",
+        port: -100,
+      });
+    } else {
       this.transporter = nodemailer.createTransport({
         host: process.env.MAIL_HOST,
         port: process.env.MAIL_PORT,
@@ -27,11 +32,6 @@ class Mail {
           user: process.env.MAIL_USERNAME,
           pass: process.env.MAIL_PASSWORD,
         },
-      });
-    } else {
-      this.transporter = nodemailerMock.createTransport({
-        host: "127.0.0.1",
-        port: -100,
       });
     }
     return this;
@@ -76,18 +76,18 @@ class Mail {
     this.setTemplateEngine();
     if (Array.isArray(this.email)) {
       for (let email of this.email) {
-        email = email instanceof Object ? email.email : email;
+        email = isObject(email) ? email.email : email;
         await this.transporter.sendMail(this.getRecipient(email));
       }
     } else {
-      const email = this.email instanceof Object ? this.email.email : this.email;
+      const email = isObject(this.email) ? this.email.email : this.email;
       await this.transporter.sendMail(this.getRecipient(email));
     }
     return true;
   }
 
   static async send(mailable) {
-    if (!this.dontQueue && mailable.shouldQueue) {
+    if (!this.isMocked && mailable.shouldQueue) {
       mailable.setQueue();
       mailable.queue.process((job) => this.dispatch(job.data));
       return await mailable.queue.add(mailable, {

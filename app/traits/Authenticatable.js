@@ -28,7 +28,7 @@ module.exports = (schema) => {
     });
     const link = url(`/api/auth/verify?id=${this._id}&token=${verificationToken}`);
     const result = await this.notify(new VerificationMail({ link }));
-    return result? verificationToken : false;
+    return verificationToken;
   };
 
   schema.methods.sendResetPasswordEmail = async function () {

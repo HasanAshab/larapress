@@ -3,10 +3,13 @@ const path = require("path");
 const crypto = require("crypto");
 
 class Storage {
+  static mock(){
+    this.isMocked = true;
+  }
   static putFile(storage_path, file){
     const hash = this.hashFileName(file.originalname);
     const filePath = path.join(storage(storage_path), hash);
-    if (process.env.NODE_ENV !== "test") {
+    if (!this.isMocked) {
       fs.writeFile(filePath, file.buffer, (err) => {
         if (err) throw err;
       });

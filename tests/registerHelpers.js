@@ -6,11 +6,9 @@ global.fakeFile = (name) => {
   return storage(`test_files/${name}`);
 };
 
-global.resetDatabase = () => {
-  afterEach(async () => {
-    const models = mongoose.modelNames();
-    models.forEach(async (model) => {
-      await mongoose.model(model).deleteMany({});
-    });
-  });
+global.resetDatabase = async () => {
+  const models = mongoose.modelNames();
+  for (const model of models){
+    await mongoose.model(model).deleteMany({});
+  };
 };

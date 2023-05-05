@@ -3,18 +3,28 @@ const supertest = require("supertest");
 const DB = require(base("illuminate/utils/DB"));
 const request = supertest(app);
 const bcrypt = require("bcryptjs");
+const Storage = require(base("illuminate/utils/Storage"));
+const Mail = require(base('illuminate/utils/Mail'));
 const User = require(base("app/models/User"));
 const nodemailerMock = require("nodemailer-mock");
 const events = require("events");
-
-DB.connect();
-resetDatabase();
 
 describe("Auth", () => {
   let user;
   let token;
 
+  beforeAll(async () => {
+    await DB.connect();
+  });
+  
+  afterAll(async () => {
+    await DB.disconnect();
+  });
+  
   beforeEach(async () => {
+    await resetDatabase();
+    Storage.mock();
+    Mail.mock();
     nodemailerMock.mock.reset();
     user = await User.factory().create();
     token = user.createToken();

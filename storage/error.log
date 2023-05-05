@@ -3,3 +3,10 @@ function(req, res, next) {
   }
 
 
+/api/auth/verify/resend - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of null (reading 'tokenVersion')
+    at Authenticate.tokenVersion (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/Authenticate.js:15:20)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils.js:16:7
+
+
