@@ -1,33 +1,22 @@
-const app = require(base('main/app'));
-const supertest = require('supertest');
+const app = require(base("main/app"));
+const supertest = require("supertest");
 const DB = require(base("illuminate/utils/DB"));
 const request = supertest(app);
+const Media = require(base("app/models/Media"));
 
-//DB.connect();
 //resetDatabase();
 
-const Media = require(base('app/models/Media'));
-const index = controller('MediaController').index[1];
-
-describe('MediaController', () => {
-  describe('index', () => {
-    it('should send the file for the media with the given ID', async () => {
-      const media = {
-        _id: '123',
-        path: '/path/to/media.jpg'
-      };
-
-      jest.spyOn(Media, 'findById').mockResolvedValue(media);
-
-      const sendFileSpy = jest.spyOn(global, 'sendFile').mockImplementation();
-
-      const req = { params: { id: '123' } };
-      const res = { sendFile: sendFileSpy };
-
-      await index(req, res);
-
-      expect(Media.findById).toHaveBeenCalledWith('123');
-      expect(sendFileSpy).toHaveBeenCalledWith(media.path);
+describe("Media", () => {
+  it("should responds with a file", async () => {
+    await DB.connect();
+    const media = await Media.create({
+      path: fakeFile("image.png"),
     });
+    const response = await request
+      .get(`/api/media/${media._id}`)
+      .set("Accept", "application/octet-stream");
+    expect(response.status).toBe(200);
+    expect(response.headers["content-type"]).toBe("image/png");
+    expect(Buffer.isBuffer(response.body)).toBe(true);
   });
 });
