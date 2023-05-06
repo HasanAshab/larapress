@@ -1,17 +1,12 @@
 import dotenv from "dotenv";
-import helpers from "../helpers";
 
 
-for (const [name, helper] of Object.entries(helpers)){
-  (globalThis as {[key: string]: any})[name] = helper;
-}
 
 import app from "main/app";
+import Setup from "main/Setup";
 
-console.log(app)
-
+console.log('ss')
 /*
-const register = require(base("main/register"));
 const DB = require(base("illuminate/utils/DB"));
 const port = Number(process.env.PORT) || 8000;
 const connectToDB = process.env.DB_CONNECT || "true";

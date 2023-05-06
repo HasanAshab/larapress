@@ -1,4 +1,4 @@
-{
+const middlewares: {[key: string]: string | string[]} = {
   "test": "/app/http/middlewares/Test",
   "auth": "/app/http/middlewares/Authenticate",
   "verified": [
@@ -13,3 +13,5 @@
   "response.wrap": "/app/http/middlewares/WrapResponse",
   "error.handle": "/app/http/middlewares/ErrorHandler"
 }
+
+export default middlewares;
