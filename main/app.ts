@@ -1,10 +1,11 @@
-const cors = require('cors');
-const express = require('express');
-const bodyParser = require('body-parser');
-const { engine } = require('express-handlebars');
-const multer = require('multer');
+/*
+import express, { Application, Request, Response } from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import { engine } from 'express-handlebars';
+import multer from 'multer';
 const register = require(base('main/register'));
-const app = express();
+const app: Application = express();
 
 // Domains that can only access the API
 app.use(cors({
@@ -36,5 +37,6 @@ register.registerRoutes(app);
 
 // Registering global error handling middleware
 app.use(middleware('error.handle'));
+*/
 
-module.exports = app;
+export default 'this is app';

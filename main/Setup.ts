@@ -1,4 +1,5 @@
-const { generateEndpointsFromDirTree } = require(base("illuminate/utils"));
+/*
+import { generateEndpointsFromDirTree } = require(base("illuminate/utils"));
 const nodeCron = require("node-cron");
 const swaggerUi = require('swagger-ui-express');
 const Artisan = require(base("illuminate/utils/Artisan"));
@@ -32,3 +33,4 @@ module.exports = {
   registerRoutes,
   registerCronJobs,
 };
+*/

@@ -1,8 +1,16 @@
-require("dotenv").config();
-require("../helpers");
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const helpers_1 = __importDefault(require("../helpers"));
+for (const [name, helper] of Object.entries(helpers_1.default)) {
+    globalThis[name] = helper;
+}
+const app_1 = __importDefault(require("main/app"));
+console.log(app_1.default);
+/*
 const register = require(base("main/register"));
-const app = require(base("main/app"));
 const DB = require(base("illuminate/utils/DB"));
 const port = Number(process.env.PORT) || 8000;
 const connectToDB = process.env.DB_CONNECT || "true";
@@ -35,3 +43,5 @@ if (nodeEnv !== "production") {
     console.log(`*New connection: [${time}]`);
   });
 }
+
+*/ 
