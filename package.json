@@ -7,7 +7,7 @@
     "test": "jest",
     "build": "tsc",
     "start": "node dist/main/index.js",
-    "dev": "concurrently 'tsc --watch' 'ts-node ./src/main/index.ts'"
+    "dev": "clear && tsnd -r tsconfig-paths/register --respawn ./main/index.ts"
   },
   "author": "Samer",
   "license": "ISC",

@@ -5,7 +5,9 @@ import dotenv from "dotenv";
 import app from "main/app";
 import Setup from "main/Setup";
 
-console.log('ss')
+Setup.helpers();
+console.log(base())
+
 /*
 const DB = require(base("illuminate/utils/DB"));
 const port = Number(process.env.PORT) || 8000;

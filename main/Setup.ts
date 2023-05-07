@@ -11,8 +11,7 @@ import nodeCron from "node-cron";
 export default class Setup {
   static helpers(): void {
     for (const [name, helper] of Object.entries(helpers)) {
-      (globalThis as {[key: string]: any
-      })[name] = helper;
+      (globalThis as {[key: string]: any})[name] = helper;
     }
   }
   /*
