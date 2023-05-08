@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import path from "path";
 import fs from "fs";
 
-export type EndpointCallback = (endpoint: string, path: string) => void | Promise<void>;
+type EndpointCallback = (endpoint: string, path: string) => void | Promise<void>;
 
 export function passErrorsToHandler(fn: Function): Function {
   if (fn.length === 4) {

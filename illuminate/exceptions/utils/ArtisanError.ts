@@ -1,6 +1,6 @@
-const Exception = require(base('illuminate/exceptions/Exception'));
+import Exception from 'illuminate/exceptions/Exception';
 
-class ArtisanError extends Exception {
+export default class ArtisanError extends Exception {
   static errors = {
     COMMAND_NOT_FOUND:{
       status: 404,
@@ -13,5 +13,3 @@ class ArtisanError extends Exception {
     }
   }
 }
-
-module.exports = ArtisanError;

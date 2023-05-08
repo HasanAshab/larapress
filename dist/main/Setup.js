@@ -28,16 +28,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const helpers_1 = require("helpers");
 const utils_1 = require("illuminate/utils");
-//import Artisan from "illuminate/utils/Artisan";
+const node_cron_1 = __importDefault(require("node-cron"));
+const Artisan_1 = __importDefault(require("illuminate/utils/Artisan"));
 const events_1 = __importDefault(require("register/events"));
+const cron_1 = __importDefault(require("register/cron"));
 class Setup {
-    /*
-    static cronJobs(): void {
-      for (const [command, schedule] of Object.entries(crons)) {
-        nodeCron.schedule(schedule, Artisan.getCommand(command));
-      }
-    };
-    */
+    static cronJobs() {
+        for (const [command, schedule] of Object.entries(cron_1.default)) {
+            node_cron_1.default.schedule(schedule, Artisan_1.default.getCommand(command));
+        }
+    }
+    ;
     static async events(app) {
         for (const [event, listenerNames] of Object.entries(events_1.default)) {
             for (const listenerName of listenerNames) {

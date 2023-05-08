@@ -31,7 +31,8 @@ app.set('views', base('views'));
 // Registering global middlewares
 app.use(multer().any());
 /*
-//app.use(middleware('response.wrap'));
+app.use(middleware('response.wrap'));
+
 // Registering all event and listeners
 Setup.events(app);
 

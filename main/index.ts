@@ -20,7 +20,7 @@ if (connectToDB === "true") {
 }
 
 // Registering all Cron Jobs
-//Setup.cronJobs();
+Setup.cronJobs();
 
 
 // Listening for clients
