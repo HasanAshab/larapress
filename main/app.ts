@@ -8,7 +8,6 @@ import Setup from "main/Setup";
 
 const app: Application = express();
 
-console.log('app.ts') //nope
 Setup.routes(app);
 
 // Domains that can only access the API

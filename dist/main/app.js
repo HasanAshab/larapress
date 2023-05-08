@@ -9,7 +9,6 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const Setup_1 = __importDefault(require("main/Setup"));
 const app = (0, express_1.default)();
-console.log('app.ts'); //nope
 Setup_1.default.routes(app);
 // Domains that can only access the API
 app.use((0, cors_1.default)({

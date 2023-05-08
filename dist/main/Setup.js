@@ -5,7 +5,6 @@ const utils_1 = require("illuminate/utils");
 //import Artisan from "illuminate/utils/Artisan";
 //import events from "register/events";
 //import crons from "register/cron";
-console.log('Setup.ts'); // nope
 class Setup {
     /*
     static cronJobs(): void {
@@ -24,10 +23,9 @@ class Setup {
     };
     */
     static routes(app) {
-        console.log('hii');
         const routesRootPath = (0, helpers_1.base)("routes");
         (0, utils_1.generateEndpointsFromDirTree)(routesRootPath, async (endpoint, path) => {
-            //console.log(path)
+            console.log(path);
             //app.use(endpoint, await import(path));
         });
     }
