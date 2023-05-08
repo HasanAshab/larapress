@@ -7,9 +7,9 @@ const helpers_1 = require("helpers");
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
-const Setup_1 = __importDefault(require("main/Setup"));
+const express_handlebars_1 = require("express-handlebars");
+const multer_1 = __importDefault(require("multer"));
 const app = (0, express_1.default)();
-Setup_1.default.routes(app);
 // Domains that can only access the API
 app.use((0, cors_1.default)({
     origin: ['http://localhost:3000']
@@ -19,21 +19,19 @@ app.use('/static', express_1.default.static((0, helpers_1.base)('storage/public/
 // Registering middlewares for request body 
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(body_parser_1.default.json());
-/*
 // Registering Handlebars template engine
-app.engine('handlebars', engine());
+app.engine('handlebars', (0, express_handlebars_1.engine)());
 app.set('view engine', 'handlebars');
-app.set('views', base('views'));
-
+app.set('views', (0, helpers_1.base)('views'));
 // Registering global middlewares
-app.use(multer().any());
-app.use(middleware('response.wrap'));
-
+app.use((0, multer_1.default)().any());
+/*
+//app.use(middleware('response.wrap'));
 // Registering all event and listeners
-register.registerEvents(app);
+Setup.events(app);
 
 // Registering all group routes
-register.registerRoutes(app);
+Setup.routes(app);
 
 // Registering global error handling middleware
 app.use(middleware('error.handle'));

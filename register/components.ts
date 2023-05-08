@@ -1,4 +1,4 @@
-{
+export default const components: {[key: string]: string | {[key: string]: string}} = {
   "model": "app/models/{{name}}.js",
   "trait": "app/traits/{{name}}.js",
   "factory": "app/factories/{{name}}.js",

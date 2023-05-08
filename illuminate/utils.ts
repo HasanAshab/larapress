@@ -34,12 +34,12 @@ export function passErrorsToHandler(fn: Function): Function {
 
 export function generateEndpointsFromDirTree(rootPath: string, cb: EndpointCallback): void {
   const stack = [rootPath];
-  const currentPath = stack.pop();
-  console.log(rootPath)
-  /*
-  while (typeof currentPath === 'string') {
+  while (stack.length > 0) {
+    const currentPath = stack.pop();
+    if(!currentPath){
+      break;
+    }
     const items = fs.readdirSync(currentPath);
-
     for (const item of items) {
       const itemPath = path.join(currentPath, item);
       const status = fs.statSync(itemPath);
@@ -55,5 +55,4 @@ export function generateEndpointsFromDirTree(rootPath: string, cb: EndpointCallb
       }
     }
   }
-  */
 }

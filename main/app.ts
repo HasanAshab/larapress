@@ -1,4 +1,4 @@
-import { base } from "helpers";
+import { base, middleware } from "helpers";
 import express, { Application, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -8,7 +8,6 @@ import Setup from "main/Setup";
 
 const app: Application = express();
 
-Setup.routes(app);
 
 // Domains that can only access the API
 app.use(cors({
@@ -23,7 +22,7 @@ app.use('/static', express.static(base('storage/public/static')));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-/*
+
 // Registering Handlebars template engine
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
@@ -31,13 +30,13 @@ app.set('views', base('views'));
 
 // Registering global middlewares
 app.use(multer().any());
-app.use(middleware('response.wrap'));
-
+/*
+//app.use(middleware('response.wrap'));
 // Registering all event and listeners
-register.registerEvents(app);
+Setup.events(app);
 
 // Registering all group routes 
-register.registerRoutes(app);
+Setup.routes(app);
 
 // Registering global error handling middleware
 app.use(middleware('error.handle'));
