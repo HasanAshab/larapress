@@ -30,7 +30,6 @@ const helpers_1 = require("helpers");
 const utils_1 = require("illuminate/utils");
 //import Artisan from "illuminate/utils/Artisan";
 const events_1 = __importDefault(require("register/events"));
-hj;
 class Setup {
     /*
     static cronJobs(): void {

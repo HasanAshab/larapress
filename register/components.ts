@@ -1,4 +1,4 @@
-export default const components: {[key: string]: string | {[key: string]: string}} = {
+const components: {[key: string]: string | {[key: string]: string}} = {
   "model": "app/models/{{name}}.js",
   "trait": "app/traits/{{name}}.js",
   "factory": "app/factories/{{name}}.js",
@@ -16,3 +16,5 @@ export default const components: {[key: string]: string | {[key: string]: string
   },
   "router": "routes/{{prefix}}/{{name}}.js"
 }
+
+export default components;

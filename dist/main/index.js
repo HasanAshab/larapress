@@ -5,26 +5,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
 const app_1 = __importDefault(require("main/app"));
-//import DB from "illuminate/utils/DB";
+const DB_1 = __importDefault(require("illuminate/utils/DB"));
 const port = Number(process.env.APP_PORT) || 8000;
 const connectToDB = process.env.DB_CONNECT || "true";
 const nodeEnv = process.env.NODE_ENV;
-/*
 // Connecting to database
 if (connectToDB === "true") {
-  console.log("Connecting to database...");
-  DB.connect()
-    .then(() => {
-      console.log("done!");
+    console.log("Connecting to database...");
+    DB_1.default.connect()
+        .then(() => {
+        console.log("done!");
     })
-    .catch((err) => {
-      console.log(err);
+        .catch((err) => {
+        console.log(err);
     });
 }
-
 // Registering all Cron Jobs
-Setup.cronJobs();
-*/
+//Setup.cronJobs();
 // Listening for clients
 const server = app_1.default.listen(port, () => {
     console.log(`Server running on [http://127.0.0.1:${port}] ...`);
