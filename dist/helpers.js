@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.log = exports.setEnv = exports.middleware = exports.storage = exports.route = exports.clientUrl = exports.url = exports.capitalizeFirstLetter = exports.isObject = exports.isClass = exports.base = void 0;
+exports.getParams = exports.log = exports.setEnv = exports.middleware = exports.storage = exports.route = exports.clientUrl = exports.url = exports.capitalizeFirstLetter = exports.isObject = exports.isClass = exports.base = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
@@ -129,3 +129,22 @@ function log(data) {
     });
 }
 exports.log = log;
+function getParams(func) {
+    let str = func.toString();
+    str = str.replace(/\/\*[\s\S]*?\*\//g, '')
+        .replace(/\/\/(.)*/g, '')
+        .replace(/{[\s\S]*}/, '')
+        .replace(/=>/g, '')
+        .trim();
+    const start = str.indexOf("(") + 1;
+    const end = str.length - 1;
+    const result = str.substring(start, end).split(", ");
+    const params = [];
+    result.forEach(element => {
+        element = element.replace(/=[\s\S]*/g, '').trim();
+        if (element.length > 0)
+            params.push(element);
+    });
+    return params;
+}
+exports.getParams = getParams;

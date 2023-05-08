@@ -124,3 +124,23 @@ export function log(data: string | object): void {
     }
   });
 }
+
+export function getParams(func: Function): string[] {
+  let str = func.toString();
+  str = str.replace(/\/\*[\s\S]*?\*\//g, '')
+  .replace(/\/\/(.)*/g, '')
+  .replace(/{[\s\S]*}/, '')
+  .replace(/=>/g, '')
+    .trim();
+    const start = str.indexOf("(") + 1;
+    const end = str.length - 1;
+    const result = str.substring(start, end).split(", ");
+    const params: string[] = [];
+    result.forEach(element => {
+      element = element.replace(/=[\s\S]*/g, '').trim();
+      if (element.length > 0)
+        params.push(element);
+    });
+
+  return params;
+}

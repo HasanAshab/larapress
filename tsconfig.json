@@ -8,5 +8,9 @@
     "baseUrl": "./",
     "strict": true,
     "esModuleInterop": true
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "artisan.ts"
+  ]
 }

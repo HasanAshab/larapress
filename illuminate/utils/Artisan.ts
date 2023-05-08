@@ -1,66 +1,46 @@
-const tsconfig = require('./tsconfig');
-const path = require('path');
-const { Command } = require('commander');
+import { base, getParams } from 'helpers';
+import { Command } from 'commander';
 
 export default class Artisan {
-  static call(args: string[], fromShell: boolean = true): void{
-    
+  static artisan = new Command();
+  
+  
+  static setup(): void {
+    this.artisan
+    .name('Artisan')
+    .description('CLI for Express X Typescript project.\n Made by Samer Agency')
+    .version('0.0.1');
+    const commands = require(base('register/commands')).default;
+
+    for (const [name, actionPath] of Object.entries(commands)) {
+      if (typeof actionPath !== 'string') {
+        continue;
+      }
+      const ActionClass = require(base(actionPath)).default;
+      const action = new ActionClass();
+      const handler = action.handle;
+      const args = getParams(handler);
+      args.pop();
+      const command = this.artisan.command(name).description(action.description || '')
+
+      for (const arg of args) {
+        command.argument(`<${arg}>`);
+      }
+
+      for (const option of action.options) {
+        command.option(option.flag, option.message, option.default)
+      }
+      command.action(handler);
+    }
+  }
+
+  static call(args?: string[]): void {
+    this.setup();
+    this.artisan.parse(args);
   }
   
-}
-
-
-function resolvePath(tsPath) {
-  const { outDir } = tsconfig.compilerOptions;
-  const outPath = path.join(outDir, tsPath);
-  return path.join(__dirname, outPath);
-}
-
-const artisan = new Command();
-artisan
-.name('Artisan')
-.description('CLI for Express X Typescript project.\n Made by Samer Agency')
-.version('0.0.1');
-
-const commands = require(resolvePath('register/commands')).default;
-for (const [name, actionPath] of Object.entries(commands)) {
-  const ActionClass = require(resolvePath(actionPath)).default;
-  const action = new ActionClass();
-  const handler = action.handle;
-  const arguments = getParams(handler);
-  arguments.pop();
-
-  const command = artisan.command(name).description(action.description || '')
-  
-  for(const argument of arguments){
-    command.argument(`<${argument}>`);
+  static getCommand(commandArgs: string[]): Function {
+    this.setup();
+    return () => this.artisan.parse(['', '', ...commandArgs]);
   }
-  
-  for(const option of action.options){
-    command.option(option.flag, option.message, option.default)
-  }
-  command.action(handler);
-}
-
-artisan.parse()
-
-
-function getParams(func) {
-  var str = func.toString();
-  str = str.replace(/\/\*[\s\S]*?\*\//g, '')
-  .replace(/\/\/(.)*/g, '')
-  .replace(/{[\s\S]*}/, '')
-  .replace(/=>/g, '')
-    .trim();
-    var start = str.indexOf("(") + 1;
-    var end = str.length - 1;
-    var result = str.substring(start, end).split(", ");
-    var params = [];
-    result.forEach(element => {
-      element = element.replace(/=[\s\S]*/g, '').trim();
-      if (element.length > 0)
-        params.push(element);
-    });
-
-    return params;
 }
