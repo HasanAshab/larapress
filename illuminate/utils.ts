@@ -1,20 +1,23 @@
-const path = require("path");
-const fs = require("fs");
+import { Request, Response, NextFunction } from "express";
+import path from "path";
+import fs from "fs";
 
-const passErrorsToHandler = (fn) => {
+export type EndpointCallback = (endpoint: string, path: string) => void | Promise<void>;
+
+export function passErrorsToHandler(fn: Function): Function {
   if (fn.length === 4) {
-    return async function (err, req, res, next) {
+    return async function (err: any, req: Request, res: Response, next: NextFunction): Promise<void> {
       try {
         await fn(err, req, res, next);
-      } catch (err) {
+      } catch (err: any) {
         next(err);
       }
     };
   }
-  return async function (req, res, next) {
+  return async function (req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       await fn(req, res, next);
-    } catch (err) {
+    } catch (err: any) {
       next(err);
     }
   };
@@ -29,11 +32,12 @@ const passErrorsToHandler = (fn) => {
   */
 };
 
-const generateEndpointsFromDirTree = (rootPath, cb) => {
+export function generateEndpointsFromDirTree(rootPath: string, cb: EndpointCallback): void {
   const stack = [rootPath];
-
-  while (stack.length > 0) {
-    const currentPath = stack.pop();
+  const currentPath = stack.pop();
+  console.log(rootPath)
+  /*
+  while (typeof currentPath === 'string') {
     const items = fs.readdirSync(currentPath);
 
     for (const item of items) {
@@ -51,10 +55,5 @@ const generateEndpointsFromDirTree = (rootPath, cb) => {
       }
     }
   }
+  */
 }
-
-module.exports = {
-  passErrorsToHandler,
-  generateEndpointsFromDirTree,
-  
-};

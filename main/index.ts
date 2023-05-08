@@ -1,19 +1,12 @@
-import dotenv from "dotenv";
-
-
-
+import 'dotenv/config';
 import app from "main/app";
 import Setup from "main/Setup";
 
-Setup.helpers();
-console.log(base())
-
-/*
-const DB = require(base("illuminate/utils/DB"));
-const port = Number(process.env.PORT) || 8000;
+//const DB = require(base("illuminate/utils/DB"));
+const port = Number(process.env.APP_PORT) || 8000;
 const connectToDB = process.env.DB_CONNECT || "true";
 const nodeEnv = process.env.NODE_ENV;
-
+/*
 // Connecting to database
 if (connectToDB === "true") {
   console.log("Connecting to database...");
@@ -25,9 +18,9 @@ if (connectToDB === "true") {
       console.log(err);
     });
 }
-
 // Registering all Cron Jobs
-register.registerCronJobs();
+Setup.cronJobs();
+*/
 
 // Listening for clients
 const server = app.listen(port, () => {
@@ -41,5 +34,3 @@ if (nodeEnv !== "production") {
     console.log(`*New connection: [${time}]`);
   });
 }
-
-*/

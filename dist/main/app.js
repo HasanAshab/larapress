@@ -1,26 +1,26 @@
 "use strict";
-/*
-import express, { Application, Request, Response } from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import { engine } from 'express-handlebars';
-import multer from 'multer';
-const register = require(base('main/register'));
-const app: Application = express();
-
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const helpers_1 = require("helpers");
+const express_1 = __importDefault(require("express"));
+const body_parser_1 = __importDefault(require("body-parser"));
+const cors_1 = __importDefault(require("cors"));
+const Setup_1 = __importDefault(require("main/Setup"));
+const app = (0, express_1.default)();
+console.log('app.ts'); //nope
+Setup_1.default.routes(app);
 // Domains that can only access the API
-app.use(cors({
-  origin: ['http://localhost:3000']
+app.use((0, cors_1.default)({
+    origin: ['http://localhost:3000']
 }));
-
 // Registering static folder
-app.use('/static', express.static(base('storage/public/static')));
-
-
-// Registering middlewares for request body
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
-
+app.use('/static', express_1.default.static((0, helpers_1.base)('storage/public/static')));
+// Registering middlewares for request body 
+app.use(body_parser_1.default.urlencoded({ extended: false }));
+app.use(body_parser_1.default.json());
+/*
 // Registering Handlebars template engine
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
@@ -39,5 +39,4 @@ register.registerRoutes(app);
 // Registering global error handling middleware
 app.use(middleware('error.handle'));
 */
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = 'this is app';
+exports.default = app;

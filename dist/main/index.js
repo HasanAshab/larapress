@@ -3,15 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Setup_1 = __importDefault(require("main/Setup"));
-console.log('ejjs');
-console.log(Setup_1.default.helpers);
-/*
-const DB = require(base("illuminate/utils/DB"));
-const port = Number(process.env.PORT) || 8000;
+require("dotenv/config");
+const app_1 = __importDefault(require("main/app"));
+//const DB = require(base("illuminate/utils/DB"));
+const port = Number(process.env.APP_PORT) || 8000;
 const connectToDB = process.env.DB_CONNECT || "true";
 const nodeEnv = process.env.NODE_ENV;
-
+/*
 // Connecting to database
 if (connectToDB === "true") {
   console.log("Connecting to database...");
@@ -23,21 +21,17 @@ if (connectToDB === "true") {
       console.log(err);
     });
 }
-
 // Registering all Cron Jobs
-register.registerCronJobs();
-
+Setup.cronJobs();
+*/
 // Listening for clients
-const server = app.listen(port, () => {
-  console.log(`Server running on [http://127.0.0.1:${port}] ...`);
+const server = app_1.default.listen(port, () => {
+    console.log(`Server running on [http://127.0.0.1:${port}] ...`);
 });
-
 if (nodeEnv !== "production") {
-  server.on("connection", (socket) => {
-    const now = new Date();
-    const time = now.toLocaleTimeString("en-US", { hour12: true });
-    console.log(`*New connection: [${time}]`);
-  });
+    server.on("connection", (socket) => {
+        const now = new Date();
+        const time = now.toLocaleTimeString("en-US", { hour12: true });
+        console.log(`*New connection: [${time}]`);
+    });
 }
-
-*/ 

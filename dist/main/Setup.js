@@ -1,18 +1,36 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-//import { generateEndpointsFromDirTree } from "illuminate/utils";
-const helpers_1 = __importDefault(require("helpers"));
+const helpers_1 = require("helpers");
+const utils_1 = require("illuminate/utils");
 //import Artisan from "illuminate/utils/Artisan";
 //import events from "register/events";
 //import crons from "register/cron";
+console.log('Setup.ts'); // nope
 class Setup {
-    static helpers() {
-        for (const [name, helper] of Object.entries(helpers_1.default)) {
-            globalThis[name] = helper;
+    /*
+    static cronJobs(): void {
+      for (const [command, schedule] of Object.entries(crons)) {
+        nodeCron.schedule(schedule, Artisan.getCommand(command));
+      }
+    };
+  
+    static async events(app: Application): void {
+      for (const [event, listenerNames] of Object.entries(events)) {
+        for (const listenerName of listenerNames) {
+          const listener = await import(`app/listeners/${listenerName}`);
+          app.on(event, listener.dispatch);
         }
+      }
+    };
+    */
+    static routes(app) {
+        console.log('hii');
+        const routesRootPath = (0, helpers_1.base)("routes");
+        (0, utils_1.generateEndpointsFromDirTree)(routesRootPath, async (endpoint, path) => {
+            //console.log(path)
+            //app.use(endpoint, await import(path));
+        });
     }
+    ;
 }
 exports.default = Setup;
