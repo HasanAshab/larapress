@@ -1,14 +1,6 @@
 const tsconfig = require('./tsconfig');
-const path = require('path');
+import path from 'path';
 const { Command } = require('commander');
-
-export default class Artisan {
-  static call(args: string[], fromShell: boolean = true): void{
-    
-  }
-  
-}
-
 
 function resolvePath(tsPath) {
   const { outDir } = tsconfig.compilerOptions;
@@ -23,6 +15,7 @@ artisan
 .version('0.0.1');
 
 const commands = require(resolvePath('register/commands')).default;
+
 for (const [name, actionPath] of Object.entries(commands)) {
   const ActionClass = require(resolvePath(actionPath)).default;
   const action = new ActionClass();
@@ -44,6 +37,8 @@ for (const [name, actionPath] of Object.entries(commands)) {
 
 artisan.parse()
 
+//artisan.parse([null, null, 'test', 'thats foo', 'thats bar', '-p', '30'])
+//console.log(artisan.commands[0]._actionHandler(['hdbd', 'djsj']))
 
 function getParams(func) {
   var str = func.toString();

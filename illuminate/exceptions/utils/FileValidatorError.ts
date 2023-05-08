@@ -1,6 +1,6 @@
-const Exception = require(base('illuminate/exceptions/Exception'));
+import Exception from 'illuminate/exceptions/Exception';
 
-class FileValidatorError extends Exception {
+export default class FileValidatorError extends Exception {
   static errors = {
     REQUIRED_FIELD_MISSING:{
       status: 400,
@@ -25,4 +25,3 @@ class FileValidatorError extends Exception {
   }
 }
 
-module.exports = FileValidatorError;

@@ -1,4 +1,6 @@
-const commands: {[key: string]: {[key: string]: string}} = {
+//const commands: {[key: string]: {[key: string]: string}} = {
+const commands: {[key: string]: string} = {
+  /*
   invoked: {
     test: "app/commands/Test",
     secret: "app/commands/GenerateSecret",
@@ -10,6 +12,8 @@ const commands: {[key: string]: {[key: string]: string}} = {
     make: "app/commands/Make",
     clear: "app/commands/Clear"
   }
+  */
+  test: "app/commands/Test",
 }
 
 export default commands;

@@ -1,6 +1,6 @@
-const Exception = require(base('illuminate/exceptions/Exception'));
+import Exception from 'illuminate/exceptions/Exception';
 
-class AuthenticationError extends Exception {
+export default class AuthenticationError extends Exception {
   static errors = {
     INVALID_OR_EXPIRED_TOKEN: {
       status: 401,
@@ -14,4 +14,3 @@ class AuthenticationError extends Exception {
   }
 }
 
-module.exports = AuthenticationError;
