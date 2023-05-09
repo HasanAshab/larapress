@@ -25,6 +25,11 @@ app.set('view engine', 'handlebars');
 app.set('views', (0, helpers_1.base)('views'));
 // Registering global middlewares
 app.use((0, multer_1.default)().any());
+const Artisan_1 = __importDefault(require("illuminate/utils/Artisan"));
+app.get('/', (req, res) => {
+    Artisan_1.default.call(['test', 'a', 'b']);
+    res.send('ok');
+});
 /*
 app.use(middleware('response.wrap'));
 

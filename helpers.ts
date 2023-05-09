@@ -113,7 +113,7 @@ export function setEnv(envValues: object): boolean {
   }
 }
 
-export function log(data: string | object): void {
+export function log(data: any): void {
   const path = './storage/error.log';
   if (typeof data === 'object') {
     data = JSON.stringify(data);

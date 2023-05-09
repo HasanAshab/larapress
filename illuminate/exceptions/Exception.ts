@@ -1,25 +1,29 @@
-type CustomError = {[key: string]: any};
 
 export default abstract class Exception {
-  static error: CustomError;
-  static errors: {[key: string]: CustomError};
+  static errorType: string;
+  static errors: {[key: string]: {[key: string]: any}};
 
   static type(errorType: string): typeof Exception {
     if (!this.errors.hasOwnProperty(errorType)) {
       throw new Error(`Error type '${errorType}' does not exist`);
     }
-    this.error = this.errors[errorType];
-    this.error.type = errorType;
-    this.error.name = this.name;
+    this.errorType = errorType
     return this;
   }
 
-  static create(data?: {[key: string]: string}): CustomError {
+  static create(data?: {[key: string]: string}): typeof Error {
+    const error:any = new Error();
+    error.name = this.constructor.name;
+    error.type = this.errorType;
+    for (const [key, value] of Object.entries(this.errors[this.errorType])) {
+      error[key] = value;
+    }
+  
     if (data) {
-      this.error.message = this.error.message.replace(/:(\w+)/g, (match: string, key: string) => {
+      error.message = error.message.replace(/:(\w+)/g, (match: string, key: string) => {
         return data[key] || match;
       });
     }
-    return this.error;
+    return error;
   }
 }

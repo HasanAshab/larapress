@@ -31,6 +31,12 @@ app.set('views', base('views'));
 // Registering global middlewares
 app.use(multer().any());
 
+
+import Artisan from "illuminate/utils/Artisan"
+app.get('/', (req, res) => {
+  Artisan.call(['test', 'a', 'b'])
+  res.send('ok')
+})
 /*
 app.use(middleware('response.wrap'));
 
