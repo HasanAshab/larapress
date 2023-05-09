@@ -25,7 +25,7 @@ class Artisan {
             for (const option of action.options) {
                 command.option(option.flag, option.message, option.default);
             }
-            command.action(handler);
+            command.action(handler.bind(action));
         }
     }
     static call(args) {

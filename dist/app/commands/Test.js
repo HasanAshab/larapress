@@ -15,8 +15,12 @@ class Test {
         ];
     }
     async handle(foo, bar, options) {
+        this._greet();
         console.log(foo, bar, options);
     }
     ;
+    _greet() {
+        console.log('hello');
+    }
 }
 exports.default = Test;

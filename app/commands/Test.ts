@@ -14,6 +14,16 @@ export default class Test { //extends Command {
   ]
   
   async handle(foo: string, bar: string, options: string[]){
+    this._greet()
+
     console.log(foo, bar, options)
   };
+  
+  async other(a: string, options: string[]){
+    console.log(a, options)
+  };
+  
+  _greet(){
+    console.log('hello')
+  }
 }

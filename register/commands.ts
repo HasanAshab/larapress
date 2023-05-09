@@ -13,7 +13,7 @@ const commands: {[key: string]: string} = {
     clear: "app/commands/Clear"
   }
   */
-  test: "app/commands/Test",
+  test: "Test",
 }
 
 export default commands;
