@@ -2,7 +2,6 @@ import Middleware from "illuminate/middlewares/Middleware";
 import { base, log } from "helpers";
 import { Request, Response, NextFunction } from "express";
 
-
 export default class ErrorHandler extends Middleware{
   handle(err: any, req: Request, res: Response, next:NextFunction): Response<any, Record<string, any>> {
     const status = err.statusCode || err.status || 500;
