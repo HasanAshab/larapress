@@ -34,12 +34,11 @@ app.use(multer().any());
 
 
 
-//console.log(middleware('response.wrap'))
 app.use(middleware('response.wrap'));
-/*
+
 // Registering all event and listeners
 Setup.events(app);
-
+/*
 // Registering all group routes 
 Setup.routes(app);
 
