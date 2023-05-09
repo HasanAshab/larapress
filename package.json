@@ -7,8 +7,7 @@
     "test": "jest",
     "build": "tsc",
     "start": "node dist/main/index.js",
-    "dev": "clear && tsc && tsnd -r tsconfig-paths/register --respawn main",
-    "artisan": "ts-node -r tsconfig-paths/register artisan.ts"
+    "dev": "clear && tsc && tsnd -r tsconfig-paths/register --respawn main"
   },
   "author": "Samer",
   "license": "ISC",

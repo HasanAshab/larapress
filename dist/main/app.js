@@ -25,13 +25,7 @@ app.set('view engine', 'handlebars');
 app.set('views', (0, helpers_1.base)('views'));
 // Registering global middlewares
 app.use((0, multer_1.default)().any());
-const Artisan_1 = __importDefault(require("illuminate/utils/Artisan"));
-app.get('/', (req, res) => {
-    Artisan_1.default.call(['test', 'a', 'b']);
-    res.send('ok');
-});
-console.log((0, helpers_1.middleware)('response.wrap'));
-//app.use(middleware('response.wrap'));
+app.use((0, helpers_1.middleware)('response.wrap'));
 /*
 // Registering all event and listeners
 Setup.events(app);
@@ -39,7 +33,12 @@ Setup.events(app);
 // Registering all group routes
 Setup.routes(app);
 
-// Registering global error handling middleware
-app.use(middleware('error.handle'));
 */
+// Registering global error handling middleware
+app.use((0, helpers_1.middleware)('error.handle'));
+//import Artisan from "illuminate/utils/Artisan"
+app.get('/', (req, res) => {
+    //Artisan.call(['test', 'a', 'b'])
+    res.json([1, 2, 3, 4]);
+});
 exports.default = app;

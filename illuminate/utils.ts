@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import path from "path";
 import fs from "fs";
-
-type EndpointCallback = (endpoint: string, path: string) => void | Promise<void>;
+import { EndpointCallback } from "types";
 
 export function passErrorsToHandler(fn: Function): Function {
   if (fn.length === 4) {

@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import mongoose from 'mongoose';
 import urls from 'register/urls';
-import Middlewares from 'register/middlewares';
+import middlewarePairs from 'register/middlewares';
 
 export function base(base_path: string = ''): string {
   return path.join(__dirname, base_path);
@@ -68,7 +68,7 @@ export function middleware(keys: string | string[]): any {
     for (const key of keys) {
       const [name,
         params] = key.split(':');
-      const middlewarePaths = Middlewares[name];
+      const middlewarePaths = middlewarePairs[name];
       if (Array.isArray(middlewarePaths)) {
         const funcBasedParams = params?.split('|')
         for (let i = 0; i < middlewarePaths.length; i++) {
@@ -85,7 +85,7 @@ export function middleware(keys: string | string[]): any {
 
   const [name,
     params] = keys.split(':');
-  const middlewarePaths = Middlewares[name];
+  const middlewarePaths = middlewarePairs[name];
   if (middlewarePaths instanceof Array) {
     const middlewares = [];
     const funcBasedParams = typeof params !== 'undefined'

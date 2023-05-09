@@ -66,7 +66,7 @@ exports.storage = storage;
 function middleware(keys) {
     var _a, _b;
     function getMiddleware(middlewarePath, options = []) {
-        const MiddlewareClass = require(path_1.default.join(__dirname, middlewarePath));
+        const MiddlewareClass = require(path_1.default.join(__dirname, middlewarePath)).default;
         return new MiddlewareClass(options).handle;
     }
     if (Array.isArray(keys)) {

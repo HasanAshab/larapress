@@ -1,7 +1,10 @@
-const Middleware = require(base("illuminate/middlewares/Middleware"));
+import Middleware from "illuminate/middlewares/Middleware";
+import { base, log } from "helpers";
+import { Request, Response, NextFunction } from "express";
 
-class ErrorHandler extends Middleware{
-  handle(err, req, res, next){
+
+export default class ErrorHandler extends Middleware{
+  handle(err: any, req: Request, res: Response, next:NextFunction): Response<any, Record<string, any>> {
     const status = err.statusCode || err.status || 500;
     const message = err.message || 'Internal server error!';
     if(status === 500){
@@ -14,5 +17,3 @@ class ErrorHandler extends Middleware{
       :res.status(status).json({message});
   };
 }
-
-module.exports = ErrorHandler;
