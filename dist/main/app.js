@@ -30,9 +30,9 @@ app.get('/', (req, res) => {
     Artisan_1.default.call(['test', 'a', 'b']);
     res.send('ok');
 });
+console.log((0, helpers_1.middleware)('response.wrap'));
+//app.use(middleware('response.wrap'));
 /*
-app.use(middleware('response.wrap'));
-
 // Registering all event and listeners
 Setup.events(app);
 

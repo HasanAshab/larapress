@@ -5,18 +5,22 @@ class Exception {
         if (!this.errors.hasOwnProperty(errorType)) {
             throw new Error(`Error type '${errorType}' does not exist`);
         }
-        this.error = this.errors[errorType];
-        this.error.type = errorType;
-        this.error.name = this.name;
+        this.errorType = errorType;
         return this;
     }
     static create(data) {
+        const error = new Error();
+        error.name = this.constructor.name;
+        error.type = this.errorType;
+        for (const [key, value] of Object.entries(this.errors[this.errorType])) {
+            error[key] = value;
+        }
         if (data) {
-            this.error.message = this.error.message.replace(/:(\w+)/g, (match, key) => {
+            error.message = error.message.replace(/:(\w+)/g, (match, key) => {
                 return data[key] || match;
             });
         }
-        return this.error;
+        return error;
     }
 }
 exports.default = Exception;

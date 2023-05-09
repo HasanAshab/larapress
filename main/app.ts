@@ -32,14 +32,11 @@ app.set('views', base('views'));
 app.use(multer().any());
 
 
-import Artisan from "illuminate/utils/Artisan"
-app.get('/', (req, res) => {
-  Artisan.call(['test', 'a', 'b'])
-  res.send('ok')
-})
-/*
-app.use(middleware('response.wrap'));
 
+
+//console.log(middleware('response.wrap'))
+app.use(middleware('response.wrap'));
+/*
 // Registering all event and listeners
 Setup.events(app);
 
@@ -49,4 +46,11 @@ Setup.routes(app);
 // Registering global error handling middleware
 app.use(middleware('error.handle'));
 */
+
+//import Artisan from "illuminate/utils/Artisan"
+app.get('/', (req, res) => {
+  //Artisan.call(['test', 'a', 'b'])
+  res.json([1, 2, 3, 4])
+})
+
 export default app;

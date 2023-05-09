@@ -58,9 +58,9 @@ export function storage(storage_path: string = ''): string {
   return path.join(__dirname, path.join('storage', storage_path));
 }
 
-export function middleware(keys: string | string[]): Function | Function[] {
+export function middleware(keys: string | string[]): any {
   function getMiddleware(middlewarePath: string, options: string[] = []) {
-    const MiddlewareClass = require(path.join(__dirname, middlewarePath));
+    const MiddlewareClass = require(path.join(__dirname, middlewarePath)).default;
     return new MiddlewareClass(options).handle;
   }
   if (Array.isArray(keys)) {
