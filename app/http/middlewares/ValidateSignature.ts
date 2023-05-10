@@ -1,15 +1,16 @@
-const Middleware = require(base("illuminate/middlewares/Middleware"));
-const Cache = require(base("illuminate/utils/Cache"));
+import Middleware from "illuminate/middlewares/Middleware";
+import { Request, Response, NextFunction } from "express";
+import Cache from "illuminate/utils/Cache";
 
-class ValidateSignature extends Middleware {
-  handle(req, res, next){
+export default class ValidateSignature extends Middleware {
+  handle(req: Request, res: Response, next: NextFunction): Response<any, Record<string, any>> {
     const port = req.app.get('port') || req.socket.localPort;
     const fullUrl = `${req.protocol}://${req.hostname}:${port}${req.baseUrl}${req.path}`;
     const signature = req.query.s;
-    if(signature){
+    if(typeof signature !== 'undefined'){
       const signedSignature = Cache.get(`__signed__${fullUrl}`);
       if(signedSignature && signedSignature === signature){
-        return next()
+        return next();
       }
     }
     return res.status(401).json({
@@ -17,5 +18,3 @@ class ValidateSignature extends Middleware {
     });
   }
 }
-
-module.exports = ValidateSignature;
