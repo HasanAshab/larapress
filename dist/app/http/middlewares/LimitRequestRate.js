@@ -10,7 +10,7 @@ class LimitRequestRate extends Middleware_1.default {
         super(...arguments);
         this.handle = (0, express_rate_limit_1.default)({
             windowMs: 60 * 1000,
-            max: this.options[0],
+            max: Number(this.options[0]),
         });
     }
 }

@@ -1,8 +1,10 @@
 import Middleware from "illuminate/middlewares/Middleware";
-import { base, log } from "helpers";
 import { Request, Response, NextFunction } from "express";
+import { passErrorsToHandler } from "illuminate/decorators/method";
+import { base, log } from "helpers";
 
 export default class ErrorHandler extends Middleware {
+  @passErrorsToHandler()
   handle(err: any, req: Request, res: Response, next:NextFunction): Response<any, Record<string, any>> {
     const status = err.statusCode || err.status || 500;
     const message = err.message || 'Internal server error!';

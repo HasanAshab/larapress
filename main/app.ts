@@ -31,18 +31,16 @@ app.set('views', base('views'));
 // Registering global middlewares
 app.use(multer().any());
 app.use(middleware('response.wrap'));
+
 /*
 // Registering all event and listeners
 Setup.events(app);
 
 // Registering all group routes 
 Setup.routes(app);
-
 */
 
-//import Artisan from "illuminate/utils/Artisan"
 app.get('/', (req, res) => {
-  //Artisan.call(['test', 'a', 'b'])
   res.json([1, 2, 3, 4])
 })
 

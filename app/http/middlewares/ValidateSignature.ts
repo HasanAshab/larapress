@@ -1,8 +1,10 @@
 import Middleware from "illuminate/middlewares/Middleware";
 import { Request, Response, NextFunction } from "express";
+import { passErrorsToHandler } from "illuminate/decorators/method";
 import Cache from "illuminate/utils/Cache";
 
 export default class ValidateSignature extends Middleware {
+  @passErrorsToHandler()
   handle(req: Request, res: Response, next: NextFunction): Response<any, Record<string, any>> {
     const port = req.app.get('port') || req.socket.localPort;
     const fullUrl = `${req.protocol}://${req.hostname}:${port}${req.baseUrl}${req.path}`;

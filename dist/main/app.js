@@ -32,11 +32,8 @@ Setup.events(app);
 
 // Registering all group routes
 Setup.routes(app);
-
 */
-//import Artisan from "illuminate/utils/Artisan"
 app.get('/', (req, res) => {
-    //Artisan.call(['test', 'a', 'b'])
     res.json([1, 2, 3, 4]);
 });
 // Registering global error handling middleware

@@ -10,11 +10,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Middleware_1 = __importDefault(require("illuminate/middlewares/Middleware"));
-const helpers_1 = require("helpers");
 const method_1 = require("illuminate/decorators/method");
-let WrapResponse = class WrapResponse extends Middleware_1.default {
+const helpers_1 = require("helpers");
+class WrapResponse extends Middleware_1.default {
     async handle(req, res, next) {
-        throw new Error;
         const originalJson = res.json;
         res.json = function (response) {
             const success = res.statusCode >= 200 && res.statusCode < 300;
@@ -47,8 +46,8 @@ let WrapResponse = class WrapResponse extends Middleware_1.default {
         };
         next();
     }
-};
-WrapResponse = __decorate([
-    method_1.passErrorsToHandler
-], WrapResponse);
+}
+__decorate([
+    (0, method_1.passErrorsToHandler)()
+], WrapResponse.prototype, "handle", null);
 exports.default = WrapResponse;
