@@ -61,7 +61,6 @@ export function storage(storage_path: string = ''): string {
 export function middleware(keys: string | string[]): any {
   function getMiddleware(middlewarePath: string, options: string[] = []) {
     const MiddlewareClass = require(path.join(__dirname, middlewarePath)).default;
-    console.log(new MiddlewareClass(options))
     const middlewareInstance = new MiddlewareClass(options);
     return middlewareInstance.handle.bind(middlewareInstance);
   }

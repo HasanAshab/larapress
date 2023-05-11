@@ -2,11 +2,13 @@ import Middleware from "illuminate/middlewares/Middleware";
 import { base, isObject } from "helpers";
 import { Request, Response, NextFunction } from "express";
 import { WrappedResponse, UnwrappedResponse } from "types";
+import { passErrorsToHandler } from "illuminate/decorators/class";
 
+@passErrorsToHandler
 export default class WrapResponse extends Middleware {
-  handle(req: Request, res: Response, next: NextFunction): void {
+  async handle(req: Request, res: Response, next: NextFunction): Promise<void> {
+    throw new Error
     const originalJson = res.json;
-    
     res.json = function (response: UnwrappedResponse): Response<any, Record<string, any>> {
       const success = res.statusCode >= 200 && res.statusCode < 300;
       const wrappedData: WrappedResponse = { success }

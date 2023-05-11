@@ -67,7 +67,6 @@ function middleware(keys) {
     var _a, _b;
     function getMiddleware(middlewarePath, options = []) {
         const MiddlewareClass = require(path_1.default.join(__dirname, middlewarePath)).default;
-        console.log(new MiddlewareClass(options));
         const middlewareInstance = new MiddlewareClass(options);
         return middlewareInstance.handle.bind(middlewareInstance);
     }
