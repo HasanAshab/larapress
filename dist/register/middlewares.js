@@ -10,9 +10,9 @@ const middlewares = {
     "admin": "/app/http/middlewares/CheckIfTheUserIsAdmin",
     "limit": "/app/http/middlewares/LimitRequestRate",
     "signed": "/app/http/middlewares/ValidateSignature",
-    "cache": "/app/http/middlewares/CacheResponse",
     "validate": "/app/http/middlewares/ValidateRequest",
     "response.wrap": "/app/http/middlewares/WrapResponse",
+    "response.cache": "/app/http/middlewares/CacheResponse",
     "error.handle": "/app/http/middlewares/ErrorHandler"
 };
 exports.default = middlewares;

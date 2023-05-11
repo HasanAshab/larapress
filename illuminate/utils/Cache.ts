@@ -1,20 +1,23 @@
-const memoryCache = require("memory-cache");
-const { createClient } = require("redis");
-const CacheError = require(base("illuminate/exceptions/utils/CacheError"));
+import memoryCache from "memory-cache";
+import { createClient } from "redis";
+import CacheError from "illuminate/exceptions/utils/CacheError";
 const redisUrl = process.env.REDIS_URL;
-const defaultDriver = process.env.CACHE;
 
-class Cache {
-  static driver(cacheDriver = defaultDriver) {
+export default class Cache {
+  static _driver = process.env.CACHE;
+  static action: "get" | "put";
+  static params: [string, any?, number?];
+  
+  static driver(cacheDriver: string): Cache {
     this._driver = cacheDriver;
     return this;
   }
 
-  static memoryDriver() {
+  static memoryDriver(): any {
     return memoryCache[this.action](...this.params);
   }
 
-  static async redisDriver() {
+  static async redisDriver(): Promise<any> {
     const client = createClient({
       url: redisUrl
     });
@@ -25,16 +28,13 @@ class Cache {
     return result;
   }
 
-  static fileDriver() {
+  static fileDriver(): never {
     throw new Error('This should be implemented');
   }
 
-  static async get(...params) {
-    this.params = params;
+  static async get(key: string): Promise<any> {
+    this.params = [key];
     this.action = "get";
-    if (typeof this._driver === "undefined") {
-      this.driver();
-    }
     try {
       return await this[`${this._driver}Driver`]();
     } catch {
@@ -42,14 +42,11 @@ class Cache {
     }
   }
 
-  static put(...params) {
+  static async put(...params: [string, any, number?]): void {
     this.params = params;
     this.action = "put";
-    if (typeof this._driver === "undefined") {
-      this.driver();
-    }
     try {
-      return this[`${this._driver}Driver`]();
+      return await this[`${this._driver}Driver`]();
     } catch {
       throw CacheError.type("INVALID_DRIVER").create();
     }

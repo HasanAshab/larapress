@@ -30,10 +30,6 @@ app.set('views', base('views'));
 
 // Registering global middlewares
 app.use(multer().any());
-
-
-
-
 app.use(middleware('response.wrap'));
 
 /*
@@ -45,14 +41,14 @@ Setup.routes(app);
 
 */
 
-// Registering global error handling middleware
-app.use(middleware('error.handle'));
-
-
 //import Artisan from "illuminate/utils/Artisan"
 app.get('/', (req, res) => {
   //Artisan.call(['test', 'a', 'b'])
   res.json([1, 2, 3, 4])
 })
+
+// Registering global error handling middleware
+app.use(middleware('error.handle'));
+
 
 export default app;

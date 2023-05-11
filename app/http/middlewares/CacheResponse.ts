@@ -1,10 +1,10 @@
 import Middleware from "illuminate/middlewares/Middleware";
 import { Request, Response, NextFunction } from "express";
-import Cache from "illuminate/utils/Cache";
 
 export default class CacheResponse extends Middleware {
-  handle(req: Request, res: Response, next:NextFunction): Response<any, Record<string, any>> {
-    res.set('Cache-controll', (req.method === 'GET') ? `public, max-age=${this.options[0]}` : 'no-store');
+  handle(req: Request, res: Response, next: NextFunction): void {
+    const maxAge = this.options[0] || 5 * 60 * 1000;
+    res.set('Cache-control', req.method === 'GET'? `public, max-age=${maxAge}` : 'no-store');
     next();
   }
 }
