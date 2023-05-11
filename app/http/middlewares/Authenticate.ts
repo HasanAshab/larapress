@@ -1,10 +1,11 @@
-const Middleware = require(base("illuminate/middlewares/Middleware"));
-const jwt = require("jsonwebtoken");
-const User = require(base("app/models/User"));
-const AuthenticationError = require(base("app/exceptions/AuthenticationError"));
+import Middleware from "illuminate/middlewares/Middleware";
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import User from "app/models/User";
+import AuthenticationError from "app/exceptions/AuthenticationError";
 
-class Authenticate extends Middleware {
-  async handle(req, res, next) {
+export default class Authenticate extends Middleware {
+  async handle(req: Request, res: Response, next: NextFunction): Promise<Response<any, Record<string, any>>> {
     const authHeader = req.headers.authorization;
     if (authHeader) {
       const token = authHeader.split(" ")[1];
@@ -25,5 +26,3 @@ class Authenticate extends Middleware {
     throw AuthenticationError.type("INVALID_OR_EXPIRED_TOKEN").create();
   }
 }
-
-module.exports = Authenticate;

@@ -1,10 +1,11 @@
-const Middleware = require(base("illuminate/middlewares/Middleware"));
-const path = require('path');
+import Middleware from "illuminate/middlewares/Middleware";
+import { Request, Response, NextFunction } from "express";
+import path from "path";
 
-class ValidateRequest extends Middleware {
-  handle(req, res, next) {
+export default class ValidateRequest extends Middleware {
+  handle(req: Request, res: Response, next: NextFunction): Response<any, Record<string, any>> {
     try {
-      var ValidationRule = require(base(path.join('app/http/validations/', this.options[0])));
+      var ValidationRule = require(base(path.join('app/http/validations/', this.options[0]))).default;
     } catch {
       return next();
     }
@@ -36,8 +37,8 @@ class ValidateRequest extends Middleware {
     next();
   }
 
-  _parseFiles(req) {
-    const files = {};
+  _parseFiles(req: Request) {
+    const files: {[key: string]: {[key: string]: any} | {[key: string]: any}[]} = {};
     req.files.forEach((file) => {
       if (files[file.fieldname]) {
         if (Array.isArray(files[file.fieldname])) {
@@ -52,5 +53,3 @@ class ValidateRequest extends Middleware {
     req.files = files;
   }
 }
-
-module.exports = ValidateRequest;
