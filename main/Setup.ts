@@ -13,11 +13,12 @@ export default class Setup {
     }
   };
 
-  static async events(app: Application): Promise<void> {
+  static events(app: Application): void {
     for (const [event, listenerNames] of Object.entries(events)) {
       for (const listenerName of listenerNames) {
-        const listener = await import(`app/listeners/${listenerName}`);
-        app.on(event, listener.dispatch);
+        const Listener = require(base(`app/listeners/${listenerName}`)).default;
+        const listenerInstance = new Listener();
+        app.on(event, listenerInstance.dispatch.bind(listenerInstance));
       }
     }
   };

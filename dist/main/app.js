@@ -9,6 +9,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const express_handlebars_1 = require("express-handlebars");
 const multer_1 = __importDefault(require("multer"));
+const Setup_1 = __importDefault(require("main/Setup"));
 const app = (0, express_1.default)();
 // Domains that can only access the API
 app.use((0, cors_1.default)({
@@ -26,10 +27,9 @@ app.set('views', (0, helpers_1.base)('views'));
 // Registering global middlewares
 app.use((0, multer_1.default)().any());
 app.use((0, helpers_1.middleware)('response.wrap'));
-/*
 // Registering all event and listeners
-Setup.events(app);
-
+Setup_1.default.events(app);
+/*
 // Registering all group routes
 Setup.routes(app);
 */

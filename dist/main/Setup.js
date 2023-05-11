@@ -39,11 +39,12 @@ class Setup {
         }
     }
     ;
-    static async events(app) {
+    static events(app) {
         for (const [event, listenerNames] of Object.entries(events_1.default)) {
             for (const listenerName of listenerNames) {
-                const listener = await Promise.resolve(`${`app/listeners/${listenerName}`}`).then(s => __importStar(require(s)));
-                app.on(event, listener.dispatch);
+                const Listener = require((0, helpers_1.base)(`app/listeners/${listenerName}`)).default;
+                const listenerInstance = new Listener();
+                app.on(event, listenerInstance.dispatch.bind(listenerInstance));
             }
         }
     }

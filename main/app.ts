@@ -32,17 +32,17 @@ app.set('views', base('views'));
 app.use(multer().any());
 app.use(middleware('response.wrap'));
 
-/*
 // Registering all event and listeners
 Setup.events(app);
 
+/*
 // Registering all group routes 
 Setup.routes(app);
 */
 
 app.get('/', (req, res) => {
   res.json([1, 2, 3, 4])
-})
+});
 
 // Registering global error handling middleware
 app.use(middleware('error.handle'));
