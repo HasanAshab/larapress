@@ -1,6 +1,7 @@
 import Middleware from "illuminate/middlewares/Middleware";
 import { Request, Response, NextFunction } from "express";
 import { passErrorsToHandler } from "illuminate/decorators/method";
+import { File } from "types";
 import path from "path";
 
 export default class ValidateRequest extends Middleware {
@@ -40,7 +41,7 @@ export default class ValidateRequest extends Middleware {
   }
 
   _parseFiles(req: Request) {
-    const files: {[key: string]: {[key: string]: any} | {[key: string]: any}[]} = {};
+    const files: {[key: string]: File | File[]} = {};
     req.files.forEach((file) => {
       if (files[file.fieldname]) {
         if (Array.isArray(files[file.fieldname])) {

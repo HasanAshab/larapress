@@ -18,7 +18,7 @@ module.exports = schema => {
   }
 
   schema.methods.attachFile = async function (name, file, attachLinkToModel = false) {
-    const path = Storage.putFile("public/uploads", file);
+    const path = await Storage.putFile("public/uploads", file);
     const media = new Media({
       name,
       mediableId: this._id,
@@ -40,7 +40,7 @@ module.exports = schema => {
   schema.methods.attachFiles = async function (files, attachLinkToModel) {
     const allMedia = [];
     for (name of Object.keys(files)) {
-      const path = Storage.putFile("public/uploads", files[name]);
+      const path = await Storage.putFile("public/uploads", files[name]);
       const media = new Media({
         name,
         mediableId: this._id,

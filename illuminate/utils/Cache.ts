@@ -1,7 +1,6 @@
 import memoryCache from "memory-cache";
 import { createClient } from "redis";
 import CacheError from "illuminate/exceptions/utils/CacheError";
-const redisUrl = process.env.REDIS_URL;
 
 export default class Cache {
   static _driver = process.env.CACHE;
@@ -18,6 +17,7 @@ export default class Cache {
   }
 
   static async redisDriver(): Promise<any> {
+    const redisUrl = process.env.REDIS_URL;
     const client = createClient({
       url: redisUrl
     });

@@ -1,3 +1,4 @@
+import { UrlData } from "types";
 import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
@@ -9,11 +10,13 @@ export function base(base_path: string = ''): string {
   return path.join(__dirname, base_path);
 }
 
-export function isClass(target: any): boolean {
+
+// TODO 
+export function isClass(target: any): target is class {
   return typeof target === 'function' && /^\s*class\s+/.test(target.toString());
 }
 
-export function isObject(target: any): boolean {
+export function isObject(target: any): target is object {
   return typeof target === 'object' && target !== null && !Array.isArray(target);
 }
 
@@ -37,7 +40,7 @@ export function clientUrl(url_path: string = ''): string {
   return `${protocol}://${path.join(`${domain}:${port}`, url_path)}`;
 }
 
-export function route(name: string, data?: {[key: string]: string | number}): string | null {
+export function route(name: string, data?: UrlData): string | null {
   let endpoint = urls[name];
   if (!endpoint) {
     return null;

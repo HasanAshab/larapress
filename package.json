@@ -7,7 +7,7 @@
     "test": "jest",
     "build": "tsc",
     "start": "node dist/main/index.js",
-    "dev": "npx concurrently 'tsc --watch > /dev/null 2>&1' 'tsnd -r tsconfig-paths/register --respawn main'"
+    "dev": "clear && npx concurrently 'tsc --watch > /dev/null 2>&1' 'tsnd -r tsconfig-paths/register --respawn main'"
   },
   "author": "Samer",
   "license": "ISC",
@@ -34,9 +34,11 @@
   "devDependencies": {
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
+    "@types/memory-cache": "^0.2.2",
     "@types/multer": "^1.4.7",
     "@types/node": "^20.1.0",
     "@types/node-cron": "^3.0.7",
+    "@types/nodemailer": "^6.4.7",
     "faker": "^5.5.3",
     "jest": "^29.5.0",
     "nodemailer-mock": "^2.0.1",

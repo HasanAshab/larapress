@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const memory_cache_1 = __importDefault(require("memory-cache"));
 const redis_1 = require("redis");
 const CacheError_1 = __importDefault(require("illuminate/exceptions/utils/CacheError"));
-const redisUrl = process.env.REDIS_URL;
 class Cache {
     static driver(cacheDriver) {
         this._driver = cacheDriver;
@@ -16,6 +15,7 @@ class Cache {
         return memory_cache_1.default[this.action](...this.params);
     }
     static async redisDriver() {
+        const redisUrl = process.env.REDIS_URL;
         const client = (0, redis_1.createClient)({
             url: redisUrl
         });

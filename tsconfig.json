@@ -10,6 +10,9 @@
     "esModuleInterop": true,
     "experimentalDecorators": true
   },
+  "files": [
+    "illuminate/utils/Mail.ts"
+  ],
   "exclude": [
     "node_modules",
     "artisan.ts"

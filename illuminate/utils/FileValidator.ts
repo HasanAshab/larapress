@@ -1,6 +1,4 @@
-const FileValidatorError = require(base(
-  "illuminate/exceptions/utils/FileValidatorError"
-));
+import FileValidatorError from "illuminate/exceptions/utils/FileValidatorError";
 
 class FileValidator {
   constructor() {
@@ -110,4 +108,5 @@ class FileValidator {
 }
 
 FileValidator.addRules();
-module.exports = FileValidator;
+
+export default FileValidator;

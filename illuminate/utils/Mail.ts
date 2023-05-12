@@ -1,23 +1,41 @@
-const nodemailer = require("nodemailer");
-const handlebars = require("express-handlebars");
-const nodemailerMock = require("nodemailer-mock");
-const nodemailerHbs = require("nodemailer-express-handlebars");
+import {
+  base
+} from "helpers";
+import {
+  Recipient,
+  RecipientEmails,
+  Mailable
+} from "types";
+import ShouldQueue from "illuminate/queue/ShouldQueue";
+import nodemailer, {
+  Transporter,
+  TransportConfig
+} from "nodemailer";
+import nodemailerMock from "nodemailer-mock";
+import handlebars from "express-handlebars";
+import nodemailerHbs from "nodemailer-express-handlebars";
 
-class Mail {
-  static to(email) {
+export default class Mail {
+  static email: RecipientEmails;
+  static mailable: Mailable;
+  static transporter: Transporter < TransportConfig >;
+  static isMocked = false;
+  static dispatchAfter = 0;
+
+  static to(email: RecipientEmails): Mail {
     this.email = email;
     return this;
   }
-  
-  static mock(){
+
+  static mock(): void {
     this.isMocked = true;
   }
 
-  static setTransporter(data) {
-    if(typeof this.transporter !== 'undefined'){
+  static setTransporter(config?: TransportConfig): Mail {
+    if (typeof this.transporter !== 'undefined') {
       return this;
     }
-    if (data) {
+    if (typeof config !== "undefined") {
       this.transporter = nodemailer.createTransport(data);
     } else if (this.isMocked) {
       this.transporter = nodemailerMock.createTransport({
@@ -37,7 +55,7 @@ class Mail {
     return this;
   }
 
-  static setTemplateEngine() {
+  static setTemplateEngine(): void {
     const hbs = handlebars.create({
       extname: ".handlebars",
       defaultLayout: "main",
@@ -55,7 +73,7 @@ class Mail {
     );
   }
 
-  static getRecipient(email) {
+  static getRecipient(email: string): Recipient {
     return {
       from: `${process.env.MAIL_FROM_NAME} <${process.env.MAIL_FROM_ADDRESS}>`,
       to: email,
@@ -65,38 +83,38 @@ class Mail {
     };
   }
 
-  static delay(miliseconds) {
+  static delay(miliseconds: number): Mail {
     this.dispatchAfter = miliseconds;
     return this;
   }
 
-  static async dispatch(mailable) {
+  static async dispatch(mailable: Mailable): Promise < void > {
     this.mailable = mailable;
     this.setTransporter();
     this.setTemplateEngine();
     if (Array.isArray(this.email)) {
       for (let email of this.email) {
-        email = isObject(email) ? email.email : email;
+        email = isObject(email) ? email.email: email;
         await this.transporter.sendMail(this.getRecipient(email));
       }
     } else {
-      const email = isObject(this.email) ? this.email.email : this.email;
+      const email = isObject(this.email) ? this.email.email: this.email;
       await this.transporter.sendMail(this.getRecipient(email));
     }
-    return true;
   }
 
-  static async send(mailable) {
-    if (!this.isMocked && mailable.shouldQueue) {
+  static async send(mailable: Mailable): Promise < void > {
+    function isQueueable(object: any): object is ShouldQueue {
+      return "queue" in object;
+    }
+    if (!this.isMocked && isQueueable(mailable) && mailable.shouldQueue) {
       mailable.setQueue();
       mailable.queue.process((job) => this.dispatch(job.data));
-      return await mailable.queue.add(mailable, {
-        delay: this.dispatchAfter || 0,
+      await mailable.queue.add(mailable, {
+        delay: this.dispatchAfter,
       });
     } else {
-      return await this.dispatch(mailable);
+      await this.dispatch(mailable);
     }
   }
 }
-
-module.exports = Mail;
