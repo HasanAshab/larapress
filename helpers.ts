@@ -10,16 +10,6 @@ export function base(base_path: string = ''): string {
   return path.join(__dirname, base_path);
 }
 
-
-// TODO 
-export function isClass(target: any): target is class {
-  return typeof target === 'function' && /^\s*class\s+/.test(target.toString());
-}
-
-export function isObject(target: any): target is object {
-  return typeof target === 'object' && target !== null && !Array.isArray(target);
-}
-
 export function capitalizeFirstLetter(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }

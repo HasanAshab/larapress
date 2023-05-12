@@ -6,11 +6,8 @@ import {
   RecipientEmails,
   Mailable
 } from "types";
-import ShouldQueue from "illuminate/queue/ShouldQueue";
-import nodemailer, {
-  Transporter,
-  TransportConfig
-} from "nodemailer";
+import { isObject, isQueueable } from "illuminate/guards";
+import { createTransport, Transporter, SendMailOptions, TransportOptions } from "nodemailer";
 import nodemailerMock from "nodemailer-mock";
 import handlebars from "express-handlebars";
 import nodemailerHbs from "nodemailer-express-handlebars";
@@ -18,7 +15,7 @@ import nodemailerHbs from "nodemailer-express-handlebars";
 export default class Mail {
   static email: RecipientEmails;
   static mailable: Mailable;
-  static transporter: Transporter < TransportConfig >;
+  static transporter: Transporter<SendMailOptions>;
   static isMocked = false;
   static dispatchAfter = 0;
 
@@ -31,26 +28,26 @@ export default class Mail {
     this.isMocked = true;
   }
 
-  static setTransporter(config?: TransportConfig): Mail {
+  static setTransporter(config?: TransportOptions): Mail {
     if (typeof this.transporter !== 'undefined') {
       return this;
     }
     if (typeof config !== "undefined") {
-      this.transporter = nodemailer.createTransport(data);
+      this.transporter = createTransport(config);
     } else if (this.isMocked) {
       this.transporter = nodemailerMock.createTransport({
         host: "127.0.0.1",
         port: -100,
       });
     } else {
-      this.transporter = nodemailer.createTransport({
-        host: process.env.MAIL_HOST,
-        port: process.env.MAIL_PORT,
+      this.transporter = createTransport({
+        host: process.env.MAIL_HOST || 'smtp-relay.sendinblue.com',
+        port: process.env.MAIL_PORT || '587',
         auth: {
-          user: process.env.MAIL_USERNAME,
-          pass: process.env.MAIL_PASSWORD,
+          user: process.env.MAIL_USERNAME || '',
+          pass: process.env.MAIL_PASSWORD || '',
         },
-      });
+      } as TransportOptions);
     }
     return this;
   }
@@ -104,9 +101,6 @@ export default class Mail {
   }
 
   static async send(mailable: Mailable): Promise < void > {
-    function isQueueable(object: any): object is ShouldQueue {
-      return "queue" in object;
-    }
     if (!this.isMocked && isQueueable(mailable) && mailable.shouldQueue) {
       mailable.setQueue();
       mailable.queue.process((job) => this.dispatch(job.data));

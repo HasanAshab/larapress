@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getParams = exports.log = exports.setEnv = exports.middleware = exports.storage = exports.route = exports.clientUrl = exports.url = exports.capitalizeFirstLetter = exports.isObject = exports.isClass = exports.base = void 0;
+exports.getParams = exports.log = exports.setEnv = exports.middleware = exports.storage = exports.route = exports.clientUrl = exports.url = exports.capitalizeFirstLetter = exports.base = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
@@ -13,14 +13,6 @@ function base(base_path = '') {
     return path_1.default.join(__dirname, base_path);
 }
 exports.base = base;
-function isClass(target) {
-    return typeof target === 'function' && /^\s*class\s+/.test(target.toString());
-}
-exports.isClass = isClass;
-function isObject(target) {
-    return typeof target === 'object' && target !== null && !Array.isArray(target);
-}
-exports.isObject = isObject;
 function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
