@@ -11,7 +11,7 @@
     "experimentalDecorators": true
   },
   "files": [
-    "illuminate/utils/Mail.ts"
+    "illuminate/utils/URL.ts"
   ],
   "exclude": [
     "node_modules",
