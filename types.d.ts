@@ -39,13 +39,6 @@ export type Recipient = {
 
 export type RecipientEmails = string | string[] | ({email: string} & {[key: string]: any}) | ({email: string} & {[key: string]: any})[];
 
-
-  export interface Mailable {
-    view: string;
-    subject: string;
-    data: {[key: string]: any};
-  }
-
   export type TransportConfig = {
     host: string,
     port: number,

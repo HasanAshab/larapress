@@ -4,12 +4,12 @@ import {
 import {
   Recipient,
   RecipientEmails,
-  Mailable
 } from "types";
+import Mailable from "illuminate/mails/Mailable";
 import { isObject, isQueueable } from "illuminate/guards";
 import { createTransport, Transporter, SendMailOptions, TransportOptions } from "nodemailer";
 import nodemailerMock from "nodemailer-mock";
-import handlebars from "express-handlebars";
+import { create as createHandlebars } from "express-handlebars";
 import nodemailerHbs from "nodemailer-express-handlebars";
 
 export default class Mail {
@@ -19,16 +19,16 @@ export default class Mail {
   static isMocked = false;
   static dispatchAfter = 0;
 
-  static to(email: RecipientEmails): Mail {
+  static to(email: RecipientEmails): typeof Mail {
     this.email = email;
-    return this;
+    return Mail;
   }
 
   static mock(): void {
     this.isMocked = true;
   }
 
-  static setTransporter(config?: TransportOptions): Mail {
+  static setTransporter(config?: TransportOptions): typeof Mail {
     if (typeof this.transporter !== 'undefined') {
       return this;
     }
@@ -53,7 +53,7 @@ export default class Mail {
   }
 
   static setTemplateEngine(): void {
-    const hbs = handlebars.create({
+    const hbs = createHandlebars({
       extname: ".handlebars",
       defaultLayout: "main",
       layoutsDir: base("views/layouts"),
@@ -80,7 +80,7 @@ export default class Mail {
     };
   }
 
-  static delay(miliseconds: number): Mail {
+  static delay(miliseconds: number): typeof Mail {
     this.dispatchAfter = miliseconds;
     return this;
   }
@@ -98,6 +98,7 @@ export default class Mail {
       const email = isObject(this.email) ? this.email.email: this.email;
       await this.transporter.sendMail(this.getRecipient(email));
     }
+    console.log('success');
   }
 
   static async send(mailable: Mailable): Promise < void > {

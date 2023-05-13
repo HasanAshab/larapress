@@ -11,14 +11,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Middleware_1 = __importDefault(require("illuminate/middlewares/Middleware"));
 const method_1 = require("illuminate/decorators/method");
-const helpers_1 = require("helpers");
+const guards_1 = require("illuminate/guards");
 class WrapResponse extends Middleware_1.default {
     async handle(req, res, next) {
         const originalJson = res.json;
         res.json = function (response) {
             const success = res.statusCode >= 200 && res.statusCode < 300;
             const wrappedData = { success };
-            if ((0, helpers_1.isObject)(response)) {
+            if ((0, guards_1.isObject)(response)) {
                 wrappedData.data = {};
                 for (const [key, value] of Object.entries(response)) {
                     if (key === "data") {

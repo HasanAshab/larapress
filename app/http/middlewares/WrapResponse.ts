@@ -1,7 +1,8 @@
 import Middleware from "illuminate/middlewares/Middleware";
 import { Request, Response, NextFunction } from "express";
 import { passErrorsToHandler } from "illuminate/decorators/method";
-import { base, isObject } from "helpers";
+import { base } from "helpers";
+import { isObject } from "illuminate/guards";
 import { WrappedResponse, UnwrappedResponse } from "types";
 
 export default class WrapResponse extends Middleware {
