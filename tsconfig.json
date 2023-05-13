@@ -10,9 +10,7 @@
     "esModuleInterop": true,
     "experimentalDecorators": true
   },
-  "files": [
-    "illuminate/utils/FileValidator/index.ts"
-  ],
+
   "exclude": [
     "node_modules",
     "artisan.ts"

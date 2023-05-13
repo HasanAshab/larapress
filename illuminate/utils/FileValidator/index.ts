@@ -1,67 +1,23 @@
-import FileValidatorError from "illuminate/exceptions/utils/FileValidatorError";
 import { File } from "types";
+import validators from "illuminate/utils/FileValidator/validators";
+import FileValidatorError from "illuminate/exceptions/utils/FileValidatorError";
 
 class FileValidator {
+  [key: string]: any;
   static object: {[key: string]: FileValidator};
   static file: File;
   static fieldName: string;
-  public rules: {[key: string]: any};
-
-  constructor() {
-    this.rules = { required: false };
-  }
-
+  public rules: {[key: string]: any} = { required: false };
+  
   static fields(obj: {[key: string]: FileValidator}): typeof FileValidator {
     this.object = obj;
     return this;
   }
 
-  static maxValidator(bytes: number) {
-    if (this.file.size > bytes) {
-      throw FileValidatorError.type("TOO_LARGE_FILE").create({
-        fieldName: this.fieldName,
-        size: `${bytes / 1000000} MB!`,
-      });
-    }
-  }
-  static minValidator(bytes: number) {
-    if (this.file.size < bytes) {
-      throw FileValidatorError.type("TOO_SMALL_FILE").create({
-        fieldName: this.fieldName,
-        size: `${bytes / 1000000} MB!`,
-      });
-    }
-  }
-
-  static mimetypesValidator(validMimetypes: string[]) {
-    if (!validMimetypes.includes(this.file.mimetype)) {
-      throw FileValidatorError.type("INVALID_MIMETYPE").create({
-        fieldName: this.fieldName,
-        mimetypes: validMimetypes.join(" or "),
-      });
-    }
-  }
-
-  static customValidator(cb: ((file: File) => void)) {
-    cb(this.file);
-  }
-
-  static getValidators() {
-    const staticMethods = Object.getOwnPropertyNames(this);
-    const validators = staticMethods.filter((name) =>
-      name.endsWith("Validator")
-    );
-    return validators;
-  }
-
   static addRules() {
-    const rules = this.getValidators().map((name) =>
-      name.replace("Validator", "")
-    );
-    rules.push("required");
-    rules.push("maxLength");
+    const rules = ["required", "maxLength", ...Object.keys(validators)];
     for (let i in rules) {
-      FileValidator.prototype[rules[i]] = function (value = true) {
+      FileValidator.prototype[rules[i]] = function (value: unknown = true): FileValidator {
         this.rules[rules[i]] = value;
         return this;
       };
@@ -70,7 +26,7 @@ class FileValidator {
 
   static fireValidator(rules: {[key: string]: any}) {
     for (const [rule, value] of Object.entries(rules)) {
-      this[`${rule}Validator`](value);
+      validators[rule](value);
     }
   }
 

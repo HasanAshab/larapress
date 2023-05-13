@@ -102,10 +102,10 @@ export default class Mail {
   }
 
   static async send(mailable: Mailable): Promise < void > {
-    if (!this.isMocked && isQueueable(mailable) && mailable.shouldQueue) {
-      mailable.setQueue();
-      mailable.queue.process((job) => this.dispatch(job.data));
-      await mailable.queue.add(mailable, {
+    if (!this.isMocked && isQueueable(mailable)) {
+      const queue = mailable.createQueue();
+      queue.process((job) => this.dispatch(job.data));
+      await queue.add(mailable, {
         delay: this.dispatchAfter,
       });
     } else {

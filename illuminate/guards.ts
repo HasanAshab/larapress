@@ -9,5 +9,5 @@ export function isObject(target: any): target is object {
 }
 
 export function isQueueable(target: any): target is ShouldQueue {
-  return "queue" in target;
+  return target.shouldQueue;
 }

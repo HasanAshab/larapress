@@ -1,5 +1,11 @@
-export default abstract class Mailable {
+import Queueable from "illuminate/queue/Queueable";
+
+export default abstract class Mailable extends Queueable {
   abstract view: string;
   abstract subject: string;
-  abstract data: {[key: string]: any};
+  
+  constructor(public data: {[key: string]: any} = {}){
+    super();
+    this.data = data;
+  }
 }
