@@ -11,7 +11,7 @@
     "experimentalDecorators": true
   },
   "files": [
-    "illuminate/utils/Cache.ts"
+    "illuminate/utils/Cache/index.ts"
   ],
   "exclude": [
     "node_modules",

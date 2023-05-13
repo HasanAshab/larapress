@@ -55,3 +55,5 @@ export type RecipientEmails = string | string[] | ({email: string} & {[key: stri
       pass: string,
     }
   }
+  
+export type CacheDriverResponse = Promise<null | string>;
