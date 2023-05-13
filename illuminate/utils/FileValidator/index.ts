@@ -1,16 +1,22 @@
 import FileValidatorError from "illuminate/exceptions/utils/FileValidatorError";
+import { File } from "types";
 
 class FileValidator {
+  static object: {[key: string]: FileValidator};
+  static file: File;
+  static fieldName: string;
+  public rules: {[key: string]: any};
+
   constructor() {
     this.rules = { required: false };
   }
 
-  static fields(obj) {
+  static fields(obj: {[key: string]: FileValidator}): typeof FileValidator {
     this.object = obj;
     return this;
   }
 
-  static maxValidator(bytes) {
+  static maxValidator(bytes: number) {
     if (this.file.size > bytes) {
       throw FileValidatorError.type("TOO_LARGE_FILE").create({
         fieldName: this.fieldName,
@@ -18,7 +24,7 @@ class FileValidator {
       });
     }
   }
-  static minValidator(bytes) {
+  static minValidator(bytes: number) {
     if (this.file.size < bytes) {
       throw FileValidatorError.type("TOO_SMALL_FILE").create({
         fieldName: this.fieldName,
@@ -27,7 +33,7 @@ class FileValidator {
     }
   }
 
-  static mimetypesValidator(validMimetypes) {
+  static mimetypesValidator(validMimetypes: string[]) {
     if (!validMimetypes.includes(this.file.mimetype)) {
       throw FileValidatorError.type("INVALID_MIMETYPE").create({
         fieldName: this.fieldName,
@@ -36,7 +42,7 @@ class FileValidator {
     }
   }
 
-  static customValidator(cb) {
+  static customValidator(cb: ((file: File) => void)) {
     cb(this.file);
   }
 
@@ -62,13 +68,13 @@ class FileValidator {
     }
   }
 
-  static fireValidatorFor(rules) {
+  static fireValidator(rules: {[key: string]: any}) {
     for (const [rule, value] of Object.entries(rules)) {
       this[`${rule}Validator`](value);
     }
   }
 
-  static removeUnnecessaryRules(files) {
+  static removeUnnecessaryRules(files: {[key: string]: File}) {
     for (const [fieldName, { rules }] of Object.entries(this.object)) {
       if (!files[fieldName]) {
         if (rules.required) {
@@ -78,7 +84,8 @@ class FileValidator {
         }
         delete this.object[fieldName];
       } else {
-        if (Array.isArray(files[fieldName]) && files[fieldName].length > rules.maxLength) {
+        const fileStack = files[fieldName]
+        if (Array.isArray(fileStack) && fileStack.length > rules.maxLength) {
           throw FileValidatorError.type("TOO_MANY_PARTS").create({
             fieldName,
             maxLength: rules.maxLength,
@@ -90,18 +97,19 @@ class FileValidator {
     }
   }
 
-  static validate(files) {
+  static validate(files: {[key: string]: File}) {
     this.removeUnnecessaryRules(files);
     for (const [fieldName, { rules }] of Object.entries(this.object)) {
       this.fieldName = fieldName;
-      if (Array.isArray(files[fieldName])) {
-        for (const file of files[fieldName]) {
+      const fileStack = files[fieldName];
+      if (Array.isArray(fileStack)) {
+        for (const file of fileStack) {
           this.file = file;
-          this.fireValidatorFor(rules);
+          this.fireValidator(rules);
         }
       } else {
         this.file = files[fieldName];
-        this.fireValidatorFor(rules);
+        this.fireValidator(rules);
       }
     }
   }

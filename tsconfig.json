@@ -11,7 +11,7 @@
     "experimentalDecorators": true
   },
   "files": [
-    "illuminate/utils/FileValidator.ts"
+    "illuminate/utils/FileValidator/index.ts"
   ],
   "exclude": [
     "node_modules",
