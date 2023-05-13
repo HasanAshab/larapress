@@ -11,11 +11,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Middleware_1 = __importDefault(require("illuminate/middlewares/Middleware"));
 const method_1 = require("illuminate/decorators/method");
+const helpers_1 = require("helpers");
 const path_1 = __importDefault(require("path"));
 class ValidateRequest extends Middleware_1.default {
     handle(req, res, next) {
         try {
-            var ValidationRule = require(base(path_1.default.join('app/http/validations/', this.options[0]))).default;
+            var ValidationRule = require((0, helpers_1.base)(path_1.default.join('app/http/validations/', this.options[0]))).default;
         }
         catch (_a) {
             return next();
@@ -49,12 +50,13 @@ class ValidateRequest extends Middleware_1.default {
     _parseFiles(req) {
         const files = {};
         req.files.forEach((file) => {
-            if (files[file.fieldname]) {
-                if (Array.isArray(files[file.fieldname])) {
+            const fileStack = files[file.fieldname];
+            if (fileStack) {
+                if (Array.isArray(fileStack)) {
                     files[file.fieldname].push(file);
                 }
                 else {
-                    files[file.fieldname] = [files[file.fieldname], file];
+                    files[file.fieldname] = [fileStack, file];
                 }
             }
             else {

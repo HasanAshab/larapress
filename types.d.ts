@@ -37,6 +37,7 @@ export type Recipient = {
   }
 };
 
+
 export type RecipientEmails = string | string[] | ({email: string} & {[key: string]: any}) | ({email: string} & {[key: string]: any})[];
 
   export type TransportConfig = {
