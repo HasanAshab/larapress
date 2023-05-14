@@ -1,9 +1,7 @@
-import { Document } from 'mongoose';
-import User, {IUser} from "app/models/User";
-import { Notifiable } from "app/traits/Notifiable";
+import {IUser} from "app/models/User";
 
 export default class SendEmailVerificationNotification {
-  async dispatch(user: IUser & Notifiable){
-    await user.notify();
+  async dispatch(user: IUser){
+    await user.sendVerificationEmail();
   }
 }

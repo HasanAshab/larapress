@@ -7,11 +7,11 @@ import path from "path";
 
 export default class ValidateRequest extends Middleware {
   @passErrorsToHandler()
-  handle(req: Request, res: Response, next: NextFunction): Response<any, Record<string, any>> {
+  handle(req: Request, res: Response, next: NextFunction) {
     try {
       var ValidationRule = require(base(path.join('app/http/validations/', this.options[0]))).default;
     } catch {
-      return next();
+      next();
     }
     const { urlencoded, multipart } = ValidationRule.schema;
     if (typeof urlencoded !== "undefined") {

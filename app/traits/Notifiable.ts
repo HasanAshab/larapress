@@ -1,15 +1,13 @@
-import {
-  Schema
-} from 'mongoose';
+import { Schema } from 'mongoose';
 import Mailable from "illuminate/mails/Mailable";
 import Mail from "illuminate/utils/Mail";
 
-export type Notifiable = {
+export type INotifiable = {
   notify(mailable: Mailable): Promise<void>
 }
 
 
-export default function(schema: Schema) {
+export default (schema: Schema) => {
   schema.methods.notify = async function(mailable: Mailable) {
     return await Mail.to(this.email).send(mailable);
   };

@@ -1,19 +1,13 @@
-import { model, Schema, Document, Model, InferSchemaType } from 'mongoose';
+import { model, Schema, InferSchemaType } from 'mongoose';
 import { url } from "helpers"
 import bcrypt from "bcryptjs";
 import Mailable from "illuminate/mails/Mailable";
-
-/*
-import Authenticatable from "app/traits/Authenticatable";
-import Timestamps from "app/traits/Timestamps";
-import HasFactory from "app/traits/HasFactory";
-import HasApiTokens from "app/traits/HasApiTokens";
-
-import Mediable from "app/traits/Mediable";
-*/
-import Notifiable from "app/traits/Notifiable";
-
-const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
+import Authenticatable, { IAuthenticatable } from "app/traits/Authenticatable";
+import Timestamps, { ITimestamps } from "app/traits/Timestamps";
+import HasFactory, { IHasFactory } from "app/traits/HasFactory";
+import HasApiTokens, { IHasApiTokens } from "app/traits/HasApiTokens";
+import Notifiable, { INotifiable } from "app/traits/Notifiable";
+import Mediable, { IMediable } from "app/traits/Mediable";
 
 const UserSchema = new Schema({
   name: {
@@ -42,19 +36,8 @@ const UserSchema = new Schema({
   },
 });
 
-
-/*
-UserSchema.plugin(Authenticatable);
-UserSchema.plugin(Timestamps);
-UserSchema.plugin(HasFactory);
-UserSchema.plugin(HasApiTokens);
-
-UserSchema.plugin(Mediable);
-*/
-UserSchema.plugin(Notifiable);
-
-
 UserSchema.pre('save', async function(next) {
+  const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
   if (!this.isModified("password")) {
     return next();
   }
@@ -63,7 +46,15 @@ UserSchema.pre('save', async function(next) {
   next();
 });
 
-export type IUser = InferSchemaType<typeof UserSchema>;
+UserSchema.plugin(Authenticatable);
+UserSchema.plugin(Timestamps);
+UserSchema.plugin(HasFactory);
+UserSchema.plugin(HasApiTokens);
+UserSchema.plugin(Notifiable);
+UserSchema.plugin(Mediable);
+
+type PluginFunctions = IAuthenticatable & ITimestamps & IHasFactory & IHasApiTokens & INotifiable & IMediable;
+export type IUser = InferSchemaType<typeof UserSchema> & PluginFunctions;
 
 
 export default model("User", UserSchema);

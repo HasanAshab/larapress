@@ -19,7 +19,7 @@ class ValidateRequest extends Middleware_1.default {
             var ValidationRule = require((0, helpers_1.base)(path_1.default.join('app/http/validations/', this.options[0]))).default;
         }
         catch (_a) {
-            return next();
+            next();
         }
         const { urlencoded, multipart } = ValidationRule.schema;
         if (typeof urlencoded !== "undefined") {
