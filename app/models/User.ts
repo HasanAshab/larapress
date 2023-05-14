@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import { model, Schema, Document, Model, InferSchemaType } from 'mongoose';
 import { url } from "helpers"
 import bcrypt from "bcryptjs";
 import Mailable from "illuminate/mails/Mailable";
@@ -15,15 +15,7 @@ import Notifiable from "app/traits/Notifiable";
 
 const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
 
-export interface IUser extends Document {
-  name: string;
-  email: string;
-  password: string;
-  logoUrl: string;
-  isAdmin: boolean;
-}
-
-const UserSchema = new Schema<IUser>({
+const UserSchema = new Schema({
   name: {
     type: String,
     maxlength: 12,
@@ -50,6 +42,7 @@ const UserSchema = new Schema<IUser>({
   },
 });
 
+
 /*
 UserSchema.plugin(Authenticatable);
 UserSchema.plugin(Timestamps);
@@ -61,7 +54,7 @@ UserSchema.plugin(Mediable);
 UserSchema.plugin(Notifiable);
 
 
-UserSchema.pre<IUser>('save', async function(next) {
+UserSchema.pre('save', async function(next) {
   if (!this.isModified("password")) {
     return next();
   }
@@ -70,6 +63,7 @@ UserSchema.pre<IUser>('save', async function(next) {
   next();
 });
 
-const User: Model<IUser> = mongoose.model<IUser>("User", UserSchema);
+export type IUser = InferSchemaType<typeof UserSchema>;
 
-export default User;
+
+export default model("User", UserSchema);

@@ -19,7 +19,7 @@ class ErrorHandler extends Middleware_1.default {
         if (status === 500) {
             (0, helpers_1.log)(`${req.originalUrl} - ${req.method} - ${req.ip}\nStack: ${err.stack}`);
         }
-        return (status === 500 && process.env.NODE_ENV === 'production')
+        (status === 500 && process.env.NODE_ENV === 'production')
             ? res.status(status).json({
                 message: 'Internal server error!'
             })
