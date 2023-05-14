@@ -1,6 +1,8 @@
+import mongoose, { Schema, Document, Model } from 'mongoose';
 import { url } from "helpers"
-import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import Mailable from "illuminate/mails/Mailable";
+
 /*
 import Authenticatable from "app/traits/Authenticatable";
 import Timestamps from "app/traits/Timestamps";
@@ -11,10 +13,17 @@ import Mediable from "app/traits/Mediable";
 */
 import Notifiable from "app/traits/Notifiable";
 
-
 const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
 
-const UserSchema = new mongoose.Schema({
+export interface IUser extends Document {
+  name: string;
+  email: string;
+  password: string;
+  logoUrl: string;
+  isAdmin: boolean;
+}
+
+const UserSchema = new Schema<IUser>({
   name: {
     type: String,
     maxlength: 12,
@@ -52,7 +61,7 @@ UserSchema.plugin(Mediable);
 UserSchema.plugin(Notifiable);
 
 
-UserSchema.pre('save', async function(next) {
+UserSchema.pre<IUser>('save', async function(next) {
   if (!this.isModified("password")) {
     return next();
   }
@@ -61,4 +70,6 @@ UserSchema.pre('save', async function(next) {
   next();
 });
 
-export default mongoose.model("User", UserSchema);
+const User: Model<IUser> = mongoose.model<IUser>("User", UserSchema);
+
+export default User;
