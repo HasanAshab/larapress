@@ -6,9 +6,11 @@ import Authenticatable from "app/traits/Authenticatable";
 import Timestamps from "app/traits/Timestamps";
 import HasFactory from "app/traits/HasFactory";
 import HasApiTokens from "app/traits/HasApiTokens";
-import Notifiable from "app/traits/Notifiable";
+
 import Mediable from "app/traits/Mediable";
 */
+import Notifiable from "app/traits/Notifiable";
+
 
 const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
 
@@ -44,9 +46,11 @@ UserSchema.plugin(Authenticatable);
 UserSchema.plugin(Timestamps);
 UserSchema.plugin(HasFactory);
 UserSchema.plugin(HasApiTokens);
-UserSchema.plugin(Notifiable);
+
 UserSchema.plugin(Mediable);
 */
+UserSchema.plugin(Notifiable);
+
 
 UserSchema.pre('save', async function(next) {
   if (!this.isModified("password")) {
