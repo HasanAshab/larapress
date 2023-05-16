@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 import jwt from "jsonwebtoken";
-const jwtSecret = process.env.JWT_SECRET;
+const jwtSecret = process.env.JWT_SECRET || '';
 const tokenLifespan = Number(process.env.TOKEN_LIFESPAN);
 
 export type IHasApiTokens = {

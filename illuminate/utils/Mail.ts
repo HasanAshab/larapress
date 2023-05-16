@@ -5,8 +5,9 @@ import {
   Recipient,
   RecipientEmails,
 } from "types";
+import Queueable from "illuminate/queue/Queueable";
 import Mailable from "illuminate/mails/Mailable";
-import { isObject, isQueueable } from "illuminate/guards";
+import { isObject } from "illuminate/guards";
 import { createTransport, Transporter, SendMailOptions, TransportOptions } from "nodemailer";
 import nodemailerMock from "nodemailer-mock";
 import { create as createHandlebars } from "express-handlebars";
@@ -102,7 +103,7 @@ export default class Mail {
   }
 
   static async send(mailable: Mailable): Promise < void > {
-    if (!this.isMocked && isQueueable(mailable)) {
+    if (!this.isMocked && Queueable.isQueueable(mailable) && mailable.shouldQueue) {
       const queue = mailable.createQueue();
       queue.process((job) => this.dispatch(job.data));
       await queue.add(mailable, {

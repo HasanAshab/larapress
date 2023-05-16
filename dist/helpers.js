@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getParams = exports.log = exports.setEnv = exports.middleware = exports.storage = exports.route = exports.clientUrl = exports.url = exports.capitalizeFirstLetter = exports.base = void 0;
+exports.checkProperties = exports.getParams = exports.log = exports.setEnv = exports.middleware = exports.storage = exports.route = exports.clientUrl = exports.url = exports.capitalizeFirstLetter = exports.base = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
@@ -141,3 +141,12 @@ function getParams(func) {
     return params;
 }
 exports.getParams = getParams;
+function checkProperties(obj, properties) {
+    for (const [name, type] of Object.entries(properties)) {
+        if (!(name in obj && typeof obj[name] === type)) {
+            return false;
+        }
+    }
+    return true;
+}
+exports.checkProperties = checkProperties;

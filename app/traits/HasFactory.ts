@@ -1,21 +1,22 @@
-import { Schema, Document } from 'mongoose';
+import { Schema } from 'mongoose';
+import { base, route } from "helpers";
 
-export type IHasFactory<T extends Document> = {
+export type IHasFactory = {
   factory(count?: number): {
-    create(data?: object): Promise<T | T[]>;
+    create(data?: object): Promise<typeof Schema | (typeof Schema)[]>;
     dummyData(data?: object): object;
   };
 }
 
 
-export default function hasFactory<T extends Document>(schema: Schema<T>): void {
+export default function hasFactory(schema: Schema): void {
   schema.statics.factory = function(count = 1) {
-    const modelName = new this().constructor.modelName;
+    const modelName = this.modelName;
     const Factory = require(base(`app/factories/${modelName}Factory`));
     const factory = new Factory();
     return {
-      create: async (data?: object): Promise<T | T[]> => {
-        const models: T[] = [];
+      create: async (data?: object): Promise<typeof Schema | (typeof Schema)[]> => {
+        const models: (typeof Schema)[] = [];
         for (let i = 0; i < count; i++) {
           const model = new this(factory.merge(data));
           await model.save();

@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose';
 
 export type ITimestamps = {
-  whereDateBetween(startDate: Date, endDate: Date): Promise<typeof schema>
+  whereDateBetween(startDate: Date, endDate: Date): Promise<typeof Schema>;
 }
 
 export default (schema: Schema) => {
@@ -12,7 +12,7 @@ export default (schema: Schema) => {
     },
   });
 
-  schema.statics.whereDateBetween = async function (startDate: Date, endDate: Date): Promise<typeof schema> {
+  schema.statics.whereDateBetween = async function (startDate: Date, endDate: Date): Promise<typeof Schema> {
     return await this.find({
       date: { $gte: startDate, $lte: endDate },
     });

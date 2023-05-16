@@ -2,9 +2,9 @@ import { model, Schema, InferSchemaType } from 'mongoose';
 import bcrypt from "bcryptjs";
 import Timestamps, { ITimestamps } from "app/traits/Timestamps";
 
-const TokenSchema = new mongoose.Schema({
+const TokenSchema = new Schema({
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "User",
     required: true
   },
