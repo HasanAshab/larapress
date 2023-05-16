@@ -1,15 +1,16 @@
 import { File } from "types";
 import { route } from "helpers";
-import mongoose, { Schema, Model } from "mongoose";
-import Media from "app/models/Media";
+import { Schema, Model } from "mongoose";
+import Media, { IMedia } from "app/models/Media";
 import Storage from "illuminate/utils/Storage";
 
 export type IMediable = {
-  files(): Promise<(typeof Media)[]>;
-  attachFile(name: string, file: File, attachLinkToModel?: boolean): Promise<typeof Media>;
-  attachFiles(files: Record<string, File>, attachLinkToModel?: boolean): Promise<(typeof Media)[]>;
-  getFilesByName(name: string): Promise<(typeof Media)[]>;
-  removeFiles(name?: string): Promise<any>;
+  media: Schema.Types.ObjectId[],
+  files(): Promise<(typeof Media)[]>,
+  attachFile(name: string, file: File, attachLinkToModel?: boolean): Promise<typeof Media>,
+  attachFiles(files: Record<string, File>, attachLinkToModel?: boolean): Promise<(typeof Media)[]>,
+  getFilesByName(name: string): Promise<(typeof Media)[]>,
+  removeFiles(name?: string): Promise<any>,
 }
 
 interface IMediableModel extends Model<IMediable> {
@@ -19,7 +20,7 @@ interface IMediableModel extends Model<IMediable> {
 export default (schema: Schema) => {
   schema.add({
     media: [{
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Media",
     }],
   });
@@ -31,18 +32,18 @@ export default (schema: Schema) => {
     });
   }
 
-  schema.methods.attachFile = async function (name: string, file: File, attachLinkToModel = false): Promise<typeof Media> {
+  schema.methods.attachFile = async function (name: string, file: File, attachLinkToModel = false): Promise<IMedia> {
     const path = await Storage.putFile("public/uploads", file);
-    const media = new Media({
+    let media = new Media({
       name,
       mediableId: this._id,
       mediableType: (this.constructor as IMediableModel).modelName,
       mimetype: file.mimetype,
       path,
     });
-    const link = route("file.serve", { id: media._id });
+    const link = route("file.serve", { id: media._id.toString() });
     media.link = link;
-    await media.save();
+    await media.save()
     if(attachLinkToModel){
       this[`${name}Url`] = link;
     }
@@ -51,8 +52,8 @@ export default (schema: Schema) => {
     return media;
   }
 
-  schema.methods.attachFiles = async function (files: Record<string, File>, attachLinkToModel?: boolean): Promise<(typeof Media)[]> {
-    const allMedia: (typeof Media)[] = [];
+  schema.methods.attachFiles = async function (files: Record<string, File>, attachLinkToModel?: boolean): Promise<IMedia[]> {
+    const allMedia: IMedia[] = [];
     for (const name of Object.keys(files)) {
       const path = await Storage.putFile("public/uploads", files[name]);
       const media = new Media({
@@ -62,7 +63,7 @@ export default (schema: Schema) => {
         mimetype: files[name].mimetype,
         path,
       });
-      media.link = route("file.serve", { id: media._id });
+      media.link = route("file.serve", { id: media._id.toString() });
       await media.save();
       this.media.push(media._id);
       allMedia.push(media);

@@ -57,4 +57,4 @@ type PluginFunctions = IAuthenticatable & ITimestamps & IHasFactory & IHasApiTok
 export type IUser = InferSchemaType<typeof UserSchema> & PluginFunctions;
 
 
-export default model("User", UserSchema);
+export default model<IUser>("User", UserSchema);

@@ -37,7 +37,7 @@ function route(name, data) {
     var _a;
     let endpoint = urls_1.default[name];
     if (!endpoint) {
-        return null;
+        throw new Error('Endpoint not found!');
     }
     if (data) {
         const regex = /:(\w+)/g;

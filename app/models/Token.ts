@@ -31,4 +31,4 @@ TokenSchema.pre('save', async function(next) {
 TokenSchema.plugin(Timestamps);
 
 export type IToken = InferSchemaType<typeof TokenSchema> & ITimestamps;
-export default model("Token", TokenSchema);
+export default model<IToken>("Token", TokenSchema);

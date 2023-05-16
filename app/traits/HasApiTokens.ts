@@ -4,7 +4,8 @@ const jwtSecret = process.env.JWT_SECRET || '';
 const tokenLifespan = Number(process.env.TOKEN_LIFESPAN);
 
 export type IHasApiTokens = {
-  createToken(): string
+  tokenVersion: number,
+  createToken(): string,
 }
 
 export default (schema: Schema) => {

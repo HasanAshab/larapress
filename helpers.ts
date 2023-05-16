@@ -30,10 +30,10 @@ export function clientUrl(url_path: string = ''): string {
   return `${protocol}://${path.join(`${domain}:${port}`, url_path)}`;
 }
 
-export function route(name: string, data?: UrlData): string | null {
+export function route(name: string, data?: UrlData): string {
   let endpoint = urls[name];
   if (!endpoint) {
-    return null;
+    throw new Error('Endpoint not found!')
   }
   if (data) {
     const regex = /:(\w+)/g;

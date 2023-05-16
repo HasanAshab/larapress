@@ -55,4 +55,4 @@ MediaSchema.pre(['remove', 'deleteOne', 'findOneAndDelete', 'deleteMany'], {docu
 MediaSchema.plugin(Timestamps);
 
 export type IMedia = InferSchemaType < typeof MediaSchema > & ITimestamps;
-export default model("Media", MediaSchema);
+export default model<IMedia>("Media", MediaSchema);
