@@ -1,4 +1,4 @@
-import { model, Schema, InferSchemaType } from 'mongoose';
+import { model, Schema, Document, InferSchemaType } from 'mongoose';
 import bcrypt from "bcryptjs";
 import Timestamps, { ITimestamps } from "app/traits/Timestamps";
 

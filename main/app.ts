@@ -3,8 +3,9 @@ import express, { Application, Request, Response } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import { engine } from "express-handlebars";
-import multer from "multer";
+import MultipartParser from "express-fileupload";
 import Setup from "main/Setup";
+
 
 const app: Application = express();
 
@@ -21,7 +22,7 @@ app.use("/static", express.static(base("storage/public/static")));
 // Registering middlewares for request parsing 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(middleware("files.parse"));
+app.use(MultipartParser());
 
 
 // Registering Handlebars template engine
@@ -30,7 +31,6 @@ app.set("view engine", "handlebars");
 app.set("views", base("views"));
 
 // Registering global middlewares
-app.use(multer().any());
 app.use(middleware("response.wrap"));
 
 // Registering all event and listeners

@@ -1,6 +1,5 @@
 import Middleware from "illuminate/middlewares/Middleware";
 import { Request, Response, NextFunction } from "express";
-import { Request as CustomRequest } from "types";
 import { passErrorsToHandler } from "illuminate/decorators/method";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import User from "app/models/User";
@@ -17,7 +16,7 @@ export default class Authenticate extends Middleware {
           const decoded = jwt.verify(token, process.env.JWT_SECRET || '') as JwtPayload;
           const user = await User.findById(decoded.userId);
           if (user !== null && user.tokenVersion === decoded.version) {
-            (req as CustomRequest).user = user;
+            req.user = user;
             return next();
           }
         } catch (err){

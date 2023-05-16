@@ -37,7 +37,6 @@ class ValidateRequest extends Middleware_1.default {
                     message: "Only multipart/form-data requests are allowed",
                 });
             }
-            this._parseFiles(req);
             const error = multipart.validate(req.files);
             if (error) {
                 res.status(400).json({
@@ -46,24 +45,6 @@ class ValidateRequest extends Middleware_1.default {
             }
         }
         next();
-    }
-    _parseFiles(req) {
-        const files = {};
-        req.files.forEach((file) => {
-            const fileStack = files[file.fieldname];
-            if (fileStack) {
-                if (Array.isArray(fileStack)) {
-                    files[file.fieldname].push(file);
-                }
-                else {
-                    files[file.fieldname] = [fileStack, file];
-                }
-            }
-            else {
-                files[file.fieldname] = file;
-            }
-        });
-        req.files = files;
     }
 }
 __decorate([

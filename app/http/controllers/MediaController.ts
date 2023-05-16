@@ -1,5 +1,4 @@
-import { Request } from "types";
-import { Response } from "express";
+import { Request, Response } from "express";
 import Controller from "illuminate/controllers/Controller";
 import Media from "app/models/Media";
 

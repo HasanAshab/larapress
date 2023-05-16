@@ -1,6 +1,5 @@
 import Middleware from "illuminate/middlewares/Middleware";
-import { Response, NextFunction } from "express";
-import { Request } from "types";
+import { Request, Response, NextFunction } from "express";
 import { passErrorsToHandler } from "illuminate/decorators/method";
 
 export default class EnsureEmailIsVerified extends Middleware {

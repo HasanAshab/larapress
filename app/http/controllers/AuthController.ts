@@ -1,5 +1,4 @@
-import { Request } from "types";
-import { Response } from "express";
+import { Request, Response } from "express";
 import { log } from "helpers";
 import Controller from "illuminate/controllers/Controller";
 import AuthenticationError from 'app/exceptions/AuthenticationError';
@@ -12,7 +11,7 @@ import PasswordChangedMail from "app/mails/PasswordChangedMail";
 export default class AuthController extends Controller {
   async register(req: Request, res: Response){
     const { name, email, password } = req.body;
-    const logo = req.files.logo;
+    const logo = req.files?.logo;
     if (await User.findOne({ email })) {
       res.status(400).json({
         message: "Email already exist!",
@@ -144,7 +143,7 @@ export default class AuthController extends Controller {
 
   async updateProfile(req: Request, res: Response){
     const { name, email } = req.body;
-    const logo = req.files.logo;
+    const logo = req.files?.logo;
     const user = req.user!;
     user.name = name;
     user.email = email;

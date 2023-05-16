@@ -1,7 +1,3 @@
-import { Request as BaseRequest } from "express";
-import { Document } from "mongoose";
-import { IUser } from "app/models/User";
-
 export type EndpointCallback = (endpoint: string, path: string) => void | Promise < void >;
 
 export type UnwrappedResponse = ({
@@ -55,9 +51,3 @@ export type RecipientEmails = string | string[] | ({email: string} & {[key: stri
   }
   
 export type CacheDriverResponse = Promise<null | string>;
-
-export interface Request extends Omit<BaseRequest, "files"> {
-  user?: IUser;
-  validated: {[key: string]: string};
-  files: {[key: string]: File | File[]}
-}
