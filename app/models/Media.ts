@@ -6,9 +6,6 @@ import {
 import {
   log
 } from "helpers";
-import {
-  promises as fs
-} from "fs";
 import Timestamps, {
   ITimestamps
 } from "app/traits/Timestamps";
@@ -37,18 +34,6 @@ const MediaSchema = new Schema({
   link: {
     type: String,
     required: true
-  }
-});
-
-
-MediaSchema.pre(['remove', 'deleteOne', 'findOneAndDelete', 'deleteMany'], {document: true}, async function() {
-  if (process.env.NODE_ENV !== "test") {
-    try {
-      await fs.unlink(this.path);
-    }
-    catch(err: any) {
-      log(err);
-    }
   }
 });
 

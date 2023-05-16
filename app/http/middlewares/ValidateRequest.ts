@@ -1,5 +1,6 @@
 import Middleware from "illuminate/middlewares/Middleware";
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
+import { Request } from "types";
 import { passErrorsToHandler } from "illuminate/decorators/method";
 import { base } from "helpers";
 import { File } from "types";
@@ -15,9 +16,9 @@ export default class ValidateRequest extends Middleware {
     }
     const { urlencoded, multipart } = ValidationRule.schema;
     if (typeof urlencoded !== "undefined") {
-      const { error } = urlencoded.rules.validate(req[urlencoded.target]);
+      const { error } = urlencoded.rules.validate(req[urlencoded.target as "body" | "params" | "query"]);
       if (error) {
-        return res.status(400).json({
+        res.status(400).json({
           message: error.details[0].message,
         });
       }
@@ -26,14 +27,14 @@ export default class ValidateRequest extends Middleware {
     if (typeof multipart !== "undefined") {
       const contentType = req.headers["content-type"];
       if (!contentType || !contentType.startsWith("multipart/form-data")) {
-        return res.status(400).json({
+        res.status(400).json({
           message: "Only multipart/form-data requests are allowed",
         });
       }
       this._parseFiles(req);
       const error = multipart.validate(req.files);
       if (error) {
-        return res.status(400).json({
+        res.status(400).json({
           message: error,
         });
       }

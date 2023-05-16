@@ -17,7 +17,7 @@ class EnsureEmailIsVerified extends Middleware_1.default {
         if ((_a = req.user) === null || _a === void 0 ? void 0 : _a.emailVerified) {
             return next();
         }
-        return res.status(401).json({
+        res.status(401).json({
             message: "Your have to verify your email to perfom this action!",
         });
     }

@@ -25,7 +25,7 @@ class ValidateRequest extends Middleware_1.default {
         if (typeof urlencoded !== "undefined") {
             const { error } = urlencoded.rules.validate(req[urlencoded.target]);
             if (error) {
-                return res.status(400).json({
+                res.status(400).json({
                     message: error.details[0].message,
                 });
             }
@@ -33,14 +33,14 @@ class ValidateRequest extends Middleware_1.default {
         if (typeof multipart !== "undefined") {
             const contentType = req.headers["content-type"];
             if (!contentType || !contentType.startsWith("multipart/form-data")) {
-                return res.status(400).json({
+                res.status(400).json({
                     message: "Only multipart/form-data requests are allowed",
                 });
             }
             this._parseFiles(req);
             const error = multipart.validate(req.files);
             if (error) {
-                return res.status(400).json({
+                res.status(400).json({
                     message: error,
                 });
             }

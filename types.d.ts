@@ -1,3 +1,10 @@
+import { Request as BaseRequest } from "express";
+import { IUser } from "app/models/User";
+
+export interface Request extends BaseRequest {
+  user?: IUser;
+}
+
 export type EndpointCallback = (endpoint: string, path: string) => void | Promise < void >;
 
 export type UnwrappedResponse = ({
