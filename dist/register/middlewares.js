@@ -11,6 +11,7 @@ const middlewares = {
     "limit": "/app/http/middlewares/LimitRequestRate",
     "signed": "/app/http/middlewares/ValidateSignature",
     "validate": "/app/http/middlewares/ValidateRequest",
+    "files.parse": "/app/http/middlewares/ParseFiles",
     "response.wrap": "/app/http/middlewares/WrapResponse",
     "response.cache": "/app/http/middlewares/CacheResponse",
     "error.handle": "/app/http/middlewares/ErrorHandler"

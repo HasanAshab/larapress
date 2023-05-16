@@ -1,4 +1,4 @@
-import { model, Schema, InferSchemaType } from 'mongoose';
+import { model, Schema, Document, InferSchemaType } from 'mongoose';
 import { url } from "helpers"
 import bcrypt from "bcryptjs";
 import Mailable from "illuminate/mails/Mailable";
@@ -54,7 +54,7 @@ UserSchema.plugin(Notifiable);
 UserSchema.plugin(Mediable);
 
 type PluginFunctions = IAuthenticatable & ITimestamps & IHasFactory & IHasApiTokens & INotifiable & IMediable;
-export type IUser = InferSchemaType<typeof UserSchema> & PluginFunctions;
-
+//export type IUser = Document<InferSchemaType<typeof UserSchema> & PluginFunctions>;
+export interface IUser extends Document, InferSchemaType<typeof UserSchema>, PluginFunctions {}
 
 export default model<IUser>("User", UserSchema);

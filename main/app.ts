@@ -18,9 +18,10 @@ app.use(cors({
 app.use("/static", express.static(base("storage/public/static")));
 
 
-// Registering middlewares for request body 
+// Registering middlewares for request parsing 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(middleware("files.parse"));
 
 
 // Registering Handlebars template engine

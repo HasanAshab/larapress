@@ -3,7 +3,6 @@ import { Response, NextFunction } from "express";
 import { Request } from "types";
 import { passErrorsToHandler } from "illuminate/decorators/method";
 import { base } from "helpers";
-import { File } from "types";
 import path from "path";
 
 export default class ValidateRequest extends Middleware {
@@ -31,7 +30,6 @@ export default class ValidateRequest extends Middleware {
           message: "Only multipart/form-data requests are allowed",
         });
       }
-      this._parseFiles(req);
       const error = multipart.validate(req.files);
       if (error) {
         res.status(400).json({
@@ -40,22 +38,5 @@ export default class ValidateRequest extends Middleware {
       }
     }
     next();
-  }
-
-  _parseFiles(req: Request) {
-    const files: {[key: string]: File | File[]} = {};
-    (req.files as any[]).forEach((file: File) => {
-      const fileStack = files[file.fieldname];
-      if (fileStack) {
-        if (Array.isArray(fileStack)) {
-          (files[file.fieldname] as File[]).push(file);
-        } else {
-          files[file.fieldname] = [fileStack, file];
-        }
-      } else {
-        files[file.fieldname] = file;
-      }
-    });
-    (req as any).files = files;
   }
 }

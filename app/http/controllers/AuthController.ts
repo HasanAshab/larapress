@@ -1,16 +1,20 @@
-const Controller = require(base('illuminate/controllers/Controller'));
-const bcrypt = require("bcryptjs");
-const User = require(base("app/models/User"));
-const Token = require(base("app/models/Token"));
-const ForgotPasswordMail = require(base("app/mails/ForgotPasswordMail"));
-const PasswordChangedMail = require(base("app/mails/PasswordChangedMail"));
+import { Request } from "types";
+import { Response } from "express";
+import { log } from "helpers";
+import Controller from "illuminate/controllers/Controller";
+import AuthenticationError from 'app/exceptions/AuthenticationError';
+import bcrypt from "bcryptjs";
+import User from "app/models/User";
+import Token from "app/models/Token";
+import ForgotPasswordMail from "app/mails/ForgotPasswordMail";
+import PasswordChangedMail from "app/mails/PasswordChangedMail";
 
-class AuthController extends Controller{
-  async register(req, res){
+export default class AuthController extends Controller {
+  async register(req: Request, res: Response){
     const { name, email, password } = req.body;
     const logo = req.files.logo;
     if (await User.findOne({ email })) {
-      return res.status(400).json({
+      res.status(400).json({
         message: "Email already exist!",
       });
     }
@@ -30,14 +34,14 @@ class AuthController extends Controller{
     });
   };
 
-  async login(req, res){
+  async login(req: Request, res: Response){
     const { email, password } = req.body;
     const user = await User.findOne({email});
     if (user) {
       const match = await bcrypt.compare(password, user.password);
       if (match) {
         const token = user.createToken();
-        return res.json({
+         res.json({
           message: "Logged in successfully!",
           token,
         });
@@ -48,8 +52,8 @@ class AuthController extends Controller{
     });
   };
 
-  async verifyEmail(req, res){
-    const { id, token } = req.query;
+  async verifyEmail(req: Request, res: Response){
+    const { id, token } = req.validated;
     const verificationToken = await Token.findOne(
       {
         userId: id,
@@ -58,17 +62,10 @@ class AuthController extends Controller{
       {},
       { sort: { createdAt: -1 } }
     );
-    if (!verificationToken) {
-      return res.status(401).json({
-        message: "Invalid or expired token!",
-      });
-    }
+    if (!verificationToken) throw AuthenticationError.type('INVALID_OR_EXPIRED_TOKEN').create();
     const tokenMatch = await bcrypt.compare(token, verificationToken.token);
-    if (!tokenMatch) {
-      return res.status(401).json({
-        message: "Invalid or expired token!",
-      });
-    }
+    if (!tokenMatch) throw AuthenticationError.type('INVALID_OR_EXPIRED_TOKEN').create();
+
     await User.findByIdAndUpdate(
       id,
       {
@@ -84,14 +81,14 @@ class AuthController extends Controller{
     });
   };
 
-  async resendEmailVerification(req, res){
-    await req.user.sendVerificationEmail();
-    return res.json({
+  async resendEmailVerification(req: Request, res: Response){
+    await req.user!.sendVerificationEmail();
+     res.json({
       message: "Verification email sent!",
     });
   };
 
-  async forgotPassword(req, res){
+  async forgotPassword(req: Request, res: Response){
     const email = req.body.email;
     const user = await User.findOne({
       email,
@@ -99,36 +96,36 @@ class AuthController extends Controller{
     if (user) {
       await user.sendResetPasswordEmail();
     }
-    return res.json({
+     res.json({
       message: "Password reset email sent!",
     });
   };
 
-  async resetPassword(req, res){
+  async resetPassword(req: Request, res: Response){
     const { id, token, password } = req.body;
     const user = await User.findById(id);
     if (user) {
       await user.resetPassword(token, password)
-      return res.json({
+       res.json({
         message: "Password reset successfully!",
       });
     }
-    return res.status(404).json({
+     res.status(404).json({
       message: "User not found!",
     });
   };
 
-  async changePassword(req, res){
-    const user = req.user;
+  async changePassword(req: Request, res: Response){
+    const user = req.user!;
     const { old_password, password } = req.body;
     const oldPasswordMatch = await bcrypt.compare(old_password, user.password);
     if (!oldPasswordMatch) {
-      return res.status(401).json({
+       res.status(401).json({
         message: "Incorrect password!",
       });
     }
     if (old_password === password) {
-      return res.status(400).json({
+       res.status(400).json({
         message: "New password should not be same as old one!",
       });
     }
@@ -136,19 +133,19 @@ class AuthController extends Controller{
     user.tokenVersion++;
     await user.save();
     await user.notify(new PasswordChangedMail());
-    return res.json({
+     res.json({
       message: "Password changed successfully!",
     });
   };
 
-  async profile(req, res){
-    return res.json({data:req.user});
+  async profile(req: Request, res: Response){
+     res.json({data:req.user!});
   };
 
-  async updateProfile(req, res){
+  async updateProfile(req: Request, res: Response){
     const { name, email } = req.body;
     const logo = req.files.logo;
-    const user = req.user;
+    const user = req.user!;
     user.name = name;
     user.email = email;
     user.emailVerified = false;
@@ -159,7 +156,7 @@ class AuthController extends Controller{
     }
     if (result) {
       await user.sendVerificationEmail();
-      return res.json({
+       res.json({
         message: "Verification email sent!",
       });
     }
