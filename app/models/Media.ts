@@ -1,6 +1,7 @@
 import {
   model,
   Schema,
+  Document,
   InferSchemaType
 } from 'mongoose';
 import {
@@ -39,5 +40,5 @@ const MediaSchema = new Schema({
 
 MediaSchema.plugin(Timestamps);
 
-export type IMedia = InferSchemaType < typeof MediaSchema > & ITimestamps;
+export interface IMedia extends Document, InferSchemaType<typeof MediaSchema>, ITimestamps {};
 export default model<IMedia>("Media", MediaSchema);
