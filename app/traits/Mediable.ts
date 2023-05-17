@@ -1,7 +1,4 @@
 import {
-  File
-} from "types";
-import {
   log,
   route
 } from "helpers";
@@ -9,6 +6,7 @@ import {
   Schema,
   Model
 } from "mongoose";
+import { UploadedFile } from "express-fileupload";
 import Media, {
   IMedia
 } from "app/models/Media";
@@ -20,7 +18,7 @@ import Storage from "illuminate/utils/Storage";
 export type IMediable = {
   media: Schema.Types.ObjectId[],
   files(): Promise < (typeof Media)[] >,
-  attachFile(name: string, file: File, attachLinkToModel?: boolean): Promise < typeof Media >,
+  attachFile(name: string, file: UploadedFile, attachLinkToModel?: boolean): Promise < typeof Media >,
   attachFiles(files: Record < string, File >, attachLinkToModel?: boolean): Promise < (typeof Media)[] >,
   getFilesByName(name: string): Promise < (typeof Media)[] >,
   removeFiles(name?: string): Promise < void >,
@@ -45,7 +43,7 @@ export default (schema: Schema) => {
     });
   }
 
-  schema.methods.attachFile = async function (name: string, file: File, attachLinkToModel = false): Promise < IMedia > {
+  schema.methods.attachFile = async function (name: string, file: UploadedFile, attachLinkToModel = false): Promise < IMedia > {
     const path = await Storage.putFile("public/uploads", file);
     let media = new Media({
       name,
@@ -67,7 +65,7 @@ export default (schema: Schema) => {
     return media;
   }
 
-  schema.methods.attachFiles = async function (files: Record < string, File >, attachLinkToModel?: boolean): Promise < IMedia[] > {
+  schema.methods.attachFiles = async function (files: UploadedFile, attachLinkToModel?: boolean): Promise < IMedia[] > {
     const allMedia: IMedia[] = [];
     for (const name of Object.keys(files)) {
       const path = await Storage.putFile("public/uploads", files[name]);

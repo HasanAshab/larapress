@@ -1,13 +1,13 @@
 export type EndpointCallback = (endpoint: string, path: string) => void | Promise < void >;
 
-export type UnwrappedResponse = ({
+export type RawResponse = ({
   message?: string,
   data?: any[] | {[key: string]: any
   }
 } & {[key: string]: any
 }) | any[];
 
-export type WrappedResponse = {
+export type ApiResponse = {
   success: boolean,
   message?: string,
   data?: any[] | {[key: string]: any
@@ -16,17 +16,6 @@ export type WrappedResponse = {
 
 export type UrlData = {[key: string]: string | number
 };
-
-export type File = {
-  fieldname: string,
-  filename: string,
-  originalname: string,
-  encoding: string,
-  mimetype: string,
-  size: number,
-  buffer: Buffer
-};
-
 
 export type Recipient = {
   from: string,

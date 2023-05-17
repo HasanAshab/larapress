@@ -12,17 +12,13 @@ export default class AuthController extends Controller {
   async register(req: Request, res: Response){
     const { name, email, password } = req.body;
     const logo = req.files?.logo;
-    if (await User.findOne({ email })) {
-      res.status(400).json({
-        message: "Email already exist!",
-      });
-    }
+    if (await User.findOne({ email })) throw AuthenticationError.type('EMAIL_EXIST').create();
     const user = await User.create({
       name,
       email,
       password,
     });
-    if (logo) {
+    if (logo && !Array.isArray(logo)) {
       await user.attachFile("logo", logo, true);
     }
     const token = user.createToken();
@@ -46,9 +42,7 @@ export default class AuthController extends Controller {
         });
       }
     }
-    res.status(401).json({
-      message: "Credentials not match!",
-    });
+    throw AuthenticationError.type('INVALID_CREDENTIALS').create();
   };
 
   async verifyEmail(req: Request, res: Response){
@@ -109,7 +103,7 @@ export default class AuthController extends Controller {
         message: "Password reset successfully!",
       });
     }
-     res.status(404).json({
+    else res.status(404).json({
       message: "User not found!",
     });
   };
@@ -118,16 +112,8 @@ export default class AuthController extends Controller {
     const user = req.user!;
     const { old_password, password } = req.body;
     const oldPasswordMatch = await bcrypt.compare(old_password, user.password);
-    if (!oldPasswordMatch) {
-       res.status(401).json({
-        message: "Incorrect password!",
-      });
-    }
-    if (old_password === password) {
-       res.status(400).json({
-        message: "New password should not be same as old one!",
-      });
-    }
+    if (!oldPasswordMatch) throw AuthenticationError.type('INCORRECT_PASSWORD').create();
+    if (old_password === password) throw AuthenticationError.type('PASSWORD_SHOULD_DIFFERENT').create();
     user.password = password;
     user.tokenVersion++;
     await user.save();
@@ -149,7 +135,7 @@ export default class AuthController extends Controller {
     user.email = email;
     user.emailVerified = false;
     const result = await user.save();
-    if (logo) {
+    if (logo && !Array.isArray(logo)) {
       await user.removeFiles("logo");
       await user.attachFile("logo", logo, true);
     }

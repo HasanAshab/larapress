@@ -3,15 +3,15 @@ import { Request, Response, NextFunction } from "express";
 import { passErrorsToHandler } from "illuminate/decorators/method";
 import { base } from "helpers";
 import { isObject } from "illuminate/guards";
-import { WrappedResponse, UnwrappedResponse } from "types";
+import { ApiResponse, RawResponse } from "types";
 
 export default class WrapResponse extends Middleware {
   @passErrorsToHandler()
-  async handle(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async handle(req: Request, res: Response, next: NextFunction) {
     const originalJson = res.json;
-    res.json = function (response: UnwrappedResponse): Response<any, Record<string, any>> {
+    res.json = function (response: RawResponse): Response<any, Record<string, any>> {
       const success = res.statusCode >= 200 && res.statusCode < 300;
-      const wrappedData: WrappedResponse = { success }
+      const wrappedData: ApiResponse = { success }
       if (isObject(response)) {
         wrappedData.data = {};
         for (const [key, value] of Object.entries(response)) {

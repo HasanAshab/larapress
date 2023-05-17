@@ -1,11 +1,11 @@
-import { File } from "types";
+import { UploadedFile } from "express-fileupload";
 import validators from "illuminate/utils/FileValidator/validators";
 import FileValidatorError from "illuminate/exceptions/utils/FileValidatorError";
 
 class FileValidator {
   [key: string]: any;
   static object: {[key: string]: FileValidator};
-  static file: File;
+  static file: UploadedFile;
   static fieldName: string;
   public rules: {[key: string]: any} = { required: false };
   
@@ -30,7 +30,7 @@ class FileValidator {
     }
   }
 
-  static removeUnnecessaryRules(files: {[key: string]: File}) {
+  static removeUnnecessaryRules(files: {[key: string]: UploadedFile}) {
     for (const [fieldName, { rules }] of Object.entries(this.object)) {
       if (!files[fieldName]) {
         if (rules.required) {
@@ -53,7 +53,7 @@ class FileValidator {
     }
   }
 
-  static validate(files: {[key: string]: File}) {
+  static validate(files: {[key: string]: UploadedFile}) {
     this.removeUnnecessaryRules(files);
     for (const [fieldName, { rules }] of Object.entries(this.object)) {
       this.fieldName = fieldName;

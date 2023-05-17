@@ -1,5 +1,5 @@
 import { storage } from "helpers";
-import { File } from "types";
+import { UploadedFile } from "express-fileupload";
 import { promises as fs } from "fs";
 import path from "path";
 import crypto from "crypto";
@@ -11,10 +11,10 @@ export default class Storage {
     this.isMocked = true;
   }
   
-  static async putFile(storage_path: string, file: File): Promise<string>{
-    const hash = this.hashFileName(file.originalname);
+  static async putFile(storage_path: string, file: UploadedFile): Promise<string>{
+    const hash = this.hashFileName(file.name);
     const filePath = path.join(storage(storage_path), hash);
-    if (!this.isMocked) await fs.writeFile(filePath, file.buffer);
+    if (!this.isMocked) await fs.writeFile(filePath, file.data);
     return filePath;
   };
 

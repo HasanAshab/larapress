@@ -1,4 +1,4 @@
-import { File } from "types";
+import { UploadedFile } from "express-fileupload";
 import FileValidator from "illuminate/utils/FileValidator";
 import FileValidatorError from "illuminate/exceptions/utils/FileValidatorError";
 
@@ -29,7 +29,7 @@ const validators: {[key: string]: (value: any) => void } = {
     }
   },
 
-   custom(cb: ((file: File) => void)) {
+   custom(cb: ((file: UploadedFile) => void)) {
     cb(FileValidator.file);
   }
 }
