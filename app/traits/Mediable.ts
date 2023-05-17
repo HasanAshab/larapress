@@ -19,7 +19,7 @@ export type IMediable = {
   media: Schema.Types.ObjectId[],
   files(): Promise < (typeof Media)[] >,
   attachFile(name: string, file: UploadedFile, attachLinkToModel?: boolean): Promise < typeof Media >,
-  attachFiles(files: Record < string, File >, attachLinkToModel?: boolean): Promise < (typeof Media)[] >,
+  attachFiles(files: Record < string, UploadedFile >, attachLinkToModel?: boolean): Promise < (typeof Media)[] >,
   getFilesByName(name: string): Promise < (typeof Media)[] >,
   removeFiles(name?: string): Promise < void >,
 }
@@ -65,15 +65,15 @@ export default (schema: Schema) => {
     return media;
   }
 
-  schema.methods.attachFiles = async function (files: UploadedFile, attachLinkToModel?: boolean): Promise < IMedia[] > {
+  schema.methods.attachFiles = async function (files: {[key: string]: UploadedFile}, attachLinkToModel?: boolean): Promise < IMedia[] > {
     const allMedia: IMedia[] = [];
-    for (const name of Object.keys(files)) {
-      const path = await Storage.putFile("public/uploads", files[name]);
+    for (const [name, file] of Object.entries(files)) {
+      const path = await Storage.putFile("public/uploads", file);
       const media = new Media({
         name,
         mediableId: this._id,
         mediableType: (this.constructor as IMediableModel).modelName,
-        mimetype: files[name].mimetype,
+        mimetype: file.mimetype,
         path,
       });
       media.link = route("file.serve", {
