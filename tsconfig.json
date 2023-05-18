@@ -10,6 +10,9 @@
     "esModuleInterop": true,
     "experimentalDecorators": true
   },
+  "files": [
+    "request.d.ts"
+  ],
   "exclude": [
     "node_modules",
     "artisan.ts"

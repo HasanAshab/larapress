@@ -6,7 +6,7 @@ export default abstract class Controller {
   constructor() {
     const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(this));
     for (const method of methods) {
-      if(!['constructor'].includes(method)){
+      if(method !== 'constructor'){
         this[method] = this._insertValidator(method);
       }
     }

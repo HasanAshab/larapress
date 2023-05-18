@@ -14,9 +14,9 @@ const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
     origin: ["http://localhost:3000"]
 }));
-// Registering static folder
+// Serving static folder
 app.use("/static", express_1.default.static((0, helpers_1.base)("storage/public/static")));
-// Registering middlewares for request parsing 
+// Setting middlewares for request parsing 
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(body_parser_1.default.json());
 app.use((0, express_fileupload_1.default)());
@@ -32,9 +32,6 @@ app.use((0, helpers_1.middleware)("response.wrap"));
 // Registering all group routes
 Setup.routes(app);
 */
-app.get("/", (req, res) => {
-    res.json([1, 2, 3, 4]);
-});
 // Registering global error handling middleware
 app.use((0, helpers_1.middleware)("error.handle"));
 exports.default = app;

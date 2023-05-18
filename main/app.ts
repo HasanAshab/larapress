@@ -1,5 +1,5 @@
 import { base, middleware } from "helpers";
-import express, { Application, Request, Response } from "express";
+import express, { Application } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import { engine } from "express-handlebars";
@@ -15,11 +15,11 @@ app.use(cors({
   origin: ["http://localhost:3000"]
 }));
 
-// Registering static folder
+// Serving static folder
 app.use("/static", express.static(base("storage/public/static")));
 
 
-// Registering middlewares for request parsing 
+// Setting middlewares for request parsing 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(MultipartParser());
@@ -36,14 +36,8 @@ app.use(middleware("response.wrap"));
 // Registering all event and listeners
 //Setup.events(app);
 
-/*
 // Registering all group routes 
 Setup.routes(app);
-*/
-
-app.get("/", (req, res) => {
-  res.json([1, 2, 3, 4])
-});
 
 // Registering global error handling middleware
 app.use(middleware("error.handle"));

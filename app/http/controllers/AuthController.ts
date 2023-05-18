@@ -8,7 +8,7 @@ import Token from "app/models/Token";
 import ForgotPasswordMail from "app/mails/ForgotPasswordMail";
 import PasswordChangedMail from "app/mails/PasswordChangedMail";
 
-export default class AuthController extends Controller {
+class AuthController extends Controller {
   async register(req: Request, res: Response){
     const { name, email, password } = req.body;
     const logo = req.files?.logo;
@@ -148,4 +148,6 @@ export default class AuthController extends Controller {
   };
 }
 
-module.exports = new AuthController();
+
+export default new AuthController;
+

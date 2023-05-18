@@ -34,3 +34,5 @@ if (nodeEnv !== "production") {
         console.log(`*New connection: [${time}]`);
     });
 }
+const AuthController_1 = __importDefault(require("app/http/controllers/AuthController"));
+console.log(AuthController_1.default);

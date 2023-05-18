@@ -710,3 +710,41 @@ Stack: Error:
     at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
 
 
+undefined - undefined - undefined
+Stack: undefined
+
+
+undefined - undefined - undefined
+Stack: undefined
+
+
+undefined - undefined - undefined
+Stack: undefined
+
+
+undefined - undefined - undefined
+Stack: undefined
+
+
+undefined - undefined - undefined
+Stack: undefined
+
+
+undefined - undefined - undefined
+Stack: undefined
+
+
+/api/v1/media/jxjxdn - GET - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'schema')
+    at handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/middlewares/ValidateRequest.ts:15:54)
+    at ValidateRequest.descriptor.value (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/method.ts:18:22)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at param (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:365:14)
+    at param (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:376:14)
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:421:3)
+
+

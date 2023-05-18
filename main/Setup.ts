@@ -25,8 +25,8 @@ export default class Setup {
 
   static routes(app: Application): void {
     const routesRootPath = base("routes");
-    generateEndpointsFromDirTree(routesRootPath, async (endpoint: string, path: string): Promise<void> => {
-      app.use(endpoint, await import(path));
+    generateEndpointsFromDirTree(routesRootPath, (endpoint: string, path: string) => {
+      app.use(endpoint, require(path).default);
     });
   };
 }
