@@ -5,7 +5,7 @@ class UpdateProfile {
   static schema = {
     urlencoded: {
       target: 'body',
-      rules:Joi.object({
+      rules: Joi.object({
         name: Joi.string().min(3).max(12).required(),
         email: Joi.string().email().required(),
       })

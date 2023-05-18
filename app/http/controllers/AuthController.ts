@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { log } from "helpers";
+import { passErrorsToHandler } from "illuminate/decorators/class";
 import Controller from "illuminate/controllers/Controller";
 import AuthenticationError from 'app/exceptions/AuthenticationError';
 import bcrypt from "bcryptjs";
@@ -8,6 +9,7 @@ import Token from "app/models/Token";
 import ForgotPasswordMail from "app/mails/ForgotPasswordMail";
 import PasswordChangedMail from "app/mails/PasswordChangedMail";
 
+@passErrorsToHandler
 class AuthController extends Controller {
   async register(req: Request, res: Response){
     const { name, email, password } = req.body;

@@ -1,3 +1,6 @@
+import { ObjectSchema } from "joi";
+import FileValidator from "illuminate/utils/FileValidator";
+
 export type EndpointCallback = (endpoint: string, path: string) => void | Promise < void >;
 
 export type RawResponse = ({
@@ -40,3 +43,11 @@ export type RecipientEmails = string | string[] | ({email: string} & {[key: stri
   }
   
 export type CacheDriverResponse = Promise<null | string>;
+
+export type ValidationSchema = {
+  urlencoded?: {
+    target: "body" | "params" | "query",
+    rules: ObjectSchema
+  },
+  multipart?: FileValidator
+}

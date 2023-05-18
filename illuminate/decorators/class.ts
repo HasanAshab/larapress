@@ -7,7 +7,7 @@ export function performance(constructor: Function) {
     }
     constructor.prototype[methodName] = async function (...args: any[]): Promise < void > {
       console.time(`${constructor.name}.${methodName}`)
-      const result = await method(...args);
+      const result = await method.apply(constructor, args);
       console.timeEnd(`${constructor.name}.${methodName}`)
       return result;
     }
@@ -23,7 +23,7 @@ export function passErrorsToHandler(constructor: Function) {
     }
     constructor.prototype[methodName] = async function (...args: any[]) {
       try {
-        return await method(...args);
+        return await method.apply(constructor, args);
       }
       catch (err: any) {
         for (const arg of args) {

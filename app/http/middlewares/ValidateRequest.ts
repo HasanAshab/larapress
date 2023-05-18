@@ -5,16 +5,14 @@ import { base, log } from "helpers";
 import path from "path";
 
 export default class ValidateRequest extends Middleware {
-  //@passErrorsToHandler()
-  handle = (req: Request, res: Response, next: NextFunction) => {
-    console.log(this);
-    /*
+  @passErrorsToHandler()
+  handle(req: Request, res: Response, next: NextFunction){
     try {
-      var ValidationRule = require(base(path.join('app/http/validations/', this.options[0]))).default;
+      var ValidationSchema = require(base(path.join('app/http/validations/', this.options[0]))).default;
     } catch {
       next();
     }
-    const { urlencoded, multipart } = ValidationRule.schema;
+    const { urlencoded, multipart } = ValidationSchema;
     if (typeof urlencoded !== "undefined") {
       const { error } = urlencoded.rules.validate(req[urlencoded.target as "body" | "params" | "query"]);
       if (error) {
@@ -38,8 +36,6 @@ export default class ValidateRequest extends Middleware {
         });
       }
     }
-    */
-    next();
-    
+    if (!res.headersSent) next();
   }
 }

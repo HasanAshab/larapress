@@ -1,6 +1,7 @@
+import { ValidationSchema } from "types";
 import Joi from "joi";
 
-const schema = {
+const schema: ValidationSchema = {
   urlencoded: {
     target: 'body',
     rules: Joi.object({
