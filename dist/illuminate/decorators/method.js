@@ -6,7 +6,7 @@ function performance() {
         const value = descriptor.value;
         descriptor.value = async function (...args) {
             console.time(propertyKey);
-            const result = await value(...args);
+            const result = await value.apply(this, args);
             console.timeEnd(propertyKey);
             return result;
         };
@@ -18,7 +18,7 @@ function passErrorsToHandler() {
         const value = descriptor.value;
         descriptor.value = async function (...args) {
             try {
-                return await value(...args);
+                return await value.apply(this, args);
             }
             catch (err) {
                 for (const arg of args) {

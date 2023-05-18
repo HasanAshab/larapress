@@ -9,10 +9,12 @@ export default class ValidateRequest extends Middleware {
   handle(req: Request, res: Response, next: NextFunction){
     try {
       var ValidationSchema = require(base(path.join('app/http/validations/', this.options[0]))).default;
-    } catch {
+    } catch(err) {
       next();
     }
-    const { urlencoded, multipart } = ValidationSchema;
+    const urlencoded = ValidationSchema.urlencoded;
+    const multipart = ValidationSchema.multipart;
+    
     if (typeof urlencoded !== "undefined") {
       const { error } = urlencoded.rules.validate(req[urlencoded.target as "body" | "params" | "query"]);
       if (error) {
@@ -38,4 +40,5 @@ export default class ValidateRequest extends Middleware {
     }
     if (!res.headersSent) next();
   }
+  
 }

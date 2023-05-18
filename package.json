@@ -7,7 +7,7 @@
     "test": "jest",
     "build": "tsc",
     "start": "node dist/main/index.js",
-    "dev": "clear && concurrently 'tsc --watch' 'tsnd -r tsconfig-paths/register --respawn main'"
+    "dev": "nodemon --exec 'clear && ts-node-dev -r tsconfig-paths/register --transpile-only main/index.ts'"
   },
   "author": "Samer",
   "license": "ISC",

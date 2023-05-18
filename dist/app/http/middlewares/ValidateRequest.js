@@ -16,35 +16,40 @@ const path_1 = __importDefault(require("path"));
 class ValidateRequest extends Middleware_1.default {
     handle(req, res, next) {
         try {
-            var ValidationRule = require((0, helpers_1.base)(path_1.default.join('app/http/validations/', this.options[0]))).default;
+            var ValidationSchema = require((0, helpers_1.base)(path_1.default.join('app/http/validations/', this.options[0])));
+            console.log(ValidationSchema);
         }
         catch (_a) {
-            next();
         }
-        const { urlencoded, multipart } = ValidationRule.schema;
+        /*
+        const urlencoded = ValidationSchema.urlencoded;
+        const multipart = ValidationSchema.multipart;
+        
         if (typeof urlencoded !== "undefined") {
-            const { error } = urlencoded.rules.validate(req[urlencoded.target]);
-            if (error) {
-                res.status(400).json({
-                    message: error.details[0].message,
-                });
-            }
+          const { error } = urlencoded.rules.validate(req[urlencoded.target as "body" | "params" | "query"]);
+          if (error) {
+            res.status(400).json({
+              message: error.details[0].message,
+            });
+          }
         }
+    
         if (typeof multipart !== "undefined") {
-            const contentType = req.headers["content-type"];
-            if (!contentType || !contentType.startsWith("multipart/form-data")) {
-                res.status(400).json({
-                    message: "Only multipart/form-data requests are allowed",
-                });
-            }
-            const error = multipart.validate(req.files);
-            if (error) {
-                res.status(400).json({
-                    message: error,
-                });
-            }
+          const contentType = req.headers["content-type"];
+          if (!contentType || !contentType.startsWith("multipart/form-data")) {
+            res.status(400).json({
+              message: "Only multipart/form-data requests are allowed",
+            });
+          }
+          const error = multipart.validate(req.files);
+          if (error) {
+            res.status(400).json({
+              message: error,
+            });
+          }
         }
-        next();
+        if (!res.headersSent) next();
+        */
     }
 }
 __decorate([

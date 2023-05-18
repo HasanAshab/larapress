@@ -9,6 +9,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const express_handlebars_1 = require("express-handlebars");
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
+const Setup_1 = __importDefault(require("main/Setup"));
 const app = (0, express_1.default)();
 // Domains that can only access the API
 app.use((0, cors_1.default)({
@@ -28,10 +29,8 @@ app.set("views", (0, helpers_1.base)("views"));
 app.use((0, helpers_1.middleware)("response.wrap"));
 // Registering all event and listeners
 //Setup.events(app);
-/*
-// Registering all group routes
-Setup.routes(app);
-*/
+// Registering all group routes 
+Setup_1.default.routes(app);
 // Registering global error handling middleware
 app.use((0, helpers_1.middleware)("error.handle"));
 exports.default = app;

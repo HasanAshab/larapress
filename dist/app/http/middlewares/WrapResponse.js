@@ -16,8 +16,13 @@ class WrapResponse extends Middleware_1.default {
     async handle(req, res, next) {
         const originalJson = res.json;
         res.json = function (response) {
+            if (res.headersSent) {
+                return res;
+            }
             const success = res.statusCode >= 200 && res.statusCode < 300;
-            const wrappedData = { success };
+            const wrappedData = {
+                success
+            };
             if ((0, guards_1.isObject)(response)) {
                 wrappedData.data = {};
                 for (const [key, value] of Object.entries(response)) {
