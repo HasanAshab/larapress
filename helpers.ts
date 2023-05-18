@@ -1,4 +1,6 @@
-import { UrlData } from "types";
+import {
+  UrlData
+} from "types";
 import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
@@ -55,8 +57,10 @@ export function middleware(keys: string | string[]): any {
   function getMiddleware(middlewarePath: string, options: string[] = []) {
     const MiddlewareClass = require(path.join(__dirname, middlewarePath)).default;
     const middlewareInstance = new MiddlewareClass(options);
-    return middlewareInstance.handle.bind(middlewareInstance);
+    const handler = middlewareInstance.handle.bind(middlewareInstance);
+    return handler;
   }
+
   if (Array.isArray(keys)) {
     const middlewares = [];
     for (const key of keys) {
@@ -121,9 +125,12 @@ export function log(data: any): void {
 
 export function getParams(func: Function): string[] {
   let str = func.toString();
-  str = str.replace(/\/\*[\s\S]*?\*\//g, '')
-  .replace(/\/\/(.)*/g, '')
-  .replace(/{[\s\S]*}/, '')
+  str = str.replace(/\/\*[\s\S]*?\*\//g,
+    '')
+  .replace(/\/\/(.)*/g,
+    '')
+  .replace(/{[\s\S]*}/,
+    '')
   .replace(/=>/g, '')
     .trim();
     const start = str.indexOf("(") + 1;
@@ -136,14 +143,15 @@ export function getParams(func: Function): string[] {
         params.push(element);
     });
 
-  return params;
-}
-
-export function checkProperties(obj: any, properties: {[key: string]: string}): boolean {
-  for(const [name, type] of Object.entries(properties)){
-    if(!(name in obj && typeof obj[name] === type)){
-      return false;
-    }
+    return params;
   }
-  return true;
-}
+
+  export function checkProperties(obj: any, properties: {[key: string]: string
+  }): boolean {
+    for (const [name, type] of Object.entries(properties)) {
+      if (!(name in obj && typeof obj[name] === type)) {
+        return false;
+      }
+    }
+    return true;
+  }

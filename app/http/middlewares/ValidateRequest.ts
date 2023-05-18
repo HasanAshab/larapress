@@ -1,12 +1,14 @@
 import Middleware from "illuminate/middlewares/Middleware";
 import { Request, Response, NextFunction } from "express";
 import { passErrorsToHandler } from "illuminate/decorators/method";
-import { base } from "helpers";
+import { base, log } from "helpers";
 import path from "path";
 
 export default class ValidateRequest extends Middleware {
-  @passErrorsToHandler()
-  handle(req: Request, res: Response, next: NextFunction) {
+  //@passErrorsToHandler()
+  handle = (req: Request, res: Response, next: NextFunction) => {
+    console.log(this);
+    /*
     try {
       var ValidationRule = require(base(path.join('app/http/validations/', this.options[0]))).default;
     } catch {
@@ -36,6 +38,8 @@ export default class ValidateRequest extends Middleware {
         });
       }
     }
+    */
     next();
+    
   }
 }

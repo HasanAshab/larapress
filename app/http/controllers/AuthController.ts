@@ -42,7 +42,7 @@ class AuthController extends Controller {
         });
       }
     }
-    throw AuthenticationError.type('INVALID_CREDENTIALS').create();
+    else throw AuthenticationError.type('INVALID_CREDENTIALS').create();
   };
 
   async verifyEmail(req: Request, res: Response){

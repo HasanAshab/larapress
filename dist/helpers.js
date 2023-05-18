@@ -60,7 +60,8 @@ function middleware(keys) {
     function getMiddleware(middlewarePath, options = []) {
         const MiddlewareClass = require(path_1.default.join(__dirname, middlewarePath)).default;
         const middlewareInstance = new MiddlewareClass(options);
-        return middlewareInstance.handle.bind(middlewareInstance);
+        const handler = middlewareInstance.handle.bind(middlewareInstance);
+        return handler;
     }
     if (Array.isArray(keys)) {
         const middlewares = [];
