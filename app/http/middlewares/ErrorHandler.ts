@@ -8,11 +8,9 @@ export default class ErrorHandler extends Middleware {
     const message = err.message || 'Internal server error!';
     if(status === 500){
       log(`${req.originalUrl} - ${req.method} - ${req.ip}\nStack: ${err.stack}`);
+      if(process.env.NODE_ENV === 'production') res.status(status).json({message: 'Internal server error!' });
+      else res.status(status).json({message: err.stack})
     }
-    (status === 500 && process.env.NODE_ENV === 'production')
-      ?res.status(status).json({
-        message: 'Internal server error!' 
-      })
-    :res.status(status).json({message});
+    else res.status(status).json({message});
   };
 }
