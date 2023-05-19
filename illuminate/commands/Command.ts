@@ -1,3 +1,5 @@
+import ArtisanError from "illuminate/exceptions/utils/ArtisanError";
+
 export default abstract class Command {
   //abstract handle
   constructor(public subCommand?: string, public fromShell: boolean = true, public flags: string[] = [], public params: {[key: string]: string} = {}){
@@ -5,6 +7,14 @@ export default abstract class Command {
     this.fromShell = fromShell;
     this.flags = flags;
     this.params = params;
+  }
+  
+  requiredParams(requiredParamsName: string[]){
+    for(const name of requiredParamsName){
+      if(typeof this.params[name] === 'undefined'){
+        throw ArtisanError.type("REQUIRED_PARAM_MISSING").create({param:name});
+      }
+    }
   }
   
   info(text: string): void{
