@@ -1,5 +1,5 @@
 const cron: {[key: string]: string} = {
- // "test hello ts": "* * * * * *" 
+  "test:hf name=jd": "* * * * * *" 
 }
 
 export default cron;

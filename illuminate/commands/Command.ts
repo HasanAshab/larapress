@@ -1,4 +1,5 @@
 export default abstract class Command {
+  //abstract handle
   constructor(public subCommand?: string, public fromShell: boolean = true, public flags: string[] = [], public params: {[key: string]: string} = {}){
     this.subCommand = subCommand;
     this.fromShell = fromShell;

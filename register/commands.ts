@@ -1,4 +1,6 @@
-const commands: {[key: string]: {[key: string]: string}} = {
+type SignatureNamePair = {[key: string]: string};
+
+const commands: {nested?: SignatureNamePair, invoked?: SignatureNamePair} = {
 //const commands: {[key: string]: string} = {
   /*
   secret: "GenerateSecret",
@@ -7,7 +9,7 @@ const commands: {[key: string]: {[key: string]: string}} = {
     make: "Make",
   */
   //clear: "Clear",
-  invoked: {
+  nested: {
     test: "Test",
   }
 }

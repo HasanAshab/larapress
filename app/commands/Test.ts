@@ -12,8 +12,7 @@ export default class Test extends Command {
     this.success('Yeh!');
   };
   
-  async other(a: string, options: string[]){
-    console.log(a, options)
+  async other(){
     console.log(this.subCommand)
   };
   

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Command {
+    //abstract handle
     constructor(subCommand, fromShell = true, flags = [], params = {}) {
         this.subCommand = subCommand;
         this.fromShell = fromShell;

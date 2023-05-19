@@ -15,8 +15,7 @@ class Test extends Command_1.default {
         this.success('Yeh!');
     }
     ;
-    async other(a, options) {
-        console.log(a, options);
+    async other() {
         console.log(this.subCommand);
     }
     ;

@@ -9,7 +9,7 @@ const commands = {
       make: "Make",
     */
     //clear: "Clear",
-    invoked: {
+    nested: {
         test: "Test",
     }
 };

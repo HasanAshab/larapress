@@ -7,13 +7,12 @@ import events from "register/events";
 import crons from "register/cron";
 
 export default class Setup {
-  /*
   static cronJobs(): void {
     for (const [command, schedule] of Object.entries(crons)) {
-      nodeCron.schedule(schedule, Artisan.getCommand(command.split(' ')) as ((now: Date | "init" | "manual") => void));
+      nodeCron.schedule(schedule, Artisan.getCommand(command.split(' ')));
     }
   };
-*/
+
   static events(app: Application): void {
     for (const [event, listenerNames] of Object.entries(events)) {
       for (const listenerName of listenerNames) {
