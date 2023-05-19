@@ -1,3 +1,5 @@
+const { resolve } = require('path');
+
 module.exports = {
   testMatch: ['<rootDir>/tests/{feature,unit}/**/*.test.js'],
   testTimeout: 20000,

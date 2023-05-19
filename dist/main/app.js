@@ -28,7 +28,7 @@ app.set("views", (0, helpers_1.base)("views"));
 // Registering global middlewares
 app.use((0, helpers_1.middleware)("response.wrap"));
 // Registering all event and listeners
-//Setup.events(app);
+Setup_1.default.events(app);
 // Registering all group routes 
 Setup_1.default.routes(app);
 // Registering global error handling middleware

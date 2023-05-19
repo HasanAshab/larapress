@@ -34,7 +34,7 @@ app.set("views", base("views"));
 app.use(middleware("response.wrap"));
 
 // Registering all event and listeners
-//Setup.events(app);
+Setup.events(app);
 
 // Registering all group routes 
 Setup.routes(app);

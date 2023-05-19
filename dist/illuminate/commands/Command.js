@@ -1,11 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Command {
-    constructor(subCommand, fromShell = true) {
+    constructor(subCommand, fromShell = true, flags = [], params = {}) {
         this.subCommand = subCommand;
         this.fromShell = fromShell;
+        this.flags = flags;
+        this.params = params;
         this.subCommand = subCommand;
         this.fromShell = fromShell;
+        this.flags = flags;
+        this.params = params;
     }
     info(text) {
         console.log('\x1b[33m', text, '\x1b[0m');

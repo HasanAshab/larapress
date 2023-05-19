@@ -1,80 +1,46 @@
-import {
-  base,
-  getParams
-} from 'helpers';
-import ArtisanError from 'illuminate/exceptions/utils/ArtisanError';
-import {
-  Command
-} from 'commander';
+import { base } from "helpers";
+import commands from "register/commands";
 
 export default class Artisan {
-  static artisan = new Command();
-  static args = process.argv;
-  static fromShell = true;
-
-  static call(commandArgs?: string[], fromShell: boolean = true): void {
-    if (typeof commandArgs !== 'undefined') {
-      this.args = ['',
-        '',
-        ...commandArgs];
-    }
-    this.fromShell = fromShell;
-    this.setup();
-    this.artisan.parse(this.args);
-  }
-
-  static getCommand(commandArgs?: string[], fromShell: boolean = true): Function {
-    if (typeof commandArgs !== 'undefined') {
-      this.args = ['',
-        '',
-        ...commandArgs];
-    }
-    this.fromShell = fromShell;
-    this.setup();
-    return () => this.artisan.parse(this.args);
-  }
-
-  static setup(): void {
-    this.artisan.name('Artisan').description('CLI for Express X Typescript project.\n Made by Samer Agency').version('0.0.1');
-    const commands = require(base('register/commands')).default;
-    if (typeof this.args[2] === 'undefined') {
-      //TODO show help
+  static call(args: string[], fromShell = true) {
+    const baseInput = args[0];
+    let subCommand: string | undefined = undefined;
+    const { params, flags } = this.parseArgs(args.splice(1));
+    if (baseInput.includes(":")) {
+      const [commandKey, subCommandTemp] = baseInput.split(":");
+      subCommand = subCommandTemp;
+      var CommandClass = require(base(commands.nested[commandKey])).default;
+     /* if (!isClass(CommandClass)) {
+        throw ArtisanError.type("COMMAND_NOT_FOUND").create();
+      }*/
     } else {
-      if (this.args[2].includes(':')) {
-        const [name,
-          subCommand] = this.args[2].split(':');
-        this.args[2] = name;
-        const actionPath = commands[name];
-        if (typeof actionPath === 'undefined') throw ArtisanError.type('COMMAND_NOT_FOUND').create();
-        this.registerCommand(name, actionPath, subCommand);
-      } else {
-        const name = this.args[2]
-        const actionPath = commands[name];
-        if (typeof actionPath === 'undefined') throw ArtisanError.type('COMMAND_NOT_FOUND').create();
-        this.registerCommand(name, actionPath);
-      }
+      var CommandClass = require(base(`app/commands/${commands.invoked[baseInput]}`)).default;
+     /* if (!isClass(CommandClass)) {
+        throw ArtisanError.type("COMMAND_NOT_FOUND").create();
+      }*/
     }
+
+    var commandClass = new CommandClass(subCommand, fromShell, flags, params);
+    const handle = commandClass[subCommand || "handle"];
+    if (typeof handle === "function") handle.apply(commandClass);
+    else console.log('nope')
   }
-
-  static registerCommand(name: string, actionPath: string, subCommand?: string): void {
-    const ActionClass = require(base(`app/commands/${actionPath}`)).default;
-    const action = new ActionClass(subCommand, this.fromShell);
-    const handler = action[subCommand || 'handle'] || action.handle;
-    if (typeof handler === 'undefined') {
-      throw ArtisanError.type('COMMAND_NOT_FOUND').create();
-    }
-    const args = getParams(handler);
-    args.pop();
-    const command = this.artisan.command(name).description(action.description || '')
-
-    for (const arg of args) {
-      command.argument(`<${arg}>`);
-    }
-    if (typeof action.options !== 'undefined') {
-      for (const option of action.options) {
-        command.option(option.flag, option.message, option.default)
+  /*
+  static getCommand(input, fromShell = false){
+    return () => this.call(input.split(' '), fromShell);
+  }
+  */
+  static parseArgs(args: string[]): {flags: string[], params: {[key: string]: string}} {
+    const flags: string[] = [];
+    const params: {[key: string]: string} = {};
+    args.forEach((arg, index) => {
+      if (arg.startsWith("-")) {
+        flags.push(arg.replace("-", ""));
+      } else if (arg.includes("=")) {
+        const [key, value] = arg.split("=");
+        params[key] = value;
       }
-    }
-    command.action(handler.bind(action));
+    });
+    return { params, flags };
   }
 }

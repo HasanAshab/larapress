@@ -3,20 +3,13 @@ import Command from "illuminate/commands/Command";
 //const DB = require(base("illuminate/utils/DB"));
 
 export default class Test extends Command {
-  description = 'this is test'
-  options = [
-    {
-      flag: '-p, --port <port>',
-      message: 'Port to run the app',
-      default: 8000
-    }
-  ]
   
-  async handle(foo: string, bar: string, options: string[]){
+  async handle(){
     this._greet()
-    this.success('Yeh!');
-    console.log(foo, bar, options)
+    console.log(this.params)
+    console.log(this.flags)
     console.log(this.subCommand)
+    this.success('Yeh!');
   };
   
   async other(a: string, options: string[]){

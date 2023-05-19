@@ -1,7 +1,9 @@
 export default abstract class Command {
-  constructor(public subCommand?: string, public fromShell: boolean = true){
+  constructor(public subCommand?: string, public fromShell: boolean = true, public flags: string[] = [], public params: {[key: string]: string} = {}){
     this.subCommand = subCommand;
     this.fromShell = fromShell;
+    this.flags = flags;
+    this.params = params;
   }
   
   info(text: string): void{
