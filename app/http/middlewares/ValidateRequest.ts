@@ -9,21 +9,13 @@ export default class ValidateRequest extends Middleware {
   handle(req: Request, res: Response, next: NextFunction){
     try {
       var ValidationSchema = require(base(path.join('app/http/validations/', this.options[0]))).default;
-    } catch(err) {
-      next();
+    } catch(err: any) {
+      if (err.code === "MODULE_NOT_FOUND") next();
+      else throw err;
     }
     const urlencoded = ValidationSchema.urlencoded;
     const multipart = ValidationSchema.multipart;
     
-    if (typeof urlencoded !== "undefined") {
-      const { error } = urlencoded.rules.validate(req[urlencoded.target as "body" | "params" | "query"]);
-      if (error) {
-        res.status(400).json({
-          message: error.details[0].message,
-        });
-      }
-    }
-
     if (typeof multipart !== "undefined") {
       const contentType = req.headers["content-type"];
       if (!contentType || !contentType.startsWith("multipart/form-data")) {
@@ -35,6 +27,15 @@ export default class ValidateRequest extends Middleware {
       if (error) {
         res.status(400).json({
           message: error,
+        });
+      }
+    }
+    
+    if (typeof urlencoded !== "undefined") {
+      const { error } = urlencoded.rules.validate(req[urlencoded.target as "body" | "params" | "query"]);
+      if (error) {
+        res.status(400).json({
+          message: error.details[0].message,
         });
       }
     }

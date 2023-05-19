@@ -19,18 +19,13 @@ class ValidateRequest extends Middleware_1.default {
             var ValidationSchema = require((0, helpers_1.base)(path_1.default.join('app/http/validations/', this.options[0]))).default;
         }
         catch (err) {
-            next();
+            if (err.code === "MODULE_NOT_FOUND")
+                next();
+            else
+                throw err;
         }
         const urlencoded = ValidationSchema.urlencoded;
         const multipart = ValidationSchema.multipart;
-        if (typeof urlencoded !== "undefined") {
-            const { error } = urlencoded.rules.validate(req[urlencoded.target]);
-            if (error) {
-                res.status(400).json({
-                    message: error.details[0].message,
-                });
-            }
-        }
         if (typeof multipart !== "undefined") {
             const contentType = req.headers["content-type"];
             if (!contentType || !contentType.startsWith("multipart/form-data")) {
@@ -42,6 +37,14 @@ class ValidateRequest extends Middleware_1.default {
             if (error) {
                 res.status(400).json({
                     message: error,
+                });
+            }
+        }
+        if (typeof urlencoded !== "undefined") {
+            const { error } = urlencoded.rules.validate(req[urlencoded.target]);
+            if (error) {
+                res.status(400).json({
+                    message: error.details[0].message,
                 });
             }
         }
