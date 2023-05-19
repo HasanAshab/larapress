@@ -7,7 +7,7 @@ class FileValidator {
   static object: {[key: string]: FileValidator};
   static file: UploadedFile;
   static fieldName: string;
-  public rules: {[key: string]: any} = { required: false };
+  //public rules: {[key: string]: any} = { required: false };
   
   static fields(obj: {[key: string]: FileValidator}): typeof FileValidator {
     this.object = obj;
