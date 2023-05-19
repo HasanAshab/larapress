@@ -13,7 +13,7 @@ export default abstract class Exception {
 
   static create(data?: {[key: string]: string}): typeof Error {
     const error:any = new Error();
-    error.name = this.constructor.name;
+    error.name = this.name;
     error.type = this.errorType;
     for (const [key, value] of Object.entries(this.errors[this.errorType])) {
       error[key] = value;

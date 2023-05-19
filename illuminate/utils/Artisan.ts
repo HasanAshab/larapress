@@ -11,21 +11,12 @@ export default class Artisan {
 
   static getCommand(args: string[], fromShell = false): Function {
     const baseInput = args[0];
-    let subCommand = '';
-    const {
-      params,
-      flags
-    } = this.parseArgs(args.splice(1));
-    if (baseInput.includes(":")) {
-      const [commandKey,
-        subCommandTemp] = baseInput.split(":");
-      subCommand = subCommandTemp;
-      var CommandClass = require(base(`app/commands/${commands.nested?.[commandKey]}`)).default;
-    } else {
-      var CommandClass = require(base(`app/commands/${commands.invoked?.[baseInput]}`)).default;
-    }
-
-    var commandClass = new CommandClass(subCommand, fromShell, flags, params);
+    const { params, flags } = this.parseArgs(args.splice(1));
+    const [commandKey, subCommand] = baseInput.split(":");
+    const commandName = commands[commandKey];
+    if (typeof commandName === "undefined") throw ArtisanError.type("COMMAND_NOT_FOUND").create()
+    const CommandClass = require(base(`app/commands/${commandName}`))?.default;
+    const commandClass = new CommandClass(subCommand, fromShell, flags, params);
     const handler = commandClass[subCommand] || commandClass.handle;
     if (typeof handler === "undefined") throw ArtisanError.type("COMMAND_NOT_FOUND").create()
     return handler.bind(commandClass);

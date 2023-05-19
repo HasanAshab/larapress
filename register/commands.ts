@@ -1,17 +1,10 @@
-type SignatureNamePair = {[key: string]: string};
-
-const commands: {nested?: SignatureNamePair, invoked?: SignatureNamePair} = {
-//const commands: {[key: string]: string} = {
-  /*
+const commands: {[key: string]: string} = {
+  make: "Make",
+  clear: "Clear",
+  test: "Test",
   secret: "GenerateSecret",
-    doc: "GenerateDoc",
-    seed: "Seed",
-    make: "Make",
-  */
-  //clear: "Clear",
-  nested: {
-    test: "Test",
-  }
+  doc: "GenerateDoc",
+  seed: "Seed",
 }
 
 export default commands;
