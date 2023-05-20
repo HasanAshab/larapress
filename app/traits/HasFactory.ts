@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 import { base, route } from "helpers";
-//TODO  statics interface
+
 export type IHasFactory = {
   factory(count?: number): {
     create(data?: object): Promise<typeof Schema | (typeof Schema)[]>;
@@ -12,7 +12,7 @@ export type IHasFactory = {
 export default function hasFactory(schema: Schema): void {
   schema.statics.factory = function(count = 1) {
     const modelName = this.modelName;
-    const Factory = require(base(`app/factories/${modelName}Factory`));
+    const Factory = require(base(`app/factories/${modelName}Factory`)).default;
     const factory = new Factory();
     return {
       create: async (data?: object): Promise<typeof Schema | (typeof Schema)[]> => {

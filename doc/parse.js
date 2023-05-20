@@ -1,3 +1,7 @@
+const { base, url } = require("../helpers");
+global.base = base;
+global.url = url;
+
 const { generateEndpointsFromDirTree } = require(base("illuminate/utils"));
 const doc = require(base("doc/base"));
 

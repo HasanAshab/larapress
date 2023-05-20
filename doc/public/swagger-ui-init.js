@@ -48,20 +48,7 @@ window.onload = function() {
               }
             }
           },
-          "parameters": [
-            {
-              "name": "email",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "password",
-              "in": "body",
-              "type": "string",
-              "required": true
-            }
-          ]
+          "parameters": []
         }
       },
       "/auth/profile": {
@@ -103,29 +90,7 @@ window.onload = function() {
               }
             }
           },
-          "parameters": [
-            {
-              "name": "name",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "email",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "logo",
-              "in": "formData",
-              "type": "image/jpeg || image/png",
-              "required": false
-            }
-          ],
-          "consumes": [
-            "multipart/form-data"
-          ]
+          "parameters": []
         }
       },
       "/auth/register": {
@@ -156,41 +121,7 @@ window.onload = function() {
               }
             }
           },
-          "parameters": [
-            {
-              "name": "name",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "email",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "password",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "password_confirmation",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "logo",
-              "in": "formData",
-              "type": "image/jpeg || image/png",
-              "required": false
-            }
-          ],
-          "consumes": [
-            "multipart/form-data"
-          ]
+          "parameters": []
         }
       },
       "/auth/verify": {
@@ -213,20 +144,7 @@ window.onload = function() {
               }
             }
           },
-          "parameters": [
-            {
-              "name": "id",
-              "in": "query",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "token",
-              "in": "query",
-              "type": "string",
-              "required": true
-            }
-          ]
+          "parameters": []
         }
       },
       "/auth/verify/resend": {
@@ -271,20 +189,7 @@ window.onload = function() {
               }
             }
           },
-          "parameters": [
-            {
-              "name": "old_password",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "password",
-              "in": "body",
-              "type": "string",
-              "required": true
-            }
-          ]
+          "parameters": []
         }
       },
       "/auth/password/forgot": {
@@ -307,14 +212,7 @@ window.onload = function() {
               }
             }
           },
-          "parameters": [
-            {
-              "name": "email",
-              "in": "body",
-              "type": "string",
-              "required": true
-            }
-          ]
+          "parameters": []
         }
       },
       "/auth/password/reset": {
@@ -336,26 +234,7 @@ window.onload = function() {
               }
             }
           },
-          "parameters": [
-            {
-              "name": "id",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "password",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "token",
-              "in": "body",
-              "type": "string",
-              "required": true
-            }
-          ]
+          "parameters": []
         }
       }
     }

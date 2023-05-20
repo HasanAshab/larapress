@@ -1,7 +1,7 @@
-class Factory {
-  merge(data){
+export default abstract class Factory {
+  merge(data?: object): object {
     const modelData = this.definition();
-    if(!data){
+    if(typeof data === "undefined"){
       return modelData;
     }
     for (const field of Object.keys(data)){
@@ -10,5 +10,3 @@ class Factory {
     return modelData;
   };
 }
-
-module.exports = Factory;

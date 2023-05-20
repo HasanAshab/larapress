@@ -7,10 +7,11 @@ export default class Seed extends Command {
   async handle(){
     this.subCommandRequired("Model name");
     this.requiredParams(['count']);
+    this.info('Connecting to database...');
     await DB.connect();
     const { count } = this.params;
     try{
-      const Model = require(base(`app/models/${this.subCommand}`));
+      const Model = require(base(`app/models/${this.subCommand}`)).default;
       this.info('Seeding started...');
       await Model.factory(count).create()
       this.success('Seeded successfully!');

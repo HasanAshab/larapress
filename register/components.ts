@@ -1,20 +1,20 @@
 const components: {[key: string]: string | {[key: string]: string}} = {
-  "model": "app/models/{{name}}.js",
-  "trait": "app/traits/{{name}}.js",
-  "factory": "app/factories/{{name}}.js",
-  "mail": "app/mails/{{name}}.js",
-  "listener": "app/listeners/{{name}}.js",
-  "job": "app/jobs/{{name}}.js",
-  "exception": "app/exceptions/{{name}}.js",
-  "controller": "app/http/controllers/{{name}}.js",
-  "validation": "app/http/validations/{{prefix}}/{{name}}.js",
-  "middleware": "app/http/middlewares/{{name}}.js",
-  "command": "app/commands/{{name}}.js",
+  "model": "app/models/{{name}}.ts",
+  "trait": "app/traits/{{name}}.ts",
+  "factory": "app/factories/{{name}}.ts",
+  "mail": "app/mails/{{name}}.ts",
+  "listener": "app/listeners/{{name}}.ts",
+  "job": "app/jobs/{{name}}.ts",
+  "exception": "app/exceptions/{{name}}.ts",
+  "controller": "app/http/controllers/{{name}}.ts",
+  "validation": "app/http/validations/{{name}}.ts",
+  "middleware": "app/http/middlewares/{{name}}.ts",
+  "command": "app/commands/{{name}}.ts",
   "test": {
-    "feature": "tests/feature/{{name}}.test.js",
-    "unit": "tests/unit/{{name}}.test.js"
+    "f": "tests/feature/{{name}}.test.ts",
+    "u": "tests/unit/{{name}}.test.ts"
   },
-  "router": "routes/{{prefix}}/{{name}}.js"
+  "router": "routes/{{name}}.ts"
 }
 
 export default components;

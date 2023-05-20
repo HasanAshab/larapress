@@ -1,13 +1,27 @@
-import { Request, Response, NextFunction } from "express";
 import path from "path";
 import fs from "fs";
-import { EndpointCallback } from "types";
+import {
+  EndpointCallback
+} from "types";
 
-export function generateEndpointsFromDirTree(rootPath: string, cb: EndpointCallback): void {
+export function loadDir(dirPath: string) {
+  const normalizedPath = path.normalize(dirPath);
+  if (fs.existsSync(normalizedPath)) return;
+  const {
+    dir,
+    base
+  } = path.parse(normalizedPath);
+  if (!fs.existsSync(dir)) {
+    this._loadDir(dir);
+  }
+  fs.mkdirSync(normalizedPath);
+}
+
+export function generateEndpointsFromDirTree(rootPath: string, cb: EndpointCallback) {
   const stack = [rootPath];
   while (stack.length > 0) {
     const currentPath = stack.pop();
-    if(!currentPath){
+    if (!currentPath) {
       break;
     }
     const items = fs.readdirSync(currentPath);
@@ -17,9 +31,9 @@ export function generateEndpointsFromDirTree(rootPath: string, cb: EndpointCallb
 
       if (status.isFile()) {
         const itemPathEndpoint = itemPath
-          .replace(rootPath, "")
-          .split(".")[0]
-          .toLowerCase();
+        .replace(rootPath, "")
+        .split(".")[0]
+        .toLowerCase();
         cb(itemPathEndpoint, itemPath);
       } else if (status.isDirectory()) {
         stack.push(itemPath);
