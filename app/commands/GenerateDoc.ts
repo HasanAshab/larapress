@@ -8,6 +8,7 @@ import fs from "fs";
 import swaggerUi from "swagger-ui-express";
 import doc from "docs/parse";
 
+
 export default class GenerateDoc extends Command {
   async handle() {
     this.info("starting server...");
