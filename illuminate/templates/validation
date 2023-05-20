@@ -1,16 +1,14 @@
-const Joi = require('joi'); 
+import { ValidationSchema } from "types";
+import Joi from "joi";
 
-class {{name}} {
-
-  static schema = {
-    urlencoded: {
-      target: 'body',
-      rules: Joi.object({
-        //
-      })
-    },
+const schema: ValidationSchema = {
+  urlencoded: {
+    target: 'body',
+    rules: Joi.object({
+      //
+    })
   }
-
 }
 
-module.exports = {{name}};
+
+export default schema;

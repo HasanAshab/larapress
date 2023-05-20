@@ -6,13 +6,13 @@ import Command from "illuminate/commands/Command";
 import app from "main/app";
 import fs from "fs";
 import swaggerUi from "swagger-ui-express";
-import doc from "doc/parse";
+import doc from "docs/parse";
 
 export default class GenerateDoc extends Command {
   async handle() {
     this.info("starting server...");
     this._setupServer();
-    this.outputDir = base('/doc/public');
+    this.outputDir = base('/docs/public');
     this.baseUrl = "http://127.0.0.1:8000/docs";
     loadDir(this.outputDir);
     this.info('fetching index.html...');

@@ -12,7 +12,7 @@ import PasswordChangedMail from "app/mails/PasswordChangedMail";
 @passErrorsToHandler
 class AuthController extends Controller {
   async register(req: Request, res: Response){
-    const { name, email, password } = req.body;
+    const { name, email, password } = req.validated;
     const logo = req.files?.logo;
     if (await User.findOne({ email })) throw AuthenticationError.type('EMAIL_EXIST').create();
     const user = await User.create({
@@ -32,7 +32,7 @@ class AuthController extends Controller {
   };
 
   async login(req: Request, res: Response){
-    const { email, password } = req.body;
+    const { email, password } = req.validated;
     const user = await User.findOne({email});
     if (user) {
       const match = await bcrypt.compare(password, user.password);
@@ -84,7 +84,7 @@ class AuthController extends Controller {
   };
 
   async forgotPassword(req: Request, res: Response){
-    const email = req.body.email;
+    const email = req.validated.email;
     const user = await User.findOne({
       email,
     });
@@ -97,7 +97,7 @@ class AuthController extends Controller {
   };
 
   async resetPassword(req: Request, res: Response){
-    const { id, token, password } = req.body;
+    const { id, token, password } = req.validated;
     const user = await User.findById(id);
     if (user) {
       await user.resetPassword(token, password)
@@ -112,7 +112,7 @@ class AuthController extends Controller {
 
   async changePassword(req: Request, res: Response){
     const user = req.user!;
-    const { old_password, password } = req.body;
+    const { old_password, password } = req.validated;
     const oldPasswordMatch = await bcrypt.compare(old_password, user.password);
     if (!oldPasswordMatch) throw AuthenticationError.type('INCORRECT_PASSWORD').create();
     if (old_password === password) throw AuthenticationError.type('PASSWORD_SHOULD_DIFFERENT').create();
@@ -130,7 +130,7 @@ class AuthController extends Controller {
   };
 
   async updateProfile(req: Request, res: Response){
-    const { name, email } = req.body;
+    const { name, email } = req.validated;
     const logo = req.files?.logo;
     const user = req.user!;
     user.name = name;

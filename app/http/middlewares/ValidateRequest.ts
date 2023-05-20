@@ -15,6 +15,7 @@ export default class ValidateRequest extends Middleware {
     }
     const urlencoded = ValidationSchema.urlencoded;
     const multipart = ValidationSchema.multipart;
+    const target = req[urlencoded.target as "body" | "params" | "query"];
     
     if (typeof multipart !== "undefined") {
       const contentType = req.headers["content-type"];
@@ -32,14 +33,17 @@ export default class ValidateRequest extends Middleware {
     }
     
     if (typeof urlencoded !== "undefined") {
-      const { error } = urlencoded.rules.validate(req[urlencoded.target as "body" | "params" | "query"]);
+      const { error } = urlencoded.rules.validate(target);
       if (error) {
         res.status(400).json({
           message: error.details[0].message,
         });
       }
     }
-    if (!res.headersSent) next();
+    if (!res.headersSent) {
+      req.validated = target;
+      next();
+    }
   }
   
 }
