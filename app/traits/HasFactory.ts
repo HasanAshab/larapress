@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 import { base, route } from "helpers";
-
+//TODO  statics interface
 export type IHasFactory = {
   factory(count?: number): {
     create(data?: object): Promise<typeof Schema | (typeof Schema)[]>;

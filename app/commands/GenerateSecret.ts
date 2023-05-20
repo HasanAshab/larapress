@@ -4,6 +4,7 @@ import crypto from "crypto";
 
 export default class GenerateSecret extends Command {
   handle(){
+    this.subCommandRequired("key");
     const key = this.subCommand.toUpperCase() + "_SECRET";
     const secret = crypto.randomBytes(126).toString("hex");
     let obj = {};
