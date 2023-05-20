@@ -3,6 +3,6 @@ import Mailable from "illuminate/mails/Mailable";
 
 export default class NewUserJoinedMail extends Mailable implements ShouldQueue {
   view = "newUserJoined";
-  subject = "NewUserJoined";
+  subject = "New User Joined us";
   shouldQueue = true;
 }

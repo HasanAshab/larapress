@@ -1,13 +1,8 @@
-const Command = require(base('illuminate/commands/Command'));
-const DB = require(base("illuminate/utils/DB"));
+import Command from 'illuminate/commands/Command';
+import DB from "illuminate/utils/DB";
 
-class {{name}} extends Command {
-  
-  handle(){
+export default class {{name}} extends Command {
+  async handle(){
     //
   }
-  
 }
-
-
-module.exports = {{name}};

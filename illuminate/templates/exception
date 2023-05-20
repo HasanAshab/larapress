@@ -1,9 +1,7 @@
-const Exception = require(base('illuminate/exceptions/Exception'));
+import Exception from "illuminate/exceptions/Exception";
 
-class {{name}} extends Exception {
+export default class {{name}} extends Exception {
   static errors = {
     //
   }
 }
-
-module.exports = {{name}};

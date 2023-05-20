@@ -1,9 +1,7 @@
-const Job = require(base('illuminate/jobs/Job'));
+import Job from "illuminate/jobs/Job";
 
-class {{name}} extends Job {
-  async dispatch(data){
+export default class {{name}} extends Job {
+  async dispatch(data: object){
     //
   }
 }
-
-module.exports = {{name}};

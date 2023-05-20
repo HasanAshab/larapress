@@ -1,11 +1,8 @@
-class {{name}} {
-  view = '';
-  subject = '{{name}}';
+//import ShouldQueue from "illuminate/queue/ShouldQueue";
+import Mailable from "illuminate/mails/Mailable";
 
-  constructor(data = {}){
-    this.data = data;
-  }
-  
+export default class {{name}} extends Mailable {
+  view = "{{name}}";
+  subject = "{{name}}";
+  //shouldQueue = true;
 }
-
-module.exports = {{name}};

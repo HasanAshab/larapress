@@ -1,7 +1,5 @@
-class {{name}} {
-  static async dispatch(event){
+export default class {{name}} {
+  async dispatch(){
     //
   }
 }
-
-module.exports = {{name}};

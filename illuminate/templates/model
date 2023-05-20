@@ -1,15 +1,12 @@
-const mongoose = require('mongoose');
-const Timestamps = require(base("app/traits/Timestamps"));
-const HasFactory = require(base("app/traits/HasFactory"));
+import { model, Schema, Document, InferSchemaType } from 'mongoose';
+import Timestamps, { ITimestamps } from "app/traits/Timestamps";
 
-const {{name}}Schema = new mongoose.Schema({
-  createdAt:{
-    type: Date,
-    default: Date.now(),
-  },
+const {{name}}Schema = new Schema({
+  //
 });
 
 {{name}}Schema.plugin(Timestamps);
-{{name}}Schema.plugin(HasFactory);
 
-module.exports = mongoose.model('{{name}}', {{name}}Schema);
+export interface I{{name}} extends Document, InferSchemaType<typeof {{name}}Schema>, ITimestamps {};
+
+export default model<I{{name}}>("{{name}}", {{name}}Schema);

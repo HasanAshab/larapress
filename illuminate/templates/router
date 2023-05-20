@@ -1,8 +1,11 @@
-const express = require('express');
-const router = express.Router();
+import { middleware } from "helpers";
+import express, { Router } from "express";
+import {{name}}Controller from "app/http/controllers/{{name}}Controller";
+
+const router: Router = express.Router();
 
 // Endpoints for {{name}}
-router.get('/', (req, res) => {});
+router.get('/', {{name}}Controller.index);
 
 
-module.exports = router;
+export default router;

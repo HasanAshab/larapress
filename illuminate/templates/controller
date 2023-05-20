@@ -1,10 +1,13 @@
-const Controller = require(base('illuminate/controllers/Controller'));
-const User = require(base('app/models/User'));
+import { Request, Response } from "express";
+import { passErrorsToHandler } from "illuminate/decorators/class";
+import Controller from "illuminate/controllers/Controller";
+import User from "app/models/User";
 
+@passErrorsToHandler
 class {{name}} extends Controller {
-  async index(req, res){
+  async index(req: Request, res: Response) {
     //
   }
 }
 
-module.exports = {{name}};
+export default new {{name}};
