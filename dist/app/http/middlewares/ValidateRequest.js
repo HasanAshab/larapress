@@ -26,6 +26,7 @@ class ValidateRequest extends Middleware_1.default {
         }
         const urlencoded = ValidationSchema.urlencoded;
         const multipart = ValidationSchema.multipart;
+        const target = req[urlencoded.target];
         if (typeof multipart !== "undefined") {
             const contentType = req.headers["content-type"];
             if (!contentType || !contentType.startsWith("multipart/form-data")) {
@@ -41,15 +42,17 @@ class ValidateRequest extends Middleware_1.default {
             }
         }
         if (typeof urlencoded !== "undefined") {
-            const { error } = urlencoded.rules.validate(req[urlencoded.target]);
+            const { error } = urlencoded.rules.validate(target);
             if (error) {
                 res.status(400).json({
                     message: error.details[0].message,
                 });
             }
         }
-        if (!res.headersSent)
+        if (!res.headersSent) {
+            req.validated = target;
             next();
+        }
     }
 }
 __decorate([

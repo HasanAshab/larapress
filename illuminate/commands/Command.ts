@@ -9,10 +9,11 @@ export default abstract class Command {
     this.params = params;
   }
   
-  subCommandRequired(name: string){
+  subCommandRequired(name: string): string {
     if(typeof this.subCommand === "undefined"){
       throw ArtisanError.type("SUB_COMMAND_REQUIRED").create({name});
     }
+    return this.subCommand as string;
   }
   
   requiredParams(requiredParamsName: string[]){

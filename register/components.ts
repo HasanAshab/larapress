@@ -1,4 +1,5 @@
-const components: {[key: string]: string | {[key: string]: string}} = {
+const components: {[key: string]: string | {[key: string]: string
+}} = {
   "model": "app/models/{{name}}.ts",
   "trait": "app/traits/{{name}}.ts",
   "factory": "app/factories/{{name}}.ts",
@@ -11,6 +12,7 @@ const components: {[key: string]: string | {[key: string]: string}} = {
   "middleware": "app/http/middlewares/{{name}}.ts",
   "command": "app/commands/{{name}}.ts",
   "test": {
+    "default": "f",
     "f": "tests/feature/{{name}}.test.ts",
     "u": "tests/unit/{{name}}.test.ts"
   },

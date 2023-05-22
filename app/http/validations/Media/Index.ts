@@ -1,6 +1,7 @@
+import { ValidationSchema } from "types";
 import Joi from "joi";
 
-static schema = {
+const schema: ValidationSchema = {
   urlencoded: {
     target: 'params',
     rules: Joi.object({
@@ -8,3 +9,5 @@ static schema = {
     })
   },
 }
+
+export default schema;

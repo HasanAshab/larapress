@@ -9,7 +9,7 @@ import crons from "register/cron";
 export default class Setup {
   static cronJobs(): void {
     for (const [command, schedule] of Object.entries(crons)) {
-      nodeCron.schedule(schedule, Artisan.getCommand(command.split(' '), false));
+      nodeCron.schedule(schedule, Artisan.getCommand(command.split(' '), false) as ((now: Date | "init" | "manual") => void));
     }
   };
 

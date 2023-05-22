@@ -12,7 +12,7 @@ export function loadDir(dirPath: string) {
     base
   } = path.parse(normalizedPath);
   if (!fs.existsSync(dir)) {
-    this._loadDir(dir);
+    loadDir(dir);
   }
   fs.mkdirSync(normalizedPath);
 }

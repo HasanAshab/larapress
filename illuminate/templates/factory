@@ -2,7 +2,7 @@ import faker from "faker";
 import Factory from "illuminate/factories/Factory";
 
 export default class {{name}} extends Factory {
-  definition(): object {
+  definition(): Record<string, any> {
     return {
       //
     };

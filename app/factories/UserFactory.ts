@@ -1,11 +1,10 @@
-import faker from "faker";
 import Factory from 'illuminate/factories/Factory';
 
 export default class UserFactory extends Factory {
-  definition(): object {
+  definition(): Record<string, any> {
     return {
-      name: faker.name.firstName(),
-      email: faker.internet.email(),
+      name: this.faker.internet.userName(),
+      email: this.faker.internet.email(),
       password: "password",
     };
   };

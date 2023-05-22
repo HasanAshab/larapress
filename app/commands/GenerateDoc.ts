@@ -1,5 +1,5 @@
 import {
-  base
+  base, url
 } from "helpers";
 import { loadDir } from "illuminate/utils";
 import Command from "illuminate/commands/Command";
@@ -10,11 +10,12 @@ import doc from "docs/parse";
 
 
 export default class GenerateDoc extends Command {
+  public outputDir = base('/docs/public');
+  public baseUrl = url("/docs");
+  
   async handle() {
     this.info("starting server...");
     this._setupServer();
-    this.outputDir = base('/docs/public');
-    this.baseUrl = "http://127.0.0.1:8000/docs";
     loadDir(this.outputDir);
     this.info('fetching index.html...');
     const response = await fetch(`${this.baseUrl}/docs`);
@@ -23,14 +24,14 @@ export default class GenerateDoc extends Command {
     const regex =
       /(?:href|src)="([^"]+\.(?:css|js|png|gif|jpg|jpeg|svg|ico))"/g;
     const matches = [...html.matchAll(regex)];
-    this.staticfileNames = matches.map((match) => match[1].replace("./", ""));
     this.info('fetching static files...');
-    await this._fetchStaticFiles();
+    const staticfileNames = matches.map((match) => match[1].replace("./", ""));
+    await this._fetchStaticFiles(staticfileNames);
     this.success(`API Documentation generated on ${this.outputDir}`);
   }
 
-  async _fetchStaticFiles() {
-    for (const name of this.staticfileNames) {
+  async _fetchStaticFiles(staticfileNames: string[]) {
+    for (const name of staticfileNames) {
       this.info(`fetching ${name}...`);
       const response = await fetch(`${this.baseUrl}/${name}`);
       const html = await response.text();

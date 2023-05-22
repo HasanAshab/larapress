@@ -12,7 +12,7 @@ const cron_1 = __importDefault(require("register/cron"));
 class Setup {
     static cronJobs() {
         for (const [command, schedule] of Object.entries(cron_1.default)) {
-            node_cron_1.default.schedule(schedule, Artisan_1.default.getCommand(command.split(' ')));
+            node_cron_1.default.schedule(schedule, Artisan_1.default.getCommand(command.split(' '), false));
         }
     }
     ;

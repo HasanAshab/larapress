@@ -1,5 +1,10 @@
+import { faker } from '@faker-js/faker';
+
 export default abstract class Factory {
-  merge(data?: object): object {
+  abstract definition(): {[key: string]: any};
+  public faker = faker;
+  
+  merge(data?: {[key: string]: any}): {[key: string]: any} {
     const modelData = this.definition();
     if(typeof data === "undefined"){
       return modelData;

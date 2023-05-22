@@ -1,16 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const commands = {
-    //const commands: {[key: string]: string} = {
-    /*
+    make: "Make",
+    clear: "Clear",
+    test: "Test",
     secret: "GenerateSecret",
-      doc: "GenerateDoc",
-      seed: "Seed",
-      make: "Make",
-    */
-    //clear: "Clear",
-    nested: {
-        test: "Test",
-    }
+    doc: "GenerateDoc",
+    seed: "Seed",
 };
 exports.default = commands;

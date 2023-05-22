@@ -10,7 +10,7 @@ class Exception {
     }
     static create(data) {
         const error = new Error();
-        error.name = this.constructor.name;
+        error.name = this.name;
         error.type = this.errorType;
         for (const [key, value] of Object.entries(this.errors[this.errorType])) {
             error[key] = value;

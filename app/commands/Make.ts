@@ -5,11 +5,13 @@ import { loadDir } from "illuminate/utils";
 import Command from "illuminate/commands/Command";
 import DB from "illuminate/utils/DB";
 import User from "app/models/User";
-import componentPaths from "register/components";
+import components from "register/components";
 import fs from "fs";
 import path from "path";
 
 export default class Make extends Command {
+  public componentName = "";
+  
   async admin() {
     this.requiredParams(["name", "email", "password"]);
     const {
@@ -29,17 +31,13 @@ export default class Make extends Command {
   }
 
   handle() {
-    this.subCommandRequired("Material name");
+    this.componentName = this.subCommandRequired("Material name");
     this.requiredParams(["name"]);
     const fullPath = this.params.name.split("/");
-    const name = fullPath.pop()
+    const name = fullPath.pop() as string;
     const parentPath = fullPath.join("/");
-    try {
-      var content = this._getTemplate(name);
-      var filepath = this._getPath(this.subCommand, parentPath, name);
-    } catch {
-      this.error("Component not available");
-    }
+    const content = this._getTemplate(name);
+    const filepath = this._getPath(parentPath, name);
     try {
       fs.writeFileSync(base(filepath), content, {
         flag: "wx"
@@ -56,9 +54,16 @@ export default class Make extends Command {
     return fs.readFileSync(path, "utf-8").replace(/{{name}}/g, name);
   }
 
-  _getPath(componentName: string, parentPath: string, name: string): string {
-    const pathSchema = this.flags.length === 1
-    ? componentPaths[componentName][this.flags[0]]: componentPaths[componentName];
+  _getPath(parentPath: string, name: string): string {
+    let pathSchema = components[this.componentName];
+    if(typeof pathSchema === "object"){
+      pathSchema = pathSchema[this.flags[0] || pathSchema.default];
+    }
+    else if(typeof pathSchema === "undefined"){
+      this.error("Component not available");
+      return '';
+    }
+
     const componentPath = pathSchema.replace(/{{name}}/g, path.join(parentPath, name))
     loadDir(path.dirname(componentPath));
     return componentPath;

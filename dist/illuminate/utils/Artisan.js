@@ -11,19 +11,15 @@ class Artisan {
         this.getCommand(args, fromShell)();
     }
     static getCommand(args, fromShell = false) {
-        var _a, _b;
+        var _a;
         const baseInput = args[0];
-        let subCommand = '';
         const { params, flags } = this.parseArgs(args.splice(1));
-        if (baseInput.includes(":")) {
-            const [commandKey, subCommandTemp] = baseInput.split(":");
-            subCommand = subCommandTemp;
-            var CommandClass = require((0, helpers_1.base)(`app/commands/${(_a = commands_1.default.nested) === null || _a === void 0 ? void 0 : _a[commandKey]}`)).default;
-        }
-        else {
-            var CommandClass = require((0, helpers_1.base)(`app/commands/${(_b = commands_1.default.invoked) === null || _b === void 0 ? void 0 : _b[baseInput]}`)).default;
-        }
-        var commandClass = new CommandClass(subCommand, fromShell, flags, params);
+        const [commandKey, subCommand] = baseInput.split(":");
+        const commandName = commands_1.default[commandKey];
+        if (typeof commandName === "undefined")
+            throw ArtisanError_1.default.type("COMMAND_NOT_FOUND").create();
+        const CommandClass = (_a = require((0, helpers_1.base)(`app/commands/${commandName}`))) === null || _a === void 0 ? void 0 : _a.default;
+        const commandClass = new CommandClass(subCommand, fromShell, flags, params);
         const handler = commandClass[subCommand] || commandClass.handle;
         if (typeof handler === "undefined")
             throw ArtisanError_1.default.type("COMMAND_NOT_FOUND").create();

@@ -8,10 +8,6 @@ const helpers_1 = require("helpers");
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 class Clear extends Command_1.default {
-    constructor() {
-        super(...arguments);
-        this.description = 'Clear <foo>';
-    }
     uploads() {
         const directory = (0, helpers_1.storage)('public/uploads');
         this.info('Reading directory...');
