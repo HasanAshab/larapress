@@ -41,3 +41,13 @@ export function generateEndpointsFromDirTree(rootPath: string, cb: EndpointCallb
     }
   }
 }
+
+export function getWildcard(str: string, query: string): string | null {
+  if(query.split('*').length - 1 !== 1) return null;
+  const withoutWildcard = query.split('*')[0];
+  const startIndex = str.indexOf(withoutWildcard) + withoutWildcard.length;
+  const endIndex = typeof query[withoutWildcard.length + 1] === "undefined"
+    ? str.length
+    : str.indexOf(query[withoutWildcard.length + 1], startIndex);
+  return str.substring(startIndex, endIndex);
+}
