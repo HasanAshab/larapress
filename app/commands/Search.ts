@@ -5,14 +5,16 @@ import fs from 'fs';
 import path from 'path';
 
 export default class Search extends Command {
-  public exclude = ["node_modules", ".git", ".gitignore", ".env", "tsconfig.js", "dist", "docs", "storage"];
+  public exclude = ["node_modules", ".git", ".gitignore", ".env", "tsconfig.js", "docs", "storage"];
 
   handle() {
     this.requiredParams(['query']);
     const {
-      dir = ''
+      dir = '',
+      replace
     } = this.params;
-    this.info("\nSearching started...\n");
+    if(typeof replace !== "undefined") this.info("\nReplacing started...\n");
+    else this.info("\nSearching started...\n");
 
     this.searchFiles(dir);
     this.success("done!")
@@ -32,17 +34,18 @@ export default class Search extends Command {
 
         if(query.includes("*") && matchWildcard(fileContent, query)){
           if(typeof replace !== "undefined"){
-            console.log(replaceWildcard(fileContent, query, replace));
+            const replacedContent = replaceWildcard(fileContent, query, replace));
+            fs.writeFile(filePath, data, (err: any) => { throw err});
             return;
           }
-          else this.info(filePath);
+          this.info(filePath);
         }
         else if(!query.includes("*") && fileContent.includes(query)){
           if(typeof replace !== "undefined"){
             console.log(fileContent.replaceAll(query, replace));
             return;
           }
-          else this.info(filePath);
+          this.info(filePath);
         }
       }
     }
