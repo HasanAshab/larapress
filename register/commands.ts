@@ -5,6 +5,7 @@ const commands: {[key: string]: string} = {
   secret: "GenerateSecret",
   doc: "GenerateDoc",
   seed: "Seed",
+  search: "Search",
 }
 
 export default commands;
