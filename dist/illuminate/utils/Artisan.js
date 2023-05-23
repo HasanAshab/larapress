@@ -1,11 +1,11 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var importDefault = (this && this.importDefault) || function (mod) {
+    return (mod && mod.esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "esModule", { value: true });
 const helpers_1 = require("helpers");
-const commands_1 = __importDefault(require("register/commands"));
-const ArtisanError_1 = __importDefault(require("illuminate/exceptions/utils/ArtisanError"));
+const commands_1 = importDefault(require("register/commands"));
+const ArtisanError_1 = importDefault(require("illuminate/exceptions/utils/ArtisanError"));
 class Artisan {
     static call(args, fromShell = true) {
         this.getCommand(args, fromShell)();

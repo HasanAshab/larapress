@@ -1,9 +1,9 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var importDefault = (this && this.importDefault) || function (mod) {
+    return (mod && mod.esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const Exception_1 = __importDefault(require("illuminate/exceptions/Exception"));
+Object.defineProperty(exports, "esModule", { value: true });
+const Exception_1 = importDefault(require("illuminate/exceptions/Exception"));
 class ArtisanError extends Exception_1.default {
 }
 ArtisanError.errors = {

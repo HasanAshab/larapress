@@ -43,26 +43,19 @@ export function generateEndpointsFromDirTree(rootPath: string, cb: EndpointCallb
 }
 
 export function matchWildcard(str: string, query: string): boolean {
-  const withoutWildcard = query.split('*');
-  const startIndex = str.indexOf(withoutWildcard[0]);
-  
-  const endIndex = withoutWildcard[1] === ""
-    ? str.length
-    : str.indexOf(withoutWildcard[1], startIndex + withoutWildcard.length);
-  return startIndex !== -1 && endIndex !== -1;
+  const regexQuery = query
+    .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
+    .replace("*", "(.+)")
+    .replaceAll("*", "\\*");
+  const regex = new RegExp(regexQuery);
+  return regex.test(str);
 }
 
 export function replaceWildcard(str: string, query: string, replacement: string, replacedStr = str): string {
-  if (query.split("*").length - 1 !== 1) return null;
-  const withoutWildcard = query.split("*");
-  const startIndex = str.indexOf(withoutWildcard[0]) + withoutWildcard[0].length;
-  if (withoutWildcard[1] === "") {
-    const wildcard = str.substring(startIndex);
-    return replacedStr.replace(query.replace("*", wildcard), replacement.replace("*", wildcard))
-  }
-  const endIndex = str.indexOf(withoutWildcard[1], startIndex);
-  if (startIndex === -1 || endIndex === -1) return replacedStr;
-  const wildcard = str.substring(startIndex, endIndex);
-  replacedStr = replacedStr.replace(query.replace("*", wildcard), replacement.replace("*", wildcard));
-  return replaceWildcard(str.substring(endIndex), query, replacement, replacedStr);
+  const regexQuery = query
+    .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
+    .replace("*", "(.+)")
+    .replaceAll("*", "\\*");
+  const regex = new RegExp(regexQuery, "g");
+  return str.replace(regex, (_, wildcard) => replacement.replaceAll("*", wildcard));
 }

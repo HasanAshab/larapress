@@ -1,12 +1,12 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var importDefault = (this && this.importDefault) || function (mod) {
+    return (mod && mod.esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "esModule", { value: true });
 require("dotenv/config");
-const app_1 = __importDefault(require("main/app"));
-const Setup_1 = __importDefault(require("main/Setup"));
-const DB_1 = __importDefault(require("illuminate/utils/DB"));
+const app_1 = importDefault(require("main/app"));
+const Setup_1 = importDefault(require("main/Setup"));
+const DB_1 = importDefault(require("illuminate/utils/DB"));
 const port = Number(process.env.APP_PORT) || 8000;
 const connectToDB = process.env.DB_CONNECT || "true";
 const nodeEnv = process.env.NODE_ENV;

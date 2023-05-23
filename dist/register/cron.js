@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "esModule", { value: true });
 const cron = {
 //"test:hf name=jd": "* * * * * *" 
 };

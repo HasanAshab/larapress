@@ -1,12 +1,12 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var importDefault = (this && this.importDefault) || function (mod) {
+    return (mod && mod.esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const Command_1 = __importDefault(require("illuminate/commands/Command"));
+Object.defineProperty(exports, "esModule", { value: true });
+const Command_1 = importDefault(require("illuminate/commands/Command"));
 const helpers_1 = require("helpers");
-const fs_1 = __importDefault(require("fs"));
-const path_1 = __importDefault(require("path"));
+const fs_1 = importDefault(require("fs"));
+const path_1 = importDefault(require("path"));
 class Clear extends Command_1.default {
     uploads() {
         const directory = (0, helpers_1.storage)('public/uploads');

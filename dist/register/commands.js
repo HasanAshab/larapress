@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "esModule", { value: true });
 const commands = {
     make: "Make",
     clear: "Clear",
@@ -7,5 +7,6 @@ const commands = {
     secret: "GenerateSecret",
     doc: "GenerateDoc",
     seed: "Seed",
+    search: "Search",
 };
 exports.default = commands;

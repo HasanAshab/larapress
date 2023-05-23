@@ -1,9 +1,9 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var importDefault = (this && this.importDefault) || function (mod) {
+    return (mod && mod.esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const Command_1 = __importDefault(require("illuminate/commands/Command"));
+Object.defineProperty(exports, "esModule", { value: true });
+const Command_1 = importDefault(require("illuminate/commands/Command"));
 //const User = require(base("app/models/User"));
 //const DB = require(base("illuminate/utils/DB"));
 class Test extends Command_1.default {

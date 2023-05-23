@@ -1,16 +1,16 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var importDefault = (this && this.importDefault) || function (mod) {
+    return (mod && mod.esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "esModule", { value: true });
 exports.checkProperties = exports.getParams = exports.log = exports.setEnv = exports.middleware = exports.storage = exports.route = exports.clientUrl = exports.url = exports.capitalizeFirstLetter = exports.base = void 0;
-const dotenv_1 = __importDefault(require("dotenv"));
-const fs_1 = __importDefault(require("fs"));
-const path_1 = __importDefault(require("path"));
-const urls_1 = __importDefault(require("register/urls"));
-const middlewares_1 = __importDefault(require("register/middlewares"));
+const dotenv_1 = importDefault(require("dotenv"));
+const fs_1 = importDefault(require("fs"));
+const path_1 = importDefault(require("path"));
+const urls_1 = importDefault(require("register/urls"));
+const middlewares_1 = importDefault(require("register/middlewares"));
 function base(base_path = '') {
-    return path_1.default.join(__dirname, base_path);
+    return path_1.default.join(dirname, base_path);
 }
 exports.base = base;
 function capitalizeFirstLetter(str) {
@@ -52,13 +52,13 @@ function route(name, data) {
 }
 exports.route = route;
 function storage(storage_path = '') {
-    return path_1.default.join(__dirname, path_1.default.join('storage', storage_path));
+    return path_1.default.join(dirname, path_1.default.join('storage', storage_path));
 }
 exports.storage = storage;
 function middleware(keys) {
     var _a, _b;
     function getMiddleware(middlewarePath, options = []) {
-        const MiddlewareClass = require(path_1.default.join(__dirname, middlewarePath)).default;
+        const MiddlewareClass = require(path_1.default.join(dirname, middlewarePath)).default;
         const middlewareInstance = new MiddlewareClass(options);
         const handler = middlewareInstance.handle.bind(middlewareInstance);
         return handler;
