@@ -43,8 +43,8 @@ export default class WrapResponse extends Middleware {
             if (key === "data") {
               wrappedData.data = value;
             } else {
-              const data: {[key: string]: any
-              } = {};
+              const data: Record<string, any
+              > = {};
               data[key] = value;
               wrappedData.data = {
                 ...wrappedData.data,

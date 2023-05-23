@@ -1,4 +1,4 @@
-const events: {[key: string]: string[]} = {
+const events: Record<string, string[]> = {
   Registered: [
     "SendEmailVerificationNotification",
     "SendNewUserJoinedNotificationToAdmins"

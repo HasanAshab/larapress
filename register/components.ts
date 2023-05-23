@@ -1,5 +1,4 @@
-const components: {[key: string]: string | {[key: string]: string
-}} = {
+const components: Record<string, string | Record<string, string>> = {
   "model": "app/models/{{name}}.ts",
   "trait": "app/traits/{{name}}.ts",
   "factory": "app/factories/{{name}}.ts",

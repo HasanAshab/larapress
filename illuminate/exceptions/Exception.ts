@@ -1,7 +1,7 @@
 
 export default abstract class Exception {
   static errorType: string;
-  static errors: {[key: string]: {[key: string]: any}};
+  static errors: Record<string, Record<string, any>>;
 
   static type(errorType: string): typeof Exception {
     if (!this.errors.hasOwnProperty(errorType)) {
@@ -11,7 +11,7 @@ export default abstract class Exception {
     return this;
   }
 
-  static create(data?: {[key: string]: string}): typeof Error {
+  static create(data?: Record<string, string>): typeof Error {
     const error:any = new Error();
     error.name = this.name;
     error.type = this.errorType;

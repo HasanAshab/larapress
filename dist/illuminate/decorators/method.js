@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "esModule", { value: true });
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.passErrorsToHandler = exports.performance = void 0;
 function performance() {
     return function (target, propertyKey, descriptor) {

@@ -24,10 +24,10 @@ export default class Artisan {
 
   static parseArgs(args: string[]): {
     flags: string[],
-    params: {[key: string]: string}
+    params: Record<string, string>
   } {
     const flags: string[] = [];
-    const params: {[key: string]: string} = {};
+    const params: Record<string, string> = {};
     args.forEach((arg, index) => {
       if (arg.startsWith("-")) {
         flags.push(arg.replace("-", ""));

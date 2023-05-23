@@ -2,7 +2,7 @@ import ArtisanError from "illuminate/exceptions/utils/ArtisanError";
 
 export default abstract class Command {
   //abstract handle
-  constructor(public subCommand?: string, public fromShell: boolean = true, public flags: string[] = [], public params: {[key: string]: string} = {}){
+  constructor(public subCommand?: string, public fromShell: boolean = true, public flags: string[] = [], public params: Record<string, string> = {}){
     this.subCommand = subCommand;
     this.fromShell = fromShell;
     this.flags = flags;

@@ -1,4 +1,4 @@
-const urls: {[key: string]: string} = {
+const urls: Record<string, string> = {
   "file.serve": "/api/media/:id"
 }
 

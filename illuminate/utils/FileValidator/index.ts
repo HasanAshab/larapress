@@ -4,12 +4,12 @@ import FileValidatorError from "illuminate/exceptions/utils/FileValidatorError";
 
 class FileValidator {
   [key: string]: any;
-  static object: {[key: string]: FileValidator};
+  static object: Record<string, FileValidator>;
   static file: UploadedFile;
   static fieldName: string;
-  public rules: {[key: string]: any} = { required: false };
+  public rules: Record<string, any> = { required: false };
   
-  static fields(obj: {[key: string]: FileValidator}): any {
+  static fields(obj: Record<string, FileValidator>): any {
     this.object = obj;
     return this;
   }
@@ -24,13 +24,13 @@ class FileValidator {
     }
   }
 
-  static fireValidator(rules: {[key: string]: any}) {
+  static fireValidator(rules: Record<string, any>) {
     for (const [rule, value] of Object.entries(rules)) {
       validators[rule](value);
     }
   }
 
-  static removeUnnecessaryRules(files: {[key: string]: UploadedFile}) {
+  static removeUnnecessaryRules(files: Record<string, UploadedFile>) {
     for (const [fieldName, { rules }] of Object.entries(this.object)) {
       if (!files[fieldName]) {
         if (rules.required) {
@@ -53,7 +53,7 @@ class FileValidator {
     }
   }
 
-  static validate(files: {[key: string]: UploadedFile}) {
+  static validate(files: Record<string, UploadedFile>) {
     this.removeUnnecessaryRules(files);
     for (const [fieldName, { rules }] of Object.entries(this.object)) {
       this.fieldName = fieldName;

@@ -1,4 +1,4 @@
-const commands: {[key: string]: string} = {
+const commands: Record<string, string> = {
   make: "Make",
   clear: "Clear",
   test: "Test",

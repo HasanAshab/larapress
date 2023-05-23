@@ -58,7 +58,6 @@ export function replaceWildcard(str: string, query: string, replacement: string,
     .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
     .replace("*", `([^${query.split("*")[1]}]+)`)
     .replaceAll("*", "\\*");
-  console.log(regexQuery)
   const regex = new RegExp(regexQuery, "g");
   return str.replace(regex, (_, wildcard) => replacement.replaceAll("*", wildcard))
 }

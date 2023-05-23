@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "esModule", { value: true });
+Object.defineProperty(exports, "__esModule", { value: true });
 const components = {
     "model": "app/models/{{name}}.ts",
     "trait": "app/traits/{{name}}.ts",

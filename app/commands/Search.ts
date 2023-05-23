@@ -41,8 +41,8 @@ export default class Search extends Command {
         if(matchWildcard(fileContent, query)){
           if(typeof replace !== "undefined"){
             const replacedContent = replaceWildcard(fileContent, query, replace);
-            //const promise = fs.promises.writeFile(base(filePath), replacedContent);
-            //promises.push(promise);
+            const promise = fs.promises.writeFile(base(filePath), replacedContent);
+            promises.push(promise);
           }
           this.info(filePath);
         }

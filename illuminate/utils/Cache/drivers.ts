@@ -3,7 +3,7 @@ import Cache from "illuminate/utils/Cache";
 import memoryCache from "memory-cache";
 import { createClient } from "redis";
 
-const drivers: {[key: string]: () => CacheDriverResponse } = {
+const drivers: Record<string, () => CacheDriverResponse > = {
   memory: async () => memoryCache[Cache.action](...Cache.params),
   file: async () => null,
 

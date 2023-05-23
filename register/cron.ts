@@ -1,4 +1,4 @@
-const cron: {[key: string]: string} = {
+const cron: Record<string, string> = {
   //"test:hf name=jd": "* * * * * *" 
 }
 

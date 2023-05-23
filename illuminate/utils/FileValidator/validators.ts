@@ -2,7 +2,7 @@ import { UploadedFile } from "express-fileupload";
 import FileValidator from "illuminate/utils/FileValidator";
 import FileValidatorError from "illuminate/exceptions/utils/FileValidatorError";
 
-const validators: {[key: string]: (value: any) => void } = {
+const validators: Record<string, (value: any) => void > = {
   max(bytes: number) {
     if (FileValidator.file.size > bytes) {
       throw FileValidatorError.type("TOO_LARGE_FILE").create({

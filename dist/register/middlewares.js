@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "esModule", { value: true });
+Object.defineProperty(exports, "__esModule", { value: true });
 const middlewares = {
     "test": "/app/http/middlewares/Test",
     "auth": "/app/http/middlewares/Authenticate",

@@ -1,4 +1,4 @@
-const middlewares: {[key: string]: string | string[]} = {
+const middlewares: Record<string, string | string[]> = {
   "test": "/app/http/middlewares/Test",
   "auth": "/app/http/middlewares/Authenticate",
   "verified": [

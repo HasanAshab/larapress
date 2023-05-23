@@ -5,7 +5,7 @@ export default abstract class Job extends Queueable implements ShouldQueue {
   abstract dispatch(): void | Promise<void>
   public shouldQueue = false;
   
-  constructor(public data: {[key: string]: any}) {
+  constructor(public data: Record<string, any>) {
     super()
     this.data = data;
   }

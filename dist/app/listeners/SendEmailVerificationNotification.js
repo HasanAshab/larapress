@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "esModule", { value: true });
+Object.defineProperty(exports, "__esModule", { value: true });
 class SendEmailVerificationNotification {
     async dispatch(user) {
         await user.sendVerificationEmail();

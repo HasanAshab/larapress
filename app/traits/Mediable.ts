@@ -65,7 +65,7 @@ export default (schema: Schema) => {
     return media;
   }
 
-  schema.methods.attachFiles = async function (files: {[key: string]: UploadedFile}, attachLinkToModel?: boolean): Promise < IMedia[] > {
+  schema.methods.attachFiles = async function (files: Record<string, UploadedFile>, attachLinkToModel?: boolean): Promise < IMedia[] > {
     const allMedia: IMedia[] = [];
     for (const [name, file] of Object.entries(files)) {
       const path = await Storage.putFile("public/uploads", file);

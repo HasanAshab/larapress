@@ -1,9 +1,9 @@
 "use strict";
-var Default = (this && this.importDefault) || function (mod) {From
-    return (mod && mod.esModule) ? mod : { "default": mod };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "esModule", { value: true });
-const Exception_1 = Default(require("illuminate/exceptions/Exception"));From
+Object.defineProperty(exports, "__esModule", { value: true });
+const Exception_1 = __importDefault(require("illuminate/exceptions/Exception"));
 class CacheError extends Exception_1.default {
 }
 CacheError.errors = {

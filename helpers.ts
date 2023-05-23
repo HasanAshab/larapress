@@ -146,8 +146,8 @@ export function getParams(func: Function): string[] {
     return params;
   }
 
-  export function checkProperties(obj: any, properties: {[key: string]: string
-  }): boolean {
+  export function checkProperties(obj: any, properties: Record<string, string
+  >): boolean {
     for (const [name, type] of Object.entries(properties)) {
       if (!(name in obj && typeof obj[name] === type)) {
         return false;
