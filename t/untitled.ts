@@ -1,5 +1,0 @@
-Record<string, boolean
-
-  
-
->
