@@ -56,8 +56,9 @@ export function matchWildcard(str: string, query: string): boolean {
 export function replaceWildcard(str: string, query: string, replacement: string, replacedStr = str): string {
   const regexQuery = query
     .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
-    .replace("*", "([\\s\\S]+)")
+    .replace("*", `([^${query.split("*")[1]}]+)`)
     .replaceAll("*", "\\*");
+  console.log(regexQuery)
   const regex = new RegExp(regexQuery, "g");
   return str.replace(regex, (_, wildcard) => replacement.replaceAll("*", wildcard))
 }
