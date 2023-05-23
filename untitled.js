@@ -23,7 +23,6 @@ function replaceWildcard(str, query, replacement) {
     .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
     .replace("*", "(.+)")
     .replaceAll("*", "\\*");
-  console.log(regexQuery)
   const regex = new RegExp(regexQuery, "g");
   return str.replace(regex, (_, wildcard) => replacement.replaceAll("*", wildcard));
 }
@@ -49,8 +48,8 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 `
 
-const query = "import*from";
-const replacement = "from*import [*]"
-console.log(replaceWildcard(content, query, replacement));
+const query = "__jd*";
+const replacement = "*"
+console.log(replaceWildcard(content2, query, replacement));
 //console.log(matchWildcard(content, query));
 

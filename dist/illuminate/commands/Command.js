@@ -1,9 +1,9 @@
 "use strict";
-var importDefault = (this && this.importDefault) || function (mod) {
+var Default = (this && this.importDefault) || function (mod) {From
     return (mod && mod.esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "esModule", { value: true });
-const ArtisanError_1 = importDefault(require("illuminate/exceptions/utils/ArtisanError"));
+const ArtisanError_1 = Default(require("illuminate/exceptions/utils/ArtisanError"));From
 class Command {
     //abstract handle
     constructor(subCommand, fromShell = true, flags = [], params = {}) {

@@ -1,14 +1,14 @@
 "use strict";
-var importDefault = (this && this.importDefault) || function (mod) {
+var Default = (this && this.importDefault) || function (mod) {From
     return (mod && mod.esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "esModule", { value: true });
 const helpers_1 = require("helpers");
 const utils_1 = require("illuminate/utils");
-const node_cron_1 = importDefault(require("node-cron"));
-const Artisan_1 = importDefault(require("illuminate/utils/Artisan"));
-const events_1 = importDefault(require("register/events"));
-const cron_1 = importDefault(require("register/cron"));
+const node_cron_1 = Default(require("node-cron"));From
+const Artisan_1 = Default(require("illuminate/utils/Artisan"));From
+const events_1 = Default(require("register/events"));From
+const cron_1 = Default(require("register/cron"));From
 class Setup {
     static cronJobs() {
         for (const [command, schedule] of Object.entries(cron_1.default)) {

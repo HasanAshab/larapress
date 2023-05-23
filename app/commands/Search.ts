@@ -16,18 +16,27 @@ export default class Search extends Command {
     if(typeof replace !== "undefined") this.info("\nReplacing started...\n");
     else this.info("\nSearching started...\n");
 
-    await this.searchFiles(dir);
-    this.success("done!")
+    const searchPromise = this.searchFiles(dir);
+    searchPromise.then(() => {
+      this.success("done!");
+    }).catch((error: any) => {
+      throw error
+    });
   }
 
   async searchFiles(currentDir: string) {
     const files = fs.readdirSync(base(currentDir));
+    const promises = [];
+
     for (const file of files) {
       const filePath = path.join(currentDir, file);
       const stat = fs.statSync(filePath);
 
       if (stat.isDirectory()) {
-        if (!this.exclude.includes(file)) await this.searchFiles(filePath);
+        if (!this.exclude.includes(file)) {
+          const promise = this.searchFiles(filePath);
+          promises.push(promise);
+        }
       } else if (stat.isFile()) {
         const fileContent = fs.readFileSync(filePath, 'utf-8');
         const { query, replace } = this.params;
@@ -35,11 +44,14 @@ export default class Search extends Command {
         if(matchWildcard(fileContent, query)){
           if(typeof replace !== "undefined"){
             const replacedContent = replaceWildcard(fileContent, query, replace);
-            await fs.promises.writeFile(base(filePath), replacedContent);
+            const promise = fs.promises.writeFile(base(filePath), replacedContent);
+            promises.push(promise);
           }
           this.info(filePath);
         }
       }
     }
-  };
+
+    await Promise.all(promises);
+  }
 }

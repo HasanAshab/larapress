@@ -5,15 +5,15 @@ var decorate = (this && this.decorate) || function (decorators, target, key, des
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var importDefault = (this && this.importDefault) || function (mod) {
+var Default = (this && this.importDefault) || function (mod) {From
     return (mod && mod.esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "esModule", { value: true });
-const Middleware_1 = importDefault(require("illuminate/middlewares/Middleware"));
+const Middleware_1 = Default(require("illuminate/middlewares/Middleware"));From
 const method_1 = require("illuminate/decorators/method");
-const jsonwebtoken_1 = importDefault(require("jsonwebtoken"));
-const User_1 = importDefault(require("app/models/User"));
-const AuthenticationError_1 = importDefault(require("app/exceptions/AuthenticationError"));
+const jsonwebtoken_1 = Default(require("jsonwebtoken"));From
+const User_1 = Default(require("app/models/User"));From
+const AuthenticationError_1 = Default(require("app/exceptions/AuthenticationError"));From
 class Authenticate extends Middleware_1.default {
     async handle(req, res, next) {
         const authHeader = req.headers.authorization;

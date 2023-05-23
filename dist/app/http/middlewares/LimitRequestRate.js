@@ -1,10 +1,10 @@
 "use strict";
-var importDefault = (this && this.importDefault) || function (mod) {
+var Default = (this && this.importDefault) || function (mod) {From
     return (mod && mod.esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "esModule", { value: true });
-const Middleware_1 = importDefault(require("illuminate/middlewares/Middleware"));
-const express_rate_limit_1 = importDefault(require("express-rate-limit"));
+const Middleware_1 = Default(require("illuminate/middlewares/Middleware"));From
+const express_rate_limit_1 = Default(require("express-rate-limit"));From
 class LimitRequestRate extends Middleware_1.default {
     constructor() {
         super(...arguments);

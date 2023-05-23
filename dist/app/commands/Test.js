@@ -1,9 +1,9 @@
 "use strict";
-var importDefault = (this && this.importDefault) || function (mod) {
+var Default = (this && this.importDefault) || function (mod) {From
     return (mod && mod.esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "esModule", { value: true });
-const Command_1 = importDefault(require("illuminate/commands/Command"));
+const Command_1 = Default(require("illuminate/commands/Command"));From
 //const User = require(base("app/models/User"));
 //const DB = require(base("illuminate/utils/DB"));
 class Test extends Command_1.default {
@@ -12,7 +12,7 @@ class Test extends Command_1.default {
         console.log(this.params);
         console.log(this.flags);
         console.log(this.subCommand);
-        this.success('Yeh!');
+        this.ok('Yeh!');
     }
     ;
     async other() {

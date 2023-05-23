@@ -1,14 +1,14 @@
 "use strict";
-var importDefault = (this && this.importDefault) || function (mod) {
+var Default = (this && this.importDefault) || function (mod) {From
     return (mod && mod.esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "esModule", { value: true });
 exports.checkProperties = exports.getParams = exports.log = exports.setEnv = exports.middleware = exports.storage = exports.route = exports.clientUrl = exports.url = exports.capitalizeFirstLetter = exports.base = void 0;
-const dotenv_1 = importDefault(require("dotenv"));
-const fs_1 = importDefault(require("fs"));
-const path_1 = importDefault(require("path"));
-const urls_1 = importDefault(require("register/urls"));
-const middlewares_1 = importDefault(require("register/middlewares"));
+const dotenv_1 = Default(require("dotenv"));From
+const fs_1 = Default(require("fs"));From
+const path_1 = Default(require("path"));From
+const urls_1 = Default(require("register/urls"));From
+const middlewares_1 = Default(require("register/middlewares"));From
 function base(base_path = '') {
     return path_1.default.join(dirname, base_path);
 }

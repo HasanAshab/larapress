@@ -1,9 +1,9 @@
 "use strict";
-var importDefault = (this && this.importDefault) || function (mod) {
+var Default = (this && this.importDefault) || function (mod) {From
     return (mod && mod.esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "esModule", { value: true });
-const Middleware_1 = importDefault(require("illuminate/middlewares/Middleware"));
+const Middleware_1 = Default(require("illuminate/middlewares/Middleware"));From
 const helpers_1 = require("helpers");
 class ErrorHandler extends Middleware_1.default {
     handle(err, req, res, next) {

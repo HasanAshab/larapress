@@ -1,15 +1,15 @@
 "use strict";
-var importDefault = (this && this.importDefault) || function (mod) {
+var Default = (this && this.importDefault) || function (mod) {From
     return (mod && mod.esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "esModule", { value: true });
 const helpers_1 = require("helpers");
-const express_1 = importDefault(require("express"));
-const body_parser_1 = importDefault(require("body-parser"));
-const cors_1 = importDefault(require("cors"));
+const express_1 = Default(require("express"));From
+const body_parser_1 = Default(require("body-parser"));From
+const cors_1 = Default(require("cors"));From
 const express_handlebars_1 = require("express-handlebars");
-const express_fileupload_1 = importDefault(require("express-fileupload"));
-const Setup_1 = importDefault(require("main/Setup"));
+const express_fileupload_1 = Default(require("express-fileupload"));From
+const Setup_1 = Default(require("main/Setup"));From
 const app = (0, express_1.default)();
 // Domains that can only access the API
 app.use((0, cors_1.default)({
