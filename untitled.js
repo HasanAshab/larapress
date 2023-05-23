@@ -1,18 +1,7 @@
-function getWildcard(str, query, wildcards = []) {
-  if (query.split("*").length - 1 !== 1) return null;
-  const withoutWildcard = query.split("*");
-  const startIndex = str.indexOf(withoutWildcard[0]) + withoutWildcard[0].length;
-  if (typeof query[withoutWildcard[0].length + 1] === "undefined") return str.substring(startIndex);
-  const endIndex = str.indexOf(withoutWildcard[1], startIndex);
-  if(startIndex === -1 || endIndex === -1) return wildcards;
-  const wildcard = str.substring(startIndex, endIndex);
-  return getWildcard(str.substring(endIndex), query, [...wildcards, wildcard]);
-}
-
 function matchWildcard(str, query) {
   const regexQuery = query
     .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
-    .replace("*", "(.+)")
+    .replace("*", "[\\s\\S]+")
     .replaceAll("*", "\\*");
   const regex = new RegExp(regexQuery);
   return regex.test(str);
@@ -21,10 +10,14 @@ function matchWildcard(str, query) {
 function replaceWildcard(str, query, replacement) {
   const regexQuery = query
     .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
-    .replace("*", "(.+)")
+    .replace("*", "([\\s\\S]+)")
+    //.replace("*", "(.+)")
     .replaceAll("*", "\\*");
   const regex = new RegExp(regexQuery, "g");
-  return str.replace(regex, (_, wildcard) => replacement.replaceAll("*", wildcard));
+  return str.replace(regex, (_, wildcard) => {
+    console.log("its", _, wildcard);
+    return replacement.replaceAll("*", wildcard)
+  });
 }
 
 let content = `
@@ -38,18 +31,12 @@ import samertube from 'samerltd';
 `;
 
 content2 = `
-var __importDefault = (this && this.importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-defineProperty(exports, "__esModule", { value: true });
-const Command_1 = __importDefault(require("illuminate/commands/Command"));
-const helpers_1 = require("helpers");
-const fs_1 = __importDefault(require("fs"));
-const path_1 = __importDefault(require("path"));
+{[key: string]: string
+}
 `
 
-const query = "__jd*";
-const replacement = "*"
+const query = "{[key: string]: *}";
+const replacement = "Record<string, *>"
 console.log(replaceWildcard(content2, query, replacement));
 //console.log(matchWildcard(content, query));
 

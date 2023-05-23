@@ -42,10 +42,11 @@ export function generateEndpointsFromDirTree(rootPath: string, cb: EndpointCallb
   }
 }
 
+
 export function matchWildcard(str: string, query: string): boolean {
   const regexQuery = query
     .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
-    .replace("*", "(.+)")
+    .replace("*", "([\\s\\S]+)")
     .replaceAll("*", "\\*");
   const regex = new RegExp(regexQuery);
   return regex.test(str);
@@ -54,8 +55,8 @@ export function matchWildcard(str: string, query: string): boolean {
 export function replaceWildcard(str: string, query: string, replacement: string, replacedStr = str): string {
   const regexQuery = query
     .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
-    .replace("*", "(.+)")
+    .replace("*", "([\\s\\S]+)")
     .replaceAll("*", "\\*");
   const regex = new RegExp(regexQuery, "g");
-  return str.replace(regex, (_, wildcard) => replacement.replaceAll("*", wildcard));
+  return str.replace(regex, (_, wildcard) => replacement.replaceAll("*", wildcard))
 }

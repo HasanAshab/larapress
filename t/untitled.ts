@@ -1,0 +1,5 @@
+Record<string, boolean
+
+  
+
+>
