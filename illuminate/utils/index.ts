@@ -47,6 +47,7 @@ export function matchWildcard(str: string, query: string): boolean {
   const regexQuery = query
     .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
     .replace("*", "([\\s\\S]+)")
+    .replace("*", `([^${query.split("*")[1]}]+)`)
     .replaceAll("*", "\\*");
   const regex = new RegExp(regexQuery);
   return regex.test(str);
