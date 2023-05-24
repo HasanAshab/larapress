@@ -1,5 +1,6 @@
 import "dotenv/config";
 import app from "main/app";
+
 import Setup from "main/Setup";
 import DB from "illuminate/utils/DB";
 
@@ -21,7 +22,6 @@ if (connectToDB === "true") {
 
 // Registering all Cron Jobs
 Setup.cronJobs();
-
 
 // Listening for clients
 const server = app.listen(port, () => {

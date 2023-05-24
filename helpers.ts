@@ -9,7 +9,7 @@ import urls from "register/urls";
 import middlewarePairs from "register/middlewares";
 
 export function base(base_path: string = ""): string {
-  return path.join(__dirname, base_path);
+  return path.resolve(base_path);
 }
 
 export function capitalizeFirstLetter(str: string): string {
@@ -50,17 +50,16 @@ export function route(name: string, data?: UrlData): string {
 }
 
 export function storage(storage_path: string = ""): string {
-  return path.join(__dirname, path.join("storage", storage_path));
+  return path.resolve(path.join("storage", storage_path));
 }
 
-export function middleware(keys: string | string[]): any {
+export function middleware(keys: string | string[], version?: string): Function[] | Function {
   function getMiddleware(middlewarePath: string, options: string[] = []) {
-    const MiddlewareClass = require(path.join(__dirname, middlewarePath)).default;
+    const MiddlewareClass = require(path.resolve(`/app/http/${version?version:localVersion("routes/api")}/middlewares/${middlewarePath}`)).default;
     const middlewareInstance = new MiddlewareClass(options);
     const handler = middlewareInstance.handle.bind(middlewareInstance);
     return handler;
   }
-
   if (Array.isArray(keys)) {
     const middlewares = [];
     for (const key of keys) {
@@ -97,6 +96,13 @@ export function middleware(keys: string | string[]): any {
   return getMiddleware(middlewarePaths, params?.split(","));
 }
 
+
+export function controller(name: string, version?: string): object {
+  const controllerPath = path.resolve(path.join(`app/http/${version?version:localVersion("routes/api")}/controllers`, name));
+  const controllerInstance = require(controllerPath).default;
+  return controllerInstance;
+}
+
 export function setEnv(envValues: object): boolean {
   const envConfig = dotenv.parse(fs.readFileSync(".env"));
   for (const [key, value] of Object.entries(envValues)) {
@@ -123,6 +129,37 @@ export function log(data: any): void {
   });
 }
 
+
+export function localVersion(base: string): string {
+  const error = new Error();
+  const stackTrace = error.stack;
+  if(!stackTrace) return '';
+  const stackLines = stackTrace.split('\n');
+  const firstBuiltInStack = "    at Module._compile (node:internal/modules/cjs/loader:1275:14)";
+  const callerLine = stackLines[stackLines.indexOf(firstBuiltInStack) - 1];
+  const callerFilePath = callerLine.replace(/^.*\((.*):\d+:\d+\).*/, '$1');
+  
+  const absoluteFilePath = path.resolve(callerFilePath);
+  
+  
+  //const regex = 
+  //console.log(absoluteFilePath)
+  //console.log(absoluteFilePath.match(/routes\/api\/v[1-9]/))
+  //console.log(path.resolve(base))
+  return absoluteFilePath?.replace(path.resolve(base), "")?.split("/")?.[1];
+}
+
+
+export function checkProperties(obj: any, properties: Record < string, string >): boolean {
+  for (const [name, type] of Object.entries(properties)) {
+    if (!(name in obj && typeof obj[name] === type)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+
 export function getParams(func: Function): string[] {
   let str = func.toString();
   str = str.replace(/\/\*[\s\S]*?\*\//g,
@@ -144,14 +181,4 @@ export function getParams(func: Function): string[] {
     });
 
     return params;
-  }
-
-  export function checkProperties(obj: any, properties: Record<string, string
-  >): boolean {
-    for (const [name, type] of Object.entries(properties)) {
-      if (!(name in obj && typeof obj[name] === type)) {
-        return false;
-      }
-    }
-    return true;
   }

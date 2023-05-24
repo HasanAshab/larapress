@@ -16,7 +16,7 @@ export default abstract class Controller {
     const controllerPrefix = this.constructor.name.replace("Controller", "");
     const validationSubPath = `${controllerPrefix}/${capitalizeFirstLetter(methodName)}`;
     return [
-      middleware(`validate:${validationSubPath}`),
+      //middleware(`validate:${validationSubPath}`),
       this[methodName]
     ]
   }

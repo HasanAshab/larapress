@@ -3,14 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkProperties = exports.getParams = exports.log = exports.setEnv = exports.middleware = exports.storage = exports.route = exports.clientUrl = exports.url = exports.capitalizeFirstLetter = exports.base = void 0;
+exports.getParams = exports.checkProperties = exports.localVersion = exports.log = exports.setEnv = exports.middleware = exports.storage = exports.route = exports.clientUrl = exports.url = exports.capitalizeFirstLetter = exports.base = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const urls_1 = __importDefault(require("register/urls"));
 const middlewares_1 = __importDefault(require("register/middlewares"));
 function base(base_path = "") {
-    return path_1.default.join(__dirname, base_path);
+    return path_1.default.resolve(base_path);
 }
 exports.base = base;
 function capitalizeFirstLetter(str) {
@@ -52,13 +52,14 @@ function route(name, data) {
 }
 exports.route = route;
 function storage(storage_path = "") {
-    return path_1.default.join(__dirname, path_1.default.join("storage", storage_path));
+    return path_1.default.resolve(path_1.default.join("storage", storage_path));
 }
 exports.storage = storage;
 function middleware(keys) {
     var _a, _b;
     function getMiddleware(middlewarePath, options = []) {
-        const MiddlewareClass = require(path_1.default.join(__dirname, middlewarePath)).default;
+        const version = localVersion("app/http", 4);
+        const MiddlewareClass = require(path_1.default.resolve(`/app/http/${version}/middlewares/${middlewarePath}`)).default;
         const middlewareInstance = new MiddlewareClass(options);
         const handler = middlewareInstance.handle.bind(middlewareInstance);
         return handler;
@@ -123,6 +124,30 @@ function log(data) {
     });
 }
 exports.log = log;
+function localVersion(base, stackIndex) {
+    var _a, _b;
+    const error = new Error();
+    const stackTrace = error.stack;
+    if (!stackTrace)
+        return null;
+    const stackLines = stackTrace.split('\n');
+    //console.log(stackLines)
+    const callerLine = stackLines[stackIndex];
+    const callerFilePath = callerLine.replace(/^.*\((.*):\d+:\d+\).*/, '$1');
+    const absoluteFilePath = path_1.default.resolve(callerFilePath);
+    console.log(absoluteFilePath);
+    return (_b = (_a = absoluteFilePath === null || absoluteFilePath === void 0 ? void 0 : absoluteFilePath.replace(path_1.default.resolve(base), "")) === null || _a === void 0 ? void 0 : _a.split("/")) === null || _b === void 0 ? void 0 : _b[1];
+}
+exports.localVersion = localVersion;
+function checkProperties(obj, properties) {
+    for (const [name, type] of Object.entries(properties)) {
+        if (!(name in obj && typeof obj[name] === type)) {
+            return false;
+        }
+    }
+    return true;
+}
+exports.checkProperties = checkProperties;
 function getParams(func) {
     let str = func.toString();
     str = str.replace(/\/\*[\s\S]*?\*\//g, "")
@@ -142,12 +167,3 @@ function getParams(func) {
     return params;
 }
 exports.getParams = getParams;
-function checkProperties(obj, properties) {
-    for (const [name, type] of Object.entries(properties)) {
-        if (!(name in obj && typeof obj[name] === type)) {
-            return false;
-        }
-    }
-    return true;
-}
-exports.checkProperties = checkProperties;

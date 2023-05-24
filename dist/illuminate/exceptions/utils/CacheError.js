@@ -8,7 +8,7 @@ class CacheError extends Exception_1.default {
 }
 CacheError.errors = {
     INVALID_DRIVER: {
-        message: "The ":driver" Driver is Not Available",
+        message: "The \":driver\" Driver is Not Available",
         status: 500
     }
 };

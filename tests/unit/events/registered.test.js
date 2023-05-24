@@ -3,10 +3,8 @@ const DB = require("illuminate/utils/DB").default;
 const nodemailerMock = require("nodemailer-mock");
 const Mail = require("illuminate/utils/Mail").default;
 const User = require("app/models/User").default;
-const SendEmailVerificationNotification =
-  require("app/listeners/SendEmailVerificationNotification").default;
-const SendNewUserJoinedNotificationToAdmins =
-  require("app/listeners/SendNewUserJoinedNotificationToAdmins").default;
+const SendEmailVerificationNotification = require("app/listeners/SendEmailVerificationNotification").default;
+const SendNewUserJoinedNotificationToAdmins = require("app/listeners/SendNewUserJoinedNotificationToAdmins").default;
 
 describe("Registered Event", () => {
   let user;
