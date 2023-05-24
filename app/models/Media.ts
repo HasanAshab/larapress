@@ -7,9 +7,9 @@ import {
 import {
   log
 } from "helpers";
-import Timestamps, {
-  ITimestamps
-} from "app/traits/Timestamps";
+
+import HasFactory, { IHasFactory } from "app/traits/HasFactory";
+import Timestamps, { ITimestamps } from "app/traits/Timestamps";
 
 const MediaSchema = new Schema({
   name: {
@@ -38,7 +38,9 @@ const MediaSchema = new Schema({
   }
 });
 
+MediaSchema.plugin(HasFactory);
 MediaSchema.plugin(Timestamps);
 
-export interface IMedia extends Document, InferSchemaType<typeof MediaSchema>, ITimestamps {};
+type IPlugins = IHasFactory & ITimestamps;
+export interface IMedia extends Document, InferSchemaType<typeof MediaSchema>, IPlugins {};
 export default model<IMedia>("Media", MediaSchema);

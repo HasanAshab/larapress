@@ -53,7 +53,7 @@ UserSchema.plugin(HasApiTokens);
 UserSchema.plugin(Notifiable);
 UserSchema.plugin(Mediable);
 
-type PluginFunctions = IAuthenticatable & ITimestamps & IHasFactory & IHasApiTokens & INotifiable & IMediable;
-export interface IUser extends Document, InferSchemaType<typeof UserSchema>, PluginFunctions {}
+type IPlugins = IAuthenticatable & ITimestamps & IHasFactory & IHasApiTokens & INotifiable & IMediable;
+export interface IUser extends Document, InferSchemaType<typeof UserSchema>, IPlugins {}
 
 export default model<IUser>("User", UserSchema);

@@ -21,11 +21,9 @@ describe("Media", () => {
   });
 
   it("should responds with a file", async () => {
-    const media = await Media.create({
-      path: fakeFile("image.png"),
-    });
+    const media = await Media.factory().create();
     const response = await request
-      .get(`/api/media/${media._id}`)
+      .get(`/api/v1/media/${media._id}`)
       .set("Accept", "application/octet-stream");
     expect(response.status).toBe(200);
     expect(response.headers["content-type"]).toBe("image/png");

@@ -25,7 +25,7 @@ export default class Mail {
     return Mail;
   }
 
-  static mock(): void {
+  static mock() {
     this.isMocked = true;
   }
 
@@ -53,7 +53,7 @@ export default class Mail {
     return this;
   }
 
-  static setTemplateEngine(): void {
+  static setTemplateEngine() {
     const hbs = createHandlebars({
       extname: ".handlebars",
       defaultLayout: "main",
@@ -86,7 +86,7 @@ export default class Mail {
     return this;
   }
 
-  static async dispatch(mailable: Mailable): Promise < void > {
+  static async dispatch(mailable: Mailable){
     this.mailable = mailable;
     this.setTransporter();
     this.setTemplateEngine();
@@ -101,7 +101,7 @@ export default class Mail {
     }
   }
 
-  static async send(mailable: Mailable): Promise < void > {
+  static async send(mailable: Mailable){
     if (!this.isMocked && Queueable.isQueueable(mailable) && mailable.shouldQueue) {
       const queue = mailable.createQueue();
       queue.process((job) => this.dispatch(job.data));
