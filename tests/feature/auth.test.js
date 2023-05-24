@@ -38,7 +38,7 @@ describe("Auth", () => {
       .field("email", dummyUser.email)
       .field("password", dummyUser.password)
       .field("password_confirmation", dummyUser.password)
-      .attach("logo", fakeFile("image.png"));
+      .attach("logo", "../../storage/test_files/image.png");
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
     const emitter = new events.EventEmitter();
@@ -54,6 +54,7 @@ describe("Auth", () => {
       .field("email", user.email)
       .field("password", "password");
     expect(response.statusCode).toBe(200);
+    console.log(response.body)
     expect(response.body.data).toHaveProperty("token");
   });
 

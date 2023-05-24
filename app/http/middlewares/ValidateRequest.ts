@@ -8,9 +8,10 @@ export default class ValidateRequest extends Middleware {
   @passErrorsToHandler()
   handle(req: Request, res: Response, next: NextFunction){
     try {
-      var ValidationSchema = require(base(path.join("app/http/validations/", this.options[0]))).default;
+      const Schema = require(base(path.join("app/http/validations/", this.options[0])));
+      var ValidationSchema = Schema.default;
     } catch(err: any) {
-      if (err.code === "MODULE_NOT_FOUND") next();
+      if (err.code === "MODULE_NOT_FOUND") return next();
       else throw err;
     }
     const urlencoded = ValidationSchema.urlencoded;

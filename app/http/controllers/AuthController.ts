@@ -38,9 +38,9 @@ class AuthController extends Controller {
       const match = await bcrypt.compare(password, user.password);
       if (match) {
         const token = user.createToken();
-         res.json({
-          message: "Logged in successfully!",
+        res.json({
           token,
+          message: "Logged in successfully!",
         });
       }
     }

@@ -5,16 +5,14 @@ export type EndpointCallback = (endpoint: string, path: string) => void | Promis
 
 export type RawResponse = ({
   message?: string,
-  data?: any[] | Record<string, any
-  >
-} & Record<string, any
->) | any[];
+  data?: any[] | Record<string, any>
+} & Record<string, any>
+) | Record<string, any>[];
 
 export type ApiResponse = {
   success: boolean,
   message?: string,
-  data?: any[] | Record<string, any
-  >;
+  data?: any[] | any,
 };
 
 export type UrlData = Record<string, string | number

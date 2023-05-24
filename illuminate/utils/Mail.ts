@@ -99,7 +99,6 @@ export default class Mail {
       const email = isObject(this.email) ? this.email.email: this.email;
       await this.transporter.sendMail(this.getRecipient(email));
     }
-    console.log("success");
   }
 
   static async send(mailable: Mailable): Promise < void > {
