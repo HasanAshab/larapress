@@ -1,9 +1,9 @@
-const app = require(base("main/app"));
+const app = require("main/app").default;
 const supertest = require("supertest");
-const DB = require(base("illuminate/utils/DB"));
+const DB = require("illuminate/utils/DB").default;
 const request = supertest(app);
-const Storage = require(base("illuminate/utils/Storage"));
-const Media = require(base("app/models/Media"));
+const Storage = require("illuminate/utils/Storage").default;
+const Media = require("app/models/Media").default;
 
 describe("Media", () => {
   

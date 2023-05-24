@@ -3,7 +3,7 @@ import {
   Schema,
   Document,
   InferSchemaType
-} from 'mongoose';
+} from "mongoose";
 import {
   log
 } from "helpers";

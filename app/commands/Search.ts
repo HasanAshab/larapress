@@ -1,16 +1,16 @@
-import { base } from 'helpers';
+import { base } from "helpers";
 import { replaceWildcard, matchWildcard } from "illuminate/utils";
-import Command from 'illuminate/commands/Command';
-import fs from 'fs';
-import path from 'path';
+import Command from "illuminate/commands/Command";
+import fs from "fs";
+import path from "path";
 
 export default class Search extends Command {
   public exclude = ["package.json", "package-lock.json", "node_modules", ".git", ".gitignore", ".env", "tsconfig.json", "artisan", "artisan.ts", "artisan", "backup", "docs", "storage"];
 
   async handle() {
-    this.requiredParams(['query']);
+    this.requiredParams(["query"]);
     const {
-      dir = '',
+      dir = "",
       replace
     } = this.params;
     if(typeof replace !== "undefined") this.info("\nReplacing started...\n");
@@ -36,7 +36,7 @@ export default class Search extends Command {
           const promise = this._searchFiles(filePath);
           promises.push(promise);
       } else if (stat.isFile()) {
-        const fileContent = fs.readFileSync(filePath, 'utf-8');
+        const fileContent = fs.readFileSync(filePath, "utf-8");
         const { query, replace } = this.params;
         if(matchWildcard(fileContent, query)){
           if(typeof replace !== "undefined"){

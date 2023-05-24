@@ -5,7 +5,7 @@ import Joi from "joi";
 
 const schema: ValidationSchema = {
   urlencoded: {
-    target: 'query',
+    target: "query",
     rules: Joi.object({
       id: Joi.string().required(),
       token: Joi.string().required(),

@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { Schema } from "mongoose";
 import Mailable from "illuminate/mails/Mailable";
 import Mail from "illuminate/utils/Mail";
 

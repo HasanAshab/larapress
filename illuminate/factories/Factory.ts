@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker';
+import { faker } from "@faker-js/faker";
 
 export default abstract class Factory {
   abstract definition(): Record<string, any>;

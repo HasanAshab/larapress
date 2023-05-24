@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { log } from "helpers";
 import { passErrorsToHandler } from "illuminate/decorators/class";
 import Controller from "illuminate/controllers/Controller";
-import AuthenticationError from 'app/exceptions/AuthenticationError';
+import AuthenticationError from "app/exceptions/AuthenticationError";
 import bcrypt from "bcryptjs";
 import User from "app/models/User";
 import Token from "app/models/Token";
@@ -14,7 +14,7 @@ class AuthController extends Controller {
   async register(req: Request, res: Response){
     const { name, email, password } = req.validated;
     const logo = req.files?.logo;
-    if (await User.findOne({ email })) throw AuthenticationError.type('EMAIL_EXIST').create();
+    if (await User.findOne({ email })) throw AuthenticationError.type("EMAIL_EXIST").create();
     const user = await User.create({
       name,
       email,
@@ -24,7 +24,7 @@ class AuthController extends Controller {
       await user.attachFile("logo", logo, true);
     }
     const token = user.createToken();
-    req.app.emit('Registered', user);
+    req.app.emit("Registered", user);
     res.status(201).json({
       message: "Verification email sent!",
       token,
@@ -44,7 +44,7 @@ class AuthController extends Controller {
         });
       }
     }
-    else throw AuthenticationError.type('INVALID_CREDENTIALS').create();
+    else throw AuthenticationError.type("INVALID_CREDENTIALS").create();
   };
 
   async verifyEmail(req: Request, res: Response){
@@ -57,9 +57,9 @@ class AuthController extends Controller {
       {},
       { sort: { createdAt: -1 } }
     );
-    if (!verificationToken) throw AuthenticationError.type('INVALID_OR_EXPIRED_TOKEN').create();
+    if (!verificationToken) throw AuthenticationError.type("INVALID_OR_EXPIRED_TOKEN").create();
     const tokenMatch = await bcrypt.compare(token, verificationToken.token);
-    if (!tokenMatch) throw AuthenticationError.type('INVALID_OR_EXPIRED_TOKEN').create();
+    if (!tokenMatch) throw AuthenticationError.type("INVALID_OR_EXPIRED_TOKEN").create();
 
     await User.findByIdAndUpdate(
       id,
@@ -114,8 +114,8 @@ class AuthController extends Controller {
     const user = req.user!;
     const { old_password, password } = req.validated;
     const oldPasswordMatch = await bcrypt.compare(old_password, user.password);
-    if (!oldPasswordMatch) throw AuthenticationError.type('INCORRECT_PASSWORD').create();
-    if (old_password === password) throw AuthenticationError.type('PASSWORD_SHOULD_DIFFERENT').create();
+    if (!oldPasswordMatch) throw AuthenticationError.type("INCORRECT_PASSWORD").create();
+    if (old_password === password) throw AuthenticationError.type("PASSWORD_SHOULD_DIFFERENT").create();
     user.password = password;
     user.tokenVersion++;
     await user.save();

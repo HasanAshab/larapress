@@ -14,7 +14,7 @@ class MediaController extends Controller {
     const media = await Media.findById(req.validated.id);
     (!media)
     ?res.status(404).json({
-      message: 'Media not found'
+      message: "Media not found"
     }): res.sendFile(media.path);
   }
 }

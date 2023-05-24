@@ -17,7 +17,7 @@ const drivers: Record<string, () => CacheDriverResponse > = {
     });
     await client.connect();
     let result: null | string = null;
-    if (Cache.action === 'put') {
+    if (Cache.action === "put") {
       const [key,
         data,
         expiry] = Cache.params;

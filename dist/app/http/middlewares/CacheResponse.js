@@ -14,7 +14,7 @@ const method_1 = require("illuminate/decorators/method");
 class CacheResponse extends Middleware_1.default {
     handle(req, res, next) {
         const maxAge = this.options[0] || 5 * 60 * 1000;
-        res.set('Cache-control', req.method === 'GET' ? `public, max-age=${maxAge}` : 'no-store');
+        res.set("Cache-control", req.method === "GET" ? `public, max-age=${maxAge}` : "no-store");
         next();
     }
 }

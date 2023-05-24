@@ -3,7 +3,7 @@ import Joi from "joi";
 
 const schema: ValidationSchema = {
   urlencoded: {
-    target: 'body',
+    target: "body",
     rules: Joi.object({
       email: Joi.string().email().required(),
     })

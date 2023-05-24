@@ -12,7 +12,7 @@ class Test extends Command_1.default {
         console.log(this.params);
         console.log(this.flags);
         console.log(this.subCommand);
-        this.success('Yeh!');
+        this.success("Yeh!");
     }
     ;
     async other() {
@@ -20,7 +20,7 @@ class Test extends Command_1.default {
     }
     ;
     _greet() {
-        console.log('hello');
+        console.log("hello");
     }
 }
 exports.default = Test;

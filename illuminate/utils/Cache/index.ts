@@ -3,7 +3,7 @@ import { CacheDriverResponse } from "types";
 import CacheError from "illuminate/exceptions/utils/CacheError";
 
 export default class Cache {
-  static _driver = process.env.CACHE || 'memory';
+  static _driver = process.env.CACHE || "memory";
   static action: "get" | "put";
   static params: [string, (string | object | any[])?, number?];
 

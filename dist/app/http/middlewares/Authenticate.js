@@ -21,7 +21,7 @@ class Authenticate extends Middleware_1.default {
             const token = authHeader.split(" ")[1];
             if (token) {
                 try {
-                    const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET || '');
+                    const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET || "");
                     const user = await User_1.default.findById(decoded.userId);
                     if (user !== null && user.tokenVersion === decoded.version) {
                         req.user = user;

@@ -1,8 +1,8 @@
-const app = require(base('main/app'));
+const app = require(base("main/app"));
 const DB = require(base("illuminate/utils/DB"));
 
 
-describe('{{name}}', () => {
+describe("{{name}}", () => {
   /*
   beforeAll(async () => {
     await DB.connect();
@@ -17,7 +17,7 @@ describe('{{name}}', () => {
   })
 */
 
-  it('Should work', async () => {
+  it("Should work", async () => {
     expect(true).toBe(true);
   });
 });

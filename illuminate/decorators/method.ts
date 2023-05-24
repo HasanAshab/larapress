@@ -20,7 +20,7 @@ export function passErrorsToHandler() {
       }
       catch (err: any) {
         for (const arg of args) {
-          if (typeof arg === 'function') {
+          if (typeof arg === "function") {
             arg(err);
             break;
           }

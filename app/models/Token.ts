@@ -1,4 +1,4 @@
-import { model, Schema, Document, InferSchemaType } from 'mongoose';
+import { model, Schema, Document, InferSchemaType } from "mongoose";
 import bcrypt from "bcryptjs";
 import Timestamps, { ITimestamps } from "app/traits/Timestamps";
 
@@ -18,7 +18,7 @@ const TokenSchema = new Schema({
   }
 });
 
-TokenSchema.pre('save', async function(next) {
+TokenSchema.pre("save", async function(next) {
   const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
   if (!this.isModified("token")) {
     return next();

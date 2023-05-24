@@ -5,7 +5,7 @@ import {{name}}Controller from "app/http/controllers/{{name}}Controller";
 const router: Router = express.Router();
 
 // Endpoints for {{name}}
-router.get('/', {{name}}Controller.index);
+router.get("/", {{name}}Controller.index);
 
 
 export default router;

@@ -4,7 +4,7 @@ import { checkProperties } from "helpers";
 
 export default abstract class Queueable {
   createQueue(name?: string): Queue.Queue {
-    const redisUrl = process.env.REDIS_URL || '';
+    const redisUrl = process.env.REDIS_URL || "";
     return new Queue(name || this.constructor.name, redisUrl, {
       defaultJobOptions: {
         removeOnComplete: true,

@@ -8,11 +8,11 @@ const helpers_1 = require("helpers");
 class ErrorHandler extends Middleware_1.default {
     handle(err, req, res, next) {
         const status = err.statusCode || err.status || 500;
-        const message = err.message || 'Internal server error!';
+        const message = err.message || "Internal server error!";
         if (status === 500) {
             (0, helpers_1.log)(`${req.originalUrl} - ${req.method} - ${req.ip}\nStack: ${err.stack}`);
-            if (process.env.NODE_ENV === 'production')
-                res.status(status).json({ message: 'Internal server error!' });
+            if (process.env.NODE_ENV === "production")
+                res.status(status).json({ message: "Internal server error!" });
             else
                 res.status(status).json({ message: err.stack });
         }

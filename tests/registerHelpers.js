@@ -1,8 +1,9 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const path = require("path");
-global.base = (base_path = '') => {
-  return path.join(path.join(__dirname, '../dist'), base_path);
+
+global.base = (base_path = "") => {
+  return path.join(path.join(__dirname, "../dist"), base_path);
 }
 
 const { storage } = require("../dist/helpers");

@@ -1,8 +1,8 @@
-import { Schema } from 'mongoose';
+import { Schema } from "mongoose";
 import { base, url, clientUrl, log } from "helpers";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
-import AuthenticationError from 'app/exceptions/AuthenticationError';
+import AuthenticationError from "app/exceptions/AuthenticationError";
 import VerificationMail from "app/mails/VerificationMail";
 import ForgotPasswordMail from "app/mails/ForgotPasswordMail";
 import PasswordChangedMail from "app/mails/PasswordChangedMail";
@@ -63,15 +63,15 @@ export default (schema: Schema) => {
       userId: this._id,
     });
     if (!resetToken) {
-      throw AuthenticationError.type('INVALID_OR_EXPIRED_TOKEN').create();
+      throw AuthenticationError.type("INVALID_OR_EXPIRED_TOKEN").create();
     }
     const tokenMatch = await bcrypt.compare(token, resetToken.token);
     if (!tokenMatch) {
-      throw AuthenticationError.type('INVALID_OR_EXPIRED_TOKEN').create();
+      throw AuthenticationError.type("INVALID_OR_EXPIRED_TOKEN").create();
     }
     const oldPasswordMatch = await bcrypt.compare(newPassword, this.password);
     if (oldPasswordMatch) {
-      throw AuthenticationError.type('PASSWORD_SHOULD_DIFFERENT').create();
+      throw AuthenticationError.type("PASSWORD_SHOULD_DIFFERENT").create();
     }
     this.password = newPassword;
     this.tokenVersion++;

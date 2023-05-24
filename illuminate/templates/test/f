@@ -1,9 +1,9 @@
-const app = require(base('main/app'));
-const supertest = require('supertest');
+const app = require(base("main/app"));
+const supertest = require("supertest");
 const DB = require(base("illuminate/utils/DB"));
 const request = supertest(app);
 
-describe('{{name}}', () => {
+describe("{{name}}", () => {
   
 /*
   beforeAll(async () => {
@@ -19,8 +19,8 @@ describe('{{name}}', () => {
   })
 */
 
-  it('Should work', async () => {
-    const response = await request.get('/');
+  it("Should work", async () => {
+    const response = await request.get("/");
     expect(true).toBe(true);
   });
 });

@@ -61,7 +61,7 @@ export default class Make extends Command {
     }
     else if(typeof pathSchema === "undefined"){
       this.error("Component not available");
-      return '';
+      return "";
     }
 
     const componentPath = pathSchema.replace(/{{name}}/g, path.join(parentPath, name))

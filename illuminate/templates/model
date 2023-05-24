@@ -1,4 +1,4 @@
-import { model, Schema, Document, InferSchemaType } from 'mongoose';
+import { model, Schema, Document, InferSchemaType } from "mongoose";
 import Timestamps, { ITimestamps } from "app/traits/Timestamps";
 
 const {{name}}Schema = new Schema({

@@ -1,11 +1,11 @@
-const app = require(base("main/app"));
+const app = require("main/app").default;
 const supertest = require("supertest");
-const DB = require(base("illuminate/utils/DB"));
+const DB = require("illuminate/utils/DB").default;
 const request = supertest(app);
 const bcrypt = require("bcryptjs");
-const Storage = require(base("illuminate/utils/Storage"));
-const Mail = require(base('illuminate/utils/Mail'));
-const User = require(base("app/models/User"));
+const Storage = require("illuminate/utils/Storage").default;
+const Mail = require("illuminate/utils/Mail").default;
+const User = require("app/models/User").default;
 const nodemailerMock = require("nodemailer-mock");
 const events = require("events");
 
@@ -33,7 +33,7 @@ describe("Auth", () => {
   it("should register a user", async () => {
     const dummyUser = User.factory().dummyData();
     const response = await request
-      .post("/api/auth/register")
+      .post("/api/v1/auth/register")
       .field("name", dummyUser.name)
       .field("email", dummyUser.email)
       .field("password", dummyUser.password)
@@ -50,7 +50,7 @@ describe("Auth", () => {
 
   it("should login a user", async () => {
     const response = await request
-      .post("/api/auth/login")
+      .post("/api/v1/auth/login")
       .field("email", user.email)
       .field("password", "password");
     expect(response.statusCode).toBe(200);
@@ -59,7 +59,7 @@ describe("Auth", () => {
 
   it("should verify email", async () => {
     const verificationToken = await user.sendVerificationEmail();
-    const response = await request.get("/api/auth/verify").query({
+    const response = await request.get("/api/v1/auth/verify").query({
       id: user._id.toString(),
       token: verificationToken,
     });
@@ -70,7 +70,7 @@ describe("Auth", () => {
 
   it("should resend verification email", async () => {
     const response = await request
-      .post("/api/auth/verify/resend")
+      .post("/api/v1/auth/verify/resend")
       .set("Authorization", `Bearer ${token}`);
     expect(response.statusCode).toBe(200);
     const sentMails = nodemailerMock.mock.sentMail();
@@ -81,7 +81,7 @@ describe("Auth", () => {
 
   it("should get user details", async () => {
     const response = await request
-      .get("/api/auth/profile")
+      .get("/api/v1/auth/profile")
       .set("Authorization", `Bearer ${token}`);
     expect(response.statusCode).toBe(200);
     expect(response.body.data.email).toBe(user.email);
@@ -93,7 +93,7 @@ describe("Auth", () => {
       email: "changed@gmail.com",
     };
     const response = await request
-      .put("/api/auth/profile")
+      .put("/api/v1/auth/profile")
       .set("Authorization", `Bearer ${token}`)
       .field("name", newUserData.name)
       .field("email", newUserData.email)
@@ -114,7 +114,7 @@ describe("Auth", () => {
       new: "new-password",
     };
     const response = await request
-      .put("/api/auth/password/change")
+      .put("/api/v1/auth/password/change")
       .set("Authorization", `Bearer ${token}`)
       .field("old_password", passwords.old)
       .field("password", passwords.new);
@@ -131,7 +131,7 @@ describe("Auth", () => {
 
   it("forgoting password should sent reset email", async () => {
     const response = await request
-      .post("/api/auth/password/forgot")
+      .post("/api/v1/auth/password/forgot")
       .field("email", user.email);
     expect(response.statusCode).toBe(200);
     const sentMails = nodemailerMock.mock.sentMail();
@@ -145,7 +145,7 @@ describe("Auth", () => {
     nodemailerMock.mock.reset();
     const newPassword = "new-password";
     const response = await request
-      .put("/api/auth/password/reset")
+      .put("/api/v1/auth/password/reset")
       .field("id", user._id.toString())
       .field("password", newPassword)
       .field("token", resetToken);

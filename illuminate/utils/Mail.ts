@@ -30,7 +30,7 @@ export default class Mail {
   }
 
   static setTransporter(config?: TransportOptions): typeof Mail {
-    if (typeof this.transporter !== 'undefined') {
+    if (typeof this.transporter !== "undefined") {
       return this;
     }
     if (typeof config !== "undefined") {
@@ -42,11 +42,11 @@ export default class Mail {
       });
     } else {
       this.transporter = createTransport({
-        host: process.env.MAIL_HOST || 'smtp-relay.sendinblue.com',
-        port: process.env.MAIL_PORT || '587',
+        host: process.env.MAIL_HOST || "smtp-relay.sendinblue.com",
+        port: process.env.MAIL_PORT || "587",
         auth: {
-          user: process.env.MAIL_USERNAME || '',
-          pass: process.env.MAIL_PASSWORD || '',
+          user: process.env.MAIL_USERNAME || "",
+          pass: process.env.MAIL_PASSWORD || "",
         },
       } as TransportOptions);
     }
@@ -99,7 +99,7 @@ export default class Mail {
       const email = isObject(this.email) ? this.email.email: this.email;
       await this.transporter.sendMail(this.getRecipient(email));
     }
-    console.log('success');
+    console.log("success");
   }
 
   static async send(mailable: Mailable): Promise < void > {

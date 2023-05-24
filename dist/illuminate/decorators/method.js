@@ -22,7 +22,7 @@ function passErrorsToHandler() {
             }
             catch (err) {
                 for (const arg of args) {
-                    if (typeof arg === 'function') {
+                    if (typeof arg === "function") {
                         arg(err);
                         break;
                     }

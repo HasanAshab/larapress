@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import "dotenv/config";
 import app from "main/app";
 import Setup from "main/Setup";
 import DB from "illuminate/utils/DB";

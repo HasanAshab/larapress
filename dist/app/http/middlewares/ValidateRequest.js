@@ -16,7 +16,7 @@ const path_1 = __importDefault(require("path"));
 class ValidateRequest extends Middleware_1.default {
     handle(req, res, next) {
         try {
-            var ValidationSchema = require((0, helpers_1.base)(path_1.default.join('app/http/validations/', this.options[0]))).default;
+            var ValidationSchema = require((0, helpers_1.base)(path_1.default.join("app/http/validations/", this.options[0]))).default;
         }
         catch (err) {
             if (err.code === "MODULE_NOT_FOUND")

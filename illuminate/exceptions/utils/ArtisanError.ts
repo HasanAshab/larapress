@@ -9,7 +9,7 @@ export default class ArtisanError extends Exception {
     
     SUB_COMMAND_REQUIRED:{
       status: 400,
-      message: "The Sub Command is Required as it's using as :name !",
+      message: "The Sub Command is Required as it\"s using as :name !",
     },
     
     REQUIRED_PARAM_MISSING:{

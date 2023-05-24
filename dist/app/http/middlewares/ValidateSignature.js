@@ -14,10 +14,10 @@ const method_1 = require("illuminate/decorators/method");
 const Cache_1 = __importDefault(require("illuminate/utils/Cache"));
 class ValidateSignature extends Middleware_1.default {
     async handle(req, res, next) {
-        const port = req.app.get('port') || req.socket.localPort;
+        const port = req.app.get("port") || req.socket.localPort;
         const fullUrl = `${req.protocol}://${req.hostname}:${port}${req.baseUrl}${req.path}`;
         const signature = req.query.s;
-        if (typeof signature !== 'undefined') {
+        if (typeof signature !== "undefined") {
             const signedSignature = await Cache_1.default.get(`__signed__${fullUrl}`);
             if (signedSignature && signedSignature === signature) {
                 next();
@@ -25,7 +25,7 @@ class ValidateSignature extends Middleware_1.default {
         }
         else {
             res.status(401).json({
-                message: 'Invalid signature!'
+                message: "Invalid signature!"
             });
         }
     }

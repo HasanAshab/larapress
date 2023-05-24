@@ -5,7 +5,7 @@ function performance(constructor) {
     const methodNames = Object.getOwnPropertyNames(constructor.prototype);
     for (const methodName of methodNames) {
         const method = constructor.prototype[methodName];
-        if (methodName === "constructor" || typeof method !== 'function') {
+        if (methodName === "constructor" || typeof method !== "function") {
             continue;
         }
         constructor.prototype[methodName] = async function (...args) {
@@ -21,7 +21,7 @@ function passErrorsToHandler(constructor) {
     const methodNames = Object.getOwnPropertyNames(constructor.prototype);
     for (const methodName of methodNames) {
         const method = constructor.prototype[methodName];
-        if (methodName === "constructor" || typeof method !== 'function') {
+        if (methodName === "constructor" || typeof method !== "function") {
             continue;
         }
         constructor.prototype[methodName] = async function (...args) {
@@ -30,7 +30,7 @@ function passErrorsToHandler(constructor) {
             }
             catch (err) {
                 for (const arg of args) {
-                    if (typeof arg === 'function') {
+                    if (typeof arg === "function") {
                         arg(err);
                         break;
                     }

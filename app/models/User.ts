@@ -1,4 +1,4 @@
-import { model, Schema, Document, InferSchemaType } from 'mongoose';
+import { model, Schema, Document, InferSchemaType } from "mongoose";
 import { url } from "helpers"
 import bcrypt from "bcryptjs";
 import Mailable from "illuminate/mails/Mailable";
@@ -26,7 +26,7 @@ const UserSchema = new Schema({
   },
   logoUrl: {
     type: String,
-    default: url('/static/user-profile.jpg'),
+    default: url("/static/user-profile.jpg"),
     required: true
   },
   isAdmin: {
@@ -36,7 +36,7 @@ const UserSchema = new Schema({
   },
 });
 
-UserSchema.pre('save', async function(next) {
+UserSchema.pre("save", async function(next) {
   const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
   if (!this.isModified("password")) {
     return next();

@@ -1,5 +1,5 @@
 import { base } from "helpers";
-import { Application } from 'express';
+import { Application } from "express";
 import { generateEndpointsFromDirTree } from "illuminate/utils";
 import nodeCron from "node-cron";
 import Artisan from "illuminate/utils/Artisan";
@@ -9,7 +9,7 @@ import crons from "register/cron";
 export default class Setup {
   static cronJobs(): void {
     for (const [command, schedule] of Object.entries(crons)) {
-      nodeCron.schedule(schedule, Artisan.getCommand(command.split(' '), false) as ((now: Date | "init" | "manual") => void));
+      nodeCron.schedule(schedule, Artisan.getCommand(command.split(" "), false) as ((now: Date | "init" | "manual") => void));
     }
   };
 

@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { Schema } from "mongoose";
 import { base, route } from "helpers";
 
 export type IHasFactory = {
