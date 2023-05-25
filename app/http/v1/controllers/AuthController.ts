@@ -10,7 +10,7 @@ import ForgotPasswordMail from "app/mails/ForgotPasswordMail";
 import PasswordChangedMail from "app/mails/PasswordChangedMail";
 
 @passErrorsToHandler
-class AuthController extends Controller {
+export default class AuthController extends Controller {
   async register(req: Request, res: Response){
     const { name, email, password } = req.validated;
     const logo = req.files?.logo;
@@ -149,7 +149,3 @@ class AuthController extends Controller {
     }
   };
 }
-
-
-export default new AuthController;
-

@@ -54,8 +54,9 @@ export function storage(storage_path: string = ""): string {
 }
 
 export function middleware(keys: string | string[], version?: string): Function[] | Function {
+  version = version ?? localVersion();
   function getMiddleware(middlewarePath: string, options: string[] = []) {
-    const MiddlewareClass = require(path.resolve(`/app/http/${version?version:localVersion("routes/api")}/middlewares/${middlewarePath}`)).default;
+    const MiddlewareClass = require(path.resolve(`/app/http/${version}/middlewares/${middlewarePath}`)).default;
     const middlewareInstance = new MiddlewareClass(options);
     const handler = middlewareInstance.handle.bind(middlewareInstance);
     return handler;
@@ -97,10 +98,22 @@ export function middleware(keys: string | string[], version?: string): Function[
 }
 
 
-export function controller(name: string, version?: string): object {
-  const controllerPath = path.resolve(path.join(`app/http/${version?version:localVersion("routes/api")}/controllers`, name));
-  const controllerInstance = require(controllerPath).default;
-  return controllerInstance;
+export function controller(name: string, version?: string): Record<string, Function | Function[]> {
+  version = version ?? localVersion();
+  const controllerPath = path.resolve(path.join(`app/http/${version}/controllers`, name));
+  const controllerClass = require(controllerPath).default;
+  const controllerInstance = new controllerClass;
+  const controllerPrefix = controllerClass.name.replace("Controller", "");
+  const methodNames = Object.getOwnPropertyNames(Object.getPrototypeOf(controllerInstance)).filter(name => name !== "constructor" && typeof controllerInstance[name] === 'function');
+  const handlerAndValidatorStack: Record<string, Function | Function[]> = {};
+  for (const methodName of methodNames){
+    const validationSubPath = `${controllerPrefix}/${capitalizeFirstLetter(methodName)}`;
+    handlerAndValidatorStack[methodName] = [
+      middleware(`validate:${version},${validationSubPath}`),
+      controllerInstance[methodName]
+    ];
+  }
+  return handlerAndValidatorStack;
 }
 
 export function setEnv(envValues: object): boolean {
@@ -130,23 +143,17 @@ export function log(data: any): void {
 }
 
 
-export function localVersion(base: string): string {
+export function localVersion(): string {
   const error = new Error();
   const stackTrace = error.stack;
-  if(!stackTrace) return '';
+  if(!stackTrace) throw new Error("Failed to auto infer local version!");
   const stackLines = stackTrace.split('\n');
   const firstBuiltInStack = "    at Module._compile (node:internal/modules/cjs/loader:1275:14)";
   const callerLine = stackLines[stackLines.indexOf(firstBuiltInStack) - 1];
   const callerFilePath = callerLine.replace(/^.*\((.*):\d+:\d+\).*/, '$1');
-  
   const absoluteFilePath = path.resolve(callerFilePath);
-  
-  
-  //const regex = 
-  //console.log(absoluteFilePath)
-  //console.log(absoluteFilePath.match(/routes\/api\/v[1-9]/))
-  //console.log(path.resolve(base))
-  return absoluteFilePath?.replace(path.resolve(base), "")?.split("/")?.[1];
+  const regex = new RegExp(path.resolve(`(.*)(v[1-9])`));
+  return absoluteFilePath.match(regex)[2];
 }
 
 

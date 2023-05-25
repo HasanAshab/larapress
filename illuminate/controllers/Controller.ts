@@ -1,6 +1,7 @@
 import { middleware, capitalizeFirstLetter } from "helpers";
 
 export default abstract class Controller {
+  /*
   [key: string]: Function | Function[];
   
   constructor() {
@@ -20,4 +21,5 @@ export default abstract class Controller {
       this[methodName]
     ]
   }
+  */
 }

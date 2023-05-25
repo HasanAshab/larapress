@@ -7,8 +7,9 @@ import path from "path";
 export default class ValidateRequest extends Middleware {
   @passErrorsToHandler()
   handle(req: Request, res: Response, next: NextFunction){
+    const [version, validationSubPath] = this.options;
     try {
-      const Schema = require(base(path.join("app/http/validations/", this.options[0])));
+      const Schema = require(base(path.join(`app/http/${version}/validations/`, validationSubPath)));
       var ValidationSchema = Schema.default;
     } catch(err: any) {
       if (err.code === "MODULE_NOT_FOUND") return next();
