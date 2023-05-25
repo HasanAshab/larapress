@@ -1,6 +1,5 @@
-import {
-  UrlData
-} from "types";
+import { UrlData } from "types";
+import { RequestHandler } from "express"
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
@@ -53,10 +52,12 @@ export function storage(storage_path: string = ""): string {
   return path.resolve(path.join("storage", storage_path));
 }
 
-export function middleware(keys: string | string[], version?: string): Function[] | Function {
-  version = version ?? localVersion();
+export function middleware(keys: string | string[], version?: string): RequestHandler[] | RequestHandler {
   function getMiddleware(middlewarePath: string, options: string[] = []) {
-    const MiddlewareClass = require(path.resolve(`/app/http/${version}/middlewares/${middlewarePath}`)).default;
+    const fullPath = middlewarePath.startsWith("<global>")
+      ?middlewarePath.replace("<global>", "illuminate/middlewares/global")
+      :`app/http/${version ?? localVersion()}/middlewares/${middlewarePath}`;
+    const MiddlewareClass = require(path.resolve(fullPath)).default;
     const middlewareInstance = new MiddlewareClass(options);
     const handler = middlewareInstance.handle.bind(middlewareInstance);
     return handler;
@@ -98,14 +99,14 @@ export function middleware(keys: string | string[], version?: string): Function[
 }
 
 
-export function controller(name: string, version?: string): Record<string, Function | Function[]> {
+export function controller(name: string, version?: string): Record<string, RequestHandler | RequestHandler[]> {
   version = version ?? localVersion();
   const controllerPath = path.resolve(path.join(`app/http/${version}/controllers`, name));
   const controllerClass = require(controllerPath).default;
   const controllerInstance = new controllerClass;
   const controllerPrefix = controllerClass.name.replace("Controller", "");
   const methodNames = Object.getOwnPropertyNames(Object.getPrototypeOf(controllerInstance)).filter(name => name !== "constructor" && typeof controllerInstance[name] === 'function');
-  const handlerAndValidatorStack: Record<string, Function | Function[]> = {};
+  const handlerAndValidatorStack: Record<string, RequestHandler | RequestHandler[]> = {};
   for (const methodName of methodNames){
     const validationSubPath = `${controllerPrefix}/${capitalizeFirstLetter(methodName)}`;
     handlerAndValidatorStack[methodName] = [
@@ -153,7 +154,9 @@ export function localVersion(): string {
   const callerFilePath = callerLine.replace(/^.*\((.*):\d+:\d+\).*/, '$1');
   const absoluteFilePath = path.resolve(callerFilePath);
   const regex = new RegExp(path.resolve(`(.*)(v[1-9])`));
-  return absoluteFilePath.match(regex)[2];
+  const match = absoluteFilePath.match(regex);
+  if(!match) throw new Error(`Current path: ${absoluteFilePath} is not a nested versional path!`);
+  return match[2];
 }
 
 

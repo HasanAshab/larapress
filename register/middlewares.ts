@@ -1,17 +1,16 @@
 const middlewares: Record<string, string | string[]> = {
-  "test": "Test",
   "auth": "Authenticate",
   "verified": [
     "Authenticate",
     "EnsureEmailIsVerified"
   ],
   "admin": "CheckIfTheUserIsAdmin",
-  "limit": "LimitRequestRate",
-  "signed": "ValidateSignature",
-  "validate": "ValidateRequest",
-  "response.wrap": "WrapResponse",
-  "response.cache": "CacheResponse",
-  "error.handle": "ErrorHandler"
+  "limit": "<global>/LimitRequestRate",
+  "signed": "<global>/ValidateSignature",
+  "validate": "<global>/ValidateRequest",
+  "response.wrap": "<global>/WrapResponse",
+  "response.cache": "<global>/CacheResponse",
+  "error.handle": "<global>/ErrorHandler"
 }
 
 export default middlewares;

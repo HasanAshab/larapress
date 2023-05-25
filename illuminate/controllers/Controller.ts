@@ -1,8 +1,7 @@
-import { middleware, capitalizeFirstLetter } from "helpers";
+import { RequestHandler } from "express"
 
 export default abstract class Controller {
   /*
-  [key: string]: Function | Function[];
   
   constructor() {
     const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(this));

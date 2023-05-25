@@ -1,5 +1,4 @@
 import { base, middleware } from "helpers";
-
 import express, { Application } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -25,7 +24,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(MultipartParser());
 
-/*
+
 // Registering Handlebars template engine
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
@@ -43,7 +42,7 @@ Setup.routes(app);
 // Registering global error handling middleware
 app.use(middleware("error.handle"));
 
-*/
+
 Setup.routes(app);
 
 export default app;
