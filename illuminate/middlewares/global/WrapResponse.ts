@@ -21,8 +21,7 @@ import {
 export default class WrapResponse extends Middleware {
   @passErrorsToHandler()
   async handle(req: Request, res: Response, next: NextFunction) {
-    const originalJson = res.json;
-    res.json = function (response: RawResponse): Response < any, Record < string, any>> {
+    res.api = function (response: RawResponse): Response < any, Record < string, any>> {
       if (res.headersSent) {
         return res;
       }
@@ -48,7 +47,7 @@ export default class WrapResponse extends Middleware {
       } else if (Array.isArray(response)) {
         wrappedData.data = response;
       }
-      return originalJson.call(res, wrappedData);
+      return res.json(wrappedData);
     };
     next();
   }

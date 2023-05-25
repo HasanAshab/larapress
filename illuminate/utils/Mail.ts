@@ -86,15 +86,17 @@ export default class Mail {
     return this;
   }
 
-  static async dispatch(mailable: Mailable){
-    this.mailable = mailable;
+  static async dispatch(){
     this.setTransporter();
     this.setTemplateEngine();
     if (Array.isArray(this.email)) {
+      const promises = [];
       for (let email of this.email) {
         email = isObject(email) ? email.email: email;
-        await this.transporter.sendMail(this.getRecipient(email));
+        const sendMailPromise = this.transporter.sendMail(this.getRecipient(email));
+        promises.push(sendMailPromise);
       }
+      await Promise.all(promises);
     } else {
       const email = isObject(this.email) ? this.email.email: this.email;
       await this.transporter.sendMail(this.getRecipient(email));
@@ -102,14 +104,14 @@ export default class Mail {
   }
 
   static async send(mailable: Mailable){
+    this.mailable = mailable;
     if (!this.isMocked && Queueable.isQueueable(mailable) && mailable.shouldQueue) {
       const queue = mailable.createQueue();
-      queue.process((job) => this.dispatch(job.data));
-      await queue.add(mailable, {
+      queue.process(job => this.dispatch.bind(this));
+      await queue.add({}, {
         delay: this.dispatchAfter,
       });
-    } else {
-      await this.dispatch(mailable);
-    }
+    } 
+    else await this.dispatch();
   }
 }

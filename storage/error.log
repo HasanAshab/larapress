@@ -52,3 +52,50 @@ Stack: VersionError: No matching document found for id "646edb627bee690c67f0f4a1
     at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
 
 
+/api/v1/auth/verify/resend - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'subject')
+    at Function.getRecipient (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:78:30)
+    at Function.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:102:44)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:114:21)
+    at model.schema.methods.notify (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Notifiable.ts:12:38)
+    at model.schema.methods.sendVerificationEmail (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Authenticatable.ts:41:31)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.resendEmailVerification (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:78:5)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/profile - PUT - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'subject')
+    at Function.getRecipient (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:78:30)
+    at Function.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:102:44)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:114:21)
+    at model.schema.methods.notify (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Notifiable.ts:12:38)
+    at model.schema.methods.sendVerificationEmail (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Authenticatable.ts:41:31)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.updateProfile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:143:7)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/password/change - PUT - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'subject')
+    at Function.getRecipient (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:78:30)
+    at Function.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:102:44)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:114:21)
+    at model.schema.methods.notify (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Notifiable.ts:12:38)
+    at Function.changePassword (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:120:16)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/password/forgot - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'subject')
+    at Function.getRecipient (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:78:30)
+    at Function.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:102:44)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:114:21)
+    at model.schema.methods.notify (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Notifiable.ts:12:38)
+    at model.schema.methods.sendResetPasswordEmail (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Authenticatable.ts:57:16)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.forgotPassword (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:90:7)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
