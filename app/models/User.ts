@@ -34,6 +34,8 @@ const UserSchema = new Schema({
     default: false,
     required: true
   },
+}, {
+  versionKey: "__v"
 });
 
 UserSchema.pre("save", async function(next) {

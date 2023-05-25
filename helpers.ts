@@ -148,15 +148,10 @@ export function localVersion(): string {
   const error = new Error();
   const stackTrace = error.stack;
   if(!stackTrace) throw new Error("Failed to auto infer local version!");
-  const stackLines = stackTrace.split('\n');
-  const firstBuiltInStack = "    at Module._compile (node:internal/modules/cjs/loader:1275:14)";
-  const callerLine = stackLines[stackLines.indexOf(firstBuiltInStack) - 1];
-  const callerFilePath = callerLine.replace(/^.*\((.*):\d+:\d+\).*/, '$1');
-  const absoluteFilePath = path.resolve(callerFilePath);
-  const regex = new RegExp(path.resolve(`(.*)(v[1-9])`));
-  const match = absoluteFilePath.match(regex);
-  if(!match) throw new Error(`Current path: ${absoluteFilePath} is not a nested versional path!`);
-  return match[2];
+  const regex = /\/(v\d+)\//;
+  const match = stackTrace.match(regex);
+  if(!match) throw new Error('This path is not a nested versional path!');
+  return match[1];
 }
 
 

@@ -4,10 +4,9 @@ import Controller from "illuminate/controllers/Controller";
 import User from "app/models/User";
 
 @passErrorsToHandler
-class {{name}} extends Controller {
+export default class {{name}} extends Controller {
   async index(req: Request, res: Response) {
     //
   }
 }
 
-export default new {{name}};

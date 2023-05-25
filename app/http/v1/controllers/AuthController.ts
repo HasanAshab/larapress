@@ -20,9 +20,7 @@ export default class AuthController extends Controller {
       email,
       password,
     });
-    if (logo && !Array.isArray(logo)) {
-      await user.attachFile("logo", logo, true);
-    }
+    if (logo && !Array.isArray(logo)) await user.attachFile("logo", logo, true);
     const token = user.createToken();
     req.app.emit("Registered", user);
     res.status(201).json({

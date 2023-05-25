@@ -3,6 +3,8 @@ import Timestamps, { ITimestamps } from "app/traits/Timestamps";
 
 const {{name}}Schema = new Schema({
   //
+}, {
+  versionKey: "__v"
 });
 
 {{name}}Schema.plugin(Timestamps);

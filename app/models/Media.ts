@@ -36,6 +36,8 @@ const MediaSchema = new Schema({
     type: String,
     required: true
   }
+}, {
+  versionKey: "__v"
 });
 
 MediaSchema.plugin(HasFactory);
