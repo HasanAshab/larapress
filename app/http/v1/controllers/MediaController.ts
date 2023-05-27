@@ -8,7 +8,7 @@ export default class MediaController extends Controller {
   async index(req: Request, res: Response) {
     const media = await Media.findById(req.validated.id);
     (!media)
-    ?res.status(404).json({
+    ?res.status(404).api({
       message: "Media not found"
     }): res.sendFile(media.path);
   }

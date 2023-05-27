@@ -16,8 +16,6 @@ const TokenSchema = new Schema({
     type: String,
     required: true
   }
-}, {
-  versionKey: "__v"
 });
 
 TokenSchema.pre("save", async function(next) {

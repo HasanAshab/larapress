@@ -22,13 +22,13 @@ export default class ValidateRequest extends Middleware {
     if (typeof multipart !== "undefined") {
       const contentType = req.headers["content-type"];
       if (!contentType || !contentType.startsWith("multipart/form-data")) {
-        res.status(400).json({
+        res.status(400).api({
           message: "Only multipart/form-data requests are allowed",
         });
       }
       const error = multipart.validate(req.files);
       if (error) {
-        res.status(400).json({
+        res.status(400).api({
           message: error,
         });
       }
@@ -37,7 +37,7 @@ export default class ValidateRequest extends Middleware {
     if (typeof urlencoded !== "undefined") {
       const { error } = urlencoded.rules.validate(target);
       if (error) {
-        res.status(400).json({
+        res.status(400).api({
           message: error.details[0].message,
         });
       }

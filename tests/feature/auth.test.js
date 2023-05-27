@@ -14,17 +14,12 @@ describe("Auth", () => {
   let token;
 
   beforeAll(async () => {
-    await DB.connect();
-  });
-  
-  afterAll(async () => {
-    await DB.disconnect();
+    Mail.mock();
+    Storage.mock();
   });
   
   beforeEach(async () => {
     await resetDatabase();
-    Storage.mock();
-    Mail.mock();
     nodemailerMock.mock.reset();
     user = await User.factory().create();
     token = user.createToken();

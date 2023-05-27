@@ -23,7 +23,7 @@ export default class AuthController extends Controller {
     if (logo && !Array.isArray(logo)) await user.attachFile("logo", logo, true);
     const token = user.createToken();
     req.app.emit("Registered", user);
-    res.status(201).json({
+    res.status(201).api({
       message: "Verification email sent!",
       token,
     });
@@ -36,7 +36,7 @@ export default class AuthController extends Controller {
       const match = await bcrypt.compare(password, user.password);
       if (match) {
         const token = user.createToken();
-        res.json({
+        res.api({
           token,
           message: "Logged in successfully!",
         });
@@ -69,14 +69,14 @@ export default class AuthController extends Controller {
       }
     );
     verificationToken.deleteOne().catch((err) => log(err));
-    res.json({
+    res.api({
       message: "Email verified!",
     });
   };
 
   async resendEmailVerification(req: Request, res: Response){
     await req.user!.sendVerificationEmail();
-     res.json({
+     res.api({
       message: "Verification email sent!",
     });
   };
@@ -89,7 +89,7 @@ export default class AuthController extends Controller {
     if (user) {
       await user.sendResetPasswordEmail();
     }
-     res.json({
+     res.api({
       message: "Password reset email sent!",
     });
   };
@@ -99,11 +99,11 @@ export default class AuthController extends Controller {
     const user = await User.findById(id);
     if (user) {
       await user.resetPassword(token, password)
-       res.json({
+       res.api({
         message: "Password reset successfully!",
       });
     }
-    else res.status(404).json({
+    else res.status(404).api({
       message: "User not found!",
     });
   };
@@ -118,13 +118,13 @@ export default class AuthController extends Controller {
     user.tokenVersion++;
     await user.save();
     await user.notify(new PasswordChangedMail());
-     res.json({
+     res.api({
       message: "Password changed successfully!",
     });
   };
 
   async profile(req: Request, res: Response){
-     res.json({data:req.user!});
+     res.api({data:req.user!});
   };
 
   async updateProfile(req: Request, res: Response){
@@ -141,7 +141,7 @@ export default class AuthController extends Controller {
     }
     if (result) {
       await user.sendVerificationEmail();
-       res.json({
+       res.api({
         message: "Verification email sent!",
       });
     }

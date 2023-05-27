@@ -5,7 +5,7 @@ import fs from "fs";
 import path from "path";
 
 export default class Search extends Command {
-  public exclude = ["package.json", "package-lock.json", "node_modules", ".git", ".gitignore", ".env", "tsconfig.json", "artisan", "artisan.ts", "artisan", "backup", "docs", "storage"];
+  public exclude = ["package.json", "package-lock.json", "node_modules", ".git", ".gitignore", ".env", "tsconfig.json", "artisan", "artisan.ts", "dist", "artisan", "backup", "docs", "storage"];
 
   async handle() {
     this.requiredParams(["query"]);

@@ -21,7 +21,7 @@ import {
 export default class WrapResponse extends Middleware {
   @passErrorsToHandler()
   async handle(req: Request, res: Response, next: NextFunction) {
-    res.api = function (response: RawResponse): Response < any, Record < string, any>> {
+    res.api = function (response: RawResponse) {
       if (res.headersSent) {
         return res;
       }

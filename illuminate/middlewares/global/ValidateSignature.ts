@@ -15,7 +15,7 @@ export default class ValidateSignature extends Middleware {
         next();
       }
     } else {
-      res.status(401).json({
+      res.status(401).api({
         message: "Invalid signature!"
       });
     }

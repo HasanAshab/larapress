@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getParams = exports.checkProperties = exports.localVersion = exports.log = exports.setEnv = exports.middleware = exports.storage = exports.route = exports.clientUrl = exports.url = exports.capitalizeFirstLetter = exports.base = void 0;
+exports.getParams = exports.checkProperties = exports.localVersion = exports.log = exports.setEnv = exports.controller = exports.middleware = exports.storage = exports.route = exports.clientUrl = exports.url = exports.capitalizeFirstLetter = exports.base = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
@@ -55,11 +55,13 @@ function storage(storage_path = "") {
     return path_1.default.resolve(path_1.default.join("storage", storage_path));
 }
 exports.storage = storage;
-function middleware(keys) {
+function middleware(keys, version) {
     var _a, _b;
     function getMiddleware(middlewarePath, options = []) {
-        const version = localVersion("app/http", 4);
-        const MiddlewareClass = require(path_1.default.resolve(`/app/http/${version}/middlewares/${middlewarePath}`)).default;
+        const fullPath = middlewarePath.startsWith("<global>")
+            ? middlewarePath.replace("<global>", "illuminate/middlewares/global")
+            : `app/http/${version !== null && version !== void 0 ? version : localVersion()}/middlewares/${middlewarePath}`;
+        const MiddlewareClass = require(path_1.default.resolve(fullPath)).default;
         const middlewareInstance = new MiddlewareClass(options);
         const handler = middlewareInstance.handle.bind(middlewareInstance);
         return handler;
@@ -98,6 +100,24 @@ function middleware(keys) {
     return getMiddleware(middlewarePaths, params === null || params === void 0 ? void 0 : params.split(","));
 }
 exports.middleware = middleware;
+function controller(name, version) {
+    version = version !== null && version !== void 0 ? version : localVersion();
+    const controllerPath = path_1.default.resolve(path_1.default.join(`app/http/${version}/controllers`, name));
+    const controllerClass = require(controllerPath).default;
+    const controllerInstance = new controllerClass;
+    const controllerPrefix = controllerClass.name.replace("Controller", "");
+    const methodNames = Object.getOwnPropertyNames(Object.getPrototypeOf(controllerInstance)).filter(name => name !== "constructor" && typeof controllerInstance[name] === 'function');
+    const handlerAndValidatorStack = {};
+    for (const methodName of methodNames) {
+        const validationSubPath = `${controllerPrefix}/${capitalizeFirstLetter(methodName)}`;
+        handlerAndValidatorStack[methodName] = [
+            middleware(`validate:${version},${validationSubPath}`),
+            controllerInstance[methodName]
+        ];
+    }
+    return handlerAndValidatorStack;
+}
+exports.controller = controller;
 function setEnv(envValues) {
     const envConfig = dotenv_1.default.parse(fs_1.default.readFileSync(".env"));
     for (const [key, value] of Object.entries(envValues)) {
@@ -124,19 +144,16 @@ function log(data) {
     });
 }
 exports.log = log;
-function localVersion(base, stackIndex) {
-    var _a, _b;
+function localVersion() {
     const error = new Error();
     const stackTrace = error.stack;
     if (!stackTrace)
-        return null;
-    const stackLines = stackTrace.split('\n');
-    //console.log(stackLines)
-    const callerLine = stackLines[stackIndex];
-    const callerFilePath = callerLine.replace(/^.*\((.*):\d+:\d+\).*/, '$1');
-    const absoluteFilePath = path_1.default.resolve(callerFilePath);
-    console.log(absoluteFilePath);
-    return (_b = (_a = absoluteFilePath === null || absoluteFilePath === void 0 ? void 0 : absoluteFilePath.replace(path_1.default.resolve(base), "")) === null || _a === void 0 ? void 0 : _a.split("/")) === null || _b === void 0 ? void 0 : _b[1];
+        throw new Error("Failed to auto infer local version!");
+    const regex = /\/(v\d+)\//;
+    const match = stackTrace.match(regex);
+    if (!match)
+        throw new Error('This path is not a nested versional path!');
+    return match[1];
 }
 exports.localVersion = localVersion;
 function checkProperties(obj, properties) {

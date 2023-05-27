@@ -8,16 +8,11 @@ const Media = require("app/models/Media").default;
 describe("Media", () => {
   
   beforeAll(async () => {
-    await DB.connect();
-  });
-
-  afterAll(async () => {
-    await DB.disconnect();
+    Storage.mock();
   });
 
   beforeEach(async () => {
     await resetDatabase();
-    Storage.mock();
   });
 
   it("should responds with a file", async () => {

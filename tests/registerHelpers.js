@@ -6,7 +6,6 @@ global.base = (base_path = "") => {
   return path.join(path.join(__dirname, "../dist"), base_path);
 }
 
-//const { storage } = require("../dist/helpers");
 
 
 global.fakeFile = (name) => {

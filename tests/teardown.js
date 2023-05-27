@@ -1,6 +1,6 @@
-//const mongoose = require("mongoose");
+//const DB = require("../illuminate/utils/DB").default;
 
 module.exports = async function () {
-  //await mongoose.disconnect();
   process.exit(0);
+  //await DB.disconnect();
 }

@@ -11,13 +11,9 @@ describe("Registered Event", () => {
 
   beforeAll(async () => {
     Mail.mock();
-    await DB.connect();
   });
 
-  afterAll(async () => {
-    await DB.disconnect();
-  });
-
+  
   beforeEach(async () => {
     await resetDatabase();
     nodemailerMock.mock.reset();

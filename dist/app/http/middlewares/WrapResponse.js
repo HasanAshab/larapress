@@ -14,8 +14,8 @@ const method_1 = require("illuminate/decorators/method");
 const guards_1 = require("illuminate/guards");
 class WrapResponse extends Middleware_1.default {
     async handle(req, res, next) {
-        const originalJson = res.json;
-        res.json = function (response) {
+        const originalJson = res.api;
+        res.api = function (response) {
             if (res.headersSent) {
                 return res;
             }

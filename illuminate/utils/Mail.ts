@@ -30,9 +30,6 @@ export default class Mail {
   }
 
   static setTransporter(config?: TransportOptions): typeof Mail {
-    if (typeof this.transporter !== "undefined") {
-      return this;
-    }
     if (typeof config !== "undefined") {
       this.transporter = createTransport(config);
     } else if (this.isMocked) {
@@ -87,7 +84,7 @@ export default class Mail {
   }
 
   static async dispatch(){
-    this.setTransporter();
+    if (typeof this.transporter === "undefined") this.setTransporter();
     this.setTemplateEngine();
     if (Array.isArray(this.email)) {
       const promises = [];
