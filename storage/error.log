@@ -72,3 +72,63 @@ Stack: VersionError: No matching document found for id "647216a3060bacefef3a0c7e
     at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
 
 
+/api/v1/auth/register - POST - ::ffff:127.0.0.1
+Stack: VersionError: No matching document found for id "647299910648b11da347ec3c" version 0 modifiedPaths "logoUrl, media"
+    at generateVersionError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:458:10)
+    at model.save (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:515:28)
+    at model.schema.methods.attachFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.ts:64:16)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:23:39)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/register - POST - ::ffff:127.0.0.1
+Stack: VersionError: No matching document found for id "64729cfa6065f707cbdb9039" version 0 modifiedPaths "logoUrl, media"
+    at generateVersionError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:458:10)
+    at model.save (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:515:28)
+    at model.schema.methods.attachFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.ts:64:16)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:23:39)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/register - POST - ::ffff:127.0.0.1
+Stack: VersionError: No matching document found for id "64729e3c47f684e177583cdd" version 0 modifiedPaths "logoUrl, media"
+    at generateVersionError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:458:10)
+    at model.save (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:515:28)
+    at model.schema.methods.attachFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.ts:65:16)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:23:39)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/register - POST - ::ffff:127.0.0.1
+Stack: VersionError: No matching document found for id "64729eb18543b243812a91df" version 1 modifiedPaths "logoUrl, media, __v"
+    at generateVersionError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:458:10)
+    at model.save (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:515:28)
+    at model.schema.methods.attachFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.ts:65:16)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:23:39)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/register - POST - ::ffff:127.0.0.1
+Stack: VersionError: No matching document found for id "64729fda8c041a8e6939e11e" version 0 modifiedPaths "logoUrl, media"
+    at generateVersionError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:458:10)
+    at model.save (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:515:28)
+    at model.schema.methods.attachFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.ts:87:16)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:23:39)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/register - POST - ::ffff:127.0.0.1
+Stack: VersionError: No matching document found for id "6472e4cfaeb5a111fe862bcb" version 0 modifiedPaths "logoUrl, media"
+    at generateVersionError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:458:10)
+    at model.save (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:515:28)
+    at model.schema.methods.attachFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.ts:87:16)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:23:39)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+

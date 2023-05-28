@@ -3,8 +3,10 @@ const DB = require("illuminate/utils/DB").default;
 const nodemailerMock = require("nodemailer-mock");
 const Mail = require("illuminate/utils/Mail").default;
 const User = require("app/models/User").default;
-const SendEmailVerificationNotification = require("app/listeners/SendEmailVerificationNotification").default;
-const SendNewUserJoinedNotificationToAdmins = require("app/listeners/SendNewUserJoinedNotificationToAdmins").default;
+const SendEmailVerificationNotification =
+  require("app/listeners/SendEmailVerificationNotification").default;
+const SendNewUserJoinedNotificationToAdmins =
+  require("app/listeners/SendNewUserJoinedNotificationToAdmins").default;
 
 describe("Registered Event", () => {
   let user;
@@ -13,7 +15,6 @@ describe("Registered Event", () => {
     Mail.mock();
   });
 
-  
   beforeEach(async () => {
     await resetDatabase();
     nodemailerMock.mock.reset();
@@ -31,13 +32,17 @@ describe("Registered Event", () => {
   it("should notify admins about new user", async () => {
     const admins = await User.factory(3).create({ isAdmin: true });
     await new SendNewUserJoinedNotificationToAdmins().dispatch(user);
-    setTimeout(() => {
-      const mails = nodemailerMock.mock.getSentMail();
-      expect(mails).toHaveLength(3);
-      for (let i = 0; i < 3; i++) {
-        expect(mails[i].to).toBe(admins[i].email);
-        expect(mails[i].template).toBe("newUserJoined");
-      }
-    }, 0);
+
+    await waitFor(
+      () => {
+        const mails = nodemailerMock.mock.getSentMail();
+        expect(mails).toHaveLength(3);
+        for (let i = 0; i < 3; i++) {
+          expect(mails[i].to).toBe(admins[i].email);
+          expect(mails[i].template).toBe("newUserJoined");
+        }
+      },
+      { timeout: 10000 }
+    );
   });
 });
