@@ -65,34 +65,31 @@ export default (schema: Schema) => {
     await this.save();
     return media;
   }
-
-schema.methods.attachFile = async function (name: string, file: UploadedFile, attachLinkToModel = false): Promise<IMedia> {
-  const path = await Storage.putFile("public/uploads", file);
-  let media = new Media({
-    name,
-    mediableId: this._id,
-    mediableType: (this.constructor as IMediableModel).modelName,
-    mimetype: file.mimetype,
-    path,
-  });
-  const link = route("file.serve", {
-    id: media._id.toString()
-  });
-  media.link = link;
-  try {
-    await media.save();
-    if (attachLinkToModel) {
-      this[`${name}Url`] = link;
+  
+  schema.methods.attachFiles = async function (files: Record<string, UploadedFile>, attachLinkToModel?: boolean): Promise < IMedia[] > {
+    const allMedia: IMedia[] = [];
+    for (const [name, file] of Object.entries(files)) {
+      const path = await Storage.putFile("public/uploads", file);
+      const media = new Media({
+        name,
+        mediableId: this._id,
+        mediableType: (this.constructor as IMediableModel).modelName,
+        mimetype: file.mimetype,
+        path,
+      });
+      media.link = route("file.serve", {
+        id: media._id.toString()
+      });
+      await media.save();
+      this.media.push(media._id);
+      allMedia.push(media);
+      if (attachLinkToModel) {
+        this[`${name}Url`] = media.link;
+      }
     }
-    this.media.push(media._id);
     await this.save();
-  } catch (error) {
-    // Handle the error appropriately (e.g., logging, returning a custom error message)
-    console.error(error);
-    throw error;
+    return allMedia;
   }
-  return media;
-};
 
   schema.methods.getFiles = async function (name?: string): Promise < (typeof Media)[] > {
     return await Media.find({
