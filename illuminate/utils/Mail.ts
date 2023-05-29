@@ -4,35 +4,64 @@ import {
 import {
   Recipient,
   RecipientEmails,
+  MailMockedData
 } from "types";
 import Queueable from "illuminate/queue/Queueable";
 import Mailable from "illuminate/mails/Mailable";
-import { isObject } from "illuminate/guards";
-import { createTransport, Transporter, SendMailOptions, TransportOptions } from "nodemailer";
+import {
+  isObject
+} from "illuminate/guards";
+import {
+  createTransport,
+  Transporter,
+  SendMailOptions,
+  TransportOptions
+} from "nodemailer";
 import nodemailerMock from "nodemailer-mock";
-import { create as createHandlebars } from "express-handlebars";
+import {
+  create as createHandlebars
+} from "express-handlebars";
 import nodemailerHbs from "nodemailer-express-handlebars";
 
 export default class Mail {
-  static email: RecipientEmails;
-  static mailable: Mailable;
-  static transporter: Transporter<SendMailOptions>;
   static isMocked = false;
-  static dispatchAfter = 0;
+  public dispatchAfter = 0;
+  public mailable: Mailable;
+  public transporter: Transporter < SendMailOptions >;
 
-  static to(email: RecipientEmails): typeof Mail {
-    this.email = email;
-    return Mail;
+  constructor(public recipients: RecipientEmails) {
+    this.recipients = recipients;
+    this.mailable = {} as Mailable;
+    this.transporter = {} as Transporter < SendMailOptions >;
+  }
+
+  static mocked = {
+    sentMails = {
+      total: 0,
+      recipients: MailMockedData: {};
+    },
+
+    reset() {
+      Mail.mocked.sentMails = {
+        total: 0,
+        recipients: {};
+      }
+    }
+  }
+
+  static to(recipients: RecipientEmails): Mail {
+    const instance = new this(recipients);
+    return instance;
   }
 
   static mock() {
-    this.isMocked = true;
+    Mail.isMocked = true;
   }
 
-  static setTransporter(config?: TransportOptions): typeof Mail {
+  setTransporter(config?: TransportOptions): Mail {
     if (typeof config !== "undefined") {
       this.transporter = createTransport(config);
-    } else if (this.isMocked) {
+    } else if (Mail.isMocked) {
       this.transporter = nodemailerMock.createTransport({
         host: "127.0.0.1",
         port: -100,
@@ -50,7 +79,7 @@ export default class Mail {
     return this;
   }
 
-  static setTemplateEngine() {
+  setTemplateEngine(): Mail {
     const hbs = createHandlebars({
       extname: ".handlebars",
       defaultLayout: "main",
@@ -66,9 +95,45 @@ export default class Mail {
         extName: ".handlebars",
       })
     );
+    return this;
   }
 
-  static getRecipient(email: string): Recipient {
+  delay(miliseconds: number): Mail {
+    this.dispatchAfter = miliseconds;
+    return this;
+  }
+
+  async send(mailable: Mailable) {
+    if (Object.keys(this.transporter).length === 0) this.setTransporter();
+    this.setTemplateEngine();
+    this.mailable = mailable;
+    if (!Mail.isMocked && Queueable.isQueueable(mailable) && mailable.shouldQueue) {
+      const queue = mailable.createQueue();
+      queue.process(job => this.dispatch.bind(this));
+      await queue.add({}, {
+        delay: this.dispatchAfter,
+      });
+    } else await this.dispatch();
+  }
+
+  private async dispatch() {
+    if (Array.isArray(this.recipients)) {
+      const promises = [];
+      for (let email of this.recipients) {
+        email = isObject(email) ? email.email: email;
+        const sendMailPromise = this.transporter.sendMail(this.getRecipientConfig(email));
+        promises.push(sendMailPromise);
+        Mail.isMocked && this.pushMockData(email);
+      }
+      await Promise.all(promises);
+    } else {
+      const email = isObject(this.recipients) ? this.recipients.email: this.recipients;
+      await this.transporter.sendMail(this.getRecipientConfig(email));
+      Mail.isMocked && this.pushMockData(email);
+    }
+  }
+
+  private getRecipientConfig(email: string): Recipient {
     return {
       from: `${process.env.MAIL_FROM_NAME} <${process.env.MAIL_FROM_ADDRESS}>`,
       to: email,
@@ -78,37 +143,25 @@ export default class Mail {
     };
   }
 
-  static delay(miliseconds: number): typeof Mail {
-    this.dispatchAfter = miliseconds;
-    return this;
-  }
-
-  static async dispatch(){
-    if (typeof this.transporter === "undefined") this.setTransporter();
-    this.setTemplateEngine();
-    if (Array.isArray(this.email)) {
-      const promises = [];
-      for (let email of this.email) {
-        email = isObject(email) ? email.email: email;
-        const sendMailPromise = this.transporter.sendMail(this.getRecipient(email));
-        promises.push(sendMailPromise);
-      }
-      await Promise.all(promises);
+  private pushMockData(email: string) {
+    const mocked = Mail.mocked;
+    mocked.total++;
+    if (typeof mocked.recipients[email] === "undefined") {
+      const recipient: MailMockedData = {};
+      recipient[this.mailable.view] = {
+        mailable: this.mailable,
+        count: 1
+      };
+      mocked.recipients[email] = recipient;
     } else {
-      const email = isObject(this.email) ? this.email.email: this.email;
-      await this.transporter.sendMail(this.getRecipient(email));
+      if (typeof mocked.recipients[email][this.mailable.view] === "undefined") {
+        mocked.recipients[email][this.mailable.view] = {
+          mailable: this.mailable,
+          count: 1
+        }
+      } 
+      else mocked.recipients[email][this.mailable.view].count++;
     }
-  }
-
-  static async send(mailable: Mailable){
-    this.mailable = mailable;
-    if (!this.isMocked && Queueable.isQueueable(mailable) && mailable.shouldQueue) {
-      const queue = mailable.createQueue();
-      queue.process(job => this.dispatch.bind(this));
-      await queue.add({}, {
-        delay: this.dispatchAfter,
-      });
-    } 
-    else await this.dispatch();
+    Mail.mocked = mocked;
   }
 }

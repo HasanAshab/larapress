@@ -1,5 +1,6 @@
 import { ObjectSchema } from "joi";
 import FileValidator from "illuminate/utils/FileValidator";
+import Mailable from "illuminate/mails/Mailable";
 
 export type EndpointCallback = (endpoint: string, path: string) => void | Promise < void >;
 
@@ -48,3 +49,5 @@ export type ValidationSchema = {
   },
   multipart?: FileValidator
 }
+
+export type MailMockedData = Record<string, Record<string, {mailable: Mailable, count: number}>;

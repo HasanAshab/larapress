@@ -28,3 +28,127 @@ Stack: VersionError: No matching document found for id "64734310bf1355220eb5b5b8
     at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
 
 
+/api/v1/auth/register - POST - ::ffff:127.0.0.1
+Stack: VersionError: No matching document found for id "64741a82a6776b92d6026c3d" version 0 modifiedPaths "logoUrl, media"
+    at generateVersionError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:458:10)
+    at model.save (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:515:28)
+    at model.schema.methods.attachFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.ts:64:16)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:23:39)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/verify/resend - POST - ::ffff:127.0.0.1
+Stack: TypeError: this.transporter.use is not a function
+    at Mail.setTemplateEngine (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:64:22)
+    at Mail.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:94:10)
+    at Mail.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:89:21)
+    at model.schema.methods.notify (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Notifiable.ts:12:38)
+    at model.schema.methods.sendVerificationEmail (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Authenticatable.ts:41:31)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.resendEmailVerification (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:78:5)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/profile - PUT - ::ffff:127.0.0.1
+Stack: TypeError: this.transporter.use is not a function
+    at Mail.setTemplateEngine (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:64:22)
+    at Mail.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:94:10)
+    at Mail.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:89:21)
+    at model.schema.methods.notify (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Notifiable.ts:12:38)
+    at model.schema.methods.sendVerificationEmail (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Authenticatable.ts:41:31)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.updateProfile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:143:7)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/password/change - PUT - ::ffff:127.0.0.1
+Stack: TypeError: this.transporter.use is not a function
+    at Mail.setTemplateEngine (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:64:22)
+    at Mail.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:94:10)
+    at Mail.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:89:21)
+    at model.schema.methods.notify (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Notifiable.ts:12:38)
+    at Function.changePassword (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:120:16)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/password/forgot - POST - ::ffff:127.0.0.1
+Stack: TypeError: this.transporter.use is not a function
+    at Mail.setTemplateEngine (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:64:22)
+    at Mail.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:94:10)
+    at Mail.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:89:21)
+    at model.schema.methods.notify (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Notifiable.ts:12:38)
+    at model.schema.methods.sendResetPasswordEmail (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Authenticatable.ts:57:16)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.forgotPassword (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:90:7)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/register - POST - ::ffff:127.0.0.1
+Stack: VersionError: No matching document found for id "647436d0b37d5f339f7f3d30" version 0 modifiedPaths "logoUrl, media"
+    at generateVersionError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:458:10)
+    at model.save (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:515:28)
+    at model.schema.methods.attachFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.ts:64:16)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:23:39)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/verify/resend - POST - ::ffff:127.0.0.1
+Stack: TypeError: this.transporter.use is not a function
+    at Mail.setTemplateEngine (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:66:22)
+    at Mail.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:96:10)
+    at Mail.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:91:21)
+    at model.schema.methods.notify (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Notifiable.ts:12:38)
+    at model.schema.methods.sendVerificationEmail (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Authenticatable.ts:41:31)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.resendEmailVerification (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:78:5)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/profile - PUT - ::ffff:127.0.0.1
+Stack: TypeError: this.transporter.use is not a function
+    at Mail.setTemplateEngine (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:66:22)
+    at Mail.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:96:10)
+    at Mail.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:91:21)
+    at model.schema.methods.notify (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Notifiable.ts:12:38)
+    at model.schema.methods.sendVerificationEmail (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Authenticatable.ts:41:31)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.updateProfile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:143:7)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/password/change - PUT - ::ffff:127.0.0.1
+Stack: TypeError: this.transporter.use is not a function
+    at Mail.setTemplateEngine (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:66:22)
+    at Mail.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:96:10)
+    at Mail.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:91:21)
+    at model.schema.methods.notify (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Notifiable.ts:12:38)
+    at Function.changePassword (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:120:16)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/password/forgot - POST - ::ffff:127.0.0.1
+Stack: TypeError: this.transporter.use is not a function
+    at Mail.setTemplateEngine (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:66:22)
+    at Mail.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:96:10)
+    at Mail.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:91:21)
+    at model.schema.methods.notify (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Notifiable.ts:12:38)
+    at model.schema.methods.sendResetPasswordEmail (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Authenticatable.ts:57:16)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.forgotPassword (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:90:7)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/register - POST - ::ffff:127.0.0.1
+Stack: VersionError: No matching document found for id "647438cdb92f871b37b8c0a7" version 0 modifiedPaths "logoUrl, media"
+    at generateVersionError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:458:10)
+    at model.save (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:515:28)
+    at model.schema.methods.attachFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.ts:64:16)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:23:39)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
