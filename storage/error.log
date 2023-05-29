@@ -1,0 +1,30 @@
+/api/v1/auth/register - POST - ::ffff:127.0.0.1
+Stack: VersionError: No matching document found for id "64733ef7e38c876d6ae88358" version 0 modifiedPaths "logoUrl, media"
+    at generateVersionError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:458:10)
+    at model.save (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:515:28)
+    at model.schema.methods.attachFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.ts:65:16)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:23:39)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/register - POST - ::ffff:127.0.0.1
+Stack: VersionError: No matching document found for id "6473406016c0e05188fbadfd" version 0 modifiedPaths "logoUrl, media"
+    at generateVersionError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:458:10)
+    at model.save (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:515:28)
+    at model.schema.methods.attachFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.ts:65:16)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:23:39)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+
+/api/v1/auth/register - POST - ::ffff:127.0.0.1
+Stack: VersionError: No matching document found for id "64734310bf1355220eb5b5b8" version 0 modifiedPaths "logoUrl, media"
+    at generateVersionError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:458:10)
+    at model.save (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/model.js:515:28)
+    at model.schema.methods.attachFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/traits/Mediable.ts:65:16)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:23:39)
+    at constructor.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:26:16)
+
+

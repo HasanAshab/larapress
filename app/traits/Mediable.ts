@@ -17,10 +17,10 @@ import Storage from "illuminate/utils/Storage";
 
 export type IMediable = {
   media: Schema.Types.ObjectId[],
-  files(): Promise < (typeof Media)[] >,
-  attachFile(name: string, file: UploadedFile, attachLinkToModel?: boolean): Promise < typeof Media >,
-  attachFiles(files: Record < string, UploadedFile >, attachLinkToModel?: boolean): Promise < (typeof Media)[] >,
-  getFilesByName(name: string): Promise < (typeof Media)[] >,
+  files(): Promise < IMedia[] >,
+  attachFile(name: string, file: UploadedFile, attachLinkToModel?: boolean): Promise < IMedia >,
+  attachFiles(files: Record < string, UploadedFile >, attachLinkToModel?: boolean): Promise < IMedia[] >,
+  getFilesByName(name: string): Promise < IMedia[] >,
   removeFiles(name?: string): Promise < void >,
 }
 
@@ -36,14 +36,14 @@ export default (schema: Schema) => {
     }],
   });
 
-  schema.methods.files = async function (): Promise < (typeof Media)[] > {
+  schema.methods.files = async function (): Promise <IMedia[]> {
     return await Media.find({
       mediableId: this._id,
       mediableType: (this.constructor as IMediableModel).modelName,
     });
   }
 
-  schema.methods.attachFile = async function (name: string, file: UploadedFile, attachLinkToModel = false): Promise < IMedia > {
+  schema.methods.attachFile = async function (name: string, file: UploadedFile, attachLinkToModel = false): Promise <IMedia> {
     const path = await Storage.putFile("public/uploads", file);
     let media = new Media({
       name,
@@ -61,7 +61,6 @@ export default (schema: Schema) => {
       this[`${name}Url`] = link;
     }
     this.media.push(media._id);
-    this.increment();
     await this.save();
     return media;
   }

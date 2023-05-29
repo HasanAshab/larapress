@@ -14,9 +14,12 @@ global.fakeFile = (name) => {
 
 global.resetDatabase = async () => {
   const models = mongoose.modelNames();
-  for (const model of models){
-    await mongoose.model(model).deleteMany({});
-  };
+  const promises = [];
+  for (const modelName of models) {
+    const Model = mongoose.model(modelName);
+    promises.push(Model.deleteMany({}));
+  }
+  await Promise.all(promises);
 };
 
 global.waitForEmailsSent = async function(expectedCount, timeout = 100000, interval = 500) {

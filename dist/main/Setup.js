@@ -28,9 +28,10 @@ class Setup {
     ;
     static routes(app) {
         const routesRootPath = (0, helpers_1.base)("routes");
-        (0, utils_1.generateEndpointsFromDirTree)(routesRootPath, (endpoint, path) => {
+        const routesEndpointPaths = (0, utils_1.generateEndpointsFromDirTree)(routesRootPath);
+        for (const [endpoint, path] of Object.entries(routesEndpointPaths)) {
             app.use(endpoint, require(path).default);
-        });
+        }
     }
     ;
 }

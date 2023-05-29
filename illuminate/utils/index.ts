@@ -17,7 +17,8 @@ export function loadDir(dirPath: string) {
   fs.mkdirSync(normalizedPath);
 }
 
-export function generateEndpointsFromDirTree(rootPath: string, cb: EndpointCallback) {
+export function generateEndpointsFromDirTree(rootPath: string): Record<string, string> {
+  const endpointPathPair: Record<string, string> = {}
   const stack = [rootPath];
   while (stack.length > 0) {
     const currentPath = stack.pop();
@@ -31,15 +32,16 @@ export function generateEndpointsFromDirTree(rootPath: string, cb: EndpointCallb
 
       if (status.isFile()) {
         const itemPathEndpoint = itemPath
-        .replace(rootPath, "")
-        .split(".")[0]
-        .toLowerCase();
-        cb(itemPathEndpoint, itemPath);
+          .replace(rootPath, "")
+          .split(".")[0]
+          .toLowerCase();
+        endpointPathPair[itemPathEndpoint] = itemPath;
       } else if (status.isDirectory()) {
         stack.push(itemPath);
       }
     }
   }
+  return endpointPathPair;
 }
 
 

@@ -32,7 +32,7 @@ describe("Registered Event", () => {
   it("should notify admins about new user", async () => {
     const admins = await User.factory(3).create({ isAdmin: true });
     await new SendNewUserJoinedNotificationToAdmins().dispatch(user);
-    await waitForEmailsSent(3);
+    //await waitForEmailsSent(3);
     const mails = nodemailerMock.mock.getSentMail();
     expect(mails).toHaveLength(3);
     for (let i = 0; i < 3; i++) {
