@@ -45,6 +45,7 @@ export default class Mail {
         recipients: {}
       }
     }
+    
   }
 
   static to(recipients: RecipientEmails): Mail {

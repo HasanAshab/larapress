@@ -22,6 +22,7 @@ describe("Auth", () => {
     Mail.mocked.reset();
     user = await User.factory().create();
     token = user.createToken();
+    await new Promise(process.nextTick)
   });
 
   it("should register a user", async () => {
@@ -132,6 +133,7 @@ describe("Auth", () => {
 
   it("should reset password", async () => {
     const resetToken = await user.sendResetPasswordEmail();
+    Mail.mocked.reset();
     const newPassword = "new-password";
     const response = await request
       .put("/api/v1/auth/password/reset")

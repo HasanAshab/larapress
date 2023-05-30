@@ -17,6 +17,7 @@ describe("Registered Event", () => {
     Mail.mocked.reset();
     user = await User.factory().create();
   });
+  
 
   it("should send verification email", async () => {
     await new SendEmailVerificationNotification().dispatch(user);

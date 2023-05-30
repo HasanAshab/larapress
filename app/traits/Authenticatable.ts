@@ -77,7 +77,7 @@ export default (schema: Schema) => {
     this.tokenVersion++;
     const result = await this.save();
     resetToken.deleteOne().catch((err: any) => log(err));
-    this.notify(new PasswordChangedMail());
+    await this.notify(new PasswordChangedMail());
     return result;
   }
   
