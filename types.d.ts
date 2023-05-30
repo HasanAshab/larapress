@@ -50,4 +50,4 @@ export type ValidationSchema = {
   multipart?: FileValidator
 }
 
-export type MailMockedData = Record<string, Record<string, {mailable: Mailable, count: number}>;
+export type MailMockedData = Record<string, Record<string, {mailable: Mailable, count: number}>>;

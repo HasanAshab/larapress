@@ -26,25 +26,23 @@ import nodemailerHbs from "nodemailer-express-handlebars";
 export default class Mail {
   static isMocked = false;
   public dispatchAfter = 0;
-  public mailable: Mailable;
-  public transporter: Transporter < SendMailOptions >;
+  public mailable: Mailable = {} as Mailable;
+  public transporter: Transporter < SendMailOptions > = {} as Transporter < SendMailOptions >;
 
   constructor(public recipients: RecipientEmails) {
     this.recipients = recipients;
-    this.mailable = {} as Mailable;
-    this.transporter = {} as Transporter < SendMailOptions >;
   }
 
   static mocked = {
-    sentMails = {
+    data: {
       total: 0,
-      recipients: MailMockedData: {};
+      recipients: {} as MailMockedData
     },
 
     reset() {
-      Mail.mocked.sentMails = {
+      Mail.mocked.data = {
         total: 0,
-        recipients: {};
+        recipients: {}
       }
     }
   }
@@ -121,15 +119,17 @@ export default class Mail {
       const promises = [];
       for (let email of this.recipients) {
         email = isObject(email) ? email.email: email;
-        const sendMailPromise = this.transporter.sendMail(this.getRecipientConfig(email));
-        promises.push(sendMailPromise);
-        Mail.isMocked && this.pushMockData(email);
+        if(Mail.isMocked) this.pushMockData(email);
+        else{
+          const sendMailPromise = this.transporter.sendMail(this.getRecipientConfig(email));
+          promises.push(sendMailPromise);
+        }
       }
       await Promise.all(promises);
     } else {
       const email = isObject(this.recipients) ? this.recipients.email: this.recipients;
-      await this.transporter.sendMail(this.getRecipientConfig(email));
-      Mail.isMocked && this.pushMockData(email);
+      if(Mail.isMocked) this.pushMockData(email);
+      else await this.transporter.sendMail(this.getRecipientConfig(email));
     }
   }
 
@@ -144,15 +144,14 @@ export default class Mail {
   }
 
   private pushMockData(email: string) {
-    const mocked = Mail.mocked;
+    const mocked = Mail.mocked.data;
     mocked.total++;
     if (typeof mocked.recipients[email] === "undefined") {
-      const recipient: MailMockedData = {};
-      recipient[this.mailable.view] = {
+      mocked.recipients[email] = {}
+      mocked.recipients[email][this.mailable.view] = {
         mailable: this.mailable,
         count: 1
       };
-      mocked.recipients[email] = recipient;
     } else {
       if (typeof mocked.recipients[email][this.mailable.view] === "undefined") {
         mocked.recipients[email][this.mailable.view] = {
@@ -162,6 +161,6 @@ export default class Mail {
       } 
       else mocked.recipients[email][this.mailable.view].count++;
     }
-    Mail.mocked = mocked;
+    Mail.mocked.data = mocked;
   }
 }

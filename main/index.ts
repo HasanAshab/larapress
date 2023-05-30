@@ -35,3 +35,24 @@ if (nodeEnv !== "production") {
     console.log(`*New connection: [${time}]`);
   });
 }
+
+
+import Mail from "illuminate/utils/Mail";
+import VerificationMail from "app/mails/VerificationMail";
+import PasswordChangedMail from "app/mails/PasswordChangedMail";
+
+Mail.mock();
+
+Mail.to([
+  "foo1@gmail.com",
+  "foo2@gmail.com",
+  "foo3@gmail.com",
+  "foo4@gmail.com"
+]).send(new VerificationMail({link: "sj"}));
+
+Mail.to([
+  "foo1@gmail.com",
+]).send(new PasswordChangedMail);
+
+console.log(Mail.mocked.data.total)
+console.log(Mail.mocked.data.recipients["foo1@gmail.com"])
