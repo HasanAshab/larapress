@@ -7,7 +7,8 @@ const doc = require(base("docs/base"));
 
 doc.paths = {};
 const subDocRootPath = base("docs/parts");
-generateEndpointsFromDirTree(subDocRootPath, (endpoint, path) => {
+const endpointPathPair = generateEndpointsFromDirTree(subDocRootPath)
+for (const [endpoint, path] of Object.entries(endpointPathPair)){
   const pathDoc = require(path);
   for (const [method, methodDoc] of Object.entries(pathDoc)) {
     methodDoc.parameters = [];
@@ -44,6 +45,6 @@ generateEndpointsFromDirTree(subDocRootPath, (endpoint, path) => {
   }
 
   doc.paths[endpoint] = pathDoc;
-});
+};
 
 module.exports = doc;

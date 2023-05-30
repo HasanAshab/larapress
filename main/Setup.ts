@@ -8,8 +8,13 @@ import crons from "register/cron";
 
 export default class Setup {
   static cronJobs(): void {
-    for (const [command, schedule] of Object.entries(crons)) {
-      nodeCron.schedule(schedule, Artisan.getCommand(command.split(" "), false) as ((now: Date | "init" | "manual") => void));
+    for (const [schedule, commands] of Object.entries(crons)) {
+      if(Array.isArray(commands)){
+        for (const command of commands){
+          nodeCron.schedule(schedule, Artisan.getCommand(command.split(" "), false) as ((now: Date | "init" | "manual") => void));
+        }
+      }
+      else nodeCron.schedule(schedule, Artisan.getCommand(commands.split(" "), false) as ((now: Date | "init" | "manual") => void));
     }
   };
 

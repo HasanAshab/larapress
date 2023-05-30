@@ -1,5 +1,5 @@
 import { base } from "helpers";
-import { replaceWildcard, matchWildcard } from "illuminate/utils";
+import Wildcard from "illuminate/utils/Wildcard";
 import Command from "illuminate/commands/Command";
 import fs from "fs";
 import path from "path";
@@ -38,9 +38,9 @@ export default class Search extends Command {
       } else if (stat.isFile()) {
         const fileContent = fs.readFileSync(filePath, "utf-8");
         const { query, replace } = this.params;
-        if(matchWildcard(fileContent, query)){
+        if(Wildcard.match(fileContent, query)){
           if(typeof replace !== "undefined"){
-            const replacedContent = replaceWildcard(fileContent, query, replace);
+            const replacedContent = Wildcard.replace(fileContent, query, replace);
             const promise = fs.promises.writeFile(base(filePath), replacedContent);
             promises.push(promise);
           }

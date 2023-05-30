@@ -11,8 +11,14 @@ const events_1 = __importDefault(require("register/events"));
 const cron_1 = __importDefault(require("register/cron"));
 class Setup {
     static cronJobs() {
-        for (const [command, schedule] of Object.entries(cron_1.default)) {
-            node_cron_1.default.schedule(schedule, Artisan_1.default.getCommand(command.split(" "), false));
+        for (const [schedule, commands] of Object.entries(cron_1.default)) {
+            if (Array.isArray(commands)) {
+                for (const command of commands) {
+                    node_cron_1.default.schedule(schedule, Artisan_1.default.getCommand(command.split(" "), false));
+                }
+            }
+            else
+                node_cron_1.default.schedule(schedule, Artisan_1.default.getCommand(commands.split(" "), false));
         }
     }
     ;
