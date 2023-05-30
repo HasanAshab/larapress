@@ -6,7 +6,6 @@ const bcrypt = require("bcryptjs");
 const Storage = require("illuminate/utils/Storage").default;
 const Mail = require("illuminate/utils/Mail").default;
 const User = require("app/models/User").default;
-const nodemailerMock = require("nodemailer-mock");
 const events = require("events");
 
 describe("Auth", () => {
@@ -20,7 +19,7 @@ describe("Auth", () => {
   
   beforeEach(async () => {
     await resetDatabase();
-    nodemailerMock.mock.reset();
+    Mail.mocked.reset();
     user = await User.factory().create();
     token = user.createToken();
   });
@@ -68,10 +67,9 @@ describe("Auth", () => {
       .post("/api/v1/auth/verify/resend")
       .set("Authorization", `Bearer ${token}`);
     expect(response.statusCode).toBe(200);
-    const sentMails = nodemailerMock.mock.sentMail();
-    expect(sentMails).toHaveLength(1);
-    expect(sentMails[0].to).toBe(user.email);
-    expect(sentMails[0].template).toBe("verification");
+    const { total, recipients } = Mail.mocked.data;
+    expect(total).toBe(1);
+    expect(recipients).toHaveProperty([user.email, "verification"]);
   });
 
   it("should get user details", async () => {
@@ -97,10 +95,9 @@ describe("Auth", () => {
     expect(response.statusCode).toBe(200);
     expect(user.name).toBe(newUserData.name);
     expect(user.email).toBe(newUserData.email);
-    const sentMails = nodemailerMock.mock.sentMail();
-    expect(sentMails).toHaveLength(1);
-    expect(sentMails[0].to).toBe(newUserData.email);
-    expect(sentMails[0].template).toBe("verification");
+    const { total, recipients } = Mail.mocked.data;
+    expect(total).toBe(1);
+    expect(recipients).toHaveProperty([user.email, "verification"]);
   });
 
   it("should change password", async () => {
@@ -118,10 +115,9 @@ describe("Auth", () => {
     const passwordMatch = await bcrypt.compare(passwords.new, user.password);
     expect(response.statusCode).toBe(200);
     expect(passwordMatch).toBe(true);
-    const sentMails = nodemailerMock.mock.sentMail();
-    expect(sentMails).toHaveLength(1);
-    expect(sentMails[0].to).toBe(user.email);
-    expect(sentMails[0].template).toBe("passwordChanged");
+    const { total, recipients } = Mail.mocked.data;
+    expect(total).toBe(1);
+    expect(recipients).toHaveProperty([user.email, "passwordChanged"]);
   });
 
   it("forgoting password should sent reset email", async () => {
@@ -129,15 +125,13 @@ describe("Auth", () => {
       .post("/api/v1/auth/password/forgot")
       .field("email", user.email);
     expect(response.statusCode).toBe(200);
-    const sentMails = nodemailerMock.mock.sentMail();
-    expect(sentMails).toHaveLength(1);
-    expect(sentMails[0].to).toBe(user.email);
-    expect(sentMails[0].template).toBe("forgotPassword");
+    const { total, recipients } = Mail.mocked.data;
+    expect(total).toBe(1);
+    expect(recipients).toHaveProperty([user.email, "forgotPassword"]);
   });
 
   it("should reset password", async () => {
     const resetToken = await user.sendResetPasswordEmail();
-    nodemailerMock.mock.reset();
     const newPassword = "new-password";
     const response = await request
       .put("/api/v1/auth/password/reset")
@@ -149,9 +143,8 @@ describe("Auth", () => {
     const passwordMatch = await bcrypt.compare(newPassword, user.password);
     expect(response.statusCode).toBe(200);
     expect(passwordMatch).toBe(true);
-    const sentMails = nodemailerMock.mock.sentMail();
-    expect(sentMails).toHaveLength(1);
-    expect(sentMails[0].to).toBe(user.email);
-    expect(sentMails[0].template).toBe("passwordChanged");
+    const { total, recipients } = Mail.mocked.data;
+    expect(total).toBe(1);
+    expect(recipients).toHaveProperty([user.email, "passwordChanged"]);
   });
 });
