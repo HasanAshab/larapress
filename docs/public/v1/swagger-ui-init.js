@@ -11,16 +11,16 @@ window.onload = function() {
   "swaggerDoc": {
     "swagger": "2.0",
     "info": {
-      "version": "0.6.0",
-      "title": "SamerBlog API Docs"
+      "title": "SamerBlog API Docs",
+      "version": "v1"
     },
     "host": "http://127.0.0.1:8000",
-    "basePath": "/api",
+    "basePath": "/api/v1",
     "schemes": [
       "http"
     ],
     "paths": {
-      "/v1/auth/login": {
+      "/auth/login": {
         "post": {
           "summary": "Login a User",
           "description": "Returns api token if credentials match",
@@ -64,7 +64,7 @@ window.onload = function() {
           ]
         }
       },
-      "/v1/auth/profile": {
+      "/auth/profile": {
         "get": {
           "summary": "Get user details",
           "description": "need bearer token",
@@ -106,7 +106,7 @@ window.onload = function() {
           "parameters": []
         }
       },
-      "/v1/auth/register": {
+      "/auth/register": {
         "post": {
           "summary": "Sign-up a User",
           "description": "Returns api token and verification email will be sent to user",
@@ -162,7 +162,7 @@ window.onload = function() {
             {
               "name": "logo",
               "in": "formData",
-              "type": "image/jpeg || image/png",
+              "type": "image/jpeg, image/png",
               "required": false
             }
           ],
@@ -171,7 +171,7 @@ window.onload = function() {
           ]
         }
       },
-      "/v1/auth/verify": {
+      "/auth/verify": {
         "get": {
           "summary": "Verify User account",
           "description": "Generally this endpoint will sent to user email with a token. user can use the token here to verify their account. After verification they will redirect to Frontend app",
@@ -207,7 +207,7 @@ window.onload = function() {
           ]
         }
       },
-      "/v1/auth/verify/resend": {
+      "/auth/verify/resend": {
         "get": {
           "summary": "Resend account verification email",
           "description": "need bearer token",
@@ -229,7 +229,7 @@ window.onload = function() {
           "parameters": []
         }
       },
-      "/v1/auth/password/change": {
+      "/auth/password/change": {
         "put": {
           "summary": "Change password",
           "description": "need bearer token",
@@ -265,7 +265,7 @@ window.onload = function() {
           ]
         }
       },
-      "/v1/auth/password/forgot": {
+      "/auth/password/forgot": {
         "post": {
           "summary": "Forgot password",
           "description": "This will sent an password reset email if user is exist on the app",
@@ -295,7 +295,7 @@ window.onload = function() {
           ]
         }
       },
-      "/v1/auth/password/reset": {
+      "/auth/password/reset": {
         "put": {
           "summary": "Reset password",
           "validationPath": "Auth/ResetPassword",
