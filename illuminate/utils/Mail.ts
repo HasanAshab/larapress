@@ -32,6 +32,10 @@ export default class Mail {
   constructor(public recipients: RecipientEmails) {
     this.recipients = recipients;
   }
+  
+  static mock() {
+    Mail.isMocked = true;
+  }
 
   static mocked = {
     data: {
@@ -45,16 +49,32 @@ export default class Mail {
         recipients: {}
       }
     }
-    
+  }
+  
+  private pushMockData(email: string) {
+    const mocked = Mail.mocked.data;
+    mocked.total++;
+    if (typeof mocked.recipients[email] === "undefined") {
+      mocked.recipients[email] = {}
+      mocked.recipients[email][this.mailable.view] = {
+        mailable: this.mailable,
+        count: 1
+      };
+    } else {
+      if (typeof mocked.recipients[email][this.mailable.view] === "undefined") {
+        mocked.recipients[email][this.mailable.view] = {
+          mailable: this.mailable,
+          count: 1
+        }
+      } 
+      else mocked.recipients[email][this.mailable.view].count++;
+    }
+    Mail.mocked.data = mocked;
   }
 
   static to(recipients: RecipientEmails): Mail {
     const instance = new this(recipients);
     return instance;
-  }
-
-  static mock() {
-    Mail.isMocked = true;
   }
 
   setTransporter(config?: TransportOptions): Mail {
@@ -142,26 +162,5 @@ export default class Mail {
       template: this.mailable.view,
       context: this.mailable.data,
     };
-  }
-
-  private pushMockData(email: string) {
-    const mocked = Mail.mocked.data;
-    mocked.total++;
-    if (typeof mocked.recipients[email] === "undefined") {
-      mocked.recipients[email] = {}
-      mocked.recipients[email][this.mailable.view] = {
-        mailable: this.mailable,
-        count: 1
-      };
-    } else {
-      if (typeof mocked.recipients[email][this.mailable.view] === "undefined") {
-        mocked.recipients[email][this.mailable.view] = {
-          mailable: this.mailable,
-          count: 1
-        }
-      } 
-      else mocked.recipients[email][this.mailable.view].count++;
-    }
-    Mail.mocked.data = mocked;
   }
 }

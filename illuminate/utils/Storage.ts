@@ -11,10 +11,29 @@ export default class Storage {
     this.isMocked = true;
   }
   
+  static mocked = {
+    data: {
+      total: 0,
+      files: {} as Record<string, UploadedFile>
+    },
+    reset(){
+      Storage.mocked.data = {
+        total: 0,
+        files: {}
+      }
+    }
+  }
+  
+  static pushMockData(file: UploadedFile){
+    this.mocked.data.total++;
+    this.mocked.data.files[file.name] = file;
+  }
+  
   static async putFile(storage_path: string, file: UploadedFile): Promise<string>{
     const hash = this.hashFileName(file.name);
     const filePath = path.join(storage(storage_path), hash);
-    if (!this.isMocked) await fs.writeFile(filePath, file.data);
+    if (this.isMocked) this.pushMockData(file);
+    else await fs.writeFile(filePath, file.data);
     return filePath;
   };
 

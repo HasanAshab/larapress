@@ -20,6 +20,7 @@ describe("Auth", () => {
   beforeEach(async () => {
     await resetDatabase();
     Mail.mocked.reset();
+    Storage.mocked.reset();
     user = await User.factory().create();
     token = user.createToken();
     await new Promise(process.nextTick)
@@ -93,6 +94,8 @@ describe("Auth", () => {
       .field("email", newUserData.email)
       .attach("logo", fakeFile("image.png"));
     user = await User.findById(user._id);
+    
+  console.log(Storage.mocked.data)
     expect(response.statusCode).toBe(200);
     expect(user.name).toBe(newUserData.name);
     expect(user.email).toBe(newUserData.email);
