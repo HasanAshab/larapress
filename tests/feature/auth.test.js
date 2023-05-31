@@ -38,6 +38,9 @@ describe("Auth", () => {
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
     const emitter = new events.EventEmitter();
+    const { total: totalFile, files } = Storage.mocked.data;
+    expect(totalFile).toBe(1);
+    expect(files).toHaveProperty(["image.png"]);
     emitter.on("Registered", (user) => {
       expect(user.email).toEqual(dummyUser.email);
       done();
@@ -94,14 +97,16 @@ describe("Auth", () => {
       .field("email", newUserData.email)
       .attach("logo", fakeFile("image.png"));
     user = await User.findById(user._id);
-    
-  console.log(Storage.mocked.data)
     expect(response.statusCode).toBe(200);
     expect(user.name).toBe(newUserData.name);
     expect(user.email).toBe(newUserData.email);
-    const { total, recipients } = Mail.mocked.data;
-    expect(total).toBe(1);
+    const { total: totalMail, recipients } = Mail.mocked.data;
+    expect(totalMail).toBe(1);
     expect(recipients).toHaveProperty([user.email, "verification"]);
+ 
+    const { total: totalFile, files } = Storage.mocked.data;
+    expect(totalFile).toBe(1);
+    expect(files).toHaveProperty(["image.png"]);
   });
 
   it("should change password", async () => {
