@@ -3,14 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getParams = exports.checkProperties = exports.localVersion = exports.log = exports.setEnv = exports.controller = exports.middleware = exports.storage = exports.route = exports.clientUrl = exports.url = exports.capitalizeFirstLetter = exports.base = void 0;
+exports.getParams = exports.checkProperties = exports.getVersion = exports.log = exports.setEnv = exports.controller = exports.middleware = exports.storage = exports.route = exports.clientUrl = exports.url = exports.capitalizeFirstLetter = exports.base = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const urls_1 = __importDefault(require("register/urls"));
 const middlewares_1 = __importDefault(require("register/middlewares"));
 function base(base_path = "") {
-    return path_1.default.resolve(base_path);
+    return path_1.default.join(__dirname, base_path);
 }
 exports.base = base;
 function capitalizeFirstLetter(str) {
@@ -60,7 +60,7 @@ function middleware(keys, version) {
     function getMiddleware(middlewarePath, options = []) {
         const fullPath = middlewarePath.startsWith("<global>")
             ? middlewarePath.replace("<global>", "illuminate/middlewares/global")
-            : `app/http/${version !== null && version !== void 0 ? version : localVersion()}/middlewares/${middlewarePath}`;
+            : `app/http/${version !== null && version !== void 0 ? version : getVersion()}/middlewares/${middlewarePath}`;
         const MiddlewareClass = require(path_1.default.resolve(fullPath)).default;
         const middlewareInstance = new MiddlewareClass(options);
         const handler = middlewareInstance.handle.bind(middlewareInstance);
@@ -101,7 +101,7 @@ function middleware(keys, version) {
 }
 exports.middleware = middleware;
 function controller(name, version) {
-    version = version !== null && version !== void 0 ? version : localVersion();
+    version = version !== null && version !== void 0 ? version : getVersion();
     const controllerPath = path_1.default.resolve(path_1.default.join(`app/http/${version}/controllers`, name));
     const controllerClass = require(controllerPath).default;
     const controllerInstance = new controllerClass;
@@ -144,18 +144,24 @@ function log(data) {
     });
 }
 exports.log = log;
-function localVersion() {
-    const error = new Error();
-    const stackTrace = error.stack;
-    if (!stackTrace)
-        throw new Error("Failed to auto infer local version!");
+function getVersion(path) {
+    let target;
+    if (typeof path === "undefined") {
+        const error = new Error();
+        const stackTrace = error.stack;
+        if (!stackTrace)
+            throw new Error("Failed to auto infer version. try to pass target path!");
+        target = stackTrace;
+    }
+    else
+        target = path;
     const regex = /\/(v\d+)\//;
-    const match = stackTrace.match(regex);
+    const match = target.match(regex);
     if (!match)
         throw new Error('This path is not a nested versional path!');
     return match[1];
 }
-exports.localVersion = localVersion;
+exports.getVersion = getVersion;
 function checkProperties(obj, properties) {
     for (const [name, type] of Object.entries(properties)) {
         if (!(name in obj && typeof obj[name] === type)) {

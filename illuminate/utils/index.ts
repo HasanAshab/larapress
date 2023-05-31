@@ -11,9 +11,8 @@ export function loadDir(dirPath: string) {
     dir,
     base
   } = path.parse(normalizedPath);
-  console.log(dir)
   if (!fs.existsSync(dir)) {
-    //loadDir(dir);
+    loadDir(dir);
   }
   fs.mkdirSync(normalizedPath);
 }

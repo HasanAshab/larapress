@@ -1,8 +1,8 @@
 module.exports = {
-  put: {
-    summary: "Change password",
-    description: "need bearer token",
-    validationPath: base('app/http/validations/Auth/ChangePassword'),
+  post: {
+    summary: "Forgot password",
+    description: "This will sent an password reset email if user is exist on the app",
+    validationPath: 'Auth/ForgotPassword',
     responses: {
       200: {
         schema: {

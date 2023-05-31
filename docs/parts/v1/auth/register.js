@@ -1,10 +1,11 @@
 module.exports = {
   post: {
-    summary: "Login a User",
-    description: "Returns api token if credentials match",
-    validationPath: base("app/http/validations/Auth/Login"),
+    summary: "Sign-up a User",
+    description:
+      "Returns api token and verification email will be sent to user",
+    validationPath: "Auth/Register",
     responses: {
-      200: {
+      201: {
         schema: {
           type: "object",
           properties: {

@@ -8,7 +8,7 @@ import urls from "register/urls";
 import middlewarePairs from "register/middlewares";
 
 export function base(base_path: string = ""): string {
-  return path.resolve(base_path);
+  return path.join(__dirname, base_path);
 }
 
 export function capitalizeFirstLetter(str: string): string {
@@ -56,7 +56,7 @@ export function middleware(keys: string | string[], version?: string): RequestHa
   function getMiddleware(middlewarePath: string, options: string[] = []) {
     const fullPath = middlewarePath.startsWith("<global>")
       ?middlewarePath.replace("<global>", "illuminate/middlewares/global")
-      :`app/http/${version ?? localVersion()}/middlewares/${middlewarePath}`;
+      :`app/http/${version ?? getVersion()}/middlewares/${middlewarePath}`;
     const MiddlewareClass = require(path.resolve(fullPath)).default;
     const middlewareInstance = new MiddlewareClass(options);
     const handler = middlewareInstance.handle.bind(middlewareInstance);
@@ -100,7 +100,7 @@ export function middleware(keys: string | string[], version?: string): RequestHa
 
 
 export function controller(name: string, version?: string): Record<string, RequestHandler | RequestHandler[]> {
-  version = version ?? localVersion();
+  version = version ?? getVersion();
   const controllerPath = path.resolve(path.join(`app/http/${version}/controllers`, name));
   const controllerClass = require(controllerPath).default;
   const controllerInstance = new controllerClass;
@@ -144,12 +144,17 @@ export function log(data: any): void {
 }
 
 
-export function localVersion(): string {
-  const error = new Error();
-  const stackTrace = error.stack;
-  if(!stackTrace) throw new Error("Failed to auto infer local version!");
+export function getVersion(path?: string): string {
+  let target: string;
+  if(typeof path === "undefined"){
+    const error = new Error();
+    const stackTrace = error.stack;
+    if(!stackTrace) throw new Error("Failed to auto infer version. try to pass target path!");
+    target = stackTrace
+  }
+  else target = path;
   const regex = /\/(v\d+)\//;
-  const match = stackTrace.match(regex);
+  const match = target.match(regex);
   if(!match) throw new Error('This path is not a nested versional path!');
   return match[1];
 }

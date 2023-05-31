@@ -12,12 +12,12 @@ const nodeEnv = process.env.NODE_ENV;
 if (connectToDB === "true") {
   console.log("Connecting to database...");
   DB.connect()
-    .then(() => {
-      console.log("done!");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  .then(() => {
+    console.log("done!");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 }
 
 // Registering all Cron Jobs
@@ -31,28 +31,49 @@ const server = app.listen(port, () => {
 if (nodeEnv !== "production") {
   server.on("connection", (socket) => {
     const now = new Date();
-    const time = now.toLocaleTimeString("en-US", { hour12: true });
+    const time = now.toLocaleTimeString("en-US", {
+      hour12: true
+    });
     console.log(`*New connection: [${time}]`);
   });
 }
 
 
-import Mail from "illuminate/utils/Mail";
-import VerificationMail from "app/mails/VerificationMail";
-import PasswordChangedMail from "app/mails/PasswordChangedMail";
 
-Mail.mock();
 
-Mail.to([
-  "foo1@gmail.com",
-  "foo2@gmail.com",
-  "foo3@gmail.com",
-  "foo4@gmail.com"
-]).send(new VerificationMail({link: "sj"}));
+import { base } from "helpers"
+import { generateEndpointsFromDirTree } from "illuminate/utils";
+import path from "path";
+import fs from "fs";
 
-Mail.to([
-  "foo1@gmail.com",
-]).send(new PasswordChangedMail);
+function getEndpoints(): string[] {
+  const routeURLs: string[] = [];
+  const routesBasePath = base("routes");
+  const baseEndpoints = generateEndpointsFromDirTree(routesBasePath);
+  /*
+  const apiBasePath = base("routes/api");
+  const versions = fs.readdirSync(apiBasePath)
+  for (const version of versions){
+    const routerPath = path.join(apiBasePath, version);
+    const routersName = fs.readdirSync(routerPath);
+    for(const routerName of routersName){
+      const router = require(path.join(routerPath, routerName)).default;
+      */
+  for (const [baseEndpoint, routerPath] of Object.entries(baseEndpoints)){
+    const router = require(routerPath).default;
+      router.stack.forEach((middleware) => {
+        if (middleware.route) {
+          routeURLs.push(`${Object.keys(middleware.route.methods)} - ${baseEndpoint}${middleware.route.path}`);
+        } else if (middleware.name === 'router') {
+          middleware.handle.stack.forEach((handler) => {
+            const route = handler.route;
+            routeURLs.push(`${Object.keys(route.methods)} - ${route.path}`);
+          });
+        }
+      });
+  }
+  return routeURLs;
+}
 
-console.log(Mail.mocked.data.total)
-console.log(Mail.mocked.data.recipients["foo1@gmail.com"])
+// Print all route URLs
+console.log(getEndpoints());

@@ -1,8 +1,7 @@
 module.exports = {
-  post: {
-    summary: "Forgot password",
-    description: "This will sent an password reset email if user is exist on the app",
-    validationPath: base('app/http/validations/Auth/ForgotPassword'),
+  put: {
+    summary: "Reset password",
+    validationPath: 'Auth/ResetPassword',
     responses: {
       200: {
         schema: {

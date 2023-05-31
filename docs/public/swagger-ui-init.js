@@ -20,11 +20,11 @@ window.onload = function() {
       "http"
     ],
     "paths": {
-      "/auth/login": {
+      "/v1/auth/login": {
         "post": {
           "summary": "Login a User",
           "description": "Returns api token if credentials match",
-          "validationPath": "/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/validations/Auth/Login",
+          "validationPath": "Auth/Login",
           "responses": {
             "200": {
               "schema": {
@@ -48,10 +48,23 @@ window.onload = function() {
               }
             }
           },
-          "parameters": []
+          "parameters": [
+            {
+              "name": "email",
+              "in": "body",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "password",
+              "in": "body",
+              "type": "string",
+              "required": true
+            }
+          ]
         }
       },
-      "/auth/profile": {
+      "/v1/auth/profile": {
         "get": {
           "summary": "Get user details",
           "description": "need bearer token",
@@ -93,11 +106,11 @@ window.onload = function() {
           "parameters": []
         }
       },
-      "/auth/register": {
+      "/v1/auth/register": {
         "post": {
           "summary": "Sign-up a User",
           "description": "Returns api token and verification email will be sent to user",
-          "validationPath": "/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/validations/Auth/Register",
+          "validationPath": "Auth/Register",
           "responses": {
             "201": {
               "schema": {
@@ -121,14 +134,48 @@ window.onload = function() {
               }
             }
           },
-          "parameters": []
+          "parameters": [
+            {
+              "name": "name",
+              "in": "body",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "email",
+              "in": "body",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "password",
+              "in": "body",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "password_confirmation",
+              "in": "body",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "logo",
+              "in": "formData",
+              "type": "image/jpeg || image/png",
+              "required": false
+            }
+          ],
+          "consumes": [
+            "multipart/form-data"
+          ]
         }
       },
-      "/auth/verify": {
+      "/v1/auth/verify": {
         "get": {
           "summary": "Verify User account",
           "description": "Generally this endpoint will sent to user email with a token. user can use the token here to verify their account. After verification they will redirect to Frontend app",
-          "validationPath": "/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/validations/Auth/VerifyEmail",
+          "validationPath": "Auth/VerifyEmail",
           "responses": {
             "200": {
               "schema": {
@@ -144,10 +191,23 @@ window.onload = function() {
               }
             }
           },
-          "parameters": []
+          "parameters": [
+            {
+              "name": "id",
+              "in": "query",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "token",
+              "in": "query",
+              "type": "string",
+              "required": true
+            }
+          ]
         }
       },
-      "/auth/verify/resend": {
+      "/v1/auth/verify/resend": {
         "get": {
           "summary": "Resend account verification email",
           "description": "need bearer token",
@@ -169,11 +229,11 @@ window.onload = function() {
           "parameters": []
         }
       },
-      "/auth/password/change": {
+      "/v1/auth/password/change": {
         "put": {
           "summary": "Change password",
           "description": "need bearer token",
-          "validationPath": "/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/validations/Auth/ChangePassword",
+          "validationPath": "Auth/ChangePassword",
           "responses": {
             "200": {
               "schema": {
@@ -189,14 +249,27 @@ window.onload = function() {
               }
             }
           },
-          "parameters": []
+          "parameters": [
+            {
+              "name": "old_password",
+              "in": "body",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "password",
+              "in": "body",
+              "type": "string",
+              "required": true
+            }
+          ]
         }
       },
-      "/auth/password/forgot": {
+      "/v1/auth/password/forgot": {
         "post": {
           "summary": "Forgot password",
           "description": "This will sent an password reset email if user is exist on the app",
-          "validationPath": "/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/validations/Auth/ForgotPassword",
+          "validationPath": "Auth/ForgotPassword",
           "responses": {
             "200": {
               "schema": {
@@ -212,13 +285,20 @@ window.onload = function() {
               }
             }
           },
-          "parameters": []
+          "parameters": [
+            {
+              "name": "email",
+              "in": "body",
+              "type": "string",
+              "required": true
+            }
+          ]
         }
       },
-      "/auth/password/reset": {
+      "/v1/auth/password/reset": {
         "put": {
           "summary": "Reset password",
-          "validationPath": "/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/validations/Auth/ResetPassword",
+          "validationPath": "Auth/ResetPassword",
           "responses": {
             "200": {
               "schema": {
@@ -234,7 +314,26 @@ window.onload = function() {
               }
             }
           },
-          "parameters": []
+          "parameters": [
+            {
+              "name": "id",
+              "in": "body",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "password",
+              "in": "body",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "token",
+              "in": "body",
+              "type": "string",
+              "required": true
+            }
+          ]
         }
       }
     }

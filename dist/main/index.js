@@ -30,22 +30,42 @@ const server = app_1.default.listen(port, () => {
 if (nodeEnv !== "production") {
     server.on("connection", (socket) => {
         const now = new Date();
-        const time = now.toLocaleTimeString("en-US", { hour12: true });
+        const time = now.toLocaleTimeString("en-US", {
+            hour12: true
+        });
         console.log(`*New connection: [${time}]`);
     });
 }
-const Mail_1 = __importDefault(require("illuminate/utils/Mail"));
-const VerificationMail_1 = __importDefault(require("app/mails/VerificationMail"));
-const PasswordChangedMail_1 = __importDefault(require("app/mails/PasswordChangedMail"));
-Mail_1.default.mock();
-Mail_1.default.to([
-    "foo1@gmail.com",
-    "foo2@gmail.com",
-    "foo3@gmail.com",
-    "foo4@gmail.com"
-]).send(new VerificationMail_1.default({ link: "sj" }));
-Mail_1.default.to([
-    "foo1@gmail.com",
-]).send(new PasswordChangedMail_1.default);
-console.log(Mail_1.default.mocked.data.total);
-console.log(Mail_1.default.mocked.data.recipients["foo1@gmail.com"]);
+const helpers_1 = require("helpers");
+const utils_1 = require("illuminate/utils");
+function getEndpoints() {
+    const routeURLs = [];
+    const routesBasePath = (0, helpers_1.base)("routes");
+    const baseEndpoints = (0, utils_1.generateEndpointsFromDirTree)(routesBasePath);
+    /*
+    const apiBasePath = base("routes/api");
+    const versions = fs.readdirSync(apiBasePath)
+    for (const version of versions){
+      const routerPath = path.join(apiBasePath, version);
+      const routersName = fs.readdirSync(routerPath);
+      for(const routerName of routersName){
+        const router = require(path.join(routerPath, routerName)).default;
+        */
+    for (const [baseEndpoint, routerPath] of Object.entries(baseEndpoints)) {
+        const router = require(routerPath).default;
+        router.stack.forEach((middleware) => {
+            if (middleware.route) {
+                routeURLs.push(`${Object.keys(middleware.route.methods)} - ${baseEndpoint}${middleware.route.path}`);
+            }
+            else if (middleware.name === 'router') {
+                middleware.handle.stack.forEach((handler) => {
+                    const route = handler.route;
+                    routeURLs.push(`${Object.keys(route.methods)} - ${route.path}`);
+                });
+            }
+        });
+    }
+    return routeURLs;
+}
+// Print all route URLs
+console.log(getEndpoints());
