@@ -79,13 +79,13 @@ export default (schema: Schema) => {
       media.link = route("file.serve", {
         id: media._id.toString()
       });
-      await media.save();
       this.media.push(media._id);
       allMedia.push(media);
       if (attachLinkToModel) {
         this[`${name}Url`] = media.link;
       }
     }
+    await Media.insertMany(allMedia);
     await this.save();
     return allMedia;
   }
