@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getParams = exports.checkProperties = exports.getVersion = exports.log = exports.setEnv = exports.controller = exports.middleware = exports.storage = exports.route = exports.clientUrl = exports.url = exports.capitalizeFirstLetter = exports.base = void 0;
+exports.getParams = exports.getModels = exports.checkProperties = exports.getVersion = exports.log = exports.setEnv = exports.controller = exports.middleware = exports.storage = exports.route = exports.clientUrl = exports.url = exports.capitalizeFirstLetter = exports.base = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
@@ -171,6 +171,16 @@ function checkProperties(obj, properties) {
     return true;
 }
 exports.checkProperties = checkProperties;
+async function getModels() {
+    const models = [];
+    const modelNames = await fs_1.default.promises.readdir(base("app/models"));
+    for (const modelName of modelNames) {
+        const Model = require(base(`app/models/${modelName}`)).default;
+        models.push(Model);
+    }
+    return models;
+}
+exports.getModels = getModels;
 function getParams(func) {
     let str = func.toString();
     str = str.replace(/\/\*[\s\S]*?\*\//g, "")

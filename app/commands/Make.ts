@@ -50,9 +50,20 @@ export default class Make extends Command {
   }
 
   _getTemplate(name: string): string {
-    const path = this.flags.length === 1
-    ? base(`illuminate/templates/${this.subCommand}/${this.flags[0]}`): base(`illuminate/templates/${this.subCommand}`);
-    return fs.readFileSync(path, "utf-8").replace(/{{name}}/g, name);
+    let path = base(`illuminate/templates/${this.subCommand}`);
+    const templateDistination = components[this.componentName];
+    if (typeof templateDistination !== "string"){
+      path += (this.flags.length > 0)
+        ?'/' + this.flags[0]
+        :'/' + templateDistination.default;
+    }
+    try {
+      return fs.readFileSync(path, "utf-8").replace(/{{name}}/g, name);
+    }
+    catch {
+      this.error("Component not found!");
+      return "";
+    }
   }
 
   _getPath(parentPath: string, name: string): string {

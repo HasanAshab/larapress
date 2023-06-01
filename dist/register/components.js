@@ -14,8 +14,8 @@ const components = {
     "command": "app/commands/{{name}}.ts",
     "test": {
         "default": "f",
-        "f": "tests/feature/{{name}}.test.ts",
-        "u": "tests/unit/{{name}}.test.ts"
+        "f": "tests/feature/{{name}}.test.js",
+        "u": "tests/unit/{{name}}.test.js"
     },
     "router": "routes/{{name}}.ts"
 };

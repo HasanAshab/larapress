@@ -6,7 +6,7 @@ const commands = {
     test: "Test",
     secret: "GenerateSecret",
     doc: "GenerateDoc",
-    seed: "Seed",
+    db: "DB",
     search: "Search",
 };
 exports.default = commands;

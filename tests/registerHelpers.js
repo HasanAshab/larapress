@@ -2,7 +2,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const path = require("path");
 const nodemailerMock = require("nodemailer-mock");
-const { clearDatabase } = require("illuminate/utils")
+const Artisan = require("illuminate/utils/Artisan")
 
 global.base = (base_path = "") => {
   return path.join(path.join(__dirname, "../dist"), base_path);
@@ -13,7 +13,7 @@ global.fakeFile = (name) => {
 };
 
 global.resetDatabase = async () => {
-  await clearDatabase();
+  await Artisan.call(["db:wipe"], false);
 };
 
 global.waitForEmailsSent = async function (

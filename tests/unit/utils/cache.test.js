@@ -2,7 +2,7 @@ const app = require(base("main/app"));
 const DB = require(base("illuminate/utils/DB"));
 
 
-describe("{{name}}", () => {
+describe("cache", () => {
   beforeEach(async () => {
     //await resetDatabase();
   })

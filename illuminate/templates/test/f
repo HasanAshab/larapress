@@ -4,20 +4,9 @@ const DB = require(base("illuminate/utils/DB"));
 const request = supertest(app);
 
 describe("{{name}}", () => {
-  
-/*
-  beforeAll(async () => {
-    await DB.connect();
-  });
-
-  afterAll(async () => {
-    await DB.disconnect();
-  });
-
   beforeEach(async () => {
-    await resetDatabase();
+    //await resetDatabase();
   })
-*/
 
   it("Should work", async () => {
     const response = await request.get("/");

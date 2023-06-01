@@ -7,8 +7,8 @@ const helpers_1 = require("helpers");
 const commands_1 = __importDefault(require("register/commands"));
 const ArtisanError_1 = __importDefault(require("illuminate/exceptions/utils/ArtisanError"));
 class Artisan {
-    static call(args, fromShell = true) {
-        this.getCommand(args, fromShell)();
+    static async call(args, fromShell = true) {
+        await this.getCommand(args, fromShell)();
     }
     static getCommand(args, fromShell = false) {
         var _a;

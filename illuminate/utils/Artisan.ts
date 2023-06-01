@@ -5,8 +5,8 @@ import commands from "register/commands";
 import ArtisanError from "illuminate/exceptions/utils/ArtisanError";
 
 export default class Artisan {
-  static call(args: string[], fromShell = true) {
-    this.getCommand(args, fromShell)();
+  static async call(args: string[], fromShell = true) {
+    await this.getCommand(args, fromShell)();
   }
 
   static getCommand(args: string[], fromShell = false): Function {

@@ -12,7 +12,7 @@
     "strict": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": false
   },
   "exclude": ["node_modules", "artisan.ts", "dist"]
 }

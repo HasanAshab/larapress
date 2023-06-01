@@ -169,6 +169,16 @@ export function checkProperties(obj: any, properties: Record < string, string >)
   return true;
 }
 
+export async function getModels(): Promise<object[]> {
+  const models: object[] = []
+  const modelNames = await fs.promises.readdir(base("app/models"));
+  for(const modelName of modelNames){
+    const Model = require(base(`app/models/${modelName}`)).default;
+    models.push(Model);
+  }
+  return models;
+}
+
 export function getParams(func: Function): string[] {
   let str = func.toString();
   str = str.replace(/\/\*[\s\S]*?\*\//g,

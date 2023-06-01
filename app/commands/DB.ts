@@ -1,18 +1,30 @@
-import { base } from "helpers";
+import { base, getModels } from "helpers";
 import Command from "illuminate/commands/Command";
 import mongoose from "mongoose";
 import fs from "fs";
-import DB from "illuminate/utils/DB";
+import Database from "illuminate/utils/DB";
 import { clearDatabase } from "illuminate/utils";
 
 export default class DB extends Command {
   async wipe(){
     const { model } = this.params;
     this.info("Connecting to database...");
-    await DB.connect();
-    if (typeof model === "undefined") this.info("Clearing Database...")
-    else this.info(`Clearing Model ${model}...`)
-    await clearDatabase(model);
+    await Database.connect();
+    
+    if (typeof model === "undefined") {
+      this.info("Clearing Database...")
+      const models = await getModels();
+      const promises = [];
+      for (const Model of models){
+        promises.push(Model.deleteMany({}));
+      }
+      await Promise.all(promises);
+    }
+    else {
+      this.info(`Clearing Model ${model}...`)
+      const Model = require(base(`app/models/${model}`)).default;
+      await Model.deleteMany({});
+    }
     this.success("Done!");
   }
   
@@ -20,7 +32,7 @@ export default class DB extends Command {
   async seed() {
     this.requiredParams(["model", "count"]);
     this.info("Connecting to database...");
-    await DB.connect();
+    await Database.connect();
     const {
       count
     } = this.params;
@@ -36,15 +48,14 @@ export default class DB extends Command {
   }
   
   async count() {
-    await DB.connect();
+    await Database.connect();
     this.info("Counting documents...\n");
     let total = 0;
-    const modelNames = fs.readdirSync(base("app/models"));
-    for (const modelName of modelNames) {
-      const Model = require(base(`app/models/${modelName}`)).default;
+    const models = await getModels();
+    for (const Model of models) {
       const documentCount = await Model.count();
       total += documentCount;
-      this.info(`${modelName}:\t${documentCount}`)
+      this.info(`${Model.modelName}:\t${documentCount}`)
     }
     this.success(`Total: ${total}`);
   }
