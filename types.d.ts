@@ -2,8 +2,6 @@ import { ObjectSchema } from "joi";
 import FileValidator from "illuminate/utils/FileValidator";
 import Mailable from "illuminate/mails/Mailable";
 
-export type EndpointCallback = (endpoint: string, path: string) => void | Promise < void >;
-
 export type RawResponse = ({
   message?: string,
   data?: any[] | Record<string, any>

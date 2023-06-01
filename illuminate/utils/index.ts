@@ -1,8 +1,7 @@
 import path from "path";
 import fs from "fs";
-import {
-  EndpointCallback
-} from "types";
+import mongoose from "mongoose";
+import { base } from "helpers";
 
 export function loadDir(dirPath: string) {
   const normalizedPath = path.normalize(dirPath);
@@ -17,8 +16,9 @@ export function loadDir(dirPath: string) {
   fs.mkdirSync(normalizedPath);
 }
 
-export function generateEndpointsFromDirTree(rootPath: string): Record<string, string> {
-  const endpointPathPair: Record<string, string> = {}
+export function generateEndpointsFromDirTree(rootPath: string): Record < string, string > {
+  const endpointPathPair: Record < string,
+  string > = {}
   const stack = [rootPath];
   while (stack.length > 0) {
     const currentPath = stack.pop();
@@ -32,9 +32,9 @@ export function generateEndpointsFromDirTree(rootPath: string): Record<string, s
 
       if (status.isFile()) {
         const itemPathEndpoint = itemPath
-          .replace(rootPath, "")
-          .split(".")[0]
-          .toLowerCase();
+        .replace(rootPath, "")
+        .split(".")[0]
+        .toLowerCase();
         endpointPathPair[itemPathEndpoint] = itemPath;
       } else if (status.isDirectory()) {
         stack.push(itemPath);
@@ -43,3 +43,22 @@ export function generateEndpointsFromDirTree(rootPath: string): Record<string, s
   }
   return endpointPathPair;
 }
+
+export async function clearDatabase(modelName?: string) {
+  if (typeof modelName === "undefined") {
+    try {
+      await mongoose.connection.dropDatabase();
+    }
+    catch {
+      const models = mongoose.modelNames();
+      const promises = [];
+      for (const model of models) {
+        promises.push(mongoose.model(model).deleteMany({}));
+      }
+      await Promise.all(promises);
+    }
+  } else {
+    const Model = require(base(`app/models/${modelName}`)).default;
+    await Model.deleteMany({});
+  }
+};

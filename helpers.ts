@@ -7,8 +7,8 @@ import mongoose from "mongoose";
 import urls from "register/urls";
 import middlewarePairs from "register/middlewares";
 
-export function base(base_path: string = ""): string {
-  return path.join(__dirname, base_path);
+export function base(basePath = ""): string {
+  return path.join(__dirname, basePath);
 }
 
 export function capitalizeFirstLetter(str: string): string {
@@ -168,7 +168,6 @@ export function checkProperties(obj: any, properties: Record < string, string >)
   }
   return true;
 }
-
 
 export function getParams(func: Function): string[] {
   let str = func.toString();

@@ -9,6 +9,7 @@ import components from "register/components";
 import fs from "fs";
 import path from "path";
 
+
 export default class Make extends Command {
   public componentName = "";
   

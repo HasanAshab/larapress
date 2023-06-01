@@ -19,9 +19,9 @@ export default function hasFactory(schema: Schema): void {
         const models: (typeof Schema)[] = [];
         for (let i = 0; i < count; i++) {
           const model = new this(factory.merge(data));
-          await model.save();
           models.push(model);
         }
+        await this.insertMany(models);
         return models.length <= 1 ? models[0] : models;
       },
       dummyData: (data?: object): object => {

@@ -4,7 +4,7 @@ const commands: Record<string, string> = {
   test: "Test",
   secret: "GenerateSecret",
   doc: "GenerateDoc",
-  seed: "Seed",
+  db: "DB",
   search: "Search",
 }
 

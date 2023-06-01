@@ -9,8 +9,8 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const urls_1 = __importDefault(require("register/urls"));
 const middlewares_1 = __importDefault(require("register/middlewares"));
-function base(base_path = "") {
-    return path_1.default.join(__dirname, base_path);
+function base(basePath = "") {
+    return path_1.default.join(__dirname, basePath);
 }
 exports.base = base;
 function capitalizeFirstLetter(str) {
