@@ -29,17 +29,18 @@ class Command {
         }
     }
     info(text) {
-        console.log("\x1b[33m", text, "\x1b[0m");
+        if (this.fromShell)
+            console.log("\x1b[33m", text, "\x1b[0m");
     }
     success(text = "") {
-        console.log("\x1b[32m", "\n", text, "\n", "\x1b[0m");
         if (this.fromShell) {
+            console.log("\x1b[32m", "\n", text, "\n", "\x1b[0m");
             process.exit(0);
         }
     }
     error(text = "") {
-        console.log("\x1b[31m", "\n", text, "\n", "\x1b[0m");
         if (this.fromShell) {
+            console.log("\x1b[31m", "\n", text, "\n", "\x1b[0m");
             process.exit(1);
         }
     }

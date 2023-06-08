@@ -3,7 +3,6 @@ import Command from "illuminate/commands/Command";
 import mongoose from "mongoose";
 import fs from "fs";
 import Database from "illuminate/utils/DB";
-import { clearDatabase } from "illuminate/utils";
 
 export default class DB extends Command {
   async wipe(){

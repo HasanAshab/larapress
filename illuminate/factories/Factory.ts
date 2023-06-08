@@ -1,11 +1,11 @@
 import { faker } from "@faker-js/faker";
 
 export default abstract class Factory {
-  abstract definition(): Record<string, any>;
+  abstract definition(): Promise<Record<string, any>> | Record<string, any>;
   public faker = faker;
   
-  merge(data?: Record<string, any>): Record<string, any> {
-    const modelData = this.definition();
+  async merge(data?: Record<string, any>): Promise<Record<string, any>> {
+    const modelData = await this.definition();
     if(typeof data === "undefined"){
       return modelData;
     }

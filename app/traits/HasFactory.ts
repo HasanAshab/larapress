@@ -18,14 +18,14 @@ export default function hasFactory(schema: Schema): void {
       create: async (data?: object): Promise<typeof Schema | (typeof Schema)[]> => {
         const models: (typeof Schema)[] = [];
         for (let i = 0; i < count; i++) {
-          const model = new this(factory.merge(data));
+          const model = new this(await factory.merge(data));
           models.push(model);
         }
         await this.insertMany(models);
         return models.length <= 1 ? models[0] : models;
       },
-      dummyData: (data?: object): object => {
-        return factory.merge(data);
+      dummyData: async (data?: object): Promise<object> => {
+        return await factory.merge(data);
       },
     };
   };

@@ -12,7 +12,8 @@ describe("Media", () => {
   });
 
   beforeEach(async () => {
-    await resetDatabase();
+      await resetDatabase();
+      Storage.mocked.reset();
   });
 
   it("should responds with a file", async () => {

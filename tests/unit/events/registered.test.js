@@ -13,9 +13,9 @@ describe("Registered Event", () => {
   });
 
   beforeEach(async () => {
-    await resetDatabase();
-    Mail.mocked.reset();
-    user = await User.factory().create();
+      await resetDatabase();
+      Mail.mocked.reset();
+      user = await User.factory().create();
   });
   
 

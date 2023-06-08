@@ -1,9 +1,9 @@
 import { UrlData } from "types";
 import { RequestHandler } from "express"
+import mongoose, { Model } from "mongoose";
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
-import mongoose from "mongoose";
 import urls from "register/urls";
 import middlewarePairs from "register/middlewares";
 
@@ -169,8 +169,8 @@ export function checkProperties(obj: any, properties: Record < string, string >)
   return true;
 }
 
-export async function getModels(): Promise<object[]> {
-  const models: object[] = []
+export async function getModels(): Promise<Model<any>[]> {
+  const models: Model<any>[] = []
   const modelNames = await fs.promises.readdir(base("app/models"));
   for(const modelName of modelNames){
     const Model = require(base(`app/models/${modelName}`)).default;

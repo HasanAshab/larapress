@@ -1,11 +1,13 @@
 import Factory from "illuminate/factories/Factory";
+import bcrypt from "bcryptjs";
 
 export default class UserFactory extends Factory {
-  definition(): Record<string, any> {
+    async definition(): Promise<Record<string, any>> {
+    const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
     return {
       name: this.faker.internet.userName().substr(0, 12),
       email: this.faker.internet.email(),
-      password: "password",
+      password: await bcrypt.hash("password", bcryptRounds),
     };
   };
 }

@@ -43,22 +43,3 @@ export function generateEndpointsFromDirTree(rootPath: string): Record < string,
   }
   return endpointPathPair;
 }
-
-export async function clearDatabase(modelName?: string) {
-  if (typeof modelName === "undefined") {
-    try {
-      await mongoose.connection.dropDatabase();
-    }
-    catch {
-      const models = mongoose.modelNames();
-      const promises = [];
-      for (const model of models) {
-        promises.push(mongoose.model(model).deleteMany({}));
-      }
-      await Promise.all(promises);
-    }
-  } else {
-    const Model = require(base(`app/models/${modelName}`)).default;
-    await Model.deleteMany({});
-  }
-};

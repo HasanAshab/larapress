@@ -23,20 +23,20 @@ export default abstract class Command {
     }
   }
   
-  info(text: string): void{
-    console.log("\x1b[33m", text, "\x1b[0m");
+  info(text: string){
+    if(this.fromShell) console.log("\x1b[33m", text, "\x1b[0m");
   }
 
-  success(text = ""): void{
-    console.log("\x1b[32m", "\n", text, "\n", "\x1b[0m");
+  success(text = ""){
     if(this.fromShell){
-      process.exit(0);
+      console.log("\x1b[32m", "\n", text, "\n", "\x1b[0m");
+      process.exit(0)
     }
   }
 
-  error(text = ""): void{
-    console.log("\x1b[31m", "\n", text, "\n", "\x1b[0m");
+  error(text = ""){
     if(this.fromShell){
+      console.log("\x1b[31m", "\n", text, "\n", "\x1b[0m");
       process.exit(1);
     }
   }

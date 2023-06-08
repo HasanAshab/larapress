@@ -16,18 +16,19 @@ describe("Auth", () => {
     Mail.mock();
     Storage.mock();
   });
-  
+
   beforeEach(async () => {
-    await resetDatabase();
-    Mail.mocked.reset();
-    Storage.mocked.reset();
-    user = await User.factory().create();
-    token = user.createToken();
-    await new Promise(process.nextTick)
+      await resetDatabase();
+      Mail.mocked.reset();
+      Storage.mocked.reset();
+      user = await User.factory().create();
+      token = user.createToken();
   });
 
   it("should register a user", async () => {
-    const dummyUser = User.factory().dummyData();
+    const dummyUser = await User.factory().dummyData();
+    const mockListener = jest.fn();
+    app.on("Registered", mockListener);
     const response = await request
       .post("/api/v1/auth/register")
       .field("name", dummyUser.name)
@@ -37,14 +38,10 @@ describe("Auth", () => {
       .attach("logo", fakeFile("image.png"));
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
-    const emitter = new events.EventEmitter();
+    expect(mockListener).toHaveBeenCalledTimes(1);
     const { total: totalFile, files } = Storage.mocked.data;
     expect(totalFile).toBe(1);
     expect(files).toHaveProperty(["image.png"]);
-    emitter.on("Registered", (user) => {
-      expect(user.email).toEqual(dummyUser.email);
-      done();
-    });
   });
 
   it("should login a user", async () => {
@@ -103,7 +100,7 @@ describe("Auth", () => {
     const { total: totalMail, recipients } = Mail.mocked.data;
     expect(totalMail).toBe(1);
     expect(recipients).toHaveProperty([user.email, "verification"]);
- 
+
     const { total: totalFile, files } = Storage.mocked.data;
     expect(totalFile).toBe(1);
     expect(files).toHaveProperty(["image.png"]);
