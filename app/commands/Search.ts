@@ -10,20 +10,21 @@ export default class Search extends Command {
   async handle() {
     this.requiredParams(["query"]);
     const {
-      dir = "",
-      replace
+      query,
+      replace = undefined,
+      dir = ""
     } = this.params;
     if(typeof replace !== "undefined") this.info("\nReplacing started...\n");
     else this.info("\nSearching started...\n");
 
-    this._searchFiles(dir).then(() => {
+    this.searchFiles(dir, query, replace).then(() => {
       this.success("done!");
     }).catch((error: any) => {
       throw error
     });
   }
 
-  async _searchFiles(currentDir: string) {
+  private async searchFiles(currentDir: string, query: string, replace?: string) {
     const files = fs.readdirSync(base(currentDir));
     const promises = [];
 
@@ -31,13 +32,12 @@ export default class Search extends Command {
       const filePath = path.join(currentDir, file);
       const fullPath = base(filePath);
       const stat = fs.statSync(filePath);
-      if (this._isExcluded(fullPath)) continue;
+      if (this.isExcluded(fullPath)) continue;
       if (stat.isDirectory()) {
-          const promise = this._searchFiles(filePath);
+          const promise = this.searchFiles(filePath, query, replace);
           promises.push(promise);
       } else if (stat.isFile()) {
         const fileContent = fs.readFileSync(filePath, "utf-8");
-        const { query, replace } = this.params;
         if(Wildcard.match(fileContent, query)){
           if(typeof replace !== "undefined"){
             const replacedContent = Wildcard.replace(fileContent, query, replace);
@@ -51,7 +51,7 @@ export default class Search extends Command {
     await Promise.all(promises);
   }
   
-  _isExcluded(path: string): boolean {
+  private isExcluded(path: string): boolean {
     return this.exclude.map(path => base(path)).includes(path);
   }
 }

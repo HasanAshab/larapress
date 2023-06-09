@@ -6,6 +6,7 @@ import Database from "illuminate/utils/DB";
 
 export default class DB extends Command {
   async wipe(){
+    this.requiredParams(["model"]);
     const { model } = this.params;
     await Database.connect();
     

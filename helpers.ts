@@ -1,4 +1,3 @@
-import { UrlData } from "types";
 import { RequestHandler } from "express"
 import mongoose, { Model } from "mongoose";
 import dotenv from "dotenv";
@@ -15,12 +14,12 @@ export function capitalizeFirstLetter(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export function url(url_path: string = ""): string {
+export function url(url_path = "", version?: string): string {
   const domain = process.env.APP_DOMAIN;
   const port = process.env.APP_PORT;
   const protocol = "http";
   //const protocol = port === "443"? "https" : "http";
-  return `${protocol}://${path.join(`${domain}:${port}`, url_path)}`;
+  return `${protocol}://${path.join(`${domain}:${port}/${version ?? getVersion()}`, url_path)}`;
 }
 
 export function clientUrl(url_path: string = ""): string {
@@ -31,8 +30,9 @@ export function clientUrl(url_path: string = ""): string {
   return `${protocol}://${path.join(`${domain}:${port}`, url_path)}`;
 }
 
-export function route(name: string, data?: UrlData): string {
-  let endpoint = urls[name];
+export function route(name: string, data?: Record<string, string | number>, version?: string): string {
+  version = version ?? getVersion();
+  let endpoint = urls[version][name];
   if (!endpoint) {
     throw new Error("Endpoint not found!")
   }
@@ -45,10 +45,10 @@ export function route(name: string, data?: UrlData): string {
       }
     }
   }
-  return `${process.env.APP_URL}${endpoint}`;
+  return url(endpoint, version);
 }
 
-export function storage(storage_path: string = ""): string {
+export function storage(storage_path = ""): string {
   return path.resolve(path.join("storage", storage_path));
 }
 

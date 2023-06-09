@@ -14,9 +14,6 @@ export type ApiResponse = {
   data?: any[] | any,
 };
 
-export type UrlData = Record<string, string | number
->;
-
 export type Recipient = {
   from: string,
   to: string,

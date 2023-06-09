@@ -82,3 +82,5 @@ function getEndpoints(): string[] {
 //}
 
 */
+const URL_1 = __importDefault(require("illuminate/utils/URL"));
+console.log(URL_1.default.signedRoute("file.serve", { id: 4 }, 92094));

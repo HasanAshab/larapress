@@ -17,12 +17,12 @@ function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 exports.capitalizeFirstLetter = capitalizeFirstLetter;
-function url(url_path = "") {
+function url(url_path = "", version) {
     const domain = process.env.APP_DOMAIN;
     const port = process.env.APP_PORT;
     const protocol = "http";
     //const protocol = port === "443"? "https" : "http";
-    return `${protocol}://${path_1.default.join(`${domain}:${port}`, url_path)}`;
+    return `${protocol}://${path_1.default.join(`${domain}:${port}/${version !== null && version !== void 0 ? version : getVersion()}`, url_path)}`;
 }
 exports.url = url;
 function clientUrl(url_path = "") {
@@ -33,7 +33,7 @@ function clientUrl(url_path = "") {
     return `${protocol}://${path_1.default.join(`${domain}:${port}`, url_path)}`;
 }
 exports.clientUrl = clientUrl;
-function route(name, data) {
+function route(name, data, version) {
     var _a;
     let endpoint = urls_1.default[name];
     if (!endpoint) {
@@ -48,7 +48,7 @@ function route(name, data) {
             }
         }
     }
-    return `${process.env.APP_URL}${endpoint}`;
+    return url(endpoint, version !== null && version !== void 0 ? version : getVersion());
 }
 exports.route = route;
 function storage(storage_path = "") {

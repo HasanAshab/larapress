@@ -5,7 +5,7 @@ const router: Router = express.Router();
 const MediaController = controller("MediaController");
 
 // Endpoints for serving files
-router.get("/:id", MediaController.index);
+router.get("/:id", middleware("signed"), MediaController.index);
 
 
 export default router;
