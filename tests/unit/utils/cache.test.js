@@ -1,13 +1,10 @@
-const app = require(base("main/app"));
-const DB = require(base("illuminate/utils/DB"));
+const Cache = require(base("illuminate/utils/Cache")).default;
 
 
 describe("cache", () => {
-  beforeEach(async () => {
-    //await resetDatabase();
-  })
-
-  it("Should work", async () => {
-    expect(true).toBe(true);
+  it("Should store cache", async () => {
+    await Cache.put("key", "data")
+    expect(await Cache.get("key")).toBe("data");
   });
+  
 });

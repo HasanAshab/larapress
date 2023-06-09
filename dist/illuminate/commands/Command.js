@@ -19,7 +19,6 @@ class Command {
         if (typeof this.subCommand === "undefined") {
             throw ArtisanError_1.default.type("SUB_COMMAND_REQUIRED").create({ name });
         }
-        return this.subCommand;
     }
     requiredParams(requiredParamsName) {
         for (const name of requiredParamsName) {

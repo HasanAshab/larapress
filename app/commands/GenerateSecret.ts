@@ -4,10 +4,10 @@ import crypto from "crypto";
 
 export default class GenerateSecret extends Command {
   handle(){
-    const targetKey = this.subCommandRequired("key");
-    const key = targetKey.toUpperCase() + "_SECRET";
+    this.subCommandRequired("key");
+    const key = this.subCommand.toUpperCase() + "_SECRET";
     const secret = crypto.randomBytes(126).toString("hex");
-    setEnv({[key]: secret});
+    setEnv({[key]: secret});  
     this.success(`Secret generated: ${secret}`);
   };
 }

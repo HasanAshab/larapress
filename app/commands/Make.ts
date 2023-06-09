@@ -11,8 +11,7 @@ import path from "path";
 
 
 export default class Make extends Command {
-  public componentName = "";
-  
+
   async admin() {
     this.requiredParams(["name", "email", "password"]);
     const {
@@ -32,13 +31,13 @@ export default class Make extends Command {
   }
 
   handle() {
-    this.componentName = this.subCommandRequired("Material name");
+    this.subCommandRequired("Material name");
     this.requiredParams(["name"]);
     const fullPath = this.params.name.split("/");
     const name = fullPath.pop() as string;
     const parentPath = fullPath.join("/");
-    const content = this._getTemplate(name);
-    const filepath = this._getPath(parentPath, name);
+    const content = this._getTemplate(this.subCommand, name);
+    const filepath = this._getPath(this.subCommand, parentPath, name);
     try {
       fs.writeFileSync(base(filepath), content, {
         flag: "wx"
@@ -49,9 +48,9 @@ export default class Make extends Command {
     this.success(`File created successfully: [${filepath}]`);
   }
 
-  _getTemplate(name: string): string {
-    let path = base(`illuminate/templates/${this.subCommand}`);
-    const templateDistination = components[this.componentName];
+  _getTemplate(componentName: string, name: string): string {
+    let path = base(`illuminate/templates/${componentName}`);
+    const templateDistination = components[componentName];
     if (typeof templateDistination !== "string"){
       path += (this.flags.length > 0)
         ?'/' + this.flags[0]
@@ -66,8 +65,8 @@ export default class Make extends Command {
     }
   }
 
-  _getPath(parentPath: string, name: string): string {
-    let pathSchema = components[this.componentName];
+  _getPath(componentName: string, parentPath: string, name: string): string {
+    let pathSchema = components[componentName];
     if(typeof pathSchema === "object"){
       pathSchema = pathSchema[this.flags[0] || pathSchema.default];
     }
