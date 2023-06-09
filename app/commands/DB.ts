@@ -7,7 +7,6 @@ import Database from "illuminate/utils/DB";
 export default class DB extends Command {
   async wipe(){
     const { model } = this.params;
-    this.info("Connecting to database...");
     await Database.connect();
     
     if (typeof model === "undefined") {
@@ -30,7 +29,6 @@ export default class DB extends Command {
   
   async seed() {
     this.requiredParams(["model", "count"]);
-    this.info("Connecting to database...");
     await Database.connect();
     const {
       count
@@ -38,10 +36,11 @@ export default class DB extends Command {
     try {
       const Model = require(base(`app/models/${this.params.model}`)).default;
       this.info("Seeding started...");
+      if(typeof Model.factory === "undefined") this.error(`No factory found for ${this.params.model} model`)
       await Model.factory(count).create()
       this.success("Seeded successfully!");
     }
-    catch {
+    catch (e){
       this.error("Model not found!");
     }
   }
