@@ -1,7 +1,5 @@
-const urls: Record<string, Record<string, string>> = {
-  "v1": {
-    "file.serve": "/media/:id"
-  }
+const urls: Record<string, string> = {
+  "file.serve": "v1/media/:id"
 }
 
 export default urls;

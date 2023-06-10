@@ -1,8 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const urls = {
-    "v1": {
-        "file.serve": "/media/:id"
-    }
+    "file.serve": "v1/media/:id"
 };
 exports.default = urls;

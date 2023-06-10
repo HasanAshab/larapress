@@ -1,7 +1,6 @@
-import {
-  base, url
-} from "helpers";
+import { base } from "helpers";
 import { loadDir } from "illuminate/utils";
+import URL from "illuminate/utils/URL"
 import Command from "illuminate/commands/Command";
 import app from "main/app";
 import fs from "fs";
@@ -11,7 +10,7 @@ import docs from "docs/parse";
 
 export default class GenerateDoc extends Command {
   public outputDir = base("/docs/public");
-  public baseUrl = url("/docs");
+  public baseUrl = URL.resolve("api/docs");
   
   async handle() {
     this.info("starting server...");

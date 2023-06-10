@@ -1,12 +1,12 @@
 import {
-  log,
-  route
+  log
 } from "helpers";
 import {
   Schema,
   Model
 } from "mongoose";
 import { UploadedFile } from "express-fileupload";
+import URL from "illuminate/utils/URL"
 import Media, {
   IMedia
 } from "app/models/Media";
@@ -52,7 +52,7 @@ export default (schema: Schema) => {
       mimetype: file.mimetype,
       path,
     });
-    const link = route("file.serve", {
+    const link = URL.route("file.serve", {
       id: media._id.toString()
     });
     media.link = link;
@@ -76,7 +76,7 @@ export default (schema: Schema) => {
         mimetype: file.mimetype,
         path,
       });
-      media.link = route("file.serve", {
+      media.link = URL.route("file.serve", {
         id: media._id.toString()
       });
       this.media.push(media._id);

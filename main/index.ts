@@ -88,7 +88,7 @@ function getEndpoints(): string[] {
 */
 
 
-  import URL from "illuminate/utils/URL"
+import URL from "illuminate/utils/URL"
 
-console.log(URL.version("v1").signedRoute("file.serve", {id:4}))
+console.log(URL.signedRoute("file.serve", {id:4}))
 

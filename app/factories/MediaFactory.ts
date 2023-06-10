@@ -1,5 +1,5 @@
 import Factory from "illuminate/factories/Factory";
-import { storage, route } from "helpers"; 
+import { storage } from "helpers"; 
 import User from "app/models/User";
 
 export default class MediaFactory extends Factory {
@@ -10,7 +10,7 @@ export default class MediaFactory extends Factory {
       mediableType: "User",
       mimetype: "image/png",
       path: storage("test_files/image.png"),
-      link: route("file.serve")
+      link: "example.com"
     };
   };
 }

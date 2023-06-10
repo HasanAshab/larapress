@@ -1,5 +1,5 @@
 import { model, Schema, Document, InferSchemaType } from "mongoose";
-import { url } from "helpers"
+import URL from "illuminate/utils/URL"
 import bcrypt from "bcryptjs";
 import Mailable from "illuminate/mails/Mailable";
 import Authenticatable, { IAuthenticatable } from "app/traits/Authenticatable";
@@ -26,7 +26,7 @@ const UserSchema = new Schema({
   },
   logoUrl: {
     type: String,
-    default: url("/static/user-profile.jpg", "v1"),
+    default: URL.resolve("/static/user-profile.jpg"),
     required: true
   },
   isAdmin: {

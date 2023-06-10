@@ -1,5 +1,6 @@
 import { Schema } from "mongoose";
-import { base, url, clientUrl, log } from "helpers";
+import { base, log } from "helpers";
+import URL from "illuminate/utils/URL"
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import AuthenticationError from "app/exceptions/AuthenticationError";
@@ -37,7 +38,7 @@ export default (schema: Schema) => {
       token: verificationToken,
       for: "email_verification",
     });
-    const link = url(`/api/auth/verify?id=${this._id}&token=${verificationToken}`);
+    const link = URL.resolve(`api/auth/verify?id=${this._id}&token=${verificationToken}`);
     const result = await this.notify(new VerificationMail({ link }));
     return verificationToken;
   };
@@ -53,7 +54,7 @@ export default (schema: Schema) => {
       token: resetToken,
       for: "password_reset",
     });
-    const link = clientUrl(`/password/reset?id=${this._id}&token=${resetToken}`);
+    const link = URL.client(`/password/reset?id=${this._id}&token=${resetToken}`);
     await this.notify(new ForgotPasswordMail({ link }));
     return resetToken;
   }

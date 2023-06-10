@@ -17,12 +17,12 @@ function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 exports.capitalizeFirstLetter = capitalizeFirstLetter;
-function url(url_path = "", version) {
+function url(url_path = "") {
     const domain = process.env.APP_DOMAIN;
     const port = process.env.APP_PORT;
     const protocol = "http";
     //const protocol = port === "443"? "https" : "http";
-    return `${protocol}://${path_1.default.join(`${domain}:${port}/api/${version !== null && version !== void 0 ? version : getVersion()}`, url_path)}`;
+    return `${protocol}://${path_1.default.join(`${domain}:${port}/api`, url_path)}`;
 }
 exports.url = url;
 function clientUrl(url_path = "") {
@@ -33,10 +33,9 @@ function clientUrl(url_path = "") {
     return `${protocol}://${path_1.default.join(`${domain}:${port}`, url_path)}`;
 }
 exports.clientUrl = clientUrl;
-function route(name, data, version) {
+function route(name, data) {
     var _a;
-    version = version !== null && version !== void 0 ? version : getVersion();
-    let endpoint = urls_1.default[version][name];
+    let endpoint = urls_1.default[name];
     if (!endpoint) {
         throw new Error("Endpoint not found!");
     }
@@ -49,7 +48,7 @@ function route(name, data, version) {
             }
         }
     }
-    return url(endpoint, version);
+    return url(endpoint);
 }
 exports.route = route;
 function storage(storage_path = "") {
