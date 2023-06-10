@@ -5,8 +5,10 @@ import { RawResponse } from "types";
 declare global {
   namespace Express {
     interface Request {
+      fullUrl(): string;
       user?: IUser;
       validated: Record<string, string>;
+      hasValidSignature(): boolean;
     }
     
     interface Response {

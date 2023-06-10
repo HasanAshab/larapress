@@ -12,6 +12,7 @@ const middlewares = {
     "validate": "<global>/ValidateRequest",
     "response.wrap": "<global>/WrapResponse",
     "response.cache": "<global>/CacheResponse",
-    "error.handle": "<global>/ErrorHandler"
+    "error.handle": "<global>/ErrorHandler",
+    "helpers.req": "<global>/AppendRequestHelpers"
 };
 exports.default = middlewares;

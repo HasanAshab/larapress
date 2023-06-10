@@ -38,11 +38,7 @@ export default class Storage {
   };
 
   static hashFileName(fileName: string): string {
-    const hash = crypto
-      .createHash("md5")
-      .update(fileName)
-      .digest("hex")
-      .substring(0, 15);
+    const hash = crypto.createHash("sha256").update(fileName).digest("hex");
     const fileExt = path.extname(fileName);
     const hashedFileName = `${Date.now()}_${hash}${fileExt}`;
     return hashedFileName;

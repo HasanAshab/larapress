@@ -31,7 +31,7 @@ app.set("view engine", "handlebars");
 app.set("views", base("views"));
 
 // Registering global middlewares
-app.use(middleware("response.wrap"));
+app.use(middleware(["response.wrap", "helpers.req"]));
 
 // Registering all event and listeners
 Setup.events(app);

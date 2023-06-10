@@ -19,7 +19,7 @@ export function url(url_path = "", version?: string): string {
   const port = process.env.APP_PORT;
   const protocol = "http";
   //const protocol = port === "443"? "https" : "http";
-  return `${protocol}://${path.join(`${domain}:${port}/${version ?? getVersion()}`, url_path)}`;
+  return `${protocol}://${path.join(`${domain}:${port}/api/${version ?? getVersion()}`, url_path)}`;
 }
 
 export function clientUrl(url_path: string = ""): string {

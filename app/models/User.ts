@@ -26,7 +26,7 @@ const UserSchema = new Schema({
   },
   logoUrl: {
     type: String,
-    default: url("/static/user-profile.jpg"),
+    default: url("/static/user-profile.jpg", "v1"),
     required: true
   },
   isAdmin: {

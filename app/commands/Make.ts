@@ -51,15 +51,16 @@ export default class Make extends Command {
   _getTemplate(componentName: string, name: string): string {
     let path = base(`illuminate/templates/${componentName}`);
     const templateDistination = components[componentName];
-    if (typeof templateDistination !== "string"){
-      path += (this.flags.length > 0)
+    if (typeof templateDistination === "object" && fs.statSync(path).isDirectory()){
+      path += (typeof this.flags[0] !== "undefined")
         ?'/' + this.flags[0]
         :'/' + templateDistination.default;
     }
     try {
       return fs.readFileSync(path, "utf-8").replace(/{{name}}/g, name);
     }
-    catch {
+    catch (e){
+      console.log(e)
       this.error("Component not found!");
       return "";
     }

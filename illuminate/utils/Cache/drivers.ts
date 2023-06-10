@@ -30,7 +30,7 @@ const drivers: Record<string, () => CacheDriverResponse > = {
 
       result = await client.setEx(key, expiry, JSON.stringify(data));
     } else {
-      result = await client.get(Cache.params[0]);
+      result = JSON.parse(await client.get(Cache.params[0]));
     }
     await client.disconnect();
     return result;

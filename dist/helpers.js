@@ -22,7 +22,7 @@ function url(url_path = "", version) {
     const port = process.env.APP_PORT;
     const protocol = "http";
     //const protocol = port === "443"? "https" : "http";
-    return `${protocol}://${path_1.default.join(`${domain}:${port}/${version !== null && version !== void 0 ? version : getVersion()}`, url_path)}`;
+    return `${protocol}://${path_1.default.join(`${domain}:${port}/api/${version !== null && version !== void 0 ? version : getVersion()}`, url_path)}`;
 }
 exports.url = url;
 function clientUrl(url_path = "") {
@@ -35,7 +35,8 @@ function clientUrl(url_path = "") {
 exports.clientUrl = clientUrl;
 function route(name, data, version) {
     var _a;
-    let endpoint = urls_1.default[name];
+    version = version !== null && version !== void 0 ? version : getVersion();
+    let endpoint = urls_1.default[version][name];
     if (!endpoint) {
         throw new Error("Endpoint not found!");
     }
@@ -48,7 +49,7 @@ function route(name, data, version) {
             }
         }
     }
-    return url(endpoint, version !== null && version !== void 0 ? version : getVersion());
+    return url(endpoint, version);
 }
 exports.route = route;
 function storage(storage_path = "") {
