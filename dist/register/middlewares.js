@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const middlewares = {
+exports.default = {
     "auth": "Authenticate",
     "verified": [
         "Authenticate",
@@ -13,6 +13,5 @@ const middlewares = {
     "response.wrap": "<global>/WrapResponse",
     "response.cache": "<global>/CacheResponse",
     "error.handle": "<global>/ErrorHandler",
-    "helpers.req": "<global>/AppendRequestHelpers"
+    "helpers.inject": "<global>/InjectHelpers"
 };
-exports.default = middlewares;

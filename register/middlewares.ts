@@ -1,4 +1,4 @@
-const middlewares: Record<string, string | string[]> = {
+export default {
   "auth": "Authenticate",
   "verified": [
     "Authenticate",
@@ -11,7 +11,5 @@ const middlewares: Record<string, string | string[]> = {
   "response.wrap": "<global>/WrapResponse",
   "response.cache": "<global>/CacheResponse",
   "error.handle": "<global>/ErrorHandler",
-  "helpers.req": "<global>/AppendRequestHelpers"
-}
-
-export default middlewares;
+  "helpers.inject": "<global>/InjectHelpers"
+} as const;

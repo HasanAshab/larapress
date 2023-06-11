@@ -26,7 +26,7 @@ app.engine("handlebars", (0, express_handlebars_1.engine)());
 app.set("view engine", "handlebars");
 app.set("views", (0, helpers_1.base)("views"));
 // Registering global middlewares
-app.use((0, helpers_1.middleware)(["response.wrap", "helpers.req"]));
+app.use((0, helpers_1.middleware)("helpers.inject"));
 // Registering all event and listeners
 Setup_1.default.events(app);
 // Registering all group routes 

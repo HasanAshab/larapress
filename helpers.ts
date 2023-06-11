@@ -1,4 +1,6 @@
-import { RequestHandler } from "express"
+import { RequestHandler } from "express";
+import { MiddlewareKey } from "types";
+import { Model } from "mongoose";
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
@@ -16,7 +18,7 @@ export function storage(storage_path = ""): string {
   return path.resolve(path.join("storage", storage_path));
 }
 
-export function middleware(keys: string | string[], version?: string): RequestHandler[] | RequestHandler {
+export function middleware(keys: MiddlewareKey | MiddlewareKey[], version?: string): RequestHandler[] | RequestHandler {
   function getMiddleware(middlewarePath: string, options: string[] = []) {
     const fullPath = middlewarePath.startsWith("<global>")
       ?middlewarePath.replace("<global>", "illuminate/middlewares/global")

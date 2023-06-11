@@ -3,11 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getParams = exports.getModels = exports.checkProperties = exports.getVersion = exports.log = exports.setEnv = exports.controller = exports.middleware = exports.storage = exports.route = exports.clientUrl = exports.url = exports.capitalizeFirstLetter = exports.base = void 0;
+exports.getParams = exports.getModels = exports.checkProperties = exports.getVersion = exports.log = exports.setEnv = exports.controller = exports.middleware = exports.storage = exports.capitalizeFirstLetter = exports.base = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-const urls_1 = __importDefault(require("register/urls"));
 const middlewares_1 = __importDefault(require("register/middlewares"));
 function base(basePath = "") {
     return path_1.default.join(__dirname, basePath);
@@ -17,40 +16,6 @@ function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 exports.capitalizeFirstLetter = capitalizeFirstLetter;
-function url(url_path = "") {
-    const domain = process.env.APP_DOMAIN;
-    const port = process.env.APP_PORT;
-    const protocol = "http";
-    //const protocol = port === "443"? "https" : "http";
-    return `${protocol}://${path_1.default.join(`${domain}:${port}/api`, url_path)}`;
-}
-exports.url = url;
-function clientUrl(url_path = "") {
-    const domain = process.env.CLIENT_DOMAIN;
-    const port = process.env.CLIENT_PORT;
-    const protocol = "http";
-    //const protocol = port === "443"? "https" : "http";
-    return `${protocol}://${path_1.default.join(`${domain}:${port}`, url_path)}`;
-}
-exports.clientUrl = clientUrl;
-function route(name, data) {
-    var _a;
-    let endpoint = urls_1.default[name];
-    if (!endpoint) {
-        throw new Error("Endpoint not found!");
-    }
-    if (data) {
-        const regex = /:(\w+)/g;
-        const params = endpoint.match(regex);
-        if (params) {
-            for (const param of params) {
-                endpoint = endpoint.replace(param, (_a = data[param.slice(1)]) === null || _a === void 0 ? void 0 : _a.toString());
-            }
-        }
-    }
-    return url(endpoint);
-}
-exports.route = route;
 function storage(storage_path = "") {
     return path_1.default.resolve(path_1.default.join("storage", storage_path));
 }

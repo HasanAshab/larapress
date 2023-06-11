@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import { base, route } from "helpers";
+import { base } from "helpers";
 
 export type IHasFactory = {
   factory(count?: number): {

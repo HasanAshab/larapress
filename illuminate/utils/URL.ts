@@ -11,11 +11,10 @@ export default class URL {
     return `${protocol}://${path.join(`${domain}:${port}/api`, url_path)}`;
   }
 
-  export function client(url_path: string = ""): string {
+  static client(url_path: string = ""): string {
     const domain = process.env.CLIENT_DOMAIN;
     const port = process.env.CLIENT_PORT;
     const protocol = "http";
-    //const protocol = port === "443"? "https" : "http";
     return `${protocol}://${path.join(`${domain}:${port}`, url_path)}`;
   }
 
@@ -33,7 +32,7 @@ export default class URL {
         }
       }
     }
-    return url(endpoint);
+    return this.resolve(endpoint);
   }
 
   static signedRoute(routeName: string, data?: Record < string, string | number >, expireAfter?: number): string | null {
