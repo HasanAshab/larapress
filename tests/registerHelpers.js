@@ -1,11 +1,7 @@
 require("dotenv").config();
-const app = require("main/app").default;
-const supertest = require("supertest");
 const mongoose = require("mongoose");
 const path = require("path");
 const nodemailerMock = require("nodemailer-mock");
-
-global.request = supertest(app.listen(8000));
 
 global.base = (base_path = "") => {
   return path.join(path.join(__dirname, "../dist"), base_path);

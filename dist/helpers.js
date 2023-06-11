@@ -20,9 +20,11 @@ function storage(storage_path = "") {
     return path_1.default.resolve(path_1.default.join("storage", storage_path));
 }
 exports.storage = storage;
-function middleware(nameAndConfig) {
+/*
+export function middleware(nameAndConfig: Record<MiddlewareKey, object>): RequestHandler[] | RequestHandler {
+  
 }
-exports.middleware = middleware;
+*/
 function middleware(keys, version) {
     var _a, _b;
     function getMiddleware(middlewarePath, options = []) {

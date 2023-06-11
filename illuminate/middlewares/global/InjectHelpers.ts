@@ -17,10 +17,11 @@ export default class AppendRequestHelpers extends Middleware {
       const port = this.app.get("port") || this.socket.localPort;
       return`${this.protocol}://${this.hostname}:${port}${this.baseUrl}${this.path}`;
     }
-
+    
     req.hasValidSignature = function(): boolean {
+      console.log(this.originalUrl)
       const { sign, exp = 0 } = this.query;
-      const signature = URL.createSignature(this.fullUrl() + exp);
+      const signature = URL.createSignature(`${this.baseUrl}${this.path}${exp}`);
       return sign === signature && (Number(exp) < 1 || Number(exp) > Date.now());
     }
 

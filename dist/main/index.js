@@ -27,7 +27,7 @@ Setup_1.default.cronJobs();
 const server = app_1.default.listen(port, () => {
     console.log(`Server running on [http://127.0.0.1:${port}] ...`);
 });
-if (nodeEnv !== "production") {
+if (nodeEnv === "development") {
     server.on("connection", (socket) => {
         const now = new Date();
         const time = now.toLocaleTimeString("en-US", {
@@ -83,4 +83,4 @@ function getEndpoints(): string[] {
 
 */
 const URL_1 = __importDefault(require("illuminate/utils/URL"));
-console.log(URL_1.default.signedRoute("file.serve", { id: 4 }));
+console.log(URL_1.default.signedRoute("file.serve", { id: 4 }, 10000));

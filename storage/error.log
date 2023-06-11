@@ -609,3 +609,153 @@ Stack: CastError: Cast to ObjectId failed for value "4" (type string) at path "_
     at Function.index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/MediaController.ts:9:19)
 
 
+1686482148551
+/api/v1/media/4?sign=c81e37d0a6ca8bda17137e7da31c424c4ffdbb8f85af207c652f3d5d6d206cc2 - GET - ::ffff:127.0.0.1
+Stack: CastError: Cast to ObjectId failed for value "4" (type string) at path "_id" for model "Media"
+    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
+    at ObjectId.SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
+    at ObjectId.SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1614:15)
+    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
+    at model.Query.Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4819:12)
+    at model.Query.Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2193:10)
+    at model.Query._findOne (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2477:8)
+    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4349:28)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/MediaController.ts:9:19)
+
+
+1686482241797
+/api/v1/media/4?sign=c81e37d0a6ca8bda17137e7da31c424c4ffdbb8f85af207c652f3d5d6d206cc2 - GET - ::ffff:127.0.0.1
+Stack: ReferenceError: originalUrl is not defined
+    at IncomingMessage.req.fullUrl (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/InjectHelpers.ts:17:49)
+    at IncomingMessage.req.hasValidSignature (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/InjectHelpers.ts:24:50)
+    at ValidateSignature.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/ValidateSignature.ts:14:16)
+    at ValidateSignature.descriptor.value (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/method.ts:19:28)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at param (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:365:14)
+
+
+1686482250903
+/api/v1/media/4?sign=c81e37d0a6ca8bda17137e7da31c424c4ffdbb8f85af207c652f3d5d6d206cc2 - GET - ::ffff:127.0.0.1
+Stack: ReferenceError: originalUrl is not defined
+    at IncomingMessage.req.fullUrl (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/InjectHelpers.ts:17:49)
+    at IncomingMessage.req.hasValidSignature (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/InjectHelpers.ts:24:50)
+    at ValidateSignature.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/ValidateSignature.ts:14:16)
+    at ValidateSignature.descriptor.value (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/method.ts:19:28)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at param (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:365:14)
+
+
+1686482272647
+/api/v1/media/4?sign=c81e37d0a6ca8bda17137e7da31c424c4ffdbb8f85af207c652f3d5d6d206cc2 - GET - ::ffff:127.0.0.1
+Stack: CastError: Cast to ObjectId failed for value "4" (type string) at path "_id" for model "Media"
+    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
+    at ObjectId.SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
+    at ObjectId.SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1614:15)
+    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
+    at model.Query.Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4819:12)
+    at model.Query.Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2193:10)
+    at model.Query._findOne (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2477:8)
+    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4349:28)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/MediaController.ts:9:19)
+
+
+1686482644146
+/api/v1/media/4?sign=c81e37d0a6ca8bda17137e7da31c424c4ffdbb8f85af207c652f3d5d6d206cc2 - GET - ::ffff:127.0.0.1
+Stack: TypeError: this.subUrl is not a function
+    at IncomingMessage.req.hasValidSignature (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/InjectHelpers.ts:25:50)
+    at ValidateSignature.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/ValidateSignature.ts:14:16)
+    at ValidateSignature.descriptor.value (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/method.ts:19:28)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at param (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:365:14)
+    at param (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:376:14)
+
+
+1686482645206
+/api/v1/media/4?sign=c81e37d0a6ca8bda17137e7da31c424c4ffdbb8f85af207c652f3d5d6d206cc2 - GET - ::ffff:127.0.0.1
+Stack: TypeError: this.subUrl is not a function
+    at IncomingMessage.req.hasValidSignature (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/InjectHelpers.ts:25:50)
+    at ValidateSignature.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/ValidateSignature.ts:14:16)
+    at ValidateSignature.descriptor.value (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/method.ts:19:28)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at param (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:365:14)
+    at param (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:376:14)
+
+
+1686483081145
+/api/v1/media/4?sign=1e52ec92df19ecd86645c1559aea6e444e5eb133dcfce639cc2b950aa09fc027 - GET - ::ffff:127.0.0.1
+Stack: CastError: Cast to ObjectId failed for value "4" (type string) at path "_id" for model "Media"
+    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
+    at ObjectId.SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
+    at ObjectId.SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1614:15)
+    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
+    at model.Query.Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4819:12)
+    at model.Query.Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2193:10)
+    at model.Query._findOne (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2477:8)
+    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4349:28)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/MediaController.ts:9:19)
+
+
+1686483089126
+/api/v1/media/4?sign=1e52ec92df19ecd86645c1559aea6e444e5eb133dcfce639cc2b950aa09fc027 - GET - ::ffff:127.0.0.1
+Stack: CastError: Cast to ObjectId failed for value "4" (type string) at path "_id" for model "Media"
+    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
+    at ObjectId.SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
+    at ObjectId.SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1614:15)
+    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
+    at model.Query.Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4819:12)
+    at model.Query.Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2193:10)
+    at model.Query._findOne (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2477:8)
+    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4349:28)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/MediaController.ts:9:19)
+
+
+1686483110937
+/api/v1/media/4?sign=1e52ec92df19ecd86645c1559aea6e444e5eb133dcfce639cc2b950aa09fc027 - GET - ::ffff:127.0.0.1
+Stack: CastError: Cast to ObjectId failed for value "4" (type string) at path "_id" for model "Media"
+    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
+    at ObjectId.SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
+    at ObjectId.SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1614:15)
+    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
+    at model.Query.Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4819:12)
+    at model.Query.Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2193:10)
+    at model.Query._findOne (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2477:8)
+    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4349:28)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/MediaController.ts:9:19)
+
+
+1686483112002
+/api/v1/media/4?sign=ee56fcc6e05b6b26cb4ed35e7f55fff5d59af22d0d885641ee3bf2cdaf9d496f&exp=1686483112685 - GET - ::ffff:127.0.0.1
+Stack: CastError: Cast to ObjectId failed for value "4" (type string) at path "_id" for model "Media"
+    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
+    at ObjectId.SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1202:12)
+    at ObjectId.SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1614:15)
+    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:348:32)
+    at model.Query.Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4819:12)
+    at model.Query.Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2193:10)
+    at model.Query._findOne (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2477:8)
+    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4349:28)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at Function.index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/MediaController.ts:9:19)
+
+

@@ -1,4 +1,5 @@
 import "dotenv/config";
+import app from "main/app";
 import Setup from "main/Setup";
 import DB from "illuminate/utils/DB";
 
@@ -87,5 +88,5 @@ function getEndpoints(): string[] {
 
 import URL from "illuminate/utils/URL"
 
-console.log(URL.signedRoute("file.serve", {id:4}))
+console.log(URL.signedRoute("file.serve", {id:4}, 10000))
 
