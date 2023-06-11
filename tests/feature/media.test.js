@@ -1,7 +1,5 @@
 const app = require("main/app").default;
-const supertest = require("supertest");
 const DB = require("illuminate/utils/DB").default;
-const request = supertest(app.listen(8000));
 const URL = require("illuminate/utils/URL").default;
 const Media = require("app/models/Media").default;
 
