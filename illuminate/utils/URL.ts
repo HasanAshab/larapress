@@ -3,12 +3,12 @@ import path from "path";
 import urls from "register/urls";
 
 export default class URL {
-
+  
   static resolve(url_path = ""): string {
     const domain = process.env.APP_DOMAIN;
     const port = process.env.APP_PORT;
     const protocol = "http";
-    return `${protocol}://${path.join(`${domain}:${port}/api`, url_path)}`;
+    return `${protocol}://${path.join(`${domain}:${port}/`, url_path)}`;
   }
 
   static client(url_path: string = ""): string {
@@ -38,7 +38,6 @@ export default class URL {
   static signedRoute(routeName: string, data?: Record < string, string | number >, expireAfter?: number): string | null {
     const fullUrl = this.route(routeName, data);
     const expiryTime = expireAfter ? Date.now() + expireAfter: 0;
-    console.log(expiryTime)
     const signature = this.createSignature(fullUrl + expiryTime)
     return `${fullUrl}?sign=${signature}${expiryTime > 0? `&exp=${expiryTime}`: ''}`;
   }

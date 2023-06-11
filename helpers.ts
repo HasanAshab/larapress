@@ -17,7 +17,11 @@ export function capitalizeFirstLetter(str: string): string {
 export function storage(storage_path = ""): string {
   return path.resolve(path.join("storage", storage_path));
 }
-
+/*
+export function middleware(nameAndConfig: Record<MiddlewareKey, object>): RequestHandler[] | RequestHandler {
+  
+}
+*/
 export function middleware(keys: MiddlewareKey | MiddlewareKey[], version?: string): RequestHandler[] | RequestHandler {
   function getMiddleware(middlewarePath: string, options: string[] = []) {
     const fullPath = middlewarePath.startsWith("<global>")
@@ -31,9 +35,8 @@ export function middleware(keys: MiddlewareKey | MiddlewareKey[], version?: stri
   if (Array.isArray(keys)) {
     const middlewares = [];
     for (const key of keys) {
-      const [name,
-        params] = key.split(":");
-      const middlewarePaths = middlewarePairs[name];
+      const [name, params] = key.split(":");
+      const middlewarePaths = middlewarePairs[name as keyof typeof middlewarePairs];
       if (Array.isArray(middlewarePaths)) {
         const funcBasedParams = params?.split("|")
         for (let i = 0; i < middlewarePaths.length; i++) {
@@ -50,7 +53,7 @@ export function middleware(keys: MiddlewareKey | MiddlewareKey[], version?: stri
 
   const [name,
     params] = keys.split(":");
-  const middlewarePaths = middlewarePairs[name];
+  const middlewarePaths = middlewarePairs[name as keyof typeof middlewarePairs];
   if (middlewarePaths instanceof Array) {
     const middlewares = [];
     const funcBasedParams = typeof params !== "undefined"

@@ -1,6 +1,4 @@
 import "dotenv/config";
-import app from "main/app";
-
 import Setup from "main/Setup";
 import DB from "illuminate/utils/DB";
 
@@ -28,7 +26,7 @@ const server = app.listen(port, () => {
   console.log(`Server running on [http://127.0.0.1:${port}] ...`);
 });
 
-if (nodeEnv !== "production") {
+if (nodeEnv === "development") {
   server.on("connection", (socket) => {
     const now = new Date();
     const time = now.toLocaleTimeString("en-US", {
@@ -37,7 +35,6 @@ if (nodeEnv !== "production") {
     console.log(`*New connection: [${time}]`);
   });
 }
-
 
 
 /*

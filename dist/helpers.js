@@ -20,6 +20,9 @@ function storage(storage_path = "") {
     return path_1.default.resolve(path_1.default.join("storage", storage_path));
 }
 exports.storage = storage;
+function middleware(nameAndConfig) {
+}
+exports.middleware = middleware;
 function middleware(keys, version) {
     var _a, _b;
     function getMiddleware(middlewarePath, options = []) {

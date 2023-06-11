@@ -19,10 +19,7 @@ export default class AppendRequestHelpers extends Middleware {
     }
 
     req.hasValidSignature = function(): boolean {
-      const {
-        sign,
-        exp = 0
-      } = this.query;
+      const { sign, exp = 0 } = this.query;
       const signature = URL.createSignature(this.fullUrl() + exp);
       return sign === signature && (Number(exp) < 1 || Number(exp) > Date.now());
     }
