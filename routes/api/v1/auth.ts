@@ -4,6 +4,7 @@ import express, { Router } from "express";
 const router: Router = express.Router();
 const AuthController = controller("AuthController");
 
+/*
 // Endpoints to authenticate users
 router.post("/register", AuthController.register);
 router.post("/login", AuthController.login);
@@ -19,5 +20,5 @@ router.put("/password/change", middleware("auth"), AuthController.changePassword
 router.route("/profile")
   .get(middleware("auth"), AuthController.profile)
   .put(middleware("auth"), AuthController.updateProfile);
-
+*/
 export default router;

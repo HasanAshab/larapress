@@ -5,8 +5,8 @@ import Media from "app/models/Media";
 
 @passErrorsToHandler
 export default class MediaController extends Controller {
-  async t(req: Request, res: Response) {
-    res.json("hai")
+  async t(req: Request) {
+    return {a:req.params}
   }
   
   async index(req: Request, res: Response) {
@@ -14,6 +14,7 @@ export default class MediaController extends Controller {
     (!media)
     ?res.status(404).api({
       message: "Media not found"
-    }): res.sendFile(media.path);
+    })
+    : res.sendFile(media.path);
   }
 }
