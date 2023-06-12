@@ -52,7 +52,7 @@ export default (schema: Schema) => {
       mimetype: file.mimetype,
       path,
     });
-    const link = URL.route("file.serve", {
+    const link = URL.signedRoute("file.serve", {
       id: media._id.toString()
     });
     media.link = link;
@@ -76,7 +76,7 @@ export default (schema: Schema) => {
         mimetype: file.mimetype,
         path,
       });
-      media.link = URL.route("file.serve", {
+      media.link = URL.signedRoute("file.serve", {
         id: media._id.toString()
       });
       this.media.push(media._id);

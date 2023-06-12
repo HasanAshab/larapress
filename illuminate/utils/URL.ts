@@ -35,10 +35,9 @@ export default class URL {
     return this.resolve(endpoint);
   }
 
-  static signedRoute(routeName: string, data?: Record < string, string | number >, expireAfter?: number): string | null {
+  static signedRoute(routeName: string, data?: Record < string, string | number >, expireAfter?: number): string {
     const fullUrl = this.route(routeName, data);
     const subUrl = fullUrl.replace(this.resolve(), "/");
-    console.log(subUrl)
     const expiryTime = expireAfter ? Date.now() + expireAfter: 0;
     const signature = this.createSignature(subUrl + expiryTime)
     return `${fullUrl}?sign=${signature}${expiryTime > 0? `&exp=${expiryTime}`: ''}`;

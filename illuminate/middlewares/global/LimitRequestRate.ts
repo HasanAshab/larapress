@@ -4,7 +4,7 @@ import RateLimit from "express-rate-limit";
 
 export default class LimitRequestRate extends Middleware {
   handle = RateLimit({
-    windowMs: 60 * 1000,
-    max: Number(this.options[0]),
+    windowMs: this.config.time ?? 60 * 1000,
+    max: Number(this.config.count ?? 60),
   });
 }

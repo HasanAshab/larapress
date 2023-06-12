@@ -759,3 +759,18 @@ Stack: CastError: Cast to ObjectId failed for value "4" (type string) at path "_
     at Function.index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/MediaController.ts:9:19)
 
 
+1686569703106
+/api/v1/media/t/t - GET - ::ffff:127.0.0.1
+Stack: TypeError: undefined is not iterable (cannot read property Symbol(Symbol.iterator))
+    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/ValidateRequest.ts:10:42)
+    at ValidateRequest.descriptor.value (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/method.ts:19:28)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
+
+
