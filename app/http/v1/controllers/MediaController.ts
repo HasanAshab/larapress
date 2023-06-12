@@ -5,8 +5,8 @@ import Media from "app/models/Media";
 
 @passErrorsToHandler
 export default class MediaController extends Controller {
-  async t(req: Request) {
-    return {a:req.params}
+  async t() {
+    return {a:"ej"}
   }
   
   async index(req: Request, res: Response) {
