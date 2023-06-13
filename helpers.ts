@@ -1,4 +1,9 @@
-import { RequestHandler, Request, Response } from "express";
+import {
+  NextFunction,
+  RequestHandler,
+  Request,
+  Response
+} from "express";
 import {
   MiddlewareKey
 } from "types";
@@ -23,17 +28,8 @@ export function storage(storage_path = ""): string {
   return path.resolve(path.join("storage", storage_path));
 }
 
-type OneKey < T extends object, V = any > = {
-  [P in keyof T]: (Record < P, V > &
-    Partial < Record < Exclude < keyof T, P >, never>>) extends infer O
-  ? {
-    [Q in keyof O]: O[Q]
-  }: never
-}[keyof T];
-
-// middleware(["foo", {bar: {}}])
 export function middleware(
-  ...keysWithConfig: (keyof typeof middlewarePairs | [keyof typeof middlewarePairs, Record < string, unknown>])[]
+  ...keysWithConfig: (keyof typeof middlewarePairs | [keyof typeof middlewarePairs, Record < string, unknown >])[]
 ): RequestHandler[] {
   function getMiddleware(middlewareKey: string, config?: Record < string, unknown >): RequestHandler[] {
     const middlewarePaths = middlewarePairs[middlewareKey as keyof typeof middlewarePairs];
@@ -60,11 +56,14 @@ export function middleware(
   let middlewares: RequestHandler[] = [];
   for (const keyWithConfig of keysWithConfig) {
     if (typeof keyWithConfig === "string") {
-      middlewares = [...middlewares, ...getMiddleware(keyWithConfig)];
+      middlewares = [...middlewares,
+        ...getMiddleware(keyWithConfig)];
     } else {
-      const [key, config] = keyWithConfig;
+      const [key,
+        config] = keyWithConfig;
       const middleware = getMiddleware(key, config);
-      middlewares = [...middlewares, ...middleware];
+      middlewares = [...middlewares,
+        ...middleware];
     }
   }
   return middlewares;
@@ -78,17 +77,25 @@ export function controller(name: string, version?: string): Record < string, Req
   const controllerInstance = new controllerClass;
   const controllerPrefix = controllerClass.name.replace("Controller", "");
   const methodNames = Object.getOwnPropertyNames(Object.getPrototypeOf(controllerInstance)).filter(name => name !== "constructor" && typeof controllerInstance[name] === 'function');
-  const handlerAndValidatorStack: Record < string, RequestHandler[] > = {};
+  const handlerAndValidatorStack: Record < string,
+  RequestHandler[] > = {};
   for (const methodName of methodNames) {
-    const requestHandler = async function(req: Request, res: Response) {
-      const handler = controllerInstance[methodName];
-      if(handler.length > 1) return await handler(req);
-      const response = await handler(req);
-      res.api(response);
+    const requestHandler = async function(req: Request, res: Response, next: NextFunction) {
+      try {
+        const handler = controllerInstance[methodName];
+        if (handler.length > 1) return await handler(req);
+        const response = await handler(req);
+        res.api(response);
+      }
+      catch(err: any) {
+        next(err)
+      }
     }
     const validationSubPath = `${controllerPrefix}/${capitalizeFirstLetter(methodName)}`;
     handlerAndValidatorStack[methodName] = [
-      ...middleware(["validate", {version, validationSubPath}]),
+      ...middleware(["validate", {
+        version, validationSubPath
+      }]),
       requestHandler
     ];
   }

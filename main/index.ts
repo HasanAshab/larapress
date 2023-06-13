@@ -85,8 +85,3 @@ function getEndpoints(): string[] {
 
 */
 
-
-import URL from "illuminate/utils/URL"
-
-console.log(URL.signedRoute("file.serve", {id:4}))
-

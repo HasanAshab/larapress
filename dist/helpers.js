@@ -20,7 +20,6 @@ function storage(storage_path = "") {
     return path_1.default.resolve(path_1.default.join("storage", storage_path));
 }
 exports.storage = storage;
-// middleware(["foo", {bar: {}}])
 function middleware(...keysWithConfig) {
     function getMiddleware(middlewareKey, config) {
         var _a, _b;
@@ -49,12 +48,14 @@ function middleware(...keysWithConfig) {
     let middlewares = [];
     for (const keyWithConfig of keysWithConfig) {
         if (typeof keyWithConfig === "string") {
-            middlewares = [...middlewares, ...getMiddleware(keyWithConfig)];
+            middlewares = [...middlewares,
+                ...getMiddleware(keyWithConfig)];
         }
         else {
             const [key, config] = keyWithConfig;
             const middleware = getMiddleware(key, config);
-            middlewares = [...middlewares, ...middleware];
+            middlewares = [...middlewares,
+                ...middleware];
         }
     }
     return middlewares;
@@ -69,16 +70,23 @@ function controller(name, version) {
     const methodNames = Object.getOwnPropertyNames(Object.getPrototypeOf(controllerInstance)).filter(name => name !== "constructor" && typeof controllerInstance[name] === 'function');
     const handlerAndValidatorStack = {};
     for (const methodName of methodNames) {
-        const requestHandler = async function (req, res) {
-            const handler = controllerInstance[methodName];
-            if (handler.length > 1)
-                return await handler(req);
-            const response = await handler(req);
-            res.api(response);
+        const requestHandler = async function (req, res, next) {
+            try {
+                const handler = controllerInstance[methodName];
+                if (handler.length > 1)
+                    return await handler(req);
+                const response = await handler(req);
+                res.api(response);
+            }
+            catch (err) {
+                next(err);
+            }
         };
         const validationSubPath = `${controllerPrefix}/${capitalizeFirstLetter(methodName)}`;
         handlerAndValidatorStack[methodName] = [
-            ...middleware(["validate", { version, validationSubPath }]),
+            ...middleware(["validate", {
+                    version, validationSubPath
+                }]),
             requestHandler
         ];
     }

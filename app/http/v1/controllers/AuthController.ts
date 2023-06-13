@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { log } from "helpers";
-import { passErrorsToHandler } from "illuminate/decorators/class";
+//import { passErrorsToHandler } from "illuminate/decorators/class";
 import Controller from "illuminate/controllers/Controller";
 import AuthenticationError from "app/exceptions/AuthenticationError";
 import bcrypt from "bcryptjs";
@@ -9,7 +9,7 @@ import Token from "app/models/Token";
 import ForgotPasswordMail from "app/mails/ForgotPasswordMail";
 import PasswordChangedMail from "app/mails/PasswordChangedMail";
 
-@passErrorsToHandler
+//@passErrorsToHandler
 export default class AuthController extends Controller {
   async register(req: Request){
     const { name, email, password } = req.validated;
@@ -43,7 +43,7 @@ export default class AuthController extends Controller {
         };
       }
     }
-    else throw AuthenticationError.type("INVALID_CREDENTIALS").create();
+    throw AuthenticationError.type("INVALID_CREDENTIALS").create();
   };
 
   async verifyEmail(req: Request){
