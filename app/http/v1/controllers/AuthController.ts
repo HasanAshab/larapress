@@ -11,7 +11,7 @@ import PasswordChangedMail from "app/mails/PasswordChangedMail";
 
 @passErrorsToHandler
 export default class AuthController extends Controller {
-  async register(req: Request, res: Response){
+  async register(req: Request){
     const { name, email, password } = req.validated;
     const logo = req.files?.logo;
     if (await User.findOne({ email })) throw AuthenticationError.type("EMAIL_EXIST").create();
@@ -23,29 +23,30 @@ export default class AuthController extends Controller {
     if (logo && !Array.isArray(logo)) await user.attachFile("logo", logo, true);
     const token = user.createToken();
     req.app.emit("Registered", user);
-    res.status(201).api({
-      message: "Verification email sent!",
+    return {
+      status: 201,
       token,
-    });
+      message: "Verification email sent!",
+    };
   };
 
-  async login(req: Request, res: Response){
+  async login(req: Request){
     const { email, password } = req.validated;
     const user = await User.findOne({email});
     if (user) {
       const match = await bcrypt.compare(password, user.password);
       if (match) {
         const token = user.createToken();
-        res.api({
+        return {
           token,
           message: "Logged in successfully!",
-        });
+        };
       }
     }
     else throw AuthenticationError.type("INVALID_CREDENTIALS").create();
   };
 
-  async verifyEmail(req: Request, res: Response){
+  async verifyEmail(req: Request){
     const { id, token } = req.validated;
     const verificationToken = await Token.findOne(
       {
@@ -69,19 +70,19 @@ export default class AuthController extends Controller {
       }
     );
     verificationToken.deleteOne().catch((err) => log(err));
-    res.api({
+    return {
       message: "Email verified!",
-    });
+    };
   };
 
-  async resendEmailVerification(req: Request, res: Response){
+  async resendEmailVerification(req: Request){
     await req.user!.sendVerificationEmail();
-     res.api({
+     return {
       message: "Verification email sent!",
-    });
+    };
   };
 
-  async forgotPassword(req: Request, res: Response){
+  async forgotPassword(req: Request){
     const email = req.validated.email;
     const user = await User.findOne({
       email,
@@ -89,26 +90,27 @@ export default class AuthController extends Controller {
     if (user) {
       await user.sendResetPasswordEmail();
     }
-     res.api({
+     return {
       message: "Password reset email sent!",
-    });
+    };
   };
 
-  async resetPassword(req: Request, res: Response){
+  async resetPassword(req: Request){
     const { id, token, password } = req.validated;
     const user = await User.findById(id);
     if (user) {
       await user.resetPassword(token, password)
-       res.api({
+       return {
         message: "Password reset successfully!",
-      });
+      };
     }
-    else res.status(404).api({
+    return {
+      status: 404,
       message: "User not found!",
-    });
+    };
   };
 
-  async changePassword(req: Request, res: Response){
+  async changePassword(req: Request){
     const user = req.user!;
     const { old_password, password } = req.validated;
     const oldPasswordMatch = await bcrypt.compare(old_password, user.password);
@@ -118,16 +120,16 @@ export default class AuthController extends Controller {
     user.tokenVersion++;
     await user.save();
     await user.notify(new PasswordChangedMail());
-     res.api({
+    return {
       message: "Password changed successfully!",
-    });
+    };
   };
 
-  async profile(req: Request, res: Response){
-     res.api({data:req.user!});
+  async profile(req: Request){
+    return {data:req.user};
   };
 
-  async updateProfile(req: Request, res: Response){
+  async updateProfile(req: Request){
     const { name, email } = req.validated;
     const logo = req.files?.logo;
     const user = req.user!;
@@ -141,9 +143,9 @@ export default class AuthController extends Controller {
     }
     if (result) {
       await user.sendVerificationEmail();
-       res.api({
+      return {
         message: "Verification email sent!",
-      });
+      };
     }
   };
 }

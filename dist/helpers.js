@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getParams = exports.getModels = exports.checkProperties = exports.getVersion = exports.log = exports.setEnv = exports.controller = exports.middlewareOld = exports.middleware = exports.storage = exports.capitalizeFirstLetter = exports.base = void 0;
+exports.getParams = exports.getModels = exports.checkProperties = exports.getVersion = exports.log = exports.setEnv = exports.controller = exports.middleware = exports.storage = exports.capitalizeFirstLetter = exports.base = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
@@ -25,16 +25,16 @@ function middleware(...keysWithConfig) {
     function getMiddleware(middlewareKey, config) {
         var _a, _b;
         const middlewarePaths = middlewares_1.default[middlewareKey];
+        const handlers = [];
         if (typeof middlewarePaths === "string") {
             const fullPath = middlewarePaths.startsWith("<global>")
                 ? middlewarePaths.replace("<global>", "illuminate/middlewares/global") : `app/http/${(_a = config === null || config === void 0 ? void 0 : config.version) !== null && _a !== void 0 ? _a : getVersion()}/middlewares/${middlewarePaths}`;
             const MiddlewareClass = require(path_1.default.resolve(fullPath)).default;
             const middlewareInstance = new MiddlewareClass(config);
             const handler = middlewareInstance.handle.bind(middlewareInstance);
-            return handler;
+            handlers.push(handler);
         }
         else {
-            const handlers = [];
             for (const middlewarePath of middlewarePaths) {
                 const fullPath = middlewarePath.startsWith("<global>")
                     ? middlewarePath.replace("<global>", "illuminate/middlewares/global") : `app/http/${(_b = config === null || config === void 0 ? void 0 : config.version) !== null && _b !== void 0 ? _b : getVersion()}/middlewares/${middlewarePath}`;
@@ -43,68 +43,23 @@ function middleware(...keysWithConfig) {
                 const handler = middlewareInstance.handle.bind(middlewareInstance);
                 handlers.push(handler);
             }
-            return handlers;
         }
+        return handlers;
     }
-    const middlewares = [];
+    let middlewares = [];
     for (const keyWithConfig of keysWithConfig) {
         if (typeof keyWithConfig === "string") {
-            middlewares.push(getMiddleware(keyWithConfig));
+            middlewares = [...middlewares, ...getMiddleware(keyWithConfig)];
         }
         else {
-            for (const [key, config] of Object.entries(keysWithConfig)) {
-                const middleware = getMiddleware(key, config);
-                middlewares.push(middleware);
-            }
+            const [key, config] = keyWithConfig;
+            const middleware = getMiddleware(key, config);
+            middlewares = [...middlewares, ...middleware];
         }
     }
     return middlewares;
 }
 exports.middleware = middleware;
-function middlewareOld(keys, version) {
-    var _a, _b;
-    function getMiddleware(middlewarePath, options = []) {
-        const fullPath = middlewarePath.startsWith("<global>")
-            ? middlewarePath.replace("<global>", "illuminate/middlewares/global") : `app/http/${version !== null && version !== void 0 ? version : getVersion()}/middlewares/${middlewarePath}`;
-        const MiddlewareClass = require(path_1.default.resolve(fullPath)).default;
-        const middlewareInstance = new MiddlewareClass(options);
-        const handler = middlewareInstance.handle.bind(middlewareInstance);
-        return handler;
-    }
-    if (Array.isArray(keys)) {
-        const middlewares = [];
-        for (const key of keys) {
-            const [name, params] = key.split(":");
-            const middlewarePaths = middlewares_1.default[name];
-            if (Array.isArray(middlewarePaths)) {
-                const funcBasedParams = params === null || params === void 0 ? void 0 : params.split("|");
-                for (let i = 0; i < middlewarePaths.length; i++) {
-                    const middleware = getMiddleware(middlewarePaths[i], (_a = funcBasedParams === null || funcBasedParams === void 0 ? void 0 : funcBasedParams[i]) === null || _a === void 0 ? void 0 : _a.split(","));
-                    middlewares.push(middleware);
-                }
-            }
-            else {
-                const middleware = getMiddleware(middlewarePaths, params === null || params === void 0 ? void 0 : params.split(","));
-                middlewares.push(middleware);
-            }
-        }
-        return middlewares;
-    }
-    const [name, params] = keys.split(":");
-    const middlewarePaths = middlewares_1.default[name];
-    if (middlewarePaths instanceof Array) {
-        const middlewares = [];
-        const funcBasedParams = typeof params !== "undefined"
-            ? params.split("|") : undefined;
-        for (let i = 0; i < middlewarePaths.length; i++) {
-            const middleware = getMiddleware(middlewarePaths[i], (_b = funcBasedParams === null || funcBasedParams === void 0 ? void 0 : funcBasedParams[i]) === null || _b === void 0 ? void 0 : _b.split(","));
-            middlewares.push(middleware);
-        }
-        return middlewares;
-    }
-    return getMiddleware(middlewarePaths, params === null || params === void 0 ? void 0 : params.split(","));
-}
-exports.middlewareOld = middlewareOld;
 function controller(name, version) {
     version = version !== null && version !== void 0 ? version : getVersion();
     const controllerPath = path_1.default.resolve(path_1.default.join(`app/http/${version}/controllers`, name));
@@ -114,14 +69,17 @@ function controller(name, version) {
     const methodNames = Object.getOwnPropertyNames(Object.getPrototypeOf(controllerInstance)).filter(name => name !== "constructor" && typeof controllerInstance[name] === 'function');
     const handlerAndValidatorStack = {};
     for (const methodName of methodNames) {
+        const requestHandler = async function (req, res) {
+            const handler = controllerInstance[methodName];
+            if (handler.length > 1)
+                return await handler(req);
+            const response = await handler(req);
+            res.api(response);
+        };
         const validationSubPath = `${controllerPrefix}/${capitalizeFirstLetter(methodName)}`;
         handlerAndValidatorStack[methodName] = [
-            middleware({
-                validate: {
-                    version, validationSubPath
-                }
-            }),
-            controllerInstance[methodName]
+            ...middleware(["validate", { version, validationSubPath }]),
+            requestHandler
         ];
     }
     return handlerAndValidatorStack;

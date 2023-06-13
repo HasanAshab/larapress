@@ -1,6 +1,7 @@
-import { RequestHandler } from "express"
+import { RequestHandler, Request, Response } from "express"
 
 export default abstract class Controller {
+  [key: string]: ((req: Request) => object) | ((req: Request, res: Response) => void)
   /*
   
   constructor() {

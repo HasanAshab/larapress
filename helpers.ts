@@ -33,19 +33,19 @@ type OneKey < T extends object, V = any > = {
 
 // middleware(["foo", {bar: {}}])
 export function middleware(
-  ...keysWithConfig: (keyof typeof middlewarePairs | OneKey < typeof middlewarePairs, Record < string, unknown>>)[]
+  ...keysWithConfig: (keyof typeof middlewarePairs | [keyof typeof middlewarePairs, Record < string, unknown>])[]
 ): RequestHandler[] {
-  function getMiddleware(middlewareKey: string, config?: Record < string, unknown >) {
+  function getMiddleware(middlewareKey: string, config?: Record < string, unknown >): RequestHandler[] {
     const middlewarePaths = middlewarePairs[middlewareKey as keyof typeof middlewarePairs];
+    const handlers: RequestHandler[] = [];
     if (typeof middlewarePaths === "string") {
       const fullPath = middlewarePaths.startsWith("<global>")
       ?middlewarePaths.replace("<global>", "illuminate/middlewares/global"): `app/http/${config?.version ?? getVersion()}/middlewares/${middlewarePaths}`;
       const MiddlewareClass = require(path.resolve(fullPath)).default;
       const middlewareInstance = new MiddlewareClass(config);
       const handler = middlewareInstance.handle.bind(middlewareInstance);
-      return handler;
+      handlers.push(handler)
     } else {
-      const handlers: RequestHandler[] = [];
       for (const middlewarePath of middlewarePaths) {
         const fullPath = middlewarePath.startsWith("<global>")
         ?middlewarePath.replace("<global>", "illuminate/middlewares/global"): `app/http/${config?.version ?? getVersion()}/middlewares/${middlewarePath}`;
@@ -54,18 +54,17 @@ export function middleware(
         const handler = middlewareInstance.handle.bind(middlewareInstance);
         handlers.push(handler)
       }
-      return handlers;
     }
+    return handlers
   }
-  const middlewares: RequestHandler[] = []
+  let middlewares: RequestHandler[] = [];
   for (const keyWithConfig of keysWithConfig) {
     if (typeof keyWithConfig === "string") {
-      middlewares.push(getMiddleware(keyWithConfig));
+      middlewares = [...middlewares, ...getMiddleware(keyWithConfig)];
     } else {
-      for (const [key, config] of Object.entries(keyWithConfig)) {
-        const middleware = getMiddleware(key, config as Record < string, unknown >)
-        middlewares.push(middleware);
-      }
+      const [key, config] = keyWithConfig;
+      const middleware = getMiddleware(key, config);
+      middlewares = [...middlewares, ...middleware];
     }
   }
   return middlewares;
@@ -82,15 +81,14 @@ export function controller(name: string, version?: string): Record < string, Req
   const handlerAndValidatorStack: Record < string, RequestHandler[] > = {};
   for (const methodName of methodNames) {
     const requestHandler = async function(req: Request, res: Response) {
-      const response = await controllerInstance[methodName](req);
+      const handler = controllerInstance[methodName];
+      if(handler.length > 1) return await handler(req);
+      const response = await handler(req);
       res.api(response);
     }
     const validationSubPath = `${controllerPrefix}/${capitalizeFirstLetter(methodName)}`;
     handlerAndValidatorStack[methodName] = [
-      middleware({
-        validate: {
-          version, validationSubPath
-        }}),
+      ...middleware(["validate", {version, validationSubPath}]),
       requestHandler
     ];
   }

@@ -3,11 +3,11 @@ import FileValidator from "illuminate/utils/FileValidator";
 import Mailable from "illuminate/mails/Mailable";
 import middlewarePairs from "register/middlewares";
 
-export type RawResponse = ({
+export type RawResponse = {
+  status?: number,
   message?: string,
   data?: any[] | Record<string, any>
-} & Record<string, any>
-) | Record<string, any>[];
+} & Record<string, any>;
 
 export type ApiResponse = {
   success: boolean,

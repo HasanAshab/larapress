@@ -8,6 +8,8 @@ export default class ValidateRequest extends Middleware {
   @passErrorsToHandler()
   handle(req: Request, res: Response, next: NextFunction){
     const {version, validationSubPath} = this.config;
+    if(typeof version !== "string" || typeof validationSubPath !== "string") throw new Error("version and validationSubPath args required as type String.");
+
     try {
       const Schema = require(base(path.join(`app/http/${version}/validations/`, validationSubPath)));
       var ValidationSchema = Schema.default;
