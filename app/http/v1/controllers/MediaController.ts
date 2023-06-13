@@ -5,6 +5,11 @@ import Media from "app/models/Media";
 
 @passErrorsToHandler
 export default class MediaController extends Controller {
+  async t(req: Request) {
+    return {
+      foo:"bar"
+    }
+  }
   async index(req: Request, res: Response) {
     const media = await Media.findById(req.validated.id);
     (!media)

@@ -1,10 +1,8 @@
 import { Request, Response } from "express";
-import { passErrorsToHandler } from "illuminate/decorators/class";
 import Controller from "illuminate/controllers/Controller";
 import User from "app/models/User";
 
-@passErrorsToHandler
-export default class {{name}} extends Controller {
+export default class {{name}}Controller extends Controller {
   async index(req: Request, res: Response) {
     //
   }

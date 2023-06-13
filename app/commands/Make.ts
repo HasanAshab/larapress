@@ -32,12 +32,42 @@ export default class Make extends Command {
 
   handle() {
     this.subCommandRequired("Material name");
-    this.requiredParams(["name"]);
     const fullPath = this.params.name.split("/");
     const name = fullPath.pop() as string;
     const parentPath = fullPath.join("/");
-    const content = this._getTemplate(this.subCommand, name);
-    const filepath = this._getPath(this.subCommand, parentPath, name);
+    let templatePath = base(`illuminate/templates/${this.subCommand}`);
+    const templateDistination = components[this.subCommand];
+    if (typeof templateDistination === "object" && fs.statSync(templatePath).isDirectory()){
+      templatePath += (typeof this.flags[0] !== "undefined")
+        ?'/' + this.flags[0]
+        :'/' + templateDistination.default;
+    }
+    try {
+      var content = fs.readFileSync(templatePath, "utf-8").replace(/{{name}}/g, name);
+    }
+    catch (e){
+      console.log(e)
+      this.error("Component not available!");
+    }
+    
+    let pathSchema = components[this.subCommand];
+    if(typeof pathSchema === "object"){
+      pathSchema = pathSchema[this.flags[0] || pathSchema.default];
+    }
+    else if(typeof pathSchema === "undefined"){
+      this.error("Component not available!");
+    }
+    const requiredParamNames = ["name"]
+    const filepath = pathSchema.replace(/\{(\w+)\}/g, (match: string, key: string) => {
+      requiredParamNames.push(key)
+      return this.params[key] || match;
+    });
+    this.requiredParams(requiredParamNames);
+
+    console.log(filepath)
+    loadDir(path.dirname(filepath));
+
+    
     try {
       fs.writeFileSync(base(filepath), content, {
         flag: "wx"
@@ -48,36 +78,5 @@ export default class Make extends Command {
     this.success(`File created successfully: [${filepath}]`);
   }
 
-  _getTemplate(componentName: string, name: string): string {
-    let path = base(`illuminate/templates/${componentName}`);
-    const templateDistination = components[componentName];
-    if (typeof templateDistination === "object" && fs.statSync(path).isDirectory()){
-      path += (typeof this.flags[0] !== "undefined")
-        ?'/' + this.flags[0]
-        :'/' + templateDistination.default;
-    }
-    try {
-      return fs.readFileSync(path, "utf-8").replace(/{{name}}/g, name);
-    }
-    catch (e){
-      console.log(e)
-      this.error("Component not found!");
-      return "";
-    }
-  }
 
-  _getPath(componentName: string, parentPath: string, name: string): string {
-    let pathSchema = components[componentName];
-    if(typeof pathSchema === "object"){
-      pathSchema = pathSchema[this.flags[0] || pathSchema.default];
-    }
-    else if(typeof pathSchema === "undefined"){
-      this.error("Component not available");
-      return "";
-    }
-
-    const componentPath = pathSchema.replace(/{{name}}/g, path.join(parentPath, name))
-    loadDir(path.dirname(componentPath));
-    return componentPath;
-  }
 }
