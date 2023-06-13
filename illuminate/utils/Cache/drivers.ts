@@ -1,10 +1,12 @@
-import { CacheDriverResponse } from "types";
-import Cache from "illuminate/utils/Cache";
 import memoryCache from "memory-cache";
 import { createClient } from "redis";
 
-const drivers: Record<string, () => CacheDriverResponse > = {
-  memory: async () => memoryCache[Cache.action](...Cache.params),
+//const drivers: Record<string, () => > = {
+export async function memory(action, key: string, data?:(string | object | any[]), number?]){
+  return memoryCache[action]()
+}
+
+/*
   file: async () => null,
 
   redis: async () => {
@@ -34,7 +36,4 @@ const drivers: Record<string, () => CacheDriverResponse > = {
     }
     await client.disconnect();
     return result;
-  }
-}
-
-export default drivers;
+  }*/

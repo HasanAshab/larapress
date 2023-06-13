@@ -1,16 +1,16 @@
 const components: Record<string, string | Record<string, string>> = {
   "model": "app/models/{name}.ts",
-  "trait": "app/traits/{name}.ts",
+  "plugin": "app/plugins/{name}.ts",
   "factory": "app/factories/{name}.ts",
   "mail": "app/mails/{name}.ts",
   "listener": "app/listeners/{name}.ts",
   "job": "app/jobs/{name}.ts",
   "exception": "app/exceptions/{name}.ts",
   "controller": "app/http/{v}/controllers/{name}Controller.ts",
-  "validation": "app/http/validations/{name}.ts",
+  "validation": "app/http/{v}/validations/{name}.ts",
   "middleware": {
     "default": "l",
-    "l": "app/http/middlewares/{name}.ts",
+    "l": "app/http/{v}/middlewares/{name}.ts",
     "g": "illuminate/middlewares/global/{name}.ts"
   },
   "command": "app/commands/{name}.ts",

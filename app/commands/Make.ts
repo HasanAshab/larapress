@@ -32,6 +32,7 @@ export default class Make extends Command {
 
   handle() {
     this.subCommandRequired("Material name");
+    this.requiredParams(["name"]);
     const fullPath = this.params.name.split("/");
     const name = fullPath.pop() as string;
     const parentPath = fullPath.join("/");
@@ -45,8 +46,7 @@ export default class Make extends Command {
     try {
       var content = fs.readFileSync(templatePath, "utf-8").replace(/{{name}}/g, name);
     }
-    catch (e){
-      console.log(e)
+    catch {
       this.error("Component not available!");
     }
     
@@ -57,7 +57,7 @@ export default class Make extends Command {
     else if(typeof pathSchema === "undefined"){
       this.error("Component not available!");
     }
-    const requiredParamNames = ["name"]
+    const requiredParamNames: string[] = []
     const filepath = pathSchema.replace(/\{(\w+)\}/g, (match: string, key: string) => {
       requiredParamNames.push(key)
       return this.params[key] || match;

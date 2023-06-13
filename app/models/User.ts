@@ -2,12 +2,12 @@ import { model, Schema, Document, InferSchemaType } from "mongoose";
 import URL from "illuminate/utils/URL"
 import bcrypt from "bcryptjs";
 import Mailable from "illuminate/mails/Mailable";
-import Authenticatable, { IAuthenticatable } from "app/traits/Authenticatable";
-import Timestamps, { ITimestamps } from "app/traits/Timestamps";
-import HasFactory, { IHasFactory } from "app/traits/HasFactory";
-import HasApiTokens, { IHasApiTokens } from "app/traits/HasApiTokens";
-import Notifiable, { INotifiable } from "app/traits/Notifiable";
-import Mediable, { IMediable } from "app/traits/Mediable";
+import Authenticatable, { IAuthenticatable } from "app/plugins/Authenticatable";
+import Timestamps, { ITimestamps } from "app/plugins/Timestamps";
+import HasFactory, { IHasFactory } from "app/plugins/HasFactory";
+import HasApiTokens, { IHasApiTokens } from "app/plugins/HasApiTokens";
+import Notifiable, { INotifiable } from "app/plugins/Notifiable";
+import Mediable, { IMediable } from "app/plugins/Mediable";
 
 const UserSchema = new Schema({
   name: {

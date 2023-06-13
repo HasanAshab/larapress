@@ -1,6 +1,6 @@
 import { model, Schema, Document, InferSchemaType } from "mongoose";
 import bcrypt from "bcryptjs";
-import Timestamps, { ITimestamps } from "app/traits/Timestamps";
+import Timestamps, { ITimestamps } from "app/plugins/Timestamps";
 
 const TokenSchema = new Schema({
   userId: {

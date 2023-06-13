@@ -8,8 +8,8 @@ import {
   log
 } from "helpers";
 
-import HasFactory, { IHasFactory } from "app/traits/HasFactory";
-import Timestamps, { ITimestamps } from "app/traits/Timestamps";
+import HasFactory, { IHasFactory } from "app/plugins/HasFactory";
+import Timestamps, { ITimestamps } from "app/plugins/Timestamps";
 
 const MediaSchema = new Schema({
   name: {

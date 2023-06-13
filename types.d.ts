@@ -36,8 +36,6 @@ export type RecipientEmails = string | string[] | ({email: string} & Record<stri
     }
   }
   
-export type CacheDriverResponse = Promise<null | string>;
-
 export type ValidationSchema = {
   urlencoded?: {
     target: "body" | "params" | "query",
