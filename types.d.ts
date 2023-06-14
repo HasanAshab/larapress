@@ -46,4 +46,28 @@ export type ValidationSchema = {
 
 export type MailMockedData = Record<string, Record<string, {mailable: Mailable, count: number}>>;
 
-export type MiddlewareKey = `${keyof typeof middlewarePairs}${`:${string}` | ''}`;
+
+export type CacheDataArg = string | number | boolean | Buffer;
+
+export type CacheArgs =
+| {
+  action: "get";
+  key: string;
+}
+| {
+  action: "put";
+  key: string;
+  data: CacheDataArg;
+  expiry?: number;
+}
+
+export type CacheDriverHandler = < Action extends CacheArgs["action"], Return = Action extends "get" ? string | null : void> (
+  ...args: Extract < CacheArgs, {
+    action: Action
+  } > extends {
+    data: CacheDataArg;
+    expiry?: infer Expiry;
+  }
+  ? [Action, CacheArgs["key"], CacheDataArg, Expiry?]: [Action, CacheArgs["key"]]
+) => Promise<Return> | Return;
+

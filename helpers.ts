@@ -5,9 +5,6 @@ import {
   Response
 } from "express";
 import {
-  MiddlewareKey
-} from "types";
-import {
   Model
 } from "mongoose";
 import dotenv from "dotenv";

@@ -34,6 +34,7 @@ export default class Make extends Command {
     this.subCommandRequired("Material name");
     this.requiredParams(["name"]);
     const fullPath = this.params.name.split("/");
+    let content = "";
     const name = fullPath.pop() as string;
     const parentPath = fullPath.join("/");
     let templatePath = base(`illuminate/templates/${this.subCommand}`);
@@ -44,7 +45,7 @@ export default class Make extends Command {
         :'/' + templateDistination.default;
     }
     try {
-      var content = fs.readFileSync(templatePath, "utf-8").replace(/{{name}}/g, name);
+      content = fs.readFileSync(templatePath, "utf-8").replace(/{{name}}/g, name);
     }
     catch {
       this.error("Component not available!");

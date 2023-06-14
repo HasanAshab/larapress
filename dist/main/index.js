@@ -82,3 +82,5 @@ function getEndpoints(): string[] {
 //}
 
 */
+const Cache_1 = __importDefault(require("illuminate/utils/Cache"));
+Cache_1.default.driver("redis").put("key", null, 94).then((d) => console.log(d));

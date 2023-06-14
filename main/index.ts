@@ -85,3 +85,6 @@ function getEndpoints(): string[] {
 
 */
 
+import Cache from "illuminate/utils/Cache";
+
+Cache.driver("redis").put("key", null, 94).then((d) => console.log(d));

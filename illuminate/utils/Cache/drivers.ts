@@ -1,39 +1,28 @@
+import { CacheDriverHandler, CacheArgs, CacheDataArg } from "types";
+import { log } from "helpers";
 import memoryCache from "memory-cache";
 import { createClient } from "redis";
 
-//const drivers: Record<string, () => > = {
-export async function memory(action, key: string, data?:(string | object | any[]), number?]){
-  return memoryCache[action]()
+const memory: CacheDriverHandler = (action, key, data?, expiry?): any => memoryCache[action](key, data);
+
+const redis: CacheDriverHandler = async (action, key, data?, expiry?): Promise<any> => {
+  const redisUrl = process.env.REDIS_URL;
+  const client = createClient({
+    url: redisUrl
+  });
+  client.on("error", err => log(err));
+  await client.connect();
+  if (action === "get") {
+    const result = await client.get(key);
+    await client.disconnect();
+    return result !== null ? JSON.parse(result) : result;
+  }
+  if(typeof expiry === "number") await client.setEx(key, expiry, JSON.stringify(data!));
+  else await client.set(key, JSON.stringify(data!));
+  await client.disconnect();
 }
 
-/*
-  file: async () => null,
-
-  redis: async () => {
-    const redisUrl = process.env.REDIS_URL;
-    const client = createClient({
-      url: redisUrl
-    });
-    client.on("error", (err) => {
-      throw err
-    });
-    await client.connect();
-    let result: null | string = null;
-    if (Cache.action === "put") {
-      const [key,
-        data,
-        expiry] = Cache.params;
-      if (typeof data === "undefined") {
-        throw new Error("data argument is required");
-      }
-      if (typeof expiry === "undefined") {
-        throw new Error("expiry argument is required");
-      }
-
-      result = await client.setEx(key, expiry, JSON.stringify(data));
-    } else {
-      result = JSON.parse(await client.get(Cache.params[0]));
-    }
-    await client.disconnect();
-    return result;
-  }*/
+export default {
+  memory,
+  redis
+};
