@@ -3,8 +3,10 @@ import { log } from "helpers";
 import memoryCache from "memory-cache";
 import { createClient } from "redis";
 
-const memory: CacheDriverHandler = (action, key, data?, expiry?): any => memoryCache[action](key, data);
-
+const memory: CacheDriverHandler = (action, key, data?, expiry?): any => {
+  if(action === "flush") return memoryCache.clear();
+  return memoryCache[action](key, data);
+}
 const redis: CacheDriverHandler = async (action, key, data?, expiry?): Promise<any> => {
   const redisUrl = process.env.REDIS_URL;
   const client = createClient({
@@ -12,6 +14,7 @@ const redis: CacheDriverHandler = async (action, key, data?, expiry?): Promise<a
   });
   client.on("error", err => log(err));
   await client.connect();
+  if(action === "flush") return await client.flushAll();
   if (action === "get") {
     const result = await client.get(key);
     await client.disconnect();
