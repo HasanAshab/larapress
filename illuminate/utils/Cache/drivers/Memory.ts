@@ -12,7 +12,8 @@ export default class Memory extends Driver {
     memoryCache.put(key, JSON.stringify(data), expiry)
   }
   
-  clear(){
-    memoryCache.clear();
+  clear(key?: string){
+    if(typeof key === "undefined") memoryCache.clear();
+    else memoryCache.del(key);
   }
 }

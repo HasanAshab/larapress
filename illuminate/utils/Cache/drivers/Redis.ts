@@ -4,6 +4,7 @@ import { CacheDataArg } from "types";
 import { log } from "helpers";
 
 export default class Redis extends Driver {
+  
   private createClient() {
     const redisUrl = process.env.REDIS_URL;
     const client = createClient({
@@ -29,11 +30,11 @@ export default class Redis extends Driver {
     await client.disconnect();
   }
 
-  async clear() {
+  async clear(key?: string) {
     const client = this.createClient();
     await client.connect();
-    await client.flushAll();
+    if(typeof key === "undefined") await client.flushAll();
+    else await client.del(key)
     await client.disconnect();
   }
-
 }

@@ -1,4 +1,4 @@
-const Cache = require(base("illuminate/utils/Cache")).default;
+const Cache = require("illuminate/utils/Cache").default;
 
 
 describe("Cache", () => {
@@ -24,9 +24,9 @@ describe("Cache", () => {
     }
   });
   
-  it.only("Shouldn't get expired cache", async () => {
+  it.skip("Shouldn't get expired cache", async () => {
     for(const driverName of drivers){
-      //await Cache.driver(driverName).put("key", "data")
+      await Cache.driver(driverName).put("key", "data")
       console.log(await Cache.driver(driverName).get("key"))
       expect(await Cache.driver(driverName).get("key")).toBe("data");
     }

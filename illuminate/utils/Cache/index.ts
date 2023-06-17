@@ -20,18 +20,17 @@ export default class Cache {
   }
   
   static async getDriver<T extends keyof Driver>(methodName: T): Promise<Driver[T]> {
-    const { default: DriverClass } = await import(`illuminate/utils/cache/drivers/${this.driverName}`);
+    const { default: DriverClass } = await import(`./drivers/${this.driverName}`);
     const driver = new DriverClass();
     this.driverName = cacheDriversConfig[cacheDriversConfig.default];
     if(Driver.isDriver(driver)){
-      return driver[methodName];
+      return driver[methodName].bind(driver) as Driver[T];
     }
     throw new Error(`Cache driver not implemented for ${this.driverName} driver.`);
   }
   
   static async get(key: string) {
     const driverHandler = await this.getDriver("get");
-    console.log(driverHandler)
     return await driverHandler(key);
   }
   static async put(key: string, data: CacheDataArg, expiry?: number) {
@@ -39,8 +38,8 @@ export default class Cache {
     return await driverHandler(key, data, expiry);
   }
 
-  static async clear() {
+  static async clear(key?: string) {
     const driverHandler = await this.getDriver("clear");
-    return await driverHandler();
+    return await driverHandler(key);
   }
 }
