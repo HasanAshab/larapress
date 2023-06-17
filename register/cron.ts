@@ -1,10 +1,9 @@
-const cron: Record<string, string | string[]> = {
-  /*
+export default {
+/*
   "* * * * * *": [
     "test:hf name=jd",
     "test:hf name=hasan"
   ], 
   */
-}
+} as const;
 
-export default cron;
