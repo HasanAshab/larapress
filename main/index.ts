@@ -38,6 +38,9 @@ if (nodeEnv === "development") {
 }
 
 
+import URL from "illuminate/utils/URL";
+console.log(URL.route("email.verify", {id: 93939}))
+
 /*
 
 import { base } from "helpers"

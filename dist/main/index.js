@@ -36,6 +36,8 @@ if (nodeEnv === "development") {
         console.log(`*New connection: [${time}]`);
     });
 }
+const URL_1 = __importDefault(require("illuminate/utils/URL"));
+console.log(URL_1.default.route("email.verify", { id: 93939 }));
 /*
 
 import { base } from "helpers"

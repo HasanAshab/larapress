@@ -18,11 +18,8 @@ export default class URL {
     return `${protocol}://${path.join(`${domain}:${port}`, url_path)}`;
   }
 
-  static route(name: string, data?: Record < string, string | number >): string {
-    let endpoint = urls[name];
-    if (!endpoint) {
-      throw new Error("Endpoint not found!")
-    }
+  static route(name: keyof typeof urls, data?: Record < string, string | number >): string {
+    let endpoint: string = urls[name];
     if (data) {
       const regex = /:(\w+)/g;
       const params = endpoint.match(regex);
@@ -35,7 +32,7 @@ export default class URL {
     return this.resolve(endpoint);
   }
 
-  static signedRoute(routeName: string, data?: Record < string, string | number >, expireAfter?: number): string {
+  static signedRoute(routeName: keyof typeof urls, data?: Record < string, string | number >, expireAfter?: number): string {
     const fullUrl = this.route(routeName, data);
     const subUrl = fullUrl.replace(this.resolve(), "/");
     const expiryTime = expireAfter ? Date.now() + expireAfter: 0;

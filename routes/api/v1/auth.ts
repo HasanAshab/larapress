@@ -9,7 +9,7 @@ router.post("/register", AuthController.register);
 router.post("/login", AuthController.login);
 
 
-router.get("/verify", AuthController.verifyEmail);
+router.get("/verify", middleware("signed"), AuthController.verifyEmail);
 router.post("/verify/resend", middleware("auth"), AuthController.resendEmailVerification);
 
 router.post("/password/forgot", AuthController.forgotPassword);
