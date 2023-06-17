@@ -58,7 +58,7 @@ export type MailMockedData = Record < string, Record < string, {
 }>>;
 
 
-export type CacheDataArg = string | number | boolean | Buffer;
+export type CacheDataArg = string | number | boolean | object | unknown[] | Buffer;
 
 export type CacheArgs =
 | {

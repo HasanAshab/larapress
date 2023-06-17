@@ -1,0 +1,39 @@
+import Driver from "illuminate/utils/Cache/Driver";
+import { createClient } from "redis";
+import { CacheDataArg } from "types";
+import { log } from "helpers";
+
+export default class Redis extends Driver {
+  private createClient() {
+    const redisUrl = process.env.REDIS_URL;
+    const client = createClient({
+      url: redisUrl
+    });
+    client.on("error", err => log(err));
+    return client;
+  }
+
+  async get(key: string): Promise < string | null > {
+    const client = this.createClient();
+    await client.connect();
+    const result = await client.get(key);
+    await client.disconnect();
+    return result !== null ? JSON.parse(result): null;
+  }
+
+  async put(key: string, data: CacheDataArg, expiry?: number) {
+    const client = this.createClient();
+    await client.connect();
+    if (typeof expiry === "number") await client.setEx(key, expiry, JSON.stringify(data));
+    else await client.set(key, JSON.stringify(data));
+    await client.disconnect();
+  }
+
+  async clear() {
+    const client = this.createClient();
+    await client.connect();
+    await client.flushAll();
+    await client.disconnect();
+  }
+
+}

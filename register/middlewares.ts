@@ -11,4 +11,4 @@ export default {
   "response.cache": "<global>/CacheResponse",
   "error.handle": "<global>/ErrorHandler",
   "helpers.inject": "<global>/InjectHelpers"
-};
+} as const;

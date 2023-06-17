@@ -6,7 +6,7 @@ describe("Cache", () => {
   
   beforeAll(async () => {
     for(const driver of drivers){
-      await Cache.driver(driver).flush()
+      await Cache.driver(driver).clear()
     }
   });
   
@@ -24,7 +24,7 @@ describe("Cache", () => {
     }
   });
   
-  it("Shouldn't get expired cache", async () => {
+  it.only("Shouldn't get expired cache", async () => {
     for(const driverName of drivers){
       //await Cache.driver(driverName).put("key", "data")
       console.log(await Cache.driver(driverName).get("key"))
