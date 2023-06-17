@@ -1,5 +1,7 @@
 export default {
   default: "redis",
-  memory: "Memory",
-  redis: "Redis"
+  map: {
+    memory: "Memory",
+    redis: "Redis"
+  }
 } as const;

@@ -1,8 +1,8 @@
 const Cache = require("illuminate/utils/Cache").default;
-
+const cacheDriversConfig = require("register/drivers/cache").default;
 
 describe("Cache", () => {
-  const drivers = ["memory", "redis"];
+  const drivers = Object.keys(cacheDriversConfig.map);
   
   beforeAll(async () => {
     for(const driver of drivers){
@@ -17,6 +17,14 @@ describe("Cache", () => {
     }
   });
   
+  it("Should delete cache", async () => {
+    for(const driverName of drivers){
+      await Cache.driver(driverName).put("key", "data")
+      await Cache.driver(driverName).clear("key")
+      expect(await Cache.driver(driverName).get("key")).toBe(null);
+    }
+  });
+  
   it("Should store cache with expiry time", async () => {
     for(const driverName of drivers){
       await Cache.driver(driverName).put("key", "data", 10 * 1000)
@@ -24,11 +32,14 @@ describe("Cache", () => {
     }
   });
   
-  it.skip("Shouldn't get expired cache", async () => {
+  it("Shouldn't get expired cache", async () => {
     for(const driverName of drivers){
-      await Cache.driver(driverName).put("key", "data")
-      console.log(await Cache.driver(driverName).get("key"))
-      expect(await Cache.driver(driverName).get("key")).toBe("data");
+      await Cache.driver(driverName).put("key", "data", 1000)
     }
+    setTimeout(async () => {
+      for(const driverName of drivers){
+        expect(await Cache.driver(driverName).get("key")).toBe(null);
+      }
+    }, 1000)
   });
 });

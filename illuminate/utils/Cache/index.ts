@@ -7,22 +7,22 @@ import cacheDriversConfig from "register/drivers/cache";
 import fs from "fs";
 //import CacheError from "illuminate/exceptions/utils/CacheError";
 
-type CacheDriverName = Exclude<typeof cacheDriversConfig[keyof typeof cacheDriversConfig], typeof cacheDriversConfig.default>
-type CacheDriverKey = Exclude<keyof typeof cacheDriversConfig, "default">
+//type CacheDriverName = Exclude<typeof cacheDriversConfig[keyof typeof cacheDriversConfig], typeof cacheDriversConfig.default>
+//type CacheDriverKey = Exclude<keyof typeof cacheDriversConfig, "default">
 
 
 export default class Cache {
-  static driverName: CacheDriverName = cacheDriversConfig[cacheDriversConfig.default];
+  static driverName: typeof cacheDriversConfig.map[keyof typeof cacheDriversConfig.map] = cacheDriversConfig.map[cacheDriversConfig.default];
   
-  static driver(cacheDriver: CacheDriverKey): typeof Cache {
-    this.driverName = cacheDriversConfig[cacheDriver];
+  static driver(cacheDriver: keyof typeof cacheDriversConfig.map): typeof Cache {
+    this.driverName = cacheDriversConfig.map[cacheDriver];
     return this;
   }
   
   static async getDriver<T extends keyof Driver>(methodName: T): Promise<Driver[T]> {
     const { default: DriverClass } = await import(`./drivers/${this.driverName}`);
     const driver = new DriverClass();
-    this.driverName = cacheDriversConfig[cacheDriversConfig.default];
+    this.driverName = cacheDriversConfig.map[cacheDriversConfig.default];
     if(Driver.isDriver(driver)){
       return driver[methodName].bind(driver) as Driver[T];
     }
