@@ -1,16 +1,15 @@
-import {
-  ValidationSchema
-} from "types";
+import { ValidationSchema } from "types";
 import Joi from "joi";
 
 const schema: ValidationSchema = {
   urlencoded: {
-    target: "query",
+    target: "params",
     rules: Joi.object({
       id: Joi.string().required(),
-      token: Joi.string().required(),
     })
-  }
+  },
 }
+
+export default schema;
 
 export default schema;

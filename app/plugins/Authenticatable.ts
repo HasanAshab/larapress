@@ -32,15 +32,9 @@ export default (schema: Schema) => {
     if (this.emailVerified) {
       return false;
     }
-    const verificationToken = crypto.randomBytes(32).toString("hex");
-    const token = await Token.create({
-      userId: this._id,
-      token: verificationToken,
-      for: "email_verification",
-    });
-    const link = URL.resolve(`api/auth/verify?id=${this._id}&token=${verificationToken}`);
+    const link = URL.signedRoute("email.verify", {id: this._id}, 3 * 24 * 60 * 60);
     const result = await this.notify(new VerificationMail({ link }));
-    return verificationToken;
+    return link;
   };
 
   schema.methods.sendResetPasswordEmail = async function (): Promise<string> {

@@ -31,8 +31,8 @@ export default class AppendRequestHelpers extends Middleware {
     }
 
     res.api = function (response: RawResponse) {
-      res.statusCode = response.status ?? res.statusCode;
-      const success = res.statusCode >= 200 && res.statusCode < 300;
+      this.statusCode = response.status ?? this.statusCode;
+      const success = this.statusCode >= 200 && this.statusCode < 300;
       delete response.status;
       const wrappedData: ApiResponse = {
         success,
@@ -53,7 +53,7 @@ export default class AppendRequestHelpers extends Middleware {
           }
         }
       }
-      return res.json(wrappedData);
+      return this.json(wrappedData);
     };
 
     next()

@@ -47,29 +47,7 @@ export default class AuthController extends Controller {
   };
 
   async verifyEmail(req: Request){
-    const { id, token } = req.validated;
-    const verificationToken = await Token.findOne(
-      {
-        userId: id,
-        for: "email_verification",
-      },
-      {},
-      { sort: { createdAt: -1 } }
-    );
-    if (!verificationToken) throw AuthenticationError.type("INVALID_OR_EXPIRED_TOKEN").create();
-    const tokenMatch = await bcrypt.compare(token, verificationToken.token);
-    if (!tokenMatch) throw AuthenticationError.type("INVALID_OR_EXPIRED_TOKEN").create();
-
-    await User.findByIdAndUpdate(
-      id,
-      {
-        emailVerified: true,
-      },
-      {
-        new: false,
-      }
-    );
-    verificationToken.deleteOne().catch((err) => log(err));
+    await User.findByIdAndUpdate(req.params.id, {emailVerified: true}, {new: false});
     return {
       message: "Email verified!",
     };

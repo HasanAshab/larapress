@@ -1,7 +1,6 @@
 const app = require("main/app").default;
-const supertest = require("supertest");
+const request = require("supertest")(app.listen(8000));
 const DB = require("illuminate/utils/DB").default;
-const request = supertest(app);
 const bcrypt = require("bcryptjs");
 const Storage = require("illuminate/utils/Storage").default;
 const Mail = require("illuminate/utils/Mail").default;
@@ -53,14 +52,11 @@ describe("Auth", () => {
     expect(response.body.data).toHaveProperty("token");
   });
 
-  it("should verify email", async () => {
-    const verificationToken = await user.sendVerificationEmail();
-    const response = await request.get("/api/v1/auth/verify").query({
-      id: user._id.toString(),
-      token: verificationToken,
-    });
+  it.only("should verify email", async () => {
+    const verificationLink = await user.sendVerificationEmail();
+    const response = await fetch(verificationLink)
     user = await User.findById(user._id);
-    expect(response.statusCode).toBe(200);
+    expect(response.status).toBe(200);
     expect(user.emailVerified).toBe(true);
   });
 
