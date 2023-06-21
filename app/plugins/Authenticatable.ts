@@ -1,13 +1,11 @@
 import { Schema } from "mongoose";
-import { base, log } from "helpers";
 import URL from "illuminate/utils/URL"
+import Token from "illuminate/utils/Token";
 import bcrypt from "bcryptjs";
-import crypto from "crypto";
 import AuthenticationError from "app/exceptions/AuthenticationError";
 import VerificationMail from "app/mails/VerificationMail";
 import ForgotPasswordMail from "app/mails/ForgotPasswordMail";
 import PasswordChangedMail from "app/mails/PasswordChangedMail";
-import Token from "app/models/Token";
 
 const frontendUrl = process.env.FRONTEND_URL;
 const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
@@ -20,6 +18,8 @@ export type IAuthenticatable = {
 }
 
 export default (schema: Schema) => {
+  const expireAfter = 3 * 24 * 60 * 60;
+  
   schema.add({
     emailVerified: {
       type: Boolean,
@@ -32,36 +32,21 @@ export default (schema: Schema) => {
     if (this.emailVerified) {
       return false;
     }
-    const link = URL.signedRoute("email.verify", {id: this._id}, 3 * 24 * 60 * 60);
+    const link = URL.signedRoute("email.verify", {id: this._id}, expireAfter);
     const result = await this.notify(new VerificationMail({ link }));
     return link;
   };
 
   schema.methods.sendResetPasswordEmail = async function (): Promise<string> {
-    Token.deleteMany({
-      userId: this._id,
-      for: "password_reset",
-    }).catch((err: any) => log(err));
-    const resetToken = crypto.randomBytes(32).toString("hex");
-    const token = await Token.create({
-      userId: this._id,
-      token: resetToken,
-      for: "password_reset",
-    });
-    const link = URL.client(`/password/reset?id=${this._id}&token=${resetToken}`);
+    const resetToken = Token.create("reset_password:" + this._id, expireAfter);
+    const link = URL.client(`/password/reset/${this._id}?token=${resetToken}`);
     await this.notify(new ForgotPasswordMail({ link }));
     return resetToken;
   }
   
   schema.methods.resetPassword = async function (token: string, newPassword: string): Promise<boolean> {
-    const resetToken = await Token.findOne({
-      userId: this._id,
-    });
-    if (!resetToken) {
-      throw AuthenticationError.type("INVALID_OR_EXPIRED_TOKEN").create();
-    }
-    const tokenMatch = await bcrypt.compare(token, resetToken.token);
-    if (!tokenMatch) {
+    const tokenIsValid = Token.isValid("reset_password:" + this._id, token);
+    if (!tokenIsValid) {
       throw AuthenticationError.type("INVALID_OR_EXPIRED_TOKEN").create();
     }
     const oldPasswordMatch = await bcrypt.compare(newPassword, this.password);
@@ -71,7 +56,6 @@ export default (schema: Schema) => {
     this.password = newPassword;
     this.tokenVersion++;
     const result = await this.save();
-    resetToken.deleteOne().catch((err: any) => log(err));
     await this.notify(new PasswordChangedMail());
     return result;
   }

@@ -37,54 +37,48 @@ if (nodeEnv === "development") {
   });
 }
 
-
-import URL from "illuminate/utils/URL";
-console.log(URL.route("email.verify", {id: 93939}))
-
 /*
+import crypto from 'crypto';
 
-import { base } from "helpers"
-import { generateEndpointsFromDirTree } from "illuminate/utils";
-import path from "path";
-import fs from "fs";
-
-function getEndpoints(): string[] {
-  const routeURLs: string[] = [];
-  const routesBasePath = base("routes");
-  const baseEndpoints = generateEndpointsFromDirTree(routesBasePath);
-  for (const [baseEndpoint, routerPath] of Object.entries(baseEndpoints)){
-    const router = require(routerPath).default;
-      router.stack.forEach((middleware) => {
-        console.log(middleware)
-        if (middleware.route) {
-          routeURLs.push(`${Object.keys(middleware.route.methods)} - ${baseEndpoint}${middleware.route.path}`);
-        } else if (middleware.name === 'router') {
-          middleware.handle.stack.forEach((handler) => {
-            const route = handler.route;
-            routeURLs.push(`${Object.keys(route.methods)} - ${route.path}`);
-          });
-        }
-      });
-  }
-  return routeURLs;
+const algorithm = 'aes-256-cbc';
+const key = Buffer.from(process.env.APP_SECRET, "hex");
+    const iv = crypto.randomBytes(16);
+ 
+function encrypt(text) {
+    let cipher = crypto.createCipheriv(algorithm, Buffer.from(process.env.APP_SECRET, "hex"), iv);
+    let encrypted = cipher.update(text);
+    encrypted = Buffer.concat([encrypted, cipher.final()]);
+    return { iv: iv.toString('hex'),
+    encryptedData: encrypted.toString('hex') };
 }
-
-//console.log(getEndpoints());
-
-
-
-
-
-//function getResponseObjects(path: string): object[] {
- // const responseObjects: object[] = []
-  const code = fs.readFileSync(base("app/http/v1/controllers/AuthController.ts"), 'utf8');
-  const regex = /res\.(status\(([0-9]+)\)\.)?api\(([^\)]+)\)/g;
-  for (const match of code.matchAll(regex)) {
-    const [responseStatus = 200, responseObject] = match.splice(2);
-    console.log(responseObject)
-  }
-//  return 
-//}
+ 
+var encrypted = encrypt("Hello World!");
+ 
+function decrypt(text) {
+    let iv = Buffer.from(text.iv, 'hex');
+    let encryptedText = Buffer.from(text.encryptedData, 'hex');
+ 
+    let decipher = crypto.createDecipheriv(algorithm, Buffer.from(process.env.APP_SECRET, "hex"), iv);
+ 
+    let decrypted = decipher.update(encryptedText);
+    decrypted = Buffer.concat([decrypted, decipher.final()]);
+ 
+    return decrypted.toString();
+}
+ 
+const decrypted = decrypt(encrypted)
+console.log("Encrypted Text: " + encrypted.encryptedData); 
+console.log("Decrypted Text: " + decrypted); 
 
 */
 
+
+import Token from "illuminate/utils/Token";
+
+const t = Token.create("Samer LTD", 100);
+
+console.log(t)
+
+setTimeout(() =>{
+console.log(Token.isValid("Samer LTD", "dj"))  
+}, 50)

@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { passErrorsToHandler } from "illuminate/decorators/class";
 import Controller from "illuminate/controllers/Controller";
 import Media from "app/models/Media";
 

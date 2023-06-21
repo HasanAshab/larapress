@@ -73,10 +73,14 @@ function controller(name, version) {
         const requestHandler = async function (req, res, next) {
             try {
                 const handler = controllerInstance[methodName];
-                if (handler.length > 1)
-                    return await handler(req);
-                const response = await handler(req);
-                res.api(response);
+                if (handler.length === 2)
+                    await handler(req, res);
+                else if (handler.length === 1) {
+                    const response = await handler(req);
+                    res.api(response);
+                }
+                else
+                    throw new Error(`Unknown param on ${controllerClass.name}:${methodName}`);
             }
             catch (err) {
                 next(err);

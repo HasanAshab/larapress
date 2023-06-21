@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "start": "node dist/main/index.js",
+    "start": "tsnd -r tsconfig-paths/register --transpile-only --respawn main",
     "dev": "concurrently 'tsc --watch' 'tsnd -r tsconfig-paths/register --transpile-only --respawn dist/main'"
   },
   "author": "Samer",

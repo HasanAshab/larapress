@@ -6,7 +6,7 @@ export default class GenerateSecret extends Command {
   handle(){
     this.subCommandRequired("key");
     const key = this.subCommand.toUpperCase() + "_SECRET";
-    const secret = crypto.randomBytes(126).toString("hex");
+    const secret = crypto.randomBytes(32).toString("hex");
     setEnv({[key]: secret});  
     this.success(`Secret generated: ${secret}`);
   };

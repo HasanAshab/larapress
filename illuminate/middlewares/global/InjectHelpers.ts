@@ -12,6 +12,8 @@ import {
   passErrorsToHandler
 } from "illuminate/decorators/method";
 import URL from "illuminate/utils/URL";
+import Token from "illuminate/utils/Token";
+
 
 export default class AppendRequestHelpers extends Middleware {
   @passErrorsToHandler()
@@ -22,12 +24,9 @@ export default class AppendRequestHelpers extends Middleware {
     }
 
     req.hasValidSignature = function(): boolean {
-      const {
-        sign,
-        exp = 0
-      } = this.query;
-      const signature = URL.createSignature(`${this.baseUrl}${this.path}${exp}`);
-      return sign === signature && (Number(exp) < 1 || Number(exp) > Date.now());
+      const { sign } = this.query;
+      console.log(this.baseUrl + this.path)
+      return typeof sign === "string" && Token.isValid(this.baseUrl + this.path, sign);
     }
 
     res.api = function (response: RawResponse) {

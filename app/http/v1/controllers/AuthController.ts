@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { log } from "helpers";
-//import { passErrorsToHandler } from "illuminate/decorators/class";
 import Controller from "illuminate/controllers/Controller";
 import AuthenticationError from "app/exceptions/AuthenticationError";
 import bcrypt from "bcryptjs";
@@ -9,7 +8,6 @@ import Token from "app/models/Token";
 import ForgotPasswordMail from "app/mails/ForgotPasswordMail";
 import PasswordChangedMail from "app/mails/PasswordChangedMail";
 
-//@passErrorsToHandler
 export default class AuthController extends Controller {
   async register(req: Request){
     const { name, email, password } = req.validated;
@@ -74,12 +72,12 @@ export default class AuthController extends Controller {
   };
 
   async resetPassword(req: Request){
-    const { id, token, password } = req.validated;
+    const { id, password, token } = req.validated;
     const user = await User.findById(id);
     if (user) {
-      await user.resetPassword(token, password)
-       return {
-        message: "Password reset successfully!",
+      await user.resetPassword(token, password);
+      return {
+        message: "Password changed successfully!",
       };
     }
     return {

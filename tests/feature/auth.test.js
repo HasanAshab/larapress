@@ -52,7 +52,7 @@ describe("Auth", () => {
     expect(response.body.data).toHaveProperty("token");
   });
 
-  it.only("should verify email", async () => {
+  it("should verify email", async () => {
     const verificationLink = await user.sendVerificationEmail();
     const response = await fetch(verificationLink)
     user = await User.findById(user._id);

@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import Token from "illuminate/utils/Token";
 import path from "path";
 import urls from "register/urls";
 
@@ -35,12 +35,8 @@ export default class URL {
   static signedRoute(routeName: keyof typeof urls, data?: Record < string, string | number >, expireAfter?: number): string {
     const fullUrl = this.route(routeName, data);
     const subUrl = fullUrl.replace(this.resolve(), "/");
-    const expiryTime = expireAfter ? Date.now() + expireAfter: 0;
-    const signature = this.createSignature(subUrl + expiryTime)
-    return `${fullUrl}?sign=${signature}${expiryTime > 0? `&exp=${expiryTime}`: ''}`;
-  }
-
-  static createSignature(key: string): string {
-    return crypto.createHmac('sha256', process.env.APP_SECRET || "").update(key).digest('hex').toString();
+    console.log(subUrl)
+    const token = Token.create(subUrl, expireAfter);
+    return `${fullUrl}?sign=${token}`;
   }
 }

@@ -7,7 +7,7 @@ const schema: ValidationSchema = {
     rules: Joi.object({
       id: Joi.string().required(),
       password: Joi.string().min(8).required(),
-      token: Joi.string().required(),
+      token: Joi.string().required()
     }),
   },
 };
