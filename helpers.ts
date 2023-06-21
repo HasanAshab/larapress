@@ -81,11 +81,10 @@ export function controller(name: string, version?: string): Record < string, Req
       try {
         const handler = controllerInstance[methodName];
         if (handler.length === 2) await handler(req, res);
-        else if (handler.length === 1){
-        const response = await handler(req);
-        res.api(response);
-        }
-        else throw new Error(`Unknown param on ${controllerClass.name}:${methodName}`);
+        else if (handler.length === 1 || handler.length === 0) {
+          const response = await handler(req);
+          res.api(response);
+        } else throw new Error(`Unknown param on ${controllerClass.name}:${methodName}`);
       }
       catch(err: any) {
         next(err)

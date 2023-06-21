@@ -75,7 +75,7 @@ function controller(name, version) {
                 const handler = controllerInstance[methodName];
                 if (handler.length === 2)
                     await handler(req, res);
-                else if (handler.length === 1) {
+                else if (handler.length === 1 || handler.length === 0) {
                     const response = await handler(req);
                     res.api(response);
                 }

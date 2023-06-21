@@ -4,7 +4,6 @@ import Controller from "illuminate/controllers/Controller";
 import AuthenticationError from "app/exceptions/AuthenticationError";
 import bcrypt from "bcryptjs";
 import User from "app/models/User";
-import Token from "app/models/Token";
 import ForgotPasswordMail from "app/mails/ForgotPasswordMail";
 import PasswordChangedMail from "app/mails/PasswordChangedMail";
 
