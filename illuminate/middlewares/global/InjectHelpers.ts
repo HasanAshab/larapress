@@ -37,8 +37,8 @@ export default class AppendRequestHelpers extends Middleware {
         success,
         data: {}
       }
-      for (const [key, value] of Object.entries(response)) {
-        if (key === "data") Object.assign(wrappedData.data, value);
+      for (const [key, value] of Object.entries(response)) {    
+        if (key === "data") wrappedData.data = value;
         else if (key === "message") wrappedData.message = value;
         else wrappedData.data[key] = value;
       }

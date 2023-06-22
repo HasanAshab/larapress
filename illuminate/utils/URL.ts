@@ -35,7 +35,6 @@ export default class URL {
   static signedRoute(routeName: keyof typeof urls, data?: Record < string, string | number >, expireAfter?: number): string {
     const fullUrl = this.route(routeName, data);
     const subUrl = fullUrl.replace(this.resolve(), "/");
-    console.log(subUrl)
     const token = Token.create(subUrl, expireAfter);
     return `${fullUrl}?sign=${token}`;
   }

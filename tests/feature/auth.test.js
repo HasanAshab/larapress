@@ -17,11 +17,11 @@ describe("Auth", () => {
   });
 
   beforeEach(async () => {
-      await resetDatabase();
-      Mail.mocked.reset();
-      Storage.mocked.reset();
-      user = await User.factory().create();
-      token = user.createToken();
+    await resetDatabase();
+    Mail.mocked.reset();
+    Storage.mocked.reset();
+    user = await User.factory().create();
+    token = user.createToken();
   });
 
   it("should register a user", async () => {

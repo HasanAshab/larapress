@@ -31,7 +31,8 @@
     "nodemailer": "^6.9.1",
     "nodemailer-express-handlebars": "^6.1.0",
     "redis": "^4.6.6",
-    "stack-trace": "^1.0.0-pre2"
+    "stack-trace": "^1.0.0-pre2",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.1",

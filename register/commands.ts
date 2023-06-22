@@ -1,11 +1,10 @@
-const commands: Record<string, string> = {
+export default {
   make: "Make",
   clear: "Clear",
   test: "Test",
-  secret: "GenerateSecret",
+  key: "Key",
   doc: "GenerateDoc",
   db: "DB",
   search: "Search",
-}
+} as const;
 
-export default commands;

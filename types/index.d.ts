@@ -8,14 +8,13 @@ import middlewarePairs from "register/middlewares";
 export type RawResponse = {
   status?: number,
   message?: string,
-  data?: any[] | Record < string,
-  any >
+  data?: any[] | Record < string, any >
 } & Record < string, any >;
 
 export type ApiResponse = {
   success: boolean,
   message?: string,
-  data?: any[] | any,
+  data: any,
 };
 
 export type Recipient = {
@@ -59,37 +58,3 @@ export type MailMockedData = Record < string, Record < string, {
 
 
 export type CacheDataArg = string | number | boolean | object | unknown[] | Buffer;
-
-export type CacheArgs =
-| {
-  action: "get";
-  key: string;
-}
-| {
-  action: "put";
-  key: string;
-  data: CacheDataArg;
-  expiry?: number;
-}
-
-| {
-  action: "flush";
-}
-
-export type CacheDriverHandler = < Action extends CacheArgs["action"], Return = Action extends "get" ? string | null: void > (
-  ...args:
-  Extract < CacheArgs, {
-    action: Action
-  } > extends {
-    key: string
-  }
-  ? Extract < CacheArgs, {
-    action: Action
-  } > extends {
-    data: CacheDataArg;
-    expiry?: infer Expiry;
-  }
-  ? [action: Action, key: string, data: CacheDataArg, expiry?: Expiry]
-  : [action: Action, key: string]
-  : [action: Action]
-) => Promise < Return > | Return;

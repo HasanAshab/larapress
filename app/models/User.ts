@@ -18,6 +18,7 @@ const UserSchema = new Schema({
   email: {
     type: String,
     unique: true,
+    pattern: /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
     required: true
   },
   password: {
@@ -27,12 +28,10 @@ const UserSchema = new Schema({
   logoUrl: {
     type: String,
     default: URL.resolve("/static/user-profile.jpg"),
-    required: true
   },
   isAdmin: {
     type: Boolean,
     default: false,
-    required: true
   },
 });
 

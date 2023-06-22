@@ -10,9 +10,10 @@
     },
     "baseUrl": "./",
     "strict": true,
+    "alwaysStrict": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "noUncheckedIndexedAccess": false
   },
-  "exclude": ["node_modules", "artisan.ts", "dist"]
+  "exclude": ["node_modules", "artisan.ts"]
 }

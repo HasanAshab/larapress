@@ -1,6 +1,8 @@
-import { Schema } from "mongoose";
+import {
+  Schema
+} from "mongoose";
 import jwt from "jsonwebtoken";
-const jwtSecret = process.env.JWT_SECRET || "";
+const key = process.env.APP_KEY ?? "";
 const tokenLifespan = Number(process.env.TOKEN_LIFESPAN);
 
 export type IHasApiTokens = {
@@ -12,18 +14,18 @@ export default (schema: Schema) => {
   schema.add({
     tokenVersion: {
       type: Number,
-      default: 0,
+    default: 0,
       required: true
     },
   });
-  
+
   schema.methods.createToken = function (): string {
     return jwt.sign(
       {
         userId: this._id,
         version: this.tokenVersion,
       },
-      jwtSecret,
+      key,
       {
         expiresIn: tokenLifespan,
       }
