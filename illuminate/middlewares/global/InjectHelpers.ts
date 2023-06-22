@@ -12,16 +12,10 @@ import URL from "illuminate/utils/URL";
 import Token from "illuminate/utils/Token";
 
 
-export default class AppendRequestHelpers extends Middleware {
+export default class InjectHelpers extends Middleware {
   handle(req: Request, res: Response, next: NextFunction) {
-    req.fullUrl = function(): string {
-      const port = this.app.get("port") || this.socket.localPort;
-      return`${this.protocol}://${this.hostname}:${port}${this.baseUrl}${this.path}`;
-    }
-
     req.hasValidSignature = function(): boolean {
       const { sign } = this.query;
-      console.log(this.baseUrl + this.path)
       return typeof sign === "string" && Token.isValid(this.baseUrl + this.path, sign);
     }
 

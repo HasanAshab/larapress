@@ -22,18 +22,12 @@ function storage(storage_path = "") {
 exports.storage = storage;
 function middleware(...keysWithConfig) {
     function wrapMiddleware(context, handler) {
-        return async (...args) => {
+        return async (req, res, next) => {
             try {
-                return await handler.apply(context, ...args);
+                return await handler.apply(context, [req, res, next]);
             }
             catch (err) {
-                for (const arg of args) {
-                    if (typeof arg === "function") {
-                        console.log(arg);
-                        arg(err);
-                        break;
-                    }
-                }
+                next(err);
             }
         };
     }
@@ -46,7 +40,7 @@ function middleware(...keysWithConfig) {
                 ? middlewarePaths.replace("<global>", "illuminate/middlewares/global") : `app/http/${(_a = config === null || config === void 0 ? void 0 : config.version) !== null && _a !== void 0 ? _a : getVersion()}/middlewares/${middlewarePaths}`;
             const MiddlewareClass = require(path_1.default.resolve(fullPath)).default;
             const middlewareInstance = new MiddlewareClass(config);
-            const handler = wrapMiddleware(middlewareInstance, middlewareInstance.handle);
+            const handler = middlewareInstance.handle.length === 4 ? middlewareInstance.handle.bind(middlewareInstance) : wrapMiddleware(middlewareInstance, middlewareInstance.handle);
             handlers.push(handler);
         }
         else {
@@ -55,7 +49,7 @@ function middleware(...keysWithConfig) {
                     ? middlewarePath.replace("<global>", "illuminate/middlewares/global") : `app/http/${(_b = config === null || config === void 0 ? void 0 : config.version) !== null && _b !== void 0 ? _b : getVersion()}/middlewares/${middlewarePath}`;
                 const MiddlewareClass = require(path_1.default.resolve(fullPath)).default;
                 const middlewareInstance = new MiddlewareClass(config);
-                const handler = wrapMiddleware(middlewareInstance, middlewareInstance.handle);
+                const handler = middlewareInstance.handle.length === 4 ? middlewareInstance.handle.bind(middlewareInstance) : wrapMiddleware(middlewareInstance, middlewareInstance.handle);
                 handlers.push(handler);
             }
         }
