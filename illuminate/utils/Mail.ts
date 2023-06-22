@@ -9,9 +9,6 @@ import {
 import Queueable from "illuminate/queue/Queueable";
 import Mailable from "illuminate/mails/Mailable";
 import {
-  isObject
-} from "illuminate/guards";
-import {
   createTransport,
   Transporter,
   SendMailOptions,
@@ -139,7 +136,7 @@ export default class Mail {
     if (Array.isArray(this.recipients)) {
       const promises = [];
       for (let email of this.recipients) {
-        email = isObject(email) ? email.email: email;
+        email = typeof email === "object" ? email.email: email;
         if(Mail.isMocked) this.pushMockData(email);
         else{
           const sendMailPromise = this.transporter.sendMail(this.getRecipientConfig(email));
@@ -148,7 +145,7 @@ export default class Mail {
       }
       await Promise.all(promises);
     } else {
-      const email = isObject(this.recipients) ? this.recipients.email: this.recipients;
+      const email = typeof this.recipients === "object" ? this.recipients.email: this.recipients;
       if(Mail.isMocked) this.pushMockData(email);
       else await this.transporter.sendMail(this.getRecipientConfig(email));
     }

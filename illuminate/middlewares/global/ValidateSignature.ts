@@ -4,12 +4,8 @@ import {
   Response,
   NextFunction
 } from "express";
-import {
-  passErrorsToHandler
-} from "illuminate/decorators/method";
 
 export default class ValidateSignature extends Middleware {
-  @passErrorsToHandler()
   async handle(req: Request, res: Response, next: NextFunction) {
     return req.hasValidSignature()
       ?next()

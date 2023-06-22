@@ -8,15 +8,11 @@ import {
   ApiResponse,
   RawResponse
 } from "types";
-import {
-  passErrorsToHandler
-} from "illuminate/decorators/method";
 import URL from "illuminate/utils/URL";
 import Token from "illuminate/utils/Token";
 
 
 export default class AppendRequestHelpers extends Middleware {
-  @passErrorsToHandler()
   handle(req: Request, res: Response, next: NextFunction) {
     req.fullUrl = function(): string {
       const port = this.app.get("port") || this.socket.localPort;

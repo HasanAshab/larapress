@@ -1,11 +1,9 @@
 import Middleware from "illuminate/middlewares/Middleware";
 import { Request, Response, NextFunction } from "express";
-import { passErrorsToHandler } from "illuminate/decorators/method";
 import { base, log } from "helpers";
 import path from "path";
 
 export default class ValidateRequest extends Middleware {
-  @passErrorsToHandler()
   handle(req: Request, res: Response, next: NextFunction){
     const {version, validationSubPath} = this.config;
     if(typeof version !== "string" || typeof validationSubPath !== "string") throw new Error("version and validationSubPath args required as type String.");

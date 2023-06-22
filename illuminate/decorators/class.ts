@@ -14,6 +14,7 @@ export function performance(constructor: Function) {
   }
 }
 
+/*
 export function passErrorsToHandler(constructor: Function) {
   const methodNames = Object.getOwnPropertyNames(constructor.prototype);
   for (const methodName of methodNames) {
@@ -35,4 +36,4 @@ export function passErrorsToHandler(constructor: Function) {
       }
     }
   }
-}
+}*/

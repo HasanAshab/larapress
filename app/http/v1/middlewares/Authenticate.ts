@@ -1,12 +1,10 @@
 import Middleware from "illuminate/middlewares/Middleware";
 import { Request, Response, NextFunction } from "express";
-import { passErrorsToHandler } from "illuminate/decorators/method";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import User from "app/models/User";
 import AuthenticationError from "app/exceptions/AuthenticationError";
 
 export default class Authenticate extends Middleware {
-  @passErrorsToHandler()
   async handle(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
     if (authHeader) {

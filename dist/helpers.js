@@ -21,6 +21,22 @@ function storage(storage_path = "") {
 }
 exports.storage = storage;
 function middleware(...keysWithConfig) {
+    function wrapMiddleware(context, handler) {
+        return async (...args) => {
+            try {
+                return await handler.apply(context, ...args);
+            }
+            catch (err) {
+                for (const arg of args) {
+                    if (typeof arg === "function") {
+                        console.log(arg);
+                        arg(err);
+                        break;
+                    }
+                }
+            }
+        };
+    }
     function getMiddleware(middlewareKey, config) {
         var _a, _b;
         const middlewarePaths = middlewares_1.default[middlewareKey];
@@ -30,7 +46,7 @@ function middleware(...keysWithConfig) {
                 ? middlewarePaths.replace("<global>", "illuminate/middlewares/global") : `app/http/${(_a = config === null || config === void 0 ? void 0 : config.version) !== null && _a !== void 0 ? _a : getVersion()}/middlewares/${middlewarePaths}`;
             const MiddlewareClass = require(path_1.default.resolve(fullPath)).default;
             const middlewareInstance = new MiddlewareClass(config);
-            const handler = middlewareInstance.handle.bind(middlewareInstance);
+            const handler = wrapMiddleware(middlewareInstance, middlewareInstance.handle);
             handlers.push(handler);
         }
         else {
@@ -39,7 +55,7 @@ function middleware(...keysWithConfig) {
                     ? middlewarePath.replace("<global>", "illuminate/middlewares/global") : `app/http/${(_b = config === null || config === void 0 ? void 0 : config.version) !== null && _b !== void 0 ? _b : getVersion()}/middlewares/${middlewarePath}`;
                 const MiddlewareClass = require(path_1.default.resolve(fullPath)).default;
                 const middlewareInstance = new MiddlewareClass(config);
-                const handler = middlewareInstance.handle.bind(middlewareInstance);
+                const handler = wrapMiddleware(middlewareInstance, middlewareInstance.handle);
                 handlers.push(handler);
             }
         }

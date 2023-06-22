@@ -28,6 +28,22 @@ export function storage(storage_path = ""): string {
 export function middleware(
   ...keysWithConfig: (keyof typeof middlewarePairs | [keyof typeof middlewarePairs, Record < string, unknown >])[]
 ): RequestHandler[] {
+  function wrapMiddleware(context: object, handler: Function) {
+    return async (...args: any[]) => {
+      try {
+        return await handler.apply(context, ...args);
+      }
+      catch (err: any) {
+        for (const arg of args) {
+          if (typeof arg === "function") {
+          console.log(arg)
+            arg(err);
+            break;
+          }
+        }
+      }
+    }
+  }
   function getMiddleware(middlewareKey: string, config?: Record < string, unknown >): RequestHandler[] {
     const middlewarePaths = middlewarePairs[middlewareKey as keyof typeof middlewarePairs];
     const handlers: RequestHandler[] = [];
@@ -36,7 +52,7 @@ export function middleware(
       ?middlewarePaths.replace("<global>", "illuminate/middlewares/global"): `app/http/${config?.version ?? getVersion()}/middlewares/${middlewarePaths}`;
       const MiddlewareClass = require(path.resolve(fullPath)).default;
       const middlewareInstance = new MiddlewareClass(config);
-      const handler = middlewareInstance.handle.bind(middlewareInstance);
+      const handler = wrapMiddleware(middlewareInstance, middlewareInstance.handle);
       handlers.push(handler)
     } else {
       for (const middlewarePath of middlewarePaths) {
@@ -44,7 +60,7 @@ export function middleware(
         ?middlewarePath.replace("<global>", "illuminate/middlewares/global"): `app/http/${config?.version ?? getVersion()}/middlewares/${middlewarePath}`;
         const MiddlewareClass = require(path.resolve(fullPath)).default;
         const middlewareInstance = new MiddlewareClass(config);
-        const handler = middlewareInstance.handle.bind(middlewareInstance);
+        const handler = wrapMiddleware(middlewareInstance, middlewareInstance.handle);
         handlers.push(handler)
       }
     }

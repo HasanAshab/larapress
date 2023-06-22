@@ -10,7 +10,7 @@ export function performance() {
   }
 }
 
-
+/*
 export function passErrorsToHandler() {
   return function(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     const value = descriptor.value;
@@ -29,3 +29,5 @@ export function passErrorsToHandler() {
     }
   }
 }
+
+*/
