@@ -1,9 +1,9 @@
 import {
   ObjectSchema
 } from "joi";
+import commands from "register/commands";
 import FileValidator from "illuminate/utils/FileValidator";
 import Mailable from "illuminate/mails/Mailable";
-import middlewarePairs from "register/middlewares";
 
 export type RawResponse = {
   status?: number,
@@ -58,3 +58,5 @@ export type MailMockedData = Record < string, Record < string, {
 
 
 export type CacheDataArg = string | number | boolean | object | unknown[] | Buffer;
+
+type ArtisanBaseInput = `${keyof typeof commands}${`:${string}` | ''}`

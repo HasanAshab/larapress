@@ -14,11 +14,14 @@ class Setup {
         for (const [schedule, commands] of Object.entries(cron_1.default)) {
             if (Array.isArray(commands)) {
                 for (const command of commands) {
-                    node_cron_1.default.schedule(schedule, Artisan_1.default.getCommand(command.split(" "), false));
+                    const [commandName, ...args] = command.split(" ");
+                    node_cron_1.default.schedule(schedule, (async () => await Artisan_1.default.call(commandName, args, false)));
                 }
             }
-            else
-                node_cron_1.default.schedule(schedule, Artisan_1.default.getCommand(commands.split(" "), false));
+            else {
+                const [commandName, ...args] = commands.split(" ");
+                node_cron_1.default.schedule(schedule, (async () => await Artisan_1.default.call(commandName, args, false)));
+            }
         }
     }
     ;

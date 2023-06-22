@@ -7,13 +7,9 @@ const helpers_1 = require("helpers");
 const commands_1 = __importDefault(require("register/commands"));
 const ArtisanError_1 = __importDefault(require("illuminate/exceptions/utils/ArtisanError"));
 class Artisan {
-    static async call(args, fromShell = true) {
-        await this.getCommand(args, fromShell)();
-    }
-    static getCommand(args, fromShell = false) {
+    static async call(baseInput, args, fromShell = true) {
         var _a;
-        const baseInput = args[0];
-        const { params, flags } = this.parseArgs(args.splice(1));
+        const { params, flags } = this.parseArgs(args);
         const [commandKey, subCommand] = baseInput.split(":");
         const commandName = commands_1.default[commandKey];
         if (typeof commandName === "undefined")
@@ -23,7 +19,7 @@ class Artisan {
         const handler = commandClass[subCommand] || commandClass.handle;
         if (typeof handler === "undefined")
             throw ArtisanError_1.default.type("COMMAND_NOT_FOUND").create();
-        return handler.bind(commandClass);
+        return handler.apply(commandClass);
     }
     static parseArgs(args) {
         const flags = [];

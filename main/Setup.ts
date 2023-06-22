@@ -1,5 +1,6 @@
-import { base } from "helpers";
+import { ArtisanBaseInput } from "types"
 import { Application } from "express";
+import { base } from "helpers";
 import { generateEndpointsFromDirTree } from "illuminate/utils";
 import nodeCron from "node-cron";
 import Artisan from "illuminate/utils/Artisan";
@@ -11,10 +12,14 @@ export default class Setup {
     for (const [schedule, commands] of Object.entries(crons)) {
       if(Array.isArray(commands)){
         for (const command of commands){
-          nodeCron.schedule(schedule, Artisan.getCommand(command.split(" "), false) as ((now: Date | "init" | "manual") => void));
+          const [commandName, ...args] = command.split(" ")
+          nodeCron.schedule(schedule, (async () => await Artisan.call(commandName as ArtisanBaseInput, args, false)) as ((now: Date | "init" | "manual") => void));
         }
       }
-      else nodeCron.schedule(schedule, Artisan.getCommand(commands.split(" "), false) as ((now: Date | "init" | "manual") => void));
+      else {
+        const [commandName, ...args] = commands.split(" ")
+        nodeCron.schedule(schedule, (async () => await Artisan.call(commandName as ArtisanBaseInput, args, false)) as ((now: Date | "init" | "manual") => void));
+      }
     }
   };
 
