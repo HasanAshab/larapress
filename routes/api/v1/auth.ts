@@ -10,7 +10,7 @@ router.post("/login", AuthController.login);
 
 
 router.get("/verify/:id", middleware("signed"), AuthController.verifyEmail);
-router.post("/verify/resend", middleware("auth", ["limit", {time: 60 * 1000, count: 6}]), AuthController.resendEmailVerification);
+router.post("/verify/resend", middleware(["limit", {time: 60 * 1000, count: 6}]), AuthController.resendEmailVerification);
 
 router.post("/password/forgot", middleware(["limit", {time: 60 * 1000, count: 6}]), AuthController.forgotPassword);
 router.put("/password/reset", AuthController.resetPassword);

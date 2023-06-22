@@ -1,6 +1,7 @@
 const app = require("main/app").default;
 const request = require("supertest")(app.listen(8000));
 const DB = require("illuminate/utils/DB").default;
+const URL = require("illuminate/utils/URL").default;
 const bcrypt = require("bcryptjs");
 const Storage = require("illuminate/utils/Storage").default;
 const Mail = require("illuminate/utils/Mail").default;
@@ -59,11 +60,19 @@ describe("Auth", () => {
     expect(response.status).toBe(200);
     expect(user.emailVerified).toBe(true);
   });
+  
+  it("shouldn't verify email without signature", async () => {
+    const verificationLink = URL.route("email.verify");
+    const response = await fetch(verificationLink);
+    user = await User.findById(user._id);
+    expect(response.status).toBe(401);
+    expect(user.emailVerified).toBe(false);
+  });
 
   it("should resend verification email", async () => {
     const response = await request
       .post("/api/v1/auth/verify/resend")
-      .set("Authorization", `Bearer ${token}`);
+      .field("email", user.email);
     expect(response.statusCode).toBe(200);
     const { total, recipients } = Mail.mocked.data;
     expect(total).toBe(1);
@@ -76,6 +85,12 @@ describe("Auth", () => {
       .set("Authorization", `Bearer ${token}`);
     expect(response.statusCode).toBe(200);
     expect(response.body.data.email).toBe(user.email);
+  });
+  
+  it("shouldn't get user details without token", async () => {
+    const response = await request
+      .get("/api/v1/auth/profile")
+    expect(response.statusCode).toBe(401);
   });
 
   it("should update user details", async () => {
@@ -101,6 +116,20 @@ describe("Auth", () => {
     expect(totalFile).toBe(1);
     expect(files).toHaveProperty(["image.png"]);
   });
+  
+  it("shouldn't update user details without token", async () => {
+    const newUserData = {
+      name: "changed",
+      email: "changed@gmail.com",
+    };
+    const response = await request
+      .put("/api/v1/auth/profile")
+      .field("name", newUserData.name)
+      .field("email", newUserData.email)
+      .attach("logo", fakeFile("image.png"));
+    user = await User.findById(user._id);
+    expect(response.statusCode).toBe(401);
+  });
 
   it("should change password", async () => {
     const passwords = {
@@ -120,6 +149,16 @@ describe("Auth", () => {
     const { total, recipients } = Mail.mocked.data;
     expect(total).toBe(1);
     expect(recipients).toHaveProperty([user.email, "passwordChanged"]);
+  });
+  
+  it("shouldn't change password, if same to old and new passwords are same", async () => {
+    const response = await request
+      .put("/api/v1/auth/password/change")
+      .set("Authorization", `Bearer ${token}`)
+      .field("old_password", "password")
+      .field("password", "password");
+    expect(response.statusCode).toBe(400);
+    expect(Mail.mocked.data.total).toBe(0);
   });
 
   it("forgoting password should sent reset email", async () => {
@@ -149,5 +188,20 @@ describe("Auth", () => {
     const { total, recipients } = Mail.mocked.data;
     expect(total).toBe(1);
     expect(recipients).toHaveProperty([user.email, "passwordChanged"]);
+  });
+  
+  it.only("shouldn't reset password with invalid token", async () => {
+    const newPassword = "new-password";
+    const response = await request
+      .put("/api/v1/auth/password/reset")
+      .field("id", user._id.toString())
+      .field("password", newPassword)
+      .field("token", "foo");
+
+    user = await User.findById(user._id);
+    const passwordMatch = await bcrypt.compare(newPassword, user.password);
+    expect(response.statusCode).toBe(401);
+    expect(passwordMatch).toBe(false);
+    expect(Mail.mocked.data.total).toBe(0);
   });
 });

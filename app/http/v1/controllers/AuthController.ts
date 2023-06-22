@@ -51,8 +51,9 @@ export default class AuthController extends Controller {
   };
 
   async resendEmailVerification(req: Request){
-    await req.user!.sendVerificationEmail();
-     return {
+    const user = await User.findOne({email: req.validated.email});
+    user && await user.sendVerificationEmail();
+    return {
       message: "Verification email sent!",
     };
   };

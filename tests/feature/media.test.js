@@ -5,7 +5,7 @@ const URL = require("illuminate/utils/URL").default;
 const Media = require("app/models/Media").default;
 
 describe("Media", () => {
-  it("should responds with a file", async () => {
+  it("should respond with a file", async () => {
     const media = await Media.factory().create();
     const url = URL.signedRoute("file.serve", {id: media._id});
     const response = await fetch(url)
