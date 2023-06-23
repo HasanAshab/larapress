@@ -1,13 +1,12 @@
 import { Request, Response } from "express";
 import { log } from "helpers";
-import Controller from "illuminate/controllers/Controller";
 import AuthenticationError from "app/exceptions/AuthenticationError";
 import bcrypt from "bcryptjs";
 import User from "app/models/User";
 import ForgotPasswordMail from "app/mails/ForgotPasswordMail";
 import PasswordChangedMail from "app/mails/PasswordChangedMail";
 
-export default class AuthController extends Controller {
+export default class AuthController {
   async register(req: Request){
     const { name, email, password } = req.validated;
     const logo = req.files?.logo;
@@ -66,7 +65,7 @@ export default class AuthController extends Controller {
     if (user) {
       await user.sendResetPasswordEmail();
     }
-     return {
+    return {
       message: "Password reset email sent!",
     };
   };

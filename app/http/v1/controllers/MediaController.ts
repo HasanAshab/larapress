@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
-import Controller from "illuminate/controllers/Controller";
 import Media from "app/models/Media";
 
-export default class MediaController extends Controller {
+export default class MediaController {
   async t() {
     return {
       status: 500,
