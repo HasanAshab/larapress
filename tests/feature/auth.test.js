@@ -190,7 +190,7 @@ describe("Auth", () => {
     expect(recipients).toHaveProperty([user.email, "passwordChanged"]);
   });
   
-  it.only("shouldn't reset password with invalid token", async () => {
+  it("shouldn't reset password with invalid token", async () => {
     const newPassword = "new-password";
     const response = await request
       .put("/api/v1/auth/password/reset")
