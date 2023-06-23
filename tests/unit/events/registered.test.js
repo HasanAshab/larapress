@@ -1,4 +1,3 @@
-const app = require("main/app").default;
 const Mail = require("illuminate/utils/Mail").default;
 const User = require("app/models/User").default;
 const SendEmailVerificationNotification = require("app/listeners/SendEmailVerificationNotification").default;

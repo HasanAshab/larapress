@@ -9,7 +9,7 @@ export type IHasFactory = {
 }
 
 
-export default function hasFactory(schema: Schema): void {
+export default (schema: Schema) => {
   schema.statics.factory = function(count = 1) {
     const modelName = this.modelName;
     const Factory = require(base(`app/factories/${modelName}Factory`)).default;

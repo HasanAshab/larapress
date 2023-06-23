@@ -1,12 +1,10 @@
 const app = require(base("main/app"));
-const supertest = require("supertest");
-const DB = require(base("illuminate/utils/DB"));
-const request = supertest(app);
+const request = require("supertest")(app);
 
 describe("{{name}}", () => {
   beforeEach(async () => {
     //await resetDatabase();
-  })
+  });
 
   it("Should work", async () => {
     const response = await request.get("/");

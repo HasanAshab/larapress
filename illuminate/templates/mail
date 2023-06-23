@@ -1,5 +1,5 @@
-//import ShouldQueue from "illuminate/queue/ShouldQueue";
 import Mailable from "illuminate/mails/Mailable";
+//import ShouldQueue from "illuminate/queue/ShouldQueue";
 
 export default class {{name}} extends Mailable {
   view = "{{name}}";

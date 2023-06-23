@@ -1,5 +1,4 @@
 import Command from "illuminate/commands/Command";
-import DB from "illuminate/utils/DB";
 
 export default class {{name}} extends Command {
   async handle(){

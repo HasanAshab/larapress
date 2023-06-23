@@ -1,10 +1,11 @@
-import { Request, Response } from "express";
+import { Request } from "express";
 import Controller from "illuminate/controllers/Controller";
-import User from "app/models/User";
 
 export default class {{name}}Controller extends Controller {
-  async index(req: Request, res: Response) {
-    //
+  async index() {
+    return {
+      message: "{{name}}Controller works!"
+    }
   }
 }
 

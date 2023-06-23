@@ -1,8 +1,9 @@
 import { middleware } from "helpers";
 import express, { Router } from "express";
-import {{name}}Controller from "app/http/controllers/{{name}}Controller";
 
 const router: Router = express.Router();
+const {{name}}Controller = controller("{{name}}Controller");
+
 
 // Endpoints for {{name}}
 router.get("/", {{name}}Controller.index);
