@@ -13,6 +13,7 @@ describe("Auth", () => {
   let token;
 
   beforeAll(async () => {
+    await DB.connect();
     Mail.mock();
     Storage.mock();
   });

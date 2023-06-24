@@ -42,14 +42,15 @@ export type TransportConfig = {
   }
 }
 
+export type FileValidatorSchema = {
+  validate(files: Record<string, UploadedFile | UploadedFile[]>): string | null
+}
 export type ValidationSchema = {
   urlencoded?: {
     target: "body" | "params" | "query",
     rules: ObjectSchema
-  },
-  multipart?: {
-    validate(files: Record<string, UploadedFile | UploadedFile[]>): string | null
-  }
+  };
+  multipart?: FileValidatorSchema;
 }
 
 export type MailMockedData = Record < string, Record < string, {
