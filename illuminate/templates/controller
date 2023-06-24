@@ -1,7 +1,6 @@
 import { Request } from "express";
-import Controller from "illuminate/controllers/Controller";
 
-export default class {{name}}Controller extends Controller {
+export default class {{name}}Controller {
   async index() {
     return {
       message: "{{name}}Controller works!"
