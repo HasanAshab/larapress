@@ -36,13 +36,3 @@ if (nodeEnv === "development") {
     console.log(`*New connection: [${time}]`);
   });
 }
-
-
-import FileValidator from "illuminate/utils/FileValidatorN";
-
-const schema = FileValidator.schema({
-  "logo": FileValidator.required()
-});
-
-
-console.log(schema.validate());

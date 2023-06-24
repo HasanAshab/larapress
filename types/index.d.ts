@@ -1,6 +1,5 @@
-import {
-  ObjectSchema
-} from "joi";
+import { ObjectSchema } from "joi";
+import { UploadedFile } from "express-fileupload";
 import commands from "register/commands";
 import FileValidator from "illuminate/utils/FileValidator";
 import Mailable from "illuminate/mails/Mailable";
@@ -48,7 +47,9 @@ export type ValidationSchema = {
     target: "body" | "params" | "query",
     rules: ObjectSchema
   },
-  multipart?: FileValidator
+  multipart?: {
+    validate(files: Record<string, UploadedFile | UploadedFile[]>): string | null
+  }
 }
 
 export type MailMockedData = Record < string, Record < string, {

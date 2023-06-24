@@ -1,6 +1,4 @@
-import {
-  UploadedFile
-} from "express-fileupload";
+import { UploadedFile } from "express-fileupload";
 
 export default class FileValidator {
   public rules: {

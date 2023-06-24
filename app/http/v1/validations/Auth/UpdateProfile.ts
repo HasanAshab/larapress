@@ -10,11 +10,8 @@ const schema: ValidationSchema = {
       email: Joi.string().email().required(),
     }),
   },
-  multipart: FileValidator.fields({
-    logo: new FileValidator()
-      .max(1000 * 1000)
-      .maxLength(1)
-      .mimetypes(["image/jpeg", "image/png"]),
+  multipart: FileValidator.schema({
+    logo: FileValidator.optional().parts(1).max(1000*1000).mimetypes("image/jpeg", "image/png"),
   }),
 };
 

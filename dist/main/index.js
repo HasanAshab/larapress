@@ -36,5 +36,3 @@ if (nodeEnv === "development") {
         console.log(`*New connection: [${time}]`);
     });
 }
-const FileValidator_ts_1 = __importDefault(require("illuminate/utils/FileValidator.ts"));
-console.log(FileValidator_ts_1.default.required());

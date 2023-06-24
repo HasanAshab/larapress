@@ -32,7 +32,7 @@ export default class InjectHelpers extends Middleware {
         else if (key === "message") wrappedData.message = value;
         else wrappedData.data[key] = value;
       }
-      return this.json(wrappedData);
+      this.json(wrappedData);
     };
 
     next()
