@@ -8,6 +8,7 @@ import HasFactory, { IHasFactory } from "app/plugins/HasFactory";
 import HasApiTokens, { IHasApiTokens } from "app/plugins/HasApiTokens";
 import Notifiable, { INotifiable } from "app/plugins/Notifiable";
 import Mediable, { IMediable } from "app/plugins/Mediable";
+import Billable, { IBillable } from "app/plugins/Billable";
 
 const UserSchema = new Schema({
   name: {
@@ -52,8 +53,9 @@ UserSchema.plugin(HasFactory);
 UserSchema.plugin(HasApiTokens);
 UserSchema.plugin(Notifiable);
 UserSchema.plugin(Mediable);
+UserSchema.plugin(Billable);
 
-type IPlugins = IAuthenticatable & ITimestamps & IHasFactory & IHasApiTokens & INotifiable & IMediable;
+type IPlugins = IAuthenticatable & ITimestamps & IHasFactory & IHasApiTokens & INotifiable & IMediable & IBillable;
 export interface IUser extends Document, InferSchemaType<typeof UserSchema>, IPlugins {}
 
 export default model<IUser>("User", UserSchema);

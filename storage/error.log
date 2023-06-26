@@ -79,3 +79,18 @@ Stack: TypeError: Cannot read properties of undefined (reading 'urlencoded')
     at HTTPParser.parserOnHeadersComplete (node:_http_common:119:17)
 
 
+1687661223816
+/api/v1/auth/t?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'sessions')
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:13:43)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:95:34)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/ValidateRequest.ts:24:51)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:34:30
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+
+
