@@ -1,12 +1,21 @@
-import { model, Schema, Document, InferSchemaType } from "mongoose";
+import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
 import URL from "illuminate/utils/URL"
 import bcrypt from "bcryptjs";
-import Mailable from "illuminate/mails/Mailable";
-import Authenticatable, { IAuthenticatable } from "app/plugins/Authenticatable";
-import Timestamps, { ITimestamps } from "app/plugins/Timestamps";
-import HasFactory, { IHasFactory } from "app/plugins/HasFactory";
-import HasApiTokens, { IHasApiTokens } from "app/plugins/HasApiTokens";
-import Notifiable, { INotifiable } from "app/plugins/Notifiable";
+import Authenticatable, {
+  IAuthenticatable
+} from "app/plugins/Authenticatable";
+import Timestamps, {
+  ITimestamps
+} from "app/plugins/Timestamps";
+import HasFactory, {
+  IHasFactory
+} from "app/plugins/HasFactory";
+import HasApiTokens, {
+  IHasApiTokens
+} from "app/plugins/HasApiTokens";
+import Notifiable, {
+  INotifiable
+} from "app/plugins/Notifiable";
 import Mediable, { IMediable } from "app/plugins/Mediable";
 import Billable, { IBillable } from "app/plugins/Billable";
 
@@ -30,32 +39,33 @@ const UserSchema = new Schema({
   logoUrl: {
     type: String,
     default: URL.resolve("/static/user-profile.jpg"),
-  },
+    },
   isAdmin: {
     type: Boolean,
     default: false,
-  },
-});
-
-UserSchema.pre("save", async function(next) {
-  const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
-  if (!this.isModified("password")) {
-    return next();
   }
-  const hash = await bcrypt.hash(this.password, bcryptRounds);
-  this.password = hash as string;
-  next();
 });
 
-UserSchema.plugin(Authenticatable);
-UserSchema.plugin(Timestamps);
-UserSchema.plugin(HasFactory);
-UserSchema.plugin(HasApiTokens);
-UserSchema.plugin(Notifiable);
-UserSchema.plugin(Mediable);
-UserSchema.plugin(Billable);
+  UserSchema.pre("save", async function(next) {
+    const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
+    if (!this.isModified("password")) {
+      return next();
+    }
+    const hash = await bcrypt.hash(this.password, bcryptRounds);
+    this.password = hash as string;
+    next();
+  });
 
-type IPlugins = IAuthenticatable & ITimestamps & IHasFactory & IHasApiTokens & INotifiable & IMediable & IBillable;
-export interface IUser extends Document, InferSchemaType<typeof UserSchema>, IPlugins {}
+  UserSchema.plugin(Authenticatable);
+  UserSchema.plugin(Timestamps);
+  UserSchema.plugin(HasFactory);
+  UserSchema.plugin(HasApiTokens);
+  UserSchema.plugin(Notifiable);
+  UserSchema.plugin(Mediable);
+  UserSchema.plugin(Billable);
 
-export default model<IUser>("User", UserSchema);
+type IPluginMethods = IAuthenticatable & IHasFactory & IHasApiTokens & INotifiable & IMediable & IBillable;
+export interface IUser extends Document, InferSchemaType<typeof UserSchema>, IPluginMethods {};
+type UserModel = Model<IUser> & ITimestamps["statics"];
+  
+export default model<IUser, UserModel>("User", UserSchema);

@@ -52,7 +52,7 @@ export default (schema: Schema) => {
     });
   };
 
-  schema.methods.charge = async function(amount: number, currency = "usd", description = "") {
+  schema.methods.charge = async function(amount: number, currency = "usd", description?: string) {
     assertCustomerExists.call(this);
     return await stripe.charges.create({
       customer: this.stripeId,
@@ -61,20 +61,27 @@ export default (schema: Schema) => {
       description
     });
   };
+  
+  schema.methods.pay = async function(amount: number, currency = "usd", description?: string) {
+    assertCustomerExists.call(this);
+    return await stripe.paymentIntents.create({
+      amount: amount*100,
+      currency,
+      customer: this.stripeId,
+      confirm: true,
+    });
+  };
 
-  schema.methods.purchase = async function(productId: string, quantity: number) {
+  schema.methods.purchase = async function(productable, quantity: number) {
     assertCustomerExists.call(this);
     const product = await stripe.products.retrieve(productId);
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [{
-        price: product.default_price,
-        quantity
-      }],
-      mode: 'payment',
-      success_url: URL.client("/success"),
-      cancel_url: URL.client("/cancel"),
+    return await stripe.transfers.create({
+      amount: product.default_price,
+      currency: 'usd',
+      source_transaction: null,
+      destination: productable.authorStripeId,
+    }, {
+      stripeAccount: this.stripeId,
     });
-    return session.url;
   };
 };
