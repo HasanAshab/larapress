@@ -16,12 +16,14 @@ import {
 import Storage from "illuminate/utils/Storage";
 
 export type IMediable = {
-  media: Schema.Types.ObjectId[],
-  files(): Promise < IMedia[] >,
-  attachFile(name: string, file: UploadedFile, attachLinkToModel?: boolean): Promise < IMedia >,
-  attachFiles(files: Record < string, UploadedFile >, attachLinkToModel?: boolean): Promise < IMedia[] >,
-  getFilesByName(name: string): Promise < IMedia[] >,
-  removeFiles(name?: string): Promise < void >,
+  instance: {
+    media: Schema.Types.ObjectId,
+    files(): Promise < IMedia[] >,
+    attachFile(name: string, file: UploadedFile, attachLinkToModel?: boolean): Promise < IMedia >,
+    attachFiles(files: Record < string, UploadedFile >, attachLinkToModel?: boolean): Promise < IMedia[] >,
+    getFilesByName(name: string): Promise < IMedia[] >,
+    removeFiles(name?: string): Promise < void >
+  }
 }
 
 interface IMediableModel extends Model < IMediable > {

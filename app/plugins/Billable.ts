@@ -3,11 +3,13 @@ import URL from "illuminate/utils/URL";
 import Stripe from "stripe";
 
 export interface IBillable {
-  paymentMethod: string | null;
-  getStripeCustomer(): Promise < Stripe.Customer >;
-  updateStripeCustomer(data: Stripe.CustomerUpdateParams): Promise < Stripe.Customer >;
-  addCard(card: Stripe.TokenCreateParams.CardData): Promise < Stripe.CustomerSource >;
-  charge(amount: number, currency?: string, description?: string): Promise < Stripe.Charge >;
+  instance: {
+    stripeId: string;
+    getStripeCustomer(): Promise < Stripe.Customer >;
+    updateStripeCustomer(data: Stripe.CustomerUpdateParams): Promise < Stripe.Customer >;
+    addCard(card: Stripe.TokenCreateParams.CardData): Promise < Stripe.CustomerSource >;
+    charge(amount: number, currency?: string, description?: string): Promise < Stripe.Charge >;
+  }
 }
 
 export default (schema: Schema) => {

@@ -2,10 +2,12 @@ import { Schema } from "mongoose";
 import { base } from "helpers";
 
 export type IHasFactory = {
-  factory(count?: number): {
-    create(data?: object): Promise<typeof Schema | (typeof Schema)[]>;
-    dummyData(data?: object): object;
-  };
+  instance: {
+    factory(count?: number): {
+      create(data?: object): Promise<typeof Schema | (typeof Schema)[]>;
+      dummyData(data?: object): object;
+    };
+  }
 }
 
 

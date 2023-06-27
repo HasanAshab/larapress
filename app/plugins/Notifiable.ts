@@ -3,7 +3,9 @@ import Mailable from "illuminate/mails/Mailable";
 import Mail from "illuminate/utils/Mail";
 
 export type INotifiable = {
-  notify(mailable: Mailable): Promise<void>
+  instance: {
+    notify(mailable: Mailable): Promise<void>
+  }
 }
 
 

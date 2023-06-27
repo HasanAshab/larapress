@@ -11,10 +11,12 @@ const frontendUrl = process.env.FRONTEND_URL;
 const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
 
 export type IAuthenticatable = {
-  emailVerified: boolean,
-  sendVerificationEmail(): Promise<string | boolean>,
-  sendResetPasswordEmail(): Promise<string>,
-  resetPassword(token: string, newPassword: string): Promise<boolean>
+  instance: {
+    emailVerified: boolean,
+    sendVerificationEmail(): Promise<string | boolean>,
+    sendResetPasswordEmail(): Promise<string>,
+    resetPassword(token: string, newPassword: string): Promise<boolean>
+  }
 }
 
 export default (schema: Schema) => {

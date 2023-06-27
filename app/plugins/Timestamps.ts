@@ -1,6 +1,9 @@
 import { Schema } from "mongoose";
 
 export type ITimestamps = {
+  instance: {
+    createdAt: Date
+  },
   statics: {
     whereDateBetween(startDate: Date, endDate: Date): Promise<typeof Schema>;
   }

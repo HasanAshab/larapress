@@ -64,8 +64,8 @@ const UserSchema = new Schema({
   UserSchema.plugin(Mediable);
   UserSchema.plugin(Billable);
 
-type IPluginMethods = IAuthenticatable & IHasFactory & IHasApiTokens & INotifiable & IMediable & IBillable;
-export interface IUser extends Document, InferSchemaType<typeof UserSchema>, IPluginMethods {};
-type UserModel = Model<IUser> & ITimestamps["statics"];
+type IPlugin = ITimestamps & IAuthenticatable & IHasFactory & IHasApiTokens & INotifiable & IMediable & IBillable;
+export type IUser = Document & InferSchemaType<typeof UserSchema> & IPlugin["instance"];
+type UserModel = Model<IUser> & IPlugin["statics"];
   
 export default model<IUser, UserModel>("User", UserSchema);

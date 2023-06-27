@@ -1,4 +1,4 @@
-import { model, Schema, Document, InferSchemaType } from "mongoose";
+import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
 import Timestamps, { ITimestamps } from "app/traits/Timestamps";
 
 const {{name}}Schema = new Schema({
@@ -7,7 +7,7 @@ const {{name}}Schema = new Schema({
 
 {{name}}Schema.plugin(Timestamps);
 
-export type IPlugins = ITimestamps;
-export interface I{{name}} extends Document, InferSchemaType<typeof {{name}}Schema>, IPlugins {};
-
-export default model<I{{name}}>("{{name}}", {{name}}Schema);
+type IPlugin = ITimestamps;
+export type I{{name}} = Document & InferSchemaType<typeof {{name}}Schema> & IPlugin["instance"];
+type {{name}}Model = Model<I{{name}}> & IPlugin["statics"];
+export default model<I{{name}}, {{name}}Model>("{{name}}", {{name}}Schema);

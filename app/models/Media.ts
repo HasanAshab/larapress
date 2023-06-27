@@ -1,13 +1,10 @@
 import {
   model,
   Schema,
+  Model,
   Document,
   InferSchemaType
 } from "mongoose";
-import {
-  log
-} from "helpers";
-
 import HasFactory, { IHasFactory } from "app/plugins/HasFactory";
 import Timestamps, { ITimestamps } from "app/plugins/Timestamps";
 
@@ -41,6 +38,8 @@ const MediaSchema = new Schema({
 MediaSchema.plugin(HasFactory);
 MediaSchema.plugin(Timestamps);
 
-type IPlugins = IHasFactory & ITimestamps;
-export interface IMedia extends Document, InferSchemaType<typeof MediaSchema>, IPlugins {};
-export default model<IMedia>("Media", MediaSchema);
+type IPlugin = IHasFactory & ITimestamps;
+export type IMedia = Document & InferSchemaType<typeof MediaSchema> & IPlugin["instance"];
+type MediaModel = Model<IMedia> & IPlugin["statics"];
+
+export default model<IMedia, MediaModel>("Media", MediaSchema);
