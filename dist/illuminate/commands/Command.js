@@ -1,9 +1,6 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const ArtisanError_1 = __importDefault(require("illuminate/exceptions/utils/ArtisanError"));
+const helpers_1 = require("helpers");
 class Command {
     constructor(subCommand, fromShell = true, flags = [], params = {}) {
         this.subCommand = subCommand;
@@ -17,13 +14,13 @@ class Command {
     }
     subCommandRequired(name) {
         if (typeof this.subCommand === "undefined") {
-            throw ArtisanError_1.default.type("SUB_COMMAND_REQUIRED").create({ name });
+            throw (0, helpers_1.customError)("SUB_COMMAND_REQUIRED", { name });
         }
     }
     requiredParams(requiredParamsName) {
         for (const name of requiredParamsName) {
             if (typeof this.params[name] === "undefined") {
-                throw ArtisanError_1.default.type("REQUIRED_PARAM_MISSING").create({ param: name });
+                throw (0, helpers_1.customError)("REQUIRED_PARAM_MISSING", { param: name });
             }
         }
     }

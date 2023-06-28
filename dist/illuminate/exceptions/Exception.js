@@ -2,6 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 class Exception {
     static type(errorType) {
+        if (!this.errors.hasOwnProperty(errorType)) {
+            throw new Error(`"${errorType}" does not exist on [${this.name}]`);
+        }
         this.errorType = errorType;
         return this;
     }

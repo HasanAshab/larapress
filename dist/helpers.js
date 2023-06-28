@@ -3,11 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getParams = exports.getModels = exports.checkProperties = exports.getVersion = exports.log = exports.setEnv = exports.controller = exports.middleware = exports.storage = exports.capitalizeFirstLetter = exports.base = void 0;
+exports.getModels = exports.customError = exports.checkProperties = exports.getVersion = exports.log = exports.setEnv = exports.controller = exports.middleware = exports.storage = exports.capitalizeFirstLetter = exports.base = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const middlewares_1 = __importDefault(require("register/middlewares"));
+const errors_1 = __importDefault(require("register/errors"));
 function base(basePath = "") {
     return path_1.default.join(__dirname, basePath);
 }
@@ -160,6 +161,23 @@ function checkProperties(obj, properties) {
     return true;
 }
 exports.checkProperties = checkProperties;
+function customError(type, data) {
+    const errorData = errors_1.default[type];
+    const error = new Error();
+    //error.name = this.name;
+    error.type = type;
+    error.status = errorData.status;
+    error.message = errorData.message;
+    if (typeof data !== "undefined") {
+        error.message = error.message.replace(/: (\w+)/g, (match, key) => {
+            if (typeof data[key] === "undefined")
+                throw new Error(`The "${key}" key is required in "data" argument.`);
+            return data[key];
+        });
+    }
+    return error;
+}
+exports.customError = customError;
 async function getModels() {
     const models = [];
     const modelNames = await fs_1.default.promises.readdir(base("app/models"));
@@ -170,22 +188,3 @@ async function getModels() {
     return models;
 }
 exports.getModels = getModels;
-function getParams(func) {
-    let str = func.toString();
-    str = str.replace(/\/\*[\s\S]*?\*\//g, "")
-        .replace(/\/\/(.)*/g, "")
-        .replace(/{[\s\S]*}/, "")
-        .replace(/=>/g, "")
-        .trim();
-    const start = str.indexOf("(") + 1;
-    const end = str.length - 1;
-    const result = str.substring(start, end).split(", ");
-    const params = [];
-    result.forEach(element => {
-        element = element.replace(/=[\s\S]*/g, "").trim();
-        if (element.length > 0)
-            params.push(element);
-    });
-    return params;
-}
-exports.getParams = getParams;

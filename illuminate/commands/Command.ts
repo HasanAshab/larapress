@@ -1,3 +1,4 @@
+import { ArrayToParamsObj } from "types";
 import { customError } from "helpers";
 
 export default abstract class Command {
@@ -19,7 +20,7 @@ export default abstract class Command {
     }
   }
 
-  requiredParams<Keys extends string[]>(requiredParamsName: Keys): asserts this is this & {params: Foo<Keys>} {
+  requiredParams<Keys extends string[]>(requiredParamsName: Keys): asserts this is this & {params: ArrayToParamsObj<Keys>} {
     for (const name of requiredParamsName) {
       if (typeof this.params[name] === "undefined") {
         throw customError("REQUIRED_PARAM_MISSING", { param: name });

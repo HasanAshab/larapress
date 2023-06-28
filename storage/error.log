@@ -192,3 +192,43 @@ Stack: TypeError: Spread syntax requires ...iterable[Symbol.iterator] to be a fu
     at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
 
 
+1687967927204
+/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: ReferenceError: j is not defined
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:42:1)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1687967927579
+/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: ReferenceError: j is not defined
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:42:1)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1687967927943
+/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: ReferenceError: j is not defined
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:42:1)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1687967956279
+/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: ReferenceError: j is not defined
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:42:1)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1687967956733
+/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: ReferenceError: j is not defined
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:42:1)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+

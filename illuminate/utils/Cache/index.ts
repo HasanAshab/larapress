@@ -21,7 +21,7 @@ export default class Cache {
     if(Driver.isDriver(driver)){
       return driver[methodName].bind(driver) as Driver[T];
     }
-    throw customError("INVALID_DRIVER", {driverName: this.driverName});
+    throw customError("INVALID_CACHE_DRIVER", {driverName: this.driverName});
   }
   
   static async get(key: string) {

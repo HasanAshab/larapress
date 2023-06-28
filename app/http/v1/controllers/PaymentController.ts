@@ -39,7 +39,7 @@ export default class PaymentController {
 
   async test() {
     const user = await User.findOne()
-
+j
     throw customError("INVALID_OR_EXPIRED_TOKEN");
 
     return {

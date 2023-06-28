@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const helpers_1 = require("helpers");
 const commands_1 = __importDefault(require("register/commands"));
-const ArtisanError_1 = __importDefault(require("illuminate/exceptions/utils/ArtisanError"));
 class Artisan {
     static async call(baseInput, args, fromShell = true) {
         var _a;
@@ -13,12 +12,12 @@ class Artisan {
         const [commandKey, subCommand] = baseInput.split(":");
         const commandName = commands_1.default[commandKey];
         if (typeof commandName === "undefined")
-            throw ArtisanError_1.default.type("COMMAND_NOT_FOUND").create();
+            throw (0, helpers_1.customError)("COMMAND_NOT_FOUND");
         const CommandClass = (_a = require((0, helpers_1.base)(`app/commands/${commandName}`))) === null || _a === void 0 ? void 0 : _a.default;
         const commandClass = new CommandClass(subCommand, fromShell, flags, params);
         const handler = commandClass[subCommand] || commandClass.handle;
         if (typeof handler === "undefined")
-            throw ArtisanError_1.default.type("COMMAND_NOT_FOUND").create();
+            throw (0, helpers_1.customError)("COMMAND_NOT_FOUND");
         return handler.apply(commandClass);
     }
     static parseArgs(args) {
