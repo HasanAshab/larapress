@@ -6,7 +6,6 @@ import {
   InferSchemaType
 } from "mongoose";
 import HasFactory, { IHasFactory } from "app/plugins/HasFactory";
-import Timestamps, { ITimestamps } from "app/plugins/Timestamps";
 
 const MediaSchema = new Schema({
   name: {
@@ -33,12 +32,13 @@ const MediaSchema = new Schema({
     type: String,
     required: true
   }
-});
+},
+{ timestamps: true }
+);
 
 MediaSchema.plugin(HasFactory);
-MediaSchema.plugin(Timestamps);
 
-type IPlugin = IHasFactory & ITimestamps;
+type IPlugin = {statics: {}, instance: {}} & IHasFactory;
 export type IMedia = Document & InferSchemaType<typeof MediaSchema> & IPlugin["instance"];
 type MediaModel = Model<IMedia> & IPlugin["statics"];
 

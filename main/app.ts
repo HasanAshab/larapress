@@ -6,7 +6,6 @@ import { engine } from "express-handlebars";
 import MultipartParser from "express-fileupload";
 import Setup from "main/Setup";
 
-
 const app: Application = express();
 
 

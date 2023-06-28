@@ -32,8 +32,8 @@ export default class PaymentController {
   
   async test(){
     const user = await User.findOne()
-    //user!.foo();
-    User.whereDateBetween(Date.now(), Date.now()+1000);
+    console.log(user!.createdAt, user!.updatedAt);
+    user!.updatedAt;
     return {
       data: "dj"//await user.pay(10)
     }

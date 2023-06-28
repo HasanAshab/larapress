@@ -1,13 +1,14 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
-import Timestamps, { ITimestamps } from "app/traits/Timestamps";
+import HasFactory, { IHasFactory } from "app/plugins/HasFactory";
 
 const {{name}}Schema = new Schema({
   //
-});
+},
+{ timestamps: true }
+);
 
-{{name}}Schema.plugin(Timestamps);
 
-type IPlugin = ITimestamps;
+type IPlugin = {statics: {}, instance: {}} & IHasFactory;
 export type I{{name}} = Document & InferSchemaType<typeof {{name}}Schema> & IPlugin["instance"];
 type {{name}}Model = Model<I{{name}}> & IPlugin["statics"];
 export default model<I{{name}}, {{name}}Model>("{{name}}", {{name}}Schema);

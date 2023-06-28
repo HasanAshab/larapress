@@ -94,3 +94,11 @@ Stack: TypeError: Cannot read properties of undefined (reading 'sessions')
     at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
 
 
+1687923407688
+/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: TypeError: User_1.default.whereDateBetween is not a function
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:37:10)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:95:28)
+
+

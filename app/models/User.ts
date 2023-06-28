@@ -4,9 +4,6 @@ import bcrypt from "bcryptjs";
 import Authenticatable, {
   IAuthenticatable
 } from "app/plugins/Authenticatable";
-import Timestamps, {
-  ITimestamps
-} from "app/plugins/Timestamps";
 import HasFactory, {
   IHasFactory
 } from "app/plugins/HasFactory";
@@ -44,7 +41,9 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false,
   }
-});
+}, 
+{ timestamps: true }
+);
 
   UserSchema.pre("save", async function(next) {
     const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
@@ -57,14 +56,13 @@ const UserSchema = new Schema({
   });
 
   UserSchema.plugin(Authenticatable);
-  UserSchema.plugin(Timestamps);
   UserSchema.plugin(HasFactory);
   UserSchema.plugin(HasApiTokens);
   UserSchema.plugin(Notifiable);
   UserSchema.plugin(Mediable);
   UserSchema.plugin(Billable);
 
-type IPlugin = ITimestamps & IAuthenticatable & IHasFactory & IHasApiTokens & INotifiable & IMediable & IBillable;
+type IPlugin = {statics: {}, instance: {}} & IAuthenticatable & IHasFactory & IHasApiTokens & INotifiable & IMediable & IBillable;
 export type IUser = Document & InferSchemaType<typeof UserSchema> & IPlugin["instance"];
 type UserModel = Model<IUser> & IPlugin["statics"];
   
