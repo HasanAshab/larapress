@@ -1,23 +1,22 @@
 import { ArtisanBaseInput } from "types" 
 import {
-  base
+  base,
+  customError
 } from "helpers";
 import commands from "register/commands";
-import ArtisanError from "illuminate/exceptions/utils/ArtisanError";
-
 
 export default class Artisan {
   static async call(baseInput: ArtisanBaseInput, args: string[], fromShell = true): Promise<Function> {
     const { params, flags } = this.parseArgs(args);
     const [commandKey, subCommand] = baseInput.split(":");
     const commandName = commands[commandKey as keyof typeof commands];
-    if (typeof commandName === "undefined") throw ArtisanError.type("COMMAND_NOT_FOUND").create()
+    if (typeof commandName === "undefined") throw customError("COMMAND_NOT_FOUND");
 
     const CommandClass = require(base(`app/commands/${commandName}`))?.default;
 
     const commandClass = new CommandClass(subCommand, fromShell, flags, params);
     const handler = commandClass[subCommand] || commandClass.handle;
-    if (typeof handler === "undefined") throw ArtisanError.type("COMMAND_NOT_FOUND").create()
+    if (typeof handler === "undefined") throw customError("COMMAND_NOT_FOUND");
     return handler.apply(commandClass);
   }
 

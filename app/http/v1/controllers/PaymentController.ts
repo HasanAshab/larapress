@@ -1,8 +1,13 @@
-import { Request } from "express";
+import {
+  Request
+} from "express";
 import URL from "illuminate/utils/URL";
 import stripe from "stripe";
 import User from "app/models/User";
-
+import AuthenticationError from "app/exceptions/AuthenticationError";
+import {
+  customError
+} from "helpers"
 export default class PaymentController {
   async index() {
     const product = {
@@ -27,13 +32,16 @@ export default class PaymentController {
       success_url: URL.client("/success"),
       cancel_url: URL.client("/cancel"),
     });
-    return {url: session.url}
+    return {
+      url: session.url
+    }
   }
-  
-  async test(){
+
+  async test() {
     const user = await User.findOne()
-    console.log(user!.createdAt, user!.updatedAt);
-    user!.updatedAt;
+
+    throw customError("INVALID_OR_EXPIRED_TOKEN");
+
     return {
       data: "dj"//await user.pay(10)
     }

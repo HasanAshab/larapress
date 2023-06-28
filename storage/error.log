@@ -102,3 +102,93 @@ Stack: TypeError: User_1.default.whereDateBetween is not a function
     at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:95:28)
 
 
+1687951784962
+/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: Error: AuthenticationError: Error type "INVALID_OR_EXPIRED_TOKE" does not exist
+    at Function.type (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/exceptions/Exception.ts:8:13)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:37:33)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:95:28)
+
+
+1687951785399
+/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: Error: AuthenticationError: Error type "INVALID_OR_EXPIRED_TOKE" does not exist
+    at Function.type (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/exceptions/Exception.ts:8:13)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:37:33)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:95:28)
+
+
+1687951837254
+/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: Error: "INVALID_OR_EXPIRED_TOKE" does not exist on AuthenticationError
+    at Function.type (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/exceptions/Exception.ts:8:13)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:37:33)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:95:28)
+
+
+1687951858307
+/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: Error: "INVALID_OR_EXPIRED_TOKE" does not exist on [AuthenticationError]
+    at Function.type (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/exceptions/Exception.ts:8:13)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:37:33)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:95:28)
+
+
+1687951858639
+/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: Error: "INVALID_OR_EXPIRED_TOKE" does not exist on [AuthenticationError]
+    at Function.type (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/exceptions/Exception.ts:8:13)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:37:33)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:95:28)
+
+
+1687960733795
+/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'name')
+    at throwCustom (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:169:21)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:37:14)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1687960787313
+/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'errors')
+    at throwCustom (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:171:50)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:37:14)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1687961185696
+/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: Error: [object Object]
+    at customError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:167:22)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:22)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1687961274722
+/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: TypeError: Spread syntax requires ...iterable[Symbol.iterator] to be a function
+    at customError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:167:22)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:22)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1687961275104
+/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: TypeError: Spread syntax requires ...iterable[Symbol.iterator] to be a function
+    at customError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:167:22)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:22)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+

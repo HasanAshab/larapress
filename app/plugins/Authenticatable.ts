@@ -1,4 +1,5 @@
 import { Schema } from "mongoose";
+import { customError } from "helpers";
 import URL from "illuminate/utils/URL"
 import Token from "illuminate/utils/Token";
 import bcrypt from "bcryptjs";
@@ -49,11 +50,11 @@ export default (schema: Schema) => {
   schema.methods.resetPassword = async function (token: string, newPassword: string): Promise<boolean> {
     const tokenIsValid = Token.isValid("reset_password:" + this._id, token);
     if (!tokenIsValid) {
-      throw AuthenticationError.type("INVALID_OR_EXPIRED_TOKEN").create();
+      throw customError("INVALID_OR_EXPIRED_TOKEN");
     }
     const oldPasswordMatch = await bcrypt.compare(newPassword, this.password);
     if (oldPasswordMatch) {
-      throw AuthenticationError.type("PASSWORD_SHOULD_DIFFERENT").create();
+      throw customError("PASSWORD_SHOULD_DIFFERENT");
     }
     this.password = newPassword;
     this.tokenVersion++;

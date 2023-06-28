@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { log } from "helpers";
+import { log, customError } from "helpers";
 import AuthenticationError from "app/exceptions/AuthenticationError";
 import bcrypt from "bcryptjs";
 import User from "app/models/User";
@@ -10,7 +10,7 @@ export default class AuthController {
   async register(req: Request){
     const { name, email, password } = req.validated;
     const logo = req.files?.logo;
-    if (await User.findOne({ email })) throw AuthenticationError.type("EMAIL_EXIST").create();
+    if (await User.findOne({ email })) throw customError("EMAIL_EXIST");
     const user = await User.create({
       name,
       email,
@@ -39,7 +39,7 @@ export default class AuthController {
         };
       }
     }
-    throw AuthenticationError.type("INVALID_CREDENTIALS").create();
+    throw customError("INVALID_CREDENTIALS");
   };
 
   async verifyEmail(req: Request){
@@ -89,8 +89,8 @@ export default class AuthController {
     const user = req.user!;
     const { old_password, password } = req.validated;
     const oldPasswordMatch = await bcrypt.compare(old_password, user.password);
-    if (!oldPasswordMatch) throw AuthenticationError.type("INCORRECT_PASSWORD").create();
-    if (old_password === password) throw AuthenticationError.type("PASSWORD_SHOULD_DIFFERENT").create();
+    if (!oldPasswordMatch) throw customError("INCORRECT_PASSWORD");
+    if (old_password === password) throw customError("PASSWORD_SHOULD_DIFFERENT");
     user.password = password;
     user.tokenVersion++;
     await user.save();

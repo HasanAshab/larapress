@@ -1,7 +1,7 @@
 import Exception from "illuminate/exceptions/Exception";
 
 export default class AuthenticationError extends Exception {
-  static errors = {
+  errors = {
     EMAIL_EXIST: {
       status: 400,
       message: "Email already exist!"

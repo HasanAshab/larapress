@@ -11,6 +11,7 @@ import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 import middlewarePairs from "register/middlewares";
+import customErrors from "register/errors";
 
 
 export function base(basePath = ""): string {
@@ -162,6 +163,23 @@ export function checkProperties(obj: any, properties: Record < string, string >)
   return true;
 }
 
+export function customError(type: keyof typeof customErrors, data?: object): Error {
+  const errorData = customErrors[type];
+  const error: any = new Error();
+  //error.name = this.name;
+  error.type = type;
+  error.status = errorData.status;
+  error.message = errorData.message;
+  
+  if (typeof data !== "undefined") {
+    error.message = error.message.replace(/: (\w+)/g, (match: string, key: string) => {
+      if(typeof data[key] === "undefined") throw new Error(`The "${key}" key is required in "data" argument.`);
+      return data[key];
+    });
+  }
+  return error;
+}
+
 export async function getModels(): Promise < Model < any > [] > {
   const models: Model < any > [] = []
   const modelNames = await fs.promises.readdir(base("app/models"));
@@ -171,26 +189,3 @@ export async function getModels(): Promise < Model < any > [] > {
   }
   return models;
 }
-
-export function getParams(func: Function): string[] {
-  let str = func.toString();
-  str = str.replace(/\/\*[\s\S]*?\*\//g,
-    "")
-  .replace(/\/\/(.)*/g,
-    "")
-  .replace(/{[\s\S]*}/,
-    "")
-  .replace(/=>/g, "")
-    .trim();
-    const start = str.indexOf("(") + 1;
-    const end = str.length - 1;
-    const result = str.substring(start, end).split(", ");
-    const params: string[] = [];
-    result.forEach(element => {
-      element = element.replace(/=[\s\S]*/g, "").trim();
-      if (element.length > 0)
-        params.push(element);
-    });
-
-    return params;
-  }

@@ -1,15 +1,10 @@
 import {
   CacheDataArg
 } from "types";
-import { base } from "helpers";
+import { base, customError } from "helpers";
 import Driver from "illuminate/utils/Cache/Driver";
 import cacheDriversConfig from "register/drivers/cache";
 import fs from "fs";
-//import CacheError from "illuminate/exceptions/utils/CacheError";
-
-//type CacheDriverName = Exclude<typeof cacheDriversConfig[keyof typeof cacheDriversConfig], typeof cacheDriversConfig.default>
-//type CacheDriverKey = Exclude<keyof typeof cacheDriversConfig, "default">
-
 
 export default class Cache {
   static driverName: typeof cacheDriversConfig.map[keyof typeof cacheDriversConfig.map] = cacheDriversConfig.map[cacheDriversConfig.default];
@@ -26,7 +21,7 @@ export default class Cache {
     if(Driver.isDriver(driver)){
       return driver[methodName].bind(driver) as Driver[T];
     }
-    throw new Error(`Cache driver not implemented for ${this.driverName} driver.`);
+    throw customError("INVALID_DRIVER", {driverName: this.driverName});
   }
   
   static async get(key: string) {

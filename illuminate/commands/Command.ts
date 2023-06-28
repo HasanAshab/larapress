@@ -1,9 +1,4 @@
-import ArtisanError from "illuminate/exceptions/utils/ArtisanError";
-
-export type Foo<Keys extends string[]> = {
-  [Key in Keys[number]]: string;
-}
-
+import { customError } from "helpers";
 
 export default abstract class Command {
   constructor(
@@ -20,14 +15,14 @@ export default abstract class Command {
 
   subCommandRequired(name: string): asserts this is this & { subCommand: string } {
     if (typeof this.subCommand === "undefined") {
-      throw ArtisanError.type("SUB_COMMAND_REQUIRED").create({ name });
+      throw customError("SUB_COMMAND_REQUIRED", { name });
     }
   }
 
   requiredParams<Keys extends string[]>(requiredParamsName: Keys): asserts this is this & {params: Foo<Keys>} {
     for (const name of requiredParamsName) {
       if (typeof this.params[name] === "undefined") {
-        throw ArtisanError.type("REQUIRED_PARAM_MISSING").create({ param: name });
+        throw customError("REQUIRED_PARAM_MISSING", { param: name });
       }
     }
   }

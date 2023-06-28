@@ -7,6 +7,8 @@ const {{name}}Schema = new Schema({
 { timestamps: true }
 );
 
+{{name}}Schema.plugin(HasFactory);
+
 
 type IPlugin = {statics: {}, instance: {}} & IHasFactory;
 export type I{{name}} = Document & InferSchemaType<typeof {{name}}Schema> & IPlugin["instance"];

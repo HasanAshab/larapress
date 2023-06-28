@@ -5,7 +5,7 @@ export default abstract class Exception {
 
   static type(errorType: string): typeof Exception {
     if (!this.errors.hasOwnProperty(errorType)) {
-      throw new Error(`Error type "${errorType}" does not exist`);
+      throw new Error(`"${errorType}" does not exist on [${this.name}]`);
     }
     this.errorType = errorType
     return this;

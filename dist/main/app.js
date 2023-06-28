@@ -10,9 +10,6 @@ const cors_1 = __importDefault(require("cors"));
 const express_handlebars_1 = require("express-handlebars");
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const Setup_1 = __importDefault(require("main/Setup"));
-const mongoose_1 = __importDefault(require("mongoose"));
-const Timestamps_1 = __importDefault(require("app/plugins/Timestamps"));
-mongoose_1.default.plugin(Timestamps_1.default);
 const app = (0, express_1.default)();
 // Domains that can only access the API
 app.use((0, cors_1.default)({
