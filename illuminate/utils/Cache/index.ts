@@ -1,23 +1,23 @@
 import {
   CacheDataArg
 } from "types";
-import { base, customError } from "helpers";
+import { customError, capitalizeFirstLetter } from "helpers";
 import Driver from "illuminate/utils/Cache/Driver";
 import cacheDriversConfig from "register/drivers/cache";
 import fs from "fs";
 
 export default class Cache {
-  static driverName: typeof cacheDriversConfig.map[keyof typeof cacheDriversConfig.map] = cacheDriversConfig.map[cacheDriversConfig.default];
+  static driverName: typeof cacheDriversConfig.list[number] = cacheDriversConfig.default;
   
-  static driver(cacheDriver: keyof typeof cacheDriversConfig.map): typeof Cache {
-    this.driverName = cacheDriversConfig.map[cacheDriver];
+  static driver(name: typeof cacheDriversConfig.list[number]): typeof Cache {
+    this.driverName = name;
     return this;
   }
   
   static async getDriver<T extends keyof Driver>(methodName: T): Promise<Driver[T]> {
-    const { default: DriverClass } = await import(`./drivers/${this.driverName}`);
+    const { default: DriverClass } = await import(`./drivers/${capitalizeFirstLetter(this.driverName)}`);
     const driver = new DriverClass();
-    this.driverName = cacheDriversConfig.map[cacheDriversConfig.default];
+    this.driverName = cacheDriversConfig.default;
     if(Driver.isDriver(driver)){
       return driver[methodName].bind(driver) as Driver[T];
     }

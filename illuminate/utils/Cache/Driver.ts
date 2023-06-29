@@ -6,7 +6,7 @@ export default abstract class Driver {
   abstract put(key: string, data: CacheDataArg, expiry?: number): Promise<void> | void;
   abstract clear(key?: string): Promise<void> | void;
   
-  static isDriver(target: object): target is Driver {
+  static isDriver(target: any): target is Driver {
     return checkProperties(target, {
       get: "function", 
       put: "function",

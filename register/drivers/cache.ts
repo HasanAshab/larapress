@@ -1,7 +1,4 @@
 export default {
   default: "redis",
-  map: {
-    memory: "Memory",
-    redis: "Redis"
-  }
+  list: ["memory", "redis"]
 } as const;

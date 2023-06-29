@@ -18,11 +18,11 @@ export function base(basePath = ""): string {
   return path.join(__dirname, basePath);
 }
 
-export function capitalizeFirstLetter(str: string): string {
+export function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export function storage(storage_path = ""): string {
+export function storage(storage_path = "") {
   return path.resolve(path.join("storage", storage_path));
 }
 
@@ -173,8 +173,8 @@ export function customError(type: keyof typeof customErrors, data?: object): Err
   
   if (typeof data !== "undefined") {
     error.message = error.message.replace(/: (\w+)/g, (match: string, key: string) => {
-      if(typeof data[key] === "undefined") throw new Error(`The "${key}" key is required in "data" argument.`);
-      return data[key];
+      if(typeof data[key as keyof typeof data] === "undefined") throw new Error(`The "${key}" key is required in "data" argument.`);
+      return data[key as keyof typeof data];
     });
   }
   return error;
