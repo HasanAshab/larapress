@@ -5,9 +5,8 @@ import URL from "illuminate/utils/URL";
 import stripe from "stripe";
 import User from "app/models/User";
 import AuthenticationError from "app/exceptions/AuthenticationError";
-import {
-  customError
-} from "helpers"
+import T from "app/notifications/T";
+
 export default class PaymentController {
   async index() {
     const product = {
@@ -39,9 +38,7 @@ export default class PaymentController {
 
   async test() {
     const user = await User.findOne()
-j
-    throw customError("INVALID_OR_EXPIRED_TOKEN");
-
+    user.notify(new T({a:9393}))
     return {
       data: "dj"//await user.pay(10)
     }
