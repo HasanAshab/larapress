@@ -11,7 +11,7 @@ export default abstract class Job {
   async exec(delay = 0) {
     if (Queue.isQueueable(this)) {
       const processor = job => this.dispatch.call(this, job.data)
-      Queue.get(this.queueChannel, processor).add(this.data, { delay });
+      Queue.get(processor).add(this.data, { delay });
     } 
     else await this.dispatch(this.data);
   }

@@ -3,20 +3,23 @@ import ShouldQueue from "illuminate/queue/ShouldQueue";
 import { checkProperties } from "helpers";
 
 export default class Queue {
-  static queues: Record<string, bull.Queue> = {}
+  static queue: bull.Queue;
   
-  static get(channelName: string, processor: Function): bull.Queue {
-    if(typeof this.queues[channelName] === "undefined"){
-      const queue = new bull(channelName, process.env.REDIS_URL ?? "", {
+  static get(processor: Function): bull.Queue {
+    if(typeof this.queue === "undefined"){
+      this.queue = new bull("default", process.env.REDIS_URL ?? "", {
         defaultJobOptions: {
           removeOnComplete: true,
           removeOnFail: true,
         },
       });
-      queue.process(processor);
-      this.queues[channelName] = queue;
+      this.queue.process(processor);
     }
-    return this.queues[channelName];
+    return this.queue;
+  }
+  
+  static clear(){
+    this.queue.process(null);
   }
   
   static isQueueable(target: any): target is ShouldQueue {
