@@ -232,3 +232,21 @@ Stack: ReferenceError: j is not defined
     at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
 
 
+1688089148686
+/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
+    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
+    at listOnTimeout (node:internal/timers:568:17)
+    at processTimers (node:internal/timers:511:7)
+
+
+1688089172653
+/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
+Stack: ReferenceError: Must call super constructor in derived class before accessing 'this' or returning from derived constructor
+    at new Notification (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/notifications/Notification.ts:8:22)
+    at new T (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/notifications/T.ts:5:1)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:41:17)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+

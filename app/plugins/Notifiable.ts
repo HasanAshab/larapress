@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Schema, Document } from "mongoose";
 //import Mailable from "illuminate/mails/Mailable";
 //import Mail from "illuminate/utils/Mail";
 import NotificationData from "illuminate/notifications/Notification";
@@ -13,6 +13,6 @@ export type INotifiable = {
 
 export default (schema: Schema) => {
   schema.methods.notify = async function(notification: NotificationData) {
-    return await Notification.send(this, notification);
+    return await Notification.send(this as Document, notification);
   };
 }

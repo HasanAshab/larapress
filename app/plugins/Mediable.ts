@@ -2,8 +2,7 @@ import {
   log
 } from "helpers";
 import {
-  Schema,
-  Model
+  Schema
 } from "mongoose";
 import { UploadedFile } from "express-fileupload";
 import URL from "illuminate/utils/URL"
@@ -26,10 +25,6 @@ export type IMediable = {
   }
 }
 
-interface IMediableModel extends Model < IMediable > {
-  modelName: string;
-}
-
 export default (schema: Schema) => {
   schema.add({
     media: [{
@@ -41,7 +36,7 @@ export default (schema: Schema) => {
   schema.methods.files = async function (): Promise <IMedia[]> {
     return await Media.find({
       mediableId: this._id,
-      mediableType: (this.constructor as IMediableModel).modelName,
+      mediableType: (this.constructor as any).modelName,
     });
   }
 
@@ -50,7 +45,7 @@ export default (schema: Schema) => {
     let media = new Media({
       name,
       mediableId: this._id,
-      mediableType: (this.constructor as IMediableModel).modelName,
+      mediableType: (this.constructor as any).modelName,
       mimetype: file.mimetype,
       path,
     });
@@ -74,7 +69,7 @@ export default (schema: Schema) => {
       const media = new Media({
         name,
         mediableId: this._id,
-        mediableType: (this.constructor as IMediableModel).modelName,
+        mediableType: (this.constructor as any).modelName,
         mimetype: file.mimetype,
         path,
       });
@@ -95,7 +90,7 @@ export default (schema: Schema) => {
   schema.methods.getFiles = async function (name?: string): Promise < (typeof Media)[] > {
     return await Media.find({
       name,
-      mediableType: (this.constructor as IMediableModel).modelName,
+      mediableType: (this.constructor as any).modelName,
       mediableId: this._id,
     });
   }
@@ -114,7 +109,7 @@ export default (schema: Schema) => {
     }
     await Media.deleteMany({
       name,
-      mediableType: (this.constructor as IMediableModel).modelName,
+      mediableType: (this.constructor as any).modelName,
       mediableId: this._id,
     });
   }

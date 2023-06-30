@@ -1,17 +1,17 @@
+import { Document } from "mongoose";
 import Notification from "illuminate/notifications/Notification";
-import { INotifiable } from "app/plugins/Notifiable";
 import VerificationMail from "app/mails/VerificationMail";
 
 export default class T extends Notification {
-  via(notifiable: INotifiable){
+  via(notifiable: Document){
     return ["database", "mail"];
   }
   
-  toMail(notifiable: INotifiable) {
+  toMail(notifiable: Document) {
     return new VerificationMail({link:"dhdh"})
   }
   
-  toObject(notifiable: INotifiable) {
+  toObject(notifiable: Document) {
     return {a:94}
   }
   

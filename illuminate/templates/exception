@@ -1,7 +1,0 @@
-import Exception from "illuminate/exceptions/Exception";
-
-export default class {{name}} extends Exception {
-  static errors = {
-    //
-  }
-}
