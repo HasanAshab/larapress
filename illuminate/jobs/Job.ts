@@ -1,22 +1,18 @@
-import Queueable from "illuminate/queue/Queueable";
-import ShouldQueue from "illuminate/queue/ShouldQueue";
+import Queue from "illuminate/queue/Queue";
 
-export default abstract class Job extends Queueable implements ShouldQueue {
+export default abstract class Job {
   abstract dispatch(): void | Promise<void>
   public shouldQueue = false;
   
-  constructor(public data: Record<string, any>) {
-    super()
+  constructor(public data: object) {
     this.data = data;
   }
 
-  async exec(milliseconds?: number) {
-    if (typeof milliseconds !== "undefined") {
-      this.shouldQueue = true;
-      const queue = this.createQueue();
-      queue.process(job => this.dispatch.bind(this));
-      await queue.add({}, { delay: milliseconds });
+  async exec(delay = 0) {
+    if (Queue.isQueueable(this)) {
+      const processor = job => this.dispatch.call(this, job.data)
+      Queue.get(this.queueChannel, processor).add(this.data, { delay });
     } 
-    else await this.dispatch();
+    else await this.dispatch(this.data);
   }
 }

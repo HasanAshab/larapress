@@ -250,3 +250,49 @@ Stack: ReferenceError: Must call super constructor in derived class before acces
     at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
 
 
+1688091818973
+/api/v1/payment - GET - ::1
+Stack: ReplyError: ERR max number of clients reached
+    at parseError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/redis-parser/lib/parser.js:179:12)
+    at parseType (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/redis-parser/lib/parser.js:302:14)
+
+
+1688096959286
+/api/v1/payment - GET - ::1
+Stack: TypeError: Cannot read properties of undefined (reading 'process')
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:25:19)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:24)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1688096989331
+/api/v1/payment - GET - ::1
+Stack: ReplyError: ERR max number of clients reached
+    at parseError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/redis-parser/lib/parser.js:179:12)
+    at parseType (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/redis-parser/lib/parser.js:302:14)
+
+
+1688102287317
+/api/v1/payment - GET - ::1
+Stack: TypeError: Cannot read properties of undefined (reading 'default')
+    at Function.getQueue (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:8:26)
+    at Function.pushOn (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:20:24)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:24:25)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:24)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1688102326188
+/api/v1/payment - GET - ::1
+Stack: Error: Cannot define the same handler twice __default__
+    at Queue.setHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:673:11)
+    at Queue.process (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:654:8)
+    at Function.pushOn (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:21:11)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:24:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+

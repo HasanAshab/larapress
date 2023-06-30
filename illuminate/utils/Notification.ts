@@ -1,4 +1,4 @@
-import Queueable from "illuminate/queue/Queueable";
+import Queue from "illuminate/queue/Queue";
 import NotificationData from "illuminate/notifications/Notification";
 import {
   INotifiable
@@ -14,18 +14,14 @@ export default class Notification {
   static dispatchAfter = 0;
   static async send(notifiables: Document | Document[], notification: NotificationData) {
     notifiables = Array.isArray(notifiables) ? notifiables: [notifiables];
-    const sendInQueue = Queueable.isQueueable(notification) && notification.shouldQueue;
     for (const notifiable of notifiables) {
       const channels = notification.via(notifiable);
       for (const channel of channels) {
         const handlerName = "send" + capitalizeFirstLetter(channel) as keyof typeof notification;
         if (typeof notification[handlerName] === "function") {
-          if (sendInQueue) {
-            const queue = notification.createQueue();
-            queue.process(job => (notification[handlerName] as any).bind(notification, notifiable));
-            await queue.add({}, {
-              delay: this.dispatchAfter,
-            });
+          if (Queue.isQueueable(notification)) {
+            const processor = job => (notification[handlerName] as any).call(notification, job.data);
+            await Queue.get(notification.queueChannel, processor).add(notifiable, { delay });
           } else await (notification[handlerName] as any)(notifiable);
         }
       }

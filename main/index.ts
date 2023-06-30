@@ -36,3 +36,8 @@ if (nodeEnv === "development") {
     console.log(`*New connection: [${time}]`);
   });
 }
+
+import T from "app/jobs/T";
+
+for(let i = 0; i < 20; i++)
+new T({da:i}).exec()

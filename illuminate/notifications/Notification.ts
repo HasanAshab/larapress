@@ -1,12 +1,10 @@
-import Queueable from "illuminate/queue/Queueable";
 import { Document } from "mongoose";
 import Mail from "illuminate/utils/Mail";
 import Mailable from "illuminate/mails/Mailable";
 import NotificationModel from "app/models/Notification";
 
-export default abstract class Notification extends Queueable {
+export default abstract class Notification {
   constructor(public data: object) {
-    super();
     this.data = data;
   }
   

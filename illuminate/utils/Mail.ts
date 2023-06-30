@@ -6,7 +6,6 @@ import {
   RecipientEmails,
   MailMockedData
 } from "types";
-import Queueable from "illuminate/queue/Queueable";
 import Mailable from "illuminate/mails/Mailable";
 import {
   createTransport,

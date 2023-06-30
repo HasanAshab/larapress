@@ -6,6 +6,7 @@ import stripe from "stripe";
 import User from "app/models/User";
 import AuthenticationError from "app/exceptions/AuthenticationError";
 import T from "app/notifications/T";
+import Notification from "illuminate/utils/Notification";
 
 export default class PaymentController {
   async index() {
@@ -37,10 +38,11 @@ export default class PaymentController {
   }
 
   async test() {
-    const user = await User.findOne()
-    user.notify(new T({a:9393}))
+    const users = await User.find().limit(10)
+    //user.notify(new T({a:9393}))
+    await Notification.send(users, new T({a:9393}))
     return {
-      data: "dj"//await user.pay(10)
+      data: users//await user.pay(10)
     }
   }
 }
