@@ -1,448 +1,320 @@
-1687596864845
-/api/v1/auth/verify/6496af3f70e039d3bad9276b?sign=WyJhYTM4OTdiODVmNzFkNzhkOWFjYzg4YmUwNDg5ZjdlYzYxYWE2ZDU5NTRlMDJmMGE0MzRjZDhkNzJlNmYzMDU1NWFiZmFhMGFjNGNmMzk3YWE5MzllMmY4MzVhYmZhNGVmMjczY2E3MDBlYmJhNjI5NThjNTdhMWNkNWUxZjg3OCIsIjgxNjFiODE0YmI5ZWU4MjdhYmM2ZDRmZGYwNzBmYmFhIl0= - GET - ::ffff:127.0.0.1
-Stack: TypeError: Cannot read properties of undefined (reading 'urlencoded')
-    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/ValidateRequest.ts:24:45)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:34:30
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at ValidateSignature.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/ValidateSignature.ts:10:15)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:34:30
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
-    at param (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:365:14)
-    at param (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:376:14)
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:421:3)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
-    at router (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:47:12)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:286:9
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at InjectHelpers.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/InjectHelpers.ts:33:9)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:34:30
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:286:9
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express-fileupload/lib/index.js:35:14
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:286:9
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at jsonParser (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:113:7)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:286:9
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at urlencodedParser (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/urlencoded.js:91:7)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:286:9
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at cors (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/cors/lib/index.js:188:7)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/cors/lib/index.js:224:17
-    at originCallback (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/cors/lib/index.js:214:15)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/cors/lib/index.js:219:13
-    at optionsCallback (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/cors/lib/index.js:199:9)
-    at corsMiddleware (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/cors/lib/index.js:204:7)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:286:9
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at expressInit (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/middleware/init.js:40:5)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:286:9
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at query (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/middleware/query.js:45:5)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:286:9
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
-    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/application.js:181:10)
-    at Server.app (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/express.js:39:9)
-    at Server.emit (node:events:512:28)
-    at parserOnIncoming (node:_http_server:1067:12)
-    at HTTPParser.parserOnHeadersComplete (node:_http_common:119:17)
-
-
-1687661223816
-/api/v1/auth/t?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: TypeError: Cannot read properties of undefined (reading 'sessions')
-    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:13:43)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:95:34)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/ValidateRequest.ts:24:51)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:34:30
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-
-
-1687923407688
-/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: TypeError: User_1.default.whereDateBetween is not a function
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:37:10)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:95:28)
-
-
-1687951784962
-/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: Error: AuthenticationError: Error type "INVALID_OR_EXPIRED_TOKE" does not exist
-    at Function.type (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/exceptions/Exception.ts:8:13)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:37:33)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:95:28)
-
-
-1687951785399
-/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: Error: AuthenticationError: Error type "INVALID_OR_EXPIRED_TOKE" does not exist
-    at Function.type (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/exceptions/Exception.ts:8:13)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:37:33)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:95:28)
-
-
-1687951837254
-/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: Error: "INVALID_OR_EXPIRED_TOKE" does not exist on AuthenticationError
-    at Function.type (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/exceptions/Exception.ts:8:13)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:37:33)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:95:28)
-
-
-1687951858307
-/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: Error: "INVALID_OR_EXPIRED_TOKE" does not exist on [AuthenticationError]
-    at Function.type (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/exceptions/Exception.ts:8:13)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:37:33)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:95:28)
-
-
-1687951858639
-/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: Error: "INVALID_OR_EXPIRED_TOKE" does not exist on [AuthenticationError]
-    at Function.type (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/exceptions/Exception.ts:8:13)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:37:33)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:95:28)
-
-
-1687960733795
-/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: TypeError: Cannot read properties of undefined (reading 'name')
-    at throwCustom (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:169:21)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:37:14)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1687960787313
-/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: TypeError: Cannot read properties of undefined (reading 'errors')
-    at throwCustom (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:171:50)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:37:14)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1687961185696
-/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: Error: [object Object]
-    at customError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:167:22)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:22)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1687961274722
-/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: TypeError: Spread syntax requires ...iterable[Symbol.iterator] to be a function
-    at customError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:167:22)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:22)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1687961275104
-/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: TypeError: Spread syntax requires ...iterable[Symbol.iterator] to be a function
-    at customError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:167:22)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:22)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1687967927204
-/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: ReferenceError: j is not defined
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:42:1)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1687967927579
-/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: ReferenceError: j is not defined
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:42:1)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1687967927943
-/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: ReferenceError: j is not defined
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:42:1)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1687967956279
-/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: ReferenceError: j is not defined
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:42:1)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1687967956733
-/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: ReferenceError: j is not defined
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:42:1)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1688089148686
-/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
-    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
-    at listOnTimeout (node:internal/timers:568:17)
-    at processTimers (node:internal/timers:511:7)
-
-
-1688089172653
-/api/v1/payment/?email=ab@a.com - GET - ::ffff:127.0.0.1
-Stack: ReferenceError: Must call super constructor in derived class before accessing 'this' or returning from derived constructor
-    at new Notification (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/notifications/Notification.ts:8:22)
-    at new T (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/notifications/T.ts:5:1)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:41:17)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1688091818973
-/api/v1/payment - GET - ::1
-Stack: ReplyError: ERR max number of clients reached
-    at parseError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/redis-parser/lib/parser.js:179:12)
-    at parseType (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/redis-parser/lib/parser.js:302:14)
-
-
-1688096959286
-/api/v1/payment - GET - ::1
-Stack: TypeError: Cannot read properties of undefined (reading 'process')
-    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:25:19)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:24)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1688096989331
-/api/v1/payment - GET - ::1
-Stack: ReplyError: ERR max number of clients reached
-    at parseError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/redis-parser/lib/parser.js:179:12)
-    at parseType (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/redis-parser/lib/parser.js:302:14)
-
-
-1688102287317
-/api/v1/payment - GET - ::1
-Stack: TypeError: Cannot read properties of undefined (reading 'default')
-    at Function.getQueue (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:8:26)
-    at Function.pushOn (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:20:24)
-    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:24:25)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:24)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1688102326188
-/api/v1/payment - GET - ::1
-Stack: Error: Cannot define the same handler twice __default__
-    at Queue.setHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:673:11)
-    at Queue.process (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:654:8)
-    at Function.pushOn (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:21:11)
-    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:24:25)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1688134181017
-/api/v1/payment - GET - ::1
-Stack: ReferenceError: delay is not defined
-    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:24:58)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:24)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1688142743415
-/api/v1/payment - GET - ::1
-Stack: ReferenceError: Queueable is not defined
-    at Mail.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:125:27)
-    at T.sendMail (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/notifications/Notification.ts:20:37)
-    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:25:58)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1688184466531
-/api/v1/payment - GET - ::1
-Stack: TypeError: Cannot read properties of undefined (reading 'toString')
-    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:18:35)
-    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:24:25)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1688184556642
-/api/v1/payment - GET - ::1
-Stack: TypeError: Cannot read properties of undefined (reading 'toString')
-    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:19:35)
-    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:24:25)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1688184574649
-/api/v1/payment - GET - ::1
-Stack: TypeError: Cannot read properties of undefined (reading 'toString')
-    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:19:35)
-    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:24:25)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1688184681881
-/api/v1/payment - GET - ::1
-Stack: TypeError: Cannot read properties of undefined (reading 'toString')
-    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:19:35)
-    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:24:25)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1688184711283
-/api/v1/payment - GET - ::1
-Stack: Error: Cannot define the same handler twice __default__
-    at Queue.setHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:673:11)
-    at Queue.process (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:654:8)
-    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:21:18)
-    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:24:25)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1688185688475
-/api/v1/payment - GET - ::1
-Stack: TypeError: Cannot read properties of undefined (reading 'default')
-    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:18:30)
-    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:23:25)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1688185803477
-/api/v1/payment - GET - ::1
-Stack: TypeError: Cannot read properties of undefined (reading 'default')
-    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:18:30)
-    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:23:25)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1688185870044
-/api/v1/payment - GET - ::1
-Stack: TypeError: Cannot read properties of undefined (reading 'default')
-    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:18:30)
-    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:23:25)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1688185989461
-/api/v1/payment - GET - ::1
-Stack: Error: Cannot define the same handler twice __default__
-    at Queue.setHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:673:11)
-    at Queue.process (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:654:8)
-    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:18:21)
-    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:23:25)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1688186874660
-/api/v1/payment - GET - ::1
-Stack: Error: Cannot define the same handler twice sendDatabase
-    at Queue.setHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:673:11)
-    at Queue.process (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:654:8)
-    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:18:16)
-    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:23:25)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1688186941242
-/api/v1/payment - GET - ::1
-Stack: Error: Cannot define the same handler twice sendDatabase
-    at Queue.setHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:673:11)
-    at Queue.process (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:654:8)
-    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:17:16)
-    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:23:25)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
-
-
-1688186958826
-/api/v1/payment - GET - ::1
-Stack: Error: Cannot define the same handler twice sendDatabase
-    at Queue.setHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:673:11)
-    at Queue.process (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:654:8)
-    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:17:16)
-    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:23:25)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+Sat Jul 01 2023 21:51:14 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:14 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:14 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:14 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:14 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:14 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:14 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:14 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:15 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:15 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:38 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:38 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:38 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:39 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:39 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:39 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:40 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:40 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:41 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:51:41 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:25 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:26 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:26 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:26 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:26 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:26 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:27 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:27 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:27 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:27 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:48 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:48 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:48 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:48 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:48 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:48 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:49 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:49 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:49 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+
+
+Sat Jul 01 2023 21:52:49 GMT+0600 (Bangladesh Standard Time):
+ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
+    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
+    at processTicksAndRejections (node:internal/process/task_queues:77:11)
 
 

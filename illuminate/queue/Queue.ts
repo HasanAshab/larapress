@@ -1,9 +1,14 @@
-import bull from "bull";
+import { log } from "helpers"
+import bull, { JobOpts } from "bull";
 
 export default class Queue {
   static queue: bull.Queue;
   
-  static set(channel: string, processor: Function): bull.Queue {
+  constructor(public channel: string){
+    this.channel = channel;
+  }
+  
+  static set(channel: string, worker: (data: object) => Promise<void>, concurrency = 1): bull.Queue {
     if(typeof this.queue === "undefined"){
       this.queue = new bull("default", process.env.REDIS_URL ?? "", {
         defaultJobOptions: {
@@ -13,9 +18,12 @@ export default class Queue {
       });
     }
     if(typeof this.queue.handlers[channel] === "undefined") {
-      this.queue.process(channel, processor);
+      const processor = job => worker(job.data).catch(err => log(err));
+      this.queue.process(channel, concurrency, processor);
     }
-    //console.log(this.queue.handlers)
-    return this.queue;
+    return new this(channel)
+  }
+  private add(data: object, opts?: JobOpts){
+    return this.constructor.queue.add(this.channel, data, opts);
   }
 }

@@ -3,6 +3,7 @@ import Queue from "illuminate/queue/Queue";
 export default abstract class Job {
   abstract dispatch(): void | Promise<void>
   public shouldQueue = false;
+  public concurrency = 1;
   
   constructor(public data: object) {
     this.data = data;
@@ -10,8 +11,7 @@ export default abstract class Job {
 
   async exec(delay = 0) {
     if (this.shouldQueue || delay > 0) {
-      const processor = job => this.dispatch.call(this, job.data)
-      Queue.set(this.constructor.name, processor).add(this.constructor.name, this.data, {delay});
+      Queue.set(this.constructor.name, this.dispatch.bind(this), this.concurrency).add(this.data, {delay});
     } 
     else await this.dispatch(this.data);
   }

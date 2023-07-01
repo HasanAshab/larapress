@@ -20,8 +20,8 @@ export default class Notification {
         const handlerName = "send" + capitalizeFirstLetter(channel) as keyof typeof notification;
         if (typeof notification[handlerName] === "function") {
           if (notification.shouldQueue) {
-            const processor = (job) => (notification[handlerName] as any).call(notification, job.data);
-            Queue.set(channel, processor).add(notifiable, { channel, delay: 0 });
+            const method = (notification[handlerName] as any).bind(notification);
+            Queue.set(channel, method).add(notifiable, { delay: 0 });
           } else await (notification[handlerName] as any)(notifiable);
         }
       }

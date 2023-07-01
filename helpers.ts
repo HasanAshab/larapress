@@ -128,10 +128,10 @@ export function setEnv(envValues: object): boolean {
 
 export function log(data: any): void {
   const path = "./storage/error.log";
-  if (typeof data === "object") {
-    data = JSON.stringify(data);
+  if(data instanceof Error){
+    data = data.stack
   }
-  fs.appendFile(path, `${data}\n\n\n`, (err: any) => {
+  fs.appendFile(path, `${new Date}:\n${data.toString()}\n\n\n`, (err: any) => {
     if (err) {
       throw err;
     }

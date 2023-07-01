@@ -36,11 +36,11 @@ if (nodeEnv === "development") {
     console.log(`*New connection: [${time}]`);
   });
 }
-
+/*
 import T from "app/jobs/T";
 import T2 from "app/jobs/T2";
 
 for(let i = 0; i < 15; i++)
 new T2({da:i}).exec()
-
+*/
 
