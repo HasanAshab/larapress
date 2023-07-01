@@ -37,7 +37,14 @@ if (nodeEnv === "development") {
   });
 }
 
+/*
 import T from "app/jobs/T";
+import T2 from "app/jobs/T2";
 
-for(let i = 0; i < 20; i++)
+for(let i = 0; i < 15; i++)
 new T({da:i}).exec()
+
+for(let i = 0; i < 15; i++)
+new T2({da:15 -i}).exec()
+
+*/

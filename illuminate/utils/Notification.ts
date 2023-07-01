@@ -4,6 +4,7 @@ import {
   INotifiable
 } from "app/plugins/Notifiable";
 import {
+  log,
   capitalizeFirstLetter
 } from "helpers";
 import {
@@ -11,7 +12,6 @@ import {
 } from "mongoose";
 
 export default class Notification {
-  static dispatchAfter = 0;
   static async send(notifiables: Document | Document[], notification: NotificationData) {
     notifiables = Array.isArray(notifiables) ? notifiables: [notifiables];
     for (const notifiable of notifiables) {
@@ -19,9 +19,9 @@ export default class Notification {
       for (const channel of channels) {
         const handlerName = "send" + capitalizeFirstLetter(channel) as keyof typeof notification;
         if (typeof notification[handlerName] === "function") {
-          if (Queue.isQueueable(notification)) {
-            const processor = job => (notification[handlerName] as any).call(notification, job.data);
-            await Queue.get(notification.queueChannel, processor).add(notifiable, { delay });
+          if (notification.shouldQueue) {
+            const processor = (job) => (notification[handlerName] as any).call(notification, job.data);
+            Queue.set(channel, processor).add(notifiable, { channel, delay: 0 });
           } else await (notification[handlerName] as any)(notifiable);
         }
       }

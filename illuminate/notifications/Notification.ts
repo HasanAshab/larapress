@@ -4,6 +4,8 @@ import Mailable from "illuminate/mails/Mailable";
 import NotificationModel from "app/models/Notification";
 
 export default abstract class Notification {
+  shouldQueue = false;
+  
   constructor(public data: object) {
     this.data = data;
   }
@@ -13,16 +15,18 @@ export default abstract class Notification {
   abstract toObject?(notifiable: Document): object;
   
   async sendMail(notifiable: Document){
-    if(this.toMail && "email" in notifiable && typeof notifiable.email === "string"){
-      Mail.to(notifiable.email).send(this.toMail(notifiable));
-    }
+    console.log("mail")
+    //if(this.toMail && "email" in notifiable && typeof notifiable.email === "string"){
+    //await Mail.to(notifiable.email).send(this.toMail(notifiable));
+   // }
   }
   
   async sendDatabase(notifiable: Document){
+    console.log("db")
     await NotificationModel.create({
       notifiableType: (notifiable.constructor as any).modelName,
       notifiableId: notifiable._id,
-      data: this.data
+      data: this.toObject()
     })
   }
 }

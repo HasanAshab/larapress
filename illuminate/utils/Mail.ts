@@ -3,7 +3,6 @@ import {
 } from "helpers";
 import {
   Recipient,
-  RecipientEmails,
   MailMockedData
 } from "types";
 import Mailable from "illuminate/mails/Mailable";
@@ -25,8 +24,8 @@ export default class Mail {
   public mailable: Mailable = {} as Mailable;
   public transporter: Transporter < SendMailOptions > = {} as Transporter < SendMailOptions >;
 
-  constructor(public recipients: RecipientEmails) {
-    this.recipients = recipients;
+  constructor(public email: string) {
+    this.email = email;
   }
   
   static mock() {
@@ -68,9 +67,8 @@ export default class Mail {
     Mail.mocked.data = mocked;
   }
 
-  static to(recipients: RecipientEmails): Mail {
-    const instance = new this(recipients);
-    return instance;
+  static to(email: string): Mail {
+    return new this(email);
   }
 
   setTransporter(config?: TransportOptions): Mail {
@@ -113,41 +111,12 @@ export default class Mail {
     return this;
   }
 
-  delay(miliseconds: number): Mail {
-    this.dispatchAfter = miliseconds;
-    return this;
-  }
-
   async send(mailable: Mailable) {
     if (Object.keys(this.transporter).length === 0) this.setTransporter();
     this.setTemplateEngine();
     this.mailable = mailable;
-    if (!Mail.isMocked && Queueable.isQueueable(mailable) && mailable.shouldQueue) {
-      const queue = mailable.createQueue();
-      queue.process(job => this.dispatch.bind(this));
-      await queue.add({}, {
-        delay: this.dispatchAfter,
-      });
-    } else await this.dispatch();
-  }
-
-  private async dispatch() {
-    if (Array.isArray(this.recipients)) {
-      const promises = [];
-      for (let email of this.recipients) {
-        email = typeof email === "object" ? email.email: email;
-        if(Mail.isMocked) this.pushMockData(email);
-        else{
-          const sendMailPromise = this.transporter.sendMail(this.getRecipientConfig(email));
-          promises.push(sendMailPromise);
-        }
-      }
-      await Promise.all(promises);
-    } else {
-      const email = typeof this.recipients === "object" ? this.recipients.email: this.recipients;
-      if(Mail.isMocked) this.pushMockData(email);
-      else await this.transporter.sendMail(this.getRecipientConfig(email));
-    }
+    if(Mail.isMocked) this.pushMockData(this.email);
+    else await this.transporter.sendMail(this.getRecipientConfig(this.email));
   }
 
   private getRecipientConfig(email: string): Recipient {

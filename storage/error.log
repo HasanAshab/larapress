@@ -296,3 +296,153 @@ Stack: Error: Cannot define the same handler twice __default__
     at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
 
 
+1688134181017
+/api/v1/payment - GET - ::1
+Stack: ReferenceError: delay is not defined
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:24:58)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:24)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1688142743415
+/api/v1/payment - GET - ::1
+Stack: ReferenceError: Queueable is not defined
+    at Mail.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Mail.ts:125:27)
+    at T.sendMail (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/notifications/Notification.ts:20:37)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:25:58)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1688184466531
+/api/v1/payment - GET - ::1
+Stack: TypeError: Cannot read properties of undefined (reading 'toString')
+    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:18:35)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:24:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1688184556642
+/api/v1/payment - GET - ::1
+Stack: TypeError: Cannot read properties of undefined (reading 'toString')
+    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:19:35)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:24:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1688184574649
+/api/v1/payment - GET - ::1
+Stack: TypeError: Cannot read properties of undefined (reading 'toString')
+    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:19:35)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:24:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1688184681881
+/api/v1/payment - GET - ::1
+Stack: TypeError: Cannot read properties of undefined (reading 'toString')
+    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:19:35)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:24:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1688184711283
+/api/v1/payment - GET - ::1
+Stack: Error: Cannot define the same handler twice __default__
+    at Queue.setHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:673:11)
+    at Queue.process (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:654:8)
+    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:21:18)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:24:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1688185688475
+/api/v1/payment - GET - ::1
+Stack: TypeError: Cannot read properties of undefined (reading 'default')
+    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:18:30)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:23:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1688185803477
+/api/v1/payment - GET - ::1
+Stack: TypeError: Cannot read properties of undefined (reading 'default')
+    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:18:30)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:23:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1688185870044
+/api/v1/payment - GET - ::1
+Stack: TypeError: Cannot read properties of undefined (reading 'default')
+    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:18:30)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:23:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1688185989461
+/api/v1/payment - GET - ::1
+Stack: Error: Cannot define the same handler twice __default__
+    at Queue.setHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:673:11)
+    at Queue.process (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:654:8)
+    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:18:21)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:23:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1688186874660
+/api/v1/payment - GET - ::1
+Stack: Error: Cannot define the same handler twice sendDatabase
+    at Queue.setHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:673:11)
+    at Queue.process (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:654:8)
+    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:18:16)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:23:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1688186941242
+/api/v1/payment - GET - ::1
+Stack: Error: Cannot define the same handler twice sendDatabase
+    at Queue.setHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:673:11)
+    at Queue.process (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:654:8)
+    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:17:16)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:23:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+1688186958826
+/api/v1/payment - GET - ::1
+Stack: Error: Cannot define the same handler twice sendDatabase
+    at Queue.setHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:673:11)
+    at Queue.process (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bull/lib/queue.js:654:8)
+    at Function.set (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/queue/Queue.ts:17:16)
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:23:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
