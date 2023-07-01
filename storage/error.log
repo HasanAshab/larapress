@@ -1,320 +1,80 @@
-Sat Jul 01 2023 21:51:14 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:14 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:14 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:14 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:14 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:14 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:14 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:14 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:15 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:15 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:38 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:38 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:38 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:39 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:39 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:39 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:40 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:40 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:41 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:51:41 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:25 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:26 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:26 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:26 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:26 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:26 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:27 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:27 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:27 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:27 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:48 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:48 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:48 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:48 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:48 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:48 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:49 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:49 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:49 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
-
-
-Sat Jul 01 2023 21:52:49 GMT+0600 (Bangladesh Standard Time):
-ValidationError: Notification validation failed: notifiableType: Path `notifiableType` is required.
-    at model.Document.invalidate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:3147:32)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/document.js:2940:17
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1352:9
-    at processTicksAndRejections (node:internal/process/task_queues:77:11)
+Sat Jul 01 2023 22:31:17 GMT+0600 (Bangladesh Standard Time):
+1688229077152
+/api/v1/payment - GET - ::1
+Stack: TypeError: Cannot read properties of undefined (reading 'database')
+    at Function.send (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Notification.ts:24:56)
+    at test (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/PaymentController.ts:43:24)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Sat Jul 01 2023 22:31:44 GMT+0600 (Bangladesh Standard Time):
+Error: Data command failed: 550 5.7.0 Too many emails per second. Please upgrade your plan https://mailtrap.io/billing/plans/testing
+    at SMTPConnection._formatError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:790:19)
+    at SMTPConnection._actionDATA (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:1678:34)
+    at SMTPConnection.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:1650:26)
+    at SMTPConnection._processResponse (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:969:20)
+    at SMTPConnection._onData (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:755:14)
+    at TLSSocket.SMTPConnection._onSocketData (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:193:44)
+    at TLSSocket.emit (node:events:512:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at TLSSocket.Readable.push (node:internal/streams/readable:234:10)
+
+
+Sat Jul 01 2023 22:31:44 GMT+0600 (Bangladesh Standard Time):
+Error: Data command failed: 550 5.7.0 Too many emails per second. Please upgrade your plan https://mailtrap.io/billing/plans/testing
+    at SMTPConnection._formatError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:790:19)
+    at SMTPConnection._actionDATA (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:1678:34)
+    at SMTPConnection.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:1650:26)
+    at SMTPConnection._processResponse (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:969:20)
+    at SMTPConnection._onData (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:755:14)
+    at TLSSocket.SMTPConnection._onSocketData (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:193:44)
+    at TLSSocket.emit (node:events:512:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at TLSSocket.Readable.push (node:internal/streams/readable:234:10)
+
+
+Sat Jul 01 2023 22:31:44 GMT+0600 (Bangladesh Standard Time):
+Error: Data command failed: 550 5.7.0 Too many emails per second. Please upgrade your plan https://mailtrap.io/billing/plans/testing
+    at SMTPConnection._formatError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:790:19)
+    at SMTPConnection._actionDATA (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:1678:34)
+    at SMTPConnection.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:1650:26)
+    at SMTPConnection._processResponse (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:969:20)
+    at SMTPConnection._onData (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:755:14)
+    at TLSSocket.SMTPConnection._onSocketData (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:193:44)
+    at TLSSocket.emit (node:events:512:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at TLSSocket.Readable.push (node:internal/streams/readable:234:10)
+
+
+Sat Jul 01 2023 22:31:44 GMT+0600 (Bangladesh Standard Time):
+Error: Data command failed: 550 5.7.0 Too many emails per second. Please upgrade your plan https://mailtrap.io/billing/plans/testing
+    at SMTPConnection._formatError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:790:19)
+    at SMTPConnection._actionDATA (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:1678:34)
+    at SMTPConnection.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:1650:26)
+    at SMTPConnection._processResponse (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:969:20)
+    at SMTPConnection._onData (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:755:14)
+    at TLSSocket.SMTPConnection._onSocketData (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:193:44)
+    at TLSSocket.emit (node:events:512:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at TLSSocket.Readable.push (node:internal/streams/readable:234:10)
+
+
+Sat Jul 01 2023 22:31:44 GMT+0600 (Bangladesh Standard Time):
+Error: Data command failed: 550 5.7.0 Too many emails per second. Please upgrade your plan https://mailtrap.io/billing/plans/testing
+    at SMTPConnection._formatError (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:790:19)
+    at SMTPConnection._actionDATA (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:1678:34)
+    at SMTPConnection.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:1650:26)
+    at SMTPConnection._processResponse (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:969:20)
+    at SMTPConnection._onData (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:755:14)
+    at TLSSocket.SMTPConnection._onSocketData (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/nodemailer/lib/smtp-connection/index.js:193:44)
+    at TLSSocket.emit (node:events:512:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at TLSSocket.Readable.push (node:internal/streams/readable:234:10)
 
 

@@ -5,6 +5,10 @@ import NotificationModel from "app/models/Notification";
 
 export default abstract class Notification {
   shouldQueue = false;
+  concurrency = {
+    mail: 25,
+    database: 20
+  }
   
   constructor(public data: object) {
     this.data = data;
@@ -17,14 +21,14 @@ export default abstract class Notification {
   async sendMail(notifiable: Document){
     console.log("mail")
     //if(this.toMail && "email" in notifiable && typeof notifiable.email === "string"){
-    //await Mail.to(notifiable.email).send(this.toMail(notifiable));
-   // }
+      await Mail.to(notifiable.email).send(this.toMail(notifiable));
+    //}
   }
-  
+
   async sendDatabase(notifiable: Document){
-    console.log("db")
+    console.log("db:: todo")
     await NotificationModel.create({
-      notifiableType: (notifiable.constructor as any).modelName,
+      notifiableType: "User",//(notifiable.constructor as any).modelName,
       notifiableId: notifiable._id,
       data: this.toObject()
     })
