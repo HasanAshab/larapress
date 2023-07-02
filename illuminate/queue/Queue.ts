@@ -1,5 +1,5 @@
 import { log } from "helpers"
-import bull, { Job, JobOpts } from "bull";
+import bull from "bull";
 
 export default class Queue {
   static queue: bull.Queue;
@@ -17,14 +17,14 @@ export default class Queue {
         },
       });
     }
-    if(typeof this.queue.handlers[channel] === "undefined") {
-      const processor = (job: Job) => worker(job.data).catch(err => log(err));
+    if(typeof (this.queue as any).handlers[channel] === "undefined") {
+      const processor = (job: bull.Job) => worker(job.data).catch(err => log(err));
       this.queue.process(channel, concurrency, processor);
     }
     return new this(channel)
   }
   
-  add(data: object, opts?: JobOpts){
+  add(data: object, opts?: bull.JobOptions){
     return Queue.queue.add(this.channel, data, opts);
   }
 }
