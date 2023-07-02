@@ -131,6 +131,7 @@ export function log(data: any): void {
   if(data instanceof Error){
     data = data.stack
   }
+  if(process.env.NODE_ENV) console.log(data);
   fs.appendFile(path, `${new Date}:\n${data.toString()}\n\n\n`, (err: any) => {
     if (err) {
       throw err;

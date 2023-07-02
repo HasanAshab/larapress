@@ -40,7 +40,7 @@ export default class PaymentController {
   async test() {
     const users = await User.find().limit(10)
     //user.notify(new T({a:9393}))
-    await Notification.send(users, new T({a:9393}))
+    //await Notification.send(users, new T({a:9393}))
     return {
       data: users//await user.pay(10)
     }

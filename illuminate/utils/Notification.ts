@@ -15,6 +15,7 @@ export default class Notification {
   static async send(notifiables: Document | Document[], notification: NotificationData) {
     notifiables = Array.isArray(notifiables) ? notifiables: [notifiables];
     for (const notifiable of notifiables) {
+      notifiable.modelName = notifiable.constructor.modelName;
       const channels = notification.via(notifiable);
       for (const channel of channels) {
         const handlerName = "send" + capitalizeFirstLetter(channel) as keyof typeof notification;
