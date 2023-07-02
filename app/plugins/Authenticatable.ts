@@ -3,7 +3,6 @@ import { customError } from "helpers";
 import URL from "illuminate/utils/URL"
 import Token from "illuminate/utils/Token";
 import bcrypt from "bcryptjs";
-import AuthenticationError from "app/exceptions/AuthenticationError";
 import VerificationMail from "app/mails/VerificationMail";
 import ForgotPasswordMail from "app/mails/ForgotPasswordMail";
 import PasswordChangedMail from "app/mails/PasswordChangedMail";
@@ -62,5 +61,4 @@ export default (schema: Schema) => {
     await this.notify(new PasswordChangedMail());
     return result;
   }
-  
 };

@@ -36,7 +36,7 @@ export default (schema: Schema) => {
   schema.methods.files = async function (): Promise <IMedia[]> {
     return await Media.find({
       mediableId: this._id,
-      mediableType: (this.constructor as any).modelName,
+      mediableType: this.modelName,
     });
   }
 
@@ -45,7 +45,7 @@ export default (schema: Schema) => {
     let media = new Media({
       name,
       mediableId: this._id,
-      mediableType: (this.constructor as any).modelName,
+      mediableType: this.modelName,
       mimetype: file.mimetype,
       path,
     });
@@ -69,7 +69,7 @@ export default (schema: Schema) => {
       const media = new Media({
         name,
         mediableId: this._id,
-        mediableType: (this.constructor as any).modelName,
+        mediableType: this.modelName,
         mimetype: file.mimetype,
         path,
       });
@@ -90,7 +90,7 @@ export default (schema: Schema) => {
   schema.methods.getFiles = async function (name?: string): Promise < (typeof Media)[] > {
     return await Media.find({
       name,
-      mediableType: (this.constructor as any).modelName,
+      mediableType: this.modelName,
       mediableId: this._id,
     });
   }
@@ -109,7 +109,7 @@ export default (schema: Schema) => {
     }
     await Media.deleteMany({
       name,
-      mediableType: (this.constructor as any).modelName,
+      mediableType: this.modelName,
       mediableId: this._id,
     });
   }

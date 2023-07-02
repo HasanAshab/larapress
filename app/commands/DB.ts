@@ -6,7 +6,6 @@ import Database from "illuminate/utils/DB";
 
 export default class DB extends Command {
   async wipe(){
-    this.requiredParams(["model"]);
     const { model } = this.params;
     await Database.connect();
     
@@ -37,7 +36,7 @@ export default class DB extends Command {
     try {
       const Model = require(base(`app/models/${this.params.model}`)).default;
       this.info("Seeding started...");
-      if(typeof Model.factory === "undefined") this.error(`No factory found for ${this.params.model} model`)
+      if(typeof Model.factory === "undefined") this.error(`Use "HasFactory" Plugin on ${this.params.model} model.`)
       await Model.factory(count).create()
       this.success("Seeded successfully!");
     }

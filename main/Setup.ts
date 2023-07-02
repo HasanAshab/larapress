@@ -6,8 +6,14 @@ import nodeCron from "node-cron";
 import Artisan from "illuminate/utils/Artisan";
 import events from "register/events";
 import crons from "register/cron";
+import mongoose from "mongoose"
+import Nameable from "app/plugins/Nameable";
 
 export default class Setup {
+  static globalPlugins(): void {
+    mongoose.plugin(Nameable);
+  }
+  
   static cronJobs(): void {
     for (const [schedule, commands] of Object.entries(crons)) {
       if(Array.isArray(commands)){

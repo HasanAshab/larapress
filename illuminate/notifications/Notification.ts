@@ -19,18 +19,16 @@ export default abstract class Notification {
   abstract toObject?(notifiable: Document): object;
   
   async sendMail(notifiable: Document){
-    console.log("mail")
-    //if(this.toMail && "email" in notifiable && typeof notifiable.email === "string"){
+    if(this.toMail && "email" in notifiable && typeof notifiable.email === "string"){
       await Mail.to(notifiable.email).send(this.toMail(notifiable));
-    //}
+    }
   }
 
   async sendDatabase(notifiable: Document){
-    console.log("db:: todo")
     await NotificationModel.create({
-      notifiableType: "User",//(notifiable.constructor as any).modelName,
+      notifiableType: notifiable.modelName,
       notifiableId: notifiable._id,
-      data: this.toObject()
+      data: this.toDatabase()
     })
   }
 }

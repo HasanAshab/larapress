@@ -8,7 +8,6 @@ import Setup from "main/Setup";
 
 const app: Application = express();
 
-
 // Domains that can only access the API
 app.use(cors({
   origin: ["http://localhost:3000"]
@@ -31,6 +30,9 @@ app.set("views", base("views"));
 
 // Registering global middlewares
 app.use(middleware("helpers.inject"));
+
+// Registering global mongoose model plugins
+Setup.globalPlugins();
 
 // Registering all event and listeners
 Setup.events(app);

@@ -172,7 +172,7 @@ export function customError(type: keyof typeof customErrors, data?: object): Err
   error.message = errorData.message;
   
   if (typeof data !== "undefined") {
-    error.message = error.message.replace(/: (\w+)/g, (match: string, key: string) => {
+    error.message = error.message.replace(/:(\w+)/g, (match: string, key: string) => {
       if(typeof data[key as keyof typeof data] === "undefined") throw new Error(`The "${key}" key is required in "data" argument.`);
       return data[key as keyof typeof data];
     });

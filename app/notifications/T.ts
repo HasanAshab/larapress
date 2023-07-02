@@ -14,7 +14,7 @@ export default class T extends Notification implements ShouldQueue {
     return new VerificationMail({link:"dhdh"})
   }
   
-  toObject(notifiable: Document) {
+  toDatabase(notifiable: Document) {
     return {a:94}
   }
   
