@@ -10,7 +10,7 @@ export default abstract class Notification {
     database: 20
   }
   
-  constructor(public data: object) {
+  constructor(public data: Record<string, unknown>) {
     this.data = data;
   }
   

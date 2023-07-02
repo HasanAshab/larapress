@@ -1,5 +1,6 @@
 import { Schema } from "mongoose";
 import { customError } from "helpers";
+import Mail from "illuminate/utils/Mail"
 import URL from "illuminate/utils/URL"
 import Token from "illuminate/utils/Token";
 import bcrypt from "bcryptjs";
@@ -35,14 +36,14 @@ export default (schema: Schema) => {
       return false;
     }
     const link = URL.signedRoute("email.verify", {id: this._id}, expireAfter);
-    const result = await this.notify(new VerificationMail({ link }));
+    const result = await Mail.to(this.email).send(new VerificationMail({ link }));
     return link;
   };
 
   schema.methods.sendResetPasswordEmail = async function (): Promise<string> {
     const resetToken = Token.create("reset_password:" + this._id, expireAfter);
     const link = URL.client(`/password/reset/${this._id}?token=${resetToken}`);
-    await this.notify(new ForgotPasswordMail({ link }));
+    await Mail.to(this.email).send(new ForgotPasswordMail({ link }));
     return resetToken;
   }
   
@@ -58,7 +59,7 @@ export default (schema: Schema) => {
     this.password = newPassword;
     this.tokenVersion++;
     const result = await this.save();
-    await this.notify(new PasswordChangedMail());
+    await Mail.to(this.email).send(new PasswordChangedMail());
     return result;
   }
 };

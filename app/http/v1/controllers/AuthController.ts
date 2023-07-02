@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import User from "app/models/User";
 import ForgotPasswordMail from "app/mails/ForgotPasswordMail";
 import PasswordChangedMail from "app/mails/PasswordChangedMail";
+import Mail from "illuminate/utils/Mail"
 
 export default class AuthController {
   async register(req: Request){
@@ -93,7 +94,7 @@ export default class AuthController {
     user.password = password;
     user.tokenVersion++;
     await user.save();
-    await user.notify(new PasswordChangedMail());
+    await Mail.to(user.email).send(new PasswordChangedMail());
     return {
       message: "Password changed successfully!",
     };
