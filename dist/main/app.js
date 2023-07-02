@@ -27,6 +27,8 @@ app.set("view engine", "handlebars");
 app.set("views", (0, helpers_1.base)("views"));
 // Registering global middlewares
 app.use((0, helpers_1.middleware)("helpers.inject"));
+// Registering global mongoose model plugins
+Setup_1.default.globalPlugins();
 // Registering all event and listeners
 Setup_1.default.events(app);
 // Registering all group routes 

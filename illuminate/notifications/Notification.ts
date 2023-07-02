@@ -16,7 +16,7 @@ export default abstract class Notification {
   
   abstract via(notifiable: Document): string[];
   abstract toMail?(notifiable: Document): Mailable;
-  abstract toObject?(notifiable: Document): object;
+  abstract toDatabase?(notifiable: Document): object;
   
   async sendMail(notifiable: Document){
     if(this.toMail && "email" in notifiable && typeof notifiable.email === "string"){
@@ -25,10 +25,12 @@ export default abstract class Notification {
   }
 
   async sendDatabase(notifiable: Document){
-    await NotificationModel.create({
-      notifiableType: notifiable.modelName,
-      notifiableId: notifiable._id,
-      data: this.toDatabase()
-    })
+    if(this.toDatabase){
+      await NotificationModel.create({
+        notifiableType: notifiable.modelName,
+        notifiableId: notifiable._id,
+        data: this.toDatabase(notifiable)
+      });
+    }
   }
 }

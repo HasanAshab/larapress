@@ -1,9 +1,7 @@
 import { Schema } from "mongoose";
 
-export type INameable = {
-  instance: {
-    modelName: string;
-  }
+export interface NameableDocument {
+  modelName: string;
 }
 
 export default (schema: Schema) => {
@@ -11,7 +9,7 @@ export default (schema: Schema) => {
     modelName: {
       type: String,
       default: function () {
-        return this.constructor.modelName;
+        return (this.constructor as any).modelName;
       }
     }
   })

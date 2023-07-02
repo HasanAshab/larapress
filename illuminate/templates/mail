@@ -1,8 +1,6 @@
 import Mailable from "illuminate/mails/Mailable";
-//import ShouldQueue from "illuminate/queue/ShouldQueue";
 
 export default class {{name}} extends Mailable {
   view = "{{name}}";
   subject = "{{name}}";
-  //shouldQueue = true;
 }

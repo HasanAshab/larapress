@@ -1,4 +1,5 @@
 import Middleware from "illuminate/middlewares/Middleware";
+import { customError } from "helpers";
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import User from "app/models/User";
@@ -17,11 +18,11 @@ export default class Authenticate extends Middleware {
             return next();
           }
         } catch (err){
-          if(err instanceof jwt.JsonWebTokenError) throw AuthenticationError.type("INVALID_OR_EXPIRED_TOKEN").create();
+          if(err instanceof jwt.JsonWebTokenError) throw customError("INVALID_OR_EXPIRED_TOKEN");
           throw err;
         }
       }
     }
-    throw AuthenticationError.type("INVALID_OR_EXPIRED_TOKEN").create();
+    throw customError("INVALID_OR_EXPIRED_TOKEN");
   }
 }

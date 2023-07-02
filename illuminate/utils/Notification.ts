@@ -21,7 +21,8 @@ export default class Notification {
         if (typeof notification[handlerName] === "function") {
           if (notification.shouldQueue) {
             const method = (notification[handlerName] as any).bind(notification);
-            Queue.set(channel, method, notification.concurrency[channel]).add(notifiable, { delay: 0 });
+            const concurrency = notification.concurrency[channel as keyof typeof notification.concurrency];
+            Queue.set("_NOTIFICATION_" + channel, method, concurrency).add(notifiable, { delay: 0 });
           } else await (notification[handlerName] as any)(notifiable);
         }
       }

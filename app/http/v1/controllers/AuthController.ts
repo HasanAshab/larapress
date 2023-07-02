@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { log, customError } from "helpers";
-import AuthenticationError from "app/exceptions/AuthenticationError";
 import bcrypt from "bcryptjs";
 import User from "app/models/User";
 import ForgotPasswordMail from "app/mails/ForgotPasswordMail";

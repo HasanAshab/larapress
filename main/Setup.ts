@@ -6,8 +6,13 @@ import nodeCron from "node-cron";
 import Artisan from "illuminate/utils/Artisan";
 import events from "register/events";
 import crons from "register/cron";
-import mongoose from "mongoose"
-import Nameable from "app/plugins/Nameable";
+import mongoose, { Model, Document } from "mongoose"
+import Nameable, { NameableDocument } from "app/plugins/Nameable";
+
+declare module 'mongoose' {
+  //interface Model<T extends Document> {}
+  interface Document extends NameableDocument {}
+}
 
 export default class Setup {
   static globalPlugins(): void {

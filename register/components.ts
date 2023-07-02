@@ -3,6 +3,7 @@ const components: Record<string, string | Record<string, string>> = {
   "plugin": "app/plugins/{name}.ts",
   "factory": "app/factories/{name}.ts",
   "mail": "app/mails/{name}.ts",
+  "notification": "app/notifications/{name}.ts",
   "listener": "app/listeners/{name}.ts",
   "job": "app/jobs/{name}.ts",
   "exception": "app/exceptions/{name}.ts",

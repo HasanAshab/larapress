@@ -1,5 +1,5 @@
 import { log } from "helpers"
-import bull, { JobOpts } from "bull";
+import bull, { Job, JobOpts } from "bull";
 
 export default class Queue {
   static queue: bull.Queue;
@@ -8,7 +8,7 @@ export default class Queue {
     this.channel = channel;
   }
   
-  static set(channel: string, worker: (data: object) => Promise<void>, concurrency = 1): bull.Queue {
+  static set(channel: string, worker: (data: object) => Promise<void>, concurrency = 1) {
     if(typeof this.queue === "undefined"){
       this.queue = new bull("default", process.env.REDIS_URL ?? "", {
         defaultJobOptions: {
@@ -18,12 +18,13 @@ export default class Queue {
       });
     }
     if(typeof this.queue.handlers[channel] === "undefined") {
-      const processor = job => worker(job.data).catch(err => log(err));
+      const processor = (job: Job) => worker(job.data).catch(err => log(err));
       this.queue.process(channel, concurrency, processor);
     }
     return new this(channel)
   }
-  private add(data: object, opts?: JobOpts){
-    return this.constructor.queue.add(this.channel, data, opts);
+  
+  add(data: object, opts?: JobOpts){
+    return Queue.queue.add(this.channel, data, opts);
   }
 }

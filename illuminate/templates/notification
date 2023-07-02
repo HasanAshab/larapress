@@ -1,0 +1,14 @@
+import { Document } from "mongoose";
+import Notification from "illuminate/notifications/Notification";
+
+export default class {{name}} extends Notification {
+  //shouldQueue = true;
+  
+  via(notifiable: Document){
+    return ["database"];
+  }
+  
+  toDatabase(notifiable: Document) {
+    return {}
+  }
+}

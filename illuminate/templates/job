@@ -1,6 +1,9 @@
 import Job from "illuminate/jobs/Job";
 
 export default class {{name}} extends Job {
+  //shouldQueue = true;
+  //concurrency = 1;
+  
   async dispatch(){
     //
   }

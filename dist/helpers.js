@@ -124,10 +124,10 @@ function setEnv(envValues) {
 exports.setEnv = setEnv;
 function log(data) {
     const path = "./storage/error.log";
-    if (typeof data === "object") {
-        data = JSON.stringify(data);
+    if (data instanceof Error) {
+        data = data.stack;
     }
-    fs_1.default.appendFile(path, `${data}\n\n\n`, (err) => {
+    fs_1.default.appendFile(path, `${new Date}:\n${data.toString()}\n\n\n`, (err) => {
         if (err) {
             throw err;
         }
@@ -169,7 +169,7 @@ function customError(type, data) {
     error.status = errorData.status;
     error.message = errorData.message;
     if (typeof data !== "undefined") {
-        error.message = error.message.replace(/: (\w+)/g, (match, key) => {
+        error.message = error.message.replace(/:(\w+)/g, (match, key) => {
             if (typeof data[key] === "undefined")
                 throw new Error(`The "${key}" key is required in "data" argument.`);
             return data[key];
