@@ -18,7 +18,7 @@ export default (schema: Schema) => {
   schema.virtual('notifications').get(function () {
       return NotificationModel.find({
         notifiableId: this._id,
-        notifiableType: this.constructor.modelName,
+        notifiableType: (this.constructor as any).modelName,
       });
   });
 

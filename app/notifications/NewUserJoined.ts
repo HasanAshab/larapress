@@ -6,7 +6,7 @@ import NewUserJoinedMail from "app/mails/NewUserJoinedMail";
 export default class NewUserJoined extends Notification {
   shouldQueue = true;
   
-  via(notifiable: Notifiable){
+  via(notifiable: Document){
     return ["database", "mail"];
   }
   

@@ -18,10 +18,10 @@ export default (schema: Schema) => {
   schema.virtual('attachments').get(function () {
     return Attachment.find({
       attachableId: this._id,
-      attachableType: this.constructor.modelName,
+      attachableType: (this.constructor as any).modelName,
     });
   });
-  
+
   schema.methods.getAttachmentsByName = function (name?: string) {
     return name ? this.attachments.where("name").equals(name) : this.attachments;
   }
@@ -31,7 +31,7 @@ export default (schema: Schema) => {
     let attachment = new Attachment({
       name,
       attachableId: this._id,
-      attachableType: this.constructor.modelName,
+      attachableType: (this.constructor as any).modelName,
       mimetype: file.mimetype,
       path,
     });
@@ -53,7 +53,7 @@ export default (schema: Schema) => {
       const attachment = new Attachment({
         name,
         attachableId: this._id,
-        attachableType: this.constructor.modelName,
+        attachableType: (this.constructor as any).modelName,
         mimetype: file.mimetype,
         path,
       });
@@ -78,7 +78,7 @@ export default (schema: Schema) => {
     }
     await Attachment.deleteMany({
       name,
-      attachableType: this.constructor.modelName,
+      attachableType: (this.constructor as any).modelName,
       attachableId: this._id,
     });
   }

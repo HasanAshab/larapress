@@ -1,3 +1,4 @@
+import { Notifiable } from "types";
 import { Document } from "mongoose";
 import Notification from "illuminate/notifications/Notification";
 
@@ -8,7 +9,7 @@ export default class {{name}} extends Notification {
     return ["database"];
   }
   
-  toDatabase(notifiable: Document) {
+  toDatabase(notifiable: Notifiable) {
     return {}
   }
 }
