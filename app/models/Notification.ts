@@ -1,10 +1,10 @@
-import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
+import mongoose, { model, Schema, Model, Document, InferSchemaType } from "mongoose";
 import HasFactory, { IHasFactory } from "app/plugins/HasFactory";
 
 const NotificationSchema = new Schema({
-  notifiable: {
-    type: Schema.Types.ObjectId,
+  notifiableId: {
     required: true,
+    type: Schema.Types.ObjectId,
     refPath: 'notifiableType'
   },
   
@@ -24,6 +24,11 @@ const NotificationSchema = new Schema({
 { timestamps: true }
 );
 
+
+
+NotificationSchema.virtual('notifications').get(function () {
+  return mongoose.model(this.notifiableType).findById(this.notifiableId);
+});
 
 NotificationSchema.methods.markAsRead = async function (){
   this.readAt = new Date();

@@ -38,13 +38,9 @@ if (nodeEnv === "development") {
 }
 
 
-import User from "app/models/User"
-/*
-User.find().populate({path: "notifications", match: {readAt: null}}).then(async (users) => {
-console.log(users[6].notifications)
-});
- */
- User.find().then(async (users) => {
-  const notifications = await users[6].unreadNotifications
+import Notification from "app/models/Notification";
+
+
+Notification.find().then(notifications => {
   console.log(notifications)
- })
+})
