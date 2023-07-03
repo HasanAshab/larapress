@@ -4,10 +4,8 @@ import HasFactory, { IHasFactory } from "app/plugins/HasFactory";
 const NotificationSchema = new Schema({
   notifiableId: {
     required: true,
-    type: Schema.Types.ObjectId,
-    refPath: 'notifiableType'
+    type: Schema.Types.ObjectId
   },
-  
   notifiableType: {
     required: true,
     type: String
@@ -26,7 +24,7 @@ const NotificationSchema = new Schema({
 
 
 
-NotificationSchema.virtual('notifications').get(function () {
+NotificationSchema.virtual('notifiable').get(function () {
   return mongoose.model(this.notifiableType).findById(this.notifiableId);
 });
 

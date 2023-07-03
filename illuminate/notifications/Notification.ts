@@ -30,7 +30,7 @@ export default abstract class Notification {
       //notifiable = await NotifiableModel.findById(notifiable._id);
       const notification = await NotificationModel.create({
         notifiableType: notifiable.modelName,
-        notifiable: notifiable._id,
+        notifiableId: notifiable._id,
         data: this.toDatabase(notifiable)
       });
       //notifiable.notifications.push(notification._id);

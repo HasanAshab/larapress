@@ -13,17 +13,9 @@ export type INotifiable = {
 }
 
 export default (schema: Schema) => {
- /*
-  schema.add({
-    notifications: [{
-      type: Schema.Types.ObjectId,
-      ref: "Notification",
-    }],
-  });*/
-  
   schema.virtual('notifications').get(function () {
       return NotificationModel.find({
-        notifiable: this._id,
+        notifiableId: this._id,
         notifiableType: this.constructor.modelName,
       });
   });

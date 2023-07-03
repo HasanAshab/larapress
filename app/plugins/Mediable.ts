@@ -1,22 +1,14 @@
-import {
-  log
-} from "helpers";
-import {
-  Schema
-} from "mongoose";
+import { log } from "helpers";
+import { Schema } from "mongoose";
 import { UploadedFile } from "express-fileupload";
 import URL from "illuminate/utils/URL"
-import Media, {
-  IMedia
-} from "app/models/Media";
-import {
-  promises as fs
-} from "fs";
+import Media, { IMedia } from "app/models/Media";
+import { promises as fs } from "fs";
 import Storage from "illuminate/utils/Storage";
 
 export type IMediable = {
   instance: {
-    media: Schema.Types.ObjectId[],
+    media: IMedia[],
     files(): Promise < IMedia[] >,
     attachFile(name: string, file: UploadedFile, attachLinkToModel?: boolean): Promise < IMedia >,
     attachFiles(files: Record < string, UploadedFile >, attachLinkToModel?: boolean): Promise < IMedia[] >,
@@ -26,19 +18,12 @@ export type IMediable = {
 }
 
 export default (schema: Schema) => {
-  schema.add({
-    media: [{
-      type: Schema.Types.ObjectId,
-      ref: "Media",
-    }],
+  schema.virtual('media').get(function () {
+      return Media.find({
+        mediableId: this._id,
+        mediableType: this.constructor.modelName,
+      });
   });
-
-  schema.methods.files = async function (): Promise <IMedia[]> {
-    return await Media.find({
-      mediableId: this._id,
-      mediableType: this.modelName,
-    });
-  }
 
   schema.methods.attachFile = async function (name: string, file: UploadedFile, attachLinkToModel = false): Promise <IMedia> {
     const path = await Storage.putFile("public/uploads", file);
@@ -57,8 +42,6 @@ export default (schema: Schema) => {
     if (attachLinkToModel) {
       this[`${name}Url`] = link;
     }
-    this.media.push(media._id);
-    await this.save();
     return media;
   }
   
@@ -76,23 +59,17 @@ export default (schema: Schema) => {
       media.link = URL.signedRoute("file.serve", {
         id: media._id.toString()
       });
-      this.media.push(media._id);
       allMedia.push(media);
       if (attachLinkToModel) {
         this[`${name}Url`] = media.link;
       }
     }
     await Media.insertMany(allMedia);
-    await this.save();
     return allMedia;
   }
 
-  schema.methods.getFiles = async function (name?: string): Promise < (typeof Media)[] > {
-    return await Media.find({
-      name,
-      mediableType: this.modelName,
-      mediableId: this._id,
-    });
+  schema.methods.getFiles = function (name?: string): Promise < (typeof Media)[] > {
+    return name ? this.media.where("name").equals(name) : this.media;
   }
 
   schema.methods.removeFiles = async function (name?: string) {

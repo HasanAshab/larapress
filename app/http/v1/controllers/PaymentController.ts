@@ -38,8 +38,7 @@ export default class PaymentController {
   }
 
   async test() {
-    const users = await User.find().populate("notifications");
-    console.log(users[6].notifications)
+    const users = await User.find();
     //user.notify(new T({a:9393}))
     await Notification.send(users, new T({a:9393}))
     return {

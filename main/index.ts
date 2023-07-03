@@ -41,6 +41,6 @@ if (nodeEnv === "development") {
 import Notification from "app/models/Notification";
 
 
-Notification.find().then(notifications => {
-  console.log(notifications)
+Notification.find().then(async (notifications) => {
+  console.log(await notifications[0].notifiable)
 })
