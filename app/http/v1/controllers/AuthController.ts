@@ -16,7 +16,7 @@ export default class AuthController {
       email,
       password,
     });
-    if (logo && !Array.isArray(logo)) await user.attachFile("logo", logo, true);
+    if (logo && !Array.isArray(logo)) await user.attach("logo", logo, true);
     const token = user.createToken();
     req.app.emit("Registered", user);
     return {
@@ -113,8 +113,8 @@ export default class AuthController {
     user.emailVerified = false;
     const result = await user.save();
     if (logo && !Array.isArray(logo)) {
-      await user.removeFiles("logo");
-      await user.attachFile("logo", logo, true);
+      await user.detach("logo");
+      await user.attach("logo", logo, true);
     }
     if (result) {
       await user.sendVerificationEmail();

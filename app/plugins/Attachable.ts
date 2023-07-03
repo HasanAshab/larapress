@@ -1,14 +1,15 @@
 import { Schema } from "mongoose";
-import Attachment, { IAttachment } from "app/models/Media";
+import Attachment, { IAttachment } from "app/models/Attachment";
 import { UploadedFile } from "express-fileupload";
+import Storage from "illuminate/utils/Storage"
 import URL from "illuminate/utils/URL"
-
+import { promises as fs } from "fs"
 export type IAttachable = {
   instance: {
     attachments: IAttachable[];
     getAttachmentsByName(name?: string): Promise<IAttachable[]>;
-    attach(name: string, file: UploadedFile, attachLinkToModel = false): Promise<IAttachment>;
-    attach(files: Record<string, UploadedFile>, attachLinkToModel = false): Promise<IAttachment[]>;
+    attach(name: string, file: UploadedFile, attachLinkToModel?: boolean): Promise<IAttachment>;
+    attach(files: Record<string, UploadedFile>, attachLinkToModel?: boolean): Promise<IAttachment[]>;
     detach(name?: string): Promise<void>;
   }
 }
@@ -45,11 +46,11 @@ export default (schema: Schema) => {
     return attachment;
   }
   
-  schema.methods.attach = async function (files: Record<string, UploadedFile>, attachLinkToModel = false): Promise < IMedia[] > {
+  schema.methods.attach = async function (files: Record<string, UploadedFile>, attachLinkToModel = false) {
     const attachments: IAttachment[] = [];
     for (const [name, file] of Object.entries(files)) {
       const path = await Storage.putFile("public/uploads", file);
-      const media = new Media({
+      const attachment = new Attachment({
         name,
         attachableId: this._id,
         attachableType: this.constructor.modelName,
@@ -57,11 +58,11 @@ export default (schema: Schema) => {
         path,
       });
       attachment.link = URL.signedRoute("file.serve", {
-        id: media._id.toString()
+        id: attachment._id.toString()
       });
       attachments.push(attachment);
       if (attachLinkToModel) {
-        this[`${name}Url`] = media.link;
+        this[`${name}Url`] = attachment.link;
       }
     }
     await Attachment.insertMany(attachments);

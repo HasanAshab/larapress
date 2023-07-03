@@ -1,3 +1,4 @@
+import { Notifiable } from "types";
 import mongoose, { Document } from "mongoose";
 import Mail from "illuminate/utils/Mail";
 import Mailable from "illuminate/mails/Mailable";
@@ -14,17 +15,17 @@ export default abstract class Notification {
     this.data = data;
   }
   
-  abstract via(notifiable: Document): string[];
-  abstract toMail?(notifiable: Document): Mailable;
-  abstract toDatabase?(notifiable: Document): object;
+  abstract via(notifiable: Notifiable): string[];
+  abstract toMail?(notifiable: Notifiable): Mailable;
+  abstract toDatabase?(notifiable: Notifiable): object;
   
-  async sendMail(notifiable: object) {
+  async sendMail(notifiable: Notifiable) {
     if(this.toMail && "email" in notifiable && typeof notifiable.email === "string"){
       //await Mail.to(notifiable.email).send(this.toMail(notifiable));
     }
   }
 
-  async sendDatabase(notifiable: object) {
+  async sendDatabase(notifiable: Notifiable) {
     if(this.toDatabase){
       //const NotifiableModel = mongoose.model(notifiable.modelName);
       //notifiable = await NotifiableModel.findById(notifiable._id);

@@ -66,3 +66,8 @@ type ArtisanBaseInput = `${keyof typeof commands}${`:${string}` | ''}`
 export type ArrayToParamsObj<Keys extends string[]> = {
   [Key in Keys[number]]: string;
 }
+
+export type Notifiable = {
+  _id: string;
+  modelName: string;
+} 

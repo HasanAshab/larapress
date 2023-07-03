@@ -30,14 +30,17 @@ const AttachmentSchema = new Schema({
 { timestamps: true }
 );
 
-NotificationSchema.virtual('attachable').get(function () {
-  return mongoose.model(this.attachableType).findById(this.attachableId);
+AttachmentSchema.virtual('attachable').get(function () {
+  return model(this.attachableType).findById(this.attachableId);
 });
+
 
 
 AttachmentSchema.plugin(HasFactory);
 
 type IPlugin = {statics: {}, instance: {}} & IHasFactory;
-export type IAttachment = Document & InferSchemaType<typeof AttachmentSchema> & IPlugin["instance"];
+export type IAttachment = Document & InferSchemaType<typeof AttachmentSchema> & IPlugin["instance"] & {
+  attachable: Document;
+}
 type AttachmentModel = Model<IAttachment> & IPlugin["statics"];
 export default model<IAttachment, AttachmentModel>("Attachment", AttachmentSchema);

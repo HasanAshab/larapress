@@ -1,4 +1,4 @@
-import mongoose, { model, Schema, Model, Document, InferSchemaType } from "mongoose";
+import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
 import HasFactory, { IHasFactory } from "app/plugins/HasFactory";
 
 const NotificationSchema = new Schema({
@@ -25,7 +25,7 @@ const NotificationSchema = new Schema({
 
 
 NotificationSchema.virtual('notifiable').get(function () {
-  return mongoose.model(this.notifiableType).findById(this.notifiableId);
+  return model(this.notifiableType).findById(this.notifiableId);
 });
 
 NotificationSchema.methods.markAsRead = async function (){
@@ -36,6 +36,8 @@ NotificationSchema.methods.markAsRead = async function (){
 NotificationSchema.plugin(HasFactory);
 
 type IPlugin = {statics: {}, instance: {}} & IHasFactory;
-export type INotification = Document & InferSchemaType<typeof NotificationSchema> & IPlugin["instance"];
+export type INotification = Document & InferSchemaType<typeof NotificationSchema> & IPlugin["instance"] & {
+  notifiable: Document;
+}
 type NotificationModel = Model<INotification> & IPlugin["statics"];
 export default model<INotification, NotificationModel>("Notification", NotificationSchema);
