@@ -38,11 +38,12 @@ export default class PaymentController {
   }
 
   async test() {
-    const users = await User.find().limit(10)
+    const users = await User.find().populate("notifications");
+    console.log(users[6].notifications)
     //user.notify(new T({a:9393}))
-    //await Notification.send(users, new T({a:9393}))
+    await Notification.send(users, new T({a:9393}))
     return {
-      data: users//await user.pay(10)
+      data: "hs"//await user.pay(10)
     }
   }
 }

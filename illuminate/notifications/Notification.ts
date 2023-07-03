@@ -26,15 +26,15 @@ export default abstract class Notification {
 
   async sendDatabase(notifiable: object) {
     if(this.toDatabase){
-      const NotifiableModel = mongoose.model(notifiable.modelName);
-      notifiable = await NotifiableModel.findById(notifiable._id);
+      //const NotifiableModel = mongoose.model(notifiable.modelName);
+      //notifiable = await NotifiableModel.findById(notifiable._id);
       const notification = await NotificationModel.create({
         notifiableType: notifiable.modelName,
-        notifiableId: notifiable._id,
+        notifiable: notifiable._id,
         data: this.toDatabase(notifiable)
       });
-      notifiable.notifications.push(notification._id);
-      await notifiable.save();
+      //notifiable.notifications.push(notification._id);
+      //await notifiable.save();
     }
   }
 }

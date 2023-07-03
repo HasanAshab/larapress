@@ -1,24 +1,41 @@
-import { Schema, Document } from "mongoose";
+import {
+  Schema,
+  Document
+} from "mongoose";
 import NotificationData from "illuminate/notifications/Notification";
 import Notification from "illuminate/utils/Notification";
+import NotificationModel from "app/models/Notification";
 
 export type INotifiable = {
   instance: {
-    notifications: Schema.Types.ObjectId[],
-    notify(notification: NotificationData): Promise<void>
+    notify(notification: NotificationData): Promise < void >
   }
 }
 
-
 export default (schema: Schema) => {
+ /*
   schema.add({
     notifications: [{
       type: Schema.Types.ObjectId,
       ref: "Notification",
     }],
+  });*/
+  
+  schema.virtual('notifications').get(function () {
+      return NotificationModel.find({
+        notifiable: this._id,
+        notifiableType: this.constructor.modelName,
+      });
+  });
+
+  schema.virtual('unreadNotifications').get(function () {
+    return this.notifications.where("readAt").equals(null).exec();
   });
   
+
   schema.methods.notify = async function(notification: NotificationData) {
     return await Notification.send(this as Document, notification);
   };
+
+  //  schema.methods.notify = async function(notification: NotificationData) {}
 }
