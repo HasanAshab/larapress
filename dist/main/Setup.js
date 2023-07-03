@@ -9,12 +9,7 @@ const node_cron_1 = __importDefault(require("node-cron"));
 const Artisan_1 = __importDefault(require("illuminate/utils/Artisan"));
 const events_1 = __importDefault(require("register/events"));
 const cron_1 = __importDefault(require("register/cron"));
-const mongoose_1 = __importDefault(require("mongoose"));
-const Nameable_1 = __importDefault(require("app/plugins/Nameable"));
 class Setup {
-    static globalPlugins() {
-        mongoose_1.default.plugin(Nameable_1.default);
-    }
     static cronJobs() {
         for (const [schedule, commands] of Object.entries(cron_1.default)) {
             if (Array.isArray(commands)) {

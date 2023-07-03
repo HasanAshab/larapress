@@ -2,9 +2,9 @@ import { controller, middleware } from "helpers";
 import express, { Router } from "express";
 
 const router: Router = express.Router();
-const MediaController = controller("MediaController");
+const FileController = controller("FileController");
 
 // Endpoints for serving files
-router.get("/:id", middleware("signed"), MediaController.index);
+router.get("/:id", middleware("signed"), FileController.index);
 
 export default router;
