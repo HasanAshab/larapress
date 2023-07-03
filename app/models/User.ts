@@ -13,7 +13,7 @@ import HasApiTokens, {
 import Notifiable, {
   INotifiable
 } from "app/plugins/Notifiable";
-import Mediable, { IMediable } from "app/plugins/Mediable";
+import Attachable, { IAttachable } from "app/plugins/Attachable";
 import Billable, { IBillable } from "app/plugins/Billable";
 
 const UserSchema = new Schema({
@@ -59,10 +59,10 @@ const UserSchema = new Schema({
   UserSchema.plugin(HasFactory);
   UserSchema.plugin(HasApiTokens);
   UserSchema.plugin(Notifiable);
-  UserSchema.plugin(Mediable);
+  UserSchema.plugin(Attachable);
   UserSchema.plugin(Billable);
 
-type IPlugin = {statics: {}, instance: {}} & IAuthenticatable & IHasFactory & IHasApiTokens & INotifiable & IMediable & IBillable;
+type IPlugin = {statics: {}, instance: {}} & IAuthenticatable & IHasFactory & IHasApiTokens & INotifiable & IAttachable & IBillable;
 export type IUser = Document & InferSchemaType<typeof UserSchema> & IPlugin["instance"];
 type UserModel = Model<IUser> & IPlugin["statics"];
   

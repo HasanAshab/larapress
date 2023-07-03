@@ -4,10 +4,12 @@ import {
 } from "mongoose";
 import NotificationData from "illuminate/notifications/Notification";
 import Notification from "illuminate/utils/Notification";
-import NotificationModel from "app/models/Notification";
+import NotificationModel, { INotification } from "app/models/Notification";
 
 export type INotifiable = {
   instance: {
+    notifications: INotification[],
+    unreadNotifications: INotification[],
     notify(notification: NotificationData): Promise < void >
   }
 }
@@ -28,6 +30,4 @@ export default (schema: Schema) => {
   schema.methods.notify = async function(notification: NotificationData) {
     return await Notification.send(this as Document, notification);
   };
-
-  //  schema.methods.notify = async function(notification: NotificationData) {}
 }

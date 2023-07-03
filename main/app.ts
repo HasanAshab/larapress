@@ -31,9 +31,6 @@ app.set("views", base("views"));
 // Registering global middlewares
 app.use(middleware("helpers.inject"));
 
-// Registering global mongoose model plugins
-Setup.globalPlugins();
-
 // Registering all event and listeners
 Setup.events(app);
 
