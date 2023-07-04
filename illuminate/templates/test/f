@@ -1,7 +1,12 @@
-const app = require(base("main/app"));
+const app = require("main/app").default;
 const request = require("supertest")(app);
+const DB = require("illuminate/utils/DB").default;
 
 describe("{{name}}", () => {
+  beforeAll(async () => {
+    //await DB.connect();
+  });
+  
   beforeEach(async () => {
     //await resetDatabase();
   });

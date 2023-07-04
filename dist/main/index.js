@@ -36,9 +36,3 @@ if (nodeEnv === "development") {
         console.log(`*New connection: [${time}]`);
     });
 }
-const Notification_1 = __importDefault(require("app/models/Notification"));
-Notification_1.default.find().then((notifications) => {
-    console.log(notifications);
-    const n = notifications[2];
-    console.log(n.notifiable);
-});

@@ -1,7 +1,7 @@
 const components: Record<string, string | Record<string, string>> = {
   "model": "app/models/{name}.ts",
   "plugin": "app/plugins/{name}.ts",
-  "factory": "app/factories/{name}.ts",
+  "factory": "app/factories/{name}Factory.ts",
   "mail": "app/mails/{name}.ts",
   "notification": "app/notifications/{name}.ts",
   "listener": "app/listeners/{name}.ts",

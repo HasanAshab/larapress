@@ -127,9 +127,7 @@ function log(data) {
     if (data instanceof Error) {
         data = data.stack;
     }
-    if (process.env.NODE_ENV)
-        console.log(data);
-    fs_1.default.appendFile(path, `${new Date}:\n${data.toString()}\n\n\n`, (err) => {
+    fs_1.default.appendFile(path, `${new Date()}:\n${data.toString()}\n\n\n`, (err) => {
         if (err) {
             throw err;
         }

@@ -47,7 +47,7 @@ export type FileValidatorSchema = {
 }
 export type ValidationSchema = {
   urlencoded?: {
-    target: "body" | "params" | "query",
+    target: "body" | "query",
     rules: ObjectSchema
   };
   multipart?: FileValidatorSchema;

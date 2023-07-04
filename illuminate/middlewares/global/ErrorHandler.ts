@@ -5,13 +5,11 @@ import mongoose from "mongoose";
 
 export default class ErrorHandler extends Middleware {
   handle(err: any, req: Request, res: Response, next:NextFunction) {
-    if(err instanceof mongoose.CastError && err.kind === "ObjectId"){
-      var status = 404;
-      var message = "Resource Not Found"
-    }
-    else {
-      var status = err.status ?? err.statusCode ?? 500;
-      var message = err.message ?? "Internal server error!";
+    let status = err.status ?? err.statusCode ?? 500;
+    let message = err.message ?? "Internal server error!";
+    if(err.kind === "ObjectId"){
+      status = 404;
+      message = undefined;
     }
     if(status === 500){
       log(`${Date.now()}\n${req.originalUrl} - ${req.method} - ${req.ip}\nStack: ${err.stack}`);

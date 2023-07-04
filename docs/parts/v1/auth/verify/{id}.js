@@ -1,8 +1,7 @@
 module.exports = {
   get: {
-    summary: "Serve file",
-    description: "need signature",
-    validationPath: "File/Index",
+    summary: "Verify User account",
+    description: "Need Signature",
     responses: {
       200: {
         schema: {

@@ -1,4 +1,5 @@
 import {
+  Query,
   Schema,
   Document
 } from "mongoose";
@@ -8,9 +9,10 @@ import NotificationModel, { INotification } from "app/models/Notification";
 
 export type INotifiable = {
   instance: {
-    notifications: INotification[],
-    unreadNotifications: INotification[],
-    notify(notification: NotificationData): Promise < void >
+    notifications: Query<INotification[], INotification>;
+    unreadNotifications: Query<INotification[], INotification>;
+    markNotificationsAsRead(): Promise<void>;
+    notify(notification: NotificationData): Promise < void >;
   }
 }
 
@@ -30,9 +32,9 @@ export default (schema: Schema) => {
     return await Notification.send(this as Document, notification);
   };
   
-  schema.methods.markNotificationsAsRead = function () {
-    return this.unreadNotifications.updateMany({
+  schema.methods.markNotificationsAsRead = async function () {
+    await this.unreadNotifications.updateMany({
       readAt: new Date()
-    })
+    });
   }
 }

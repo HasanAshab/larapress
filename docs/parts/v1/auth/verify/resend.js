@@ -1,6 +1,7 @@
 module.exports = {
   get: {
     summary: "Resend account verification email",
+    validationPath: "Auth/ResendEmailVerification",
     responses: {
       200: {
         schema: {

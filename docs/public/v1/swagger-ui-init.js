@@ -20,11 +20,10 @@ window.onload = function() {
       "http"
     ],
     "paths": {
-      "/file": {
+      "/file/{id}": {
         "get": {
           "summary": "Serve file",
           "description": "need signature",
-          "validationPath": "File/Index",
           "responses": {
             "200": {
               "schema": {
@@ -40,14 +39,7 @@ window.onload = function() {
               }
             }
           },
-          "parameters": [
-            {
-              "name": "id",
-              "in": "params",
-              "type": "string",
-              "required": true
-            }
-          ]
+          "parameters": []
         }
       },
       "/auth/login": {
@@ -211,11 +203,10 @@ window.onload = function() {
           ]
         }
       },
-      "/auth/verify": {
+      "/auth/verify/resend": {
         "get": {
-          "summary": "Verify User account",
-          "description": "Generally this endpoint will sent to user email with a token. user can use the token here to verify their account. After verification they will redirect to Frontend app",
-          "validationPath": "Auth/VerifyEmail",
+          "summary": "Resend account verification email",
+          "validationPath": "Auth/ResendEmailVerification",
           "responses": {
             "200": {
               "schema": {
@@ -233,18 +224,18 @@ window.onload = function() {
           },
           "parameters": [
             {
-              "name": "id",
-              "in": "params",
+              "name": "email",
+              "in": "body",
               "type": "string",
               "required": true
             }
           ]
         }
       },
-      "/auth/verify/resend": {
+      "/auth/verify/{id}": {
         "get": {
-          "summary": "Resend account verification email",
-          "description": "need bearer token",
+          "summary": "Verify User account",
+          "description": "Need Signature",
           "responses": {
             "200": {
               "schema": {
