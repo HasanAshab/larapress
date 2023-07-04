@@ -4,15 +4,17 @@ import Stripe from "stripe";
 
 export interface IBillable {
   instance: {
+    /*
     stripeId: string;
     getStripeCustomer(): Promise < Stripe.Customer >;
     updateStripeCustomer(data: Stripe.CustomerUpdateParams): Promise < Stripe.Customer >;
     addCard(card: Stripe.TokenCreateParams.CardData): Promise < Stripe.CustomerSource >;
     charge(amount: number, currency?: string, description?: string): Promise < Stripe.Charge >;
-  }
+  */}
 }
 
 export default (schema: Schema) => {
+  /*
   const stripe = new Stripe(process.env.STRIPE_KEY);
 
   const assertCustomerExists = function(this: IBillable) {
@@ -86,4 +88,5 @@ export default (schema: Schema) => {
       stripeAccount: this.stripeId,
     });
   };
+  */
 };

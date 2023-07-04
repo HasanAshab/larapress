@@ -20,7 +20,7 @@ module.exports = {
   },
   put: {
     summary: "Update user details",
-    validationPath: base("app/http/validations/Auth/UpdateProfile"),
+    validationPath: "Auth/UpdateProfile",
     responses: {
       200: {
         schema: {

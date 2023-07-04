@@ -14,12 +14,42 @@ window.onload = function() {
       "title": "SamerBlog API Docs",
       "version": "v1"
     },
-    "host": "http://127.0.0.1:8000",
+    "host": "http://127.0.0.1:8000/",
     "basePath": "/api/v1",
     "schemes": [
       "http"
     ],
     "paths": {
+      "/file": {
+        "get": {
+          "summary": "Serve file",
+          "description": "need signature",
+          "validationPath": "File/Index",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "in": "params",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
+      },
       "/auth/login": {
         "post": {
           "summary": "Login a User",
@@ -87,7 +117,7 @@ window.onload = function() {
         },
         "put": {
           "summary": "Update user details",
-          "validationPath": "/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/validations/Auth/UpdateProfile",
+          "validationPath": "Auth/UpdateProfile",
           "responses": {
             "200": {
               "schema": {
@@ -103,7 +133,23 @@ window.onload = function() {
               }
             }
           },
-          "parameters": []
+          "parameters": [
+            {
+              "name": "name",
+              "in": "body",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "email",
+              "in": "body",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "consumes": [
+            "multipart/form-data"
+          ]
         }
       },
       "/auth/register": {
@@ -158,12 +204,6 @@ window.onload = function() {
               "in": "body",
               "type": "string",
               "required": true
-            },
-            {
-              "name": "logo",
-              "in": "formData",
-              "type": "image/jpeg, image/png",
-              "required": false
             }
           ],
           "consumes": [
@@ -194,13 +234,7 @@ window.onload = function() {
           "parameters": [
             {
               "name": "id",
-              "in": "query",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "token",
-              "in": "query",
+              "in": "params",
               "type": "string",
               "required": true
             }

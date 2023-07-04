@@ -10,7 +10,7 @@ import docs from "docs/parse";
 
 export default class GenerateDoc extends Command {
   public outputDir = base("/docs/public");
-  public baseUrl = URL.resolve("api/docs");
+  public baseUrl = URL.resolve("docs");
   
   async handle() {
     this.info("starting server...");

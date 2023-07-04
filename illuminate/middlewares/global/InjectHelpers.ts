@@ -32,6 +32,9 @@ export default class InjectHelpers extends Middleware {
         else if (key === "message") wrappedData.message = value;
         else wrappedData.data[key] = value;
       }
+      if(this.statusCode === 404 && typeof response.message === "undefined"){
+        wrappedData.message = "Resource Not Found!";
+      }
       this.json(wrappedData);
     };
 

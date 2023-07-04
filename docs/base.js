@@ -1,4 +1,4 @@
-//const projectDetails = require(base('package'));
+const URL = require(base('illuminate/utils/URL')).default;
 const appName = process.env.APP_NAME;
 
 module.exports = {
@@ -6,7 +6,7 @@ module.exports = {
   info: {
     title: `${appName} API Docs`,
   },
-  host: url(),
+  host: URL.resolve(),
   basePath: "/api/",
   schemes: ["http"],
   paths: {}

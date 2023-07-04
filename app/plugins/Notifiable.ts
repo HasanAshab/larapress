@@ -23,11 +23,16 @@ export default (schema: Schema) => {
   });
 
   schema.virtual('unreadNotifications').get(function () {
-    return this.notifications.where("readAt").equals(null).exec();
+    return this.notifications.where("readAt").equals(null);
   });
   
-
   schema.methods.notify = async function(notification: NotificationData) {
     return await Notification.send(this as Document, notification);
   };
+  
+  schema.methods.markNotificationsAsRead = function () {
+    return this.unreadNotifications.updateMany({
+      readAt: new Date()
+    })
+  }
 }

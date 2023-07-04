@@ -1,6 +1,6 @@
-const { base, url, getVersion } = require("../helpers");
+const { base, getVersion } = require("../helpers");
 global.base = base;
-global.url = url;
+
 const path = require("path");
 const fs = require("fs");
 const { generateEndpointsFromDirTree } = require(base("illuminate/utils"));
@@ -61,4 +61,5 @@ for (const version of versions) {
   }
   rootDoc[version] = baseDoc;
 }
+
 module.exports = rootDoc;

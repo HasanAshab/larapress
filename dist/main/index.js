@@ -37,6 +37,8 @@ if (nodeEnv === "development") {
     });
 }
 const Notification_1 = __importDefault(require("app/models/Notification"));
-Notification_1.default.find().then(async (notifications) => {
-    console.log(await notifications[0].notifiable);
+Notification_1.default.find().then((notifications) => {
+    console.log(notifications);
+    const n = notifications[2];
+    console.log(n.notifiable);
 });

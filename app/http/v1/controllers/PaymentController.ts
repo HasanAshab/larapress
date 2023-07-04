@@ -4,11 +4,10 @@ import {
 import URL from "illuminate/utils/URL";
 import stripe from "stripe";
 import User from "app/models/User";
-import AuthenticationError from "app/exceptions/AuthenticationError";
-import T from "app/notifications/T";
 import Notification from "illuminate/utils/Notification";
 
 export default class PaymentController {
+  /*
   async index() {
     const product = {
       name: "SamerBlog",
@@ -45,4 +44,5 @@ export default class PaymentController {
       data: "hs"//await user.pay(10)
     }
   }
+  */
 }

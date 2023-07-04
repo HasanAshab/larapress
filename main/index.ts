@@ -36,11 +36,3 @@ if (nodeEnv === "development") {
     console.log(`*New connection: [${time}]`);
   });
 }
-
-
-import Notification from "app/models/Notification";
-
-
-Notification.find().then(async (notifications) => {
-  console.log(await notifications[0].notifiable)
-})
