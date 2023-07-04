@@ -53,11 +53,7 @@ export type ValidationSchema = {
   multipart?: FileValidatorSchema;
 }
 
-export type MailMockedData = Record < string, Record < string, {
-  mailable: Mailable,
-  count: number
-}>>;
-
+export type MailMockedData = Record < string, Record < string, {mailable: Mailable, count: number}>>;
 
 export type CacheDataArg = string | number | boolean | object | unknown[] | Buffer;
 

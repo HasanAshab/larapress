@@ -36,3 +36,20 @@ if (nodeEnv === "development") {
     console.log(`*New connection: [${time}]`);
   });
 }
+
+import Mail from "illuminate/utils/Mail";
+import PasswordChanged from "app/mails/PasswordChangedMail";
+import Notification from "illuminate/utils/Notification";
+import NewUserJoined from "app/notifications/NewUserJoined";
+
+Mail.mock();
+
+Mail.to("foo@gmail").send(new PasswordChanged())
+
+//console.log(Mail.mocked);
+
+
+Notification.mock();
+Notification.send({}, new NewUserJoined({name: "bla"}))
+
+console.log(Notification.mocked.isSent({}, "NewUserJoined"))

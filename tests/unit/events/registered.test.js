@@ -1,4 +1,5 @@
 const DB = require("illuminate/utils/DB").default;
+const Notification = require("illuminate/utils/Notification").default;
 const Mail = require("illuminate/utils/Mail").default;
 const User = require("app/models/User").default;
 const SendEmailVerificationNotification = require("app/listeners/SendEmailVerificationNotification").default;
@@ -10,11 +11,13 @@ describe("Registered Event", () => {
   beforeAll(async () => {
     await DB.connect();
     Mail.mock();
+    Notification.mock();
   });
 
   beforeEach(async () => {
       await resetDatabase();
       Mail.mocked.reset();
+      Notification.mocked.reset();
       user = await User.factory().create();
   });
   
@@ -29,10 +32,6 @@ describe("Registered Event", () => {
   it("should notify admins about new user", async () => {
     const admins = await User.factory(3).create({ isAdmin: true });
     await new SendNewUserJoinedNotificationToAdmins().dispatch(user);
-    const { total, recipients } = Mail.mocked.data;
-    expect(total).toBe(3);
-    for (admin of admins) {
-      expect(recipients).toHaveProperty([admin.email, "newUserJoined"]);
-    }
+    Notification.assertSentTo(admins, "NewUserJoined");
   });
 });

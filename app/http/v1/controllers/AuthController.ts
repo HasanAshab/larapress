@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { log, customError } from "helpers";
 import bcrypt from "bcryptjs";
 import User from "app/models/User";
-import ForgotPasswordMail from "app/mails/ForgotPasswordMail";
 import PasswordChangedMail from "app/mails/PasswordChangedMail";
 import Mail from "illuminate/utils/Mail"
 

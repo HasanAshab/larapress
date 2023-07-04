@@ -88,7 +88,7 @@ describe("Auth", () => {
     expect(response.body.data.email).toBe(user.email);
   });
   
-  it("shouldn't get user details without token", async () => {
+  it("shouldn't get user details without auth-token", async () => {
     const response = await request
       .get("/api/v1/auth/profile")
     expect(response.statusCode).toBe(401);
@@ -118,7 +118,7 @@ describe("Auth", () => {
     expect(files).toHaveProperty(["image.png"]);
   });
   
-  it("shouldn't update user details without token", async () => {
+  it("shouldn't update user details without auth-token", async () => {
     const newUserData = {
       name: "changed",
       email: "changed@gmail.com",

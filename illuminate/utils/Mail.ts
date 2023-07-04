@@ -20,7 +20,6 @@ import nodemailerHbs from "nodemailer-express-handlebars";
 
 export default class Mail {
   static isMocked = false;
-  public dispatchAfter = 0;
   public mailable: Mailable = {} as Mailable;
   public transporter: Transporter < SendMailOptions > = {} as Transporter < SendMailOptions >;
 
