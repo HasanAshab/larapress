@@ -1,7 +1,7 @@
 import Queue from "illuminate/queue/Queue";
 import NotificationData from "illuminate/notifications/Notification";
 import { INotifiable } from "app/plugins/Notifiable";
-import { deepEqual, capitalizeFirstLetter } from "helpers";
+import { capitalizeFirstLetter } from "helpers";
 import { Document } from "mongoose";
 import expect from "expect";
 

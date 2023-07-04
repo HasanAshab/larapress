@@ -9,9 +9,6 @@ const NotificationController = controller("NotificationController");
 router.use(middleware("auth"));
 router.get("/", NotificationController.index);
 router.get("/unread-count", NotificationController.unreadCount);
-
-router.route("/:id")
-  .get(NotificationController.find)
-  .delete(NotificationController.delete);
+router.delete("/:id", NotificationController.delete);
 
 export default router;
