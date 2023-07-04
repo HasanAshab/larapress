@@ -1,7 +1,7 @@
 module.exports = {
   get: {
-    summary: "Serve file",
-    description: "need signature",
+    summary: "Get unread notifications count",
+    description: "need auth-token",
     responses: {
       200: {
         schema: {
@@ -10,8 +10,13 @@ module.exports = {
             success: {
               type: "boolean",
             },
-            message: {
-              type: "string",
+            data: {
+              type: "object",
+              properties: {
+                count: {
+                  type: "number",
+                }
+              }
             },
           },
         },

@@ -20,10 +20,10 @@ window.onload = function() {
       "http"
     ],
     "paths": {
-      "/file/{id}": {
+      "/notifications": {
         "get": {
-          "summary": "Serve file",
-          "description": "need signature",
+          "summary": "Get all notifications",
+          "description": "need auth-token",
           "responses": {
             "200": {
               "schema": {
@@ -32,11 +32,70 @@ window.onload = function() {
                   "success": {
                     "type": "boolean"
                   },
-                  "message": {
-                    "type": "string"
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "notifications": {
+                        "type": "array",
+                        "items": {
+                          "type": "object"
+                        }
+                      }
+                    }
                   }
                 }
               }
+            }
+          },
+          "parameters": []
+        }
+      },
+      "/notifications/unread-count": {
+        "get": {
+          "summary": "Get unread notifications count",
+          "description": "need auth-token",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "count": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "parameters": []
+        }
+      },
+      "/notifications/{id}": {
+        "delete": {
+          "summary": "Remove notification",
+          "description": "need auth-token",
+          "responses": {
+            "204": {
+              "description": "Notification deleted"
+            }
+          },
+          "parameters": []
+        }
+      },
+      "/files/{id}": {
+        "get": {
+          "summary": "Serve file",
+          "description": "need signature",
+          "responses": {
+            "200": {
+              "description": "File"
             }
           },
           "parameters": []

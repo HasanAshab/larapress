@@ -4,7 +4,7 @@ const DB = require("illuminate/utils/DB").default;
 const URL = require("illuminate/utils/URL").default;
 const Attachment = require("app/models/Attachment").default;
 
-describe("Attachment", () => {
+describe("File", () => {
   beforeAll(async () => {
     await DB.connect();
   })
