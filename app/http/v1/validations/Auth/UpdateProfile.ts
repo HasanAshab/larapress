@@ -6,8 +6,8 @@ const schema: ValidationSchema = {
   urlencoded: {
     target: "body",
     rules: Joi.object({
-      name: Joi.string().min(3).max(12).required(),
-      email: Joi.string().email().required(),
+      name: Joi.string().min(3).max(12),
+      email: Joi.string().email(),
     }),
   },
   multipart: FileValidator.schema({

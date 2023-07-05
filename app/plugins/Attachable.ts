@@ -9,7 +9,7 @@ export type IAttachable = {
     attachments: IAttachable[];
     getAttachmentsByName(name?: string): Promise<IAttachable[]>;
     attach(name: string, file: UploadedFile, attachLinkToModel?: boolean): Promise<IAttachment>;
-    attach(files: Record<string, UploadedFile>, attachLinkToModel?: boolean): Promise<IAttachment[]>;
+    attachMany(files: Record<string, UploadedFile>, attachLinkToModel?: boolean): Promise<IAttachment[]>;
     detach(name?: string): Promise<void>;
   }
 }
@@ -46,7 +46,7 @@ export default (schema: Schema) => {
     return attachment;
   }
   
-  schema.methods.attach = async function (files: Record<string, UploadedFile>, attachLinkToModel = false) {
+  schema.methods.attachMany = async function (files: Record<string, UploadedFile>, attachLinkToModel = false) {
     const attachments: IAttachment[] = [];
     for (const [name, file] of Object.entries(files)) {
       const path = await Storage.putFile("public/uploads", file);

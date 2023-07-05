@@ -21,7 +21,7 @@ export default abstract class Notification {
   
   async sendMail(notifiable: Notifiable) {
     if(this.toMail && "email" in notifiable && typeof notifiable.email === "string"){
-      //await Mail.to(notifiable.email).send(this.toMail(notifiable));
+      await Mail.to(notifiable.email).send(this.toMail(notifiable));
     }
   }
 

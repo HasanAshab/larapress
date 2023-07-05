@@ -14,13 +14,12 @@ describe("Auth", () => {
 
   beforeAll(async () => {
     await DB.connect();
-    Mail.mock();
     Storage.mock();
   });
 
   beforeEach(async () => {
     await resetDatabase();
-    Mail.mocked.reset();
+    Mail.mock();
     Storage.mocked.reset();
     user = await User.factory().create();
     token = user.createToken();
@@ -75,9 +74,8 @@ describe("Auth", () => {
       .post("/api/v1/auth/verify/resend")
       .field("email", user.email);
     expect(response.statusCode).toBe(200);
-    const { total, recipients } = Mail.mocked.data;
-    expect(total).toBe(1);
-    expect(recipients).toHaveProperty([user.email, "verification"]);
+    Mail.assertCount(1);
+    Mail.assertSentTo(user.email, "VerificationMail");
   });
 
   it("should get user details", async () => {
@@ -95,6 +93,21 @@ describe("Auth", () => {
   });
 
   it("should update user details", async () => {
+    const response = await request
+      .put("/api/v1/auth/profile")
+      .set("Authorization", `Bearer ${token}`)
+      .field("name", "newName")
+      .attach("logo", fakeFile("image.png"));
+    user = await User.findById(user._id);
+    expect(response.statusCode).toBe(200);
+    expect(user.name).toBe("newName");
+    Mail.assertNothingSent();
+    const { total: totalFile, files } = Storage.mocked.data;
+    expect(totalFile).toBe(1);
+    expect(files).toHaveProperty(["image.png"]);
+  });
+  
+  it("updating email should send verification email", async () => {
     const newUserData = {
       name: "changed",
       email: "changed@gmail.com",
@@ -109,9 +122,8 @@ describe("Auth", () => {
     expect(response.statusCode).toBe(200);
     expect(user.name).toBe(newUserData.name);
     expect(user.email).toBe(newUserData.email);
-    const { total: totalMail, recipients } = Mail.mocked.data;
-    expect(totalMail).toBe(1);
-    expect(recipients).toHaveProperty([user.email, "verification"]);
+    Mail.assertCount(1);
+    Mail.assertSentTo(user.email, "VerificationMail");
 
     const { total: totalFile, files } = Storage.mocked.data;
     expect(totalFile).toBe(1);
@@ -147,9 +159,8 @@ describe("Auth", () => {
     const passwordMatch = await bcrypt.compare(passwords.new, user.password);
     expect(response.statusCode).toBe(200);
     expect(passwordMatch).toBe(true);
-    const { total, recipients } = Mail.mocked.data;
-    expect(total).toBe(1);
-    expect(recipients).toHaveProperty([user.email, "passwordChanged"]);
+    Mail.assertCount(1);
+    Mail.assertSentTo(user.email, "PasswordChangedMail");
   });
   
   it("shouldn't change password, if same to old and new passwords are same", async () => {
@@ -159,7 +170,7 @@ describe("Auth", () => {
       .field("old_password", "password")
       .field("password", "password");
     expect(response.statusCode).toBe(400);
-    expect(Mail.mocked.data.total).toBe(0);
+    Mail.assertNothingSent();
   });
 
   it("forgoting password should sent reset email", async () => {
@@ -167,14 +178,13 @@ describe("Auth", () => {
       .post("/api/v1/auth/password/forgot")
       .field("email", user.email);
     expect(response.statusCode).toBe(200);
-    const { total, recipients } = Mail.mocked.data;
-    expect(total).toBe(1);
-    expect(recipients).toHaveProperty([user.email, "forgotPassword"]);
+    Mail.assertCount(1);
+    Mail.assertSentTo(user.email, "ForgotPasswordMail");
   });
 
   it("should reset password", async () => {
     const resetToken = await user.sendResetPasswordEmail();
-    Mail.mocked.reset();
+    Mail.mock();
     const newPassword = "new-password";
     const response = await request
       .put("/api/v1/auth/password/reset")
@@ -186,9 +196,8 @@ describe("Auth", () => {
     const passwordMatch = await bcrypt.compare(newPassword, user.password);
     expect(response.statusCode).toBe(200);
     expect(passwordMatch).toBe(true);
-    const { total, recipients } = Mail.mocked.data;
-    expect(total).toBe(1);
-    expect(recipients).toHaveProperty([user.email, "passwordChanged"]);
+    Mail.assertCount(1);
+    Mail.assertSentTo(user.email, "PasswordChangedMail");
   });
   
   it("shouldn't reset password with invalid token", async () => {
@@ -203,6 +212,6 @@ describe("Auth", () => {
     const passwordMatch = await bcrypt.compare(newPassword, user.password);
     expect(response.statusCode).toBe(401);
     expect(passwordMatch).toBe(false);
-    expect(Mail.mocked.data.total).toBe(0);
+    Mail.assertNothingSent()
   });
 });

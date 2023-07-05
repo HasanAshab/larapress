@@ -10,27 +10,23 @@ describe("Registered Event", () => {
 
   beforeAll(async () => {
     await DB.connect();
-    Mail.mock();
-    Notification.mock();
   });
 
   beforeEach(async () => {
-      await resetDatabase();
-      Mail.mocked.reset();
-      Notification.mocked.reset();
-      user = await User.factory().create();
+    await resetDatabase();
+    user = await User.factory().create();
   });
   
-
   it("should send verification email", async () => {
+    Mail.mock();
     await new SendEmailVerificationNotification().dispatch(user);
-    const { total, recipients } = Mail.mocked.data;
-    expect(total).toBe(1);
-    expect(recipients).toHaveProperty([user.email, "verification"]);
+    Mail.assertCount(1);
+    Mail.assertSentTo(user.email, "VerificationMail");
   });
 
   it("should notify admins about new user", async () => {
     const admins = await User.factory(3).create({ isAdmin: true });
+    Notification.mock();
     await new SendNewUserJoinedNotificationToAdmins().dispatch(user);
     Notification.assertSentTo(admins, "NewUserJoined");
   });

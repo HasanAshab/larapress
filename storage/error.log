@@ -1,257 +1,70 @@
-Mon Jul 03 2023 23:19:49 GMT+0600 (Bangladesh Standard Time):
-1688404789499
-/api/v1/notifications - GET - ::ffff:127.0.0.1
-Stack: TypeError: Cannot read properties of undefined (reading 'notifications')
-    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:8:38)
+Wed Jul 05 2023 12:49:28 GMT+0600 (Bangladesh Standard Time):
+1688539768901
+/api/v1/auth/register - POST - ::ffff:127.0.0.1
+Stack: TypeError: The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+    at new NodeError (node:internal/errors:399:5)
+    at Hash.update (node:internal/crypto/hash:109:11)
+    at Function.hashFileName (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Storage.ts:41:46)
+    at Function.putFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Storage.ts:33:23)
+    at model.schema.methods.attach (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Attachable.ts:52:34)
+    at register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:18:50)
     at processTicksAndRejections (node:internal/process/task_queues:95:5)
     at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
 
 
-Mon Jul 03 2023 23:21:21 GMT+0600 (Bangladesh Standard Time):
-1688404881491
-/api/v1/notifications?email=Lelah.Wuckert9@gmail.com&password=password - GET - ::ffff:127.0.0.1
-Stack: TypeError: Cannot read properties of undefined (reading 'notifications')
-    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:8:38)
+Wed Jul 05 2023 12:49:41 GMT+0600 (Bangladesh Standard Time):
+1688539781589
+/api/v1/auth/profile - PUT - ::ffff:127.0.0.1
+Stack: TypeError: The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+    at new NodeError (node:internal/errors:399:5)
+    at Hash.update (node:internal/crypto/hash:109:11)
+    at Function.hashFileName (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Storage.ts:41:46)
+    at Function.putFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Storage.ts:33:23)
+    at model.schema.methods.attach (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Attachable.ts:52:34)
+    at updateProfile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:116:18)
     at processTicksAndRejections (node:internal/process/task_queues:95:5)
     at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
 
 
-Tue Jul 04 2023 07:57:52 GMT+0600 (Bangladesh Standard Time):
-1688435872231
-/api/v1/notifications/unread-count?email=Lelah.Wuckert9@gmail.com - GET - ::ffff:127.0.0.1
-Stack: TypeError: req.user.unreadNotifications.count is not a function
-    at unreadCount (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:56)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:34)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/ValidateRequest.ts:24:51)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:35:30
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/middlewares/Authenticate.ts:18:20)
+Wed Jul 05 2023 12:52:22 GMT+0600 (Bangladesh Standard Time):
+1688539942661
+/api/v1/auth/register - POST - ::ffff:127.0.0.1
+Stack: TypeError: The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+    at new NodeError (node:internal/errors:399:5)
+    at Hash.update (node:internal/crypto/hash:109:11)
+    at Function.hashFileName (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Storage.ts:41:46)
+    at Function.putFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Storage.ts:33:23)
+    at model.schema.methods.attach (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Attachable.ts:52:34)
+    at register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:18:50)
     at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
 
 
-Tue Jul 04 2023 08:03:49 GMT+0600 (Bangladesh Standard Time):
-1688436229721
-/api/v1/notifications/hshsh?email=Lelah.Wuckert9@gmail.com - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "hshsh" (type string) at path "_id" for model "Notification"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at ObjectId.SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1204:12)
-    at ObjectId.SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1616:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:356:32)
-    at model.Query.Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4866:12)
-    at model.Query.Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2210:10)
-    at model.Query._find (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2236:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4396:28)
+Wed Jul 05 2023 12:52:33 GMT+0600 (Bangladesh Standard Time):
+1688539953535
+/api/v1/auth/profile - PUT - ::ffff:127.0.0.1
+Stack: TypeError: The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+    at new NodeError (node:internal/errors:399:5)
+    at Hash.update (node:internal/crypto/hash:109:11)
+    at Function.hashFileName (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Storage.ts:41:46)
+    at Function.putFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Storage.ts:33:23)
+    at model.schema.methods.attach (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Attachable.ts:52:34)
+    at updateProfile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:116:18)
     at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at find (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:14:28)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
 
 
-Tue Jul 04 2023 08:09:18 GMT+0600 (Bangladesh Standard Time):
-1688436558802
-/api/v1/notifications/hshsh?email=Lelah.Wuckert9@gmail.com - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "hshsh" (type string) at path "_id" for model "Notification"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at ObjectId.SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1204:12)
-    at ObjectId.SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1616:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:356:32)
-    at model.Query.Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4866:12)
-    at model.Query.Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2210:10)
-    at model.Query._find (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2236:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4396:28)
+Wed Jul 05 2023 12:57:44 GMT+0600 (Bangladesh Standard Time):
+1688540264858
+/api/v1/auth/register - POST - ::ffff:127.0.0.1
+Stack: TypeError: The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+    at new NodeError (node:internal/errors:399:5)
+    at Hash.update (node:internal/crypto/hash:109:11)
+    at Function.hashFileName (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Storage.ts:41:46)
+    at Function.putFile (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Storage.ts:33:23)
+    at model.schema.methods.attach (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Attachable.ts:52:34)
+    at register (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:19:50)
     at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at find (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:14:28)
-
-
-Tue Jul 04 2023 08:10:04 GMT+0600 (Bangladesh Standard Time):
-1688436604060
-/api/v1/notifications/hshsh?email=Lelah.Wuckert9@gmail.com - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "hshsh" (type string) at path "_id" for model "Notification"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at ObjectId.SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1204:12)
-    at ObjectId.SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1616:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:356:32)
-    at model.Query.Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4866:12)
-    at model.Query.Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2210:10)
-    at model.Query._find (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2236:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4396:28)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at find (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:14:28)
-
-
-Tue Jul 04 2023 08:10:20 GMT+0600 (Bangladesh Standard Time):
-1688436620035
-/api/v1/notifications/hshsh?email=Lelah.Wuckert9@gmail.com - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "hshsh" (type string) at path "_id" for model "Notification"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at ObjectId.SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1204:12)
-    at ObjectId.SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1616:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:356:32)
-    at model.Query.Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4866:12)
-    at model.Query.Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2210:10)
-    at model.Query._find (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2236:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4396:28)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at find (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:14:28)
-
-
-Tue Jul 04 2023 08:10:56 GMT+0600 (Bangladesh Standard Time):
-1688436656482
-/api/v1/notifications/hshsh?email=Lelah.Wuckert9@gmail.com - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "hshsh" (type string) at path "_id" for model "Notification"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at ObjectId.SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1204:12)
-    at ObjectId.SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1616:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:356:32)
-    at model.Query.Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4866:12)
-    at model.Query.Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2210:10)
-    at model.Query._find (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2236:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4396:28)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at find (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:14:28)
-
-
-Tue Jul 04 2023 08:11:24 GMT+0600 (Bangladesh Standard Time):
-1688436684023
-/api/v1/notifications/hshsh?email=Lelah.Wuckert9@gmail.com - GET - ::ffff:127.0.0.1
-Stack: CastError: Cast to ObjectId failed for value "hshsh" (type string) at path "_id" for model "Notification"
-    at ObjectId.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schema/objectid.js:248:11)
-    at ObjectId.SchemaType.applySetters (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1204:12)
-    at ObjectId.SchemaType.castForQuery (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/schematype.js:1616:15)
-    at cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/cast.js:356:32)
-    at model.Query.Query.cast (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4866:12)
-    at model.Query.Query._castConditions (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2210:10)
-    at model.Query._find (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2236:8)
-    at model.Query.exec (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:4396:28)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at find (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:14:28)
-
-
-Tue Jul 04 2023 08:27:43 GMT+0600 (Bangladesh Standard Time):
-1688437663040
-/api/v1/notifications/64a25cfdf3afd2589ac52d38?email=Lelah.Wuckert9@gmail.com - GET - ::ffff:127.0.0.1
-Stack: TypeError: req.user.notifications.findById is not a function
-    at find (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:14:58)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:34)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/ValidateRequest.ts:24:51)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:35:30
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-
-
-Tue Jul 04 2023 08:32:47 GMT+0600 (Bangladesh Standard Time):
-1688437967708
-/api/v1/notifications/64a25cfdf3afd2589ac52d38?email=Lelah.Wuckert9@gmail.com - GET - ::ffff:127.0.0.1
-Stack: ReferenceError: status is not defined
-    at ServerResponse.res.api (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/InjectHelpers.ts:35:7)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:97:15)
-    at processTicksAndRejections (node:internal/process/task_queues:95:5)
-
-
-Tue Jul 04 2023 08:50:48 GMT+0600 (Bangladesh Standard Time):
-1688439048561
-/api/v1/notifications/?email=Lelah.Wuckert9@gmail.com - GET - ::ffff:127.0.0.1
-Stack: TypeError: this.unreadNotifications.update is not a function
-    at model.schema.methods.markNotificationsAsRead (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Notifiable.ts:34:37)
-    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:6:21)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:34)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/ValidateRequest.ts:24:51)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:35:30
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-
-
-Wed Jul 05 2023 00:08:17 GMT+0600 (Bangladesh Standard Time):
-1688494097920
-/api/v1/files/64a46010a5642fe586ed729e?sign=WyJhMWM1OWYzMTkxMjUwZmE4MzMxZDYwYWNhNTA0MDQyMDAzNmE3ZTFhNmE2MjI5ZDcwZjlkNWM3NjQ0ZWNlYmZjZGFkODI1NWE2YjQ4NGYzMjBmOWZiOWFlMTNmOWNmYzgiLCJjOTJiNDRhZDU5NTcxNDg4YWEyNDEwYjJmZjA4ZjhjMCJd - GET - ::ffff:127.0.0.1
-Stack: TypeError: Cannot read properties of undefined (reading 'id')
-    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/FileController.ts:6:64)
-    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:94:41)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/ValidateRequest.ts:24:51)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:35:30
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at ValidateSignature.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/ValidateSignature.ts:11:8)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:35:30
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
-    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:284:15
-    at param (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:365:14)
-    at param (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:376:14)
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:421:3)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
-    at router (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:47:12)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:286:9
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at InjectHelpers.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/InjectHelpers.ts:41:5)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:35:30
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:286:9
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express-fileupload/lib/index.js:35:14
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:286:9
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at jsonParser (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/json.js:113:7)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:286:9
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at urlencodedParser (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/body-parser/lib/types/urlencoded.js:91:7)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:286:9
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at cors (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/cors/lib/index.js:188:7)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/cors/lib/index.js:224:17
-    at originCallback (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/cors/lib/index.js:214:15)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/cors/lib/index.js:219:13
-    at optionsCallback (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/cors/lib/index.js:199:9)
-    at corsMiddleware (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/cors/lib/index.js:204:7)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:286:9
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at expressInit (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/middleware/init.js:40:5)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:286:9
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at query (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/middleware/query.js:45:5)
-    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
-    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:328:13)
-    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:286:9
-    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:346:12)
-    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:280:10)
-    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/index.js:175:3)
-    at Function.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/application.js:181:10)
-    at Server.app (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/express.js:39:9)
-    at Server.emit (node:events:512:28)
-    at parserOnIncoming (node:_http_server:1067:12)
-    at HTTPParser.parserOnHeadersComplete (node:_http_common:119:17)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
 
 

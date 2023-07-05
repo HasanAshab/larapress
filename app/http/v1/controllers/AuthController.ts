@@ -108,15 +108,17 @@ export default class AuthController {
     const logo = req.files?.logo;
     const user = req.user!;
     user.name = name;
+    if(email){
     user.email = email;
     user.emailVerified = false;
+    }
     const result = await user.save();
     if (logo && !Array.isArray(logo)) {
       await user.detach("logo");
       await user.attach("logo", logo, true);
     }
     if (result) {
-      await user.sendVerificationEmail();
+      email && await user.sendVerificationEmail();
       return {
         message: "Verification email sent!",
       };
