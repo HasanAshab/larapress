@@ -33,7 +33,7 @@ export default (schema: Schema) => {
       attachableId: this._id,
       attachableType: (this.constructor as any).modelName,
       mimetype: file.mimetype,
-      path,
+      path
     });
     const link = URL.signedRoute("file.serve", {
       id: attachment._id.toString()

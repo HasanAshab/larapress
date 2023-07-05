@@ -37,21 +37,10 @@ if (nodeEnv === "development") {
   });
 }
 
-
-import Mail from "illuminate/utils/Mail";
-import PasswordChanged from "app/mails/PasswordChangedMail";
-import Notification from "illuminate/utils/Notification";
-import NewUserJoined from "app/notifications/NewUserJoined";
-
 /*
-Mail.mock();
-Mail.to("foo@gmail.com").send(new PasswordChanged())
-Mail.to("foo@gmail.com").send(new PasswordChanged())
-Mail.to("foo2@gmail.com").send(new PasswordChanged())
-console.log(Mail.mocked);
+import Storage from "illuminate/utils/Storage";
 
-Notification.mock();
-Notification.send({_id: "jeje"}, new NewUserJoined({name: "bla"}))
+Storage.mock();
 
-console.log(Notification.assertSentTo({_id: "jeje"}, "NewUserJoined"))
-*/
+Storage.putFile("public", {name: "foo.png"})
+console.log(Storage.mocked)*/

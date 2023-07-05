@@ -35,7 +35,7 @@ export default class ValidateRequest extends Middleware {
           message: "Only multipart/form-data requests are allowed",
         });
       }
-      const error = multipart.validate(req.files);
+      const error = multipart.validate(req.files ?? {});
       if (error) {
         return res.status(400).api({
           message: error,

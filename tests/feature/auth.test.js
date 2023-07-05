@@ -14,13 +14,11 @@ describe("Auth", () => {
 
   beforeAll(async () => {
     await DB.connect();
-    Storage.mock();
   });
 
   beforeEach(async () => {
     await resetDatabase();
     Mail.mock();
-    Storage.mocked.reset();
     user = await User.factory().create();
     token = user.createToken();
   });
@@ -29,6 +27,7 @@ describe("Auth", () => {
     const dummyUser = await User.factory().dummyData();
     const mockListener = jest.fn();
     app.on("Registered", mockListener);
+    Storage.mock();
     const response = await request
       .post("/api/v1/auth/register")
       .field("name", dummyUser.name)
@@ -39,9 +38,25 @@ describe("Auth", () => {
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
     expect(mockListener).toHaveBeenCalledTimes(1);
-    const { total: totalFile, files } = Storage.mocked.data;
-    expect(totalFile).toBe(1);
-    expect(files).toHaveProperty(["image.png"]);
+    Storage.assertStoredCount(1);
+    Storage.assertStored("image.png");
+  });
+  
+  it("should register a user without logo", async () => {
+    const dummyUser = await User.factory().dummyData();
+    const mockListener = jest.fn();
+    app.on("Registered", mockListener);
+    Storage.mock();
+    const response = await request
+      .post("/api/v1/auth/register")
+      .field("name", dummyUser.name)
+      .field("email", dummyUser.email)
+      .field("password", dummyUser.password)
+      .field("password_confirmation", dummyUser.password)
+    expect(response.statusCode).toBe(201);
+    expect(response.body.data).toHaveProperty("token");
+    expect(mockListener).toHaveBeenCalledTimes(1);
+    Storage.assertNothingStored();
   });
 
   it("should login a user", async () => {
@@ -93,6 +108,7 @@ describe("Auth", () => {
   });
 
   it("should update user details", async () => {
+    Storage.mock()
     const response = await request
       .put("/api/v1/auth/profile")
       .set("Authorization", `Bearer ${token}`)
@@ -102,9 +118,21 @@ describe("Auth", () => {
     expect(response.statusCode).toBe(200);
     expect(user.name).toBe("newName");
     Mail.assertNothingSent();
-    const { total: totalFile, files } = Storage.mocked.data;
-    expect(totalFile).toBe(1);
-    expect(files).toHaveProperty(["image.png"]);
+    Storage.assertStoredCount(1);
+    Storage.assertStored("image.png");
+  });
+  
+  it("should update user details without logo", async () => {
+    Storage.mock()
+    const response = await request
+      .put("/api/v1/auth/profile")
+      .set("Authorization", `Bearer ${token}`)
+      .field("name", "newName")
+    user = await User.findById(user._id);
+    expect(response.statusCode).toBe(200);
+    expect(user.name).toBe("newName");
+    Mail.assertNothingSent();
+    Storage.assertNothingStored();
   });
   
   it("updating email should send verification email", async () => {
@@ -112,6 +140,7 @@ describe("Auth", () => {
       name: "changed",
       email: "changed@gmail.com",
     };
+    Storage.mock();
     const response = await request
       .put("/api/v1/auth/profile")
       .set("Authorization", `Bearer ${token}`)
@@ -124,10 +153,8 @@ describe("Auth", () => {
     expect(user.email).toBe(newUserData.email);
     Mail.assertCount(1);
     Mail.assertSentTo(user.email, "VerificationMail");
-
-    const { total: totalFile, files } = Storage.mocked.data;
-    expect(totalFile).toBe(1);
-    expect(files).toHaveProperty(["image.png"]);
+    Storage.assertStoredCount(1);
+    Storage.assertStored("image.png");
   });
   
   it("shouldn't update user details without auth-token", async () => {

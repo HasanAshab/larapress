@@ -16,7 +16,7 @@ const schema: ValidationSchema = {
     })
   },
   multipart: FileValidator.schema({
-    logo: FileValidator.required().parts(1).max(1000*1000).mimetypes("image/jpeg", "image/png"),
+    logo: FileValidator.optional().parts(1).max(1000*1000).mimetypes("image/jpeg", "image/png"),
   })
 }
 
