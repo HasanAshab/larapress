@@ -13,10 +13,6 @@ app.use(cors({
   origin: ["http://localhost:3000"]
 }));
 
-// Serving static folder
-app.use("/static", express.static(base("storage/public/static")));
-
-
 // Setting middlewares for request parsing 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -28,6 +24,9 @@ app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", base("views"));
 
+// Registering mongoose global plugins
+Setup.mongooseGlobalPlugins();
+
 // Registering global middlewares
 app.use(middleware("helpers.inject"));
 
@@ -36,6 +35,9 @@ Setup.events(app);
 
 // Registering all group routes 
 Setup.routes(app);
+
+// Serving static folder
+app.use("/static", express.static(base("storage/public/static")));
 
 // Registering global error handling middleware
 app.use(middleware("error.handle"));

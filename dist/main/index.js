@@ -36,3 +36,10 @@ if (nodeEnv === "development") {
         console.log(`*New connection: [${time}]`);
     });
 }
+/*
+import Storage from "illuminate/utils/Storage";
+
+Storage.mock();
+
+Storage.putFile("public", {name: "foo.png"})
+console.log(Storage.mocked)*/ 

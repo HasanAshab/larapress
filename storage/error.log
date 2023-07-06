@@ -254,3 +254,255 @@ Stack: TypeError: Cannot read properties of null (reading 'logo')
     at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:35:16
 
 
+Wed Jul 05 2023 19:35:11 GMT+0600 (Bangladesh Standard Time):
+1688564111653
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: user.notifications.paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:11:47)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 19:37:42 GMT+0600 (Bangladesh Standard Time):
+1688564262375
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: user.notifications.paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:11:48)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 19:37:43 GMT+0600 (Bangladesh Standard Time):
+1688564263711
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: user.notifications.paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:11:48)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 20:00:07 GMT+0600 (Bangladesh Standard Time):
+1688565607743
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: user.notifications.paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:11:48)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 21:10:52 GMT+0600 (Bangladesh Standard Time):
+1688569852869
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: user.notifications.paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:12:48)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 21:14:02 GMT+0600 (Bangladesh Standard Time):
+1688570042452
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: ReferenceError: Cannot access 'user' before initialization
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:9:24)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:34)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/ValidateRequest.ts:24:51)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:35:30
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+
+
+Wed Jul 05 2023 21:14:17 GMT+0600 (Bangladesh Standard Time):
+1688570057742
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: user.notifications.paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:43)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 21:14:29 GMT+0600 (Bangladesh Standard Time):
+1688570069616
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: user.notifications.paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:43)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 21:15:24 GMT+0600 (Bangladesh Standard Time):
+1688570124140
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: (intermediate value).paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:50)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 21:20:22 GMT+0600 (Bangladesh Standard Time):
+1688570422715
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: user.notifications.paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:42)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 21:33:45 GMT+0600 (Bangladesh Standard Time):
+1688571225236
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: user.notifications is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:28)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 21:34:18 GMT+0600 (Bangladesh Standard Time):
+1688571258093
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: n.paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:11:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 21:34:48 GMT+0600 (Bangladesh Standard Time):
+1688571288550
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: n.paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:12:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 21:39:46 GMT+0600 (Bangladesh Standard Time):
+1688571586106
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: n.paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:12:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 22:12:39 GMT+0600 (Bangladesh Standard Time):
+1688573559695
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: n.paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:12:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 22:13:53 GMT+0600 (Bangladesh Standard Time):
+1688573633395
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: user.notifications.paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:11:48)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 22:14:45 GMT+0600 (Bangladesh Standard Time):
+1688573685699
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: user.notifications.paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:11:48)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 22:14:48 GMT+0600 (Bangladesh Standard Time):
+1688573688052
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: user.notifications.paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:11:48)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 22:15:21 GMT+0600 (Bangladesh Standard Time):
+1688573721647
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: user.notifications.paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:11:48)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 22:17:16 GMT+0600 (Bangladesh Standard Time):
+1688573836647
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: user.notifications.paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:11:48)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 05 2023 22:17:17 GMT+0600 (Bangladesh Standard Time):
+1688573837063
+/api/v1/notifications - GET - ::ffff:127.0.0.1
+Stack: TypeError: user.notifications.paginate is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:11:48)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 09:07:07 GMT+0600 (Bangladesh Standard Time):
+1688612827935
+/api/v1/notifications?cursor= - GET - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'notifications')
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:11:45)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 09:15:36 GMT+0600 (Bangladesh Standard Time):
+1688613336269
+/api/v1/notifications?cursor= - GET - ::ffff:127.0.0.1
+Stack: ReferenceError: docsQuery is not defined
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:12:17)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:11:35)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 09:21:10 GMT+0600 (Bangladesh Standard Time):
+1688613670719
+/api/v1/notifications?cursor= - GET - ::ffff:127.0.0.1
+Stack: ReferenceError: docs is not defined
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:18:5)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:11:35)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 10:33:19 GMT+0600 (Bangladesh Standard Time):
+1688617999903
+/api/v1/notifications?cursor= - GET - ::ffff:127.0.0.1
+Stack: TypeError: ns.map is not a function
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:11:20)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 10:37:21 GMT+0600 (Bangladesh Standard Time):
+1688618241662
+/api/v1/notifications?cursor=64a570edd0aa0c61e2600c77 - GET - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'map')
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:11:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 10:37:21 GMT+0600 (Bangladesh Standard Time):
+1688618241977
+/api/v1/notifications?cursor= - GET - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'map')
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:11:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+

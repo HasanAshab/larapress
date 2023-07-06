@@ -1,5 +1,6 @@
 import { ArtisanBaseInput } from "types"
 import { Application } from "express";
+import mongoose from "mongoose";
 import { base } from "helpers";
 import { generateEndpointsFromDirTree } from "illuminate/utils";
 import nodeCron from "node-cron";
@@ -9,22 +10,21 @@ import crons from "register/cron";
 
 
 export default class Setup {
-  static cronJobs(): void {
+  static cronJobs() {
     for (const [schedule, commands] of Object.entries(crons)) {
-      if(Array.isArray(commands)){
-        for (const command of commands){
+      if (Array.isArray(commands)) {
+        for (const command of commands) {
           const [commandName, ...args] = command.split(" ")
           nodeCron.schedule(schedule, (async () => await Artisan.call(commandName as ArtisanBaseInput, args, false)) as ((now: Date | "init" | "manual") => void));
         }
-      }
-      else {
+      } else {
         const [commandName, ...args] = commands.split(" ")
         nodeCron.schedule(schedule, (async () => await Artisan.call(commandName as ArtisanBaseInput, args, false)) as ((now: Date | "init" | "manual") => void));
       }
     }
   };
 
-  static events(app: Application): void {
+  static events(app: Application) {
     for (const [event, listenerNames] of Object.entries(events)) {
       for (const listenerName of listenerNames) {
         const Listener = require(base(`app/listeners/${listenerName}`)).default;
@@ -34,11 +34,15 @@ export default class Setup {
     }
   };
 
-  static routes(app: Application): void {
+  static routes(app: Application) {
     const routesRootPath = base("routes");
     const routesEndpointPaths = generateEndpointsFromDirTree(routesRootPath);
-    for (const [endpoint, path] of Object.entries(routesEndpointPaths)){
+    for (const [endpoint, path] of Object.entries(routesEndpointPaths)) {
       app.use(endpoint, require(path).default);
     }
   };
+
+  static mongooseGlobalPlugins() {
+    mongoose.plugin(require(base("app/plugins/Paginateable")).default)
+  }
 }

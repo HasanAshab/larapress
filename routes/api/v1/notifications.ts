@@ -6,7 +6,7 @@ const NotificationController = controller("NotificationController");
 
 // Endpoints for notification
 
-router.use(middleware("auth"));
+//router.use(middleware("auth"));
 router.get("/", NotificationController.index);
 router.get("/unread-count", NotificationController.unreadCount);
 router.delete("/:id", NotificationController.delete);

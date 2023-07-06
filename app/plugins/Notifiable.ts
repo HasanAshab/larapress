@@ -28,6 +28,7 @@ export default (schema: Schema) => {
     return this.notifications.where("readAt").equals(null);
   });
   
+
   schema.methods.notify = async function(notification: NotificationData) {
     return await Notification.send(this as Document, notification);
   };
