@@ -506,3 +506,181 @@ Stack: TypeError: Cannot read properties of undefined (reading 'map')
     at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
 
 
+Thu Jul 06 2023 16:19:27 GMT+0600 (Bangladesh Standard Time):
+1688638767113
+/api/v1/notifications?cursor=WyI3NjVhMGFlZmQ0NzAwYWI5MTQ4NWQ0ZjIxMDY3ZGNjY2Y0ZTA1YzA3MGJmYzE0MDljNzIzNzYwYWJlOTRjNzVkIiwiMzI1MWEzMGZmMWNjMDEzOWIzNDZhNDhlNjg4NDVlM2QiXQ - GET - ::ffff:127.0.0.1
+Stack: TypeError: this.where(...)[type] is not a function
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:12:30)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:62)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 16:21:20 GMT+0600 (Bangladesh Standard Time):
+1688638880785
+/api/v1/notifications?cursor=WyI3NjVhMGFlZmQ0NzAwYWI5MTQ4NWQ0ZjIxMDY3ZGNjY2Y0ZTA1YzA3MGJmYzE0MDljNzIzNzYwYWJlOTRjNzVkIiwiMzI1MWEzMGZmMWNjMDEzOWIzNDZhNDhlNjg4NDVlM2QiXQ - GET - ::ffff:127.0.0.1
+Stack: TypeError: this.where(...)[type] is not a function
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:13:30)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:62)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 16:21:43 GMT+0600 (Bangladesh Standard Time):
+1688638903913
+/api/v1/notifications?cursor=WyI3NjVhMGFlZmQ0NzAwYWI5MTQ4NWQ0ZjIxMDY3ZGNjY2Y0ZTA1YzA3MGJmYzE0MDljNzIzNzYwYWJlOTRjNzVkIiwiMzI1MWEzMGZmMWNjMDEzOWIzNDZhNDhlNjg4NDVlM2QiXQ - GET - ::ffff:127.0.0.1
+Stack: TypeError: this.where(...)[type] is not a function
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:13:30)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:62)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 16:23:03 GMT+0600 (Bangladesh Standard Time):
+1688638983593
+/api/v1/notifications?cursor=WyI3NjVhMGFlZmQ0NzAwYWI5MTQ4NWQ0ZjIxMDY3ZGNjY2Y0ZTA1YzA3MGJmYzE0MDljNzIzNzYwYWJlOTRjNzVkIiwiMzI1MWEzMGZmMWNjMDEzOWIzNDZhNDhlNjg4NDVlM2QiXQ - GET - ::ffff:127.0.0.1
+Stack: TypeError: this.where(...)[type] is not a function
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:13:30)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:62)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 16:23:54 GMT+0600 (Bangladesh Standard Time):
+1688639034461
+/api/v1/notifications?cursor=eyJpZCI6IjY0YTU3MGVkZDBhYTBjNjFlMjYwMGM1OSIsInR5cGUiOiJsdCJ9 - GET - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading '_id')
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:27:21)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:16)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 16:24:18 GMT+0600 (Bangladesh Standard Time):
+1688639058442
+/api/v1/notifications?cursor=eyJpZCI6IjY0YTU3MGVkZDBhYTBjNjFlMjYwMGM1OSIsInR5cGUiOiJsdCJ9 - GET - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading '_id')
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:27:21)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:16)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 16:26:06 GMT+0600 (Bangladesh Standard Time):
+1688639166571
+/api/v1/notifications?cursor=eyJpZCI6IjY0YTU3MGVkZDBhYTBjNjFlMjYwMGM1OSIsInR5cGUiOiJsdCJ9 - GET - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading '_id')
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:28:21)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:16)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 16:26:20 GMT+0600 (Bangladesh Standard Time):
+1688639180696
+/api/v1/notifications?cursor=b - GET - ::ffff:127.0.0.1
+Stack: SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>)
+    at Function.decode (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/utils/Token.ts:24:17)
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:11:32)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:62)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 16:27:29 GMT+0600 (Bangladesh Standard Time):
+1688639249949
+/api/v1/notifications?cursor=b - GET - ::ffff:127.0.0.1
+Stack: ReferenceError: type is not defined
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:18:25)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:62)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 16:33:22 GMT+0600 (Bangladesh Standard Time):
+1688639602618
+/api/v1/notifications?cursor= - GET - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading '_id')
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:24:28)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:16)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 19:41:17 GMT+0600 (Bangladesh Standard Time):
+1688650877756
+/api/v1/notifications?cursor= - GET - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of null (reading 'type')
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:22:17)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:16)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 19:41:44 GMT+0600 (Bangladesh Standard Time):
+1688650904447
+/api/v1/notifications?cursor= - GET - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of null (reading 'type')
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:22:17)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:16)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 19:41:48 GMT+0600 (Bangladesh Standard Time):
+1688650908100
+/api/v1/notifications?cursor= - GET - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of null (reading 'type')
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:22:17)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:16)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 20:31:10 GMT+0600 (Bangladesh Standard Time):
+1688653870754
+/api/v1/notifications?cursor= - GET - ::ffff:127.0.0.1
+Stack: ReferenceError: foo is not defined
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:21:58)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:62)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 20:31:25 GMT+0600 (Bangladesh Standard Time):
+1688653885187
+/api/v1/notifications?cursor= - GET - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of null (reading 'type')
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:21:68)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:62)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Thu Jul 06 2023 20:32:09 GMT+0600 (Bangladesh Standard Time):
+1688653929224
+/api/v1/notifications?cursor= - GET - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of null (reading 'type')
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:21:68)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:10:62)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Fri Jul 07 2023 09:54:16 GMT+0600 (Bangladesh Standard Time):
+1688702056931
+/api/v1/notifications?cursor=64a6e7ed8faec06393c921db - GET - ::ffff:127.0.0.1
+Stack: TypeError: Invalid sort value: { _id: [object Object] }
+    at push (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mquery/lib/mquery.js:1315:19)
+    at model.Query.Query.sort (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mquery/lib/mquery.js:1272:7)
+    at model.Query.Query.sort (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/mongoose/lib/query.js:2941:26)
+    at model.Query.schema.query.paginate (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/plugins/Paginateable.ts:57:34)
+    at index (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/NotificationController.ts:12:50)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:34)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/express/lib/router/route.js:144:13)
+    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/ValidateRequest.ts:24:51)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:35:30
+
+

@@ -6,10 +6,9 @@ import Notification from "app/models/Notification";
 export default class NotificationController {
   async index(req: Request) {
     //await req.user!.markNotificationsAsRead();
-    const user = await User.findOne();
-    const ns = await user.notifications.sort({createdAt: 1}).paginate(8, req.query.cursor);
+    //const ns = await user.notifications.paginate(8, req.query.cursor);
     //console.log(ns.docs.map(n => n.createdAt))
-    return {ns}
+    return await User.find().paginateReq(req)
     return { notifications: await req.user!.notifications.paginate(10, req.query.cursor)};
   }
   

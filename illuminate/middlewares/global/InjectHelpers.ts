@@ -30,7 +30,11 @@ export default class InjectHelpers extends Middleware {
       for (const [key, value] of Object.entries(response)) {    
         if (key === "data") wrappedData.data = value;
         else if (key === "message") wrappedData.message = value;
-        else wrappedData.data[key] = value;
+        else {
+          Array.isArray(wrappedData.data)
+            ? wrappedData[key] = value
+            : wrappedData.data[key] = value;
+        }
       }
       if(this.statusCode === 404 && typeof response.message === "undefined"){
         wrappedData.message = "Resource Not Found!";

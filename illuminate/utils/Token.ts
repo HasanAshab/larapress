@@ -13,21 +13,31 @@ export default class Token {
     return Buffer.from(appKey, 'hex');
   }
   
+  static encode(data: string | object | any[]){
+    return Buffer.from(JSON.stringify(data)).toString('base64')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=/g, '');
+  }
+  
+  static decode(encrypted: string){
+    return JSON.parse(Buffer.from(encrypted.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString('utf8'));
+  }
+  
   static create(key: string, expireAfter?: number) {
     const expiryTime = typeof expireAfter === 'undefined' ? 0: Date.now() + expireAfter;
     const rawData = `${expiryTime}@${key}`;
     const iv = randomBytes(16);
     const cipher = createCipheriv(this.algorithm, this.keyBuffer(), iv);
     const encrypted = Buffer.concat([cipher.update(rawData), cipher.final()]);
-    const token = JSON.stringify([encrypted.toString('hex'), iv.toString('hex')]);
-    return Buffer.from(token).toString('base64');
+    return this.encode([encrypted.toString('hex'), iv.toString('hex')]);
   }
 
   static isValid(key: string, token: string) {
     let encryptedHex: string;
     let ivHex: string;
     try {
-      [encryptedHex, ivHex] = JSON.parse(Buffer.from(token, 'base64').toString('ascii'));
+      [encryptedHex, ivHex] = this.decode(token);
     } catch (error) {
       return false;
     }
