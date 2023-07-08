@@ -1,5 +1,6 @@
 import { ArtisanBaseInput } from "types"
 import { Application } from "express";
+import fs from "fs";
 import mongoose from "mongoose";
 import { base } from "helpers";
 import { generateEndpointsFromDirTree } from "illuminate/utils";
@@ -43,6 +44,11 @@ export default class Setup {
   };
 
   static mongooseGlobalPlugins() {
-    mongoose.plugin(require(base("app/plugins/Paginateable")).default)
+    const globalPluginsBaseDir = base("illuminate/plugins/global/");
+    const globalPluginsName = fs.readdirSync(globalPluginsBaseDir);
+    for(const globalPluginName of globalPluginsName){
+      const plugin = require(globalPluginsBaseDir + globalPluginName).default;
+      mongoose.plugin(plugin);
+    }
   }
 }

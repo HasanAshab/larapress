@@ -1,10 +1,7 @@
 import { Schema } from "mongoose";
 import { Request } from "express";
-import Token from "illuminate/utils/Token";
+//import Token from "illuminate/utils/Token";
 
-export type IPaginateable = {
-  //
-}
 
 export default (schema: Schema) => {
   /*
@@ -50,7 +47,7 @@ export default (schema: Schema) => {
     };
   };
   */
-  schema.query.paginate = async function (pageSize: number, cursor?: string) {
+  (schema.query as any).paginate = async function (this: any, pageSize: number, cursor?: string) {
     if(cursor){
       this.where('_id').gt(cursor);
     } 
@@ -65,8 +62,8 @@ export default (schema: Schema) => {
       next
     };
   };
-  schema.query.paginateReq = async function (req: Request) {
-    const { limit = 20, cursor } = req.query;
-    return this.paginate(limit, cursor);
+  (schema.query as any).paginateReq = function (this: any, req: Request) {
+    const { limit, cursor } = req.query;
+    return this.paginate(typeof limit === "string" ? Number(limit) : 20, typeof cursor === "string" ? cursor : undefined);
   }
 }

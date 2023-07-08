@@ -13,8 +13,8 @@ export type RawResponse = {
 export type ApiResponse = {
   success: boolean,
   message?: string,
-  data: any,
-};
+  data: Record < string, any > | any[],
+} & Record < string, any >;
 
 export type Recipient = {
   from: string,

@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = __importDefault(require("mongoose"));
 const helpers_1 = require("helpers");
 const utils_1 = require("illuminate/utils");
 const node_cron_1 = __importDefault(require("node-cron"));
@@ -43,5 +44,8 @@ class Setup {
         }
     }
     ;
+    static mongooseGlobalPlugins() {
+        mongoose_1.default.plugin(require((0, helpers_1.base)("app/plugins/Paginateable")).default);
+    }
 }
 exports.default = Setup;

@@ -7,9 +7,8 @@ export default class NotificationController {
   async index(req: Request) {
     //await req.user!.markNotificationsAsRead();
     //const ns = await user.notifications.paginate(8, req.query.cursor);
-    //console.log(ns.docs.map(n => n.createdAt))
     return await User.find().paginateReq(req)
-    return { notifications: await req.user!.notifications.paginate(10, req.query.cursor)};
+    return await req.user!.notifications.paginateReq(req);
   }
   
   async unreadCount(req: Request) {
