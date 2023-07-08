@@ -5,8 +5,7 @@ import User from "app/models/User";
 import Notification from "app/models/Notification";
 export default class NotificationController {
   async index(req: Request) {
-    //await req.user!.markNotificationsAsRead();
-    //const ns = await user.notifications.paginate(8, req.query.cursor);
+    //TODO auth + markRead
     return await User.find().paginateReq(req)
     return await req.user!.notifications.paginateReq(req);
   }
