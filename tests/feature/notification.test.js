@@ -39,12 +39,22 @@ describe("Notification", () => {
     expect(response.body.data.notifications).toHaveLength(3);
   });
   
-  it("Fetching notifications marks all as read", async () => {
-    const notifications = await Notification.factory(3).create({notifiableId: user._id, readAt: null});
-    const response = await request.get("/api/v1/notifications")
+  it("Should mark notification as read", async () => {
+    let notification = await Notification.factory().create({notifiableId: user._id, readAt: null});
+    const response = await request.post("/api/v1/notifications/"+notification._id)
       .set("Authorization", `Bearer ${token}`);
     expect(response.statusCode).toBe(200);
-    expect(await user.unreadNotifications.count()).toBe(0);
+    notification = await Notification.findById(notification._id)
+    expect(notification.readAt).not.toBeNull();
+  });
+  
+  it("Shouldn't mark others notification as read", async () => {
+    let notification = await Notification.factory().create({readAt: null});
+    const response = await request.post("/api/v1/notifications/"+notification._id)
+      .set("Authorization", `Bearer ${token}`);
+    expect(response.statusCode).toBe(404);
+    notification = await Notification.findById(notification._id)
+    expect(notification.readAt).toBeNull();
   });
   
   it("Shouldn't get others notifications", async () => {

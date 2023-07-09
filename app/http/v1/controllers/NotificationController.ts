@@ -5,9 +5,17 @@ import User from "app/models/User";
 import Notification from "app/models/Notification";
 export default class NotificationController {
   async index(req: Request) {
-    //TODO auth + markRead
-    return await User.find().paginateReq(req)
     return await req.user!.notifications.paginateReq(req);
+  }
+  
+  async markAsRead(req: Request) {
+    const { modifiedCount } = await req.user!.unreadNotifications.updateOne({_id: req.params.id}, {readAt: new Date()});
+    return modifiedCount === 1 
+    ? {
+      status: 200, 
+      message: 'Notification marked as read'
+    }    
+    : {status: 404}
   }
   
   async unreadCount(req: Request) {
