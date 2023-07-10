@@ -20,15 +20,13 @@ describe("Notification", () => {
   });
 
   it("Shouldn't access notification endpoints without auth-token", async () => {
-    const notificationEndpoints = [
-      "notifications",
-      "notifications/unread-count",
-      "notifications/foo"
+    const responses = [
+      await request.get(`/api/v1/notifications`),
+      await request.get(`/api/v1/notifications/unread-count`),
+      await request.post(`/api/v1/notifications/foo-notification-id`),
+      await request.delete(`/api/v1/notifications/foo-notification-id`),
     ];
-    for(endpoint of notificationEndpoints) {
-      const response = await request.get(`/api/v1/${endpoint}`)
-      expect(response.statusCode).toBe(401);
-    }
+    expect(responses.every(response => response.statusCode === 401)).toBe(true);
   });
 
   it("Should get notifications", async () => {

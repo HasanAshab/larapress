@@ -28,9 +28,14 @@ NotificationSchema.virtual('notifiable').get(function () {
   return model(this.notifiableType).findById(this.notifiableId);
 });
 
-NotificationSchema.methods.markAsRead = async function (){
+NotificationSchema.method.markAsRead = async function (){
   this.readAt = new Date();
   await this.save();
+}
+
+NotificationSchema.query.markAsRead = async function (id){
+  const { modifiedCount } = await this.updateOne({_id: id}, {readAt: new Date()});
+  return modifiedCount === 1;
 }
 
 NotificationSchema.plugin(HasFactory);

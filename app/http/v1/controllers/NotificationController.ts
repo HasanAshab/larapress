@@ -9,8 +9,7 @@ export default class NotificationController {
   }
   
   async markAsRead(req: Request) {
-    const { modifiedCount } = await req.user!.unreadNotifications.updateOne({_id: req.params.id}, {readAt: new Date()});
-    return modifiedCount === 1 
+   return await req.user!.unreadNotifications.markAsRead(req.params.id)
     ? {
       status: 200, 
       message: 'Notification marked as read'

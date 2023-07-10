@@ -684,3 +684,21 @@ Stack: TypeError: Invalid sort value: { _id: [object Object] }
     at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:35:30
 
 
+Mon Jul 10 2023 22:51:17 GMT+0600 (Bangladesh Standard Time):
+1689007877591
+/api/v1/notifications/64ac3703f0933e81b0e9dea1 - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'status')
+    at ServerResponse.res.api (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/InjectHelpers.ts:23:34)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:97:15)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+
+Mon Jul 10 2023 22:53:14 GMT+0600 (Bangladesh Standard Time):
+1689007994807
+/api/v1/notifications/64ac37798486909bf1ea652c - POST - ::ffff:127.0.0.1
+Stack: TypeError: Cannot read properties of undefined (reading 'status')
+    at ServerResponse.res.api (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/middlewares/global/InjectHelpers.ts:23:34)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:97:15)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+

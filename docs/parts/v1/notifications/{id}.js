@@ -4,7 +4,17 @@ module.exports = {
     description: "need auth-token",
     responses: {
       200: {
-        description: "Notification deleted"
+        schema: {
+          type: "object",
+          properties: {
+            success: {
+              type: "boolean",
+            },
+            message: {
+              type: "string",
+            }
+          },
+        },
       },
     },
   },

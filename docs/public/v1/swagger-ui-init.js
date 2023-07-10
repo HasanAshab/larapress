@@ -78,6 +78,26 @@ window.onload = function() {
         }
       },
       "/notifications/{id}": {
+        "post": {
+          "summary": "Mark notification as read",
+          "description": "need auth-token",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": []
+        },
         "delete": {
           "summary": "Remove notification",
           "description": "need auth-token",
@@ -189,13 +209,13 @@ window.onload = function() {
               "name": "name",
               "in": "body",
               "type": "string",
-              "required": true
+              "required": false
             },
             {
               "name": "email",
               "in": "body",
               "type": "string",
-              "required": true
+              "required": false
             }
           ],
           "consumes": [

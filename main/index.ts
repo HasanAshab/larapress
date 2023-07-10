@@ -2,13 +2,14 @@ import "dotenv/config";
 import app from "main/app";
 import Setup from "main/Setup";
 import DB from "illuminate/utils/DB";
+//import webpush from "web-push";
 
-const port = Number(process.env.APP_PORT) || 8000;
-const connectToDB = process.env.DB_CONNECT || "true";
+const port = Number(process.env.APP_PORT) ?? 8000;
+const connectToDB = Boolean(process.env.DB_CONNECT) ?? true;
 const nodeEnv = process.env.NODE_ENV;
 
 // Connecting to database
-if (connectToDB === "true") {
+if (connectToDB) {
   console.log("Connecting to database...");
   DB.connect()
   .then(() => {
@@ -21,6 +22,8 @@ if (connectToDB === "true") {
 
 // Registering all Cron Jobs
 Setup.cronJobs();
+
+//webpush.setVapidDetails("mailto:hostilarysten@gmail.com", process.env.PUBLIC_VAPID_KEY, process.env.PRIVATE_VAPID_KEY)
 
 // Listening for clients
 const server = app.listen(port, () => {
