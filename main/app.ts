@@ -13,6 +13,8 @@ app.use(cors({
   origin: ["http://localhost:3000"]
 }));
 
+app.disable('x-powered-by')
+
 // Setting middlewares for request parsing 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());

@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const fs_1 = __importDefault(require("fs"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const helpers_1 = require("helpers");
 const utils_1 = require("illuminate/utils");
@@ -45,7 +46,12 @@ class Setup {
     }
     ;
     static mongooseGlobalPlugins() {
-        mongoose_1.default.plugin(require((0, helpers_1.base)("app/plugins/Paginateable")).default);
+        const globalPluginsBaseDir = (0, helpers_1.base)("illuminate/plugins/global/");
+        const globalPluginsName = fs_1.default.readdirSync(globalPluginsBaseDir);
+        for (const globalPluginName of globalPluginsName) {
+            const plugin = require(globalPluginsBaseDir + globalPluginName).default;
+            mongoose_1.default.plugin(plugin);
+        }
     }
 }
 exports.default = Setup;
