@@ -15,7 +15,7 @@ app.use(cors({
   origin: ["http://localhost:3000"]
 }));
 app.use(helmet())
-app.use(middleware("maintenance.check", ["limit", {time: 60 * 1000, count: 60}]))
+app.use("*", middleware("maintenance.check", ["limit", {time: 60 * 1000, count: 60}]))
 
 // Setting middlewares for request parsing 
 app.use(bodyParser.urlencoded({extended: false}));
