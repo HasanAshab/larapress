@@ -2,8 +2,9 @@ import { Request, Response } from "express";
 import { log, customError } from "helpers";
 import bcrypt from "bcryptjs";
 import User from "app/models/User";
-import PasswordChangedMail from "app/mails/PasswordChangedMail";
+import Cache from "illuminate/utils/Cache"
 import Mail from "illuminate/utils/Mail"
+import PasswordChangedMail from "app/mails/PasswordChangedMail";
 
 export default class AuthController {
   async register(req: Request){
@@ -27,16 +28,26 @@ export default class AuthController {
 
   async login(req: Request){
     const { email, password } = req.validated;
-    const user = await User.findOne({email});
+    const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
+    let failedAttemptsCount = await Cache.get(attemptCacheKey) ?? 0;
+    if(failedAttemptsCount > 3){
+      return {
+        status: 429,
+        message: "Too Many Failed Attempts try again later!"
+      }
+    }
+    const user = await User.findOne({email}).select("+password");
     if (user) {
       const match = await bcrypt.compare(password, user.password);
       if (match) {
+        await Cache.clear(attemptCacheKey);
         const token = user.createToken();
         return {
           token,
           message: "Logged in successfully!",
         };
       }
+      await Cache.put(attemptCacheKey, failedAttemptsCount+1, 60 * 60);
     }
     throw customError("INVALID_CREDENTIALS");
   };

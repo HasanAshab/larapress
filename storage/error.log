@@ -702,3 +702,50 @@ Stack: TypeError: Cannot read properties of undefined (reading 'status')
     at processTicksAndRejections (node:internal/process/task_queues:95:5)
 
 
+Wed Jul 12 2023 22:07:22 GMT+0600 (Bangladesh Standard Time):
+1689178042181
+/api/v1/auth/login - POST - ::ffff:127.0.0.1
+Stack: Error: Illegal arguments: string, undefined
+    at _async (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bcryptjs/dist/bcrypt.js:286:46)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bcryptjs/dist/bcrypt.js:307:17
+    at new Promise (<anonymous>)
+    at Object.bcrypt.compare (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bcryptjs/dist/bcrypt.js:306:20)
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:42:34)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 12 2023 22:07:23 GMT+0600 (Bangladesh Standard Time):
+1689178043958
+/api/v1/auth/login - POST - ::ffff:127.0.0.1
+Stack: Error: Illegal arguments: string, undefined
+    at _async (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bcryptjs/dist/bcrypt.js:286:46)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bcryptjs/dist/bcrypt.js:307:17
+    at new Promise (<anonymous>)
+    at Object.bcrypt.compare (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bcryptjs/dist/bcrypt.js:306:20)
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:42:34)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 12 2023 22:09:48 GMT+0600 (Bangladesh Standard Time):
+1689178188634
+/api/v1/auth/login - POST - ::ffff:127.0.0.1
+Stack: Error: Illegal arguments: string, undefined
+    at _async (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bcryptjs/dist/bcrypt.js:286:46)
+    at /data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bcryptjs/dist/bcrypt.js:307:17
+    at new Promise (<anonymous>)
+    at Object.bcrypt.compare (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/node_modules/bcryptjs/dist/bcrypt.js:306:20)
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:42:34)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+
+Wed Jul 12 2023 22:11:51 GMT+0600 (Bangladesh Standard Time):
+1689178311011
+/api/v1/auth/login - POST - ::ffff:127.0.0.1
+Stack: TypeError: Assignment to constant variable.
+    at login (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/app/http/v1/controllers/AuthController.ts:51:59)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/helpers.ts:96:28)
+
+

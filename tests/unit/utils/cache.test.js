@@ -4,7 +4,7 @@ const cacheDriversConfig = require("register/drivers/cache").default;
 describe("Cache", () => {
   beforeAll(async () => {
     for(const driver of cacheDriversConfig.list){
-      await Cache.driver(driver).clear()
+      await Cache.driver(driver).clear();
     }
   });
   

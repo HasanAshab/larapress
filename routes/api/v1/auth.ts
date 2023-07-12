@@ -7,10 +7,10 @@ const PaymentController = controller("PaymentController");
 
 // Endpoints to authenticate users
 router.post("/register", AuthController.register);
-router.post("/login", AuthController.login);
+router.post("/login", middleware(["limit", {time: 10 * 60 * 1000, count: 5}]), AuthController.login);
 
 
-router.post("/verify/resend", middleware(["limit", {time: 60 * 1000, count: 6}]), AuthController.resendEmailVerification);
+router.post("/verify/resend", middleware(["limit", {time: 60 * 1000, count: 1}]), AuthController.resendEmailVerification);
 router.get("/verify/:id", middleware("signed"), AuthController.verifyEmail);
 
 router.post("/password/forgot", middleware(["limit", {time: 60 * 1000, count: 6}]), AuthController.forgotPassword);
