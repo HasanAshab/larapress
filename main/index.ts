@@ -20,7 +20,7 @@ if (connectToDB) {
   });
 }
 
-// Registering all Cron Jobs
+// Registering Cron Jobs
 Setup.cronJobs();
 
 //webpush.setVapidDetails("mailto:hostilarysten@gmail.com", process.env.PUBLIC_VAPID_KEY, process.env.PRIVATE_VAPID_KEY)

@@ -1,24 +1,26 @@
 import { base, middleware } from "helpers";
 import express, { Application } from "express";
 import bodyParser from "body-parser";
+import multipartParser from "express-fileupload";
 import cors from "cors";
+import helmet from "helmet";
 import { engine } from "express-handlebars";
-import MultipartParser from "express-fileupload";
 import Setup from "main/Setup";
 
 const app: Application = express();
 
-// Domains that can only access the API
+// Securing Application from cyber attacks
 app.use(cors({
+// Domains that can only access the API
   origin: ["http://localhost:3000"]
 }));
-
-app.disable('x-powered-by')
+app.use(helmet())
+app.use(middleware("maintenance.check", ["limit", {time: 60 * 1000, count: 60}]))
 
 // Setting middlewares for request parsing 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(MultipartParser());
+app.use(multipartParser());
 
 
 // Registering Handlebars template engine
