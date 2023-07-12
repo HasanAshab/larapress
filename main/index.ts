@@ -1,7 +1,10 @@
 import "dotenv/config";
+import { base } from "helpers";
 import app from "main/app";
 import Setup from "main/Setup";
 import DB from "illuminate/utils/DB";
+import https from "https";
+import fs from "fs";
 //import webpush from "web-push";
 
 const port = Number(process.env.APP_PORT) ?? 8000;
@@ -25,8 +28,19 @@ Setup.cronJobs();
 
 //webpush.setVapidDetails("mailto:hostilarysten@gmail.com", process.env.PUBLIC_VAPID_KEY, process.env.PRIVATE_VAPID_KEY)
 
+
+// Load the SSL/TLS key and certificate
+const privateKey = fs.readFileSync(base('key.pem'), 'utf8');
+const certificate = fs.readFileSync(base('cert.pem'), 'utf8');
+
+// Create the HTTPS server
+const serverOptions = {
+  key: privateKey,
+  cert: certificate
+};
+
 // Listening for clients
-const server = app.listen(port, () => {
+const server = https.createServer(serverOptions, app).listen(port, () => {
   console.log(`Server running on [http://127.0.0.1:${port}] ...`);
 });
 

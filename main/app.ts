@@ -9,7 +9,7 @@ import Setup from "main/Setup";
 
 const app: Application = express();
 
-// Securing Application from cyber attacks
+// Securing Application From Potential Attacks
 app.use(cors({
 // Domains that can only access the API
   origin: ["http://localhost:3000"]
@@ -21,7 +21,6 @@ app.use(middleware("maintenance.check", ["limit", {time: 60 * 1000, count: 60}])
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(multipartParser());
-
 
 // Registering Handlebars template engine
 app.engine("handlebars", engine());
