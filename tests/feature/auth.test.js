@@ -78,8 +78,8 @@ describe("Auth", () => {
     expect(response.body.data).not.toHaveProperty("token");
   });
 
-  it("should prevent Brute Force login", async () => {
-    Cache.driver("memory").mock();
+  it.only("should prevent Brute Force login", async () => {
+    Cache.mock();
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + user.email;
     const response1 = await request
       .post("/api/v1/auth/login")
