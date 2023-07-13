@@ -30,6 +30,7 @@ export default class AuthController {
     const { email, password } = req.validated;
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
     let failedAttemptsCount = await Cache.get(attemptCacheKey) ?? 0;
+    console.log(Cache)
     if(failedAttemptsCount > 3){
       return {
         status: 429,

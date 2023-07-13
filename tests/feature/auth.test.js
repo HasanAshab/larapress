@@ -3,6 +3,7 @@ const request = require("supertest")(app.listen(8000));
 const DB = require("illuminate/utils/DB").default;
 const URL = require("illuminate/utils/URL").default;
 const bcrypt = require("bcryptjs");
+const Cache = require("illuminate/utils/Cache").default;
 const Storage = require("illuminate/utils/Storage").default;
 const Mail = require("illuminate/utils/Mail").default;
 const User = require("app/models/User").default;
@@ -41,7 +42,7 @@ describe("Auth", () => {
     Storage.assertStoredCount(1);
     Storage.assertStored("image.png");
   });
-  
+
   it("should register a user without logo", async () => {
     const dummyUser = await User.factory().dummyData();
     const mockListener = jest.fn();
@@ -52,7 +53,7 @@ describe("Auth", () => {
       .field("name", dummyUser.name)
       .field("email", dummyUser.email)
       .field("password", dummyUser.password)
-      .field("password_confirmation", dummyUser.password)
+      .field("password_confirmation", dummyUser.password);
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
     expect(mockListener).toHaveBeenCalledTimes(1);
@@ -68,14 +69,58 @@ describe("Auth", () => {
     expect(response.body.data).toHaveProperty("token");
   });
 
+  it("shouldn't login with wrong password", async () => {
+    const response = await request
+      .post("/api/v1/auth/login")
+      .field("email", user.email)
+      .field("password", "wrong-password");
+    expect(response.statusCode).toBe(401);
+    expect(response.body.data).not.toHaveProperty("token");
+  });
+
+  it("should prevent Brute Force login", async () => {
+    Cache.driver("memory").mock();
+    const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + user.email;
+    const response1 = await request
+      .post("/api/v1/auth/login")
+      .field("email", user.email)
+      .field("password", "wrong-password");
+    Cache.assertStored(attemptCacheKey, 1, 60 * 60)
+    const response2 = await request
+      .post("/api/v1/auth/login")
+      .field("email", user.email)
+      .field("password", "wrong-password");
+    Cache.assertStored(attemptCacheKey, 2, 60 * 60)
+    const response3 = await request
+      .post("/api/v1/auth/login")
+      .field("email", user.email)
+      .field("password", "wrong-password");
+    Cache.assertStored(attemptCacheKey, 3, 60 * 60)
+    const response4 = await request
+      .post("/api/v1/auth/login")
+      .field("email", user.email)
+      .field("password", "wrong-password");
+    Cache.assertStored(attemptCacheKey, 4, 60 * 60);
+    const response5 = await request
+      .post("/api/v1/auth/login")
+      .field("email", user.email)
+      .field("password", "wrong-password");
+
+    expect(response1.statusCode).toBe(401);
+    expect(response2.statusCode).toBe(401);
+    expect(response3.statusCode).toBe(401);
+    expect(response4.statusCode).toBe(401);
+    expect(response5.statusCode).toBe(429);
+  });
+  
   it("should verify email", async () => {
     const verificationLink = await user.sendVerificationEmail();
-    const response = await fetch(verificationLink)
+    const response = await fetch(verificationLink);
     user = await User.findById(user._id);
     expect(response.status).toBe(200);
     expect(user.emailVerified).toBe(true);
   });
-  
+
   it("shouldn't verify email without signature", async () => {
     const verificationLink = URL.route("email.verify");
     const response = await fetch(verificationLink);
@@ -100,15 +145,14 @@ describe("Auth", () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.data.email).toBe(user.email);
   });
-  
+
   it("shouldn't get user details without auth-token", async () => {
-    const response = await request
-      .get("/api/v1/auth/profile")
+    const response = await request.get("/api/v1/auth/profile");
     expect(response.statusCode).toBe(401);
   });
 
   it("should update user details", async () => {
-    Storage.mock()
+    Storage.mock();
     const response = await request
       .put("/api/v1/auth/profile")
       .set("Authorization", `Bearer ${token}`)
@@ -121,20 +165,20 @@ describe("Auth", () => {
     Storage.assertStoredCount(1);
     Storage.assertStored("image.png");
   });
-  
+
   it("should update user details without logo", async () => {
-    Storage.mock()
+    Storage.mock();
     const response = await request
       .put("/api/v1/auth/profile")
       .set("Authorization", `Bearer ${token}`)
-      .field("name", "newName")
+      .field("name", "newName");
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
     expect(user.name).toBe("newName");
     Mail.assertNothingSent();
     Storage.assertNothingStored();
   });
-  
+
   it("updating email should send verification email", async () => {
     const newUserData = {
       name: "changed",
@@ -156,7 +200,7 @@ describe("Auth", () => {
     Storage.assertStoredCount(1);
     Storage.assertStored("image.png");
   });
-  
+
   it("shouldn't update user details without auth-token", async () => {
     const newUserData = {
       name: "changed",
@@ -189,7 +233,7 @@ describe("Auth", () => {
     Mail.assertCount(1);
     Mail.assertSentTo(user.email, "PasswordChangedMail");
   });
-  
+
   it("shouldn't change password, if same to old and new passwords are same", async () => {
     const response = await request
       .put("/api/v1/auth/password/change")
@@ -226,7 +270,7 @@ describe("Auth", () => {
     Mail.assertCount(1);
     Mail.assertSentTo(user.email, "PasswordChangedMail");
   });
-  
+
   it("shouldn't reset password with invalid token", async () => {
     const newPassword = "new-password";
     const response = await request
@@ -239,6 +283,6 @@ describe("Auth", () => {
     const passwordMatch = await bcrypt.compare(newPassword, user.password);
     expect(response.statusCode).toBe(401);
     expect(passwordMatch).toBe(false);
-    Mail.assertNothingSent()
+    Mail.assertNothingSent();
   });
 });

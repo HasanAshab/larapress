@@ -1,11 +1,12 @@
-import {
-  CacheDataArg
-} from "types";
+import { CacheDataArg } from "types";
 import { customError, capitalizeFirstLetter } from "helpers";
 import Driver from "illuminate/utils/Cache/Driver";
 import cacheDriversConfig from "register/drivers/cache";
+import Mockable from "illuminate/utils/Cache/Mockable";
+import { convertToMockable } from "illuminate/decorators/class";
 import fs from "fs";
 
+@convertToMockable(Mockable)
 export default class Cache {
   static driverName: typeof cacheDriversConfig.list[number] = cacheDriversConfig.default;
   
