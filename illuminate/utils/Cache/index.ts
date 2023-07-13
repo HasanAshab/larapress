@@ -8,7 +8,7 @@ import fs from "fs";
 
 @convertToMockable(Mockable)
 export default class Cache {
-  static driverName: typeof cacheDriversConfig.list[number] = cacheDriversConfig[process.env.NODE_ENV] ?? cacheDriversConfig.default;
+  static driverName: typeof cacheDriversConfig.list[number] = cacheDriversConfig.default;
   
   static driver(name: typeof cacheDriversConfig.list[number]): typeof Cache {
     this.driverName = name;

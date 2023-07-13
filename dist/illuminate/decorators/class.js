@@ -47,7 +47,15 @@ function convertToMockable(mockClass) {
             method !== 'name' &&
             method !== 'prototype');
         staticMethods.forEach((method) => {
-            if (targetClass[method]) {
+            if (method.endsWith("Logger")) {
+                const targetMethodName = method.replace("Logger", "");
+                const targetMethod = targetClass[targetMethodName];
+                targetClass[targetMethodName] = function (...args) {
+                    this.isMocked && mockClass[method].apply(this, args);
+                    return targetMethod.apply(this, args);
+                };
+            }
+            else if (targetClass[method]) {
                 const realMethod = targetClass[method];
                 targetClass[method] = function (...args) {
                     return this.isMocked ? mockClass[method].apply(this, args) : realMethod.apply(this, args);

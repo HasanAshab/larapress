@@ -1,5 +1,4 @@
 export default {
-  default: "redis",
-  test: "memory",
+  default: (process.env.CACHE ?? "redis") as typeof list[number],
   list: ["memory", "redis"]
 } as const;

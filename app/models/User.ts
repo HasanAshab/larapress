@@ -47,7 +47,7 @@ const UserSchema = new Schema({
 );
 
   UserSchema.pre("save", async function(next) {
-    const bcryptRounds = parseInt(process.env.BCRYPT_ROUNDS);
+    const bcryptRounds = Number(process.env.BCRYPT_ROUNDS) ?? 10;
     if (!this.isModified("password")) {
       return next();
     }

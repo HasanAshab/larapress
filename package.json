@@ -1,7 +1,7 @@
 {
-  "name": "express-extended-kit",
+  "name": "larapress",
   "version": "0.6.0",
-  "description": "This is a extended starter kit of express made by Hasan Ashab (CO Founder of Samer Agency). it is more optimized for big projects. it has own CLI",
+  "description": "This is a feature-rich boilerplate of express inspired by Laravel. it is more optimized for big projects. it has own CLI (Artisan) with builtin commands",
   "main": "/main/index.ts",
   "scripts": {
     "test": "jest",
@@ -9,7 +9,7 @@
     "start": "tsnd -r tsconfig-paths/register --transpile-only --respawn main",
     "dev": "concurrently 'tsc --watch' 'tsnd -r tsconfig-paths/register --transpile-only --respawn dist/main'"
   },
-  "author": "Samer",
+  "author": "Hasan Ashab (CO Founder of Samer Agency)",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",

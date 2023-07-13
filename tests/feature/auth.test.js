@@ -78,7 +78,7 @@ describe("Auth", () => {
     expect(response.body.data).not.toHaveProperty("token");
   });
 
-  it.only("should prevent Brute Force login", async () => {
+  it("should prevent Brute Force login", async () => {
     Cache.mock();
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + user.email;
     const response1 = await request

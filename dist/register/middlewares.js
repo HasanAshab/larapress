@@ -7,6 +7,7 @@ exports.default = {
         "EnsureEmailIsVerified"
     ],
     "admin": "CheckIfTheUserIsAdmin",
+    "maintenance.check": "<global>/CheckForMaintenanceMode",
     "limit": "<global>/LimitRequestRate",
     "signed": "<global>/ValidateSignature",
     "validate": "<global>/ValidateRequest",

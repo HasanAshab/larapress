@@ -2,6 +2,8 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const path = require("path");
 
+process.env.CACHE = process.env.TEST_CACHE ?? "memory";
+
 global.base = (base_path = "") => {
   return path.join(path.join(__dirname, "../dist"), base_path);
 };

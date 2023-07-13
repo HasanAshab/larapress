@@ -6,16 +6,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const helpers_1 = require("helpers");
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
-const cors_1 = __importDefault(require("cors"));
-const express_handlebars_1 = require("express-handlebars");
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
+const cors_1 = __importDefault(require("cors"));
+const helmet_1 = __importDefault(require("helmet"));
+const express_handlebars_1 = require("express-handlebars");
 const Setup_1 = __importDefault(require("main/Setup"));
 const app = (0, express_1.default)();
-// Domains that can only access the API
+// Securing Application From Potential Attacks
 app.use((0, cors_1.default)({
+    // Domains that can only access the API
     origin: ["http://localhost:3000"]
 }));
-app.disable('x-powered-by');
+app.use((0, helmet_1.default)());
+app.use("*", (0, helpers_1.middleware)("maintenance.check", ["limit", { time: 60 * 1000, count: 60 }]));
 // Setting middlewares for request parsing 
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(body_parser_1.default.json());
