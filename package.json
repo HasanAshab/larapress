@@ -1,9 +1,9 @@
 {
   "name": "larapress",
-  "version": "0.6.0",
+  "version": "1",
   "description": "This is a Feature-Rich boilerplate of Express inspired by Laravel. it is more optimal for big projects. it has own CLI (Artisan) with builtin commands",
   "main": "/main/index.ts",
-  "bin": "bin/createApp.js",
+  "bin": "/bin/createApp.js",
   "scripts": {
     "test": "jest",
     "build": "tsc",
@@ -57,10 +57,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HasanAshab/ExpressExtended.git"
+    "url": "git+https://github.com/HasanAshab/larapress.git"
   },
   "bugs": {
-    "url": "https://github.com/HasanAshab/ExpressExtended/issues"
+    "url": "https://github.com/HasanAshab/larapress/issues"
   },
-  "homepage": "https://github.com/HasanAshab/ExpressExtended#readme"
+  "homepage": "https://github.com/HasanAshab/larapress#readme"
 }
