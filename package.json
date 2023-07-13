@@ -1,6 +1,6 @@
 {
   "name": "larapress",
-  "version": "1",
+  "version": "1.0.0",
   "description": "This is a Feature-Rich boilerplate of Express inspired by Laravel. it is more optimal for big projects. it has own CLI (Artisan) with builtin commands",
   "main": "/main/index.ts",
   "bin": "/bin/createApp.js",
