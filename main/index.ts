@@ -30,8 +30,8 @@ Setup.cronJobs();
 
 
 // Load the SSL/TLS key and certificate
-const privateKey = fs.readFileSync(base('key.pem'), 'utf8');
-const certificate = fs.readFileSync(base('cert.pem'), 'utf8');
+const privateKey = fs.readFileSync(base('main/certificates/key.pem'), 'utf8');
+const certificate = fs.readFileSync(base('main/certificates/cert.pem'), 'utf8');
 
 // Create the HTTPS server
 const serverOptions = {
