@@ -1,4 +1,4 @@
-import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
+import { model, QueryWithHelpers, HydratedDocument, Schema, Model, Document, InferSchemaType } from "mongoose";
 import HasFactory, { IHasFactory } from "app/plugins/HasFactory";
 
 const NotificationSchema = new Schema({
@@ -19,7 +19,9 @@ const NotificationSchema = new Schema({
     default: null
   },
 },
-{ timestamps: true }
+{ 
+  timestamps: true 
+}
 );
 
 
@@ -27,6 +29,7 @@ const NotificationSchema = new Schema({
 NotificationSchema.virtual('notifiable').get(function () {
   return model(this.notifiableType).findById(this.notifiableId);
 });
+
 
 NotificationSchema.method.markAsRead = async function (){
   this.readAt = new Date();
@@ -43,6 +46,11 @@ NotificationSchema.plugin(HasFactory);
 type IPlugin = {statics: {}, instance: {}} & IHasFactory;
 export type INotification = Document & InferSchemaType<typeof NotificationSchema> & IPlugin["instance"] & {
   notifiable: Document;
+  markAsRead(): void;
 }
-type NotificationModel = Model<INotification> & IPlugin["statics"];
+interface QueryHelpers {
+  markAsRead(id: string): QueryWithHelpers<HydratedDocument<INotification>[], HydratedDocument<INotification>, QueryHelpers>
+}
+
+type NotificationModel = Model<INotification, QueryHelpers> & IPlugin["statics"];
 export default model<INotification, NotificationModel>("Notification", NotificationSchema);

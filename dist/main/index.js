@@ -30,8 +30,8 @@ if (connectToDB) {
 Setup_1.default.cronJobs();
 //webpush.setVapidDetails("mailto:hostilarysten@gmail.com", process.env.PUBLIC_VAPID_KEY, process.env.PRIVATE_VAPID_KEY)
 // Load the SSL/TLS key and certificate
-const privateKey = fs_1.default.readFileSync((0, helpers_1.base)('key.pem'), 'utf8');
-const certificate = fs_1.default.readFileSync((0, helpers_1.base)('cert.pem'), 'utf8');
+const privateKey = fs_1.default.readFileSync((0, helpers_1.base)('main/certificates/key.pem'), 'utf8');
+const certificate = fs_1.default.readFileSync((0, helpers_1.base)('main/certificates/cert.pem'), 'utf8');
 // Create the HTTPS server
 const serverOptions = {
     key: privateKey,
@@ -50,3 +50,5 @@ if (nodeEnv === "development") {
         console.log(`*New connection: [${time}]`);
     });
 }
+const Notification_1 = __importDefault(require("app/models/Notification"));
+Notification_1.default.findOne().then(n => n.markAsRead());

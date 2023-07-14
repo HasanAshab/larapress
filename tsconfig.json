@@ -16,5 +16,5 @@
     "skipLibCheck": true,
     "noUncheckedIndexedAccess": false
   },
-  "exclude": ["node_modules", "artisan.ts"]
+  "exclude": ["node_modules", "cli.ts"]
 }

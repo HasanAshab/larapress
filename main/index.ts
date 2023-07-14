@@ -53,3 +53,6 @@ if (nodeEnv === "development") {
     console.log(`*New connection: [${time}]`);
   });
 }
+
+import Notification from "app/models/Notification";
+Notification.findOne().then(n => n.markAsRead())

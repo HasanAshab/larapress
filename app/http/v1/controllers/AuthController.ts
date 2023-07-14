@@ -135,7 +135,7 @@ export default class AuthController {
        await user.sendVerificationEmail();
         return {
           message: "Verification email sent to new email!",
-          data: user;
+          data: user
         };
       }
       return {

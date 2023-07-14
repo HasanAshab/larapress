@@ -40,7 +40,7 @@ export default class Mockable {
   
   static assertFetched(keys: string | string[]){
     keys = Array.isArray(keys) ? keys: [keys];
-    expect(this.mocked.get).arrayContaining(keys);
+    expect(this.mocked.get).toEqual(expect.arrayContaining(keys));
   }
   
   static assertStored(key: string, data: CacheDataArg, expiry?: number){
@@ -49,7 +49,7 @@ export default class Mockable {
   
   static assertCleared(keys: string | string[]){
     keys = Array.isArray(keys) ? keys: [keys];
-    expect(this.mocked.clear.keys).arrayContaining(keys);
+    expect(this.mocked.clear.keys).toEqual(expect.arrayContaining(keys));
   }
   
   static assertClearedAll(){
