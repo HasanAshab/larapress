@@ -30,14 +30,13 @@ export default class AuthController {
     const { email, password } = req.validated;
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
     let failedAttemptsCount = await Cache.get(attemptCacheKey) ?? 0;
-    console.log(Cache)
     if(failedAttemptsCount > 3){
       return {
         status: 429,
         message: "Too Many Failed Attempts try again later!"
       }
     }
-    const user = await User.findOne({email}).select("+password");
+    const user = await User.findOne({email});
     if (user) {
       const match = await bcrypt.compare(password, user.password);
       if (match) {
@@ -112,6 +111,7 @@ export default class AuthController {
   };
 
   async profile(req: Request){
+    req.user.password = undefined;
     return {data:req.user};
   };
 
@@ -130,9 +130,17 @@ export default class AuthController {
       await user.attach("logo", logo, true);
     }
     if (result) {
-      email && await user.sendVerificationEmail();
+      user.password = undefined;
+      if(email){
+       await user.sendVerificationEmail();
+        return {
+          message: "Verification email sent to new email!",
+          data: user;
+        };
+      }
       return {
-        message: "Verification email sent!",
+        message: "Profile updated!", 
+        data: user
       };
     }
   };

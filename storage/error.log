@@ -981,3 +981,192 @@ Stack: RangeError: Maximum call stack size exceeded
     at Function.targetClass.<computed> (/data/data/com.termux/files/home/js/express/Packages/ExpressExtended/Api/illuminate/decorators/class.ts:54:52)
 
 
+Thu Jul 13 2023 22:18:58 GMT+0600 (Bangladesh Standard Time):
+1689265138711
+/api/v1/auth/password/change - PUT - ::ffff:127.0.0.1
+Stack: Error: Illegal arguments: string, undefined
+    at _async (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:286:46)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:307:17
+    at new Promise (<anonymous>)
+    at Object.bcrypt.compare (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:306:20)
+    at changePassword (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/http/v1/controllers/AuthController.ts:102:43)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:96:34)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/route.js:144:13)
+    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/illuminate/middlewares/global/ValidateRequest.ts:58:7)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:35:30
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/route.js:144:13)
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/http/v1/middlewares/Authenticate.ts:18:20)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:35:16
+
+
+Thu Jul 13 2023 22:19:04 GMT+0600 (Bangladesh Standard Time):
+1689265144533
+/api/v1/auth/password/change - PUT - ::ffff:127.0.0.1
+Stack: Error: Illegal arguments: string, undefined
+    at _async (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:286:46)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:307:17
+    at new Promise (<anonymous>)
+    at Object.bcrypt.compare (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:306:20)
+    at changePassword (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/http/v1/controllers/AuthController.ts:102:43)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:96:34)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/route.js:144:13)
+    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/illuminate/middlewares/global/ValidateRequest.ts:58:7)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:35:30
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/route.js:144:13)
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/http/v1/middlewares/Authenticate.ts:18:20)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:35:16
+
+
+Thu Jul 13 2023 22:19:11 GMT+0600 (Bangladesh Standard Time):
+1689265151744
+/api/v1/auth/password/reset - PUT - ::ffff:127.0.0.1
+Stack: Error: Illegal arguments: string, undefined
+    at _async (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:286:46)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:307:17
+    at new Promise (<anonymous>)
+    at Object.bcrypt.compare (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:306:20)
+    at model.schema.methods.resetPassword (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/plugins/Authenticatable.ts:55:43)
+    at resetPassword (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/http/v1/controllers/AuthController.ts:88:18)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:96:28)
+
+
+Fri Jul 14 2023 05:42:37 GMT+0600 (Bangladesh Standard Time):
+1689291757021
+/api/v1/auth/password/change - PUT - ::ffff:127.0.0.1
+Stack: Error: Illegal arguments: string, undefined
+    at _async (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:286:46)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:307:17
+    at new Promise (<anonymous>)
+    at Object.bcrypt.compare (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:306:20)
+    at changePassword (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/http/v1/controllers/AuthController.ts:101:43)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:96:34)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/route.js:144:13)
+    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/illuminate/middlewares/global/ValidateRequest.ts:58:7)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:35:30
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/route.js:144:13)
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/http/v1/middlewares/Authenticate.ts:18:20)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:35:16
+
+
+Fri Jul 14 2023 05:42:38 GMT+0600 (Bangladesh Standard Time):
+1689291758746
+/api/v1/auth/password/change - PUT - ::ffff:127.0.0.1
+Stack: Error: Illegal arguments: string, undefined
+    at _async (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:286:46)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:307:17
+    at new Promise (<anonymous>)
+    at Object.bcrypt.compare (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:306:20)
+    at changePassword (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/http/v1/controllers/AuthController.ts:101:43)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:96:34)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/route.js:144:13)
+    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/illuminate/middlewares/global/ValidateRequest.ts:58:7)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:35:30
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/route.js:144:13)
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/http/v1/middlewares/Authenticate.ts:18:20)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:35:16
+
+
+Fri Jul 14 2023 05:42:41 GMT+0600 (Bangladesh Standard Time):
+1689291761495
+/api/v1/auth/password/reset - PUT - ::ffff:127.0.0.1
+Stack: Error: Illegal arguments: string, undefined
+    at _async (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:286:46)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:307:17
+    at new Promise (<anonymous>)
+    at Object.bcrypt.compare (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:306:20)
+    at model.schema.methods.resetPassword (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/plugins/Authenticatable.ts:55:43)
+    at resetPassword (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/http/v1/controllers/AuthController.ts:87:18)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:96:28)
+
+
+Fri Jul 14 2023 05:45:28 GMT+0600 (Bangladesh Standard Time):
+1689291928127
+/api/v1/auth/password/reset - PUT - ::ffff:127.0.0.1
+Stack: Error: Illegal arguments: string, undefined
+    at _async (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:286:46)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:307:17
+    at new Promise (<anonymous>)
+    at Object.bcrypt.compare (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:306:20)
+    at model.schema.methods.resetPassword (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/plugins/Authenticatable.ts:55:43)
+    at resetPassword (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/http/v1/controllers/AuthController.ts:87:18)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:96:28)
+
+
+Fri Jul 14 2023 05:50:54 GMT+0600 (Bangladesh Standard Time):
+1689292254696
+/api/v1/auth/password/change - PUT - ::ffff:127.0.0.1
+Stack: Error: Illegal arguments: string, undefined
+    at _async (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:286:46)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:307:17
+    at new Promise (<anonymous>)
+    at Object.bcrypt.compare (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:306:20)
+    at changePassword (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/http/v1/controllers/AuthController.ts:102:43)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:96:34)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/route.js:144:13)
+    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/illuminate/middlewares/global/ValidateRequest.ts:58:7)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:35:30
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/route.js:144:13)
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/http/v1/middlewares/Authenticate.ts:18:20)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:35:16
+
+
+Fri Jul 14 2023 05:57:22 GMT+0600 (Bangladesh Standard Time):
+1689292642201
+/api/v1/auth/password/change - PUT - ::ffff:127.0.0.1
+Stack: Error: Illegal arguments: string, undefined
+    at _async (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:286:46)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:307:17
+    at new Promise (<anonymous>)
+    at Object.bcrypt.compare (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:306:20)
+    at changePassword (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/http/v1/controllers/AuthController.ts:102:43)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:96:34)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/route.js:144:13)
+    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/illuminate/middlewares/global/ValidateRequest.ts:58:7)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:35:30
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/route.js:144:13)
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/http/v1/middlewares/Authenticate.ts:18:20)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:35:16
+
+
+Fri Jul 14 2023 05:58:48 GMT+0600 (Bangladesh Standard Time):
+1689292728697
+/api/v1/auth/password/change - PUT - ::ffff:127.0.0.1
+Stack: Error: Illegal arguments: string, undefined
+    at _async (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:286:46)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:307:17
+    at new Promise (<anonymous>)
+    at Object.bcrypt.compare (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/bcryptjs/dist/bcrypt.js:306:20)
+    at changePassword (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/http/v1/controllers/AuthController.ts:102:43)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:96:34)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/route.js:144:13)
+    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/illuminate/middlewares/global/ValidateRequest.ts:58:7)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:35:30
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/node_modules/express/lib/router/route.js:144:13)
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/app/http/v1/middlewares/Authenticate.ts:18:20)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/helpers.ts:35:16
+
+

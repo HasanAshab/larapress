@@ -75,7 +75,7 @@ describe("Auth", () => {
       .field("email", user.email)
       .field("password", "wrong-password");
     expect(response.statusCode).toBe(401);
-    expect(response.body.data).not.toHaveProperty("token");
+    expect(response.body.data?.token).toBe(undefined);
   });
 
   it("should prevent Brute Force login", async () => {
@@ -144,6 +144,7 @@ describe("Auth", () => {
       .set("Authorization", `Bearer ${token}`);
     expect(response.statusCode).toBe(200);
     expect(response.body.data.email).toBe(user.email);
+    expect(response.body.data).not.toHaveProperty("password");
   });
 
   it("shouldn't get user details without auth-token", async () => {
@@ -160,6 +161,7 @@ describe("Auth", () => {
       .attach("logo", fakeFile("image.png"));
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
+    expect(response.body.data).not.toHaveProperty("password");
     expect(user.name).toBe("newName");
     Mail.assertNothingSent();
     Storage.assertStoredCount(1);
@@ -174,6 +176,7 @@ describe("Auth", () => {
       .field("name", "newName");
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
+    expect(response.body.data).not.toHaveProperty("password");
     expect(user.name).toBe("newName");
     Mail.assertNothingSent();
     Storage.assertNothingStored();
@@ -193,6 +196,7 @@ describe("Auth", () => {
       .attach("logo", fakeFile("image.png"));
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
+    expect(response.body.data).not.toHaveProperty("password");
     expect(user.name).toBe(newUserData.name);
     expect(user.email).toBe(newUserData.email);
     Mail.assertCount(1);

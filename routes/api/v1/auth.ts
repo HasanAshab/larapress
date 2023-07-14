@@ -3,7 +3,6 @@ import express, { Router } from "express";
 
 const router: Router = express.Router();
 const AuthController = controller("AuthController");
-const PaymentController = controller("PaymentController");
 
 // Endpoints to authenticate users
 router.post("/register", AuthController.register);

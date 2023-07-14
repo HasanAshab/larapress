@@ -34,7 +34,7 @@ describe("Notification", () => {
     const response = await request.get("/api/v1/notifications")
       .set("Authorization", `Bearer ${token}`);
     expect(response.statusCode).toBe(200);
-    expect(response.body.data.notifications).toHaveLength(3);
+    expect(response.body.data).toHaveLength(3);
   });
   
   it("Should mark notification as read", async () => {
@@ -61,7 +61,7 @@ describe("Notification", () => {
     const response = await request.get("/api/v1/notifications")
       .set("Authorization", `Bearer ${token}`);
     expect(response.statusCode).toBe(200);
-    expect(response.body.data.notifications).toHaveLength(3);
+    expect(response.body.data).toHaveLength(3);
   });
   
   it("Should get unread notifications count", async () => {
