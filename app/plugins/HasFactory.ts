@@ -2,7 +2,7 @@ import { Schema } from "mongoose";
 import { base } from "helpers";
 
 export type IHasFactory = {
-  instance: {
+  statics: {
     factory(count?: number): {
       create(data?: object): Promise<typeof Schema | (typeof Schema)[]>;
       dummyData(data?: object): object;

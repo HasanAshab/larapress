@@ -50,3 +50,7 @@ if (nodeEnv === "development") {
         console.log(`*New connection: [${time}]`);
     });
 }
+const User_1 = __importDefault(require("app/models/User"));
+User_1.default.findOne(async (u) => {
+    await u.addTags(["bla", "foo"]);
+});

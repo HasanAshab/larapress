@@ -110,12 +110,11 @@ function controller(name, version) {
 exports.controller = controller;
 function setEnv(envValues) {
     const envConfig = dotenv_1.default.parse(fs_1.default.readFileSync(".env"));
-    for (const [key, value] of Object.entries(envValues)) {
-        envConfig[key] = value;
+    for (const key in envValues) {
+        envConfig[key] = envValues[key];
     }
     try {
         fs_1.default.writeFileSync(".env", Object.entries(envConfig).map(([k, v]) => `${k}=${v}`).join("\n"));
-        return true;
     }
     catch (err) {
         throw err;
