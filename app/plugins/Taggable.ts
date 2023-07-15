@@ -14,8 +14,10 @@ export type ITaggable = {
 
 export default (schema: Schema) => {
   schema.add({
-    tags: [String],
+    tags: [String]
   });
+  
+  schema.index({ tags: "text" });
   
   schema.methods.addTags = async function (tags: string[]) {
     this.tags.push(...tags);

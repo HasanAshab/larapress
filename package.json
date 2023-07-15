@@ -7,8 +7,8 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "start": "tsnd -r tsconfig-paths/register --transpile-only --respawn main",
-    "dev": "concurrently 'tsc --watch' 'tsnd -r tsconfig-paths/register --transpile-only --respawn dist/main'"
+    "start": "tsnd -r tsconfig-paths/register --transpile-only dist/main",
+    "dev": "tsnd -r tsconfig-paths/register --transpile-only --respawn main"
   },
   "author": "Hasan Ashab (CO Founder of Samer Agency)",
   "license": "ISC",
