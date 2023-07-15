@@ -20,7 +20,19 @@ const NotificationSchema = new Schema({
   },
 },
 { 
-  timestamps: true 
+  timestamps: true,
+  query: {
+    async markAsRead(id: string){
+      const { modifiedCount } = await this.updateOne({_id: id}, {readAt: new Date()});
+      return modifiedCount === 1;
+    }
+  },
+  methods: {
+    async markAsRead(){
+      this.readAt = new Date();
+      await this.save();
+    }
+  }
 }
 );
 
@@ -31,26 +43,18 @@ NotificationSchema.virtual('notifiable').get(function () {
 });
 
 
-NotificationSchema.method.markAsRead = async function (){
-  this.readAt = new Date();
-  await this.save();
-}
-
-NotificationSchema.query.markAsRead = async function (id){
-  const { modifiedCount } = await this.updateOne({_id: id}, {readAt: new Date()});
-  return modifiedCount === 1;
-}
 
 NotificationSchema.plugin(HasFactory);
 
 type IPlugin = {statics: {}, instance: {}} & IHasFactory;
 export type INotification = Document & InferSchemaType<typeof NotificationSchema> & IPlugin["instance"] & {
   notifiable: Document;
-  markAsRead(): void;
+  markAsRead(): Promise<void>;
 }
-interface QueryHelpers {
-  markAsRead(id: string): QueryWithHelpers<HydratedDocument<INotification>[], HydratedDocument<INotification>, QueryHelpers>
+export type NotificationQuery = QueryWithHelpers<HydratedDocument<INotification>[], HydratedDocument<INotification>, NotificationQueryHelpers>;
+interface NotificationQueryHelpers {
+  markAsRead(id: string): NotificationQuery
 }
 
-type NotificationModel = Model<INotification, QueryHelpers> & IPlugin["statics"];
+type NotificationModel = Model<INotification, NotificationQueryHelpers> & IPlugin["statics"];
 export default model<INotification, NotificationModel>("Notification", NotificationSchema);

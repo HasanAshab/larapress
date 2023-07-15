@@ -29,7 +29,7 @@ export default class AuthController {
   async login(req: Request){
     const { email, password } = req.validated;
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
-    let failedAttemptsCount = await Cache.get(attemptCacheKey) ?? 0;
+    let failedAttemptsCount = (await Cache.get(attemptCacheKey) ?? 0) as number;
     if(failedAttemptsCount > 3){
       return {
         status: 429,
@@ -111,8 +111,7 @@ export default class AuthController {
   };
 
   async profile(req: Request){
-    req.user.password = undefined;
-    return {data:req.user};
+    return {data:req.user!.toJSON()};
   };
 
   async updateProfile(req: Request){
@@ -130,12 +129,11 @@ export default class AuthController {
       await user.attach("logo", logo, true);
     }
     if (result) {
-      user.password = undefined;
       if(email){
        await user.sendVerificationEmail();
         return {
           message: "Verification email sent to new email!",
-          data: user
+          data: user.toJSON()
         };
       }
       return {

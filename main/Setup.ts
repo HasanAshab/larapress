@@ -2,6 +2,7 @@ import { ArtisanBaseInput } from "types"
 import { Application } from "express";
 import fs from "fs";
 import mongoose from "mongoose";
+import hidden from "mongoose-hidden";
 import { base } from "helpers";
 import { generateEndpointsFromDirTree } from "illuminate/utils";
 import nodeCron from "node-cron";
@@ -50,5 +51,6 @@ export default class Setup {
       const plugin = require(globalPluginsBaseDir + globalPluginName).default;
       mongoose.plugin(plugin);
     }
+    mongoose.plugin(hidden());
   }
 }

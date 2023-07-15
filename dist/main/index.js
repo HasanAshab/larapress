@@ -50,5 +50,3 @@ if (nodeEnv === "development") {
         console.log(`*New connection: [${time}]`);
     });
 }
-const Notification_1 = __importDefault(require("app/models/Notification"));
-Notification_1.default.findOne().then(n => n.markAsRead());

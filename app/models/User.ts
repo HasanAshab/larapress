@@ -1,18 +1,10 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
 import URL from "illuminate/utils/URL"
 import bcrypt from "bcryptjs";
-import Authenticatable, {
-  IAuthenticatable
-} from "app/plugins/Authenticatable";
-import HasFactory, {
-  IHasFactory
-} from "app/plugins/HasFactory";
-import HasApiTokens, {
-  IHasApiTokens
-} from "app/plugins/HasApiTokens";
-import Notifiable, {
-  INotifiable
-} from "app/plugins/Notifiable";
+import Authenticatable, { IAuthenticatable } from "app/plugins/Authenticatable";
+import HasFactory, { IHasFactory } from "app/plugins/HasFactory";
+import HasApiTokens, { IHasApiTokens } from "app/plugins/HasApiTokens";
+import Notifiable, { INotifiable } from "app/plugins/Notifiable";
 import Attachable, { IAttachable } from "app/plugins/Attachable";
 import Billable, { IBillable } from "app/plugins/Billable";
 
@@ -31,11 +23,12 @@ const UserSchema = new Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    hide: true
   },
   logoUrl: {
     type: String,
-    default: URL.resolve("/static/user-profile.jpg"),
+    default: null,
     },
   isAdmin: {
     type: Boolean,
@@ -45,22 +38,22 @@ const UserSchema = new Schema({
 { timestamps: true }
 );
 
-  UserSchema.pre("save", async function(next) {
-    const bcryptRounds = Number(process.env.BCRYPT_ROUNDS) ?? 10;
-    if (!this.isModified("password")) {
-      return next();
-    }
-    const hash = await bcrypt.hash(this.password, bcryptRounds);
-    this.password = hash as string;
-    next();
-  });
+UserSchema.pre("save", async function(next) {
+  const bcryptRounds = Number(process.env.BCRYPT_ROUNDS) ?? 10;
+  if (!this.isModified("password")) {
+    return next();
+  }
+  const hash = await bcrypt.hash(this.password, bcryptRounds);
+  this.password = hash as string;
+  next();
+});
 
-  UserSchema.plugin(Authenticatable);
-  UserSchema.plugin(HasFactory);
-  UserSchema.plugin(HasApiTokens);
-  UserSchema.plugin(Notifiable);
-  UserSchema.plugin(Attachable);
-  UserSchema.plugin(Billable);
+UserSchema.plugin(Authenticatable);
+UserSchema.plugin(HasFactory);
+UserSchema.plugin(HasApiTokens);
+UserSchema.plugin(Notifiable);
+UserSchema.plugin(Attachable);
+UserSchema.plugin(Billable);
 
 type IPlugin = {statics: {}, instance: {}} & IAuthenticatable & IHasFactory & IHasApiTokens & INotifiable & IAttachable & IBillable;
 export type IUser = Document & InferSchemaType<typeof UserSchema> & IPlugin["instance"];

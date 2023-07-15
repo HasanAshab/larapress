@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const mongoose_hidden_1 = __importDefault(require("mongoose-hidden"));
 const helpers_1 = require("helpers");
 const utils_1 = require("illuminate/utils");
 const node_cron_1 = __importDefault(require("node-cron"));
@@ -52,6 +53,7 @@ class Setup {
             const plugin = require(globalPluginsBaseDir + globalPluginName).default;
             mongoose_1.default.plugin(plugin);
         }
+        mongoose_1.default.plugin((0, mongoose_hidden_1.default)());
     }
 }
 exports.default = Setup;

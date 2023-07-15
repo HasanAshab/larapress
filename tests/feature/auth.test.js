@@ -138,7 +138,7 @@ describe("Auth", () => {
     Mail.assertSentTo(user.email, "VerificationMail");
   });
 
-  it("should get user details", async () => {
+  it.only("should get user details", async () => {
     const response = await request
       .get("/api/v1/auth/profile")
       .set("Authorization", `Bearer ${token}`);

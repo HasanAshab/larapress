@@ -5,12 +5,12 @@ import {
 } from "mongoose";
 import NotificationData from "illuminate/notifications/Notification";
 import Notification from "illuminate/utils/Notification";
-import NotificationModel, { INotification } from "app/models/Notification";
+import NotificationModel, { INotification, NotificationQuery } from "app/models/Notification";
 
 export type INotifiable = {
   instance: {
-    notifications: Query<INotification[], INotification>;
-    unreadNotifications: Query<INotification[], INotification>;
+    notifications: NotificationQuery;
+    unreadNotifications: NotificationQuery;
     markNotificationsAsRead(): Promise<void>;
     notify(notification: NotificationData): Promise < void >;
   }
