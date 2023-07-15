@@ -112,14 +112,13 @@ export function controller(name: string, version?: string): Record < string, Req
   return handlerAndValidatorStack;
 }
 
-export function setEnv(envValues: object): boolean {
+export function setEnv(envValues: object) {
   const envConfig = dotenv.parse(fs.readFileSync(".env"));
-  for (const [key, value] of Object.entries(envValues)) {
-    envConfig[key] = value;
+  for (key in envValues) {
+    envConfig[key] = envValues[key];
   }
   try {
     fs.writeFileSync(".env", Object.entries(envConfig).map(([k, v]) => `${k}=${v}`).join("\n"));
-    return true;
   }
   catch(err: any) {
     throw err;
