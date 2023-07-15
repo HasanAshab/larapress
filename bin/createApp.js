@@ -29,6 +29,10 @@ try {
 
   console.log("generating app key...");
   execSync(
+    "rm -rf .git",
+    { cwd: projectPath }
+  );
+  execSync(
     `ts-node -r tsconfig-paths/register --transpile-only cli.ts key:generate`,
     { cwd: projectPath }
   );

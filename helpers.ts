@@ -114,7 +114,7 @@ export function controller(name: string, version?: string): Record < string, Req
 
 export function setEnv(envValues: object) {
   const envConfig = dotenv.parse(fs.readFileSync(".env"));
-  for (key in envValues) {
+  for (const key in envValues) {
     envConfig[key] = envValues[key];
   }
   try {
