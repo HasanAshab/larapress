@@ -2,11 +2,11 @@ import { storage } from "helpers";
 import { UploadedFile } from "express-fileupload";
 import { promises as fs } from "fs";
 import Mockable from "illuminate/utils/Storage/Mockable";
-import { convertToMockable } from "illuminate/decorators/class";
+import { util } from "illuminate/decorators/class";
 import path from "path";
 import crypto from "crypto";
 
-@convertToMockable(Mockable)
+@util(Mockable)
 export default class Storage {
   static async putFile(disk: string, file: UploadedFile) {
     const hash = this.hashFileName(file.name);

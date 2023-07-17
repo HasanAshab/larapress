@@ -8,7 +8,7 @@ export default class CommentFactory extends Factory {
       commentableType: "Blog",
       commenterId: new User()._id,
       commenterType: "User",
-      text: ,
+      text: this.faker.lorem.paragraphs(),
     };
   };
 }

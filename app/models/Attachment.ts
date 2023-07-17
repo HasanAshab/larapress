@@ -1,24 +1,24 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
 import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
-import { IUser } from "app/models/User";
 import Polymorphable from "app/plugins/Polymorphable";
+import { IUser } from "app/models/User";
 
 const AttachmentSchema = new Schema({
   name: {
-    type: String,
-    required: true
+    required: true,
+    type: String
   },
   mimetype: {
-    type: String,
-    required: true
+    required: true,
+    type: String
   },
   path: {
-    type: String,
-    required: true
+    required: true,
+    type: String
   },
   link: {
-    type: String,
-    required: true
+    required: true,
+    type: String
   }
 },
 { timestamps: true }

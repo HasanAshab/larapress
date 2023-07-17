@@ -38,7 +38,7 @@ export function passErrorsToHandler(constructor: Function) {
 }
 
 
-export function convertToMockable(mockClass: any) {
+export function util(mockClass: any) {
   return function(targetClass: any) {
     const staticMethods = Object.getOwnPropertyNames(mockClass).filter(
       (method) =>

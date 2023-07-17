@@ -12,8 +12,7 @@ export default (schema: Schema) => {
   schema.add({
     tokenVersion: {
       type: Number,
-      default: 0,
-      required: true
+      default: 0
     },
   });
 

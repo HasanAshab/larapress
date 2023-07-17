@@ -58,5 +58,5 @@ if (nodeEnv === "development") {
 import Notification, { INotification } from "app/models/Notification";
 
 Notification.findOne().then(async (n) => {
-  console.log(await n.notifiable)
+  console.log(await n?.notifiable)
 })

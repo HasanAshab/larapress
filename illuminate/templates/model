@@ -1,7 +1,8 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
 import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
 
-const {{name}}Schema = new Schema({
+const {{name}}Schema = new Schema(
+{
   //
 },
 { timestamps: true }

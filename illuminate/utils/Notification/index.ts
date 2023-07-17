@@ -1,15 +1,14 @@
 import Queue from "illuminate/queue/Queue";
 import NotificationData from "illuminate/notifications/Notification";
 import Mockable from "illuminate/utils/Notification/Mockable";
-import { convertToMockable } from "illuminate/decorators/class";
-import { INotifiable } from "app/plugins/Notifiable";
+import { util } from "illuminate/decorators/class";
+import { NotifiableDocument } from "app/plugins/Notifiable";
 import { capitalizeFirstLetter } from "helpers";
-import { Document } from "mongoose";
 
 
-@convertToMockable(Mockable)
+@util(Mockable)
 export default class Notification {
-  static async send(notifiables: Document | Document[], notification: NotificationData) {
+  static async send(notifiables: NotifiableDocument | NotifiableDocument[], notification: NotificationData) {
     notifiables = Array.isArray(notifiables) ? notifiables: [notifiables];
     for (const notifiable of notifiables) {
       (notifiable as any).modelName = (notifiable.constructor as any).modelName;

@@ -52,5 +52,5 @@ if (nodeEnv === "development") {
 }
 const Notification_1 = __importDefault(require("app/models/Notification"));
 Notification_1.default.findOne().then(async (n) => {
-    console.log(await n.notifiable);
+    console.log(await (n === null || n === void 0 ? void 0 : n.notifiable));
 });

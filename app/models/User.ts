@@ -10,20 +10,18 @@ import Billable, { BillableDocument } from "app/plugins/Billable";
 
 const UserSchema = new Schema({
   name: {
-    type: String,
-    maxlength: 12,
     required: true,
+    type: String,
     text: true
   },
   email: {
+    required: true,
     type: String,
-    unique: true,
-    pattern: /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
-    required: true
+    unique: true
   },
   password: {
-    type: String,
     required: true,
+    type: String,
     hide: true
   },
   logoUrl: {

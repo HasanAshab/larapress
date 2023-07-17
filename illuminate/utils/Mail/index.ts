@@ -1,13 +1,13 @@
 import { base } from "helpers";
 import { Recipient } from "types";
-import { convertToMockable } from "illuminate/decorators/class";
+import { util } from "illuminate/decorators/class";
 import Mockable from "illuminate/utils/Mail/Mockable";
 import Mailable from "illuminate/mails/Mailable";
 import { createTransport, Transporter, SendMailOptions, TransportOptions } from "nodemailer";
 import { create as createHandlebars } from "express-handlebars";
 import nodemailerHbs from "nodemailer-express-handlebars";
 
-@convertToMockable(Mockable)
+@util(Mockable)
 export default class Mail {
   public mailable: Mailable = {} as Mailable;
   static transporter: Transporter < SendMailOptions > = {} as any;

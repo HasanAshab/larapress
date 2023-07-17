@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.convertToMockable = exports.passErrorsToHandler = exports.performance = void 0;
+exports.util = exports.passErrorsToHandler = exports.performance = void 0;
 function performance(constructor) {
     const methodNames = Object.getOwnPropertyNames(constructor.prototype);
     for (const methodName of methodNames) {
@@ -40,7 +40,7 @@ function passErrorsToHandler(constructor) {
     }
 }
 exports.passErrorsToHandler = passErrorsToHandler;
-function convertToMockable(mockClass) {
+function util(mockClass) {
     return function (targetClass) {
         const staticMethods = Object.getOwnPropertyNames(mockClass).filter((method) => method !== 'constructor' &&
             method !== 'length' &&
@@ -67,4 +67,4 @@ function convertToMockable(mockClass) {
         });
     };
 }
-exports.convertToMockable = convertToMockable;
+exports.util = util;

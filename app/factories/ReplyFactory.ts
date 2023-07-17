@@ -7,7 +7,7 @@ export default class ReplyFactory extends Factory {
       commentId: new User()._id,
       replierId: new User()._id,
       replierType: "User",
-      text: 
+      text: this.faker.lorem.paragraphs()
     };
   };
 }

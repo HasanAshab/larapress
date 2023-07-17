@@ -6,7 +6,7 @@ export default class NotificationFactory extends Factory {
     return {
       notifiableId: new User()._id,
       notifiableType: "User",
-      data: {text: },
+      data: {text: this.faker.lorem.paragraphs()},
       readAt: new Date()
     };
   };

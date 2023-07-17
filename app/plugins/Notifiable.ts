@@ -12,10 +12,10 @@ export interface NotifiableDocument extends Document {
 
 export default (schema: Schema) => {
   schema.virtual('notifications').get(function () {
-      return NotificationModel.find({
-        notifiableId: this._id,
-        notifiableType: (this.constructor as any).modelName,
-      });
+    return NotificationModel.find({
+      notifiableId: this._id,
+      notifiableType: (this.constructor as any).modelName,
+    });
   });
 
   schema.virtual('unreadNotifications').get(function () {
@@ -24,7 +24,7 @@ export default (schema: Schema) => {
   
 
   schema.methods.notify = function(notification: NotificationClass) {
-    return Notification.send(this as Document, notification);
+    return Notification.send(this as NotifiableDocument, notification);
   };
   
   schema.methods.markNotificationsAsRead = function () {
