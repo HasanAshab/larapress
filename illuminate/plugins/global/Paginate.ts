@@ -1,5 +1,3 @@
-import { base } from "helpers";
-import { Schema, Document } from "mongoose";
 import { Request } from "express";
 
 export default (schema: any) => {
@@ -21,16 +19,5 @@ export default (schema: any) => {
   schema.query.paginateReq = function (req: Request) {
     const { limit, cursor } = req.query;
     return this.paginate(typeof limit === "string" ? Number(limit) : 20, typeof cursor === "string" ? cursor : undefined);
-  }
-  
-  schema.statics.whereCan = function (action: string, performer: Document) {
-    const Policy = require(base(`app/policies/${this.modelName}Policy`)).default;
-    let filter = new Policy()[action](performer);
-    console.log(filter);
-    return this.find(
-      Array.isArray(filter)
-        ? {$or: filter}
-        : filter
-    );
   }
 }
