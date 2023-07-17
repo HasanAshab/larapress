@@ -43,7 +43,15 @@ export default class Setup {
       app.use(endpoint, require(path).default);
     }
   };
-
+  
+  static mongooseModels() {
+    const modelsBaseDir = base("app/models/");
+    const modelsName = fs.readdirSync(modelsBaseDir);
+    for(const modelName of modelsName){
+      require(modelsBaseDir + modelName);
+    }
+  }
+  
   static mongooseGlobalPlugins() {
     const globalPluginsBaseDir = base("illuminate/plugins/global/");
     const globalPluginsName = fs.readdirSync(globalPluginsBaseDir);

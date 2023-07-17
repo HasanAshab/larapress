@@ -50,10 +50,3 @@ if (nodeEnv === "development") {
         console.log(`*New connection: [${time}]`);
     });
 }
-const Blog_1 = __importDefault(require("app/models/Blog"));
-const User_1 = __importDefault(require("app/models/User"));
-User_1.default.findOne().then(user => {
-    Blog_1.default.whereCan("read", user).then((blogs) => {
-        console.log(blogs);
-    });
-});

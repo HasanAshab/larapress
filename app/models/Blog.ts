@@ -1,6 +1,6 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
 import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
-import Commentable, { CommentableDocument } from "app/plugins/Commentable";
+import Commentable, { CommentableDocument, CommentableModel } from "app/plugins/Commentable";
 //import Voteable, { VoteableDocument } from "app/plugins/Voteable";
 import Polymorphable from "app/plugins/Polymorphable";
 import { IUser } from "app/models/User";
@@ -41,5 +41,5 @@ export interface IBlog extends Document, InferSchemaType<typeof BlogSchema>, Com
   author: IUser;
 };
 
-interface BlogModel extends Model<IBlog>, HasFactoryModel {};
+interface BlogModel extends Model<IBlog>, HasFactoryModel, CommentableModel {};
 export default model<IBlog, BlogModel>("Blog", BlogSchema);

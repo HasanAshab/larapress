@@ -18,14 +18,14 @@ export default (schema: Schema) => {
   }
   
   schema.methods.can = function (action: string, target: Document) {
-    const policy = getPolicyFor(target.constructor.modelName);
+    const policy = getPolicyFor((target.constructor as any).modelName);
     const filters = policy[action](this);
     return (Array.isArray(filters))
       ? filters.some(filter => this.matchFilter(target, filter))
       : this.matchFilter(target, filters);
   };
   
-  schema.methods.matchFilter = function (target: Document, filter: object) {
+  schema.methods.matchFilter = function (target: Record<string, any>, filter: Record<string, any>) {
     for (const key in filter) {
       if (target[key] !== filter[key]) {
         return false;

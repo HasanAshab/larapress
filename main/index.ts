@@ -23,6 +23,9 @@ if (connectToDB) {
   });
 }
 
+// Registering Mongoose Models
+Setup.mongooseModels();
+
 // Registering Cron Jobs
 Setup.cronJobs();
 
