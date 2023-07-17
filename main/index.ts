@@ -55,8 +55,11 @@ if (nodeEnv === "development") {
 }
 
 
-import Notification, { INotification } from "app/models/Notification";
+import Blog, { IBlog } from "app/models/Blog";
+import User, { IUser } from "app/models/User";
 
-Notification.findOne().then(async (n) => {
-  console.log(await n?.notifiable)
+User.findOne().then(user => {
+Blog.whereCan("read", user!).then((blogs) => {
+  console.log(blogs)
+})
 })

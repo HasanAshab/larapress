@@ -26,18 +26,16 @@ export default class DB extends Command {
     this.success("Done!");
   }
   
-  
   async seed() {
     this.requiredParams(["model", "count"]);
     await Database.connect();
-    const {
-      count
-    } = this.params;
+    const { model, count, ...others} = this.params;
+    console.log(model)
     try {
-      const Model = require(base(`app/models/${this.params.model}`)).default;
+      const Model = require(base(`app/models/${model}`)).default;
       this.info("Seeding started...");
-      if(typeof Model.factory === "undefined") this.error(`Use "HasFactory" Plugin on ${this.params.model} model.`)
-      await Model.factory(count).create()
+      if(typeof Model.factory === "undefined") this.error(`Use "HasFactory" Plugin on ${model} model.`)
+      await Model.factory(count).create(others)
       this.success("Seeded successfully!");
     }
     catch (e){

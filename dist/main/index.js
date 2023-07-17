@@ -50,7 +50,10 @@ if (nodeEnv === "development") {
         console.log(`*New connection: [${time}]`);
     });
 }
-const Notification_1 = __importDefault(require("app/models/Notification"));
-Notification_1.default.findOne().then(async (n) => {
-    console.log(await (n === null || n === void 0 ? void 0 : n.notifiable));
+const Blog_1 = __importDefault(require("app/models/Blog"));
+const User_1 = __importDefault(require("app/models/User"));
+User_1.default.findOne().then(user => {
+    Blog_1.default.whereCan("read", user).then((blogs) => {
+        console.log(blogs);
+    });
 });
