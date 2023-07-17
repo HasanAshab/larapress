@@ -1,7 +1,7 @@
 import Factory from "illuminate/factories/Factory";
 
-export default class {{name}} extends Factory {
-  definition(): Record<string, any> {
+export default class {{name}}Factory extends Factory {
+  definition() {
     return {
       //
     };

@@ -1,12 +1,12 @@
 import Factory from "illuminate/factories/Factory";
 import User from "app/models/User";
 
-export default class Notification extends Factory {
-  definition(): Record<string, any> {
+export default class NotificationFactory extends Factory {
+  definition() {
     return {
       notifiableId: new User()._id,
       notifiableType: "User",
-      data: {foo: "bar"},
+      data: {text: },
       readAt: new Date()
     };
   };

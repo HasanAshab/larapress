@@ -1,6 +1,10 @@
-import { Schema } from "mongoose";
+import { Schema, Document } from "mongoose";
 
-export type I{{name}} = {
+export interface {{name}}Document extends Document {
+  //
+}
+
+export interface {{name}}Model {
   //
 }
 

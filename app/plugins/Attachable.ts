@@ -1,17 +1,16 @@
-import { Schema } from "mongoose";
+import { Schema, Document } from "mongoose";
 import Attachment, { IAttachment } from "app/models/Attachment";
 import { UploadedFile } from "express-fileupload";
 import Storage from "illuminate/utils/Storage"
 import URL from "illuminate/utils/URL"
 import { promises as fs } from "fs"
-export type IAttachable = {
-  instance: {
-    attachments: IAttachable[];
-    getAttachmentsByName(name?: string): Promise<IAttachable[]>;
-    attach(name: string, file: UploadedFile, attachLinkToModel?: boolean): Promise<IAttachment>;
-    attachMany(files: Record<string, UploadedFile>, attachLinkToModel?: boolean): Promise<IAttachment[]>;
-    detach(name?: string): Promise<void>;
-  }
+
+export interface AttachableDocument extends Document {
+  attachments: IAttachment[];
+  getAttachmentsByName(name?: string): Promise<IAttachment[]>;
+  attach(name: string, file: UploadedFile, attachLinkToModel?: boolean): Promise<IAttachment>;
+  attachMany(files: Record<string, UploadedFile>, attachLinkToModel?: boolean): Promise<IAttachment[]>;
+  detach(name?: string): Promise<void>;
 }
 
 export default (schema: Schema) => {

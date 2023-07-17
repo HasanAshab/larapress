@@ -1,16 +1,10 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
-import HasFactory, { IHasFactory } from "app/plugins/HasFactory";
+import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
+import { IUser } from "app/models/User";
+import Polymorphable from "app/plugins/Polymorphable";
 
 const AttachmentSchema = new Schema({
   name: {
-    type: String,
-    required: true
-  },
-  attachableId: {
-    type: Schema.Types.ObjectId,
-    required: true
-  },
-  attachableType: {
     type: String,
     required: true
   },
@@ -30,17 +24,13 @@ const AttachmentSchema = new Schema({
 { timestamps: true }
 );
 
-AttachmentSchema.virtual('attachable').get(function () {
-  return model(this.attachableType).findById(this.attachableId);
-});
-
-
 
 AttachmentSchema.plugin(HasFactory);
+AttachmentSchema.plugin(Polymorphable, "attachable");
 
-type IPlugin = {statics: {}, instance: {}} & IHasFactory;
-export type IAttachment = Document & InferSchemaType<typeof AttachmentSchema> & IPlugin["instance"] & {
-  attachable: Document;
+export interface IAttachment extends Document, InferSchemaType<typeof AttachmentSchema> {
+  attachable: IUser;
 }
-type AttachmentModel = Model<IAttachment> & IPlugin["statics"];
+
+interface AttachmentModel extends Model<IAttachment>, HasFactoryModel {} ;
 export default model<IAttachment, AttachmentModel>("Attachment", AttachmentSchema);

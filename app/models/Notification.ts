@@ -1,15 +1,9 @@
 import { model, QueryWithHelpers, HydratedDocument, Schema, Model, Document, InferSchemaType } from "mongoose";
-import HasFactory, { IHasFactory } from "app/plugins/HasFactory";
+import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
+import Polymorphable from "app/plugins/Polymorphable";
+import { IUser } from "app/models/User";
 
 const NotificationSchema = new Schema({
-  notifiableId: {
-    required: true,
-    type: Schema.Types.ObjectId
-  },
-  notifiableType: {
-    required: true,
-    type: String
-  },
   data: {
     required: true,
     type: Object
@@ -22,8 +16,8 @@ const NotificationSchema = new Schema({
 { 
   timestamps: true,
   query: {
-    async markAsRead(id: string){
-      const { modifiedCount } = await this.updateOne({_id: id}, {readAt: new Date()});
+    async markAsRead(){
+      const { modifiedCount } = await this.updateOne(this.getFilter(), {readAt: new Date()});
       return modifiedCount === 1;
     }
   },
@@ -37,24 +31,19 @@ const NotificationSchema = new Schema({
 );
 
 
-
-NotificationSchema.virtual('notifiable').get(function () {
-  return model(this.notifiableType).findById(this.notifiableId);
-});
-
-
-
 NotificationSchema.plugin(HasFactory);
+NotificationSchema.plugin(Polymorphable, "notifiable");
 
-type IPlugin = {statics: {}, instance: {}} & IHasFactory;
-export type INotification = Document & InferSchemaType<typeof NotificationSchema> & IPlugin["instance"] & {
-  notifiable: Document;
+export interface INotification extends Document, InferSchemaType<typeof NotificationSchema> {
+  notifiable: IUser;
   markAsRead(): Promise<void>;
 }
+
 export type NotificationQuery = QueryWithHelpers<HydratedDocument<INotification>[], HydratedDocument<INotification>, NotificationQueryHelpers>;
+
 interface NotificationQueryHelpers {
-  markAsRead(id: string): NotificationQuery
+  markAsRead(): NotificationQuery
 }
 
-type NotificationModel = Model<INotification, NotificationQueryHelpers> & IPlugin["statics"];
+interface NotificationModel extends Model<INotification, NotificationQueryHelpers>, HasFactoryModel {}
 export default model<INotification, NotificationModel>("Notification", NotificationSchema);

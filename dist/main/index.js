@@ -50,7 +50,7 @@ if (nodeEnv === "development") {
         console.log(`*New connection: [${time}]`);
     });
 }
-const User_1 = __importDefault(require("app/models/User"));
-User_1.default.findOne(async (u) => {
-    await u.addTags(["bla", "foo"]);
+const Notification_1 = __importDefault(require("app/models/Notification"));
+Notification_1.default.findOne().then(async (n) => {
+    console.log(await n.notifiable);
 });

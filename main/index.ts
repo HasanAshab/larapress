@@ -55,18 +55,8 @@ if (nodeEnv === "development") {
 }
 
 
-import User, {IUser} from "app/models/User";
-/*
-User.findOne().then(async (u: IUser) => {
-  await u.addTags(["bla", "foo"])
+import Notification, { INotification } from "app/models/Notification";
+
+Notification.findOne().then(async (n) => {
+  console.log(await n.notifiable)
 })
-*/
-User.findOne().then(console.log)
-
-User.find(
-      { $text: { $search: "foo" } }
-   //   { score: { $meta: "textScore" } } // Optional: Retrieve the relevance score
-).explain().then(console.log)
-//.sort({ score: { $meta: "textScore" } }).then(console.log)
-
-User.collection.indexes().then(console.log)

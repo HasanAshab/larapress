@@ -1,19 +1,13 @@
-import {
-  Query,
-  Schema,
-  Document
-} from "mongoose";
-import NotificationData from "illuminate/notifications/Notification";
+import { Schema, Document } from "mongoose";
+import NotificationClass from "illuminate/notifications/Notification";
 import Notification from "illuminate/utils/Notification";
 import NotificationModel, { INotification, NotificationQuery } from "app/models/Notification";
 
-export type INotifiable = {
-  instance: {
-    notifications: NotificationQuery;
-    unreadNotifications: NotificationQuery;
-    markNotificationsAsRead(): Promise<void>;
-    notify(notification: NotificationData): Promise < void >;
-  }
+export interface NotifiableDocument extends Document {
+  notifications: NotificationQuery;
+  unreadNotifications: NotificationQuery;
+  markNotificationsAsRead(): NotificationQuery;
+  notify(notification: NotificationClass): Promise<void>;
 }
 
 export default (schema: Schema) => {
@@ -29,12 +23,12 @@ export default (schema: Schema) => {
   });
   
 
-  schema.methods.notify = async function(notification: NotificationData) {
-    return await Notification.send(this as Document, notification);
+  schema.methods.notify = function(notification: NotificationClass) {
+    return Notification.send(this as Document, notification);
   };
   
-  schema.methods.markNotificationsAsRead = async function () {
-    await this.unreadNotifications.updateMany({
+  schema.methods.markNotificationsAsRead = function () {
+    return this.unreadNotifications.updateMany({
       readAt: new Date()
     });
   }

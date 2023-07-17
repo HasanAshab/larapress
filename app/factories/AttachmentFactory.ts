@@ -3,7 +3,7 @@ import { storage } from "helpers";
 import User from "app/models/User";
 
 export default class AttachmentFactory extends Factory {
-  definition(): Record<string, any> {
+  definition() {
     return {
       name: "file",
       attachableId: new User()._id,

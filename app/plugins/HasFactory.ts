@@ -1,13 +1,11 @@
-import { Schema } from "mongoose";
+import { Schema, Document } from "mongoose";
 import { base } from "helpers";
 
-export type IHasFactory = {
-  statics: {
-    factory(count?: number): {
-      create(data?: object): Promise<typeof Schema | (typeof Schema)[]>;
-      dummyData(data?: object): object;
-    };
-  }
+export interface HasFactoryModel {
+  factory(count?: number): {
+    create(data?: object): Promise<Document | Document[]>;
+    dummyData(data?: object): object;
+  };
 }
 
 

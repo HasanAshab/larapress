@@ -1,5 +1,5 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
-import HasFactory, { IHasFactory } from "app/plugins/HasFactory";
+import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
 
 const {{name}}Schema = new Schema({
   //
@@ -10,7 +10,6 @@ const {{name}}Schema = new Schema({
 {{name}}Schema.plugin(HasFactory);
 
 
-type IPlugin = {statics: {}, instance: {}} & IHasFactory;
-export type I{{name}} = Document & InferSchemaType<typeof {{name}}Schema> & IPlugin["instance"];
-type {{name}}Model = Model<I{{name}}> & IPlugin["statics"];
+export interface I{{name}} extends Document, InferSchemaType<typeof {{name}}Schema> {};
+interface {{name}}Model extends Model<I{{name}}>, HasFactoryModel {};
 export default model<I{{name}}, {{name}}Model>("{{name}}", {{name}}Schema);

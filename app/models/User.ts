@@ -1,12 +1,12 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
 import URL from "illuminate/utils/URL"
 import bcrypt from "bcryptjs";
-import Authenticatable, { IAuthenticatable } from "app/plugins/Authenticatable";
-import HasFactory, { IHasFactory } from "app/plugins/HasFactory";
-import HasApiTokens, { IHasApiTokens } from "app/plugins/HasApiTokens";
-import Notifiable, { INotifiable } from "app/plugins/Notifiable";
-import Attachable, { IAttachable } from "app/plugins/Attachable";
-import Billable, { IBillable } from "app/plugins/Billable";
+import Authenticatable, { AuthenticatableDocument } from "app/plugins/Authenticatable";
+import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
+import HasApiTokens, { HasApiTokensDocument } from "app/plugins/HasApiTokens";
+import Notifiable, { NotifiableDocument } from "app/plugins/Notifiable";
+import Attachable, { AttachableDocument } from "app/plugins/Attachable";
+import Billable, { BillableDocument } from "app/plugins/Billable";
 
 const UserSchema = new Schema({
   name: {
@@ -29,7 +29,7 @@ const UserSchema = new Schema({
   logoUrl: {
     type: String,
     default: null,
-    },
+  },
   isAdmin: {
     type: Boolean,
     default: false,
@@ -55,8 +55,6 @@ UserSchema.plugin(Notifiable);
 UserSchema.plugin(Attachable);
 UserSchema.plugin(Billable);
 
-type IPlugin = {statics: {}, instance: {}} & IAuthenticatable & IHasFactory & IHasApiTokens & INotifiable & IAttachable & IBillable;
-export type IUser = Document & InferSchemaType<typeof UserSchema> & IPlugin["instance"];
-type UserModel = Model<IUser> & IPlugin["statics"];
-  
+export interface IUser extends Document, InferSchemaType<typeof UserSchema>, AuthenticatableDocument, AttachableDocument, HasApiTokensDocument, NotifiableDocument, AttachableDocument, BillableDocument {};
+interface UserModel extends Model<IUser>, HasFactoryModel {};
 export default model<IUser, UserModel>("User", UserSchema);

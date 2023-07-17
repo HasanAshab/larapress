@@ -1,16 +1,16 @@
-import { Schema } from "mongoose";
+import { Schema, Document, Model } from "mongoose";
 
-export type ITaggable = {
-  statics: {
-    addTags(id: string, tags: string[]): Promise<Schema>;
-    removeTags(id: string, tags: string[]): Promise<Schema>;
-  },
-  instance: {
-    tags: string[];
-    addTags(tags: string[]): Promise<Schema>;
-    removeTags(tags: string[]): Promise<Schema>;
-  }
+export interface TaggableDocument extends Document {
+  tags: string[];
+  addTags(tags: string[]): Promise<Schema>;
+  removeTags(tags: string[]): Promise<Schema>;
 }
+
+export interface TaggableModel extends Model<TaggableDocument> {
+  addTags(id: string, tags: string[]): Promise<Schema>;
+  removeTags(id: string, tags: string[]): Promise<Schema>;
+}
+
 
 export default (schema: Schema) => {
   schema.add({

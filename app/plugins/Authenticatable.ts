@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Schema, Document } from "mongoose";
 import { customError } from "helpers";
 import Mail from "illuminate/utils/Mail"
 import URL from "illuminate/utils/URL"
@@ -11,13 +11,11 @@ import PasswordChangedMail from "app/mails/PasswordChangedMail";
 const frontendUrl = process.env.FRONTEND_URL;
 const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
 
-export type IAuthenticatable = {
-  instance: {
-    emailVerified: boolean,
-    sendVerificationEmail(): Promise<string | boolean>,
-    sendResetPasswordEmail(): Promise<string>,
-    resetPassword(token: string, newPassword: string): Promise<boolean>
-  }
+export interface AuthenticatableDocument extends Document {
+  emailVerified: boolean;
+  sendVerificationEmail(): Promise<string | boolean>;
+  sendResetPasswordEmail(): Promise<string>;
+  resetPassword(token: string, newPassword: string): Promise<boolean>;
 }
 
 export default (schema: Schema) => {
