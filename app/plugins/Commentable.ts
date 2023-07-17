@@ -1,4 +1,5 @@
 import { Schema, Document } from "mongoose";
+import Comment from "app/models/Comment";
 
 export interface CommentableDocument extends Document {
   totalComments: Number;
@@ -12,12 +13,15 @@ export default (schema: Schema) => {
       default: 0
     }
   });
-  
-  schema.statics.example = function() {
-    //
+  /*
+  schema.statics.comment = function(id: string, text: string) {
+    Comment.create({
+      text,
+      commenterId: 
+    });
   }
   
-  schema.methods.example = function() {
-    //
-  }
+  schema.methods.comment = function(text: string) {
+    
+  }*/
 }

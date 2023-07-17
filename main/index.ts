@@ -53,13 +53,3 @@ if (nodeEnv === "development") {
     console.log(`*New connection: [${time}]`);
   });
 }
-
-
-import Blog, { IBlog } from "app/models/Blog";
-import User, { IUser } from "app/models/User";
-
-User.findOne().then(user => {
-Blog.whereCan("read", user!).then((blogs) => {
-  console.log(blogs)
-})
-})
