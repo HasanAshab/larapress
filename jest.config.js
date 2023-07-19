@@ -10,7 +10,10 @@ module.exports = {
   },
   testMatch: ["<rootDir>/tests/{feature,unit}/**/*.test.js"],
   testTimeout: 23000,
-  setupFiles: ["./tests/registerHelpers.js"],
+  setupFilesAfterEnv: [
+    "./tests/registerHelpers.js",
+    "./tests/customMatchers.js"
+  ],
   modulePaths: [compilerOptions.baseUrl],
   preset: "ts-jest",
   testEnvironment: "node",

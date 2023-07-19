@@ -8,7 +8,7 @@ export type RawResponse = {
   status?: number,
   message?: string,
   data?: any[] | Record < string, any >
-} & Record < string, any >;
+} & Record < string, any > | any[];
 
 export type ApiResponse = {
   success: boolean,

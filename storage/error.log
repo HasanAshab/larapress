@@ -32,3 +32,172 @@ Use mongoose.model(name, schema)
     at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/route.js:114:3)
 
 
+Mon Jul 17 2023 22:09:57 GMT+0600 (Bangladesh Standard Time):
+1689610197550
+/api/v1/admin/users/64b567d4abdc2323ab04e9db - GET - ::ffff:127.0.0.1
+Stack: TypeError: User_1.default.findById(...).toObject is not a function
+    at findUser (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/app/http/v1/controllers/AdminController.ts:10:47)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/helpers.ts:96:34)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/route.js:144:13)
+    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/illuminate/middlewares/global/ValidateRequest.ts:24:51)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/helpers.ts:35:30
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:284:15
+    at param (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:365:14)
+    at param (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:376:14)
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:421:3)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:280:10)
+    at CheckIfTheUserIsAdmin.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/app/http/v1/middlewares/CheckIfTheUserIsAdmin.ts:7:14)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/helpers.ts:35:30
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:328:13)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:280:10)
+    at EnsureEmailIsVerified.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/app/http/v1/middlewares/EnsureEmailIsVerified.ts:7:14)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/helpers.ts:35:30
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:328:13)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:280:10)
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/app/http/v1/middlewares/Authenticate.ts:18:20)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/helpers.ts:35:16
+
+
+Wed Jul 19 2023 05:24:50 GMT+0600 (Bangladesh Standard Time):
+1689722690059
+/api/v1/admin/users/64b71f41308b4cf461ac3953 - GET - ::ffff:127.0.0.1
+Stack: TypeError: User_1.default.findById(...).toObject is not a function
+    at findUser (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/app/http/v1/controllers/AdminController.ts:10:47)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/helpers.ts:96:34)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/route.js:144:13)
+    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/illuminate/middlewares/global/ValidateRequest.ts:24:51)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/helpers.ts:35:30
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/route.js:144:13)
+    at Route.dispatch (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/route.js:114:3)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/layer.js:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:284:15
+    at param (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:365:14)
+    at param (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:376:14)
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:421:3)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:280:10)
+    at CheckIfTheUserIsAdmin.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/app/http/v1/middlewares/CheckIfTheUserIsAdmin.ts:7:14)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/helpers.ts:35:30
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:328:13)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:280:10)
+    at EnsureEmailIsVerified.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/app/http/v1/middlewares/EnsureEmailIsVerified.ts:7:14)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/helpers.ts:35:30
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:328:13)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:346:12)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/index.js:280:10)
+    at Authenticate.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/app/http/v1/middlewares/Authenticate.ts:18:20)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/helpers.ts:35:16
+
+
+Wed Jul 19 2023 11:55:33 GMT+0600 (Bangladesh Standard Time):
+1689746133418
+/api/v1/admin/users - GET - ::ffff:127.0.0.1
+Stack: TypeError: response.toJSON is not a function
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/helpers.ts:97:28)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+
+Wed Jul 19 2023 11:55:33 GMT+0600 (Bangladesh Standard Time):
+1689746133888
+/api/v1/admin/users - GET - ::ffff:127.0.0.1
+Stack: TypeError: response.toJSON is not a function
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/helpers.ts:97:28)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+
+Wed Jul 19 2023 12:13:29 GMT+0600 (Bangladesh Standard Time):
+1689747209360
+/api/v1/admin/users - GET - ::ffff:127.0.0.1
+Stack: MongooseError: Operation `users.find()` buffering timed out after 10000ms
+    at Timeout.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:185:23)
+    at listOnTimeout (node:internal/timers:568:17)
+    at processTimers (node:internal/timers:511:7)
+
+
+Wed Jul 19 2023 12:21:57 GMT+0600 (Bangladesh Standard Time):
+1689747717048
+/api/v1/admin/users - GET - ::ffff:127.0.0.1
+Stack: MongoServerError: E11000 duplicate key error collection: test.users index: email_1 dup key: { email: "foo@g" }
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/mongodb/src/operations/insert.ts:85:25
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/mongodb/src/cmap/connection_pool.ts:574:11
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/mongodb/src/sdam/server.ts:368:13
+    at handleOperationResult (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/mongodb/src/sdam/server.ts:516:14)
+    at Connection.onMessage (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/mongodb/src/cmap/connection.ts:418:5)
+    at MessageStream.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/mongodb/src/cmap/connection.ts:243:56)
+    at MessageStream.emit (node:events:512:28)
+    at processIncomingData (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/mongodb/src/cmap/message_stream.ts:187:12)
+    at MessageStream._write (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/mongodb/src/cmap/message_stream.ts:68:5)
+    at writeOrBuffer (node:internal/streams/writable:392:12)
+
+
+Wed Jul 19 2023 18:14:39 GMT+0600 (Bangladesh Standard Time):
+1689768879685
+/api/v1/admin/users - GET - ::ffff:127.0.0.1
+Stack: TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'MongoClient'
+    |     property 's' -> object with constructor 'Object'
+    |     property 'sessionPool' -> object with constructor 'ServerSessionPool'
+    --- property 'client' closes the circle
+    at JSON.stringify (<anonymous>)
+    at stringify (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/response.js:1150:12)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/response.js:271:14)
+    at getUsers (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/app/http/v1/controllers/AdminController.ts:11:9)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/helpers.ts:94:35)
+
+
+Wed Jul 19 2023 18:15:29 GMT+0600 (Bangladesh Standard Time):
+1689768929458
+/api/v1/admin/users - GET - ::ffff:127.0.0.1
+Stack: MongoServerError: E11000 duplicate key error collection: test.users index: email_1 dup key: { email: "foo2@g" }
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/mongodb/src/operations/insert.ts:85:25
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/mongodb/src/cmap/connection_pool.ts:574:11
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/mongodb/src/sdam/server.ts:368:13
+    at handleOperationResult (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/mongodb/src/sdam/server.ts:516:14)
+    at Connection.onMessage (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/mongodb/src/cmap/connection.ts:418:5)
+    at MessageStream.<anonymous> (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/mongodb/src/cmap/connection.ts:243:56)
+    at MessageStream.emit (node:events:512:28)
+    at processIncomingData (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/mongodb/src/cmap/message_stream.ts:187:12)
+    at MessageStream._write (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/mongodb/src/cmap/message_stream.ts:68:5)
+    at writeOrBuffer (node:internal/streams/writable:392:12)
+
+
+Wed Jul 19 2023 18:15:46 GMT+0600 (Bangladesh Standard Time):
+1689768946761
+/api/v1/admin/users - GET - ::ffff:127.0.0.1
+Stack: TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'NativeConnection'
+    |     property 'base' -> object with constructor 'Mongoose'
+    |     property 'connections' -> object with constructor 'Array'
+    --- index 0 closes the circle
+    at JSON.stringify (<anonymous>)
+    at stringify (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/response.js:1150:12)
+    at ServerResponse.json (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/response.js:271:14)
+    at getUsers (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/app/http/v1/controllers/AdminController.ts:6:9)
+    at requestHandler (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/helpers.ts:94:41)
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/layer.js:95:5)
+    at next (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/route.js:144:13)
+    at ValidateRequest.handle (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/illuminate/middlewares/global/ValidateRequest.ts:24:51)
+    at /data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/helpers.ts:35:30
+    at Layer.handle [as handle_request] (/data/data/com.termux/files/home/js/express/Packages/larapress/Api/ts/node_modules/express/lib/router/layer.js:95:5)
+
+

@@ -59,6 +59,6 @@ export default class Setup {
       const plugin = require(globalPluginsBaseDir + globalPluginName).default;
       mongoose.plugin(plugin);
     }
-    mongoose.plugin(hidden());
+    mongoose.plugin(hidden(), { hidden: { _id: false } });
   }
 }

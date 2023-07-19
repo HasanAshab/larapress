@@ -1,13 +1,7 @@
 import Middleware from "illuminate/middlewares/Middleware";
-import {
-  Request,
-  Response,
-  NextFunction
-} from "express";
-import {
-  ApiResponse,
-  RawResponse
-} from "types";
+import mongoose from 'mongoose';
+import { Request, Response, NextFunction } from "express";
+import { ApiResponse, RawResponse } from "types";
 import URL from "illuminate/utils/URL";
 import Token from "illuminate/utils/Token";
 
@@ -23,23 +17,31 @@ export default class InjectHelpers extends Middleware {
       this.statusCode = response.status ?? this.statusCode;
       const success = this.statusCode >= 200 && this.statusCode < 300;
       delete response.status;
-      const wrappedData: ApiResponse = {
+      const apiResponse: ApiResponse = {
         success,
         data: {}
       }
-      for (const [key, value] of Object.entries(response)) {    
-        if (key === "data") wrappedData.data = value;
-        else if (key === "message") wrappedData.message = value;
-        else {
-          Array.isArray(wrappedData.data)
-            ? wrappedData[key] = value
-            : wrappedData.data[key] = value;
+      if(Array.isArray(response)) {
+        apiResponse.data = response;
+      }
+      else if(response instanceof mongoose.Document){
+        apiResponse.data = response;
+      }
+      else {
+        for (const [key, value] of Object.entries(response)) {
+          if (key === "data") apiResponse.data = value;
+          else if (key === "message") apiResponse.message = value;
+          else {
+            Array.isArray(apiResponse.data)
+              ? apiResponse[key] = value
+              : apiResponse.data[key] = value;
+          }
         }
       }
       if(this.statusCode === 404 && typeof response.message === "undefined"){
-        wrappedData.message = "Resource Not Found!";
+        apiResponse.message = "Resource Not Found!";
       }
-      this.json(wrappedData);
+      this.json(apiResponse);
     };
 
     next()

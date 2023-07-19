@@ -5,6 +5,7 @@ import { model } from "mongoose";
 
 export default class CommentController {
   async index(req: Request) {
+    /*
     const { modelName, id } = req.params;
     const doc = model(modelName).findById(id);
     if(!isCommentableDocument(doc)) return { status: 404 };
@@ -14,7 +15,7 @@ export default class CommentController {
     return {
       status: 401,
       message: "Unauthorized"
-    }
+    }*/
   }
 }
 
