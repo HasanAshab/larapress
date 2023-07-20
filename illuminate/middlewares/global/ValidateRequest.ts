@@ -8,9 +8,9 @@ import {
   base
 } from "helpers";
 import path from "path";
-
+import { ValidationSchema } from "types"
 export default class ValidateRequest extends Middleware {
-  handle(req: Request, res: Response, next: NextFunction) {
+  async handle(req: Request, res: Response, next: NextFunction) {
     const {
       version,
       validationSubPath
@@ -19,14 +19,14 @@ export default class ValidateRequest extends Middleware {
 
     try {
       const Schema = require(base(path.join(`app/http/${version}/validations/`, validationSubPath)));
-      var ValidationSchema = Schema.default;
+      var ValidationSchema = Schema.default as ValidationSchema;
     } catch(err: any) {
       if (err.code === "MODULE_NOT_FOUND") return next();
       else throw err;
     }
     const urlencoded = ValidationSchema.urlencoded;
     const multipart = ValidationSchema.multipart;
-    const target = req[urlencoded.target as "body" | "params" | "query"];
+    const target = req[urlencoded.target];
 
     if (typeof multipart !== "undefined") {
       const contentType = req.headers["content-type"];
@@ -44,18 +44,14 @@ export default class ValidateRequest extends Middleware {
     }
 
     if (typeof urlencoded !== "undefined") {
-      const {
-        error
-      } = urlencoded.rules.validate(target);
-      if (error) {
+      urlencoded.rules.validateAsync(target).then(() => {
+        req.validated = target;
+        next();
+      }).catch(error => {
         res.status(400).api({
-          message: error.details[0].message,
+          message: error.details ? error.details[0].message: error.message,
         });
-      }
-    }
-    if (!res.headersSent) {
-      req.validated = target;
-      next();
+      })
     }
   }
 

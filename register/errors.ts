@@ -1,9 +1,4 @@
 export default {
-  EMAIL_EXIST: {
-    status: 400,
-    message: "Email already exist!"
-  },
-
   INVALID_CREDENTIALS: {
     status: 401,
     message: "Credentials not match!"

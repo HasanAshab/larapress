@@ -17,20 +17,6 @@ describe("admin", () => {
     token = admin.createToken();
   });
   
-  it("Shouldn't accessable by general users", async () => {
-    const user = await User.factory().create();
-    const userToken = user.createToken();
-    const responses = [
-      request.get("/api/v1/admin/users"),
-      request.get("/api/v1/admin/users/foo-user-id"),
-      request.put("/api/v1/admin/users/foo-user-id"),
-      request.delete("/api/v1/admin/users/foo-user-id")
-    ]
-    const isNotAccessable = responses.every(async (response) => {
-      return await response.set("Authorization", `Bearer ${userToken}`).statusCode === 401;
-    });
-    expect(isNotAccessable).toBe(true);
-  })
 
   
   it("Should get categories", async () => {

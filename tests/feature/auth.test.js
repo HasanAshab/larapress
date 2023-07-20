@@ -60,6 +60,18 @@ describe("Auth", () => {
     Storage.assertNothingStored();
   });
 
+  it("shouldn't register with existing email", async () => {
+    const response = await request
+      .post("/api/v1/auth/register")
+      .field("name", "foo")
+      .field("email", user.email)
+      .field("password", "password")
+      .field("password_confirmation", "password")
+
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data).not.toHaveProperty("token");
+  });
+
   it("should login a user", async () => {
     const response = await request
       .post("/api/v1/auth/login")
@@ -68,7 +80,7 @@ describe("Auth", () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toHaveProperty("token");
   });
-
+  
   it("shouldn't login with wrong password", async () => {
     const response = await request
       .post("/api/v1/auth/login")

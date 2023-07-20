@@ -8,7 +8,6 @@ const CategoryController = controller("CategoryController");
 
 router.use(middleware("verified", "admin"));
 
-
 router.route("/")
   .get(CategoryController.index)
   .post(CategoryController.create);
