@@ -131,7 +131,7 @@ describe("Auth", () => {
     expect(unverifiedUser.emailVerified).toBe(false);
   });
 
-  it.only("should resend verification email", async () => {
+  it("should resend verification email", async () => {
     let unverifiedUser = await User.factory().create({ emailVerified: false });
     const response = await request
       .post("/api/v1/auth/verify/resend")
@@ -139,7 +139,7 @@ describe("Auth", () => {
     
     expect(response.statusCode).toBe(200);
     Mail.assertCount(1);
-    Mail.assertSentTo(user.email, "VerificationMail");
+    Mail.assertSentTo(unverifiedUser.email, "VerificationMail");
   });
 
   it("should get user details", async () => {
