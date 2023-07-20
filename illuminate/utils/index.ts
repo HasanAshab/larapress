@@ -34,7 +34,9 @@ export function generateEndpointsFromDirTree(rootPath: string): Record < string,
         const itemPathEndpoint = itemPath
         .replace(rootPath, "")
         .split(".")[0]
-        .toLowerCase();
+        .toLowerCase()
+        .replace(/index$/, "");
+        
         endpointPathPair[itemPathEndpoint] = itemPath;
       } else if (status.isDirectory()) {
         stack.push(itemPath);

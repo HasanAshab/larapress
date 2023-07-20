@@ -39,6 +39,7 @@ export default class Setup {
   static routes(app: Application) {
     const routesRootPath = base("routes");
     const routesEndpointPaths = generateEndpointsFromDirTree(routesRootPath);
+    console.log(routesEndpointPaths)
     for (const [endpoint, path] of Object.entries(routesEndpointPaths)) {
       app.use(endpoint, require(path).default);
     }
