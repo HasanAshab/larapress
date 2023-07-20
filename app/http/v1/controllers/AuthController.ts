@@ -9,14 +9,15 @@ import PasswordChangedMail from "app/mails/PasswordChangedMail";
 export default class AuthController {
   async register(req: Request){
     const { name, email, password } = req.validated;
-    const logo = req.files?.logo;
+    const logo = req.files!.logo;
     if (await User.findOne({ email })) throw customError("EMAIL_EXIST");
     const user = await User.create({
       name,
       email,
       password,
     });
-    if (logo && !Array.isArray(logo)) await user.attach("logo", logo, true);
+    if (logo && !Array.isArray(logo))
+      await user.attach("logo", logo, true);
     const token = user.createToken();
     req.app.emit("Registered", user);
     return {

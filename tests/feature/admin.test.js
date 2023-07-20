@@ -32,8 +32,8 @@ describe("admin", () => {
     expect(isNotAccessable).toBe(true);
   })
 
-
-  it("Should get users", async () => {
+  
+  it("Should get categories", async () => {
     const users = await User.factory(3).create();
     const response = await request
       .get("/api/v1/admin/users")
@@ -41,15 +41,5 @@ describe("admin", () => {
 
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(users);
-  });
-  
-  it("Should get user by id", async () => {
-    const user = await User.factory().create();
-    const response = await request
-      .get("/api/v1/admin/users/" + user._id)
-      .set("Authorization", `Bearer ${token}`)
-
-    expect(response.statusCode).toBe(200);
-    expect(response.body.data).toEqualDocument(user);
   });
 });

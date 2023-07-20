@@ -126,15 +126,19 @@ export function setEnv(envValues: Record<string, string>) {
 }
 
 export function log(data: any): void {
-  const path = "./storage/error.log";
-  if(data instanceof Error){
-    data = data.stack
-  }
-  fs.appendFile(path, `${new Date()}:\n${data.toString()}\n\n\n`, (err: any) => {
-    if (err) {
-      throw err;
+  if(process.env.LOG === "file"){
+    const path = "./storage/error.log";
+    if(data instanceof Error){
+      data = data.stack
     }
-  });
+    fs.appendFile(path, `${new Date()}:\n${data.toString()}\n\n\n`, (err: any) => {
+      if (err)
+        throw err;
+    });
+  }
+  else if(process.env.LOG === "console"){
+    console.log(data)
+  }
 }
 
 

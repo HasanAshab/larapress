@@ -27,7 +27,7 @@ export default (schema: Schema) => {
   
   schema.methods.matchFilter = function (target: Record<string, any>, filter: Record<string, any>) {
     for (const key in filter) {
-      if (target[key] !== filter[key]) {
+      if (target[key].toString() !== filter[key].toString()) {
         return false;
       }
     }

@@ -17,7 +17,8 @@ const BlogSchema = new Schema(
   },
   slug: {
     required: true,
-    type: String
+    type: String,
+    unique: true
   },
   categoryId: {
     required: true,

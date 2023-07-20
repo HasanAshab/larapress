@@ -14,6 +14,10 @@ export default class InjectHelpers extends Middleware {
     }
 
     res.api = function (response: RawResponse) {
+      const defaultErrorMessages = {
+        404: "Resource Not Found!",
+        401: "Unauthorized"
+      }
       this.statusCode = response.status ?? this.statusCode;
       const success = this.statusCode >= 200 && this.statusCode < 300;
       delete response.status;
@@ -38,9 +42,8 @@ export default class InjectHelpers extends Middleware {
           }
         }
       }
-      if(this.statusCode === 404 && typeof response.message === "undefined"){
-        apiResponse.message = "Resource Not Found!";
-      }
+      if(typeof response.message === "undefined")
+        apiResponse.message = defaultErrorMessages[this.statusCode];
       this.json(apiResponse);
     };
 
