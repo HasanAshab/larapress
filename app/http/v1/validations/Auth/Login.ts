@@ -1,4 +1,5 @@
 import { ValidationSchema } from "types";
+import User from "app/models/User";
 import Joi from "joi";
 
 const schema: ValidationSchema = {

@@ -114,25 +114,29 @@ describe("Auth", () => {
   });
   
   it("should verify email", async () => {
-    const verificationLink = await user.sendVerificationEmail();
+    let unverifiedUser = await User.factory().create({ emailVerified: false });
+    const verificationLink = await unverifiedUser.sendVerificationEmail();
     const response = await fetch(verificationLink);
-    user = await User.findById(user._id);
+    unverifiedUser = await User.findById(unverifiedUser._id);
     expect(response.status).toBe(200);
-    expect(user.emailVerified).toBe(true);
+    expect(unverifiedUser.emailVerified).toBe(true);
   });
 
   it("shouldn't verify email without signature", async () => {
-    const verificationLink = URL.route("email.verify");
+    let unverifiedUser = await User.factory().create({ emailVerified: false });
+    const verificationLink = URL.route("email.verify", { id: unverifiedUser._id });
     const response = await fetch(verificationLink);
-    user = await User.findById(user._id);
+    unverifiedUser = await User.findById(unverifiedUser._id);
     expect(response.status).toBe(401);
-    expect(user.emailVerified).toBe(false);
+    expect(unverifiedUser.emailVerified).toBe(false);
   });
 
-  it("should resend verification email", async () => {
+  it.only("should resend verification email", async () => {
+    let unverifiedUser = await User.factory().create({ emailVerified: false });
     const response = await request
       .post("/api/v1/auth/verify/resend")
-      .field("email", user.email);
+      .field("email", unverifiedUser.email);
+    
     expect(response.statusCode).toBe(200);
     Mail.assertCount(1);
     Mail.assertSentTo(user.email, "VerificationMail");

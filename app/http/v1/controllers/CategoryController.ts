@@ -7,14 +7,14 @@ export default class CategoryController {
   }
   
   async find(req: Request) {
-    return await Category.findById(req.params.id);
+    return await Category.findById(req.params.id) ?? { status: 404 };
   }
   
   async create(req: Request) {
     if(await Category.findOne({ slug: req.validated.slug }))
       return { status: 400, message: "Slug must be unique" };
     const category = await Category.create(req.validated);
-    const icon = req.files!.icon;
+    const icon = req.files?.icon;
     if (icon && !Array.isArray(icon)) 
       await category.attach("icon", icon, true);
     return { status: 201, message: "Category successfully created!"};

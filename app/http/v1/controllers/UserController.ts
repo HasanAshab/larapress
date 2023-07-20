@@ -7,10 +7,7 @@ export default class UserController {
   }
   
   async find(req: Request) {
-    return await User.findOne({
-      _id: req.params.id,
-      isAdmin: false
-    });
+    return await User.findById(req.params.id) ?? { status: 404 };
   }
   
   async delete(req: Request) {
