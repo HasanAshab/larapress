@@ -15,8 +15,7 @@ export default class AuthController {
       email,
       password,
     });
-    if (logo && !Array.isArray(logo))
-      await user.attach("logo", logo, true);
+    logo && await user.attach("logo", logo as any, true);
     const token = user.createToken();
     req.app.emit("Registered", user);
     return {
@@ -115,31 +114,19 @@ export default class AuthController {
   };
 
   async updateProfile(req: Request){
-    const { name, email } = req.validated;
     const logo = req.files?.logo;
-    const user = req.user!;
-    user.name = name;
-    if(email){
-    user.email = email;
-    user.emailVerified = false;
+    const user = req.user!
+    Object.assign(user, req.validated);
+    if(req.validated.email){
+      user.emailVerified = false;
     }
-    const result = await user.save();
     if (logo && !Array.isArray(logo)) {
       await user.detach("logo");
       await user.attach("logo", logo, true);
     }
-    if (result) {
-      if(email){
-       await user.sendVerificationEmail();
-        return {
-          message: "Verification email sent to new email!",
-          data: user.toJSON()
-        };
-      }
-      return {
-        message: "Profile updated!", 
-        data: user
-      };
-    }
+    await user.save();
+    if(!req.validated.email) return { message: "Profile updated!" };
+    await user.sendVerificationEmail();
+    return { message: "Verification email sent to new email!" };
   };
 }

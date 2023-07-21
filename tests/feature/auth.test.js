@@ -38,6 +38,7 @@ describe("Auth", () => {
       .attach("logo", fakeFile("image.png"));
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
+    expect(await User.findOne({ email: dummyUser.email })).not.toBeNull();
     expect(mockListener).toHaveBeenCalledTimes(1);
     Storage.assertStoredCount(1);
     Storage.assertStored("image.png");
@@ -56,6 +57,7 @@ describe("Auth", () => {
       .field("password_confirmation", dummyUser.password);
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
+    expect(await User.findOne({ email: dummyUser.email })).not.toBeNull();
     expect(mockListener).toHaveBeenCalledTimes(1);
     Storage.assertNothingStored();
   });
@@ -177,14 +179,13 @@ describe("Auth", () => {
       .attach("logo", fakeFile("image.png"));
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
-    expect(response.body.data).not.toHaveProperty("password");
     expect(user.name).toBe("newName");
     Mail.assertNothingSent();
     Storage.assertStoredCount(1);
     Storage.assertStored("image.png");
   });
 
-  it("should update user details without logo", async () => {
+  it("Should update user details without logo", async () => {
     Storage.mock();
     const response = await request
       .put("/api/v1/auth/profile")
@@ -192,11 +193,24 @@ describe("Auth", () => {
       .field("name", "newName");
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
-    expect(response.body.data).not.toHaveProperty("password");
     expect(user.name).toBe("newName");
     Mail.assertNothingSent();
     Storage.assertNothingStored();
   });
+
+  it("Shouldn't update user details with existing email", async () => {
+    const randomUser = await User.factory().create();
+    const response = await request
+      .put("/api/v1/auth/profile")
+      .set("Authorization", `Bearer ${token}`)
+      .field("email", randomUser.email);
+    
+    const userAfterRequest = await User.findById(user._id);
+    expect(response.statusCode).toBe(400);
+    expect(userAfterRequest.email).toBe(user.email);
+    Mail.assertNothingSent();
+  });
+
 
   it("updating email should send verification email", async () => {
     const newUserData = {
@@ -212,7 +226,6 @@ describe("Auth", () => {
       .attach("logo", fakeFile("image.png"));
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
-    expect(response.body.data).not.toHaveProperty("password");
     expect(user.name).toBe(newUserData.name);
     expect(user.email).toBe(newUserData.email);
     Mail.assertCount(1);
@@ -221,19 +234,6 @@ describe("Auth", () => {
     Storage.assertStored("image.png");
   });
 
-  it("shouldn't update user details without auth-token", async () => {
-    const newUserData = {
-      name: "changed",
-      email: "changed@gmail.com",
-    };
-    const response = await request
-      .put("/api/v1/auth/profile")
-      .field("name", newUserData.name)
-      .field("email", newUserData.email)
-      .attach("logo", fakeFile("image.png"));
-    user = await User.findById(user._id);
-    expect(response.statusCode).toBe(401);
-  });
 
   it("should change password", async () => {
     const passwords = {

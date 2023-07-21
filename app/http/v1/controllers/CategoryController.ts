@@ -21,10 +21,20 @@ export default class CategoryController {
   }
   
   async update(req: Request) {
-    const { updatedCount } = await Category.updateOne({_id: req.params.id}, req.body);
-    return updatedCount === 1
-      ? { status: 200 }
-      : { status: 404 };
+    const icon = req.files?.icon;
+    if(!icon){
+      const { modifiedCount } = await Category.updateOne({_id: req.params.id}, req.validated);
+      return modifiedCount === 1
+        ? { status: 200 }
+        : { status: 404 };
+    }
+    const category = await Category.findById(req.params.id);
+    if(!category) return { status: 404 };
+    Object.assign(category, req.validated);
+    await category.detach("icon");
+    await category.attach("icon", icon as any, true);
+    await category.save();
+    return { message: "Category updated!" };
   }
   
   async delete(req: Request) {

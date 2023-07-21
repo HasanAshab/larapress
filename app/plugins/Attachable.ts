@@ -7,10 +7,10 @@ import { promises as fs } from "fs"
 
 export interface AttachableDocument extends Document {
   attachments: IAttachment[];
-  getAttachmentsByName(name?: string): Promise<IAttachment[]>;
   attach(name: string, file: UploadedFile, attachLinkToModel?: boolean): Promise<IAttachment>;
   attachMany(files: Record<string, UploadedFile>, attachLinkToModel?: boolean): Promise<IAttachment[]>;
-  detach(name?: string): Promise<void>;
+  detach(name: string): Promise<void>;
+  detachAll(): Promise<void>;
 }
 
 export default (schema: Schema) => {
@@ -20,10 +20,6 @@ export default (schema: Schema) => {
       attachableType: (this.constructor as any).modelName,
     });
   });
-
-  schema.methods.getAttachmentsByName = function (name?: string) {
-    return name ? this.attachments.where("name").equals(name) : this.attachments;
-  }
 
   schema.methods.attach = async function (name: string, file: UploadedFile, attachLinkToModel = false) {
     const path = await Storage.putFile("public/uploads", file);
@@ -69,8 +65,8 @@ export default (schema: Schema) => {
   }
   
   schema.methods.detach = async function (name?: string) {
-    const files = await this.getAttachmentsByName(name);
-    if (process.env.NODE_ENV !== "test") {
+    const files = await this.attachments.where("name").equals(name);
+    if (!Storage.isMocked) {
       for (const file of files) {
         await fs.unlink(file.path);
       }
@@ -82,4 +78,13 @@ export default (schema: Schema) => {
     });
   }
 
+  schema.methods.detachAll = async function () {
+    const files = await this.attachments;
+    if (!Storage.isMocked) {
+      for (const file of files) {
+        await fs.unlink(file.path);
+      }
+    }
+    await this.attachments.deleteMany();
+  }
 }

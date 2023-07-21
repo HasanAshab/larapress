@@ -13,5 +13,6 @@ router.route("/:id")
   .get(UserController.find)
   .delete(UserController.delete);
 
+//router.put("/:id/make-admin", middleware("admin"), UserController.makeAdmin);
 
 export default router;

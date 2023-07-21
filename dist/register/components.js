@@ -8,6 +8,7 @@ const components = {
         "g": "illuminate/plugins/global/{name}.ts"
     },
     "factory": "app/factories/{name}Factory.ts",
+    "policy": "app/policies/{name}.ts",
     "mail": "app/mails/{name}.ts",
     "notification": "app/notifications/{name}.ts",
     "listener": "app/listeners/{name}.ts",

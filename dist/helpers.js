@@ -87,7 +87,7 @@ function controller(name, version) {
                 if (handler.length === 2)
                     await handler(req, res);
                 else if (handler.length === 1 || handler.length === 0) {
-                    const response = await handler(req);
+                    let response = await handler(req);
                     res.api(response);
                 }
                 else
@@ -122,15 +122,19 @@ function setEnv(envValues) {
 }
 exports.setEnv = setEnv;
 function log(data) {
-    const path = "./storage/error.log";
-    if (data instanceof Error) {
-        data = data.stack;
-    }
-    fs_1.default.appendFile(path, `${new Date()}:\n${data.toString()}\n\n\n`, (err) => {
-        if (err) {
-            throw err;
+    if (process.env.LOG === "file") {
+        const path = "./storage/error.log";
+        if (data instanceof Error) {
+            data = data.stack;
         }
-    });
+        fs_1.default.appendFile(path, `${new Date()}:\n${data.toString()}\n\n\n`, (err) => {
+            if (err)
+                throw err;
+        });
+    }
+    else if (process.env.LOG === "console") {
+        console.log(data);
+    }
 }
 exports.log = log;
 function getVersion(path) {
