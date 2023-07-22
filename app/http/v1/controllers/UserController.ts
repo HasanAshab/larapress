@@ -23,7 +23,7 @@ export default class UserController {
   async makeAdmin(req: Request){
     const { modifiedCount } = await User.updateOne({_id: req.params.id}, {isAdmin: true});
     return modifiedCount === 1
-        ? { status: 200 }
+        ? { status: 200, message: "Admin role granted!" }
         : { status: 404 };
   }
 
