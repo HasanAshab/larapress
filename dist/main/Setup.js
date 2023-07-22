@@ -7,7 +7,6 @@ const fs_1 = __importDefault(require("fs"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const mongoose_hidden_1 = __importDefault(require("mongoose-hidden"));
 const helpers_1 = require("helpers");
-const utils_1 = require("illuminate/utils");
 const node_cron_1 = __importDefault(require("node-cron"));
 const Artisan_1 = __importDefault(require("illuminate/utils/Artisan"));
 const events_1 = __importDefault(require("register/events"));
@@ -40,7 +39,7 @@ class Setup {
     ;
     static routes(app) {
         const routesRootPath = (0, helpers_1.base)("routes");
-        const routesEndpointPaths = (0, utils_1.generateEndpointsFromDirTree)(routesRootPath);
+        const routesEndpointPaths = (0, helpers_1.generateEndpointsFromDirTree)(routesRootPath);
         for (const [endpoint, path] of Object.entries(routesEndpointPaths)) {
             app.use(endpoint, require(path).default);
         }

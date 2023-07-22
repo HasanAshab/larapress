@@ -22,7 +22,7 @@ const CommentSchema = new Schema({
       return Reply.create({
         text,
         replierId: replier._id,
-        replierType: (commenter.constructor as any).modelName,
+        replierType: (replier.constructor as any).modelName,
         commentId: this._id
       });
     }

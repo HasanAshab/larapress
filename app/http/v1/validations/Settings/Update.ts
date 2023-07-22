@@ -2,7 +2,7 @@ import { ValidationSchema } from "types";
 import { env, toCamelCase } from "helpers";
 import Joi from "joi";
 
-const fields = {};
+const fields: Record<string, ReturnType<typeof Joi.string>> = {};
 for(const key of Object.keys(env())){
   fields[toCamelCase(key.toLowerCase())] = Joi.string();
 }

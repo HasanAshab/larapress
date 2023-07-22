@@ -25,7 +25,7 @@ export default class CategoryController {
     if(!icon){
       const { modifiedCount } = await Category.updateOne({_id: req.params.id}, req.validated);
       return modifiedCount === 1
-        ? { status: 200, "Category updated!" }
+        ? { status: 200, message: "Category updated!" }
         : { status: 404 };
     }
     const category = await Category.findById(req.params.id);

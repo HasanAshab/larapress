@@ -66,7 +66,7 @@ export default (schema: Schema) => {
   
   schema.methods.detach = async function (name?: string) {
     const files = await this.attachments.where("name").equals(name);
-    if (!Storage.isMocked) {
+    if (!(Storage as any).isMocked) {
       for (const file of files) {
         await fs.unlink(file.path);
       }
@@ -80,7 +80,7 @@ export default (schema: Schema) => {
 
   schema.methods.detachAll = async function () {
     const files = await this.attachments;
-    if (!Storage.isMocked) {
+    if (!(Storage as any).isMocked) {
       for (const file of files) {
         await fs.unlink(file.path);
       }

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getModels = exports.customError = exports.checkProperties = exports.getVersion = exports.log = exports.setEnv = exports.controller = exports.middleware = exports.storage = exports.capitalizeFirstLetter = exports.base = void 0;
+exports.generateEndpointsFromDirTree = exports.loadDir = exports.getModels = exports.customError = exports.checkProperties = exports.getVersion = exports.log = exports.env = exports.controller = exports.middleware = exports.storage = exports.toSnakeCase = exports.toCamelCase = exports.capitalizeFirstLetter = exports.base = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
@@ -17,6 +17,14 @@ function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 exports.capitalizeFirstLetter = capitalizeFirstLetter;
+function toCamelCase(str) {
+    return str.replace(/_./g, (match) => match.charAt(1).toUpperCase());
+}
+exports.toCamelCase = toCamelCase;
+function toSnakeCase(str) {
+    return str.replace(/([A-Z])/g, '_$1');
+}
+exports.toSnakeCase = toSnakeCase;
 function storage(storage_path = "") {
     return path_1.default.resolve(path_1.default.join("storage", storage_path));
 }
@@ -108,8 +116,10 @@ function controller(name, version) {
     return handlerAndValidatorStack;
 }
 exports.controller = controller;
-function setEnv(envValues) {
+function env(envValues) {
     const envConfig = dotenv_1.default.parse(fs_1.default.readFileSync(".env"));
+    if (!envValues)
+        return envConfig;
     for (const key in envValues) {
         envConfig[key] = envValues[key];
     }
@@ -119,8 +129,9 @@ function setEnv(envValues) {
     catch (err) {
         throw err;
     }
+    return envConfig;
 }
-exports.setEnv = setEnv;
+exports.env = env;
 function log(data) {
     if (process.env.LOG === "file") {
         const path = "./storage/error.log";
@@ -191,3 +202,42 @@ async function getModels() {
     return models;
 }
 exports.getModels = getModels;
+function loadDir(dirPath) {
+    const normalizedPath = path_1.default.normalize(dirPath);
+    if (fs_1.default.existsSync(normalizedPath))
+        return;
+    const { dir, base } = path_1.default.parse(normalizedPath);
+    if (!fs_1.default.existsSync(dir)) {
+        loadDir(dir);
+    }
+    fs_1.default.mkdirSync(normalizedPath);
+}
+exports.loadDir = loadDir;
+function generateEndpointsFromDirTree(rootPath) {
+    const endpointPathPair = {};
+    const stack = [rootPath];
+    while (stack.length > 0) {
+        const currentPath = stack.pop();
+        if (!currentPath) {
+            break;
+        }
+        const items = fs_1.default.readdirSync(currentPath);
+        for (const item of items) {
+            const itemPath = path_1.default.join(currentPath, item);
+            const status = fs_1.default.statSync(itemPath);
+            if (status.isFile()) {
+                const itemPathEndpoint = itemPath
+                    .replace(rootPath, "")
+                    .split(".")[0]
+                    .toLowerCase()
+                    .replace(/index$/, "");
+                endpointPathPair[itemPathEndpoint] = itemPath;
+            }
+            else if (status.isDirectory()) {
+                stack.push(itemPath);
+            }
+        }
+    }
+    return endpointPathPair;
+}
+exports.generateEndpointsFromDirTree = generateEndpointsFromDirTree;

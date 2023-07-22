@@ -18,7 +18,7 @@ export default (schema: any) => {
   };
   schema.query.paginateReq = async function (req: Request) {
     const fullUrl = `${req.protocol}://${req.get('host')}${req.baseUrl}`
-    const limit = typeof req.query.limit ? parseInt(req.query.limit) : 20;
+    const limit = typeof req.query.limit === "string" ? parseInt(req.query.limit) : 20;
     const paginatedData = await this.paginate(limit, req.query.cursor);
     paginatedData.nextCursor = paginatedData.next;
     paginatedData.next = paginatedData.next ? `${fullUrl}?limit=${limit}&cursor=${paginatedData.next}` : null;

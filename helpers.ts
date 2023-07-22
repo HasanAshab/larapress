@@ -127,6 +127,7 @@ export function env(envValues?: Record<string, string>) {
   catch(err: any) {
     throw err;
   }
+  return envConfig;
 }
 
 export function log(data: any): void {

@@ -8,7 +8,6 @@ import path from "path";
 
 
 export default class Make extends Command {
-
   async admin() {
     this.requiredParams(["name", "email", "password"]);
     const {
