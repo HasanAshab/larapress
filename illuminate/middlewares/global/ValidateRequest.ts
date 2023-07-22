@@ -26,7 +26,6 @@ export default class ValidateRequest extends Middleware {
     }
     const urlencoded = ValidationSchema.urlencoded;
     const multipart = ValidationSchema.multipart;
-    const target = req[urlencoded.target];
 
     if (typeof multipart !== "undefined") {
       const contentType = req.headers["content-type"];
@@ -44,6 +43,7 @@ export default class ValidateRequest extends Middleware {
     }
 
     if (typeof urlencoded !== "undefined") {
+      const target = req[urlencoded.target];
       urlencoded.rules.validateAsync(target).then(() => {
         req.validated = target;
         next();

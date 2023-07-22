@@ -1,6 +1,7 @@
 import { model, QueryWithHelpers, HydratedDocument, Schema, Model, Document, InferSchemaType } from "mongoose";
 import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
 import Polymorphable from "app/plugins/Polymorphable";
+import HumanReadableTime from "app/plugins/HumanReadableTime";
 import { IUser } from "app/models/User";
 
 const NotificationSchema = new Schema({
@@ -33,6 +34,7 @@ const NotificationSchema = new Schema({
 
 NotificationSchema.plugin(HasFactory);
 NotificationSchema.plugin(Polymorphable, "notifiable");
+NotificationSchema.plugin(HumanReadableTime);
 
 export interface INotification extends Document, InferSchemaType<typeof NotificationSchema> {
   notifiable: IUser;

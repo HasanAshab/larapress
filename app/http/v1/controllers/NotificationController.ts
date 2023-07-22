@@ -2,11 +2,11 @@ import { Request } from "express";
 
 export default class NotificationController {
   async index(req: Request) {
-    return await req.user!.notifications.paginateReq(req);
+    return await req.user.notifications.paginateReq(req);
   }
   
   async markAsRead(req: Request) {
-    return await req.user!.unreadNotifications.findOne({_id: req.params.id}).markAsRead()
+    return await req.user.unreadNotifications.findOne({_id: req.params.id}).markAsRead()
     ? {
       status: 200, 
       message: 'Notification marked as read'
@@ -15,11 +15,11 @@ export default class NotificationController {
   }
   
   async unreadCount(req: Request) {
-    return { count: await req.user!.unreadNotifications.count() };
+    return { count: await req.user.unreadNotifications.count() };
   }
   
   async delete(req: Request) {
-    await req.user!.notifications.where("_id").equals(req.params.id).deleteOne();
+    await req.user.notifications.where("_id").equals(req.params.id).deleteOne();
     return {status: 204};
   }
 }

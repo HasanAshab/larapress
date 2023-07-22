@@ -9,4 +9,7 @@ declare module 'mongoose' {
   interface Model<TRawDocType, TQueryHelpers = {}, TInstanceMethods = {}, TVirtuals = {}, THydratedDocumentType = DocType, TSchema = any, DocType = Document<any, THelpers>, THelpers = {}> {
     whereCan(action: string, performer: Document): Query<DocType[], DocType, THelpers>
   }
+  interface Document {
+    can(action: string, target: Document): boolean;
+  }
 }

@@ -14,7 +14,7 @@ export default class InjectHelpers extends Middleware {
     }
 
     res.api = function (response: RawResponse) {
-      const defaultErrorMessages = {
+      const defaultErrorMessages: Record<number, string> = {
         404: "Resource Not Found!",
         401: "Unauthorized"
       }

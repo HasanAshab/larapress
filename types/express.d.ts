@@ -6,7 +6,7 @@ declare global {
   namespace Express {
     interface Request {
       fullUrl(): string;
-      user?: IUser;
+      user: IUser;
       validated: Record<string, string>;
       hasValidSignature(): boolean;
     }

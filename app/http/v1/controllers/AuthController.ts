@@ -95,7 +95,7 @@ export default class AuthController {
   };
 
   async changePassword(req: Request){
-    const user = req.user!;
+    const user = req.user;
     const { old_password, password } = req.validated;
     const oldPasswordMatch = await bcrypt.compare(old_password, user.password);
     if (!oldPasswordMatch) throw customError("INCORRECT_PASSWORD");
@@ -110,12 +110,12 @@ export default class AuthController {
   };
 
   async profile(req: Request){
-    return {data:req.user!.toJSON()};
+    return req.user;
   };
 
   async updateProfile(req: Request){
     const logo = req.files?.logo;
-    const user = req.user!
+    const user = req.user;
     Object.assign(user, req.validated);
     if(req.validated.email){
       user.emailVerified = false;
