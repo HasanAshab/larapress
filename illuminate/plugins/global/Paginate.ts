@@ -16,8 +16,12 @@ export default (schema: any) => {
       next
     };
   };
-  schema.query.paginateReq = function (req: Request) {
+  schema.query.paginateReq = async function (req: Request) {
+    const fullUrl = `${req.protocol}://${req.get('host')}${req.baseUrl}`
     const { limit, cursor } = req.query;
-    return this.paginate(typeof limit === "string" ? Number(limit) : 20, typeof cursor === "string" ? cursor : undefined);
+    const paginatedData = await this.paginate(typeof limit === "string" ? Number(limit) : 20, typeof cursor === "string" ? cursor : undefined);
+    paginatedData.nextCursor = paginatedData.next;
+    paginatedData.next = paginatedData.next ? `${fullUrl}?limit=${limit}&cursor=${paginatedData.next}` : null;
+    return paginatedData
   }
 }
