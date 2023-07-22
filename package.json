@@ -5,7 +5,7 @@
   "main": "/main/index.ts",
   "bin": "/bin/createApp.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand",
     "build": "tsc",
     "start": "tsnd -r tsconfig-paths/register --transpile-only dist/main",
     "dev": "tsnd -r tsconfig-paths/register --transpile-only --respawn main"

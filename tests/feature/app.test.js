@@ -1,5 +1,5 @@
 const app = require("main/app").default;
-const request = require("supertest")(app.listen(8000));
+const request = require("supertest")(app);
 
 describe("App", () => {
   beforeAll(() => {

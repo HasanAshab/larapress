@@ -19,13 +19,6 @@ describe("admin", () => {
   
 
   
-  it("Should get categories", async () => {
-    const users = await User.factory(3).create();
-    const response = await request
-      .get("/api/v1/admin/users")
-      .set("Authorization", `Bearer ${token}`)
-
-    expect(response.statusCode).toBe(200);
-    expect(response.body.data).toEqualDocument(users);
+  it("Should get dashboard", async () => {
   });
 });

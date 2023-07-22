@@ -14,7 +14,7 @@ describe("Registered Event", () => {
 
   beforeEach(async () => {
     await resetDatabase();
-    user = await User.factory().create();
+    user = await User.factory().create({ emailVerified: false });
   });
   
   it("should send verification email", async () => {
