@@ -1,7 +1,4 @@
-import {
-  base
-} from "helpers";
-import { loadDir } from "illuminate/utils";
+import { base, loadDir } from "helpers";
 import Command from "illuminate/commands/Command";
 import DB from "illuminate/utils/DB";
 import User from "app/models/User";

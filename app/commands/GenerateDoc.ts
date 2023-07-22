@@ -1,5 +1,4 @@
-import { base } from "helpers";
-import { loadDir } from "illuminate/utils";
+import { base, loadDir } from "helpers";
 import URL from "illuminate/utils/URL"
 import Command from "illuminate/commands/Command";
 import app from "main/app";
