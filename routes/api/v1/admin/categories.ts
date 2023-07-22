@@ -4,9 +4,9 @@ import express, { Router } from "express";
 const router: Router = express.Router();
 const CategoryController = controller("CategoryController");
 
-// Endpoints for admin
+// Endpoints for settings
 
-router.use(middleware("verified", "admin"));
+router.use(middleware("auth", "admin"));
 
 router.route("/")
   .get(CategoryController.index)

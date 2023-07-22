@@ -22,6 +22,14 @@ export function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+export function toCamelCase(str: string) {
+  return str.replace(/_./g, (match) => match.charAt(1).toUpperCase());
+}
+
+export function toSnakeCase(str: string) {
+  return str.replace(/([A-Z])/g, '_$1');
+}
+
 export function storage(storage_path = "") {
   return path.resolve(path.join("storage", storage_path));
 }
@@ -112,8 +120,11 @@ export function controller(name: string, version?: string): Record < string, Req
   return handlerAndValidatorStack;
 }
 
-export function setEnv(envValues: Record<string, string>) {
+
+
+export function env(envValues?: Record<string, string>) {
   const envConfig = dotenv.parse(fs.readFileSync(".env"));
+  if(!envValues) return envConfig;
   for (const key in envValues) {
     envConfig[key] = envValues[key];
   }
