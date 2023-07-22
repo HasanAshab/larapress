@@ -1,12 +1,5 @@
-import {
-  NextFunction,
-  RequestHandler,
-  Request,
-  Response
-} from "express";
-import {
-  Model
-} from "mongoose";
+import { NextFunction, RequestHandler, Request, Response } from "express";
+import { Model } from "mongoose";
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
