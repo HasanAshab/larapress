@@ -93,5 +93,24 @@ describe("user", () => {
     expect(response.statusCode).toBe(401);
     expect(await User.findById(user[1]._id)).not.toBeNull();
   });
+    
+  it("Should make admin", async () => {
+    let user = await User.factory().create();
+    const response = await request
+      .put(`/api/v1/users/${user._id}/make-admin`)
+      .set("Authorization", `Bearer ${token}`);
+    expect(response.statusCode).toBe(200);
+    user = await User.findById(user._id);
+    expect(user.isAdmin).toBe(true);
+  });
   
+  it("General user Should't make admin", async () => {
+    let users = await User.factory(2).create();
+    const response = await request
+      .put(`/api/v1/users/${users[1]._id}/make-admin`)
+      .set("Authorization", `Bearer ${users[0].createToken()}`);
+    expect(response.statusCode).toBe(401);
+    const user = await User.findById(users[1]._id);
+    expect(user.isAdmin).toBe(false);
+  });
 });

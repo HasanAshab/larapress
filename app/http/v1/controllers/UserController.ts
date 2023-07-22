@@ -19,5 +19,13 @@ export default class UserController {
       ? { status: 204 }
       : { status: 500 };
   }
+  
+  async makeAdmin(req: Request){
+    const { modifiedCount } = await User.updateOne({_id: req.params.id}, {isAdmin: true});
+    return modifiedCount === 1
+        ? { status: 200 }
+        : { status: 404 };
+  }
+
 }
 
