@@ -35,13 +35,14 @@ describe("user", () => {
     expect(response.statusCode).toBe(401);
   });
   
-  it("Should get user by id", async () => {
+  it("Should get user by username", async () => {
     const user = await User.factory().create();
     const response = await request
-      .get("/api/v1/users/" + user._id)
+      .get("/api/v1/users/" + user.username)
       .set("Authorization", `Bearer ${token}`)
 
     expect(response.statusCode).toBe(200);
+    user.email = undefined;
     expect(response.body.data).toEqualDocument(user);
   });
   

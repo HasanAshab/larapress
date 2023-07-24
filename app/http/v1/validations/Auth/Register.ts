@@ -7,12 +7,14 @@ const schema: ValidationSchema = {
   urlencoded: {
     target: "body",
     rules: Joi.object({
-      name: Joi.string().min(3).max(12).required(),
+      username: Joi.string().alphanum().min(3).max(12).required().external(async (username) => {
+        if (await User.findOne({ username })) throw new Error("username already exists!");
+      }),
       email: Joi.string().email().required().external(async (email) => {
         if (await User.findOne({ email })) throw new Error("email already exists!");
       }),
       password: Joi.string().min(8).required(),
-      password_confirmation: Joi.string().required().valid(Joi.ref("password")),
+      password_confirmation: Joi.string().required().valid(Joi.ref("password"))
     })
   },
   multipart: FileValidator.schema({

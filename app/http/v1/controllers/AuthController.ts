@@ -8,13 +8,8 @@ import PasswordChangedMail from "app/mails/PasswordChangedMail";
 
 export default class AuthController {
   async register(req: Request){
-    const { name, email, password } = req.validated;
     const logo = req.files?.logo;
-    const user = await User.create({
-      name,
-      email,
-      password,
-    });
+    const user = await User.create(req.validated);
     logo && await user.attach("logo", logo as any, true);
     const token = user.createToken();
     req.app.emit("Registered", user);
@@ -29,12 +24,11 @@ export default class AuthController {
     const { email, password } = req.validated;
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
     let failedAttemptsCount = (await Cache.get(attemptCacheKey) ?? 0) as number;
-    if(failedAttemptsCount > 3){
+    if(failedAttemptsCount > 3) 
       return {
         status: 429,
         message: "Too Many Failed Attempts try again later!"
       }
-    }
     const user = await User.findOne({email});
     if (user) {
       const match = await bcrypt.compare(password, user.password);

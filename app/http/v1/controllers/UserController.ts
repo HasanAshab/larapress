@@ -7,7 +7,10 @@ export default class UserController {
   }
   
   async find(req: Request) {
-    return await User.findById(req.params.id) ?? { status: 404 };
+    const user = await User.findOne({ username: req.params.username });
+    if(!user) return { status: 404 };
+    const { email, ...profile } = user.toJSON();
+    return profile;
   }
   
   async delete(req: Request) {

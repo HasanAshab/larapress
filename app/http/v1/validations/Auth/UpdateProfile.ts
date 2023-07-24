@@ -7,7 +7,9 @@ const schema: ValidationSchema = {
   urlencoded: {
     target: "body",
     rules: Joi.object({
-      name: Joi.string().min(3).max(12),
+      username: Joi.string().alphanum().min(3).max(12).external(async (username) => {
+        if (await User.findOne({ username })) throw new Error("username already exists!");
+      }),
       email: Joi.string().email().external(async (email) => {
         if (await User.findOne({ email })) throw new Error("email already exists!");
       })

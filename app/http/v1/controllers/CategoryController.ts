@@ -11,8 +11,6 @@ export default class CategoryController {
   }
   
   async create(req: Request) {
-    if(await Category.findOne({ slug: req.validated.slug }))
-      return { status: 400, message: "Slug must be unique" };
     const category = await Category.create(req.validated);
     const icon = req.files?.icon;
     if (icon && !Array.isArray(icon)) 

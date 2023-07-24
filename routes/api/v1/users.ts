@@ -9,9 +9,8 @@ const UserController = controller("UserController");
 router.use(middleware("verified"));
 
 router.get("/", middleware("admin"), UserController.index);
-router.route("/:id")
-  .get(UserController.find)
-  .delete(UserController.delete);
+router.delete("/:id", UserController.delete);
+router.get("/:username", UserController.find);
 
 router.put("/:id/make-admin", middleware("admin"), UserController.makeAdmin);
 

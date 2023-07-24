@@ -9,10 +9,11 @@ import Attachable, { AttachableDocument } from "app/plugins/Attachable";
 import Billable, { BillableDocument } from "app/plugins/Billable";
 
 const UserSchema = new Schema({
-  name: {
+  username: {
     required: true,
     type: String,
-    text: true
+    text: true,
+    unique: true
   },
   email: {
     required: true,

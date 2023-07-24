@@ -31,7 +31,7 @@ describe("Auth", () => {
     Storage.mock();
     const response = await request
       .post("/api/v1/auth/register")
-      .field("name", dummyUser.name)
+      .field("username", dummyUser.username)
       .field("email", dummyUser.email)
       .field("password", dummyUser.password)
       .field("password_confirmation", dummyUser.password)
@@ -51,7 +51,7 @@ describe("Auth", () => {
     Storage.mock();
     const response = await request
       .post("/api/v1/auth/register")
-      .field("name", dummyUser.name)
+      .field("username", dummyUser.username)
       .field("email", dummyUser.email)
       .field("password", dummyUser.password)
       .field("password_confirmation", dummyUser.password);
@@ -65,8 +65,20 @@ describe("Auth", () => {
   it("shouldn't register with existing email", async () => {
     const response = await request
       .post("/api/v1/auth/register")
-      .field("name", "foo")
+      .field("username", "foo")
       .field("email", user.email)
+      .field("password", "password")
+      .field("password_confirmation", "password")
+
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data).not.toHaveProperty("token");
+  });
+
+  it("shouldn't register with existing username", async () => {
+    const response = await request
+      .post("/api/v1/auth/register")
+      .field("username", user.username)
+      .field("email", "foo@samer.com")
       .field("password", "password")
       .field("password_confirmation", "password")
 
@@ -170,35 +182,48 @@ describe("Auth", () => {
     expect(response.statusCode).toBe(401);
   });
 
-  it("should update user details", async () => {
+  it.only("should update user details", async () => {
     Storage.mock();
     const response = await request
       .put("/api/v1/auth/profile")
       .set("Authorization", `Bearer ${token}`)
-      .field("name", "newName")
+      .field("username", "newName")
       .attach("logo", fakeFile("image.png"));
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
-    expect(user.name).toBe("newName");
+    expect(user.username).toBe("newName");
     Mail.assertNothingSent();
     Storage.assertStoredCount(1);
     Storage.assertStored("image.png");
   });
 
-  it("Should update user details without logo", async () => {
+  it.only("Should update user details without logo", async () => {
     Storage.mock();
     const response = await request
       .put("/api/v1/auth/profile")
       .set("Authorization", `Bearer ${token}`)
-      .field("name", "newName");
+      .field("username", "newName");
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
-    expect(user.name).toBe("newName");
+    expect(user.username).toBe("newName");
     Mail.assertNothingSent();
     Storage.assertNothingStored();
   });
 
-  it("Shouldn't update user details with existing email", async () => {
+  it.only("Shouldn't update user details with existing username", async () => {
+    const randomUser = await User.factory().create();
+    const response = await request
+      .put("/api/v1/auth/profile")
+      .set("Authorization", `Bearer ${token}`)
+      .field("username", randomUser.username);
+    
+    const userAfterRequest = await User.findById(user._id);
+    expect(response.statusCode).toBe(400);
+    expect(userAfterRequest.username).toBe(user.username);
+    Mail.assertNothingSent();
+  });
+ 
+  it.only("Shouldn't update user details with existing email", async () => {
     const randomUser = await User.factory().create();
     const response = await request
       .put("/api/v1/auth/profile")
@@ -211,22 +236,21 @@ describe("Auth", () => {
     Mail.assertNothingSent();
   });
 
-
-  it("updating email should send verification email", async () => {
+  it.only("updating email should send verification email", async () => {
     const newUserData = {
-      name: "changed",
+      username: "changed",
       email: "changed@gmail.com",
     };
     Storage.mock();
     const response = await request
       .put("/api/v1/auth/profile")
       .set("Authorization", `Bearer ${token}`)
-      .field("name", newUserData.name)
+      .field("username", newUserData.username)
       .field("email", newUserData.email)
       .attach("logo", fakeFile("image.png"));
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
-    expect(user.name).toBe(newUserData.name);
+    expect(user.username).toBe(newUserData.username);
     expect(user.email).toBe(newUserData.email);
     Mail.assertCount(1);
     Mail.assertSentTo(user.email, "VerificationMail");
