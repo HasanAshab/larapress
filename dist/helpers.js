@@ -91,6 +91,8 @@ function controller(name, version) {
     for (const methodName of methodNames) {
         const requestHandler = async function (req, res, next) {
             try {
+                console.log("jdj");
+                const startTime = Date.now();
                 const handler = controllerInstance[methodName];
                 if (handler.length === 2)
                     await handler(req, res);
@@ -99,7 +101,8 @@ function controller(name, version) {
                     res.api(response);
                 }
                 else
-                    throw new Error(`Unknown param on ${controllerClass.name}:${methodName}`);
+                    throw new Error(`Unknown param on ${name}:${methodName}`);
+                console.log(`${name}@${methodName}: ${Date.now() - startTime}`);
             }
             catch (err) {
                 next(err);

@@ -11,7 +11,6 @@ router.use(middleware("verified"));
 router.get("/", middleware("admin"), UserController.index);
 router.delete("/:id", UserController.delete);
 router.get("/:username", UserController.find);
-
 router.put("/:id/make-admin", middleware("admin"), UserController.makeAdmin);
 
 export default router;

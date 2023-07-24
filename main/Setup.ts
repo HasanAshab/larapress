@@ -44,18 +44,18 @@ export default class Setup {
   };
   
   static mongooseModels() {
-    const modelsBaseDir = base("app/models/");
+    const modelsBaseDir = base("app/models");
     const modelsName = fs.readdirSync(modelsBaseDir);
     for(const modelName of modelsName){
-      require(modelsBaseDir + modelName);
+      require(modelsBaseDir + "/" + modelName);
     }
   }
   
   static mongooseGlobalPlugins() {
-    const globalPluginsBaseDir = base("illuminate/plugins/global/");
+    const globalPluginsBaseDir = base("illuminate/plugins/global");
     const globalPluginsName = fs.readdirSync(globalPluginsBaseDir);
     for(const globalPluginName of globalPluginsName){
-      const plugin = require(globalPluginsBaseDir + globalPluginName).default;
+      const plugin = require(globalPluginsBaseDir + "/" + globalPluginName).default;
       mongoose.plugin(plugin);
     }
     mongoose.plugin(hidden(), { hidden: { _id: false } });

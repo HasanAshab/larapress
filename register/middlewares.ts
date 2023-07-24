@@ -11,5 +11,6 @@ export default {
   "validate": "<global>/ValidateRequest",
   "response.cache": "<global>/CacheResponse",
   "error.handle": "<global>/ErrorHandler",
-  "helpers.inject": "<global>/InjectHelpers"
+  "helpers.inject": "<global>/InjectHelpers",
+  "performance.trace": "<global>/TracePerformance"
 } as const;

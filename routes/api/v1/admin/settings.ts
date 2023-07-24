@@ -6,7 +6,7 @@ const SettingsController = controller("SettingsController");
 
 // Endpoints for settings
 
-router.use(middleware("auth", "admin"));
+//router.use(middleware("auth", "admin"));
 
 router.route("/")
   .get(SettingsController.index)

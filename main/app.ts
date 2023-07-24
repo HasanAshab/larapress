@@ -17,6 +17,9 @@ app.use(cors({
 app.use(helmet())
 app.use("*", middleware("maintenance.check", ["limit", {time: 60 * 1000, count: 60}]))
 
+if(process.env.TRACE_PERFORMANCE === "true")
+  app.use(middleware("performance.trace"));
+
 // Setting middlewares for request parsing 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());

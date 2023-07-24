@@ -7,8 +7,8 @@ import middlewarePairs from "register/middlewares";
 import customErrors from "register/errors";
 import mongoose from "mongoose";
 
-export function base(basePath = ""): string {
-  return path.join(__dirname, basePath);
+export function base(basePath = "") {
+  return path.resolve(basePath);
 }
 
 export function capitalizeFirstLetter(str: string) {
@@ -24,7 +24,7 @@ export function toSnakeCase(str: string) {
 }
 
 export function storage(storage_path = "") {
-  return path.resolve(path.join("storage", storage_path));
+  return path.resolve("storage", storage_path);
 }
 
 export function middleware(
@@ -65,22 +65,17 @@ export function middleware(
   let middlewares: RequestHandler[] = [];
   for (const keyWithConfig of keysWithConfig) {
     if (typeof keyWithConfig === "string") {
-      middlewares = [...middlewares,
-        ...getMiddleware(keyWithConfig)];
+      middlewares = [...middlewares, ...getMiddleware(keyWithConfig)];
     } else {
-      const [key,
-        config] = keyWithConfig;
+      const [key, config] = keyWithConfig;
       const middleware = getMiddleware(key, config);
-      middlewares = [...middlewares,
-        ...middleware];
+      middlewares = [...middlewares, ...middleware];
     }
   }
   return middlewares;
 }
 
-
-export function controller(name: string, version?: string): Record < string, RequestHandler[] > {
-  version = version ?? getVersion();
+export function controller(name: string, version = getVersion()): Record < string, RequestHandler[] > {
   const controllerPath = path.resolve(path.join(`app/http/${version}/controllers`, name));
   const controllerClass = require(controllerPath).default;
   const controllerInstance = new controllerClass;
@@ -91,12 +86,13 @@ export function controller(name: string, version?: string): Record < string, Req
   for (const methodName of methodNames) {
     const requestHandler = async function(req: Request, res: Response, next: NextFunction) {
       try {
+        const startTime = Date.now()
         const handler = controllerInstance[methodName];
         if (handler.length === 2) await handler(req, res);
         else if (handler.length === 1 || handler.length === 0) {
           let response = await handler(req);
           res.api(response);
-        } else throw new Error(`Unknown param on ${controllerClass.name}:${methodName}`);
+        } else throw new Error(`Unknown param on ${name}:${methodName}`);
       }
       catch(err: any) {
         next(err)
@@ -132,7 +128,7 @@ export function env(envValues?: Record<string, string>) {
 
 export function log(data: any): void {
   if(process.env.LOG === "file"){
-    const path = "./storage/error.log";
+    const path = "./storage/logs/error.log";
     if(data instanceof Error){
       data = data.stack
     }

@@ -31,14 +31,12 @@ Setup_1.default.mongooseModels();
 // Registering Cron Jobs
 Setup_1.default.cronJobs();
 //webpush.setVapidDetails("mailto:hostilarysten@gmail.com", process.env.PUBLIC_VAPID_KEY, process.env.PRIVATE_VAPID_KEY)
-// Load the SSL/TLS key and certificate
-const privateKey = fs_1.default.readFileSync((0, helpers_1.base)('main/certificates/key.pem'), 'utf8');
-const certificate = fs_1.default.readFileSync((0, helpers_1.base)('main/certificates/cert.pem'), 'utf8');
-// Create the HTTPS server
-const serverOptions = {
-    key: privateKey,
-    cert: certificate
-};
+const serverOptions = {};
+if (process.env.PROTOCOL === "https") {
+    // Load the SSL/TLS key and certificate
+    serverOptions.key = fs_1.default.readFileSync((0, helpers_1.base)('main/certificates/key.pem'), 'utf8');
+    serverOptions.cert = fs_1.default.readFileSync((0, helpers_1.base)('main/certificates/cert.pem'), 'utf8');
+}
 // Listening for clients
 const server = https_1.default.createServer(serverOptions, app_1.default).listen(port, () => {
     console.log(`Server running on [http://127.0.0.1:${port}] ...`);

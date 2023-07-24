@@ -7,6 +7,7 @@ import https from "https";
 import fs from "fs";
 //import webpush from "web-push";
 
+
 const port = Number(process.env.APP_PORT) ?? 8000;
 const connectToDB = Boolean(process.env.DB_CONNECT) ?? true;
 const nodeEnv = process.env.NODE_ENV;
@@ -29,21 +30,19 @@ Setup.mongooseModels();
 // Registering Cron Jobs
 Setup.cronJobs();
 
-//webpush.setVapidDetails("mailto:hostilarysten@gmail.com", process.env.PUBLIC_VAPID_KEY, process.env.PRIVATE_VAPID_KEY)
-
-
-// Load the SSL/TLS key and certificate
-const privateKey = fs.readFileSync(base('main/certificates/key.pem'), 'utf8');
-const certificate = fs.readFileSync(base('main/certificates/cert.pem'), 'utf8');
-
-// Create the HTTPS server
+/*
 const serverOptions = {
-  key: privateKey,
-  cert: certificate
-};
+  key: fs.readFileSync(base('main/certificates/key.pem'), 'utf8');
+  cert: fs.readFileSync(base('main/certificates/cert.pem'), 'utf8');
+}
 
 // Listening for clients
 const server = https.createServer(serverOptions, app).listen(port, () => {
+  console.log(`Server running on [http://127.0.0.1:${port}] ...`);
+});
+*/
+
+const server = app.listen(port, () => {
   console.log(`Server running on [http://127.0.0.1:${port}] ...`);
 });
 
@@ -56,3 +55,4 @@ if (nodeEnv === "development") {
     console.log(`*New connection: [${time}]`);
   });
 }
+
