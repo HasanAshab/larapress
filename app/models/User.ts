@@ -34,8 +34,17 @@ const UserSchema = new Schema({
     default: false,
   }
 }, 
-{ timestamps: true }
+{ 
+  timestamps: true,
+  methods: {
+    safeDetails(){
+      const { email, ...safeDetails } = this.toJSON();
+      return safeDetails;
+    }
+  }
+}
 );
+
 
 UserSchema.pre("save", async function(next) {
   const bcryptRounds = Number(process.env.BCRYPT_ROUNDS) ?? 10;

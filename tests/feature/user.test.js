@@ -35,7 +35,7 @@ describe("user", () => {
     expect(response.statusCode).toBe(401);
   });
   
-  it("Should get user by username", async () => {
+  it("Should get user profile by username", async () => {
     const user = await User.factory().create();
     const response = await request
       .get("/api/v1/users/" + user.username)

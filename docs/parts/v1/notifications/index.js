@@ -1,3 +1,5 @@
+const Notification = require(base("app/models/Notification")).default;
+
 module.exports = {
   get: {
     summary: "Get all notifications",
@@ -11,16 +13,13 @@ module.exports = {
               type: "boolean",
             },
             data: {
-              type: "object",
-              properties: {
-                notifications: {
-                  type: "array",
-                  items: {
-                    type: "object",
-                  }
-                }
-              }
+              type: "array",
+              items: {
+                type: "object",
+                example: Notification.factory().dummyData(),
+              },
             },
+            next: { type: "string" },
           },
         },
       },

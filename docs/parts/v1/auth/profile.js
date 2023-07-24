@@ -1,3 +1,5 @@
+const User = require(base("app/models/User")).default;
+
 module.exports = {
   get: {
     summary: "Get user details",
@@ -10,9 +12,10 @@ module.exports = {
             success: {
               type: "boolean",
             },
-            message: {
-              type: "string",
-            },
+            data: {
+              type: "object",
+              example: User.factory().dummyData()
+            }
           },
         },
       },

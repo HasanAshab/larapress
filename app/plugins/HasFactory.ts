@@ -18,14 +18,14 @@ export default (schema: Schema) => {
       create: async (data?: object) => {
         const models: (typeof Schema)[] = [];
         for (let i = 0; i < count; i++) {
-          const model = new this(await factory.merge(data));
+          const model = new this(factory.merge(data));
           models.push(model);
         }
         await this.insertMany(models);
         return count === 1 ? models[0] : models;
       },
-      dummyData: async (data?: object) => {
-        return await factory.merge(data);
+      dummyData: (data?: object) => {
+        return factory.merge(data);
       },
     };
   };

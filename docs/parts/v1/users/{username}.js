@@ -1,7 +1,9 @@
+const User = require(base("app/models/User")).default;
+
 module.exports = {
   get: {
-    summary: "Get dashboard",
-    description: "need auth-token, admin",
+    summary: "Get a specific users profile",
+    description: "need auth-token",
     responses: {
       200: {
         schema: {
@@ -12,11 +14,8 @@ module.exports = {
             },
             data: {
               type: "object",
-              properties: {
-                totalUsers: "number",
-                newUsersToday: "number"
-              },
-            },
+              example: User.factory().dummyData()
+            }
           },
         },
       },

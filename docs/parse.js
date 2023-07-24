@@ -1,9 +1,8 @@
-const { base, getVersion } = require("../helpers");
+const { base, getVersion, generateEndpointsFromDirTree } = require("../helpers");
 global.base = base;
 
 const path = require("path");
 const fs = require("fs");
-const { generateEndpointsFromDirTree } = require(base("illuminate/utils"));
 const baseDoc = require(base("docs/base"));
 
 const rootDoc = {};
