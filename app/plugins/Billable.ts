@@ -2,21 +2,22 @@ import { Schema, Document } from "mongoose";
 import URL from "illuminate/utils/URL";
 import Stripe from "stripe";
 
+
 export interface BillableDocument extends Document {
-    /*
-    stripeId: string;
-    getStripeCustomer(): Promise < Stripe.Customer >;
-    updateStripeCustomer(data: Stripe.CustomerUpdateParams): Promise < Stripe.Customer >;
-    addCard(card: Stripe.TokenCreateParams.CardData): Promise < Stripe.CustomerSource >;
-    charge(amount: number, currency?: string, description?: string): Promise < Stripe.Charge >;
-  */
+  stripeId: string;
+  getOrCreateStripeCustomer(): Promise<Stripe.Customer>;
+  updateStripeCustomer(data: Stripe.CustomerUpdateParams): Promise<Stripe.Customer>;
+  addCard(card: Stripe.TokenCreateParams.Card): Promise<Stripe.CustomerSource>;
+  charge(amount: number, currency?: string, description?: string): Promise<Stripe.Charge>;
+  pay(amount: number, currency?: string, description?: string): Promise<Stripe.PaymentIntent>;
 }
 
 export default (schema: Schema) => {
-  /*
-  const stripe = new Stripe(process.env.STRIPE_KEY);
+  const stripe = new Stripe(process.env.STRIPE_KEY!, {
+    apiVersion: '2022-11-15',
+  });
 
-  const assertCustomerExists = function(this: IBillable) {
+  const assertCustomerExists = function (this: any) {
     if (this.stripeId === null) {
       throw new Error(`This user is not a customer [${this}]`);
     }
@@ -25,11 +26,11 @@ export default (schema: Schema) => {
   schema.add({
     stripeId: {
       type: String,
-      nullable: true
-    }
+      nullable: true,
+    },
   });
 
-  schema.methods.getStripeCustomer = async function() {
+  schema.methods.getStripeCustomer = async function () {
     if (this.stripeId !== null) {
       return await stripe.customers.retrieve(this.stripeId);
     }
@@ -40,52 +41,34 @@ export default (schema: Schema) => {
     return customer;
   };
 
-  schema.methods.updateStripeCustomer = async function(data: Stripe.CustomerUpdateParams) {
+  schema.methods.updateStripeCustomer = function (data: Stripe.CustomerUpdateParams) {
     assertCustomerExists.call(this);
-    return await stripe.customers.update(this.stripeId, data);
+    return stripe.customers.update(this.stripeId, data);
   };
 
-  schema.methods.addCard = async function(card: Stripe.TokenCreateParams.CardData) {
+  schema.methods.addCard = async function (card: Stripe.TokenCreateParams.Card) {
     assertCustomerExists.call(this);
-    const token = await stripe.tokens.create({
-      card
-    });
-    return await stripe.customers.createSource(this.stripeId, {
-      source: token.id
-    });
+    const token = await stripe.tokens.create({ card });
+    return await stripe.customers.createSource(this.stripeId, { source: token.id });
   };
 
-  schema.methods.charge = async function(amount: number, currency = "usd", description?: string) {
+  schema.methods.charge = function (amount: number, currency = "usd", description?: string) {
     assertCustomerExists.call(this);
-    return await stripe.charges.create({
+    return stripe.charges.create({
       customer: this.stripeId,
       amount: amount * 100,
       currency,
-      description
+      description,
     });
   };
-  
-  schema.methods.pay = async function(amount: number, currency = "usd", description?: string) {
+
+  schema.methods.pay = function (amount: number, currency = "usd", description?: string) {
     assertCustomerExists.call(this);
-    return await stripe.paymentIntents.create({
-      amount: amount*100,
+    return stripe.paymentIntents.create({
+      amount: amount * 100,
       currency,
       customer: this.stripeId,
       confirm: true,
     });
   };
-
-  schema.methods.purchase = async function(productable, quantity: number) {
-    assertCustomerExists.call(this);
-    const product = await stripe.products.retrieve(productId);
-    return await stripe.transfers.create({
-      amount: product.default_price,
-      currency: 'usd',
-      source_transaction: null,
-      destination: productable.authorStripeId,
-    }, {
-      stripeAccount: this.stripeId,
-    });
-  };
-  */
 };

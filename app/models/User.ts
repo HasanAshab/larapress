@@ -63,6 +63,8 @@ UserSchema.plugin(Notifiable);
 UserSchema.plugin(Attachable);
 UserSchema.plugin(Billable);
 
-export interface IUser extends Document, InferSchemaType<typeof UserSchema>, AuthenticatableDocument, AttachableDocument, HasApiTokensDocument, NotifiableDocument, AttachableDocument, BillableDocument {};
+export interface IUser extends Document, InferSchemaType<typeof UserSchema>, AuthenticatableDocument, AttachableDocument, HasApiTokensDocument, NotifiableDocument, AttachableDocument, BillableDocument {
+  safeDetails(): Omit<InferSchemaType<typeof UserSchema>, "email">
+};
 interface UserModel extends Model<IUser>, HasFactoryModel {};
 export default model<IUser, UserModel>("User", UserSchema);
