@@ -115,6 +115,7 @@ export function env(envValues?: Record<string, string>) {
   const envConfig = dotenv.parse(fs.readFileSync(".env"));
   if(!envValues) return envConfig;
   for (const key in envValues) {
+    process.env[key] = envValues[key];
     envConfig[key] = envValues[key];
   }
   try {

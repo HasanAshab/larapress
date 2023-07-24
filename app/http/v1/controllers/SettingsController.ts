@@ -3,6 +3,7 @@ import { env, toCamelCase, toSnakeCase } from "helpers";
 
 export default class SettingsController {
   async index() {
+    console.log(process.env)
     const envData = env();
     const camelCaseData: Record<string, string> = {};
     for (const key in envData) {
