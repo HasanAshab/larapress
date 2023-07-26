@@ -4,7 +4,10 @@ export default {
     "Authenticate",
     "EnsureEmailIsVerified"
   ],
-  "admin": "CheckIfTheUserIsAdmin",
+  "admin": [
+    "Authenticate",
+    "CheckIfTheUserIsAdmin"
+  ],
   "maintenance.check": "<global>/CheckForMaintenanceMode",
   "limit": "<global>/LimitRequestRate",
   "signed": "<global>/ValidateSignature",

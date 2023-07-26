@@ -5,7 +5,6 @@ import Setup from "main/Setup";
 import DB from "illuminate/utils/DB";
 import https from "https";
 import fs from "fs";
-//import webpush from "web-push";
 
 
 const port = Number(process.env.APP_PORT) ?? 8000;

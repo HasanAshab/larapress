@@ -3,7 +3,32 @@ import { env, toCamelCase, toSnakeCase } from "helpers";
 
 export default class SettingsController {
   async index() {
-    console.log(process.env)
+    return await req.user.settings;
+  }
+  
+  async enableTwoFactorAuth(req: Request){
+    const { phoneNumber, method } = req.validated;
+    if(!req.user.phoneNumber){
+      if(!phoneNumber){
+        return {
+          status: 400,
+          message: "Phone number is required!"
+        }
+      }
+      req.user.phoneNumber = phoneNumber;
+    }
+    req.user.settings = { 
+      twoFactorAuth: {
+        enable: true,
+        method
+      }
+    };
+    await req.user.save();
+    await req.user.sendOtp();
+    return { message: `OTP sent to ${req.user.phoneNumber}!`};
+  }
+  
+  async getAppSettings() {
     const envData = env();
     const camelCaseData: Record<string, string> = {};
     for (const key in envData) {
@@ -13,7 +38,7 @@ export default class SettingsController {
     return camelCaseData;
   }
   
-  async update(req: Request) {
+  async updateAppSettings(req: Request) {
     const envData: Record<string, string> = {};
     for(const key in req.validated) {
       const envKey = toSnakeCase(key).toUpperCase();

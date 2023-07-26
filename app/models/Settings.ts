@@ -6,9 +6,33 @@ const SettingsSchema = new Schema(
   userId: {
     required: true,
     type: Schema.Types.ObjectId,
-    ref: "User"
+    unique: true
   },
-  data: Object
+  notification: {
+    enabled: {
+      type: Boolean,
+      default: true,
+    },
+    email: {
+      type: Boolean,
+      default: true,
+    },
+    push: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  twoFactorAuth: {
+    enabled: {
+      type: Boolean,
+      default: false,
+    },
+    method: {
+      type: String,
+      enum: ["sms", "call"],
+      default: "sms"
+    }
+  }
 },
 { timestamps: true }
 );

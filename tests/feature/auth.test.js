@@ -7,10 +7,12 @@ const Cache = require("illuminate/utils/Cache").default;
 const Storage = require("illuminate/utils/Storage").default;
 const Mail = require("illuminate/utils/Mail").default;
 const User = require("app/models/User").default;
+const Settings = require("app/models/Settings").default;
 const events = require("events");
 
 describe("Auth", () => {
   let user;
+  let settings;
   let token;
 
   beforeAll(async () => {
@@ -21,6 +23,7 @@ describe("Auth", () => {
     await resetDatabase();
     Mail.mock();
     user = await User.factory().create();
+    settings = Settings.create({ userId: user._id });
     token = user.createToken();
   });
 
@@ -168,21 +171,21 @@ describe("Auth", () => {
     Mail.assertSentTo(unverifiedUser.email, "VerificationMail");
   });
 
-  it("should get user details", async () => {
+  it("should get profile", async () => {
     const response = await request
       .get("/api/v1/auth/profile")
       .set("Authorization", `Bearer ${token}`);
     expect(response.statusCode).toBe(200);
-    expect(response.body.data.email).toBe(user.email);
-    expect(response.body.data).not.toHaveProperty("password");
+    delete user.password;
+    expect(response.body.data).toEqualDocument(user);
   });
 
-  it("shouldn't get user details without auth-token", async () => {
+  it("shouldn't get profile without auth-token", async () => {
     const response = await request.get("/api/v1/auth/profile");
     expect(response.statusCode).toBe(401);
   });
 
-  it.only("should update user details", async () => {
+  it("should update profile", async () => {
     Storage.mock();
     const response = await request
       .put("/api/v1/auth/profile")
@@ -197,7 +200,7 @@ describe("Auth", () => {
     Storage.assertStored("image.png");
   });
 
-  it.only("Should update user details without logo", async () => {
+  it("Should update profile without logo", async () => {
     Storage.mock();
     const response = await request
       .put("/api/v1/auth/profile")
@@ -210,7 +213,7 @@ describe("Auth", () => {
     Storage.assertNothingStored();
   });
 
-  it.only("Shouldn't update user details with existing username", async () => {
+  it("Shouldn't update profile with existing username", async () => {
     const randomUser = await User.factory().create();
     const response = await request
       .put("/api/v1/auth/profile")
@@ -223,7 +226,7 @@ describe("Auth", () => {
     Mail.assertNothingSent();
   });
  
-  it.only("Shouldn't update user details with existing email", async () => {
+  it("Shouldn't update profile with existing email", async () => {
     const randomUser = await User.factory().create();
     const response = await request
       .put("/api/v1/auth/profile")
@@ -236,7 +239,7 @@ describe("Auth", () => {
     Mail.assertNothingSent();
   });
 
-  it.only("updating email should send verification email", async () => {
+  it("updating email should send verification email", async () => {
     const newUserData = {
       username: "changed",
       email: "changed@gmail.com",

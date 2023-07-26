@@ -6,7 +6,7 @@ export default class CheckIfTheUserIsAdmin extends Middleware {
     if(req.user?.isAdmin){
       return next();
     }
-    res.status(401).api({
+    res.status(403).api({
       message: "Only admin can perform this action!"
     });
   }

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { log, customError } from "helpers";
 import bcrypt from "bcryptjs";
+import twilio from "twilio";
 import User from "app/models/User";
 import Cache from "illuminate/utils/Cache"
 import Mail from "illuminate/utils/Mail"
@@ -21,27 +22,46 @@ export default class AuthController {
   };
 
   async login(req: Request){
-    const { email, password } = req.validated;
+    const { email, password, otp } = req.validated;
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
     let failedAttemptsCount = (await Cache.get(attemptCacheKey) ?? 0) as number;
-    if(failedAttemptsCount > 3) 
+    if(failedAttemptsCount > 3) {
       return {
         status: 429,
         message: "Too Many Failed Attempts try again later!"
       }
-    const user = await User.findOne({email});
-    if (user) {
-      const match = await bcrypt.compare(password, user.password);
-      if (match) {
-        await Cache.clear(attemptCacheKey);
-        const token = user.createToken();
-        return {
-          token,
-          message: "Logged in successfully!",
-        };
-      }
-      await Cache.put(attemptCacheKey, failedAttemptsCount+1, 60 * 60);
     }
+    const user = await User.findOne({email});
+    if (user && await bcrypt.compare(password, user.password)) {
+      const userSettings = await user.settings;
+      if(userSettings.twoFactorAuth.enabled){
+        if(!otp) {
+          return {
+            status: 200,
+            twoFactorAuthRequired: true,
+            message: "Credentials matched. otp required!",
+          }
+        }
+        const client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
+        const { status } = await client.verify.v2.services(process.env.TWILIO_VERIFY_SERVICE_SID).verificationChecks.create({
+           to: user.phoneNumber,
+           code: otp
+        });
+        if (!status){
+          return {
+            status: 401,
+            message: "Invalid OTP. Please try again!",
+          };
+        }
+      }
+      await Cache.clear(attemptCacheKey);
+      const token = user.createToken();
+      return {
+        token,
+        message: "Logged in successfully!",
+      };
+    }
+    await Cache.put(attemptCacheKey, failedAttemptsCount+1, 60 * 60);
     throw customError("INVALID_CREDENTIALS");
   };
 
@@ -99,9 +119,17 @@ export default class AuthController {
     await user.save();
     await Mail.to(user.email).send(new PasswordChangedMail());
     return {
-      message: "Password changed successfully!",
+      message: "Password changed!",
     };
   };
+  
+  async changePhoneNumber(req: Request){
+    req.user.phoneNumber = req.validated.phoneNumber;
+    await req.user.save();
+    return {
+      message: "Phone number has been updated/ set successfully!",
+    };
+  }
 
   async profile(req: Request){
     return req.user;
@@ -123,4 +151,11 @@ export default class AuthController {
     await user.sendVerificationEmail();
     return { message: "Verification email sent to new email!" };
   };
+  
+  async sendOtp(req: Request){
+    const user = await User.findById(req.validated.id);
+    if(!user) return { status: 404 };
+    await user.sendOtp();
+    return { message: `OTP sent to ${user.phoneNumber}!`};
+  }
 }

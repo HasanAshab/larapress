@@ -7,6 +7,7 @@ import HasApiTokens, { HasApiTokensDocument } from "app/plugins/HasApiTokens";
 import Notifiable, { NotifiableDocument } from "app/plugins/Notifiable";
 import Attachable, { AttachableDocument } from "app/plugins/Attachable";
 import Billable, { BillableDocument } from "app/plugins/Billable";
+import Settings from "app/models/Settings";
 
 const UserSchema = new Schema({
   username: {
@@ -19,6 +20,10 @@ const UserSchema = new Schema({
     required: true,
     type: String,
     unique: true
+  },
+  phoneNumber: {
+    type: String,
+    default: null,
   },
   password: {
     required: true,
@@ -37,16 +42,17 @@ const UserSchema = new Schema({
 { 
   timestamps: true,
   methods: {
-    safeDetails(){
-      const { email, ...safeDetails } = this.toJSON();
-      return safeDetails;
+    safeDetails(this: any){
+      delete this.email;
+      delete this.phoneNumber;
+      return this;
     }
   }
 }
 );
 
-
 UserSchema.pre("save", async function(next) {
+  await Settings.create({ userId: this._id })
   const bcryptRounds = Number(process.env.BCRYPT_ROUNDS) ?? 10;
   if (!this.isModified("password")) {
     return next();
@@ -55,6 +61,15 @@ UserSchema.pre("save", async function(next) {
   this.password = hash as string;
   next();
 });
+
+UserSchema.virtual("settings")
+  .get(function () {
+  return Settings.findOne({ userId: this._id });
+})
+  .set(function (data: object) {
+  return Settings.UpdateOne({ userId: this._id }, data);
+});
+
 
 UserSchema.plugin(Authenticatable);
 UserSchema.plugin(HasFactory);

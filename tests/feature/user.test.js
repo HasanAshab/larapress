@@ -32,7 +32,7 @@ describe("user", () => {
     const response = await request
       .get("/api/v1/users")
       .set("Authorization", `Bearer ${users[0].createToken()}`)
-    expect(response.statusCode).toBe(401);
+    expect(response.statusCode).toBe(403);
   });
   
   it("Should get user profile by username", async () => {
@@ -42,8 +42,7 @@ describe("user", () => {
       .set("Authorization", `Bearer ${token}`)
 
     expect(response.statusCode).toBe(200);
-    user.email = undefined;
-    expect(response.body.data).toEqualDocument(user);
+    expect(response.body.data).toEqualDocument(user.safeDetails());
   });
   
   it("Admin should delete user", async () => {
@@ -81,7 +80,7 @@ describe("user", () => {
       .delete("/api/v1/users/" + user._id)
       .set("Authorization", `Bearer ${token}`);
 
-    expect(response.statusCode).toBe(401);
+    expect(response.statusCode).toBe(403);
     expect(await User.findById(user._id)).not.toBeNull();
   });
   
@@ -91,7 +90,7 @@ describe("user", () => {
       .delete("/api/v1/users/" + user[1]._id)
       .set("Authorization", `Bearer ${user[0].createToken()}`);
 
-    expect(response.statusCode).toBe(401);
+    expect(response.statusCode).toBe(403);
     expect(await User.findById(user[1]._id)).not.toBeNull();
   });
     
@@ -110,7 +109,7 @@ describe("user", () => {
     const response = await request
       .put(`/api/v1/users/${users[1]._id}/make-admin`)
       .set("Authorization", `Bearer ${users[0].createToken()}`);
-    expect(response.statusCode).toBe(401);
+    expect(response.statusCode).toBe(403);
     const user = await User.findById(users[1]._id);
     expect(user.isAdmin).toBe(false);
   });

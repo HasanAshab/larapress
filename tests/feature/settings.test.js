@@ -18,12 +18,12 @@ describe("Settings", () => {
     token = admin.createToken();
   });
   
-  it("Shouldn't accessable by general users", async () => {
+  it("App settings shouldn't accessable by general users", async () => {
     const user = await User.factory().create();
     const userToken = user.createToken();
     const responses = [
-      request.get("/api/v1/admin/settings"),
-      request.put("/api/v1/admin/settings"),
+      request.get("/api/v1/settings/app"),
+      request.put("/api/v1/settings/app"),
     ];
     const isNotAccessable = responses.every(async (response) => {
       return await response.set("Authorization", `Bearer ${userToken}`).statusCode === 401;
@@ -31,7 +31,7 @@ describe("Settings", () => {
     expect(isNotAccessable).toBe(true);
   });
   
-  it("Should get settings", async () => {
+  it("Admin should get app settings", async () => {
     const envData = env();
     const camelCaseData = {};
     for (const key in envData) {
@@ -40,18 +40,16 @@ describe("Settings", () => {
     }
     
     const response = await request
-      .get("/api/v1/admin/settings")
+      .get("/api/v1/settings/app")
       .set("Authorization", `Bearer ${token}`);
     
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqual(camelCaseData);
   });
-  
 
-
-  it("Should update category", async () => {
+  it("Admin should update app settings", async () => {
     const response = await request
-      .put("/api/v1/admin/settings")
+      .put("/api/v1/settings/app")
       .set("Authorization", `Bearer ${token}`)
       .field("appName", "FooBar")
 
@@ -59,4 +57,24 @@ describe("Settings", () => {
     expect(env().APP_NAME).toBe("FooBar");
     env({APP_NAME: "Samer"});
   });
+  
+  it("Should get settings", async () => {
+    const response = await request
+      .put("/api/v1/settings")
+      .set("Authorization", `Bearer ${token}`)
+      .field("appName", "FooBar")
+
+    expect(response.statusCode).toBe(200);
+  });
+  
+  it("Should enable Two Factor Authorization", async () => {
+    const response = await request
+      .put("/api/v1/settings/enable-2fa")
+      .set("Authorization", `Bearer ${token}`)
+      .field("appName", "FooBar")
+
+    expect(response.statusCode).toBe(200);
+  });
+  
+  
 });

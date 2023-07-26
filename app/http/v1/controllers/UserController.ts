@@ -15,7 +15,7 @@ export default class UserController {
   async delete(req: Request) {
     const user = await User.findById(req.params.id);
     if(!user) return { status: 404 };
-    if(!req.user.can("delete", user)) return { status: 401 };
+    if(!req.user.can("delete", user)) return { status: 403 };
     const { deletedCount } = await User.deleteOne({_id: user._id});
     return deletedCount === 1
       ? { status: 204 }

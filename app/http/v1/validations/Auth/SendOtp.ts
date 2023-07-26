@@ -5,12 +5,9 @@ const schema: ValidationSchema = {
   urlencoded: {
     target: "body",
     rules: Joi.object({
-      email: Joi.string().email().required(),
-      password: Joi.string().required(),
-      otp: Joi.number(),
-    })
-  }
-}
-
+      phoneNumber: Joi.string().required()
+    }),
+  },
+};
 
 export default schema;

@@ -6,7 +6,7 @@ const CategoryController = controller("CategoryController");
 
 // Endpoints for settings
 
-router.use(middleware("auth", "admin"));
+router.use(middleware("admin"));
 
 router.route("/")
   .get(CategoryController.index)
