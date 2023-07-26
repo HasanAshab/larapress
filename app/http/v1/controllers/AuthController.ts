@@ -1,5 +1,4 @@
-import { Request, Response } from "express";
-import { log, customError } from "helpers";
+import { Request } from "express";
 import bcrypt from "bcryptjs";
 import twilio from "twilio";
 import User from "app/models/User";
@@ -62,7 +61,10 @@ export default class AuthController {
       };
     }
     await Cache.put(attemptCacheKey, failedAttemptsCount+1, 60 * 60);
-    throw customError("INVALID_CREDENTIALS");
+    return {
+      status: 401,
+      message: "Credentials not match!"
+    },
   };
 
   async verifyEmail(req: Request){
@@ -110,17 +112,19 @@ export default class AuthController {
 
   async changePassword(req: Request){
     const user = req.user;
-    const { old_password, password } = req.validated;
-    const oldPasswordMatch = await bcrypt.compare(old_password, user.password);
-    if (!oldPasswordMatch) throw customError("INCORRECT_PASSWORD");
-    if (old_password === password) throw customError("PASSWORD_SHOULD_DIFFERENT");
+    const { oldPassword, password } = req.validated;
+    const oldPasswordMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!oldPasswordMatch) {
+      return {
+        status: 401,
+        message: "Incorrect password!"
+      }
+    }
     user.password = password;
     user.tokenVersion++;
     await user.save();
     await Mail.to(user.email).send(new PasswordChangedMail());
-    return {
-      message: "Password changed!",
-    };
+    return { message: "Password changed!" };
   };
   
   async changePhoneNumber(req: Request){

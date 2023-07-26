@@ -98,6 +98,10 @@ describe("Auth", () => {
     expect(response.body.data).toHaveProperty("token");
   });
   
+  it("should login a user with valid otp (2FA)", async () => {
+      
+  });
+
   it("shouldn't login with wrong password", async () => {
     const response = await request
       .post("/api/v1/auth/login")
@@ -106,6 +110,15 @@ describe("Auth", () => {
     expect(response.statusCode).toBe(401);
     expect(response.body.data?.token).toBe(undefined);
   });
+  
+  it("shouldn't login a user without OTP (2FA)", async () => {
+      
+  });
+  
+  it("shouldn't login a user with invalid OTP (2FA)", async () => {
+      
+  });
+
 
   it("should prevent Brute Force login", async () => {
     Cache.mock();
@@ -142,6 +155,8 @@ describe("Auth", () => {
     expect(response5.statusCode).toBe(429);
   });
   
+  
+
   it("should verify email", async () => {
     let unverifiedUser = await User.factory().create({ emailVerified: false });
     const verificationLink = await unverifiedUser.sendVerificationEmail();
@@ -332,4 +347,13 @@ describe("Auth", () => {
     expect(passwordMatch).toBe(false);
     Mail.assertNothingSent();
   });
+
+  it("Should send otp", async () => {
+    
+  });
+  
+  it("Shouldn't send otp if 2fa is disabled", async () => {
+    
+  });
+  
 });

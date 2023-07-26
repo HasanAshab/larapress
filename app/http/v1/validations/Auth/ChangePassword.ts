@@ -7,8 +7,8 @@ const schema: ValidationSchema = {
   urlencoded: {
     target: "body",
     rules: Joi.object({
-      old_password: Joi.string().required(),
-      password: Joi.string().min(8).required(),
+      oldPassword: Joi.string().required(),
+      password: Joi.string().min(8).invalid(Joi.ref("oldPassword")).required(),
     })
   }
 }

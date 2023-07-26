@@ -51,10 +51,6 @@ export default (schema: Schema) => {
     if (!tokenIsValid) {
       throw customError("INVALID_OR_EXPIRED_TOKEN");
     }
-    const oldPasswordMatch = await bcrypt.compare(newPassword, this.password);
-    if (oldPasswordMatch) {
-      throw customError("PASSWORD_SHOULD_DIFFERENT");
-    }
     this.password = newPassword;
     this.tokenVersion++;
     const result = await this.save();
