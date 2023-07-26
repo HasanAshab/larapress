@@ -8,7 +8,6 @@ const SettingsController = controller("SettingsController");
 
 router.route("/")
   .get(middleware("verified"), SettingsController.index)
- // .put(middleware("verified"), SettingsController.update);
 
 router.post("/enable-2fa", middleware("verified"), SettingsController.enableTwoFactorAuth);
 

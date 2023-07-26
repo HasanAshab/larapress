@@ -41,12 +41,8 @@ export default class AuthController {
             message: "Credentials matched. otp required!",
           }
         }
-        const client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
-        const { status } = await client.verify.v2.services(process.env.TWILIO_VERIFY_SERVICE_SID).verificationChecks.create({
-           to: user.phoneNumber,
-           code: otp
-        });
-        if (!status){
+        const { valid } = await user.verifyOtp(otp);
+        if (valid){
           return {
             status: 401,
             message: "Invalid OTP. Please try again!",
@@ -64,8 +60,8 @@ export default class AuthController {
     return {
       status: 401,
       message: "Credentials not match!"
-    },
-  };
+    }
+  }
 
   async verifyEmail(req: Request){
     await User.findByIdAndUpdate(req.params.id, {emailVerified: true}, {new: false});
@@ -157,9 +153,10 @@ export default class AuthController {
   };
   
   async sendOtp(req: Request){
-    const user = await User.findById(req.validated.id);
+    const user = await User.findOne()//await User.findById(req.validated.id);
     if(!user) return { status: 404 };
-    await user.sendOtp();
+    const code = await user.sendOtp();
+    console.log(await user.verifyOtp(929272))
     return { message: `OTP sent to ${user.phoneNumber}!`};
   }
 }

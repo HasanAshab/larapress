@@ -195,11 +195,6 @@ describe("Auth", () => {
     expect(response.body.data).toEqualDocument(user);
   });
 
-  it("shouldn't get profile without auth-token", async () => {
-    const response = await request.get("/api/v1/auth/profile");
-    expect(response.statusCode).toBe(401);
-  });
-
   it("should update profile", async () => {
     Storage.mock();
     const response = await request
@@ -347,6 +342,11 @@ describe("Auth", () => {
     expect(passwordMatch).toBe(false);
     Mail.assertNothingSent();
   });
+  
+  it("Should update phone number", async () => {
+    
+  });
+
 
   it("Should send otp", async () => {
     

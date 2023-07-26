@@ -1,6 +1,7 @@
 import { Schema, Document } from "mongoose";
 import { customError } from "helpers";
 import twilio from "twilio";
+import OTP from "app/models/OTP";
 import Mail from "illuminate/utils/Mail"
 import URL from "illuminate/utils/URL"
 import Token from "illuminate/utils/Token";
@@ -11,6 +12,7 @@ import PasswordChangedMail from "app/mails/PasswordChangedMail";
 
 const frontendUrl = process.env.FRONTEND_URL;
 const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
+const client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
 
 export interface AuthenticatableDocument extends Document {
   emailVerified: boolean;
@@ -59,13 +61,21 @@ export default (schema: Schema) => {
   }
   
   schema.methods.sendOtp = async function () {
-    const settings = await this.settings;
-    if(!settings.twoFactorAuth.enabled) return;
-    const client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
-    return await client.verify.v2.services(process.env.TWILIO_VERIFY_SERVICE_SID).verifications.create({
+    //const settings = await this.settings;
+  //  if(!settings.twoFactorAuth.enabled) return;
+    const otp = await OTP.create({ userId: this._id });
+    const message = await client.messages.create({
       from: process.env.TWILIO_PHONE_NUMBER,
-      to: this.phoneNumber,
-      channel: settings.twoFactorAuth.method
+      to: "+15005550006",//this.phoneNumber,
+      body: "Your OTP is " + otp.code,
     });
+    return otp.code;
+  }
+  
+  schema.methods.verifyOtp = async function (code: number) {
+    const otp = await OTP.findOne({ userId: this._id, code });
+    if(!otp) return false;
+    await OTP.deleteMany({ userId: this._id });
+    return true;
   }
 };
