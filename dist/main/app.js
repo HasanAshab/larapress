@@ -19,6 +19,8 @@ app.use((0, cors_1.default)({
 }));
 app.use((0, helmet_1.default)());
 app.use("*", (0, helpers_1.middleware)("maintenance.check", ["limit", { time: 60 * 1000, count: 60 }]));
+if (process.env.TRACE_PERFORMANCE === "true")
+    app.use((0, helpers_1.middleware)("performance.trace"));
 // Setting middlewares for request parsing 
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(body_parser_1.default.json());

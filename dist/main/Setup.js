@@ -46,17 +46,17 @@ class Setup {
     }
     ;
     static mongooseModels() {
-        const modelsBaseDir = (0, helpers_1.base)("app/models/");
+        const modelsBaseDir = (0, helpers_1.base)("app/models");
         const modelsName = fs_1.default.readdirSync(modelsBaseDir);
         for (const modelName of modelsName) {
-            require(modelsBaseDir + modelName);
+            require(modelsBaseDir + "/" + modelName);
         }
     }
     static mongooseGlobalPlugins() {
-        const globalPluginsBaseDir = (0, helpers_1.base)("illuminate/plugins/global/");
+        const globalPluginsBaseDir = (0, helpers_1.base)("illuminate/plugins/global");
         const globalPluginsName = fs_1.default.readdirSync(globalPluginsBaseDir);
         for (const globalPluginName of globalPluginsName) {
-            const plugin = require(globalPluginsBaseDir + globalPluginName).default;
+            const plugin = require(globalPluginsBaseDir + "/" + globalPluginName).default;
             mongoose_1.default.plugin(plugin);
         }
         mongoose_1.default.plugin((0, mongoose_hidden_1.default)(), { hidden: { _id: false } });

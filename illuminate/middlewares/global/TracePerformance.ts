@@ -1,6 +1,6 @@
 import Middleware from "illuminate/middlewares/Middleware";
 import { Request, Response, NextFunction } from "express";
-import { base } from "helpers";
+import { storage } from "helpers";
 import fs from "fs";
 
 export default class TracePerformance extends Middleware {

@@ -8,12 +8,10 @@ const Storage = require("illuminate/utils/Storage").default;
 const Mail = require("illuminate/utils/Mail").default;
 const User = require("app/models/User").default;
 const OTP = require("app/models/OTP").default;
-const Settings = require("app/models/Settings").default;
 const events = require("events");
 
 describe("Auth", () => {
   let user;
-  let settings;
   let token;
 
   beforeAll(async () => {
@@ -24,7 +22,6 @@ describe("Auth", () => {
     await resetDatabase();
     Mail.mock();
     user = await User.factory().create();
-    settings = await Settings.create({ userId: user._id });
     token = user.createToken();
   });
 
@@ -109,8 +106,8 @@ describe("Auth", () => {
   });
   
   it("Should flag for otp if not provided (2FA)", async () => {
-    settings.twoFactorAuth.enabled = true;
-    await settings.save();
+    user.settings = { twoFactorAuth: { enabled: true } };
+    await user.save();
     const response = await request
       .post("/api/v1/auth/login")
       .field("email", user.email)
@@ -121,8 +118,8 @@ describe("Auth", () => {
   });
   
   it("should login a user with valid otp (2FA)", async () => {
-    settings.twoFactorAuth.enabled = true;
-    await settings.save();
+    user.settings = { twoFactorAuth: { enabled: true } };
+    await user.save();
     const otp = await user.sendOtp();
     const response = await request
       .post("/api/v1/auth/login")
@@ -136,8 +133,8 @@ describe("Auth", () => {
 
   
   it("shouldn't login a user with invalid OTP (2FA)", async () => {
-    settings.twoFactorAuth.enabled = true;
-    await settings.save();
+    user.settings = { twoFactorAuth: { enabled: true } };
+    await user.save();
     const response = await request
       .post("/api/v1/auth/login")
       .field("email", user.email)
@@ -382,8 +379,8 @@ describe("Auth", () => {
   });
 
   it("Should send otp", async () => {
-    settings.twoFactorAuth.enabled = true;
-    await settings.save();
+    user.settings = { twoFactorAuth: { enabled: true } };
+    await user.save();
     const response = await request.post("/api/v1/auth/send-otp/" + user._id.toString());
     
     const otp = await OTP.findOne({ userId: user._id });

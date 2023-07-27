@@ -26,10 +26,11 @@ function toSnakeCase(str) {
 }
 exports.toSnakeCase = toSnakeCase;
 function storage(storage_path = "") {
-    return path_1.default.resolve(path_1.default.join("storage", storage_path));
+    return path_1.default.join(__dirname, "storage", storage_path);
 }
 exports.storage = storage;
 function middleware(...keysWithConfig) {
+    const collectedMiddlewaresClassName = [];
     function wrapMiddleware(context, handler) {
         return async (req, res, next) => {
             try {
@@ -46,20 +47,30 @@ function middleware(...keysWithConfig) {
         const handlers = [];
         if (typeof middlewarePaths === "string") {
             const fullPath = middlewarePaths.startsWith("<global>")
-                ? middlewarePaths.replace("<global>", "illuminate/middlewares/global") : `app/http/${(_a = config === null || config === void 0 ? void 0 : config.version) !== null && _a !== void 0 ? _a : getVersion()}/middlewares/${middlewarePaths}`;
+                ? middlewarePaths.replace("<global>", "illuminate/middlewares/global")
+                : `app/http/${(_a = config === null || config === void 0 ? void 0 : config.version) !== null && _a !== void 0 ? _a : "v1"}/middlewares/${middlewarePaths}`;
             const MiddlewareClass = require(path_1.default.resolve(fullPath)).default;
             const middlewareInstance = new MiddlewareClass(config);
             const handler = middlewareInstance.handle.length === 4 ? middlewareInstance.handle.bind(middlewareInstance) : wrapMiddleware(middlewareInstance, middlewareInstance.handle);
-            handlers.push(handler);
+            if (!collectedMiddlewaresClassName.includes(MiddlewareClass.name)) {
+                handlers.push(handler);
+                collectedMiddlewaresClassName.push(MiddlewareClass.name);
+            }
         }
         else {
             for (const middlewarePath of middlewarePaths) {
                 const fullPath = middlewarePath.startsWith("<global>")
-                    ? middlewarePath.replace("<global>", "illuminate/middlewares/global") : `app/http/${(_b = config === null || config === void 0 ? void 0 : config.version) !== null && _b !== void 0 ? _b : getVersion()}/middlewares/${middlewarePath}`;
+                    ? middlewarePath.replace("<global>", "illuminate/middlewares/global")
+                    : `app/http/${(_b = config === null || config === void 0 ? void 0 : config.version) !== null && _b !== void 0 ? _b : "v1"}/middlewares/${middlewarePath}`;
                 const MiddlewareClass = require(path_1.default.resolve(fullPath)).default;
                 const middlewareInstance = new MiddlewareClass(config);
-                const handler = middlewareInstance.handle.length === 4 ? middlewareInstance.handle.bind(middlewareInstance) : wrapMiddleware(middlewareInstance, middlewareInstance.handle);
-                handlers.push(handler);
+                const handler = middlewareInstance.handle.length === 4
+                    ? middlewareInstance.handle.bind(middlewareInstance)
+                    : wrapMiddleware(middlewareInstance, middlewareInstance.handle);
+                if (!collectedMiddlewaresClassName.includes(MiddlewareClass.name)) {
+                    handlers.push(handler);
+                    collectedMiddlewaresClassName.push(MiddlewareClass.name);
+                }
             }
         }
         return handlers;
@@ -67,21 +78,18 @@ function middleware(...keysWithConfig) {
     let middlewares = [];
     for (const keyWithConfig of keysWithConfig) {
         if (typeof keyWithConfig === "string") {
-            middlewares = [...middlewares,
-                ...getMiddleware(keyWithConfig)];
+            middlewares = [...middlewares, ...getMiddleware(keyWithConfig)];
         }
         else {
             const [key, config] = keyWithConfig;
             const middleware = getMiddleware(key, config);
-            middlewares = [...middlewares,
-                ...middleware];
+            middlewares = [...middlewares, ...middleware];
         }
     }
     return middlewares;
 }
 exports.middleware = middleware;
-function controller(name, version) {
-    version = version !== null && version !== void 0 ? version : getVersion();
+function controller(name, version = getVersion()) {
     const controllerPath = path_1.default.resolve(path_1.default.join(`app/http/${version}/controllers`, name));
     const controllerClass = require(controllerPath).default;
     const controllerInstance = new controllerClass;
@@ -91,7 +99,6 @@ function controller(name, version) {
     for (const methodName of methodNames) {
         const requestHandler = async function (req, res, next) {
             try {
-                console.log("jdj");
                 const startTime = Date.now();
                 const handler = controllerInstance[methodName];
                 if (handler.length === 2)
@@ -102,7 +109,6 @@ function controller(name, version) {
                 }
                 else
                     throw new Error(`Unknown param on ${name}:${methodName}`);
-                console.log(`${name}@${methodName}: ${Date.now() - startTime}`);
             }
             catch (err) {
                 next(err);
@@ -124,6 +130,7 @@ function env(envValues) {
     if (!envValues)
         return envConfig;
     for (const key in envValues) {
+        process.env[key] = envValues[key];
         envConfig[key] = envValues[key];
     }
     try {
@@ -137,7 +144,7 @@ function env(envValues) {
 exports.env = env;
 function log(data) {
     if (process.env.LOG === "file") {
-        const path = "./storage/error.log";
+        const path = "./storage/logs/error.log";
         if (data instanceof Error) {
             data = data.stack;
         }

@@ -1,7 +1,7 @@
 import { Schema, Document } from "mongoose";
 import jwt from "jsonwebtoken";
 const key = process.env.APP_KEY ?? "";
-const tokenLifespan = Number(process.env.TOKEN_LIFESPAN);
+const expiresIn = Number(process.env.TOKEN_LIFESPAN);
 
 export interface HasApiTokensDocument extends Document {
   tokenVersion: number;
@@ -23,9 +23,7 @@ export default (schema: Schema) => {
         version: this.tokenVersion,
       },
       key,
-      {
-        expiresIn: tokenLifespan,
-      }
+      { expiresIn }
     );
   };
 };

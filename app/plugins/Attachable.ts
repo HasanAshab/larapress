@@ -20,6 +20,11 @@ export default (schema: Schema) => {
       attachableType: (this.constructor as any).modelName,
     });
   });
+  
+  schema.pre('remove', function(next) {
+    this.attachments.deleteMany();
+    next();
+  });
 
   schema.methods.attach = async function (name: string, file: UploadedFile, attachLinkToModel = false) {
     const path = await Storage.putFile("public/uploads", file);

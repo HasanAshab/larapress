@@ -31,6 +31,11 @@ export default (schema: Schema) => {
     });
   });
   
+  schema.pre('remove', function(next) {
+    this.comments.deleteMany();
+    next();
+  });
+  
   schema.statics.commentAt = function(id: string, commenter: IUser, text: string) {
     return Comment.create({
       text,

@@ -26,8 +26,8 @@ const UserSchema = new Schema({
     default: null,
   },
   password: {
-    required: true,
     type: String,
+    default: null,
     hide: true
   },
   logoUrl: {
@@ -42,7 +42,7 @@ const UserSchema = new Schema({
 { 
   timestamps: true,
   methods: {
-    safeDetails(this: any){
+    safeDetails(this: any) {
       delete this.email;
       delete this.phoneNumber;
       return this;
@@ -51,8 +51,12 @@ const UserSchema = new Schema({
 }
 );
 
+UserSchema.post("save", function (doc) {
+  Settings.create({ userId: doc._id });
+});
+
+
 UserSchema.pre("save", async function(next) {
-  await Settings.create({ userId: this._id })
   const bcryptRounds = Number(process.env.BCRYPT_ROUNDS) ?? 10;
   if (!this.isModified("password")) {
     return next();
