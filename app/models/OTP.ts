@@ -8,11 +8,16 @@ const OTPSchema = new Schema(
     type: Schema.Types.ObjectId
   },
   code: {
-    type: Number,
-    default: Math.floor(100000 + Math.random() * 900000)
+    required: true,
+    type: Number
+  },
+  expiresAt: {
+    required: true,
+    type: Date,
+    expires: 0
   }
 },
-{ timestamps: true }
+{ createdAt: true }
 );
 
 OTPSchema.plugin(HasFactory);

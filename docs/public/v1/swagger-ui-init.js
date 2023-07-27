@@ -37,8 +37,9 @@ window.onload = function() {
                     "items": {
                       "type": "object",
                       "example": {
-                        "username": "Fannie",
-                        "email": "Devyn66@yahoo.com",
+                        "username": "Filiberto",
+                        "email": "Orland40@hotmail.com",
+                        "phoneNumber": "+15005550006",
                         "password": "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi",
                         "emailVerified": true
                       }
@@ -69,8 +70,9 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "username": "Ethyl",
-                      "email": "Adaline0@hotmail.com",
+                      "username": "Sven",
+                      "email": "Lue16@yahoo.com",
+                      "phoneNumber": "+15005550006",
                       "password": "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi",
                       "emailVerified": true
                     }
@@ -116,6 +118,153 @@ window.onload = function() {
           "parameters": []
         }
       },
+      "/settings/app": {
+        "get": {
+          "summary": "Get app settings (ENV)",
+          "description": "need auth-token, admin",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "data": {
+                    "type": "object",
+                    "example": {
+                      "appName": "Samer",
+                      "appProtocol": "http",
+                      "appDomain": "127.0.0.1",
+                      "appPort": "8000",
+                      "appKey": "621f6b72ebfdfdb50d3f20c97515e9454043b9789550b4e913e3847d4fcc5eec",
+                      "appState": "up",
+                      "stripeKey": "sk_test_51MGknmLkLQPFd1VwBCU9EYKJC6NRwY4Y2pJuuo3nPVJlUCLgUBfbY5sOEpkA8oKJkAQ1XTKRlFboNKGZeTgqoMFw00OfAl908c",
+                      "publicVapidKey": "BKa4dsG_M6aRjsKYBjW_gKXjfVJ1AwDKTz106fLEaaH9QRykhDn1TSWnYeGN8IEO5N7yso36nbYFPLkk_bHRqOs",
+                      "privateVapidKey": "6zO25rDm7gh3EOiaGiiQ-yA_KXxhGGu1jN5QF-90MfI",
+                      "clientDomain": "127.0.0.1",
+                      "clientPort": "3000",
+                      "nodeEnv": "development",
+                      "dbConnect": "true",
+                      "dbUrl": "mongodb+srv://haoronaldo18:Haomao.18205@cluster0.jqufz1a.mongodb.net/?retryWrites=true&w=majority",
+                      "redisUrl": "redis://default:raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1@redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com:12100",
+                      "tokenLifespan": "2592000",
+                      "bcryptRounds": "10",
+                      "mailHost": "sandbox.smtp.mailtrap.io",
+                      "mailPort": "2525",
+                      "mailUsername": "28786b42db2778",
+                      "mailPassword": "f1f4faf0316dd7",
+                      "mailFromName": "Samer",
+                      "mailFromAddress": "noreply@Samer.com",
+                      "mailEncryption": "tls",
+                      "twilioSid": "AC8a263aa117170b2087eeac0c919ebe6a",
+                      "twilioAuthToken": "3a915d718cb1ecd3f25112dd3ac38e1b",
+                      "twilioVerifyServiceSid": "VA512d3c99748262ac86f6a3d137c1ec53",
+                      "twilioPhoneNumber": "+15005550006",
+                      "cache": "redis",
+                      "tracePerformance": "false",
+                      "log": "file"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "parameters": []
+        },
+        "put": {
+          "summary": "Update app settings (ENV)",
+          "description": "need auth-token, admin",
+          "validationPath": "Settings/Update",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": []
+        }
+      },
+      "/settings/enable-2fa": {
+        "post": {
+          "summary": "Enable Two Factor Authentication (2FA) for a user",
+          "description": "need auth-token",
+          "validationPath": "Settings/EnableTwoFactorAuth",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "method",
+              "in": "body",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "phoneNumber",
+              "in": "body",
+              "type": "string",
+              "required": false
+            }
+          ]
+        }
+      },
+      "/settings/": {
+        "get": {
+          "summary": "Get user settings",
+          "description": "need auth-token",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "data": {
+                    "type": "object",
+                    "example": {
+                      "userId": "64c1c4ba9af2eae259a98798",
+                      "notification": {
+                        "enabled": true,
+                        "email": true,
+                        "push": true
+                      },
+                      "twoFactorAuth": {
+                        "enabled": false,
+                        "method": "sms"
+                      },
+                      "_id": "64c1c4ba9af2eae259a98799"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "parameters": []
+        }
+      },
       "/notifications/": {
         "get": {
           "summary": "Get all notifications",
@@ -133,12 +282,12 @@ window.onload = function() {
                     "items": {
                       "type": "object",
                       "example": {
-                        "notifiableId": "64bdeadb6f37922ce0fa2c31",
+                        "notifiableId": "64c1c4ba9af2eae259a9879a",
                         "notifiableType": "User",
                         "data": {
-                          "text": "Harum suscipit nostrum et. Suscipit natus beatae earum at incidunt ea mollitia velit. Quos voluptatem numquam repellendus.\nLabore quaerat aliquam porro similique veritatis incidunt ipsum. Atque eligendi sunt modi nihil. Aliquid qui cupiditate.\nAtque est veniam fugit. Eum magni animi aliquid saepe fugiat voluptatem hic incidunt quis. Harum perferendis commodi sapiente debitis velit aliquam quasi eius doloribus."
+                          "text": "Iure dolore fugiat quis numquam eveniet neque quo. Praesentium possimus eligendi magnam culpa modi asperiores blanditiis. Quae dolorem distinctio pariatur dolore commodi tempore quas consectetur perspiciatis.\nDolore odio culpa id sequi dolorem maxime. Architecto dignissimos veritatis. Consequuntur fugiat reprehenderit fuga quo.\nSimilique eveniet illum. Ea suscipit odio expedita enim. Quidem voluptate ea adipisci officia iure fuga iusto."
                         },
-                        "readAt": "2023-07-24T03:07:07.487Z"
+                        "readAt": "2023-07-27T01:13:30.384Z"
                       }
                     }
                   },
@@ -223,6 +372,61 @@ window.onload = function() {
           "parameters": []
         }
       },
+      "/dashboard/admin": {
+        "get": {
+          "summary": "Get dashboard",
+          "description": "need auth-token, admin",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "totalUsers": "number",
+                      "newUsersToday": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "parameters": []
+        }
+      },
+      "/auth/change-phone-number": {
+        "Put": {
+          "summary": "Set or Update user's phone number",
+          "validationPath": "Auth/ChangePhoneNumber",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "phoneNumber",
+              "in": "body",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
+      },
       "/auth/login": {
         "post": {
           "summary": "Login a User",
@@ -246,6 +450,10 @@ window.onload = function() {
                         "type": "string"
                       }
                     }
+                  },
+                  "twoFactorAuthRequired": {
+                    "type": "boolean",
+                    "description": "if its true then you need to pass otp also"
                   }
                 }
               }
@@ -263,6 +471,12 @@ window.onload = function() {
               "in": "body",
               "type": "string",
               "required": true
+            },
+            {
+              "name": "otp",
+              "in": "body",
+              "type": "number",
+              "required": false
             }
           ]
         }
@@ -282,8 +496,9 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "username": "Aliyah",
-                      "email": "Pamela.McGlynn58@yahoo.com",
+                      "username": "Dayton",
+                      "email": "Antoinette40@hotmail.com",
+                      "phoneNumber": "+15005550006",
                       "password": "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi",
                       "emailVerified": true
                     }
@@ -441,6 +656,27 @@ window.onload = function() {
           "parameters": []
         }
       },
+      "/auth/send-otp/{id}": {
+        "post": {
+          "summary": "Send One Time Password (OTP) code to user's phone number",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": []
+        }
+      },
       "/auth/password/change": {
         "put": {
           "summary": "Change password",
@@ -463,7 +699,7 @@ window.onload = function() {
           },
           "parameters": [
             {
-              "name": "old_password",
+              "name": "oldPassword",
               "in": "body",
               "type": "string",
               "required": true
@@ -548,267 +784,6 @@ window.onload = function() {
           ]
         }
       },
-      "/admin/dashboard": {
-        "get": {
-          "summary": "Get dashboard",
-          "description": "need auth-token, admin",
-          "responses": {
-            "200": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "success": {
-                    "type": "boolean"
-                  },
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "totalUsers": "number",
-                      "newUsersToday": "number"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "parameters": []
-        }
-      },
-      "/admin/settings": {
-        "get": {
-          "summary": "Get app settings (ENV)",
-          "description": "need auth-token, admin",
-          "responses": {
-            "200": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "success": {
-                    "type": "boolean"
-                  },
-                  "data": {
-                    "type": "object",
-                    "example": {
-                      "appName": "Samer",
-                      "appProtocol": "http",
-                      "appDomain": "127.0.0.1",
-                      "appPort": "8000",
-                      "appKey": "621f6b72ebfdfdb50d3f20c97515e9454043b9789550b4e913e3847d4fcc5eec",
-                      "appState": "up",
-                      "stripeKey": "sk_test_51MGknmLkLQPFd1VwBCU9EYKJC6NRwY4Y2pJuuo3nPVJlUCLgUBfbY5sOEpkA8oKJkAQ1XTKRlFboNKGZeTgqoMFw00OfAl908c",
-                      "publicVapidKey": "BKa4dsG_M6aRjsKYBjW_gKXjfVJ1AwDKTz106fLEaaH9QRykhDn1TSWnYeGN8IEO5N7yso36nbYFPLkk_bHRqOs",
-                      "privateVapidKey": "6zO25rDm7gh3EOiaGiiQ-yA_KXxhGGu1jN5QF-90MfI",
-                      "clientDomain": "127.0.0.1",
-                      "clientPort": "3000",
-                      "nodeEnv": "development",
-                      "dbConnect": "true",
-                      "dbUrl": "mongodb+srv://haoronaldo18:Haomao.18205@cluster0.jqufz1a.mongodb.net/?retryWrites=true&w=majority",
-                      "redisUrl": "redis://default:raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1@redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com:12100",
-                      "tokenLifespan": "2592000",
-                      "bcryptRounds": "10",
-                      "mailHost": "sandbox.smtp.mailtrap.io",
-                      "mailPort": "2525",
-                      "mailUsername": "28786b42db2778",
-                      "mailPassword": "f1f4faf0316dd7",
-                      "mailFromName": "Samer",
-                      "mailFromAddress": "noreply@Samer.com",
-                      "mailEncryption": "tls",
-                      "cache": "redis",
-                      "testCache": "memory",
-                      "log": "console"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "parameters": []
-        },
-        "put": {
-          "summary": "Update app settings (ENV)",
-          "description": "need auth-token, admin",
-          "validationPath": "Settings/Update",
-          "responses": {
-            "200": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "success": {
-                    "type": "boolean"
-                  },
-                  "message": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          "parameters": [
-            {
-              "name": "appName",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "appProtocol",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "appDomain",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "appPort",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "appKey",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "appState",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "stripeKey",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "publicVapidKey",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "privateVapidKey",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "clientDomain",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "clientPort",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "nodeEnv",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "dbConnect",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "dbUrl",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "redisUrl",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "tokenLifespan",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "bcryptRounds",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "mailHost",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "mailPort",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "mailUsername",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "mailPassword",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "mailFromName",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "mailFromAddress",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "mailEncryption",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "cache",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "testCache",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "log",
-              "in": "body",
-              "type": "string",
-              "required": false
-            }
-          ]
-        }
-      },
       "/admin/categories/": {
         "get": {
           "summary": "Get all categories",
@@ -826,8 +801,8 @@ window.onload = function() {
                     "items": {
                       "type": "object",
                       "example": {
-                        "name": "Practical Frozen Salad",
-                        "slug": "quos-dolore-quidem"
+                        "name": "Electronic Fresh Car",
+                        "slug": "dolorem-blanditiis-magni"
                       }
                     }
                   },
@@ -856,8 +831,8 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "name": "Fantastic Granite Tuna",
-                      "slug": "error-recusandae-vel"
+                      "name": "Unbranded Wooden Soap",
+                      "slug": "inventore-ducimus-sunt"
                     }
                   }
                 }

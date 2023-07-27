@@ -8,7 +8,7 @@ import customErrors from "register/errors";
 import mongoose from "mongoose";
 
 export function base(basePath = "") {
-  return path.resolve(basePath);
+  return path.join(__dirname, basePath);
 }
 
 export function capitalizeFirstLetter(str: string) {
@@ -24,7 +24,7 @@ export function toSnakeCase(str: string) {
 }
 
 export function storage(storage_path = "") {
-  return path.resolve("storage", storage_path);
+  return path.join(__dirname, "storage", storage_path);
 }
 
 export function middleware(

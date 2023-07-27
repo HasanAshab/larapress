@@ -22,6 +22,10 @@ module.exports = {
                 },
               },
             },
+            twoFactorAuthRequired: {
+              type: "boolean",
+              description: "if its true then you need to pass otp also",
+            },
           },
         },
       },

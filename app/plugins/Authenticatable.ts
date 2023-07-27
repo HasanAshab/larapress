@@ -63,13 +63,18 @@ export default (schema: Schema) => {
   schema.methods.sendOtp = async function () {
     const settings = await this.settings;
     if(!settings.twoFactorAuth.enabled) return;
-    const otp = await OTP.create({ userId: this._id });
+    const code = Math.floor(100000 + Math.random() * 900000);
+    const otp = await OTP.create({ 
+      userId: this._id,
+      code,
+      expiresAt: Date.now() + 3600000
+    });
     const message = await client.messages.create({
       from: process.env.TWILIO_PHONE_NUMBER,
       to: this.phoneNumber,
-      body: "Your OTP is: " + otp.code,
+      body: "Your OTP is: " + code,
     });
-    return otp.code;
+    return code;
   }
   
   schema.methods.verifyOtp = async function (code: number) {
