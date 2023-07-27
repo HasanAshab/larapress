@@ -6,7 +6,7 @@ const SettingsSchema = new Schema(
   userId: {
     required: true,
     type: Schema.Types.ObjectId,
-    unique: true
+//    unique: true
   },
   notification: {
     enabled: {

@@ -41,8 +41,8 @@ export default class AuthController {
             message: "Credentials matched. otp required!",
           }
         }
-        const { valid } = await user.verifyOtp(otp);
-        if (valid){
+        const isValidOtp = await user.verifyOtp(otp);
+        if (!isValidOtp){
           return {
             status: 401,
             message: "Invalid OTP. Please try again!",
@@ -153,10 +153,9 @@ export default class AuthController {
   };
   
   async sendOtp(req: Request){
-    const user = await User.findOne()//await User.findById(req.validated.id);
+    const user = await User.findById(req.params.id);
     if(!user) return { status: 404 };
-    const code = await user.sendOtp();
-    console.log(await user.verifyOtp(929272))
-    return { message: `OTP sent to ${user.phoneNumber}!`};
+    await user.sendOtp();
+    return { message: `6 digit OTP code sent to phone number!`};
   }
 }

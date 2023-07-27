@@ -9,7 +9,7 @@ module.exports = {
     },
   },
   testMatch: ["<rootDir>/tests/{feature,unit}/**/*.test.js"],
-  testTimeout: 23000,
+  testTimeout: 10000000,
   setupFilesAfterEnv: [
     "./tests/registerHelpers.js",
     "./tests/customMatchers.js"

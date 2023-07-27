@@ -7,6 +7,7 @@ const Cache = require("illuminate/utils/Cache").default;
 const Storage = require("illuminate/utils/Storage").default;
 const Mail = require("illuminate/utils/Mail").default;
 const User = require("app/models/User").default;
+const OTP = require("app/models/OTP").default;
 const Settings = require("app/models/Settings").default;
 const events = require("events");
 
@@ -23,7 +24,7 @@ describe("Auth", () => {
     await resetDatabase();
     Mail.mock();
     user = await User.factory().create();
-    settings = Settings.create({ userId: user._id });
+    settings = await Settings.create({ userId: user._id });
     token = user.createToken();
   });
 
@@ -98,10 +99,6 @@ describe("Auth", () => {
     expect(response.body.data).toHaveProperty("token");
   });
   
-  it("should login a user with valid otp (2FA)", async () => {
-      
-  });
-
   it("shouldn't login with wrong password", async () => {
     const response = await request
       .post("/api/v1/auth/login")
@@ -111,14 +108,45 @@ describe("Auth", () => {
     expect(response.body.data?.token).toBe(undefined);
   });
   
-  it("shouldn't login a user without OTP (2FA)", async () => {
-      
+  it("Should flag for otp if not provided (2FA)", async () => {
+    settings.twoFactorAuth.enabled = true;
+    await settings.save();
+    const response = await request
+      .post("/api/v1/auth/login")
+      .field("email", user.email)
+      .field("password", "password");
+    expect(response.statusCode).toBe(200);
+    expect(response.body.data.twoFactorAuthRequired).toBe(true);
+    expect(response.body.data).not.toHaveProperty("token");
   });
   
-  it("shouldn't login a user with invalid OTP (2FA)", async () => {
+  it("should login a user with valid otp (2FA)", async () => {
+    settings.twoFactorAuth.enabled = true;
+    await settings.save();
+    const otp = await user.sendOtp();
+    const response = await request
+      .post("/api/v1/auth/login")
+      .field("email", user.email)
+      .field("password", "password")
+      .field("otp", otp);
       
+    expect(response.statusCode).toBe(200);
+    expect(response.body.data).toHaveProperty("token");
   });
 
+  
+  it("shouldn't login a user with invalid OTP (2FA)", async () => {
+    settings.twoFactorAuth.enabled = true;
+    await settings.save();
+    const response = await request
+      .post("/api/v1/auth/login")
+      .field("email", user.email)
+      .field("password", "password")
+      .field("otp", 91827203);
+      
+    expect(response.statusCode).toBe(401);
+    expect(response.body.data).not.toHaveProperty("token");
+  });
 
   it("should prevent Brute Force login", async () => {
     Cache.mock();
@@ -280,9 +308,8 @@ describe("Auth", () => {
     const response = await request
       .put("/api/v1/auth/password/change")
       .set("Authorization", `Bearer ${token}`)
-      .field("old_password", passwords.old)
+      .field("oldPassword", passwords.old)
       .field("password", passwords.new);
-
     user = await User.findById(user._id);
     const passwordMatch = await bcrypt.compare(passwords.new, user.password);
     expect(response.statusCode).toBe(200);
@@ -344,16 +371,32 @@ describe("Auth", () => {
   });
   
   it("Should update phone number", async () => {
-    
+    const newNumber = "+14155552671";
+    const response = await request
+      .put("/api/v1/auth/change-phone-number")
+      .set("Authorization", `Bearer ${token}`)
+      .field("phoneNumber", newNumber);
+    user = await User.findById(user._id);
+    expect(response.statusCode).toBe(200);
+    expect(user.phoneNumber).toBe(newNumber);
   });
 
-
   it("Should send otp", async () => {
+    settings.twoFactorAuth.enabled = true;
+    await settings.save();
+    const response = await request.post("/api/v1/auth/send-otp/" + user._id.toString());
     
+    const otp = await OTP.findOne({ userId: user._id });
+    expect(response.statusCode).toBe(200);
+    expect(otp).not.toBeNull();
   });
   
   it("Shouldn't send otp if 2fa is disabled", async () => {
-    
+    const response = await request.post("/api/v1/auth/send-otp/" + user._id.toString());
+    expect(response.statusCode).toBe(200);
+    const otp = await OTP.findOne({ userId: user._id });
+    expect(response.statusCode).toBe(200);
+    expect(otp).toBeNull();
   });
   
 });
