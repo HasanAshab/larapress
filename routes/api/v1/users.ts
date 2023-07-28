@@ -6,11 +6,9 @@ const UserController = controller("UserController");
 
 // Endpoints for user data
 
-router.use(middleware("verified"));
-
 router.get("/", middleware("admin"), UserController.index);
-router.delete("/:id", UserController.delete);
-router.get("/:username", UserController.find);
+router.delete("/:id", middleware("verified"), UserController.delete);
+router.get("/:username", middleware("verified"), UserController.find);
 router.put("/:id/make-admin", middleware("admin"), UserController.makeAdmin);
 
 export default router;

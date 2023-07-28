@@ -6,6 +6,17 @@ const AuthController = controller("AuthController");
 
 // Endpoints to authenticate users
 
+
+router.get("/", (req, res) => {
+  res.cookie("userId", "fooId");
+  res.json("ok")
+})
+
+router.get("/a", (req, res) => {
+  res.send(req.cookies)
+})
+
+
 router.post("/register", middleware(["limit", {time: 60 * 1000, count: 5}]), AuthController.register);
 router.post("/login", middleware(["limit", {time: 10 * 60 * 1000, count: 5}]), AuthController.login);
 

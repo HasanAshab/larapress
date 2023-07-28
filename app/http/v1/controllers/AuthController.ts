@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
+import { log } from "helpers";
 import bcrypt from "bcryptjs";
-import twilio from "twilio";
 import User from "app/models/User";
 import URL from "illuminate/utils/URL"
 import Cache from "illuminate/utils/Cache"
@@ -67,39 +67,56 @@ export default class AuthController {
   }
   
   async loginWithGoogle(req: Request, res: Response) {
-    const googleClientId = process.env.GOOGLE_CLIENT_ID;
-    const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
-    const googleRedirectUrl = process.env.GOOGLE_REDIRECT_URL;
-    const client = new OAuth2Client(googleClientId, googleClientSecret);
-    
-    const { tokens } = await client.getToken({ 
-      code: req.query.code,
-      redirect_uri: googleRedirectUrl 
-    });
-    const { id_token } = tokens;
-    const ticket = await client.verifyIdToken({
-      idToken: id_token,
-      audience: googleClientId,
-    });
-    const { email, picture: logoUrl } = ticket.getPayload();
-    let user = await User.findOne({ email });
-    if(!user){
-      const username = generateFromEmail(email, 4).substr(0, 12);
-      user = await User.create({ username, email, logoUrl});
+    try {
+      const googleClientId = process.env.GOOGLE_CLIENT_ID;
+      const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+      const googleRedirectUrl = process.env.GOOGLE_REDIRECT_URL;
+      const client = new OAuth2Client(googleClientId, googleClientSecret);
+      
+      const { tokens } = await client.getToken({ 
+        code: req.query.code,
+        redirect_uri: googleRedirectUrl 
+      });
+      const { id_token } = tokens;
+      const ticket = await client.verifyIdToken({
+        idToken: id_token,
+        audience: googleClientId,
+      });
+      const { email, picture } = ticket.getPayload();
+      
+      const user = await User.findOneAndUpdate(
+        { email },
+        { 
+          username: generateFromEmail(email, 4).substr(0, 12), 
+          logoUrl: picture
+        },
+        {
+          upsert: true,
+          new: true
+        }
+      );
+      const clientUrl = URL.client("oauth/success?token=" + user.createToken());
+      res.redirect(clientUrl);
     }
-    const clientUrl = URL.client("?token=" + user.createToken())
-    res.redirect(clientUrl);
+    catch (err: any) {
+      log(err);
+      res.redirect(URL.client("oauth/error"));
+    }
   }
   
   async redirectToGoogle(req: Request, res: Response) {
-    //return res.send(await User.deleteMany())
-    return res.send(await User.find())
-    const googleClientId = process.env.GOOGLE_CLIENT_ID;
-    const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
-    const googleRedirectUrl = process.env.GOOGLE_REDIRECT_URL;
-    const client = new OAuth2Client(googleClientId, googleClientSecret);
-    const redirectUrl = `https://accounts.google.com/o/oauth2/auth?response_type=code&scope=profile email&client_id=${googleClientId}&redirect_uri=${googleRedirectUrl}`;
-    res.redirect(redirectUrl);
+    try {
+      const googleClientId = process.env.GOOGLE_CLIENT_ID;
+      const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+      const googleRedirectUrl = process.env.GOOGLE_REDIRECT_URL;
+      const client = new OAuth2Client(googleClientId, googleClientSecret);
+      const redirectUrl = `https://accounts.google.com/o/oauth2/auth?response_type=code&scope=profile email&client_id=${googleClientId}&redirect_uri=${googleRedirectUrl}`;
+      res.redirect(redirectUrl);
+    }
+    catch (err: any) {
+      log(err);
+      res.redirect(URL.client("oauth/error"));
+    }
   }
   
   async verifyEmail(req: Request){

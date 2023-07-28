@@ -93,12 +93,11 @@ export function controller(name: string, version = getVersion()): Record < strin
   const controllerInstance = new controllerClass;
   const controllerPrefix = controllerClass.name.replace("Controller", "");
   const methodNames = Object.getOwnPropertyNames(Object.getPrototypeOf(controllerInstance)).filter(name => name !== "constructor" && typeof controllerInstance[name] === 'function');
-  const handlerAndValidatorStack: Record < string,
-  RequestHandler[] > = {};
+  const handlerAndValidatorStack: Record <string, RequestHandler[]> = {};
   for (const methodName of methodNames) {
     const requestHandler = async function(req: Request, res: Response, next: NextFunction) {
       try {
-        const startTime = Date.now()
+        const startTime = Date.now();
         const handler = controllerInstance[methodName];
         if (handler.length === 2) await handler(req, res);
         else if (handler.length === 1 || handler.length === 0) {

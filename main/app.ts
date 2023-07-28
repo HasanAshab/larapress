@@ -1,10 +1,10 @@
 import { base, middleware } from "helpers";
 import express, { Application } from "express";
-import bodyParser from "body-parser";
-import multipartParser from "express-fileupload";
 import cors from "cors";
 import helmet from "helmet";
 import { engine } from "express-handlebars";
+import bodyParser from "body-parser";
+import multipartParser from "express-fileupload";
 import Setup from "main/Setup";
 
 const app: Application = express();

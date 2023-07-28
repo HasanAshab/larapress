@@ -3,6 +3,15 @@ import path from "path";
 import urls from "register/urls";
 
 export default class URL {
+  static join(baseUrl, path) {
+    const url = new URL(baseUrl);
+    const pathParts = path.split('/').filter(part => part !== ''); // Split and filter empty parts
+    url.pathname = url.pathname.endsWith('/') // Ensure the base URL pathname ends with a slash
+      ? url.pathname + pathParts.join('/')
+      : url.pathname + '/' + pathParts.join('/');
+    return url.toString();
+  }
+
   static resolve(url_path = ""): string {
     const domain = process.env.APP_DOMAIN;
     const port = process.env.APP_PORT;
