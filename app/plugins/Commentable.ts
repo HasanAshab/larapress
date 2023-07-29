@@ -4,7 +4,7 @@ import { IUser } from "app/models/User";
 
 export interface CommentableDocument extends Document {
   totalComments: Number;
-//  comments: 
+  //comments: 
   comment(commenter: IUser, text: string): Promise<IComment>;
 }
 
@@ -31,7 +31,7 @@ export default (schema: Schema) => {
     });
   });
   
-  schema.pre('remove', function(next) {
+  schema.pre<CommentableDocument>(["deleteOne", "deleteMany"], function(next) {
     this.comments.deleteMany();
     next();
   });

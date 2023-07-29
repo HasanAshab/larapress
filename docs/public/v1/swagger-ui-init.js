@@ -37,8 +37,8 @@ window.onload = function() {
                     "items": {
                       "type": "object",
                       "example": {
-                        "username": "Filiberto",
-                        "email": "Orland40@hotmail.com",
+                        "username": "Freda",
+                        "email": "Whitney.Block@gmail.com",
                         "phoneNumber": "+15005550006",
                         "password": "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi",
                         "emailVerified": true
@@ -70,8 +70,8 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "username": "Sven",
-                      "email": "Lue16@yahoo.com",
+                      "username": "Alf",
+                      "email": "Earlene_Morar@yahoo.com",
                       "phoneNumber": "+15005550006",
                       "password": "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi",
                       "emailVerified": true
@@ -150,6 +150,9 @@ window.onload = function() {
                       "redisUrl": "redis://default:raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1@redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com:12100",
                       "tokenLifespan": "2592000",
                       "bcryptRounds": "10",
+                      "googleClientId": "574177695590-6ta430f91sjtfmepvjskhvrf81ncbo0c.apps.googleusercontent.com",
+                      "googleClientSecret": "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",
+                      "googleRedirectUrl": "http://localhost:8000/api/v1/auth/google/callback",
                       "mailHost": "sandbox.smtp.mailtrap.io",
                       "mailPort": "2525",
                       "mailUsername": "28786b42db2778",
@@ -245,7 +248,7 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "userId": "64c1c4ba9af2eae259a98798",
+                      "userId": "64c3df9a2897b19aac549235",
                       "notification": {
                         "enabled": true,
                         "email": true,
@@ -255,7 +258,7 @@ window.onload = function() {
                         "enabled": false,
                         "method": "sms"
                       },
-                      "_id": "64c1c4ba9af2eae259a98799"
+                      "_id": "64c3df9a2897b19aac549236"
                     }
                   }
                 }
@@ -282,12 +285,12 @@ window.onload = function() {
                     "items": {
                       "type": "object",
                       "example": {
-                        "notifiableId": "64c1c4ba9af2eae259a9879a",
+                        "notifiableId": "64c3df9a2897b19aac549237",
                         "notifiableType": "User",
                         "data": {
-                          "text": "Iure dolore fugiat quis numquam eveniet neque quo. Praesentium possimus eligendi magnam culpa modi asperiores blanditiis. Quae dolorem distinctio pariatur dolore commodi tempore quas consectetur perspiciatis.\nDolore odio culpa id sequi dolorem maxime. Architecto dignissimos veritatis. Consequuntur fugiat reprehenderit fuga quo.\nSimilique eveniet illum. Ea suscipit odio expedita enim. Quidem voluptate ea adipisci officia iure fuga iusto."
+                          "text": "Minus vero molestiae inventore nemo deleniti in assumenda. Sapiente ea quas architecto quaerat. Sed cupiditate praesentium quasi fugit ea delectus reprehenderit autem.\nExcepturi architecto numquam esse delectus aspernatur doloribus nostrum quos voluptate. Officia sed sed dignissimos porro neque quas ullam similique ipsam. Odio dolore laudantium sequi quas incidunt ipsam in.\nRecusandae totam nemo accusantium temporibus. Maxime quas nobis animi minus aperiam. Autem voluptate quas quia fuga blanditiis sequi ea impedit maxime."
                         },
-                        "readAt": "2023-07-27T01:13:30.384Z"
+                        "readAt": "2023-07-28T15:32:42.935Z"
                       }
                     }
                   },
@@ -427,60 +430,6 @@ window.onload = function() {
           ]
         }
       },
-      "/auth/login": {
-        "post": {
-          "summary": "Login a User",
-          "description": "Returns api token if credentials match",
-          "validationPath": "Auth/Login",
-          "responses": {
-            "200": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "success": {
-                    "type": "boolean"
-                  },
-                  "message": {
-                    "type": "string"
-                  },
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "token": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "twoFactorAuthRequired": {
-                    "type": "boolean",
-                    "description": "if its true then you need to pass otp also"
-                  }
-                }
-              }
-            }
-          },
-          "parameters": [
-            {
-              "name": "email",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "password",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "otp",
-              "in": "body",
-              "type": "number",
-              "required": false
-            }
-          ]
-        }
-      },
       "/auth/profile": {
         "get": {
           "summary": "Get user details",
@@ -496,8 +445,8 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "username": "Dayton",
-                      "email": "Antoinette40@hotmail.com",
+                      "username": "Ocie",
+                      "email": "Jordy_Hermiston@yahoo.com",
                       "phoneNumber": "+15005550006",
                       "password": "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi",
                       "emailVerified": true
@@ -784,6 +733,74 @@ window.onload = function() {
           ]
         }
       },
+      "/auth/login/google": {
+        "get": {
+          "summary": "Login a User (Google)",
+          "responses": {
+            "302": {
+              "schema": {
+                "type": "object",
+                "description": "User is redirected to google auth"
+              }
+            }
+          },
+          "parameters": []
+        }
+      },
+      "/auth/login/": {
+        "post": {
+          "summary": "Login a User",
+          "description": "Returns api token if credentials match",
+          "validationPath": "Auth/Login",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "token": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "twoFactorAuthRequired": {
+                    "type": "boolean",
+                    "description": "if its true then you need to pass otp also"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "email",
+              "in": "body",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "password",
+              "in": "body",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "otp",
+              "in": "body",
+              "type": "number",
+              "required": false
+            }
+          ]
+        }
+      },
       "/admin/categories/": {
         "get": {
           "summary": "Get all categories",
@@ -801,8 +818,8 @@ window.onload = function() {
                     "items": {
                       "type": "object",
                       "example": {
-                        "name": "Electronic Fresh Car",
-                        "slug": "dolorem-blanditiis-magni"
+                        "name": "Generic Frozen Computer",
+                        "slug": "earum-quas-dolore"
                       }
                     }
                   },
@@ -831,8 +848,8 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "name": "Unbranded Wooden Soap",
-                      "slug": "inventore-ducimus-sunt"
+                      "name": "Licensed Cotton Mouse",
+                      "slug": "debitis-dolores-mollitia"
                     }
                   }
                 }

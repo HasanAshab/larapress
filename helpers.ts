@@ -207,18 +207,17 @@ export async function getModels(): Promise < Model < any > [] > {
 }
 
 export function loadDir(dirPath: string) {
-  const normalizedPath = path.normalize(dirPath);
-  if (fs.existsSync(normalizedPath)) return;
-  const {
-    dir,
-    base
-  } = path.parse(normalizedPath);
-  if (!fs.existsSync(dir)) {
-    loadDir(dir);
-  }
-  fs.mkdirSync(normalizedPath);
-}
+  const directories = dirPath.split(path.sep);
+  let currentPath = "";
 
+  for (const dir of directories) {
+    currentPath = path.join(currentPath, dir);
+    const fullPath = path.join(__dirname, currentPath);
+    if (!fs.existsSync(currentPath)) {
+      fs.mkdirSync(currentPath);
+    }
+  }
+}
 export function generateEndpointsFromDirTree(rootPath: string): Record < string, string > {
   const endpointPathPair: Record < string,
   string > = {}

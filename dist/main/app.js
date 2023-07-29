@@ -5,11 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const helpers_1 = require("helpers");
 const express_1 = __importDefault(require("express"));
-const body_parser_1 = __importDefault(require("body-parser"));
-const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const express_handlebars_1 = require("express-handlebars");
+const body_parser_1 = __importDefault(require("body-parser"));
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const Setup_1 = __importDefault(require("main/Setup"));
 const app = (0, express_1.default)();
 // Securing Application From Potential Attacks

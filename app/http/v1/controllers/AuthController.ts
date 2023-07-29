@@ -33,7 +33,7 @@ export default class AuthController {
         message: "Too Many Failed Attempts try again later!"
       }
     }
-    const user = await User.findOne({email});
+    const user = await User.findOne({ email, password: { $ne: null }});
     if (user && await bcrypt.compare(password, user.password)) {
       const userSettings = await user.settings;
       if(userSettings.twoFactorAuth.enabled){
@@ -44,7 +44,7 @@ export default class AuthController {
             message: "Credentials matched. otp required!",
           }
         }
-        const isValidOtp = await user.verifyOtp(otp);
+        const isValidOtp = await user.verifyOtp(parseInt(otp));
         if (!isValidOtp){
           return {
             status: 401,
@@ -88,7 +88,8 @@ export default class AuthController {
         { email },
         { 
           username: generateFromEmail(email, 4).substr(0, 12), 
-          logoUrl: picture
+          logoUrl: picture,
+          emailVerified: true
         },
         {
           upsert: true,
@@ -110,7 +111,10 @@ export default class AuthController {
       const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
       const googleRedirectUrl = process.env.GOOGLE_REDIRECT_URL;
       const client = new OAuth2Client(googleClientId, googleClientSecret);
-      const redirectUrl = `https://accounts.google.com/o/oauth2/auth?response_type=code&scope=profile email&client_id=${googleClientId}&redirect_uri=${googleRedirectUrl}`;
+      const redirectUrl = client.generateAuthUrl({
+        scope: ['profile', 'email'],
+        redirect_uri: googleRedirectUrl
+      });
       res.redirect(redirectUrl);
     }
     catch (err: any) {

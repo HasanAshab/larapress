@@ -22,7 +22,7 @@ export default (schema: Schema) => {
     return this.notifications.where("readAt").equals(null);
   });
   
-  schema.pre<NotifiableDocument>('remove', function(next) {
+  schema.pre<NotifiableDocument>(["deleteOne", "deleteMany"], function(next) {
     this.notifications.deleteMany();
     next();
   });

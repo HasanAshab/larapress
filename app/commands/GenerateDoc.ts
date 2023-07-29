@@ -16,7 +16,7 @@ export default class GenerateDoc extends Command {
     this._setupServer();
     for (const version of Object.keys(docs)){
       this.info(`******\t${version.toUpperCase()}\t******`);
-      loadDir(base(`${this.outputDir}/${version}`))
+      loadDir(`/docs/public/${version}`)
       this.info("fetching index.html...");
       const response = await fetch(`${this.baseUrl}/${version}/docs`);
       const html = await response.text();

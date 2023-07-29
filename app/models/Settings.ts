@@ -6,32 +6,28 @@ const SettingsSchema = new Schema(
   userId: {
     required: true,
     type: Schema.Types.ObjectId,
-//    unique: true
+    unique: true
   },
   notification: {
     enabled: {
       type: Boolean,
       default: true,
     },
-    email: {
-      type: Boolean,
-      default: true,
-    },
-    push: {
-      type: Boolean,
-      default: true,
+    channels: {
+      type: [String],
+      default: [],
     },
   },
   twoFactorAuth: {
-    enabled: {
-      type: Boolean,
-      default: false,
-    },
-    method: {
-      type: String,
-      enum: ["sms", "call"],
-      default: "sms"
-    }
+      enabled: {
+        type: Boolean,
+        default: false,
+      },
+      method: {
+        type: String,
+        enum: ["sms", "call"],
+        default: "sms"
+      }
   }
 },
 { timestamps: true }
@@ -40,6 +36,16 @@ const SettingsSchema = new Schema(
 SettingsSchema.plugin(HasFactory);
 
 
-export interface ISettings extends Document, InferSchemaType<typeof SettingsSchema> {};
+export interface ISettings extends Document {
+  userId: Schema.Types.ObjectId;
+  notification: {
+    enabled: boolean;
+    channels: string[];
+  },
+  twoFactorAuth: {
+    enabled: boolean;
+    method: 
+  }
+};
 interface SettingsModel extends Model<ISettings>, HasFactoryModel {};
 export default model<ISettings, SettingsModel>("Settings", SettingsSchema);

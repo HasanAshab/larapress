@@ -17,7 +17,9 @@ const OTPSchema = new Schema(
     expires: 0
   }
 },
-{ createdAt: true }
+{
+  timestamps: { createdAt: true }
+}
 );
 
 OTPSchema.plugin(HasFactory);

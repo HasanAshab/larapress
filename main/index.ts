@@ -54,3 +54,16 @@ if (nodeEnv === "development") {
     console.log(`*New connection: [${time}]`);
   });
 }
+
+
+import User from "app/models/User";
+
+import Settings, { ISettings } from "app/models/Settings";
+
+User.factory().create().then(u => u.settings).then(console.log)
+//Settings.create({userId: "64c4e8b4f0f79da733cdc7da"})
+
+User.findById("64c4e8b4f0f79da733cdc7da").then(u => {
+  console.log(u)
+  return u.settings
+}).then(console.log);

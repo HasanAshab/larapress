@@ -19,6 +19,8 @@ export interface AuthenticatableDocument extends Document {
   sendVerificationEmail(): Promise<string | boolean>;
   sendResetPasswordEmail(): Promise<string>;
   resetPassword(token: string, newPassword: string): Promise<boolean>;
+  sendOtp(): number;
+  verifyOtp(code: number): boolean;
 }
 
 export default (schema: Schema) => {

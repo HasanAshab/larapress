@@ -105,9 +105,8 @@ describe("Auth", () => {
     expect(response.body.data?.token).toBe(undefined);
   });
   
-  it("Should flag for otp if not provided (2FA)", async () => {
-    user.settings = { twoFactorAuth: { enabled: true } };
-    await user.save();
+  it.only("Should flag for otp if not provided (2FA)", async () => {
+    await user.settings.updateOne({ twoFactorAuth: { enabled: true } })
     const response = await request
       .post("/api/v1/auth/login")
       .field("email", user.email)
@@ -118,8 +117,7 @@ describe("Auth", () => {
   });
   
   it("should login a user with valid otp (2FA)", async () => {
-    user.settings = { twoFactorAuth: { enabled: true } };
-    await user.save();
+    await user.settings.updateOne({ twoFactorAuth: { enabled: true } });
     const otp = await user.sendOtp();
     const response = await request
       .post("/api/v1/auth/login")

@@ -1,8 +1,9 @@
 import { Request } from "express";
 import { env, toCamelCase, toSnakeCase } from "helpers";
+import Settings from "app/models/Settings";
 
 export default class SettingsController {
-  async index() {
+  async index(req: Request) {
     return await req.user.settings;
   }
   
@@ -16,14 +17,14 @@ export default class SettingsController {
         }
       }
       req.user.phoneNumber = phoneNumber;
+      await req.user.save();
     }
-    req.user.settings = { 
+    const settings = await Settings.create({
       twoFactorAuth: {
         enable: true,
         method
       }
-    };
-    await req.user.save();
+    });
     await req.user.sendOtp();
     return { message: `OTP sent to ${req.user.phoneNumber}!`};
   }

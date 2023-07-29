@@ -7,7 +7,7 @@ import HasApiTokens, { HasApiTokensDocument } from "app/plugins/HasApiTokens";
 import Notifiable, { NotifiableDocument } from "app/plugins/Notifiable";
 import Attachable, { AttachableDocument } from "app/plugins/Attachable";
 import Billable, { BillableDocument } from "app/plugins/Billable";
-import Settings from "app/models/Settings";
+import Settings, { ISettings } from "app/models/Settings";
 
 const UserSchema = new Schema({
   username: {
@@ -51,8 +51,8 @@ const UserSchema = new Schema({
 }
 );
 
-UserSchema.post("save", function (doc) {
-  Settings.create({ userId: doc._id });
+UserSchema.post("save", function (user) {
+  Settings.create({ userId: user._id });
 });
 
 
@@ -69,9 +69,6 @@ UserSchema.pre("save", async function(next) {
 UserSchema.virtual("settings")
   .get(function () {
   return Settings.findOne({ userId: this._id });
-})
-  .set(function (data: object) {
-  return Settings.UpdateOne({ userId: this._id }, data);
 });
 
 
@@ -83,7 +80,8 @@ UserSchema.plugin(Attachable);
 UserSchema.plugin(Billable);
 
 export interface IUser extends Document, InferSchemaType<typeof UserSchema>, AuthenticatableDocument, AttachableDocument, HasApiTokensDocument, NotifiableDocument, AttachableDocument, BillableDocument {
-  safeDetails(): Omit<InferSchemaType<typeof UserSchema>, "email">
+  safeDetails(): Omit<InferSchemaType<typeof UserSchema>, "email">;
+  settings: Promise<ISettings>;
 };
 interface UserModel extends Model<IUser>, HasFactoryModel {};
 export default model<IUser, UserModel>("User", UserSchema);

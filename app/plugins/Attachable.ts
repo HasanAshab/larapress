@@ -1,12 +1,12 @@
 import { Schema, Document } from "mongoose";
-import Attachment, { IAttachment } from "app/models/Attachment";
+import Attachment, { IAttachment, AttachmentQuery } from "app/models/Attachment";
 import { UploadedFile } from "express-fileupload";
 import Storage from "illuminate/utils/Storage"
 import URL from "illuminate/utils/URL"
 import { promises as fs } from "fs"
 
 export interface AttachableDocument extends Document {
-  attachments: IAttachment[];
+  attachments: AttachmentQuery;
   attach(name: string, file: UploadedFile, attachLinkToModel?: boolean): Promise<IAttachment>;
   attachMany(files: Record<string, UploadedFile>, attachLinkToModel?: boolean): Promise<IAttachment[]>;
   detach(name: string): Promise<void>;
@@ -21,7 +21,7 @@ export default (schema: Schema) => {
     });
   });
   
-  schema.pre('remove', function(next) {
+  schema.pre<AttachableDocument>(["deleteOne", "deleteMany"], function(next) {
     this.attachments.deleteMany();
     next();
   });

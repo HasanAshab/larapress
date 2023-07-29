@@ -213,14 +213,15 @@ async function getModels() {
 }
 exports.getModels = getModels;
 function loadDir(dirPath) {
-    const normalizedPath = path_1.default.normalize(dirPath);
-    if (fs_1.default.existsSync(normalizedPath))
-        return;
-    const { dir, base } = path_1.default.parse(normalizedPath);
-    if (!fs_1.default.existsSync(dir)) {
-        loadDir(dir);
+    const directories = dirPath.split(path_1.default.sep);
+    let currentPath = "";
+    for (const dir of directories) {
+        currentPath = path_1.default.join(currentPath, dir);
+        const fullPath = path_1.default.join(__dirname, currentPath);
+        if (!fs_1.default.existsSync(currentPath)) {
+            fs_1.default.mkdirSync(currentPath);
+        }
     }
-    fs_1.default.mkdirSync(normalizedPath);
 }
 exports.loadDir = loadDir;
 function generateEndpointsFromDirTree(rootPath) {
