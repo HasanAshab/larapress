@@ -7,12 +7,12 @@ const SettingsController = controller("SettingsController");
 // Endpoints for settings
 
 router.route("/")
-  .get(middleware("verified"), SettingsController.index)
+  .get(middleware("auth"), SettingsController.index)
 
-router.post("/enable-2fa", middleware("verified"), SettingsController.enableTwoFactorAuth);
+router.post("/enable-2fa", middleware("auth"), SettingsController.enableTwoFactorAuth);
 
 router.route("/app")
-  .get(middleware("admin"), SettingsController.getAppSettings)
-  .put(middleware("admin"), SettingsController.updateAppSettings);
+  .get(middleware(["auth", { roles: ["admin"] }]), SettingsController.getAppSettings)
+  .put(middleware(["auth", { roles: ["admin"] }]), SettingsController.updateAppSettings);
 
 export default router;

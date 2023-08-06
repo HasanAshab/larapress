@@ -20,13 +20,13 @@ router.post("/send-otp/:id", middleware(["limit", {time: 60 * 1000, count: 3}]),
 
 router.post("/password/forgot", middleware(["limit", {time: 60 * 1000, count: 6}]), AuthController.forgotPassword);
 router.put("/password/reset", AuthController.resetPassword);
-router.put("/password/change", middleware("verified"), AuthController.changePassword);
+router.put("/password/change", middleware("auth"), AuthController.changePassword);
  
 router.route("/profile")
-  .get(middleware("verified"), AuthController.profile)
-  .put(middleware("verified"), AuthController.updateProfile);
+  .get(middleware("auth"), AuthController.profile)
+  .put(middleware("auth"), AuthController.updateProfile);
 
-router.put("/change-phone-number", middleware("verified"), AuthController.changePhoneNumber);
+router.put("/change-phone-number", middleware("auth"), AuthController.changePhoneNumber);
 
 
 

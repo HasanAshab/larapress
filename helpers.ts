@@ -30,8 +30,6 @@ export function storage(storage_path = "") {
 export function middleware(
   ...keysWithConfig: (keyof typeof middlewarePairs | [keyof typeof middlewarePairs, Record < string, unknown >])[]
 ): RequestHandler[] {
-  const collectedMiddlewaresClassName: string[] = [];
-  
   function wrapMiddleware(context: object, handler: Function) {
     return async (req: Request, res: Response, next: NextFunction) => {
       try {
@@ -42,46 +40,22 @@ export function middleware(
       }
     }
   }
-  function getMiddleware(middlewareKey: string, config?: Record < string, unknown >): RequestHandler[] {
-    const middlewarePaths = middlewarePairs[middlewareKey as keyof typeof middlewarePairs];
-    const handlers: RequestHandler[] = [];
-    if (typeof middlewarePaths === "string") {
-      const fullPath = middlewarePaths.startsWith("<global>")
-        ? middlewarePaths.replace("<global>", "illuminate/middlewares/global")
-        : `app/http/${config?.version ?? "v1"}/middlewares/${middlewarePaths}`;
+  function getMiddleware(middlewareKey: string, config?: Record < string, unknown >): RequestHandler {
+    const middlewarePath = middlewarePairs[middlewareKey as keyof typeof middlewarePairs];
+      const fullPath = middlewarePath.startsWith("<global>")
+        ? middlewarePath.replace("<global>", "illuminate/middlewares/global")
+        : `app/http/${config?.version ?? "v1"}/middlewares/${middlewarePath}`;
       const MiddlewareClass = require(path.resolve(fullPath)).default;
       const middlewareInstance = new MiddlewareClass(config);
       const handler = middlewareInstance.handle.length === 4 ? middlewareInstance.handle.bind(middlewareInstance): wrapMiddleware(middlewareInstance, middlewareInstance.handle);
-      if(!collectedMiddlewaresClassName.includes(MiddlewareClass.name)){
-        handlers.push(handler);
-        collectedMiddlewaresClassName.push(MiddlewareClass.name);
-      }
-    } else {
-      for (const middlewarePath of middlewarePaths) {
-        const fullPath = middlewarePath.startsWith("<global>")
-          ? middlewarePath.replace("<global>", "illuminate/middlewares/global")
-          : `app/http/${config?.version ?? "v1"}/middlewares/${middlewarePath}`;
-        const MiddlewareClass = require(path.resolve(fullPath)).default;
-        const middlewareInstance = new MiddlewareClass(config);
-        const handler = middlewareInstance.handle.length === 4 
-          ? middlewareInstance.handle.bind(middlewareInstance)
-          : wrapMiddleware(middlewareInstance, middlewareInstance.handle);
-        if(!collectedMiddlewaresClassName.includes(MiddlewareClass.name)){
-          handlers.push(handler);
-          collectedMiddlewaresClassName.push(MiddlewareClass.name);
-        }
-      }
-    }
-    return handlers
+      return handler;
   }
   let middlewares: RequestHandler[] = [];
   for (const keyWithConfig of keysWithConfig) {
     if (typeof keyWithConfig === "string") {
-      middlewares = [...middlewares, ...getMiddleware(keyWithConfig)];
+      middlewares.push(getMiddleware(keyWithConfig));
     } else {
-      const [key, config] = keyWithConfig;
-      const middleware = getMiddleware(key, config);
-      middlewares = [...middlewares, ...middleware];
+      middlewares.push(getMiddleware(keyWithConfig[0], keyWithConfig[1]));
     }
   }
   return middlewares;
