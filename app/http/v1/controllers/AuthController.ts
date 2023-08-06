@@ -74,15 +74,14 @@ export default class AuthController {
       const client = new OAuth2Client(googleClientId, googleClientSecret);
       
       const { tokens } = await client.getToken({ 
-        code: req.query.code,
+        code: req.query.code as string,
         redirect_uri: googleRedirectUrl 
-      });
-      const { id_token } = tokens;
+      })!;
       const ticket = await client.verifyIdToken({
-        idToken: id_token,
+        idToken: tokens.id_token!,
         audience: googleClientId,
       });
-      const { email, picture } = ticket.getPayload();
+      const { email, picture } = ticket.getPayload()!;
       
       const user = await User.findOneAndUpdate(
         { email },

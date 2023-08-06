@@ -4,7 +4,7 @@ import { storage } from "helpers";
 import fs from "fs";
 
 export default class TracePerformance extends Middleware {
-  handle(req: Request, res: Response, next: NextFunction) {
+  async handle(req: Request, res: Response, next: NextFunction) {
     const usageBefore = process.memoryUsage();
   const startTime = process.hrtime();
 

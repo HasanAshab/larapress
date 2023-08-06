@@ -105,7 +105,7 @@ describe("Auth", () => {
     expect(response.body.data?.token).toBe(undefined);
   });
   
-  it.only("shouldn't login manually in OAuth account", async () => {
+  it("shouldn't login manually in OAuth account", async () => {
     const OAuthUser = await User.factory().create({ password: null});
     const response = await request
       .post("/api/v1/auth/login")
@@ -334,14 +334,13 @@ describe("Auth", () => {
     Mail.assertNothingSent();
   });
   
-  it.only("shouldn't change password of OAuth account", async () => {
+  it("shouldn't change password of OAuth account", async () => {
     const OAuthUser = await User.factory().create({ password: null});
     const response = await request
       .put("/api/v1/auth/password/change")
       .set("Authorization", `Bearer ${OAuthUser.createToken()}`)
       .field("oldPassword", "password")
       .field("password", "new-password");
-      console.log(response.body)
     expect(response.statusCode).toBe(400);
     Mail.assertNothingSent();
   });
@@ -355,7 +354,7 @@ describe("Auth", () => {
     Mail.assertSentTo(user.email, "ForgotPasswordMail");
   });
   
-  it.only("forgoting password shouldn't send reset email of OAuth account", async () => {
+  it("forgoting password shouldn't send reset email of OAuth account", async () => {
     const OAuthUser = await User.factory().create({ password: null});
     const response = await request
       .post("/api/v1/auth/password/forgot")

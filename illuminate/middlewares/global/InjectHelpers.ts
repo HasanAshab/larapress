@@ -7,7 +7,7 @@ import Token from "illuminate/utils/Token";
 
 
 export default class InjectHelpers extends Middleware {
-  handle(req: Request, res: Response, next: NextFunction) {
+  async handle(req: Request, res: Response, next: NextFunction) {
     req.hasValidSignature = function () {
       const { sign } = this.query;
       return typeof sign === "string" && Token.isValid(this.baseUrl + this.path, sign);
@@ -18,9 +18,7 @@ export default class InjectHelpers extends Middleware {
         404: "Resource Not Found!",
         401: "Unauthorized"
       }
-      this.statusCode = (response as any).status ?? this.statusCode;
       const success = this.statusCode >= 200 && this.statusCode < 300;
-      delete (response as any).status;
       const apiResponse: ApiResponse = {
         success,
         data: {}

@@ -8,6 +8,7 @@ export default class Authenticate extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
     const { verified = true, roles = [] } = this.config
+    
     if (authHeader) {
       const token = authHeader.split(" ")[1];
       if (token) {
@@ -21,7 +22,7 @@ export default class Authenticate extends Middleware {
               });
             }
             
-            if(roles.length > 0 && !roles.includes(user.role)){
+            if(Array.isArray(roles) && roles.length > 0 && !roles.includes(user.role)){
               return res.status(403).json({
                 message: "Your have not enough privilege to perfom this action!"
               });

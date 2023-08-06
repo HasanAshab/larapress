@@ -4,7 +4,7 @@ import { log } from "helpers";
 import mongoose from "mongoose";
 
 export default class ErrorHandler extends Middleware {
-  handle(err: any, req: Request, res: Response, next:NextFunction) {
+  async handle(err: any, req: Request, res: Response, next:NextFunction) {
     let status = err.status ?? err.statusCode ?? 500;
     let message = err.message ?? "Internal server error!";
     if(err.kind === "ObjectId"){
