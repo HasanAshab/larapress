@@ -14,7 +14,7 @@ describe("Settings", () => {
   
   beforeEach(async () => {
     await resetDatabase();
-    admin = await User.factory().create({isAdmin: true});
+    admin = await User.factory().create({ role: "admin" });
     token = admin.createToken();
   });
   

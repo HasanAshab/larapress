@@ -2,7 +2,7 @@ import { IUser } from "app/models/User";
 
 export default class BlogPolicy {
   read(user: IUser){
-    if(user.isAdmin) return {};
+    if(user.role === "admin") return {};
     return [];
   }
 } 

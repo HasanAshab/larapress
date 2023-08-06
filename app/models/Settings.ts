@@ -44,7 +44,7 @@ export interface ISettings extends Document {
   },
   twoFactorAuth: {
     enabled: boolean;
-    method: 
+    method: "sms" | "call";
   }
 };
 interface SettingsModel extends Model<ISettings>, HasFactoryModel {};

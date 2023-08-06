@@ -13,7 +13,7 @@ describe("user", () => {
   
   beforeEach(async () => {
     await resetDatabase();
-    admin = await User.factory().create({isAdmin: true});
+    admin = await User.factory().create({ role: "admin" });
     token = admin.createToken();
   });
   
@@ -75,7 +75,7 @@ describe("user", () => {
   });
   
   it("Shouldn't delete admin user", async () => {
-    const user = await User.factory().create({ isAdmin: true });
+    const user = await User.factory().create({ role: "admin" });
     const response = await request
       .delete("/api/v1/users/" + user._id)
       .set("Authorization", `Bearer ${token}`);
@@ -101,7 +101,7 @@ describe("user", () => {
       .set("Authorization", `Bearer ${token}`);
     expect(response.statusCode).toBe(200);
     user = await User.findById(user._id);
-    expect(user.isAdmin).toBe(true);
+    expect(user.role).toBe("admin");
   });
   
   it("General user Should't make admin", async () => {
@@ -111,6 +111,6 @@ describe("user", () => {
       .set("Authorization", `Bearer ${users[0].createToken()}`);
     expect(response.statusCode).toBe(403);
     const user = await User.findById(users[1]._id);
-    expect(user.isAdmin).toBe(false);
+    expect(user.role).toBe("novice");
   });
 });

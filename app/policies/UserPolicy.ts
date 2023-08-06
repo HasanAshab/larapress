@@ -1,11 +1,11 @@
 import { IUser } from "app/models/User";
 
-export default class BlogPolicy {
+export default class UserPolicy {
   delete(user: IUser){
-    if(!user.isAdmin) return { _id: user._id };
+    if(user.role === "novice") return { _id: user._id };
     return [
       { _id: user._id },
-      { isAdmin: false }
+      { role: "admin" }
     ];
   }
 }

@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 
 export default class EnsureEmailIsVerified extends Middleware {
   handle(req: Request, res: Response, next:NextFunction) {
-    if (req.user?.emailVerified) {
+    if (req.user?.verified) {
       return next();
     }
     res.status(401).api({

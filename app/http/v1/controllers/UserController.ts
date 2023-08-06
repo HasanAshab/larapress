@@ -3,7 +3,7 @@ import User from "app/models/User";
 
 export default class UserController {
   async index(req: Request) {
-    return await User.find({isAdmin: false}).paginateReq(req);
+    return await User.find({ role: "novice" }).paginateReq(req);
   }
   
   async find(req: Request) {
@@ -23,7 +23,7 @@ export default class UserController {
   }
   
   async makeAdmin(req: Request){
-    const { modifiedCount } = await User.updateOne({_id: req.params.id}, {isAdmin: true});
+    const { modifiedCount } = await User.updateOne({_id: req.params.id}, { role: "novice" });
     return modifiedCount === 1
         ? { status: 200, message: "Admin role granted!" }
         : { status: 404 };

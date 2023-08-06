@@ -34,7 +34,7 @@ export default class AuthController {
       }
     }
     const user = await User.findOne({ email, password: { $ne: null }});
-    if (user && await bcrypt.compare(password, user.password)) {
+    if (user && user.password && await bcrypt.compare(password, user.password)) {
       const userSettings = await user.settings;
       if(userSettings.twoFactorAuth.enabled){
         if(!otp) {
@@ -89,7 +89,7 @@ export default class AuthController {
         { 
           username: generateFromEmail(email, 4).substr(0, 12), 
           logoUrl: picture,
-          emailVerified: true
+          verified: true
         },
         {
           upsert: true,
@@ -124,7 +124,7 @@ export default class AuthController {
   }
   
   async verifyEmail(req: Request){
-    await User.findByIdAndUpdate(req.params.id, {emailVerified: true}, {new: false});
+    await User.findByIdAndUpdate(req.params.id, {verified: true}, {new: false});
     return {
       message: "Email verified!",
     };
@@ -140,10 +140,14 @@ export default class AuthController {
 
   async forgotPassword(req: Request){
     const email = req.validated.email;
-    const user = await User.findOne({
-      email,
-    });
+    const user = await User.findOne({ email });
     if (user) {
+      if(!user.password) {
+        return {
+          status: 400,
+          message: "This action is not available for OAuth account!"
+        }
+      }
       await user.sendResetPasswordEmail();
     }
     return {
@@ -168,6 +172,12 @@ export default class AuthController {
 
   async changePassword(req: Request){
     const user = req.user;
+    if(!user.password) {
+      return {
+        status: 400,
+        message: "This action is not available for OAuth account!"
+      }
+    }
     const { oldPassword, password } = req.validated;
     const oldPasswordMatch = await bcrypt.compare(oldPassword, user.password);
     if (!oldPasswordMatch) {
@@ -200,7 +210,7 @@ export default class AuthController {
     const user = req.user;
     Object.assign(user, req.validated);
     if(req.validated.email){
-      user.emailVerified = false;
+      user.verified = false;
     }
     if (logo && !Array.isArray(logo)) {
       await user.detach("logo");

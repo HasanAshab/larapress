@@ -14,7 +14,7 @@ describe("Registered Event", () => {
 
   beforeEach(async () => {
     await resetDatabase();
-    user = await User.factory().create({ emailVerified: false });
+    user = await User.factory().create({ verified: false });
   });
   
   it("should send verification email", async () => {
@@ -25,7 +25,7 @@ describe("Registered Event", () => {
   });
 
   it("should notify admins about new user", async () => {
-    const admins = await User.factory(3).create({ isAdmin: true });
+    const admins = await User.factory(3).create({ role: "admin" });
     Notification.mock();
     await new SendNewUserJoinedNotificationToAdmins().dispatch(user);
     Notification.assertSentTo(admins, "NewUserJoined");

@@ -20,8 +20,8 @@ export default class Make extends Command {
       name,
       email,
       password,
-      isAdmin: true,
-      emailVerified: true,
+      role: "admin",
+      verified: true,
     });
     this.success("Admin account created successfully!");
   }

@@ -15,7 +15,6 @@ const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
 const client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
 
 export interface AuthenticatableDocument extends Document {
-  emailVerified: boolean;
   sendVerificationEmail(): Promise<string | boolean>;
   sendResetPasswordEmail(): Promise<string>;
   resetPassword(token: string, newPassword: string): Promise<boolean>;
@@ -25,17 +24,9 @@ export interface AuthenticatableDocument extends Document {
 
 export default (schema: Schema) => {
   const expireAfter = 3 * 24 * 60 * 60;
-  
-  schema.add({
-    emailVerified: {
-      type: Boolean,
-      default: false,
-      required: true
-    },
-  });
 
   schema.methods.sendVerificationEmail = async function () {
-    if (this.emailVerified) {
+    if (this.verified) {
       return false;
     }
     const link = URL.signedRoute("email.verify", {id: this._id}, expireAfter);

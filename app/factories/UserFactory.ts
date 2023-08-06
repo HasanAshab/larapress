@@ -7,7 +7,7 @@ export default class UserFactory extends Factory {
       email: this.faker.internet.email(),
       phoneNumber: "+15005550006",
       password: "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi", // "password"
-      emailVerified: true
+      verified: true
     };
   };
 }
