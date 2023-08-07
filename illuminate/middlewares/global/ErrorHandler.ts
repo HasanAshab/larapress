@@ -11,11 +11,12 @@ export default class ErrorHandler extends Middleware {
       status = 404;
       message = undefined;
     }
+    res.status(status);
     if(status === 500){
       log(`${Date.now()}\n${req.originalUrl} - ${req.method} - ${req.ip}\nStack: ${err.stack}`);
-      if(process.env.NODE_ENV === "production") res.api({ status, message: "Internal server error!" });
-      else res.status(status).json({error: err.stack});
+      if(process.env.NODE_ENV === "production") res.json({ message: "Internal server error!" });
+      else res.json({error: err.stack});
     }
-    else res.api({ status, message });
+    else res.json({ message });
   };
 }

@@ -1,5 +1,6 @@
 export default {
   "auth": "Authenticate",
+  "recaptcha": "<global>VerifyRecaptcha",
   "maintenance.check": "<global>/CheckForMaintenanceMode",
   "limit": "<global>/LimitRequestRate",
   "signed": "<global>/ValidateSignature",

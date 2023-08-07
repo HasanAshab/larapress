@@ -57,8 +57,8 @@ const UserSchema = new Schema({
 }
 );
 
-UserSchema.post("save", function (user) {
-  Settings.create({ userId: user._id });
+UserSchema.post("save", function (user, next) {
+  Settings.create({ userId: user._id }).then(() => next());
 });
 
 

@@ -6,8 +6,8 @@ const AuthController = controller("AuthController");
 
 // Endpoints to authenticate users
 
-router.post("/register", middleware(["limit", {time: 60 * 1000, count: 5}]), AuthController.register);
-router.post("/login", middleware(["limit", {time: 10 * 60 * 1000, count: 5}]), AuthController.login);
+router.post("/register", middleware("recaptcha", ["limit", {time: 60 * 1000, count: 5}]), AuthController.register);
+router.post("/login", middleware("recaptcha", ["limit", {time: 10 * 60 * 1000, count: 5}]), AuthController.login);
 
 router.get("/login/google", AuthController.redirectToGoogle);
 router.get("/google/callback", AuthController.loginWithGoogle);
@@ -18,7 +18,7 @@ router.get("/verify/:id", middleware("signed"), AuthController.verifyEmail);
 
 router.post("/send-otp/:id", middleware(["limit", {time: 60 * 1000, count: 3}]), AuthController.sendOtp);
 
-router.post("/password/forgot", middleware(["limit", {time: 60 * 1000, count: 6}]), AuthController.forgotPassword);
+router.post("/password/forgot", middleware("recaptcha", ["limit", {time: 60 * 1000, count: 6}]), AuthController.forgotPassword);
 router.put("/password/reset", AuthController.resetPassword);
 router.put("/password/change", middleware("auth"), AuthController.changePassword);
  

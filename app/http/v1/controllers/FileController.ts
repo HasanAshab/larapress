@@ -5,7 +5,7 @@ export default class FileController {
   async index(req: Request, res: Response) {
     const attachment = await Attachment.findById(req.params.id);
     (!attachment)
-    ?res.api({status: 404})
+    ?res.status(404).json({ message: "File not found!" })
     : res.sendFile(attachment.path);
   }
 }

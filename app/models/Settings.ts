@@ -11,17 +11,17 @@ const SettingsSchema = new Schema(
   notification: {
     enabled: {
       type: Boolean,
-      default: true,
+      default: true
     },
     channels: {
       type: [String],
-      default: [],
-    },
+      default: ["email"]
+    }
   },
   twoFactorAuth: {
       enabled: {
         type: Boolean,
-        default: false,
+        default: false
       },
       method: {
         type: String,
@@ -30,11 +30,20 @@ const SettingsSchema = new Schema(
       }
   }
 },
-{ timestamps: true }
+{ timestamps: false }
 );
 
-SettingsSchema.plugin(HasFactory);
+SettingsSchema.pre("save", function (next){
+  if (!this.twoFactorAuth){
+    this.twoFactorAuth = {
+      enabled: false,
+      method: "sms"
+    };
+  }
+  next();
+})
 
+SettingsSchema.plugin(HasFactory);
 
 export interface ISettings extends Document {
   userId: Schema.Types.ObjectId;

@@ -16,13 +16,13 @@ export default (schema: Schema) => {
     const factory = new Factory();
     return {
       create: async (data?: object) => {
-        const models: (typeof Schema)[] = [];
+        const docs: Schema[] = [];
         for (let i = 0; i < count; i++) {
-          const model = new this(factory.merge(data));
-          models.push(model);
+          const doc = new this(factory.merge(data));
+          docs.push(doc);
         }
-        await this.insertMany(models);
-        return count === 1 ? models[0] : models;
+        await this.insertMany(docs);
+        return count === 1 ? docs[0] : docs;
       },
       dummyData: (data?: object) => {
         return factory.merge(data);

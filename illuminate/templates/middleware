@@ -2,7 +2,7 @@ import Middleware from "illuminate/middlewares/Middleware";
 import { Request, Response, NextFunction } from "express";
 
 export default class {{name}} extends Middleware {
-  handle(req: Request, res: Response, next: NextFunction) {
+  async handle(req: Request, res: Response, next: NextFunction) {
     //
   }
 }
