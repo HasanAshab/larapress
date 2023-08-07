@@ -86,7 +86,7 @@ UserSchema.plugin(Attachable);
 UserSchema.plugin(Billable);
 
 export interface IUser extends Document, InferSchemaType<typeof UserSchema>, AuthenticatableDocument, AttachableDocument, HasApiTokensDocument, NotifiableDocument, AttachableDocument, BillableDocument {
-  safeDetails(): Omit<InferSchemaType<typeof UserSchema>, "email">;
+  safeDetails(): Omit<InferSchemaType<typeof UserSchema>, "email" | "phoneNumber" | "password">;
   settings: Promise<ISettings>;
 };
 interface UserModel extends Model<IUser>, HasFactoryModel {};

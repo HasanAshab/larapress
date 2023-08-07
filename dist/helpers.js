@@ -73,13 +73,14 @@ function controller(name, version = getVersion()) {
     for (const methodName of methodNames) {
         const requestHandler = async function (req, res, next) {
             try {
-                const startTime = Date.now();
                 const handler = controllerInstance[methodName];
                 if (handler.length === 2)
                     await handler(req, res);
                 else if (handler.length === 1 || handler.length === 0) {
-                    let response = await handler(req);
-                    res.api(response);
+                    const response = await handler(req);
+                    const { status = 200 } = response;
+                    delete response.status;
+                    res.status(status).api(response);
                 }
                 else
                     throw new Error(`Unknown param on ${name}:${methodName}`);

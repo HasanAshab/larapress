@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = {
     "auth": "Authenticate",
+    "recaptcha": "<global>VerifyRecaptcha",
     "maintenance.check": "<global>/CheckForMaintenanceMode",
     "limit": "<global>/LimitRequestRate",
     "signed": "<global>/ValidateSignature",

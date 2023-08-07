@@ -86,7 +86,7 @@ export default class AuthController {
       const user = await User.findOneAndUpdate(
         { email },
         { 
-          username: generateFromEmail(email, 4).substr(0, 12), 
+          username: generateFromEmail(email!, 4).substr(0, 12), 
           logoUrl: picture,
           verified: true
         },

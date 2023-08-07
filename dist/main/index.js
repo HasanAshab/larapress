@@ -49,10 +49,11 @@ if (nodeEnv === "development") {
         console.log(`*New connection: [${time}]`);
     });
 }
-const User_1 = __importDefault(require("app/models/User"));
-User_1.default.factory().create().then(u => u.settings).then(console.log);
+//User.create({username: "foo3", email: "foo@3", password: "bla"}).then(u => u.settings).then(console.log);
+//User.factory().create().then(u => u.settings).then(console.log)
 //Settings.create({userId: "64c4e8b4f0f79da733cdc7da"})
-User_1.default.findById("64c4e8b4f0f79da733cdc7da").then(u => {
-    console.log(u);
-    return u.settings;
-}).then(console.log);
+/*
+User.findById("64d08a0efd27dbbab9d1f786").then(u => {
+  console.log(u)
+  return u.settings
+}).then(console.log);*/ 

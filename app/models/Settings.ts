@@ -14,8 +14,14 @@ const SettingsSchema = new Schema(
       default: true
     },
     channels: {
-      type: [String],
-      default: ["email"]
+      email: {
+        type: Boolean,
+        default: true
+      },
+      push: {
+        type: Boolean,
+        default: true
+      },
     }
   },
   twoFactorAuth: {
@@ -33,23 +39,16 @@ const SettingsSchema = new Schema(
 { timestamps: false }
 );
 
-SettingsSchema.pre("save", function (next){
-  if (!this.twoFactorAuth){
-    this.twoFactorAuth = {
-      enabled: false,
-      method: "sms"
-    };
-  }
-  next();
-})
-
 SettingsSchema.plugin(HasFactory);
 
 export interface ISettings extends Document {
   userId: Schema.Types.ObjectId;
   notification: {
     enabled: boolean;
-    channels: string[];
+    channels: {
+      email: boolean;
+      push: boolean;
+    }
   },
   twoFactorAuth: {
     enabled: boolean;
