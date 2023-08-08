@@ -7,6 +7,18 @@ export default class SettingsController {
     return await req.user.settings;
   }
   
+  async notification(req: Request) {
+    const { operation, channel } = req.params;
+    const value = operation === "enable";
+    const update = channel 
+      ? { $set: { [`notification.channels.${channel}`]: value } }
+      : { $set: { "notification.enabled": value } };
+    const { modifiedCount } = await Settings.updateOne({ userId: req.user._id }, update);
+    return modifiedCount === 1
+      ? { message: "Settings saved!" }
+      : { message: "Faild to update settings!" };
+  }
+  
   async enableTwoFactorAuth(req: Request){
     const { phoneNumber, method } = req.validated;
     if(!req.user.phoneNumber){
