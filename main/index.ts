@@ -59,11 +59,20 @@ if (nodeEnv === "development") {
 import User from "app/models/User";
 
 import Settings from "app/models/Settings";
+import Notification from "illuminate/utils/Notification";
+import NewUserJoined from "app/notifications/NewUserJoined";
 
-User.create({username: "foo5", email: "foo@5", password: "bla"}).then(u => u.settings).then(console.log);
-
+//User.create({username: "foo5", email: "foo@5", password: "bla"}).then(u => u.settings).then(console.log);
+/*
 Settings.updateOne({ userId: req.user._id }, {
- $set: { [`notification.channels.email`]: false }
+ $set: { [`notification.email`]: false }
 });
 
+*/
+//Notification.mock()
+User.findOne({ username: "foo5" }).then(u => {
+  Notification.send(u, new NewUserJoined({ user: u})).then(() => {
+    console.log(Notification.mocked)
+  });
+})
 

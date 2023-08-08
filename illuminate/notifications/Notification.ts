@@ -1,36 +1,29 @@
-import { Notifiable } from "types";
-import { Document } from "mongoose";
+import { IUser } from "app/models/User";
 import Mail from "illuminate/utils/Mail";
 import Mailable from "illuminate/mails/Mailable";
 import NotificationModel from "app/models/Notification";
 
 export default abstract class Notification {
   shouldQueue = false;
-  concurrency = {
-    mail: 25,
-    database: 1
-  }
-  
+
   constructor(public data: Record<string, unknown>) {
     this.data = data;
   }
   
-  abstract via(notifiable: Document): string[];
-  abstract toMail?(notifiable: Notifiable): Mailable;
-  abstract toDatabase?(notifiable: Notifiable): object;
+  abstract via(notifiable: IUser): Promise<string[]> | string[];
+  abstract toEmail?(notifiable: IUser): Mailable;
+  abstract toDatabase?(notifiable: IUser): object;
   
-  async sendMail(notifiable: Notifiable) {
-    if(this.toMail && "email" in notifiable && typeof notifiable.email === "string"){
-      await Mail.to(notifiable.email).send(this.toMail(notifiable));
-    }
+  async sendEmail(notifiable: IUser) {
+    this.toEmail && await Mail.to(notifiable.email).send(this.toEmail(notifiable));
   }
 
-  async sendDatabase(notifiable: Notifiable) {
-    if(this.toDatabase){
+  async sendSite(notifiable: IUser) {
+    if(this.toSite){
       const notification = await NotificationModel.create({
         notifiableType: notifiable.modelName,
         notifiableId: notifiable._id,
-        data: this.toDatabase(notifiable)
+        data: this.toSite(notifiable)
       });
     }
   }

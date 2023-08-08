@@ -1,15 +1,15 @@
-import { Notifiable } from "types";
-import { Document } from "mongoose";
+import { IUser } from "app/models/User";
 import Notification from "illuminate/notifications/Notification";
 
 export default class {{name}} extends Notification {
   //shouldQueue = true;
+  type = "{{name}}";
   
-  via(notifiable: Document){
-    return ["database"];
+  via(notifiable: IUser){
+    return ["site"];
   }
   
-  toDatabase(notifiable: Notifiable) {
+  toSite(notifiable: IUser) {
     return {}
   }
 }

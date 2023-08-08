@@ -32,6 +32,7 @@ describe("Registered Event", () => {
       await Settings.create({ userId: admin._id });
     }
     Notification.mock();
+    console.log(Notification.mocked)
     await new SendNewUserJoinedNotificationToAdmins().dispatch(user);
     Notification.assertSentTo(admins, "NewUserJoined");
   });

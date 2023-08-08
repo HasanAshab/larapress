@@ -1,20 +1,20 @@
 import { Notifiable } from "types";
-import { Document } from "mongoose";
+import { IUser } from "app/models/User";
 import Notification from "illuminate/notifications/Notification";
 import NewUserJoinedMail from "app/mails/NewUserJoinedMail";
 
 export default class NewUserJoined extends Notification {
   shouldQueue = true;
-  
-  via(notifiable: Document){
-    return ["database", "mail"];
+
+  via(notifiable: IUser){
+    return ["site", "email"];
   }
   
-  toMail(notifiable: Notifiable) {
-    return new NewUserJoinedMail({user: this.data.user});
+  toEmail(notifiable: Notifiable) {
+    return new NewUserJoinedMail({ user: this.data.user });
   }
   
-  toDatabase(notifiable: Notifiable) {
-    return {user: this.data.user}
+  toSite(notifiable: Notifiable) {
+    return { user: this.data.user }
   }
 }

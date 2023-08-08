@@ -1,28 +1,12 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
 import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
+import notificationConfig from "register/notification";
 
-const SettingsSchema = new Schema(
-{
+const schemaData = {
   userId: {
     required: true,
     type: Schema.Types.ObjectId,
     unique: true
-  },
-  notification: {
-    enabled: {
-      type: Boolean,
-      default: true
-    },
-    channels: {
-      email: {
-        type: Boolean,
-        default: true
-      },
-      push: {
-        type: Boolean,
-        default: true
-      },
-    }
   },
   twoFactorAuth: {
       enabled: {
@@ -34,10 +18,22 @@ const SettingsSchema = new Schema(
         enum: ["sms", "call"],
         default: "sms"
       }
-  }
-},
-{ timestamps: false }
-);
+  },
+  notification: {}
+}
+
+const value = {};
+for(const channel of notificationConfig.channels){
+  value[channel] = {
+    type: Boolean,
+    default: true
+  };
+}
+for(const notificationType of notificationConfig.types){
+  schemaData.notification[notificationType] = value;
+}
+
+const SettingsSchema = new Schema(schemaData);
 
 SettingsSchema.plugin(HasFactory);
 

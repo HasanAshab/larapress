@@ -6,6 +6,6 @@ const SettingsController = controller("SettingsController");
 
 // Endpoints for settings
 
-router.post("/:operation(enable|disable)/:channel(email|push)?", middleware("auth"), SettingsController.notification);
+router.post("/:operation(enable|disable)/:channel(email|push)", middleware("auth"), SettingsController.notification);
 
 export default router;
