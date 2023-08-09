@@ -4,7 +4,7 @@ import Notification from "illuminate/utils/Notification";
 
 export default class SendNewUserJoinedNotificationToAdmins {
   async dispatch(user: IUser){
-    const admins = await User.find({ role: "novice" });
+    const admins = await User.find({ role: "admin" });
     await Notification.send(admins, new NewUserJoined({user}));
   }
 }

@@ -9,15 +9,15 @@ const schemaData = {
     unique: true
   },
   twoFactorAuth: {
-      enabled: {
-        type: Boolean,
-        default: false
-      },
-      method: {
-        type: String,
-        enum: ["sms", "call"],
-        default: "sms"
-      }
+    enabled: {
+      type: Boolean,
+      default: false
+    },
+    method: {
+      type: String,
+      enum: ["sms", "call"],
+      default: "sms"
+    }
   },
   notification: {}
 }

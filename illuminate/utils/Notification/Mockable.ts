@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+import { IUser } from "app/models/User";
 import NotificationData from "illuminate/notifications/Notification";
 import expect from "expect";
 
@@ -11,18 +11,24 @@ export default class Mockable {
     this.mocked = {};
   }
   
-  static send(notifiables: Document | Document[], notification: NotificationData) {
+  static async send(notifiables: IUser | IUser[], notification: NotificationData) {
     notifiables = Array.isArray(notifiables) ? notifiables: [notifiables];
-    const notifiablesId = notifiables.map((notifiable) => notifiable._id);
-    if(this.mocked[notification.constructor.name]){
-      this.mocked[notification.constructor.name].concat(notifiablesId)
-    }
-    else {
-      this.mocked[notification.constructor.name] = notifiablesId;
+    console.log(notifiables)
+    for (const notifiable of notifiables) {
+      const channels = notification.via(notifiable);
+      const settings = await notifiable.settings;
+      if(!("type" in notification) || channels.some((channel) => settings.notification[notification.type][channel])) {
+        if(this.mocked[notification.constructor.name]){
+          this.mocked[notification.constructor.name].push(notifiable._id);
+        }
+        else {
+          this.mocked[notification.constructor.name] = [notifiable._id];
+        }
+      }
     }
   }
   
-  static assertSentTo(notifiables: Document | Document[], notification: string){
+  static assertSentTo(notifiables: IUser | IUser[], notification: string){
     const notifiablesId = Array.isArray(notifiables) ? notifiables.map((notifiable) => notifiable._id).sort() : [notifiables._id];
     const sentNotifiablesId = this.mocked[notification].sort();
     expect(sentNotifiablesId).toHaveLength(notifiablesId.length);
