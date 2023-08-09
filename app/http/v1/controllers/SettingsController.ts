@@ -8,37 +8,38 @@ export default class SettingsController {
   }
   
   async notification(req: Request) {
-    const { operation, channel } = req.params;
-    const value = operation === "enable";
-    const update = channel 
-      ? { $set: { [`notification.channels.${channel}`]: value } }
-      : { $set: { "notification.enabled": value } };
-    const { modifiedCount } = await Settings.updateOne({ userId: req.user._id }, update);
+    console.log(req.validated)
+    const { modifiedCount } = await Settings.updateOne({ userId: req.user._id }, { notification: req.validated });
     return modifiedCount === 1
       ? { message: "Settings saved!" }
-      : { message: "Faild to update settings!" };
+      : { status: 500, message: "Faild to update settings!" };
   }
   
   async enableTwoFactorAuth(req: Request){
-    const { phoneNumber, method } = req.validated;
+    const { otp, method } = req.validated;
     if(!req.user.phoneNumber){
-      if(!phoneNumber){
-        return {
-          status: 400,
-          message: "Phone number is required!"
-        }
+      return {
+        status: 400,
+        message: "Phone number is required!"
       }
-      req.user.phoneNumber = phoneNumber;
-      await req.user.save();
     }
-    const settings = await Settings.create({
+    const isValidOtp = await req.user.verifyOtp(parseInt(otp));
+    if (!isValidOtp){
+      return {
+        status: 401,
+        message: "Invalid OTP. Please try again!",
+      };
+    }
+    await Settings.updateOne(
+    { userId: req.user._id },
+    {
       twoFactorAuth: {
-        enable: true,
+        enabled: true,
         method
       }
-    });
-    await req.user.sendOtp();
-    return { message: `OTP sent to ${req.user.phoneNumber}!`};
+    }
+    );
+    return { message: `Two Factor Auth enabled!`};
   }
   
   async getAppSettings() {

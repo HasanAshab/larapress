@@ -54,8 +54,6 @@ export default (schema: Schema) => {
   }
   
   schema.methods.sendOtp = async function () {
-    const settings = await this.settings;
-    if(!settings.twoFactorAuth.enabled) return;
     const code = Math.floor(100000 + Math.random() * 900000);
     const otp = await OTP.create({ 
       userId: this._id,

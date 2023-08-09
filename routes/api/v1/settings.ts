@@ -6,10 +6,9 @@ const SettingsController = controller("SettingsController");
 
 // Endpoints for settings
 
-router.route("/")
-  .get(middleware("auth"), SettingsController.index)
-
+router.get("/", middleware("auth"), SettingsController.index);
 router.post("/enable-2fa", middleware("auth"), SettingsController.enableTwoFactorAuth);
+router.put("/notification", middleware("auth"), SettingsController.notification);
 
 router.route("/app")
   .get(middleware(["auth", { roles: ["admin"] }]), SettingsController.getAppSettings)

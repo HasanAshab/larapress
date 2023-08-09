@@ -16,7 +16,7 @@ if (connectToDB) {
     console.log("Connecting to database...");
     DB_1.default.connect()
         .then(() => {
-        console.log("done!");
+        console.log("DB connected!");
     })
         .catch((err) => {
         console.log(err);
@@ -49,11 +49,30 @@ if (nodeEnv === "development") {
         console.log(`*New connection: [${time}]`);
     });
 }
-//User.create({username: "foo3", email: "foo@3", password: "bla"}).then(u => u.settings).then(console.log);
-//User.factory().create().then(u => u.settings).then(console.log)
-//Settings.create({userId: "64c4e8b4f0f79da733cdc7da"})
 /*
-User.findById("64d08a0efd27dbbab9d1f786").then(u => {
+import User from "app/models/User";
+
+import Settings from "app/models/Settings";
+import Notification from "illuminate/utils/Notification";
+import NewUserJoined from "app/notifications/NewUserJoined";
+
+//User.create({username: "foo5", email: "foo@5", password: "bla"}).then(u => u.settings).then(console.log);
+
+Settings.updateOne({ userId: req.user._id }, {
+ $set: { [`notification.email`]: false }
+});
+
+//here
+setTimeout(() => {
+  
+Notification.mock()
+User.findOne().then(async u => {
   console.log(u)
-  return u.settings
-}).then(console.log);*/ 
+  Notification.send(u, new NewUserJoined({ user: u})).then(() => {
+    console.log(Notification.mocked)
+  });
+})
+}, 5000)
+
+
+*/ 

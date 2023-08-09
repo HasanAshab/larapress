@@ -1,4 +1,4 @@
 export default {
   channels: ["site", "email"],
-  types: ["feature", "others"]
+  types: ["announcement", "feature", "others"]
 }

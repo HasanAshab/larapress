@@ -13,7 +13,6 @@ export default class Mockable {
   
   static async send(notifiables: IUser | IUser[], notification: NotificationData) {
     notifiables = Array.isArray(notifiables) ? notifiables: [notifiables];
-    console.log(notifiables)
     for (const notifiable of notifiables) {
       const channels = notification.via(notifiable);
       const settings = await notifiable.settings;

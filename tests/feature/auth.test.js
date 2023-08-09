@@ -46,7 +46,7 @@ describe("Auth", () => {
     Storage.assertStored("image.png");
   });
 
-  it.only("should register a user without logo", async () => {
+  it("should register a user without logo", async () => {
     await Settings.create({ userId: user._id });
     const dummyUser = await User.factory().dummyData();
     const mockListener = jest.fn();

@@ -32,7 +32,6 @@ for(const channel of notificationConfig.channels){
 for(const notificationType of notificationConfig.types){
   schemaData.notification[notificationType] = value;
 }
-
 const SettingsSchema = new Schema(schemaData);
 
 SettingsSchema.plugin(HasFactory);
@@ -40,12 +39,10 @@ SettingsSchema.plugin(HasFactory);
 export interface ISettings extends Document {
   userId: Schema.Types.ObjectId;
   notification: {
-    enabled: boolean;
-    channels: {
-      email: boolean;
-      push: boolean;
-    }
-  },
+    [type in typeof notificationConfig.types[number]]: {
+      [channel in typeof notificationConfig.channels[number]]: boolean;
+    };
+  };
   twoFactorAuth: {
     enabled: boolean;
     method: "sms" | "call";
