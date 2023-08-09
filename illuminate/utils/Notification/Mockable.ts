@@ -14,9 +14,9 @@ export default class Mockable {
   static async send(notifiables: IUser | IUser[], notification: NotificationData) {
     notifiables = Array.isArray(notifiables) ? notifiables: [notifiables];
     for (const notifiable of notifiables) {
-      const channels = notification.via(notifiable);
+      const channels = await notification.via(notifiable);
       const settings = await notifiable.settings;
-      if(!("type" in notification) || channels.some((channel) => settings.notification[notification.type][channel])) {
+      if(!("type" in notification) || channels.some((channel) => settings.notification[notification.type!][channel])) {
         if(this.mocked[notification.constructor.name]){
           this.mocked[notification.constructor.name].push(notifiable._id);
         }

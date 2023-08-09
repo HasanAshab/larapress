@@ -28,7 +28,7 @@ export default (schema: Schema) => {
   });
 
   schema.methods.notify = function(notification: NotificationClass) {
-    return Notification.send(this as NotifiableDocument, notification);
+    return Notification.send(this as any, notification);
   };
   
   schema.methods.markNotificationsAsRead = function () {

@@ -11,16 +11,16 @@ export default class Notification {
     notifiables = Array.isArray(notifiables) ? notifiables: [notifiables];
     for (const notifiable of notifiables) {
       (notifiable as any).modelName = (notifiable.constructor as any).modelName;
-      const channels = notification.via(notifiable);
+      const channels = await notification.via(notifiable);
       const settings = await notifiable.settings;
 
       for (const channel of channels) {
-        if ("type" in notification && !settings.notification[notification.type][channel]) continue;
+        if ("type" in notification && !settings.notification[notification.type!][channel]) continue;
         const handlerName = "send" + capitalizeFirstLetter(channel) as keyof typeof notification;
         if (typeof notification[handlerName] === "function") {
           if (notification.shouldQueue) {
             const method = (notification[handlerName] as any).bind(notification);
-            const concurrency = notification.concurrency[channel as keyof typeof notification.concurrency] ?? 20;
+            const concurrency = notification.concurrency[channel] ?? 20;
             Queue.set("_NOTIFICATION_" + channel, method, concurrency).add(notifiable, { delay: 0 });
           } else await (notification[handlerName] as any)(notifiable);
         }

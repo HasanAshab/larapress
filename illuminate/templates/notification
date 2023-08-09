@@ -3,7 +3,7 @@ import Notification from "illuminate/notifications/Notification";
 
 export default class {{name}} extends Notification {
   //shouldQueue = true;
-  type = "{{name}}";
+  //type = "{{name}}";
   
   via(notifiable: IUser){
     return ["site"];

@@ -2,7 +2,7 @@ import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
 import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
 import notificationConfig from "register/notification";
 
-const schemaData = {
+const schemaData: any = {
   userId: {
     required: true,
     type: Schema.Types.ObjectId,
@@ -22,7 +22,7 @@ const schemaData = {
   notification: {}
 }
 
-const value = {};
+const value: any = {};
 for(const channel of notificationConfig.channels){
   value[channel] = {
     type: Boolean,

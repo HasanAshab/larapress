@@ -1,4 +1,3 @@
-import { Notifiable } from "types";
 import { IUser } from "app/models/User";
 import Notification from "illuminate/notifications/Notification";
 import NewUserJoinedMail from "app/mails/NewUserJoinedMail";
@@ -10,11 +9,11 @@ export default class NewUserJoined extends Notification {
     return ["site", "email"];
   }
   
-  toEmail(notifiable: Notifiable) {
+  toEmail(notifiable: IUser) {
     return new NewUserJoinedMail({ user: this.data.user });
   }
   
-  toSite(notifiable: Notifiable) {
+  toSite(notifiable: IUser) {
     return { user: this.data.user }
   }
 }
