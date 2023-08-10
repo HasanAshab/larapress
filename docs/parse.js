@@ -35,6 +35,14 @@ for (const version of versions) {
               type: param.schema.type,
               required: param.schema._flags.presence === "required",
             };
+            if(param.schema.type === "object"){
+              parameter.properties = {};
+              for(const nestedParam of param.schema.$_terms.keys){
+                parameter.properties[nestedParam.key] = {
+                  type: nestedParam.schema.type,
+                }
+              }
+            }
             methodDoc.parameters.push(parameter);
           }
         }

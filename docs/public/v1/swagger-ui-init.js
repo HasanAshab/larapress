@@ -37,11 +37,11 @@ window.onload = function() {
                     "items": {
                       "type": "object",
                       "example": {
-                        "username": "Freda",
-                        "email": "Whitney.Block@gmail.com",
+                        "username": "Grady",
+                        "email": "Newell_Blick72@yahoo.com",
                         "phoneNumber": "+15005550006",
                         "password": "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi",
-                        "emailVerified": true
+                        "verified": true
                       }
                     }
                   },
@@ -70,11 +70,11 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "username": "Alf",
-                      "email": "Earlene_Morar@yahoo.com",
+                      "username": "Verna",
+                      "email": "Jamal_Denesik@gmail.com",
                       "phoneNumber": "+15005550006",
                       "password": "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi",
-                      "emailVerified": true
+                      "verified": true
                     }
                   }
                 }
@@ -152,7 +152,9 @@ window.onload = function() {
                       "bcryptRounds": "10",
                       "googleClientId": "574177695590-6ta430f91sjtfmepvjskhvrf81ncbo0c.apps.googleusercontent.com",
                       "googleClientSecret": "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",
-                      "googleRedirectUrl": "http://localhost:8000/api/v1/auth/google/callback",
+                      "googleRedirectUrl": "http://localhost:8000/api/v1/auth/callback/google",
+                      "recaptchaSiteKey": "6LcCwIknAAAAANu-Lsiie8YIRWVLzTRXV9n0Qu-l",
+                      "recaptchaSecretKey": "6LcCwIknAAAAAJ4bLQ5z-56oXcmtK6GQGvhL3r9J",
                       "mailHost": "sandbox.smtp.mailtrap.io",
                       "mailPort": "2525",
                       "mailUsername": "28786b42db2778",
@@ -222,13 +224,13 @@ window.onload = function() {
               "name": "method",
               "in": "body",
               "type": "string",
-              "required": false
+              "required": true
             },
             {
-              "name": "phoneNumber",
+              "name": "otp",
               "in": "body",
-              "type": "string",
-              "required": false
+              "type": "number",
+              "required": true
             }
           ]
         }
@@ -248,17 +250,26 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "userId": "64c3df9a2897b19aac549235",
-                      "notification": {
-                        "enabled": true,
-                        "email": true,
-                        "push": true
-                      },
+                      "userId": "64d467d7b68894932bc8ba26",
                       "twoFactorAuth": {
                         "enabled": false,
                         "method": "sms"
                       },
-                      "_id": "64c3df9a2897b19aac549236"
+                      "notification": {
+                        "announcement": {
+                          "site": true,
+                          "email": true
+                        },
+                        "feature": {
+                          "site": true,
+                          "email": true
+                        },
+                        "others": {
+                          "site": true,
+                          "email": true
+                        }
+                      },
+                      "_id": "64d467d7b68894932bc8ba27"
                     }
                   }
                 }
@@ -266,6 +277,72 @@ window.onload = function() {
             }
           },
           "parameters": []
+        }
+      },
+      "/settings/notification": {
+        "put": {
+          "summary": "Update user notification settings",
+          "description": "need auth-token",
+          "validationPath": "Settings/Notification",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "announcement",
+              "in": "body",
+              "type": "object",
+              "required": false,
+              "properties": {
+                "site": {
+                  "type": "boolean"
+                },
+                "email": {
+                  "type": "boolean"
+                }
+              }
+            },
+            {
+              "name": "feature",
+              "in": "body",
+              "type": "object",
+              "required": false,
+              "properties": {
+                "site": {
+                  "type": "boolean"
+                },
+                "email": {
+                  "type": "boolean"
+                }
+              }
+            },
+            {
+              "name": "others",
+              "in": "body",
+              "type": "object",
+              "required": false,
+              "properties": {
+                "site": {
+                  "type": "boolean"
+                },
+                "email": {
+                  "type": "boolean"
+                }
+              }
+            }
+          ]
         }
       },
       "/notifications/": {
@@ -285,12 +362,12 @@ window.onload = function() {
                     "items": {
                       "type": "object",
                       "example": {
-                        "notifiableId": "64c3df9a2897b19aac549237",
+                        "notifiableId": "64d467d7b68894932bc8ba28",
                         "notifiableType": "User",
                         "data": {
-                          "text": "Minus vero molestiae inventore nemo deleniti in assumenda. Sapiente ea quas architecto quaerat. Sed cupiditate praesentium quasi fugit ea delectus reprehenderit autem.\nExcepturi architecto numquam esse delectus aspernatur doloribus nostrum quos voluptate. Officia sed sed dignissimos porro neque quas ullam similique ipsam. Odio dolore laudantium sequi quas incidunt ipsam in.\nRecusandae totam nemo accusantium temporibus. Maxime quas nobis animi minus aperiam. Autem voluptate quas quia fuga blanditiis sequi ea impedit maxime."
+                          "text": "Velit reiciendis quaerat quam vel id velit similique. Nihil consequuntur veritatis. Error itaque ullam fugit.\nNatus ex enim ipsum. Molestias id dignissimos quasi nostrum sint. Labore error odio occaecati placeat.\nAliquid sapiente veritatis aut. Eos recusandae facilis tempora nesciunt porro dolore necessitatibus. Alias beatae eum hic."
                         },
-                        "readAt": "2023-07-28T15:32:42.935Z"
+                        "readAt": "2023-08-10T04:30:15.334Z"
                       }
                     }
                   },
@@ -445,11 +522,11 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "username": "Ocie",
-                      "email": "Jordy_Hermiston@yahoo.com",
+                      "username": "Jacinto",
+                      "email": "Josephine77@hotmail.com",
                       "phoneNumber": "+15005550006",
                       "password": "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi",
-                      "emailVerified": true
+                      "verified": true
                     }
                   }
                 }
@@ -818,8 +895,8 @@ window.onload = function() {
                     "items": {
                       "type": "object",
                       "example": {
-                        "name": "Generic Frozen Computer",
-                        "slug": "earum-quas-dolore"
+                        "name": "Awesome Rubber Computer",
+                        "slug": "quae-tempore-sed"
                       }
                     }
                   },
@@ -848,8 +925,8 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "name": "Licensed Cotton Mouse",
-                      "slug": "debitis-dolores-mollitia"
+                      "name": "Modern Wooden Bacon",
+                      "slug": "dolores-culpa-itaque"
                     }
                   }
                 }

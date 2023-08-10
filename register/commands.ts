@@ -4,6 +4,7 @@ export default {
   test: "Test",
   key: "Key",
   doc: "GenerateDoc",
+  performance: "TestPerformance",
   db: "DB",
   search: "Search",
 } as const;
