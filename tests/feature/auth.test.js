@@ -36,7 +36,6 @@ describe("Auth", () => {
       .field("username", dummyUser.username)
       .field("email", dummyUser.email)
       .field("password", dummyUser.password)
-      .field("password_confirmation", dummyUser.password)
       .attach("logo", fakeFile("image.png"));
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
@@ -57,7 +56,7 @@ describe("Auth", () => {
       .field("username", dummyUser.username)
       .field("email", dummyUser.email)
       .field("password", dummyUser.password)
-      .field("password_confirmation", dummyUser.password);
+
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
     expect(await User.findOne({ email: dummyUser.email })).not.toBeNull();
@@ -71,7 +70,6 @@ describe("Auth", () => {
       .field("username", "foo")
       .field("email", user.email)
       .field("password", "password")
-      .field("password_confirmation", "password");
 
     expect(response.statusCode).toBe(400);
     expect(response.body.data).not.toHaveProperty("token");
@@ -83,7 +81,6 @@ describe("Auth", () => {
       .field("username", user.username)
       .field("email", "foo@samer.com")
       .field("password", "password")
-      .field("password_confirmation", "password");
 
     expect(response.statusCode).toBe(400);
     expect(response.body.data).not.toHaveProperty("token");

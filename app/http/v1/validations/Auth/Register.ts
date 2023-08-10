@@ -13,8 +13,7 @@ const schema: ValidationSchema = {
       email: Joi.string().email().required().external(async (email) => {
         if (await User.findOne({ email })) throw new Error("email already exists!");
       }),
-      password: Joi.string().min(8).required(),
-      password_confirmation: Joi.string().required().valid(Joi.ref("password"))
+      password: Joi.string().min(8).required()
     })
   },
   multipart: FileValidator.schema({
