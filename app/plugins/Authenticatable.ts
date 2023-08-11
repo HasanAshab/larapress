@@ -1,6 +1,7 @@
 import { Schema, Document } from "mongoose";
 import { customError } from "helpers";
 import twilio from "twilio";
+import otpConfig from "register/otp"
 import OTP from "app/models/OTP";
 import Mail from "illuminate/utils/Mail"
 import URL from "illuminate/utils/URL"
@@ -53,22 +54,33 @@ export default (schema: Schema) => {
     return result;
   }
   
-  schema.methods.sendOtp = async function () {
+  schema.methods.sendOtp = async function (method: typeof otpConfig["methods"][number]) {
+    if(!this.phoneNumber) return false;
     const code = Math.floor(100000 + Math.random() * 900000);
     const otp = await OTP.create({ 
       userId: this._id,
       code,
       expiresAt: Date.now() + 3600000
     });
-    const message = await client.messages.create({
-      from: process.env.TWILIO_PHONE_NUMBER,
-      to: this.phoneNumber,
-      body: "Your OTP is: " + code,
-    });
+    if(method === "sms") {
+      client.messages.create({
+        from: process.env.TWILIO_PHONE_NUMBER,
+        to: this.phoneNumber,
+        body: "Your verification code is: " + code,
+      });
+    }
+    else if(method === "call") {
+      client.calls.create({
+        from: process.env.TWILIO_PHONE_NUMBER,
+        to: this.phoneNumber,
+        twiml: otpConfig.voice(otp)
+      });
+    }
     return code;
   }
   
   schema.methods.verifyOtp = async function (code: number) {
+    if(!this.phoneNumber) return false;
     const otp = await OTP.findOne({ userId: this._id, code });
     if(!otp) return false;
     await OTP.deleteMany({ userId: this._id });

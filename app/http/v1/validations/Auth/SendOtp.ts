@@ -6,10 +6,10 @@ const schema: ValidationSchema = {
   urlencoded: {
     target: "body",
     rules: Joi.object({
-      method: Joi.string().valid(...otpConfig.methods).required(),
-      otp: Joi.number().required()
-    }),
-  },
-};
+      userId: Joi.string().required(),
+      method: Joi.string().valid(...otpConfig.methods).required()
+    })
+  }
+}
 
 export default schema;

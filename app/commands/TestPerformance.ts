@@ -1,5 +1,5 @@
 import Command from "illuminate/commands/Command";
-import { base, storage, generateEndpointsFromDirTree } from "helpers";
+import { base, generateEndpointsFromDirTree } from "helpers";
 import autocannon from "autocannon";
 import DB from "illuminate/utils/DB";
 import URL from "illuminate/utils/URL";
@@ -11,7 +11,7 @@ export default class TestPerformance extends Command {
   private benchmarkRootPath = base("docs/parts");
   async handle(){
     this.setupEnv();
-    require("main");
+    require("main")
     this.info("reseting database...");
     await DB.reset();
     const { connections = 100, amount = 10000, worker = 5 } = this.params
@@ -27,7 +27,9 @@ export default class TestPerformance extends Command {
       config.requests = this.parseBenchmarks(version);
       this.info("load test started...");
       const result = await autocannon(config);
-      fs.writeFileSync(storage(`reports/performance/${version}/${Date.now()}.json`), JSON.stringify(result, null, 2));
+      const outDir = "storage/reports/performance/" + version;
+      !fs.existsSync(outDir) && fs.mkdirSync(outDir);
+      fs.writeFileSync(path.join(outDir, Date.now() + ".json"), JSON.stringify(result, null, 2));
       this.info("clearing database...");
       await DB.reset();
     }

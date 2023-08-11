@@ -17,12 +17,6 @@ export default class SettingsController {
   
   async enableTwoFactorAuth(req: Request){
     const { otp, method } = req.validated;
-    if(!req.user.phoneNumber){
-      return {
-        status: 400,
-        message: "Phone number is required!"
-      }
-    }
     const isValidOtp = await req.user.verifyOtp(parseInt(otp));
     if (!isValidOtp){
       return {

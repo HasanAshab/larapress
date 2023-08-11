@@ -10,7 +10,7 @@ router.post("/register", middleware("recaptcha", ["limit", {time: 60 * 1000, cou
 
 router.get("/callback/google", AuthController.loginWithGoogle);
 
-router.post("/send-otp/:id", middleware(["limit", {time: 60 * 1000, count: 3}]), AuthController.sendOtp);
+router.post("/send-otp", middleware(["limit", {time: 60 * 1000, count: 3}]), AuthController.sendOtp);
 
 router.route("/profile")
   .get(middleware("auth"), AuthController.profile)

@@ -6,15 +6,16 @@ import { execSync } from "child_process";
 
 export default class Clear extends Command {
   uploads() {
-    const directory = storage("public/uploads");
-    this.info("Reading directory...");
+    execSync("rm -r storage/public/uploads");
+    execSync("mkdir  storage/public/uploads");
     this.success("Uploads are cleared now!");
   }
   
   reports() {
-    const name = 
-    execSync("rm -r storage/reports+name");
-    execSync("mkdir  storage/reports");
-    this.success("reports are clear now!");
+    this.requiredParams(["name"]);
+    const { name } = this.params;
+    execSync("rm -r storage/reports/" + name);
+    execSync("mkdir  storage/reports/" + name);
+    this.success(name + " reports are clear now!");
   }
 }

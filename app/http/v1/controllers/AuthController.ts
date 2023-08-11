@@ -222,9 +222,10 @@ export default class AuthController {
   };
   
   async sendOtp(req: Request){
-    const user = await User.findById(req.params.id);
+    const { userId, method } = req.validated;
+    const user = await User.findById(userId);
     if(!user) return { status: 404 };
-    await user.sendOtp();
+    await user.sendOtp(method);
     return { message: `6 digit OTP code sent to phone number!`};
   }
 }

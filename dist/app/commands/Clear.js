@@ -4,19 +4,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Command_1 = __importDefault(require("illuminate/commands/Command"));
-const helpers_1 = require("helpers");
-const fs_1 = __importDefault(require("fs"));
-const path_1 = __importDefault(require("path"));
+const child_process_1 = require("child_process");
 class Clear extends Command_1.default {
     uploads() {
-        const directory = (0, helpers_1.storage)("public/uploads");
-        this.info("Reading directory...");
-        fs_1.default.readdirSync(directory).forEach((file) => {
-            this.info(`removing: ${file}...`);
-            const filePath = path_1.default.join(directory, file);
-            fs_1.default.unlink(filePath, (err) => { (0, helpers_1.log)(err); });
-        });
+        (0, child_process_1.execSync)("rm -r storage/public/uploads");
+        (0, child_process_1.execSync)("mkdir  storage/public/uploads");
         this.success("Uploads are cleared now!");
+    }
+    reports() {
+        this.requiredParams(["name"]);
+        const { name } = this.params;
+        (0, child_process_1.execSync)("rm -r storage/reports/" + name);
+        (0, child_process_1.execSync)("mkdir  storage/reports/" + name);
+        this.success(name + " reports are clear now!");
     }
 }
 exports.default = Clear;

@@ -1,6 +1,7 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
 import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
 import notificationConfig from "register/notification";
+import otpConfig from "register/otp"
 
 const schemaData: any = {
   userId: {
@@ -15,7 +16,7 @@ const schemaData: any = {
     },
     method: {
       type: String,
-      enum: ["sms", "call"],
+      enum: otpConfig.methods,
       default: "sms"
     }
   },
@@ -45,7 +46,7 @@ export interface ISettings extends Document {
   };
   twoFactorAuth: {
     enabled: boolean;
-    method: "sms" | "call";
+    method: typeof otpConfig["methods"][number];
   }
 };
 interface SettingsModel extends Model<ISettings>, HasFactoryModel {};
