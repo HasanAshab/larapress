@@ -1,38 +1,35 @@
 import Command from "illuminate/commands/Command";
 import { base, storage, generateEndpointsFromDirTree } from "helpers";
 import autocannon from "autocannon";
+import DB from "illuminate/utils/DB";
 import URL from "illuminate/utils/URL";
-import app from "main/app";
 import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
 
 export default class TestPerformance extends Command {
   private benchmarkRootPath = base("docs/parts");
-
-  handle() {
-    app.listen(8000, () => {
-      this.info("server started...");
-      this.setupEnv();
-      this.runLoadTest();
-    });
-  }
-
-  private async runLoadTest(){
-    const { connections = 10, duration = 60, amount, worker = 4 } = this.params
+  async handle(){
+    this.setupEnv();
+    require("main");
+    this.info("reseting database...");
+    await DB.reset();
+    const { connections = 100, amount = 10000, worker = 5 } = this.params
     const config = {
       url: URL.resolve(),
       worker,
       connections,
-      duration,
       amount
     };
-    this.info("load test started...");
     const versions = fs.readdirSync(this.benchmarkRootPath);
     for (const version of versions) {
+      this.info(`parsing benchmarks of ${version}...`);
       config.requests = this.parseBenchmarks(version);
+      this.info("load test started...");
       const result = await autocannon(config);
       fs.writeFileSync(storage(`reports/performance/${version}/${Date.now()}.json`), JSON.stringify(result, null, 2));
+      this.info("clearing database...");
+      await DB.reset();
     }
     this.success("Test report saved at /storage/reports/performance");
   }
@@ -61,7 +58,6 @@ export default class TestPerformance extends Command {
             this.error(`${request.method} -> ${request.path} \n ${body}`);
           }
         }
-        console.log(request)
         requests.push(request);
       }
     }

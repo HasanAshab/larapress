@@ -12,21 +12,3 @@ for(const key in testEnv){
 global.fakeFile = (name) => {
   return `storage/test_files/${name}`;
 };
-
-global.resetDatabase = () => {
-  const collections = mongoose.connection.collections;
-  const dropPromises = [];
-
-  for (const name in collections) {
-    const dropPromise = new Promise((resolve, reject) => {
-      collections[name].drop((err) => {
-        if (err && err.code !== 26) {
-          reject(err);
-        } 
-        else resolve();
-      });
-    });
-    dropPromises.push(dropPromise);
-  }
-  return Promise.all(dropPromises);
-};

@@ -1,4 +1,6 @@
+const FormData = require("form-data");
 let i = 0;
+
 module.exports = {
   post: {
     summary: "Sign-up a User",
@@ -6,13 +8,13 @@ module.exports = {
     validationPath: "Auth/Register",
     benchmark: {
       setupRequest(req, context) {
-        req.headers["content-type"] = "multipart/form-data";
-        req.body = Buffer.from(JSON.stringify({
-          username: i + "foo",
-          email: i + "foo@gmail.com",
-          password: "foo.123456"
-        }));
-        return req
+        const form = new FormData();
+        form.append("username", i + "foo");
+        form.append("email", i++ + "foo@gmail.com");
+        form.append("password", "foo.123456");
+        Object.assign(req.headers, form.getHeaders());
+        req.body = form.getBuffer();
+        return req;
       },    
     },
     responses: {
