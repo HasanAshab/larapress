@@ -23,7 +23,10 @@ export default (schema: Schema) => {
   });
   
   schema.pre<NotifiableDocument>(["deleteOne", "deleteMany"], function(next) {
-    this.notifications.deleteMany();
+    NotificationModel.deleteMany({
+      notifiableId: this._id,
+      notifiableType: (this.constructor as any).modelName,
+    });
     next();
   });
 

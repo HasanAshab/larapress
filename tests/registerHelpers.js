@@ -1,8 +1,8 @@
 const dotenv = require("dotenv");
 dotenv.config();
-const mongoose = require("mongoose");
 const path = require("path");
 const fs = require("fs");
+const DB = require("illuminate/utils/DB").default;
 
 const testEnv = dotenv.parse(fs.readFileSync(".env.test"));
 for(const key in testEnv){
@@ -12,3 +12,5 @@ for(const key in testEnv){
 global.fakeFile = (name) => {
   return `storage/test_files/${name}`;
 };
+
+global.resetDatabase = DB.reset;

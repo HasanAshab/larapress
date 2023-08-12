@@ -1,9 +1,13 @@
 import mongoose, { ConnectOptions } from "mongoose";
-const dbUrl = process.env.DB_URL??"mongodb://127.0.0.1:27017/test";
 
 export default class DB {
-  static async connect(url?: string, options?: ConnectOptions) {
-    await mongoose.connect(url || dbUrl, options);
+  static url = process.env.DB_URL ?? "mongodb://127.0.0.1:27017/test";
+  static defaultConnectOptions = {
+    maxPoolSize: Number(process.env.DB_MAX_POOL_SIZE) ?? 5
+  }
+  
+  static async connect(options: ConnectOptions = this.defaultConnectOptions) {
+    await mongoose.connect(this.url, options);
   }
   
   static async disconnect() {

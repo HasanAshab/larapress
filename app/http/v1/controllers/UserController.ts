@@ -6,14 +6,35 @@ export default class UserController {
     return await User.find({ role: "novice" }).paginateReq(req);
   }
   
+  async profile(req: Request){
+    return req.user;
+  };
+
+  async updateProfile(req: Request){
+    const logo = req.files?.logo;
+    const user = req.user;
+    Object.assign(user, req.validated);
+    if(req.validated.email){
+      user.verified = false;
+    }
+    if (logo && !Array.isArray(logo)) {
+      await user.detach("logo");
+      await user.attach("logo", logo, true);
+    }
+    await user.save();
+    if(!req.validated.email) return { message: "Profile updated!" };
+    await user.sendVerificationEmail();
+    return { message: "Verification email sent to new email!" };
+  };
+  
   async find(req: Request) {
-    const user = await User.findOne({ username: req.params.username });
+    const user = await User.findOne(req.params);
     if(!user) return { status: 404 };
     return user.safeDetails();
   }
   
   async delete(req: Request) {
-    const user = await User.findById(req.params.id);
+    const user = await User.findOne(req.params);
     if(!user) return { status: 404 };
     if(!req.user.can("delete", user)) return { status: 403 };
     const { deletedCount } = await User.deleteOne({_id: user._id});
@@ -23,7 +44,7 @@ export default class UserController {
   }
   
   async makeAdmin(req: Request){
-    const { modifiedCount } = await User.updateOne({_id: req.params.id}, { role: "novice" });
+    const { modifiedCount } = await User.updateOne(req.params, { role: "novice" });
     return modifiedCount === 1
         ? { status: 200, message: "Admin role granted!" }
         : { status: 404 };
