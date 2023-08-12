@@ -22,7 +22,10 @@ export default (schema: Schema) => {
   });
   
   schema.pre<AttachableDocument>(["deleteOne", "deleteMany"], function(next) {
-    this.attachments.deleteMany();
+    Attachment.deleteMany({
+      attachableId: this._id,
+      attachableType: (this.constructor as any).modelName,
+    });
     next();
   });
 

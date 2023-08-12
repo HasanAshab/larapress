@@ -3,9 +3,10 @@ const request = require("supertest")(app);
 const DB = require("illuminate/utils/DB").default;
 const User = require("app/models/User").default;
 const Storage = require("illuminate/utils/Storage").default;
+const Mail = require("illuminate/utils/Mail").default;
 
 describe("user", () => {
-  let admin;
+  let user;
   let token;
   
   beforeAll(async () => {
@@ -14,15 +15,18 @@ describe("user", () => {
   
   beforeEach(async () => {
     await resetDatabase();
-    admin = await User.factory().create({ role: "admin" });
-    token = admin.createToken();
+    user = await User.factory().create();
+    token = user.createToken();
+    Mail.mock();
   });
   
   it("Admin should get all users", async () => {
+    const admin = await User.factory().create({ role: "admin" });
     const users = await User.factory(3).create();
+    users.unshift(user);
     const response = await request
       .get("/api/v1/users")
-      .set("Authorization", `Bearer ${token}`)
+      .set("Authorization", `Bearer ${admin.createToken()}`)
 
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(users);
@@ -132,19 +136,19 @@ describe("user", () => {
   });
   
   it("Admin should delete user", async () => {
-    const user = await User.factory().create();
+    const admin = await User.factory().create({ role: "admin" });
     const response = await request
       .delete("/api/v1/users/" + user.username)
-      .set("Authorization", `Bearer ${token}`);
-
+      .set("Authorization", `Bearer ${admin.createToken()}`);
     expect(response.statusCode).toBe(204);
     expect(await User.findById(user._id)).toBeNull();
   });
   
   it("Admin should delete own account", async () => {
+    const admin = await User.factory().create({ role: "admin" });
     const response = await request
       .delete("/api/v1/users/" + admin.username)
-      .set("Authorization", `Bearer ${token}`);
+      .set("Authorization", `Bearer ${admin.createToken()}`);
 
     expect(response.statusCode).toBe(204);
     expect(await User.findById(admin._id)).toBeNull();
@@ -161,13 +165,13 @@ describe("user", () => {
   });
   
   it("Shouldn't delete admin user", async () => {
-    const user = await User.factory().create({ role: "admin" });
+    const admin = await User.factory().create({ role: "admin" });
     const response = await request
-      .delete("/api/v1/users/" + user.username)
+      .delete("/api/v1/users/" + admin.username)
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.statusCode).toBe(403);
-    expect(await User.findById(user._id)).not.toBeNull();
+    expect(await User.findById(admin._id)).not.toBeNull();
   });
   
   it("General user shouldn't delete other user", async () => {
@@ -181,22 +185,22 @@ describe("user", () => {
   });
     
   it("Should make admin", async () => {
-    let user = await User.factory().create();
+    const admin = await User.factory().create({ role: "admin" });
     const response = await request
       .put(`/api/v1/users/${user.username}/make-admin`)
-      .set("Authorization", `Bearer ${token}`);
+      .set("Authorization", `Bearer ${admin.createToken()}`);
     expect(response.statusCode).toBe(200);
     user = await User.findById(user._id);
     expect(user.role).toBe("admin");
   });
   
   it("General user Should't make admin", async () => {
-    let users = await User.factory(2).create();
+    let user = await User.factory().create();
     const response = await request
-      .put(`/api/v1/users/${users[1].username}/make-admin`)
-      .set("Authorization", `Bearer ${users[0].createToken()}`);
+      .put(`/api/v1/users/${user.username}/make-admin`)
+      .set("Authorization", `Bearer ${token}`);
     expect(response.statusCode).toBe(403);
-    const user = await User.findById(users[1]._id);
+    user = await User.findById(user._id);
     expect(user.role).toBe("novice");
   });
 });

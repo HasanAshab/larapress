@@ -17,13 +17,13 @@ export default class Authenticate extends Middleware {
           const user = await User.findById(decoded.userId);
           if (user !== null && user.tokenVersion === decoded.version) {
             if(verified && !user.verified){
-              return res.status(401).json({
+              return res.status(401).api({
                 message: "Your have to verify your email to perfom this action!"
               });
             }
             
             if(Array.isArray(roles) && roles.length > 0 && !roles.includes(user.role)){
-              return res.status(403).json({
+              return res.status(403).api({
                 message: "Your have not enough privilege to perfom this action!"
               });
             }

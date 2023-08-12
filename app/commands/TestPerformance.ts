@@ -48,13 +48,20 @@ export default class TestPerformance extends Command {
     global.base = base;
     const requests = [];
     const endpointPathPair = generateEndpointsFromDirTree(path.join(this.benchmarkRootPath, version));
-    for(const [endpoint, path] of Object.entries(endpointPathPair)){
+    for(let [endpoint, path] of Object.entries(endpointPathPair)){
       const benchmarkFile = require(path);
       for(const method in benchmarkFile) {
         const request = benchmarkFile[method].benchmark;
         if(!request) continue;
-        request.method = method.toUpperCase(),
+        if(endpoint.includes("{")){
+          endpoint = endpoint.replace(/\{(\w+)\}/g, (match: string, key: string) => {
+            const value = benchmark.params[key];
+            if(!value) this.error(`The "${key}" param is required in endpoint ${endpoint}`);
+            return value;
+          });
+        }
         request.path = "/api/" + version + endpoint,
+        request.method = method.toUpperCase(),
         request.onResponse = (status, body, context) => {
           if(status > 399){
             this.error(`${request.method} -> ${request.path} \n ${body}`);

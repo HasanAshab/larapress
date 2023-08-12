@@ -36,7 +36,12 @@ export default class UserController {
   async delete(req: Request) {
     const user = await User.findOne(req.params);
     if(!user) return { status: 404 };
-    if(!req.user.can("delete", user)) return { status: 403 };
+    if(!req.user.can("delete", user)) {
+      return { 
+        status: 403,
+        message: "Your have not enough privilege to perfom this action!"
+      };
+    }
     const { deletedCount } = await User.deleteOne({_id: user._id});
     return deletedCount === 1
       ? { status: 204 }
@@ -44,7 +49,7 @@ export default class UserController {
   }
   
   async makeAdmin(req: Request){
-    const { modifiedCount } = await User.updateOne(req.params, { role: "novice" });
+    const { modifiedCount } = await User.updateOne(req.params, { role: "admin" });
     return modifiedCount === 1
         ? { status: 200, message: "Admin role granted!" }
         : { status: 404 };

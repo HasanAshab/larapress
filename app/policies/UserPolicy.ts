@@ -5,7 +5,7 @@ export default class UserPolicy {
     if(user.role === "novice") return { _id: user._id };
     return [
       { _id: user._id },
-      { role: "admin" }
+      { role: "novice" }
     ];
   }
 }
