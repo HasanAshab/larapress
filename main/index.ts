@@ -1,3 +1,4 @@
+import "dotenv/config"
 import config from 'config';
 import { base } from "helpers";
 import app from "main/app";
@@ -6,9 +7,7 @@ import DB from "illuminate/utils/DB";
 import https from "https";
 import fs from "fs";
 
-
 const port = config.get("app.port");
-const nodeEnv = process.env.NODE_ENV;
 
 // Connecting to database
 if (config.get("db.connect")) {
@@ -44,7 +43,7 @@ const server = app.listen(port, () => {
   console.log(`Server running on [http://127.0.0.1:${port}] ...`);
 });
 
-if (nodeEnv === "development") {
+if (process.env.NODE_ENV === "development") {
   server.on("connection", (socket) => {
     const now = new Date();
     const time = now.toLocaleTimeString("en-US", {

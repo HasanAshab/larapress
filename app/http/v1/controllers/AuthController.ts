@@ -105,7 +105,7 @@ export default class AuthController {
   
   async redirectToGoogle(req: Request, res: Response) {
     try {
-      const { clientId, clientSecret, redirectUrl } = config.get("socialate.google");
+      const { clientId, clientSecret } = config.get("socialate.google");
       const client = new OAuth2Client(clientId, clientSecret);
       const redirectUrl = client.generateAuthUrl({
         scope: ['profile', 'email'],
