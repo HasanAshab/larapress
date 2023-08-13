@@ -1,6 +1,7 @@
 import { Schema, Document } from "mongoose";
-import URL from "illuminate/utils/URL";
+import config from "config";
 import Stripe from "stripe";
+import URL from "illuminate/utils/URL";
 
 
 export interface BillableDocument extends Document {
@@ -13,7 +14,7 @@ export interface BillableDocument extends Document {
 }
 
 export default (schema: Schema) => {
-  const stripe = new Stripe(process.env.STRIPE_KEY!, {
+  const stripe = new Stripe(config.get("stripe.key"), {
     apiVersion: '2022-11-15',
   });
 

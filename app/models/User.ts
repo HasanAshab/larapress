@@ -1,4 +1,5 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
+import config from "config";
 import URL from "illuminate/utils/URL"
 import bcrypt from "bcryptjs";
 import Authenticatable, { AuthenticatableDocument } from "app/plugins/Authenticatable";
@@ -63,7 +64,7 @@ UserSchema.post("save", function (user, next) {
 
 
 UserSchema.pre("save", async function(next) {
-  const bcryptRounds = Number(process.env.BCRYPT_ROUNDS) ?? 10;
+  const bcryptRounds = Number(config.get("bcrypt.rounds")) ?? 10;
   if (!this.isModified("password")) {
     return next();
   }

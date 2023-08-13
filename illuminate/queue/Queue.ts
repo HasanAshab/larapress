@@ -1,4 +1,5 @@
-import { log } from "helpers"
+import { log } from "helpers";
+import config from "config";
 import bull from "bull";
 
 export default class Queue {
@@ -10,7 +11,7 @@ export default class Queue {
   
   static set(channel: string, worker: (data: object) => Promise<void>, concurrency = 1) {
     if(typeof this.queue === "undefined"){
-      this.queue = new bull("default", process.env.REDIS_URL ?? "", {
+      this.queue = new bull("default", config.get("redis.url"), {
         defaultJobOptions: {
           removeOnComplete: true,
           removeOnFail: true,

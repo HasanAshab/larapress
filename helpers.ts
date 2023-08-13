@@ -1,5 +1,6 @@
 import { NextFunction, RequestHandler, Request, Response } from "express";
 import { Model } from "mongoose";
+import config from "config";
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
@@ -113,8 +114,9 @@ export function env(envValues?: Record<string, string>) {
   return envConfig;
 }
 
-export function log(data: any): void {
-  if(process.env.LOG === "file"){
+export async function log(data: any) {
+  const logChannel = config.get("log");
+  if(logChannel === "file"){
     const path = "./storage/logs/error.log";
     if(data instanceof Error){
       data = data.stack
@@ -124,7 +126,7 @@ export function log(data: any): void {
         throw err;
     });
   }
-  else if(process.env.LOG === "console"){
+  else if(logChannel === "console"){
     console.log(data)
   }
 }

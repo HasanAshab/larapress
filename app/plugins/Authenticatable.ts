@@ -1,5 +1,6 @@
 import { Schema, Document } from "mongoose";
 import { customError } from "helpers";
+import config from "config";
 import twilio from "twilio";
 import otpConfig from "register/otp"
 import OTP from "app/models/OTP";
@@ -11,9 +12,6 @@ import VerificationMail from "app/mails/VerificationMail";
 import ForgotPasswordMail from "app/mails/ForgotPasswordMail";
 import PasswordChangedMail from "app/mails/PasswordChangedMail";
 
-const frontendUrl = process.env.FRONTEND_URL;
-const bcryptRounds = Number(process.env.BCRYPT_ROUNDS);
-const client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
 
 export interface AuthenticatableDocument extends Document {
   sendVerificationEmail(): Promise<string | boolean>;
@@ -25,6 +23,8 @@ export interface AuthenticatableDocument extends Document {
 
 export default (schema: Schema) => {
   const expireAfter = 3 * 24 * 60 * 60;
+  const twilioConfig = config.get("twilio");
+  const twilioClient = twilio(twilioConfig.sid, twilioConfig.authToken);
 
   schema.methods.sendVerificationEmail = async function () {
     if (this.verified) {
@@ -63,15 +63,15 @@ export default (schema: Schema) => {
       expiresAt: Date.now() + 3600000
     });
     if(method === "sms") {
-      client.messages.create({
-        from: process.env.TWILIO_PHONE_NUMBER,
+      twilioClient.messages.create({
+        from: twilioConfig.phoneNumber,
         to: this.phoneNumber,
         body: "Your verification code is: " + code,
       });
     }
     else if(method === "call") {
-      client.calls.create({
-        from: process.env.TWILIO_PHONE_NUMBER,
+      twilioClient.calls.create({
+        from: twilioConfig.phoneNumber,
         to: this.phoneNumber,
         twiml: otpConfig.voice(otp)
       });

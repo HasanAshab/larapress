@@ -1,13 +1,13 @@
 import mongoose, { ConnectOptions } from "mongoose";
+import config from "config";
 
 export default class DB {
-  static url = process.env.DB_URL ?? "mongodb://127.0.0.1:27017/test";
   static defaultConnectOptions = {
-    maxPoolSize: Number(process.env.DB_MAX_POOL_SIZE) ?? 5
+    maxPoolSize: config.get("db.maxPoolSize")
   }
   
   static async connect(options: ConnectOptions = this.defaultConnectOptions) {
-    await mongoose.connect(this.url, options);
+    await mongoose.connect(config.get("db.url"), options);
   }
   
   static async disconnect() {

@@ -1,6 +1,7 @@
 import Middleware from "illuminate/middlewares/Middleware";
 import { customError } from "helpers";
 import { Request, Response, NextFunction } from "express";
+import config from "config";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import User from "app/models/User";
 
@@ -13,7 +14,7 @@ export default class Authenticate extends Middleware {
       const token = authHeader.split(" ")[1];
       if (token) {
         try {
-          const decoded = jwt.verify(token, process.env.APP_KEY ?? "") as JwtPayload;
+          const decoded = jwt.verify(token, config.get("app.key")) as JwtPayload;
           const user = await User.findById(decoded.userId);
           if (user !== null && user.tokenVersion === decoded.version) {
             if(verified && !user.verified){

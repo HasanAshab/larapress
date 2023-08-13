@@ -1,5 +1,7 @@
+import config from "config";
+
 export default {
-  default: (process.env.CACHE ?? "redis") as any,
+  default: config.get("cache") as any,
   list: ["memory", "redis"]
 } as const;
 

@@ -41,14 +41,6 @@ export default class TestPerformance extends Command {
     this.success("Test report saved at /storage/reports/performance");
   }
   
-  private setupEnv() {
-    const testEnv = dotenv.parse(fs.readFileSync(".env.test"));
-    for(const key in testEnv){
-      process.env[key] = testEnv[key];
-    }
-  }
-  
-  
   private async parseBenchmarks(version: string) {
     global.base = base;
     const requests = [];

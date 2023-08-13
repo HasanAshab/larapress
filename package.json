@@ -13,10 +13,12 @@
   "author": "Hasan Ashab (CO Founder of Samer Agency)",
   "license": "ISC",
   "dependencies": {
+    "@types/config": "^3.3.0",
     "autocannon": "^7.12.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "bull": "^4.10.4",
+    "config": "^3.3.9",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "date-fns": "^2.30.0",

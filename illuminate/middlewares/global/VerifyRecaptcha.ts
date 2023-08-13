@@ -1,5 +1,6 @@
 import Middleware from "illuminate/middlewares/Middleware";
 import { Request, Response, NextFunction } from "express";
+import config from "config";
 
 export default class VerifyRecaptcha extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {
@@ -9,7 +10,7 @@ export default class VerifyRecaptcha extends Middleware {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaResponse}`,
+      body: `secret=${config.get("recaptcha.secretKey")}&response=${recaptchaResponse}`,
     });
     const verificationResult = await verificationResponse.json();
     if (!verificationResult.success) {

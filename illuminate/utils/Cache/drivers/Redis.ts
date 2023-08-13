@@ -1,4 +1,5 @@
 import Driver from "illuminate/utils/Cache/Driver";
+import config from "config";
 import { createClient } from "redis";
 import { CacheDataArg } from "types";
 import { log } from "helpers";
@@ -6,9 +7,8 @@ import { log } from "helpers";
 export default class Redis extends Driver {
   
   private createClient() {
-    const redisUrl = process.env.REDIS_URL;
     const client = createClient({
-      url: redisUrl
+      url: config.get("redis.url")
     });
     client.on("error", err => log(err));
     return client;

@@ -1,5 +1,6 @@
 const app = require("main/app").default;
 const request = require("supertest")(app);
+const config = require("config");
 
 describe("App", () => {
   beforeAll(() => {
@@ -17,7 +18,7 @@ describe("App", () => {
   });
   
   it("should accessable with valid bypass key when in maintenance mode", async () => {
-    const response = await request.get("/").query({bypassKey: process.env.APP_KEY});
+    const response = await request.get("/").query({ bypassKey: config.get("app.key") });
     expect(response.statusCode).toBe(404);
   });
 });

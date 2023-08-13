@@ -1,18 +1,16 @@
+import config from 'config';
 import Token from "illuminate/utils/Token";
 import path from "path";
 import urls from "register/urls";
 
 export default class URL {
   static resolve(url_path = ""): string {
-    const domain = process.env.APP_DOMAIN;
-    const port = process.env.APP_PORT;
-    const protocol = process.env.APP_PROTOCOL ?? "https";
+    const { domain, port, protocol } = config.get("app");
     return `${protocol}://${path.join(`${domain}:${port}/`, url_path)}`;
   }
 
   static client(url_path: string = ""): string {
-    const domain = process.env.CLIENT_DOMAIN;
-    const port = process.env.CLIENT_PORT;
+    const { domain, port } = config.get("client");
     return `https://${path.join(`${domain}:${port}`, url_path)}`;
   }
 

@@ -1,14 +1,11 @@
-import {
-  createCipheriv,
-  createDecipheriv,
-  randomBytes
-} from 'crypto';
+import config from 'config';
+import { createCipheriv, createDecipheriv, randomBytes } from 'crypto';
 
 export default class Token {
   static algorithm = 'aes-256-cbc';
 
   static keyBuffer(){
-    const appKey = process.env.APP_KEY;
+    const appKey = config.get("app.key");
     if(typeof appKey === "undefined") throw new Error("APP_KEY is not set.");
     return Buffer.from(appKey, 'hex');
   }

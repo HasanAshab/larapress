@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import { log } from "helpers";
+import config from "config"
 import bcrypt from "bcryptjs";
 import User from "app/models/User";
-import URL from "illuminate/utils/URL"
-import Cache from "illuminate/utils/Cache"
-import Mail from "illuminate/utils/Mail"
+import URL from "illuminate/utils/URL";
+import Cache from "illuminate/utils/Cache";
+import Mail from "illuminate/utils/Mail";
 import PasswordChangedMail from "app/mails/PasswordChangedMail";
 import { OAuth2Client } from 'google-auth-library';
 import { generateFromEmail } from "unique-username-generator";
@@ -68,18 +69,16 @@ export default class AuthController {
   
   async loginWithGoogle(req: Request, res: Response) {
     try {
-      const googleClientId = process.env.GOOGLE_CLIENT_ID;
-      const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
-      const googleRedirectUrl = process.env.GOOGLE_REDIRECT_URL;
-      const client = new OAuth2Client(googleClientId, googleClientSecret);
+      const { clientId, clientSecret, redirectUrl } = config.get("socialate.google");
+      const client = new OAuth2Client(clientId, clientSecret);
       
       const { tokens } = await client.getToken({ 
         code: req.query.code as string,
-        redirect_uri: googleRedirectUrl 
+        redirect_uri: redirectUrl 
       })!;
       const ticket = await client.verifyIdToken({
         idToken: tokens.id_token!,
-        audience: googleClientId,
+        audience: clientId,
       });
       const { email, picture } = ticket.getPayload()!;
       
@@ -95,8 +94,8 @@ export default class AuthController {
           new: true
         }
       );
-      const clientUrl = URL.client("oauth/success?token=" + user.createToken());
-      res.redirect(clientUrl);
+      const frontendClientUrl = URL.client("oauth/success?token=" + user.createToken());
+      res.redirect(frontendClientUrl);
     }
     catch (err: any) {
       log(err);
@@ -106,13 +105,11 @@ export default class AuthController {
   
   async redirectToGoogle(req: Request, res: Response) {
     try {
-      const googleClientId = process.env.GOOGLE_CLIENT_ID;
-      const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
-      const googleRedirectUrl = process.env.GOOGLE_REDIRECT_URL;
-      const client = new OAuth2Client(googleClientId, googleClientSecret);
+      const { clientId, clientSecret, redirectUrl } = config.get("socialate.google");
+      const client = new OAuth2Client(clientId, clientSecret);
       const redirectUrl = client.generateAuthUrl({
         scope: ['profile', 'email'],
-        redirect_uri: googleRedirectUrl
+        redirect_uri: redirectUrl
       });
       res.redirect(redirectUrl);
     }

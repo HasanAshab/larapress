@@ -1,6 +1,7 @@
 import { base } from "helpers";
 import { Recipient } from "types";
 import { util } from "illuminate/decorators/class";
+import config from 'config';
 import Mockable from "illuminate/utils/Mail/Mockable";
 import Mailable from "illuminate/mails/Mailable";
 import { createTransport, Transporter, SendMailOptions, TransportOptions } from "nodemailer";
@@ -12,6 +13,7 @@ export default class Mail {
   public mailable: Mailable = {} as Mailable;
   static transporter: Transporter < SendMailOptions > = {} as any;
   static email: string;
+  static mailConfig = config.get("mail");
 
   static to(email: string) {
     this.email = email;
@@ -23,11 +25,11 @@ export default class Mail {
       this.transporter = createTransport(config);
     } else {
       this.transporter = createTransport({
-        host: process.env.MAIL_HOST || "smtp-relay.sendinblue.com",
-        port: process.env.MAIL_PORT || "587",
+        host: mailConfig.host,
+        port: mailConfig.port,
         auth: {
-          user: process.env.MAIL_USERNAME || "",
-          pass: process.env.MAIL_PASSWORD || "",
+          user: mailConfig.username ?? "",
+          pass: mailConfig.password ?? "",
         },
       } as TransportOptions);
     }
@@ -51,7 +53,7 @@ export default class Mail {
   
   static getRecipientConfig(mailable: Mailable): Recipient {
     return {
-      from: `${process.env.MAIL_FROM_NAME} <${process.env.MAIL_FROM_ADDRESS}>`,
+      from: `${mailConfig.MAIL_FROM_NAME} <${mailConfig.MAIL_FROM_ADDRESS}>`,
       to: this.email,
       subject: mailable.subject,
       template: mailable.view,
