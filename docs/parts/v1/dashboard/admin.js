@@ -1,7 +1,8 @@
 module.exports = {
   get: {
     summary: "Get dashboard",
-    description: "need auth-token, admin",
+    admin: true,
+    benchmark: {},
     responses: {
       200: {
         schema: {

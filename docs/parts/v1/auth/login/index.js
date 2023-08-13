@@ -3,6 +3,12 @@ module.exports = {
     summary: "Login a User",
     description: "Returns api token if credentials match",
     validationPath: "Auth/Login",
+    benchmark: {
+      body: JSON.stringify({
+        email: "0foo@gmail.com",
+        password: "foo.123456"
+      })
+    },
     responses: {
       200: {
         schema: {

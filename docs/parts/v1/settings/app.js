@@ -11,7 +11,8 @@ for (const key in envData) {
 module.exports = {
   get: {
     summary: "Get app settings (ENV)",
-    description: "need auth-token, admin",
+    admin: true,
+    benchmark: {},
     responses: {
       200: {
         schema: {
@@ -31,8 +32,13 @@ module.exports = {
   },
   put: {
     summary: "Update app settings (ENV)",
-    description: "need auth-token, admin",
     validationPath: "Settings/Update",
+    admin: true,
+    benchmark: {
+      body: JSON.stringify({
+        appName: "Foo" 
+      })
+    },
     responses: {
       200: {
         schema: {

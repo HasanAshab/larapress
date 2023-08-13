@@ -3,7 +3,18 @@ const User = require(base("app/models/User")).default;
 module.exports = {
   get: {
     summary: "Get all users",
-    description: "need auth-token, admin",
+    auth: "admin",
+    benchmark: {
+      async setupContext(){
+        return {
+          foo: await User.factory().create()
+        }
+      },
+      setupRequest(req){
+        console.log(this)
+        return req;
+      }
+    },
     responses: {
       200: {
         schema: {

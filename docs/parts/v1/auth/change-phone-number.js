@@ -2,6 +2,12 @@ module.exports = {
   Put: {
     summary: "Set or Update user's phone number",
     validationPath: "Auth/ChangePhoneNumber",
+    auth: true,
+    benchmark: {
+      body: JSON.stringify({
+        phoneNumber: "+15000673765"
+      })
+    },
     responses: {
       200: {
         schema: {

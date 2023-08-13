@@ -1,7 +1,10 @@
 module.exports = {
   post: {
     summary: "Mark notification as read",
-    description: "need auth-token",
+    auth: true,
+    benchmark: {
+      params: { id: "notificationId" }
+    },
     responses: {
       200: {
         schema: {
@@ -20,7 +23,10 @@ module.exports = {
   },
   delete: {
     summary: "Remove notification",
-    description: "need auth-token",
+    auth: true,
+    benchmark: {
+      params: { id: "notificationId" }
+    },
     responses: {
       204: {
         description: "Notification deleted"

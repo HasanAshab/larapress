@@ -3,7 +3,10 @@ const Category = require(base("app/models/Category")).default;
 module.exports = {
   get: {
     summary: "Get a specific category",
-    description: "need auth-token, admin",
+    admin: true,
+    benchmark: {
+      params: { id: "adminId" }
+    },
     responses: {
       200: {
         schema: {

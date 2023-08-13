@@ -1,8 +1,16 @@
 module.exports = {
   put: {
     summary: "Update user notification settings",
-    description: "need auth-token",
     validationPath: "Settings/Notification",
+    auth: true,
+    benchmark: {
+      body: JSON.stringify({
+        feature: { 
+          email: false, 
+          site: true
+        }
+      })
+    },
     responses: {
       200: {
         schema: {

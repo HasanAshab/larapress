@@ -3,7 +3,10 @@ const User = require(base("app/models/User")).default;
 module.exports = {
   get: {
     summary: "Get a specific users profile",
-    description: "need auth-token",
+    auth: true,
+    benchmark: {
+      params: { username: "0foo" }
+    },
     responses: {
       200: {
         schema: {
@@ -21,4 +24,17 @@ module.exports = {
       },
     },
   },
+  
+  delete: {
+    summary: "Delete user",
+    admin: true,
+    benchmark: {
+      params: { username: "1foo" }
+    },
+    responses: {
+      204: {
+        description: "User deleted"
+      }
+    }
+  }
 };

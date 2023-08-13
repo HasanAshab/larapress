@@ -3,7 +3,8 @@ const Notification = require(base("app/models/Notification")).default;
 module.exports = {
   get: {
     summary: "Get all notifications",
-    description: "need auth-token",
+    auth: true,
+    benchmark: {},
     responses: {
       200: {
         schema: {

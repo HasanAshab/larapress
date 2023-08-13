@@ -4,7 +4,8 @@ const Settings = require(base("app/models/Settings")).default;
 module.exports = {
   get: {
     summary: "Get user settings",
-    description: "need auth-token",
+    auth: true,
+    benchmark: {},
     responses: {
       200: {
         schema: {

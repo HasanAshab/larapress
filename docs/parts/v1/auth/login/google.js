@@ -1,6 +1,7 @@
 module.exports = {
   get: {
     summary: "Login a User (Google)",
+    benchmark: {},
     responses: {
       302: {
         schema: {

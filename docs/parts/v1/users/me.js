@@ -1,9 +1,11 @@
 const User = require(base("app/models/User")).default;
+let i = 0;
 
 module.exports = {
   get: {
-    summary: "Get user details",
-    description: "need bearer token",
+    summary: "Get own profile",
+    auth: true,
+    benchmark: {},
     responses: {
       200: {
         schema: {
@@ -22,8 +24,19 @@ module.exports = {
     },
   },
   put: {
-    summary: "Update user details",
+    summary: "Update own user details",
     validationPath: "Auth/UpdateProfile",
+    auth: true,
+    benchmark: {
+      setupRequest(req, context) {
+        const form = new FormData();
+        form.append("username", i + "bar");
+        form.append("email", i++ + "bar@gmail.com");
+        Object.assign(req.headers, form.getHeaders());
+        req.body = form.getBuffer();
+        return req;
+      }
+    },
     responses: {
       200: {
         schema: {

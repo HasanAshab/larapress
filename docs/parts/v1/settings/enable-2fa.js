@@ -1,8 +1,14 @@
 module.exports = {
   post: {
-    summary: "Enable Two Factor Authentication (2FA) for a user",
-    description: "need auth-token",
+    summary: "Enable Two Factor Authentication (2FA)",
     validationPath: "Settings/EnableTwoFactorAuth",
+    auth: true,
+    benchmark: {
+      body: JSON.stringify({ 
+        method: "sms",
+        otp: "123456"
+      })
+    },
     responses: {
       200: {
         schema: {
