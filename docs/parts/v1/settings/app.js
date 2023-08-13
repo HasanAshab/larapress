@@ -1,12 +1,4 @@
-const { env, toCamelCase } = require(base("helpers"));
-
-const envData = env();
-const camelCaseEnv = {};
-
-for (const key in envData) {
-  const camelCaseKey = toCamelCase(key.toLowerCase());
-  camelCaseEnv[camelCaseKey] = envData[key];
-}
+const config = require("config");
 
 module.exports = {
   get: {
@@ -23,7 +15,7 @@ module.exports = {
             },
             data: {
               type: "object",
-              example: camelCaseEnv
+              example: config
             },
           },
         },
@@ -32,7 +24,7 @@ module.exports = {
   },
   put: {
     summary: "Update app settings (ENV)",
-    validationPath: "Settings/Update",
+    validationPath: "Settings/UpdateAppSettings",
     admin: true,
     benchmark: {
       body: JSON.stringify({

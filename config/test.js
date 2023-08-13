@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   cache: "memory",
   log: "console",
   recaptcha: {

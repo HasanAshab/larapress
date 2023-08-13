@@ -17,6 +17,10 @@ for (const version of versions) {
   for (const [endpoint, docPath] of Object.entries(endpointPathPair)) {
     const pathDoc = require(docPath);
     for (const [method, methodDoc] of Object.entries(pathDoc)) {
+      delete methodDoc.admin;
+      delete methodDoc.auth;
+      delete methodDoc.benchmark;
+      
       methodDoc.parameters = [];
       try {
         const version = getVersion(docPath);

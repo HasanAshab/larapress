@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { env, toCamelCase, toSnakeCase } from "helpers";
+import config from "config";
 import Settings from "app/models/Settings";
 
 export default class SettingsController {
@@ -37,22 +37,11 @@ export default class SettingsController {
   }
   
   async getAppSettings() {
-    const envData = env();
-    const camelCaseData: Record<string, string> = {};
-    for (const key in envData) {
-      const camelCaseKey = toCamelCase(key.toLowerCase());
-      camelCaseData[camelCaseKey] = envData[key];
-    }
-    return camelCaseData;
+    return { data: config };
   }
   
   async updateAppSettings(req: Request) {
-    const envData: Record<string, string> = {};
-    for(const key in req.validated) {
-      const envKey = toSnakeCase(key).toUpperCase();
-      envData[envKey] = req.validated[key];
-    }
-    env(envData);
+    Object.assign(config, req.validated);
     return { message: "Settings updated!" }
   }
 }

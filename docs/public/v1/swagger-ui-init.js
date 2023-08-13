@@ -11,7 +11,7 @@ window.onload = function() {
   "swaggerDoc": {
     "swagger": "2.0",
     "info": {
-      "title": "Samer API Docs",
+      "title": "undefined API Docs",
       "version": "v1"
     },
     "host": "http://127.0.0.1:8000/",
@@ -23,7 +23,6 @@ window.onload = function() {
       "/users/": {
         "get": {
           "summary": "Get all users",
-          "description": "need auth-token, admin",
           "responses": {
             "200": {
               "schema": {
@@ -37,8 +36,8 @@ window.onload = function() {
                     "items": {
                       "type": "object",
                       "example": {
-                        "username": "Grady",
-                        "email": "Newell_Blick72@yahoo.com",
+                        "username": "Claude",
+                        "email": "Hilda.Ernser@gmail.com",
                         "phoneNumber": "+15005550006",
                         "password": "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi",
                         "verified": true
@@ -55,10 +54,9 @@ window.onload = function() {
           "parameters": []
         }
       },
-      "/users/{username}": {
+      "/users/me": {
         "get": {
-          "summary": "Get a specific users profile",
-          "description": "need auth-token",
+          "summary": "Get own profile",
           "responses": {
             "200": {
               "schema": {
@@ -70,8 +68,8 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "username": "Verna",
-                      "email": "Jamal_Denesik@gmail.com",
+                      "username": "Zoe",
+                      "email": "Immanuel.Lebsack83@yahoo.com",
                       "phoneNumber": "+15005550006",
                       "password": "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi",
                       "verified": true
@@ -82,12 +80,57 @@ window.onload = function() {
             }
           },
           "parameters": []
+        },
+        "put": {
+          "summary": "Update own user details",
+          "validationPath": "Auth/UpdateProfile",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": []
         }
       },
-      "/users/{id}/": {
+      "/users/{username}/": {
+        "get": {
+          "summary": "Get a specific users profile",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "data": {
+                    "type": "object",
+                    "example": {
+                      "username": "Monserrate",
+                      "email": "Rex_Green73@gmail.com",
+                      "phoneNumber": "+15005550006",
+                      "password": "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi",
+                      "verified": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "parameters": []
+        },
         "delete": {
           "summary": "Delete user",
-          "description": "need auth-token, admin",
           "responses": {
             "204": {
               "description": "User deleted"
@@ -96,10 +139,9 @@ window.onload = function() {
           "parameters": []
         }
       },
-      "/users/{id}/make-admin": {
+      "/users/{username}/make-admin": {
         "put": {
           "summary": "Give Admin role to a User",
-          "description": "need auth-token, admin",
           "responses": {
             "200": {
               "schema": {
@@ -121,7 +163,6 @@ window.onload = function() {
       "/settings/app": {
         "get": {
           "summary": "Get app settings (ENV)",
-          "description": "need auth-token, admin",
           "responses": {
             "200": {
               "schema": {
@@ -133,41 +174,62 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "appName": "Samer",
-                      "appProtocol": "http",
-                      "appDomain": "127.0.0.1",
-                      "appPort": "8000",
-                      "appKey": "621f6b72ebfdfdb50d3f20c97515e9454043b9789550b4e913e3847d4fcc5eec",
-                      "appState": "up",
-                      "stripeKey": "sk_test_51MGknmLkLQPFd1VwBCU9EYKJC6NRwY4Y2pJuuo3nPVJlUCLgUBfbY5sOEpkA8oKJkAQ1XTKRlFboNKGZeTgqoMFw00OfAl908c",
-                      "publicVapidKey": "BKa4dsG_M6aRjsKYBjW_gKXjfVJ1AwDKTz106fLEaaH9QRykhDn1TSWnYeGN8IEO5N7yso36nbYFPLkk_bHRqOs",
-                      "privateVapidKey": "6zO25rDm7gh3EOiaGiiQ-yA_KXxhGGu1jN5QF-90MfI",
-                      "clientDomain": "127.0.0.1",
-                      "clientPort": "3000",
-                      "nodeEnv": "development",
-                      "dbConnect": "true",
-                      "dbUrl": "mongodb+srv://haoronaldo18:Haomao.18205@cluster0.jqufz1a.mongodb.net/?retryWrites=true&w=majority",
-                      "redisUrl": "redis://default:raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1@redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com:12100",
-                      "tokenLifespan": "2592000",
-                      "bcryptRounds": "10",
-                      "googleClientId": "574177695590-6ta430f91sjtfmepvjskhvrf81ncbo0c.apps.googleusercontent.com",
-                      "googleClientSecret": "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",
-                      "googleRedirectUrl": "http://localhost:8000/api/v1/auth/callback/google",
-                      "recaptchaSiteKey": "6LcCwIknAAAAANu-Lsiie8YIRWVLzTRXV9n0Qu-l",
-                      "recaptchaSecretKey": "6LcCwIknAAAAAJ4bLQ5z-56oXcmtK6GQGvhL3r9J",
-                      "mailHost": "sandbox.smtp.mailtrap.io",
-                      "mailPort": "2525",
-                      "mailUsername": "28786b42db2778",
-                      "mailPassword": "f1f4faf0316dd7",
-                      "mailFromName": "Samer",
-                      "mailFromAddress": "noreply@Samer.com",
-                      "mailEncryption": "tls",
-                      "twilioSid": "AC8a263aa117170b2087eeac0c919ebe6a",
-                      "twilioAuthToken": "3a915d718cb1ecd3f25112dd3ac38e1b",
-                      "twilioVerifyServiceSid": "VA512d3c99748262ac86f6a3d137c1ec53",
-                      "twilioPhoneNumber": "+15005550006",
+                      "app": {
+                        "name": "Samer",
+                        "protocol": "http",
+                        "domain": "127.0.0.1",
+                        "port": 8000,
+                        "key": "621f6b72ebfdfdb50d3f20c97515e9454043b9789550b4e913e3847d4fcc5eec",
+                        "state": "up"
+                      },
+                      "client": {
+                        "domain": "127.0.0.1",
+                        "port": 3000
+                      },
+                      "stripe": {
+                        "key": "sk_test_51MGknmLkLQPFd1VwBCU9EYKJC6NRwY4Y2pJuuo3nPVJlUCLgUBfbY5sOEpkA8oKJkAQ1XTKRlFboNKGZeTgqoMFw00OfAl908c"
+                      },
+                      "vapid": {
+                        "publicKey": "BKa4dsG_M6aRjsKYBjW_gKXjfVJ1AwDKTz106fLEaaH9QRykhDn1TSWnYeGN8IEO5N7yso36nbYFPLkk_bHRqOs",
+                        "privateKey": "6zO25rDm7gh3EOiaGiiQ-yA_KXxhGGu1jN5QF-90MfI"
+                      },
+                      "db": {
+                        "connect": true,
+                        "url": "mongodb+srv://haoronaldo18:Haomao.18205@cluster0.jqufz1a.mongodb.net/?retryWrites=true&w=majority",
+                        "maxPoolSize": 1
+                      },
+                      "redis": {
+                        "url": "redis://localhost:6379"
+                      },
+                      "bcrypt": {
+                        "rounds": 10
+                      },
+                      "socialite": {
+                        "google": {
+                          "clientId": "574177695590-6ta430f91sjtfmepvjskhvrf81ncbo0c.apps.googleusercontent.com",
+                          "clientSecret": "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",
+                          "redirectUrl": "http://localhost:8000/api/v1/auth/callback/google"
+                        }
+                      },
+                      "recaptcha": {
+                        "siteKey": "6LcCwIknAAAAANu-Lsiie8YIRWVLzTRXV9n0Qu-l",
+                        "secretKey": "6LcCwIknAAAAAJ4bLQ5z-56oXcmtK6GQGvhL3r9J"
+                      },
+                      "mail": {
+                        "host": "sandbox.smtp.mailtrap.io",
+                        "port": 2525,
+                        "username": "28786b42db2778",
+                        "password": "f1f4faf0316dd7",
+                        "fromName": "Samer",
+                        "fromAddress": "noreply@Samer.com",
+                        "encryption": "tls"
+                      },
+                      "twilio": {
+                        "sid": "AC8a263aa117170b2087eeac0c919ebe6a",
+                        "authToken": "3a915d718cb1ecd3f25112dd3ac38e1b",
+                        "phoneNumber": "+15005550006"
+                      },
                       "cache": "redis",
-                      "tracePerformance": "false",
                       "log": "file"
                     }
                   }
@@ -179,8 +241,7 @@ window.onload = function() {
         },
         "put": {
           "summary": "Update app settings (ENV)",
-          "description": "need auth-token, admin",
-          "validationPath": "Settings/Update",
+          "validationPath": "Settings/UpdateAppSettings",
           "responses": {
             "200": {
               "schema": {
@@ -196,13 +257,200 @@ window.onload = function() {
               }
             }
           },
-          "parameters": []
+          "parameters": [
+            {
+              "name": "app",
+              "in": "body",
+              "type": "object",
+              "required": false,
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "protocol": {
+                  "type": "string"
+                },
+                "domain": {
+                  "type": "string"
+                },
+                "port": {
+                  "type": "string"
+                },
+                "key": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "name": "client",
+              "in": "body",
+              "type": "object",
+              "required": false,
+              "properties": {
+                "domain": {
+                  "type": "string"
+                },
+                "port": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "name": "stripe",
+              "in": "body",
+              "type": "object",
+              "required": false,
+              "properties": {
+                "key": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "name": "vapid",
+              "in": "body",
+              "type": "object",
+              "required": false,
+              "properties": {
+                "publicKey": {
+                  "type": "string"
+                },
+                "privateKey": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "name": "db",
+              "in": "body",
+              "type": "object",
+              "required": false,
+              "properties": {
+                "connect": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "maxPoolSize": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "name": "redis",
+              "in": "body",
+              "type": "object",
+              "required": false,
+              "properties": {
+                "url": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "name": "bcrypt",
+              "in": "body",
+              "type": "object",
+              "required": false,
+              "properties": {
+                "rounds": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "name": "socialite",
+              "in": "body",
+              "type": "object",
+              "required": false,
+              "properties": {
+                "google": {
+                  "type": "object"
+                }
+              }
+            },
+            {
+              "name": "recaptcha",
+              "in": "body",
+              "type": "object",
+              "required": false,
+              "properties": {
+                "siteKey": {
+                  "type": "string"
+                },
+                "secretKey": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "name": "mail",
+              "in": "body",
+              "type": "object",
+              "required": false,
+              "properties": {
+                "host": {
+                  "type": "string"
+                },
+                "port": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "fromName": {
+                  "type": "string"
+                },
+                "fromAddress": {
+                  "type": "string"
+                },
+                "encryption": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "name": "twilio",
+              "in": "body",
+              "type": "object",
+              "required": false,
+              "properties": {
+                "sid": {
+                  "type": "string"
+                },
+                "authToken": {
+                  "type": "string"
+                },
+                "phoneNumber": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "name": "cache",
+              "in": "body",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "log",
+              "in": "body",
+              "type": "string",
+              "required": false
+            }
+          ]
         }
       },
       "/settings/enable-2fa": {
         "post": {
-          "summary": "Enable Two Factor Authentication (2FA) for a user",
-          "description": "need auth-token",
+          "summary": "Enable Two Factor Authentication (2FA)",
           "validationPath": "Settings/EnableTwoFactorAuth",
           "responses": {
             "200": {
@@ -238,7 +486,6 @@ window.onload = function() {
       "/settings/": {
         "get": {
           "summary": "Get user settings",
-          "description": "need auth-token",
           "responses": {
             "200": {
               "schema": {
@@ -250,7 +497,7 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "userId": "64d467d7b68894932bc8ba26",
+                      "userId": "64d96082d9dcd3494e92c645",
                       "twoFactorAuth": {
                         "enabled": false,
                         "method": "sms"
@@ -269,7 +516,7 @@ window.onload = function() {
                           "email": true
                         }
                       },
-                      "_id": "64d467d7b68894932bc8ba27"
+                      "_id": "64d96082d9dcd3494e92c646"
                     }
                   }
                 }
@@ -282,7 +529,6 @@ window.onload = function() {
       "/settings/notification": {
         "put": {
           "summary": "Update user notification settings",
-          "description": "need auth-token",
           "validationPath": "Settings/Notification",
           "responses": {
             "200": {
@@ -348,7 +594,6 @@ window.onload = function() {
       "/notifications/": {
         "get": {
           "summary": "Get all notifications",
-          "description": "need auth-token",
           "responses": {
             "200": {
               "schema": {
@@ -362,12 +607,12 @@ window.onload = function() {
                     "items": {
                       "type": "object",
                       "example": {
-                        "notifiableId": "64d467d7b68894932bc8ba28",
+                        "notifiableId": "64d96082d9dcd3494e92c647",
                         "notifiableType": "User",
                         "data": {
-                          "text": "Velit reiciendis quaerat quam vel id velit similique. Nihil consequuntur veritatis. Error itaque ullam fugit.\nNatus ex enim ipsum. Molestias id dignissimos quasi nostrum sint. Labore error odio occaecati placeat.\nAliquid sapiente veritatis aut. Eos recusandae facilis tempora nesciunt porro dolore necessitatibus. Alias beatae eum hic."
+                          "text": "Commodi ea voluptates voluptas commodi ut autem. Dolore iusto qui ratione. Ipsa temporibus repellat ab.\nSapiente vero libero. Architecto excepturi commodi. Quidem maxime debitis praesentium error sint iure esse ipsum.\nNemo dolor vero optio alias quod quae corporis corrupti eveniet. Laboriosam consequuntur facilis veniam unde. Rerum libero tempora facere corrupti."
                         },
-                        "readAt": "2023-08-10T04:30:15.334Z"
+                        "readAt": "2023-08-13T23:00:18.119Z"
                       }
                     }
                   },
@@ -384,7 +629,6 @@ window.onload = function() {
       "/notifications/unread-count": {
         "get": {
           "summary": "Get unread notifications count",
-          "description": "need auth-token",
           "responses": {
             "200": {
               "schema": {
@@ -411,7 +655,6 @@ window.onload = function() {
       "/notifications/{id}": {
         "post": {
           "summary": "Mark notification as read",
-          "description": "need auth-token",
           "responses": {
             "200": {
               "schema": {
@@ -431,7 +674,6 @@ window.onload = function() {
         },
         "delete": {
           "summary": "Remove notification",
-          "description": "need auth-token",
           "responses": {
             "204": {
               "description": "Notification deleted"
@@ -443,7 +685,6 @@ window.onload = function() {
       "/files/{id}": {
         "get": {
           "summary": "Serve file",
-          "description": "need signature",
           "responses": {
             "200": {
               "description": "File"
@@ -455,7 +696,6 @@ window.onload = function() {
       "/dashboard/admin": {
         "get": {
           "summary": "Get dashboard",
-          "description": "need auth-token, admin",
           "responses": {
             "200": {
               "schema": {
@@ -507,71 +747,6 @@ window.onload = function() {
           ]
         }
       },
-      "/auth/profile": {
-        "get": {
-          "summary": "Get user details",
-          "description": "need bearer token",
-          "responses": {
-            "200": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "success": {
-                    "type": "boolean"
-                  },
-                  "data": {
-                    "type": "object",
-                    "example": {
-                      "username": "Jacinto",
-                      "email": "Josephine77@hotmail.com",
-                      "phoneNumber": "+15005550006",
-                      "password": "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi",
-                      "verified": true
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "parameters": []
-        },
-        "put": {
-          "summary": "Update user details",
-          "validationPath": "Auth/UpdateProfile",
-          "responses": {
-            "200": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "success": {
-                    "type": "boolean"
-                  },
-                  "message": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          "parameters": [
-            {
-              "name": "username",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "email",
-              "in": "body",
-              "type": "string",
-              "required": false
-            }
-          ],
-          "consumes": [
-            "multipart/form-data"
-          ]
-        }
-      },
       "/auth/register": {
         "post": {
           "summary": "Sign-up a User",
@@ -618,16 +793,45 @@ window.onload = function() {
               "in": "body",
               "type": "string",
               "required": true
-            },
-            {
-              "name": "password_confirmation",
-              "in": "body",
-              "type": "string",
-              "required": true
             }
           ],
           "consumes": [
             "multipart/form-data"
+          ]
+        }
+      },
+      "/auth/send-otp": {
+        "post": {
+          "summary": "Send One Time Password (OTP) code to user's phone number",
+          "validationPath": "Auth/SendOtp",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "body",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "method",
+              "in": "body",
+              "type": "string",
+              "required": true
+            }
           ]
         }
       },
@@ -663,28 +867,6 @@ window.onload = function() {
       "/auth/verify/{id}": {
         "get": {
           "summary": "Verify User account",
-          "description": "Need Signature",
-          "responses": {
-            "200": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "success": {
-                    "type": "boolean"
-                  },
-                  "message": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          "parameters": []
-        }
-      },
-      "/auth/send-otp/{id}": {
-        "post": {
-          "summary": "Send One Time Password (OTP) code to user's phone number",
           "responses": {
             "200": {
               "schema": {
@@ -706,7 +888,6 @@ window.onload = function() {
       "/auth/password/change": {
         "put": {
           "summary": "Change password",
-          "description": "need bearer token",
           "validationPath": "Auth/ChangePassword",
           "responses": {
             "200": {
@@ -881,7 +1062,6 @@ window.onload = function() {
       "/admin/categories/": {
         "get": {
           "summary": "Get all categories",
-          "description": "need auth-token, admin",
           "responses": {
             "200": {
               "schema": {
@@ -895,8 +1075,8 @@ window.onload = function() {
                     "items": {
                       "type": "object",
                       "example": {
-                        "name": "Awesome Rubber Computer",
-                        "slug": "quae-tempore-sed"
+                        "name": "Rustic Frozen Mouse",
+                        "slug": "voluptatum-possimus-voluptatem"
                       }
                     }
                   },
@@ -913,7 +1093,6 @@ window.onload = function() {
       "/admin/categories/{id}": {
         "get": {
           "summary": "Get a specific category",
-          "description": "need auth-token, admin",
           "responses": {
             "200": {
               "schema": {
@@ -925,8 +1104,8 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "name": "Modern Wooden Bacon",
-                      "slug": "dolores-culpa-itaque"
+                      "name": "Refined Concrete Salad",
+                      "slug": "nemo-non-consectetur"
                     }
                   }
                 }
