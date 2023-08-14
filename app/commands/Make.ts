@@ -1,5 +1,6 @@
-import { base, loadDir } from "helpers";
+import { base } from "helpers";
 import Command from "illuminate/commands/Command";
+import { execSync } from "child_process";
 import DB from "illuminate/utils/DB";
 import User from "app/models/User";
 import components from "register/components";
@@ -60,11 +61,8 @@ export default class Make extends Command {
       return this.params[key] || match;
     });
     this.requiredParams(requiredParamNames);
+    execSync("mkdir -p " + path.dirname(filepath));
 
-    console.log(filepath)
-    loadDir(path.dirname(filepath));
-
-    
     try {
       fs.writeFileSync(base(filepath), content, {
         flag: "wx"

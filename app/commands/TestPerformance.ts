@@ -1,6 +1,6 @@
 import Command from "illuminate/commands/Command";
 import { base, generateEndpointsFromDirTree } from "helpers";
-import { spawn } from "child_process";
+import { exec, spawn } from "child_process";
 import autocannon from "autocannon";
 import DB from "illuminate/utils/DB";
 import URL from "illuminate/utils/URL";
@@ -33,7 +33,7 @@ export default class TestPerformance extends Command {
       this.info("load test started...");
       //const result = await autocannon(config);
       const outDir = "storage/reports/performance/" + version;
-      !fs.existsSync(outDir) && fs.mkdirSync(outDir);
+      await exec("mkdir -p " + outDir);
       fs.writeFileSync(path.join(outDir, Date.now() + ".json"), JSON.stringify(result, null, 2));
       this.info("clearing database...");
       //await DB.reset();

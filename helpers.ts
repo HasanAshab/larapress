@@ -183,18 +183,6 @@ export async function getModels(): Promise < Model < any > [] > {
   return models;
 }
 
-export function loadDir(dirPath: string) {
-  const directories = dirPath.split(path.sep);
-  let currentPath = "";
-
-  for (const dir of directories) {
-    currentPath = path.join(currentPath, dir);
-    const fullPath = path.join(__dirname, currentPath);
-    if (!fs.existsSync(currentPath)) {
-      fs.mkdirSync(currentPath);
-    }
-  }
-}
 export function generateEndpointsFromDirTree(rootPath: string): Record < string, string > {
   const endpointPathPair: Record < string,
   string > = {}
