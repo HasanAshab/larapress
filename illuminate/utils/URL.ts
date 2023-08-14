@@ -1,5 +1,5 @@
 import config from 'config';
-import Token from "illuminate/utils/Token";
+import Token from "app/models/Token";
 import path from "path";
 import urls from "register/urls";
 
@@ -28,10 +28,14 @@ export default class URL {
     return this.resolve(endpoint);
   }
 
-  static signedRoute(routeName: keyof typeof urls, data?: Record < string, string | number >, expireAfter?: number): string {
+  static async signedRoute(routeName: keyof typeof urls, data?: Record < string, string | number >, expireAfter?: number): string {
     const fullUrl = this.route(routeName, data);
-    const subUrl = fullUrl.replace(this.resolve(), "/");
-    const token = Token.create(subUrl, expireAfter);
-    return `${fullUrl}?sign=${token}`;
+    const url = fullUrl.replace(this.resolve(), "/");
+    const token = await Token.create({
+      type: "urlSignature",
+      data: { url }, 
+      expireAt: Date.now() + expireAfter
+    });
+    return `${fullUrl}?sign=${token.key}`;
   }
 }

@@ -1,6 +1,8 @@
 import config from 'config';
 import { createCipheriv, createDecipheriv, randomBytes } from 'crypto';
 
+throw new Error("Token util is deprecated!")
+
 export default class Token {
   static algorithm = 'aes-256-cbc';
 

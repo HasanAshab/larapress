@@ -3,14 +3,15 @@ import mongoose from "mongoose";
 import { Request, Response, NextFunction } from "express";
 import { ApiResponse, RawResponse } from "types";
 import URL from "illuminate/utils/URL";
-import Token from "illuminate/utils/Token";
+import Token from "app/models/Token";
 
 
 export default class InjectHelpers extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {
-    req.hasValidSignature = function () {
+    req.hasValidSignature = async function () {
       const { sign } = this.query;
-      return typeof sign === "string" && Token.isValid(this.baseUrl + this.path, sign);
+      return typeof sign === "string" && 
+        await Token.isValid(sign, "urlSignature", { url: this.baseUrl + this.path });
     };
 
     res.api = function (response: RawResponse) {
@@ -18,9 +19,8 @@ export default class InjectHelpers extends Middleware {
         404: "Resource Not Found!",
         401: "Unauthorized"
       }
-      const success = this.statusCode >= 200 && this.statusCode < 300;
       const apiResponse: ApiResponse = {
-        success,
+        success: this.statusCode >= 200 && this.statusCode < 300,
         data: {}
       }
       if(Array.isArray(response)) {

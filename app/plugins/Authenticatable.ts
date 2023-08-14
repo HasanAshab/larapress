@@ -4,9 +4,9 @@ import config from "config";
 import twilio from "twilio";
 import otpConfig from "register/otp"
 import OTP from "app/models/OTP";
+import Token from "app/models/Token";
 import Mail from "illuminate/utils/Mail"
 import URL from "illuminate/utils/URL"
-import Token from "illuminate/utils/Token";
 import bcrypt from "bcryptjs";
 import VerificationMail from "app/mails/VerificationMail";
 import ForgotPasswordMail from "app/mails/ForgotPasswordMail";
@@ -30,27 +30,31 @@ export default (schema: Schema) => {
     if (this.verified) {
       return false;
     }
-    const link = URL.signedRoute("email.verify", {id: this._id}, expireAfter);
+    const link = await URL.signedRoute("email.verify", {id: this._id}, expireAfter);
     const result = await Mail.to(this.email).send(new VerificationMail({ link }));
     return link;
   };
 
   schema.methods.sendResetPasswordEmail = async function () {
-    const resetToken = Token.create("reset_password:" + this._id, expireAfter);
-    const link = URL.client(`/password/reset/${this._id}?token=${resetToken}`);
-    await Mail.to(this.email).send(new ForgotPasswordMail({ link }));
-    return resetToken;
+    const { key } = await Token.create({
+      type: "resetPassword",
+      data: { userId: this._id },
+      expiresAt: Date.now() + expireAfter
+    });
+    const link = URL.client(`/password/reset/${this._id}?token=${key}`);
+    Mail.to(this.email).send(new ForgotPasswordMail({ link }));
+    return key;
   }
   
   schema.methods.resetPassword = async function (token: string, newPassword: string) {
-    const tokenIsValid = Token.isValid("reset_password:" + this._id, token);
+    const tokenIsValid = await Token.isValid(token, "resetPassword", { userId: this._id });
     if (!tokenIsValid) {
       throw customError("INVALID_OR_EXPIRED_TOKEN");
     }
     this.password = newPassword;
     this.tokenVersion++;
     const result = await this.save();
-    await Mail.to(this.email).send(new PasswordChangedMail());
+    Mail.to(this.email).send(new PasswordChangedMail());
     return result;
   }
   
@@ -83,7 +87,7 @@ export default (schema: Schema) => {
     if(!this.phoneNumber) return false;
     const otp = await OTP.findOne({ userId: this._id, code });
     if(!otp) return false;
-    await OTP.deleteMany({ userId: this._id });
+    OTP.deleteMany({ userId: this._id });
     return true;
   }
 };

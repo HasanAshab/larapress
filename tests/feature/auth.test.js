@@ -268,19 +268,19 @@ describe("Auth", () => {
     Mail.assertNothingSent();
   });
 
-  it("forgoting password should send reset email", async () => {
+  it("Should send reset email", async () => {
     const response = await request
-      .post("/api/v1/auth/password/forgot")
+      .post("/api/v1/auth/password/reset/send-email")
       .field("email", user.email);
     expect(response.statusCode).toBe(200);
     Mail.assertCount(1);
     Mail.assertSentTo(user.email, "ForgotPasswordMail");
   });
 
-  it("forgoting password shouldn't send reset email of OAuth account", async () => {
+  it("Shouldn't send reset email of OAuth account", async () => {
     const OAuthUser = await User.factory().create({ password: null });
     const response = await request
-      .post("/api/v1/auth/password/forgot")
+      .post("/api/v1/auth/password/reset/send-email")
       .field("email", OAuthUser.email);
     expect(response.statusCode).toBe(400);
     Mail.assertNothingSent();
@@ -334,10 +334,10 @@ describe("Auth", () => {
       userId: user._id,
       twoFactorAuth: { enabled: true } 
     });
-    const response = await request.post(
-      "/api/v1/auth/send-otp/" + user._id.toString()
-    );
-
+    const response = await request.post("/api/v1/auth/send-otp").send({
+      userId: user._id.toString(),
+      method: "sms"
+    });
     const otp = await OTP.findOne({ userId: user._id });
     expect(response.statusCode).toBe(200);
     expect(otp).not.toBeNull();
@@ -345,12 +345,13 @@ describe("Auth", () => {
 
   it("Shouldn't send otp if 2fa is disabled", async () => {
     await Settings.create({ userId: user._id });
-    const response = await request.post(
-      "/api/v1/auth/send-otp/" + user._id.toString()
-    );
-    expect(response.statusCode).toBe(200);
+    const response = await request.post("/api/v1/auth/send-otp").send({
+      userId: user._id.toString(),
+      method: "sms"
+    });
+ 
+    expect(response.statusCode).toBe(403);
     const otp = await OTP.findOne({ userId: user._id });
-    expect(response.statusCode).toBe(200);
     expect(otp).toBeNull();
   });
 });

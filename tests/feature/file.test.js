@@ -11,7 +11,7 @@ describe("File", () => {
   
   it("should respond with a file", async () => {
     const attachment = await Attachment.factory().create();
-    const url = URL.signedRoute("file.serve", {id: attachment._id});
+    const url = await URL.signedRoute("file.serve", {id: attachment._id});
     const response = await fetch(url)
     expect(response.status).toBe(200);
     expect(response.headers.get("content-type")).toBe("image/png");

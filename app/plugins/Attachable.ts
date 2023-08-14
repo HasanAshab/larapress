@@ -38,7 +38,7 @@ export default (schema: Schema) => {
       mimetype: file.mimetype,
       path
     });
-    const link = URL.signedRoute("file.serve", {
+    const link = await URL.signedRoute("file.serve", {
       id: attachment._id.toString()
     });
     attachment.link = link;
@@ -60,7 +60,7 @@ export default (schema: Schema) => {
         mimetype: file.mimetype,
         path,
       });
-      attachment.link = URL.signedRoute("file.serve", {
+      attachment.link = await URL.signedRoute("file.serve", {
         id: attachment._id.toString()
       });
       attachments.push(attachment);

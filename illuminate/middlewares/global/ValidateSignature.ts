@@ -7,8 +7,8 @@ import {
 
 export default class ValidateSignature extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {
-    return req.hasValidSignature()
-      ?next()
+    return await req.hasValidSignature()
+      ? next()
       : res.status(401).api({
         message: "Invalid signature!"
       });

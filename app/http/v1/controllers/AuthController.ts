@@ -134,7 +134,7 @@ export default class AuthController {
     };
   };
 
-  async forgotPassword(req: Request){
+  async sendResetPasswordEmail(req: Request){
     const email = req.validated.email;
     const user = await User.findOne({ email });
     if (user) {
@@ -201,6 +201,13 @@ export default class AuthController {
     const { userId, method } = req.validated;
     const user = await User.findById(userId);
     if(!user) return { status: 404 };
+    const settings = await user.settings;
+    if(!settings.twoFactorAuth.enabled) {
+      return { 
+        status: 403,
+        message: "Two Factor Auth is disabled for this user!"
+      };
+    }
     await user.sendOtp(method);
     return { message: `6 digit OTP code sent to phone number!`};
   }

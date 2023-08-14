@@ -30,8 +30,7 @@ export default class Artisan {
       if (arg.startsWith("-")) {
         flags.push(arg.replace("-", ""));
       } else if (arg.includes("=")) {
-        const [key,
-          value] = arg.split("=");
+        const [key, value] = arg.split("=");
         params[key] = value;
       }
     });
