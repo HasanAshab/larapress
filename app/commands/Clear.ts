@@ -2,6 +2,8 @@ import Command from "illuminate/commands/Command";
 import { storage, log } from "helpers";
 import fs from "fs";
 import path from "path";
+import Cache from "illuminate/utils/Cache";
+import cacheConfig from "register/cache";
 import { execSync } from "child_process";
 
 export default class Clear extends Command {
@@ -18,4 +20,21 @@ export default class Clear extends Command {
     execSync("mkdir  storage/reports/" + name);
     this.success(name + " reports are clear now!");
   }
+  
+  async cache() {
+    const { key, driver } = this.params;
+    if(driver){
+      await Cache.driver(driver).clear(key);
+    }
+    else {
+      const tasks: any = [];
+      for(const driverName of cacheConfig.drivers) {
+        const task = Cache.driver(driverName).clear(key);
+        tasks.push(task);
+      }
+      await Promise.all(tasks);
+    }
+    this.success("Cache cleared successfully!");
+  }
+  
 }

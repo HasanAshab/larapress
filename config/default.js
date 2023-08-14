@@ -24,7 +24,7 @@ module.exports = {
     maxPoolSize: 1
   },
   redis: {
-    url: "redis://localhost:6379"
+    url: "redis://default:raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1@redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com:12100"
   },
   bcrypt: {
     rounds: 10,

@@ -5,7 +5,6 @@ import { CacheDataArg } from "types";
 import { log } from "helpers";
 
 export default class Redis extends Driver {
-  
   private createClient() {
     const client = createClient({
       url: config.get("redis.url")
@@ -14,7 +13,7 @@ export default class Redis extends Driver {
     return client;
   }
 
-  async get(key: string): Promise < string | null > {
+  async get(key: string) {
     const client = this.createClient();
     await client.connect();
     const result = await client.get(key);

@@ -1,5 +1,6 @@
 import { Request } from "express";
 import config from "config";
+import Cache from "illuminate/utils/Cache";
 import Settings from "app/models/Settings";
 
 export default class SettingsController {
@@ -42,6 +43,7 @@ export default class SettingsController {
   
   async updateAppSettings(req: Request) {
     Object.assign(config, req.validated);
+    Cache.driver("redis").put("config", config);
     return { message: "Settings updated!" }
   }
 }

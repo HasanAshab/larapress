@@ -1,16 +1,22 @@
 import { ArtisanBaseInput } from "types"
 import { Application } from "express";
+import config from "config";
 import fs from "fs";
 import mongoose from "mongoose";
 import hidden from "mongoose-hidden";
 import { base, generateEndpointsFromDirTree } from "helpers";
 import nodeCron from "node-cron";
 import Artisan from "illuminate/utils/Artisan";
+import Cache from "illuminate/utils/Cache";
 import events from "register/events";
 import crons from "register/cron";
 
 
 export default class Setup {
+  static async config() {
+    const customConfig = await Cache.driver("redis").get("config");
+    customConfig && Object.assign(config, customConfig);
+  }
   static cronJobs() {
     for (const [schedule, commands] of Object.entries(crons)) {
       if (Array.isArray(commands)) {
