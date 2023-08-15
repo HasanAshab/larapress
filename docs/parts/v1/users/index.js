@@ -4,17 +4,7 @@ module.exports = {
   get: {
     summary: "Get all users",
     auth: "admin",
-    benchmark: {
-      async setupContext(){
-        return {
-          foo: await User.factory().create()
-        }
-      },
-      setupRequest(req){
-        console.log(this)
-        return req;
-      }
-    },
+    benchmark: {},
     responses: {
       200: {
         schema: {

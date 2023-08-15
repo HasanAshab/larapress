@@ -3,7 +3,7 @@ const Notification = require(base("app/models/Notification")).default;
 module.exports = {
   get: {
     summary: "Get all notifications",
-    auth: true,
+    auth: "novice",
     benchmark: {},
     responses: {
       200: {

@@ -2,10 +2,10 @@ module.exports = {
   put: {
     summary: "Change password",
     validationPath: 'Auth/ChangePassword',
-    auth: true,
+    auth: "novice",
     benchmark: {
       body: JSON.stringify({
-        oldPassword: "foo.123456",
+        oldPassword: "password",
         password: "bar.123456",
       })
     },

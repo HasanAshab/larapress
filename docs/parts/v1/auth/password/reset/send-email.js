@@ -1,11 +1,11 @@
 module.exports = {
-  put: {
-    summary: "Reset password",
-    validationPath: 'Auth/ResetPassword',
+  post: {
+    summary: "Forgot password",
+    description: "This will sent an password reset email if user is exist on the app",
+    validationPath: 'Auth/SendPasswordResetEmail',
     benchmark: {
       body: JSON.stringify({
-        token: "resetToken",
-        password: "baz.123456"
+        email: "0foo@gmail.com",
       })
     },
     responses: {

@@ -159,12 +159,10 @@ export function checkProperties(obj: any, properties: Record < string, string >)
 export function customError(type: keyof typeof customErrors, data?: object): Error {
   const errorData = customErrors[type];
   const error: any = new Error();
-  //error.name = this.name;
   error.type = type;
   error.status = errorData.status;
   error.message = errorData.message;
-  
-  if (typeof data !== "undefined") {
+  if (data) {
     error.message = error.message.replace(/:(\w+)/g, (match: string, key: string) => {
       if(typeof data[key as keyof typeof data] === "undefined") throw new Error(`The "${key}" key is required in "data" argument.`);
       return data[key as keyof typeof data];

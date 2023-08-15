@@ -1,9 +1,7 @@
-const config = require("config");
-
 module.exports = {
   get: {
     summary: "Get app settings (ENV)",
-    admin: true,
+    auth: "admin",
     benchmark: {},
     responses: {
       200: {
@@ -15,7 +13,7 @@ module.exports = {
             },
             data: {
               type: "object",
-              example: config
+              example: require("config")
             },
           },
         },
@@ -25,10 +23,10 @@ module.exports = {
   put: {
     summary: "Update app settings (ENV)",
     validationPath: "Settings/UpdateAppSettings",
-    admin: true,
+    auth: "admin",
     benchmark: {
       body: JSON.stringify({
-        appName: "Foo" 
+        app: { name: "Foo" } 
       })
     },
     responses: {

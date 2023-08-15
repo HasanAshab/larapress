@@ -2,7 +2,7 @@ module.exports = {
   put: {
     summary: "Update user notification settings",
     validationPath: "Settings/Notification",
-    auth: true,
+    auth: "novice",
     benchmark: {
       body: JSON.stringify({
         feature: { 

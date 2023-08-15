@@ -3,7 +3,7 @@ const Category = require(base("app/models/Category")).default;
 module.exports = {
   get: {
     summary: "Get all categories",
-    admin: true,
+    auth: "admin",
     benchmark: {},
     responses: {
       200: {

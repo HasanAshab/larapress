@@ -1,10 +1,11 @@
+const FormData = require("form-data");
 const User = require(base("app/models/User")).default;
 let i = 0;
 
 module.exports = {
   get: {
     summary: "Get own profile",
-    auth: true,
+    auth: "novice",
     benchmark: {},
     responses: {
       200: {
@@ -26,7 +27,7 @@ module.exports = {
   put: {
     summary: "Update own user details",
     validationPath: "Auth/UpdateProfile",
-    auth: true,
+    auth: "novice",
     benchmark: {
       setupRequest(req, context) {
         const form = new FormData();

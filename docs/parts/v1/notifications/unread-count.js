@@ -1,7 +1,7 @@
 module.exports = {
   get: {
     summary: "Get unread notifications count",
-    auth: true,
+    auth: "novice",
     benchmark: {},
     responses: {
       200: {

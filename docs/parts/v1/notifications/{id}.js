@@ -1,9 +1,15 @@
+const Notification = require(base("app/models/Notification")).default;
+
 module.exports = {
   post: {
     summary: "Mark notification as read",
-    auth: true,
+    auth: "novice",
     benchmark: {
-      params: { id: "notificationId" }
+      async params() {
+        return {
+          id: (await Notification.factory().create())._id
+        }
+      }
     },
     responses: {
       200: {
@@ -23,9 +29,13 @@ module.exports = {
   },
   delete: {
     summary: "Remove notification",
-    auth: true,
+    auth: "novice",
     benchmark: {
-      params: { id: "notificationId" }
+      async params() {
+        return {
+          id: (await Notification.factory().create())._id
+        }
+      }
     },
     responses: {
       204: {

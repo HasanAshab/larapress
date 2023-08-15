@@ -3,9 +3,13 @@ const Category = require(base("app/models/Category")).default;
 module.exports = {
   get: {
     summary: "Get a specific category",
-    admin: true,
+    auth: "admin",
     benchmark: {
-      params: { id: "adminId" }
+      async params() {
+        return { 
+          id: (await Category.factory().create())._id
+        }
+      }
     },
     responses: {
       200: {

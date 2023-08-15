@@ -1,7 +1,7 @@
 module.exports = {
   get: {
     summary: "Get dashboard",
-    admin: true,
+    auth: "admin",
     benchmark: {},
     responses: {
       200: {
