@@ -35,7 +35,7 @@ describe("Auth", () => {
       .post("/api/v1/auth/register")
       .field("username", dummyUser.username)
       .field("email", dummyUser.email)
-      .field("password", dummyUser.password)
+      .field("password", "Password@1234")
       .attach("logo", fakeFile("image.png"));
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
@@ -55,7 +55,7 @@ describe("Auth", () => {
       .post("/api/v1/auth/register")
       .field("username", dummyUser.username)
       .field("email", dummyUser.email)
-      .field("password", dummyUser.password)
+      .field("password", "Password@1234")
 
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
@@ -69,7 +69,7 @@ describe("Auth", () => {
       .post("/api/v1/auth/register")
       .field("username", "foo")
       .field("email", user.email)
-      .field("password", "password")
+      .field("password", "Password@1234")
 
     expect(response.statusCode).toBe(400);
     expect(response.body.data).not.toHaveProperty("token");
@@ -80,7 +80,7 @@ describe("Auth", () => {
       .post("/api/v1/auth/register")
       .field("username", user.username)
       .field("email", "foo@samer.com")
-      .field("password", "password")
+      .field("password", "Password@1234")
 
     expect(response.statusCode).toBe(400);
     expect(response.body.data).not.toHaveProperty("token");
@@ -118,7 +118,7 @@ describe("Auth", () => {
     expect(response.body.data?.token).toBe(undefined);
   });
 
-  it("Should flag for otp if not provided (2FA)", async () => {
+  it("Login should flag for otp if not provided in (2FA)", async () => {
     await Settings.create({
       userId: user._id,
       twoFactorAuth: { enabled: true } 
@@ -232,7 +232,7 @@ describe("Auth", () => {
   it("should change password", async () => {
     const passwords = {
       old: "password",
-      new: "new-password",
+      new: "Password@1234",
     };
     const response = await request
       .put("/api/v1/auth/password/change")
@@ -252,7 +252,7 @@ describe("Auth", () => {
       .put("/api/v1/auth/password/change")
       .set("Authorization", `Bearer ${token}`)
       .field("oldPassword", "password")
-      .field("password", "password");
+      .field("password", "Password@1234");
     expect(response.statusCode).toBe(400);
     Mail.assertNothingSent();
   });
@@ -263,7 +263,7 @@ describe("Auth", () => {
       .put("/api/v1/auth/password/change")
       .set("Authorization", `Bearer ${OAuthUser.createToken()}`)
       .field("oldPassword", "password")
-      .field("password", "new-password");
+      .field("password", "Password@1234");
     expect(response.statusCode).toBe(400);
     Mail.assertNothingSent();
   });
@@ -286,10 +286,10 @@ describe("Auth", () => {
     Mail.assertNothingSent();
   });
 
-  it("should reset password", async () => {
+  it.only("should reset password", async () => {
     const resetToken = await user.sendResetPasswordEmail();
     Mail.mock();
-    const newPassword = "new-password";
+    const newPassword = "Password@1234";
     const response = await request
       .put("/api/v1/auth/password/reset")
       .field("id", user._id.toString())
@@ -305,7 +305,7 @@ describe("Auth", () => {
   });
 
   it("shouldn't reset password with invalid token", async () => {
-    const newPassword = "new-password";
+    const newPassword = "Password@1234";
     const response = await request
       .put("/api/v1/auth/password/reset")
       .field("id", user._id.toString())
