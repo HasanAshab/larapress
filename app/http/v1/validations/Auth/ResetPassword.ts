@@ -6,8 +6,11 @@ const schema: ValidationSchema = {
     target: "body",
     rules: Joi.object({
       id: Joi.string().required(),
-      password: Joi.string().min(8).required(),
-      token: Joi.string().required()
+      token: Joi.string().required(),
+      password: Joi.string()
+        .min(8)
+        .pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$'))
+        .message('"{#label}" must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, one digit, and one special character (@ $ ! % * ? &)')
     }),
   },
 };
