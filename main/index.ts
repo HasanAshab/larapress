@@ -8,8 +8,7 @@ import https from "https";
 import fs from "fs";
 
 (async () => {
-  await Setup.config();
-  
+  process.env.NODE_ENV === "production" && await Setup.cachedConfig();
   // Connecting to database
   if (config.get("db.connect")) {
     console.log("Connecting to database...");

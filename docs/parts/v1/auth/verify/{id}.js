@@ -4,14 +4,10 @@ module.exports = {
   get: {
     summary: "Verify User account",
     benchmark: {
-      async setupContext(){
-        return {
-          userId: (await User.factory().create())._id
+      async params(){
+        return { 
+          id: (await User.findOne())._id
         }
-      },
-
-      params(){
-        return { id: this.userId}
       }
     },
     responses: {

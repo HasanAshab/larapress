@@ -20,16 +20,16 @@ export default class Mail {
     return this
   }
 
-  static setTransporter(config?: TransportOptions) {
-    if (typeof config !== "undefined") {
-      this.transporter = createTransport(config);
+  static setTransporter(customConfig?: TransportOptions) {
+    if (typeof customConfig !== "undefined") {
+      this.transporter = createTransport(customConfig);
     } else {
       this.transporter = createTransport({
-        host: mailConfig.host,
-        port: mailConfig.port,
+        host: this.mailConfig.host,
+        port: this.mailConfig.port,
         auth: {
-          user: mailConfig.username ?? "",
-          pass: mailConfig.password ?? "",
+          user: this.mailConfig.username ?? "",
+          pass: this.mailConfig.password ?? "",
         },
       } as TransportOptions);
     }
@@ -53,7 +53,7 @@ export default class Mail {
   
   static getRecipientConfig(mailable: Mailable): Recipient {
     return {
-      from: `${mailConfig.MAIL_FROM_NAME} <${mailConfig.MAIL_FROM_ADDRESS}>`,
+      from: `${this.mailConfig.fromName} <${this.mailConfig.fromAddress}>`,
       to: this.email,
       subject: mailable.subject,
       template: mailable.view,

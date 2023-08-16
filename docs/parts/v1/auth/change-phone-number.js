@@ -1,5 +1,5 @@
 module.exports = {
-  Put: {
+  put: {
     summary: "Set or Update user's phone number",
     validationPath: "Auth/ChangePhoneNumber",
     auth: "novice",

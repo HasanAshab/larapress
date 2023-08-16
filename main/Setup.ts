@@ -13,7 +13,7 @@ import crons from "register/cron";
 
 
 export default class Setup {
-  static async config() {
+  static async cachedConfig() {
     const customConfig = await Cache.driver("redis").get("config");
     customConfig && Object.assign(config, customConfig);
   }

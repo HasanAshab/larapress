@@ -6,7 +6,7 @@ import {
 import commands from "register/commands";
 
 export default class Artisan {
-  static async call(baseInput: ArtisanBaseInput, args: string[], fromShell = true): Promise<Function> {
+  static async call(baseInput: ArtisanBaseInput, args: string[], fromShell = true) {
     const { params, flags } = this.parseArgs(args);
     const [commandKey, subCommand] = baseInput.split(":");
     const commandName = commands[commandKey as keyof typeof commands];
@@ -17,13 +17,18 @@ export default class Artisan {
     const commandClass = new CommandClass(subCommand, fromShell, flags, params);
     const handler = commandClass[subCommand] || commandClass.handle;
     if (typeof handler === "undefined") throw customError("COMMAND_NOT_FOUND");
-    return handler.apply(commandClass);
+    try {
+      await handler.apply(commandClass);
+    }
+    catch(err: any) {
+      if(commandClass.onError) {
+        commandClass.onError(err);
+      }
+      throw err;
+    }
   }
 
-  static parseArgs(args: string[]): {
-    flags: string[],
-    params: Record<string, string>
-  } {
+  static parseArgs(args: string[]) {
     const flags: string[] = [];
     const params: Record<string, string> = {};
     args.forEach((arg, index) => {

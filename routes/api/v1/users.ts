@@ -15,6 +15,7 @@ router.route("/me")
 router.route("/:username")
   .get(middleware("auth"), UserController.find)
   .delete(middleware("auth"), UserController.delete)
+
 router.put("/:username/make-admin", middleware(["auth", { roles: ["admin"] }]), UserController.makeAdmin);
 
 export default router;

@@ -2,7 +2,6 @@ import { base, middleware } from "helpers";
 import express, { Application } from "express";
 import cors from "cors";
 import helmet from "helmet";
-import { engine } from "express-handlebars";
 import bodyParser from "body-parser";
 import multipartParser from "express-fileupload";
 import Setup from "main/Setup";
@@ -21,11 +20,6 @@ app.use("*", middleware("maintenance.check", ["limit", {time: 60 * 1000, count: 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(multipartParser());
-
-// Registering Handlebars template engine
-app.engine("handlebars", engine());
-app.set("view engine", "handlebars");
-app.set("views", base("views"));
 
 // Registering mongoose global plugins
 Setup.mongooseGlobalPlugins();

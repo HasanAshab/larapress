@@ -6,7 +6,7 @@ module.exports = {
     auth: "novice",
     benchmark: {
       params() {
-        return { username: "0foo" }
+        return { username: this.user.username }
       }
     },
     responses: {
@@ -31,8 +31,10 @@ module.exports = {
     summary: "Delete user",
     auth: "admin",
     benchmark: {
-      params() {
-        return { username: "1foo" };
+      async params() {
+        return {
+          username: (await User.factory().create()).username
+        }
       }
     },
     responses: {

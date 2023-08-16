@@ -14,13 +14,13 @@ export default abstract class Command {
     this.params = params;
   }
 
-  subCommandRequired(name: string): asserts this is this & { subCommand: string } {
+  private subCommandRequired(name: string): asserts this is this & { subCommand: string } {
     if (typeof this.subCommand === "undefined") {
       throw customError("SUB_COMMAND_REQUIRED", { name });
     }
   }
 
-  requiredParams<Keys extends string[]>(requiredParamsName: Keys): asserts this is this & {params: ArrayToParamsObj<Keys>} {
+  private requiredParams<Keys extends string[]>(requiredParamsName: Keys): asserts this is this & {params: ArrayToParamsObj<Keys>} {
     for (const name of requiredParamsName) {
       if (typeof this.params[name] === "undefined") {
         throw customError("REQUIRED_PARAM_MISSING", { param: name });
@@ -28,18 +28,18 @@ export default abstract class Command {
     }
   }
 
-  info(text: string) {
+  private info(text: string) {
     if (this.fromShell) console.log("\x1b[33m", text, "\x1b[0m");
   }
 
-  success(text = "") {
+  private success(text = "") {
     if (this.fromShell) {
       console.log("\x1b[32m", "\n", text, "\n", "\x1b[0m");
       process.exit(0);
     }
   }
 
-  error(text = "") {
+  private error(text = "") {
     if (this.fromShell) {
       console.log("\x1b[31m", "\n", text, "\n", "\x1b[0m");
       process.exit(1);

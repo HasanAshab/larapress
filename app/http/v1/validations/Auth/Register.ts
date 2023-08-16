@@ -13,7 +13,10 @@ const schema: ValidationSchema = {
       email: Joi.string().email().required().external(async (email) => {
         if (await User.findOne({ email })) throw new Error("email already exists!");
       }),
-      password: Joi.string().min(8).required()
+      password: Joi.string()
+        .min(8)
+        .pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$'))
+        .message('"{#label}" must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, one digit, and one special character (@ $ ! % * ? &)')
     })
   },
   multipart: FileValidator.schema({

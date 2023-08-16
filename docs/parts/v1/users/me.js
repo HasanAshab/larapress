@@ -32,7 +32,6 @@ module.exports = {
       setupRequest(req, context) {
         const form = new FormData();
         form.append("username", i + "bar");
-        form.append("email", i++ + "bar@gmail.com");
         Object.assign(req.headers, form.getHeaders());
         req.body = form.getBuffer();
         return req;
