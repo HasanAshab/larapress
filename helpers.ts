@@ -24,6 +24,22 @@ export function toSnakeCase(str: string) {
   return str.replace(/([A-Z])/g, '_$1');
 }
 
+export function deepMerge(target: any, source: any): any {
+  for (const key in source) {
+    if (source.hasOwnProperty(key)) {
+      if (source[key] instanceof Object && !Array.isArray(source[key])) {
+        if (!target[key]) {
+          target[key] = {};
+        }
+        deepMerge(target[key], source[key]);
+      } else {
+        target[key] = source[key];
+      }
+    }
+  }
+  return target;
+}
+
 export function storage(storage_path = "") {
   return path.join(__dirname, "storage", storage_path);
 }
@@ -76,6 +92,9 @@ export function controller(name: string, version = getVersion()): Record < strin
         if (handler.length === 2) await handler(req, res);
         else if (handler.length === 1 || handler.length === 0) {
           const response = await handler(req);
+          if(!response) {
+            throw new Error(`Should not return null on ${name}:${methodName}`);
+          }
           const { status = 200 } = response;
           delete response.status;
           res.status(status).api(response);

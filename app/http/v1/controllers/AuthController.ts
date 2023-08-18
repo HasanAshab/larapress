@@ -69,19 +69,26 @@ export default class AuthController {
   
   async loginWithGoogle(req: Request, res: Response) {
     try {
-      const { clientId, clientSecret, redirectUrl } = config.get("socialate.google");
+      const { clientId, clientSecret, redirectUrl } = config.get("socialite.google");
       const client = new OAuth2Client(clientId, clientSecret);
       
       const { tokens } = await client.getToken({ 
         code: req.query.code as string,
         redirect_uri: redirectUrl 
       })!;
+      const d = await fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
+        headers: {
+          "Authorization": "Bearer " + tokens.access_token
+        }
+      })
+      console.log(await d.json())
       const ticket = await client.verifyIdToken({
         idToken: tokens.id_token!,
         audience: clientId,
       });
-      const { email, picture } = ticket.getPayload()!;
-      
+      const { email, picture, sub } = ticket.getPayload()!;
+      console.log(ticket.getPayload())
+      return res.send({})
       const user = await User.findOneAndUpdate(
         { email },
         { 
@@ -105,13 +112,13 @@ export default class AuthController {
   
   async redirectToGoogle(req: Request, res: Response) {
     try {
-      const { clientId, clientSecret } = config.get("socialate.google");
+      const { clientId, clientSecret, redirectUrl } = config.get("socialite.google");
       const client = new OAuth2Client(clientId, clientSecret);
-      const redirectUrl = client.generateAuthUrl({
+      const authUrl = client.generateAuthUrl({
         scope: ['profile', 'email'],
         redirect_uri: redirectUrl
       });
-      res.redirect(redirectUrl);
+      res.redirect(authUrl);
     }
     catch (err: any) {
       log(err);

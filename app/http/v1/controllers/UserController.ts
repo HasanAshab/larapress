@@ -36,7 +36,6 @@ export default class UserController {
   async delete(req: Request) {
     const user = await User.findOne(req.params);
     if(!user) return { status: 404 };
-    console.log(user, req.user)
     if(!req.user.can("delete", user)) {
       return { 
         status: 403,
@@ -55,6 +54,5 @@ export default class UserController {
         ? { status: 200, message: "Admin role granted!" }
         : { status: 404 };
   }
-
 }
 

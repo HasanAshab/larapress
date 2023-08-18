@@ -6,9 +6,11 @@ module.exports = {
     auth: "novice",
     benchmark: {
       async params() {
-        return {
-          id: (await Notification.factory().create())._id
-        }
+        const notification = await Notification.factory().create({
+          notifiableId: this.user._id,
+          readAt: null
+        });
+        return { id: notification._id }
       }
     },
     responses: {
@@ -33,7 +35,7 @@ module.exports = {
     benchmark: {
       async params() {
         return {
-          id: (await Notification.factory().create())._id
+          id: (await this.user.notifications)[0]._id
         }
       }
     },

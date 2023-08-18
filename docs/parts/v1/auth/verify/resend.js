@@ -1,14 +1,11 @@
-const User = require(base("app/models/User")).default;
-
 module.exports = {
   get: {
     summary: "Resend account verification email",
     validationPath: "Auth/ResendEmailVerification",
     benchmark: {
-      async setupRequest(req) {
-        req.body = JSON.stringify(await User.findOne().select("email"));
-        return req;
-      }
+      body: JSON.stringify({
+        email: "0foo@gmail.com",
+      })
     },
     responses: {
       200: {

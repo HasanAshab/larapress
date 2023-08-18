@@ -6,7 +6,7 @@ module.exports = {
     benchmark: {
       body: JSON.stringify({
         oldPassword: "password",
-        password: "bar.123456",
+        password: "Bar@123456",
       })
     },
     responses: {

@@ -4,10 +4,15 @@ module.exports = {
     validationPath: "Settings/EnableTwoFactorAuth",
     auth: "novice",
     benchmark: {
-      async setupRequest(req) { 
+      async setupContext() {
+        return {
+          otp: await this.user.sendOtp("sms")
+        }
+      },
+      setupRequest(req) {
         req.body = JSON.stringify({ 
           method: "sms",
-          otp: await this.user.sendOtp("sms")
+          otp: this.otp
         });
         return req;
       }

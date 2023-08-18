@@ -6,7 +6,7 @@ module.exports = {
     benchmark: {
       async params(){
         return { 
-          id: (await User.findOne())._id
+          id: (await User.findOne() ?? await User.factory().create())._id
         }
       }
     },

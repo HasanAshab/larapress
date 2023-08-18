@@ -15,17 +15,27 @@ export default class TestPerformance extends Command {
   private serverProcess = spawn('npm', ['run', 'dev'], {
     env: { ...process.env, NODE_ENV: "test" }
   });
+  private cachedUsers = {};
+  private startTime = Date.now();
   
   async handle(){
-    const { connections = 1, workers = 0, stdout = true } = this.params
-    if(stdout) {
-    this.serverProcess.stdout.on('data', (data) => {
-      console.log(`stdout: ${data}`);
-    });
-    }
-    this.serverProcess.unref();
-    const startTime = Date.now();
+    const { connections = 2, workers = 0, stdout = false } = this.params
     this.info("starting server...");
+
+    this.serverProcess.unref();
+    process.on("exit", () => {
+      this.info("closing server...");
+      this.serverProcess.kill();
+      this.info(`Time: ${(Date.now() - this.startTime) / 1000}s`)
+    })
+    this.serverProcess.on('error', (err) => {
+      this.error('server error:', err);
+    });
+    if(stdout) {
+      this.serverProcess.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+      });
+    }
     this.info("connecting to database...");
     await DB.connect();
     this.info("reseting database...");
@@ -39,31 +49,34 @@ export default class TestPerformance extends Command {
     for (const version of versions) {
       this.info(`parsing benchmarks of ${version}...`);
       config.requests = await this.parseBenchmarks(version);
-      config.amount = config.requests.length;
-      if(config.amount === 0) {
-        this.serverProcess.kill();
+      if(config.requests.length === 0) {
         this.error("No benchmark matched!");
       }
-      //console.log(config)
+      config.amount = config.requests.length * parseInt(connections);
       this.info("load test started...");
-      const result = await autocannon(config);
-      const outDir = "storage/reports/performance/" + version;
-      await exec("mkdir -p " + outDir);
-      fs.writeFileSync(path.join(outDir, Date.now() + ".json"), JSON.stringify(result, null, 2));
-      this.info("clearing database...");
-      await DB.reset();
+      const instance = autocannon(config);
+      autocannon.track(instance, {
+      onResponse: async (client, statusCode, resBytes, context, ee, next) => {
+        console.log('Response status code:', statusCode);
+        next();
+      }
+      });
+      instance.on('done', async (result) => {
+        const outDir = "storage/reports/performance/" + version;
+        await exec("mkdir -p " + outDir);
+        fs.writeFileSync(path.join(outDir, Date.now() + ".json"), JSON.stringify(result, null, 2));
+        this.info("clearing database...");
+        await DB.reset();
+        this.success("Test report saved at /storage/reports/performance");
+      });
     }
-    this.info("closing server...");
-    this.serverProcess.kill();
-    this.info(`Time: ${(Date.now() - startTime) / 1000}s`)
-    this.success("Test report saved at /storage/reports/performance");
   }
   
   private async parseBenchmarks(version: string) {
     global.base = base;
     const requests = [];
     const endpointPathPair = generateEndpointsFromDirTree(path.join(this.benchmarkRootPath, version));
-    for(let [endpoint, path] of Object.entries(endpointPathPair)){
+    for(const [endpoint, path] of Object.entries(endpointPathPair)){
      if(this.params.path && endpoint !== this.params.path) continue
       const benchmarkFile = require(path);
       for(const method in benchmarkFile) {
@@ -71,44 +84,48 @@ export default class TestPerformance extends Command {
         let context = {}; 
         const request = doc.benchmark;
         if(!request) continue;
-        if(request.setupContext){
-          context = await request.setupContext();
-        }
         if(doc.auth) {
-          context.user = await User.findOne({ role: doc.auth, verified: true }) ?? await User.factory().create({ role: doc.auth });
+          context.user = await this.getUser(doc);
           request.headers = {
-            "Authorization": "Bearer " + context.user.createToken()
+            "authorization": "Bearer " + context.user.createToken(),
+            "content-type": "application/json"
           }
         }
+        Object.assign(context, await request.setupContext?.apply(context));
+        let resolvedEndpoint = endpoint;
         if(endpoint.includes("{")){
           if(!request.params) this.error(`param() method is required in benchmark ${path}`)
           const params = await request.params.apply(context);
-          endpoint = endpoint.replace(/\{(\w+)\}/g, (match: string, key: string) => {
+          resolvedEndpoint = endpoint.replace(/\{(\w+)\}/g, (match: string, key: string) => {
             const value = params[key];
             if(!value) this.error(`The "${key}" param is required in benchmark ${path}`);
             return value;
           });
         }
-        request.path = "/api/" + version + endpoint;
+        request.path = "/api/" + version + resolvedEndpoint;
         request.method = method.toUpperCase();
         if(request.setupRequest) {
           request.setupRequest = request.setupRequest?.bind(context);
         }
+        /*
         request.onResponse = (status, body) => {
-          console.log(request.path)
           if(status > 399){
-            this.serverProcess.kill();
-            this.error(`${request.method} -> ${request.path} \n \n STATUS: ${status} \n BODY: ${body}`);
+            this.error(`${request.method} -> ${request.path} \n STATUS: ${status} \n BODY: ${body}`);
           }
+          console.log(`${request.method} -> ${request.path} -> STATUS: ${status}`);
         }
+        */
         requests.push(request);
       }
     }
     return requests;
   }
   
-  onError(err){
-    this.serverProcess.kill();
-    throw err;
+  private async getUser(doc: object) {
+    if(doc.cached === false)
+      return await User.factory().create({ role: doc.auth });
+    if(!this.cachedUsers[doc.auth])
+      this.cachedUsers[doc.auth] = await User.factory().create({ role: doc.auth });
+    return this.cachedUsers[doc.auth];
   }
 }

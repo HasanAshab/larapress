@@ -5,7 +5,11 @@ module.exports = {
   get: {
     summary: "Get user settings",
     auth: "novice",
-    benchmark: {},
+    benchmark: {
+      setupContext() {
+        return Settings.create({ userId: this.user._id });
+      }
+    },
     responses: {
       200: {
         schema: {

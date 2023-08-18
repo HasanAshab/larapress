@@ -286,7 +286,7 @@ describe("Auth", () => {
     Mail.assertNothingSent();
   });
 
-  it.only("should reset password", async () => {
+  it("should reset password", async () => {
     const resetToken = await user.sendResetPasswordEmail();
     Mail.mock();
     const newPassword = "Password@1234";

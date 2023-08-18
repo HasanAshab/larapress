@@ -1,5 +1,6 @@
 const app = require("main/app").default;
-const request = require("supertest")(app.listen(8000));
+const server = app.listen(8000);
+const request = require("supertest")(server);
 const DB = require("illuminate/utils/DB").default;
 const URL = require("illuminate/utils/URL").default;
 const Attachment = require("app/models/Attachment").default;
@@ -7,6 +8,10 @@ const Attachment = require("app/models/Attachment").default;
 describe("File", () => {
   beforeAll(async () => {
     await DB.connect();
+  })
+  
+  afterAll(() => {
+    server.close();
   })
   
   it("should respond with a file", async () => {

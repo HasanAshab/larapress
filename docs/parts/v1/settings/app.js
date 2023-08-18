@@ -1,6 +1,6 @@
 module.exports = {
   get: {
-    summary: "Get app settings (ENV)",
+    summary: "Get app settings (CONFIG)",
     auth: "admin",
     benchmark: {},
     responses: {
@@ -21,7 +21,7 @@ module.exports = {
     },
   },
   put: {
-    summary: "Update app settings (ENV)",
+    summary: "Update app settings (CONFIG)",
     validationPath: "Settings/UpdateAppSettings",
     auth: "admin",
     benchmark: {

@@ -6,7 +6,7 @@ export default class NotificationController {
   }
   
   async markAsRead(req: Request) {
-    return await req.user.unreadNotifications.findOne({_id: req.params.id}).markAsRead()
+    return await req.user.unreadNotifications.findOne({ _id: req.params.id }).markAsRead()
     ? {
       status: 200, 
       message: 'Notification marked as read'

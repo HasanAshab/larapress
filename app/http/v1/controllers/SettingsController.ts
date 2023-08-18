@@ -1,4 +1,5 @@
 import { Request } from "express";
+import { deepMerge } from "helpers";
 import config from "config";
 import Cache from "illuminate/utils/Cache";
 import Settings from "app/models/Settings";
@@ -9,7 +10,6 @@ export default class SettingsController {
   }
   
   async notification(req: Request) {
-    console.log(req.validated)
     const { modifiedCount } = await Settings.updateOne({ userId: req.user._id }, { notification: req.validated });
     return modifiedCount === 1
       ? { message: "Settings saved!" }
@@ -42,7 +42,7 @@ export default class SettingsController {
   }
   
   async updateAppSettings(req: Request) {
-    Object.assign(config, req.validated);
+    config = deepMerge(config, req.validated);
     Cache.driver("redis").put("config", config);
     return { message: "Settings updated!" }
   }
