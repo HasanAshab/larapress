@@ -3,7 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateEndpointsFromDirTree = exports.loadDir = exports.getModels = exports.customError = exports.checkProperties = exports.getVersion = exports.log = exports.env = exports.controller = exports.middleware = exports.storage = exports.toSnakeCase = exports.toCamelCase = exports.capitalizeFirstLetter = exports.base = void 0;
+exports.generateEndpointsFromDirTree = exports.getModels = exports.customError = exports.checkProperties = exports.getVersion = exports.log = exports.env = exports.controller = exports.middleware = exports.storage = exports.deepMerge = exports.toSnakeCase = exports.toCamelCase = exports.capitalizeFirstLetter = exports.base = void 0;
+const config_1 = __importDefault(require("config"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
@@ -25,6 +26,23 @@ function toSnakeCase(str) {
     return str.replace(/([A-Z])/g, '_$1');
 }
 exports.toSnakeCase = toSnakeCase;
+function deepMerge(target, source) {
+    for (const key in source) {
+        if (source.hasOwnProperty(key)) {
+            if (source[key] instanceof Object && !Array.isArray(source[key])) {
+                if (!target[key]) {
+                    target[key] = {};
+                }
+                deepMerge(target[key], source[key]);
+            }
+            else {
+                target[key] = source[key];
+            }
+        }
+    }
+    return target;
+}
+exports.deepMerge = deepMerge;
 function storage(storage_path = "") {
     return path_1.default.join(__dirname, "storage", storage_path);
 }
@@ -78,6 +96,9 @@ function controller(name, version = getVersion()) {
                     await handler(req, res);
                 else if (handler.length === 1 || handler.length === 0) {
                     const response = await handler(req);
+                    if (!response) {
+                        throw new Error(`Should not return null on ${name}:${methodName}`);
+                    }
                     const { status = 200 } = response;
                     delete response.status;
                     res.status(status).api(response);
@@ -117,8 +138,9 @@ function env(envValues) {
     return envConfig;
 }
 exports.env = env;
-function log(data) {
-    if (process.env.LOG === "file") {
+async function log(data) {
+    const logChannel = config_1.default.get("log");
+    if (logChannel === "file") {
         const path = "./storage/logs/error.log";
         if (data instanceof Error) {
             data = data.stack;
@@ -128,7 +150,7 @@ function log(data) {
                 throw err;
         });
     }
-    else if (process.env.LOG === "console") {
+    else if (logChannel === "console") {
         console.log(data);
     }
 }
@@ -163,11 +185,10 @@ exports.checkProperties = checkProperties;
 function customError(type, data) {
     const errorData = errors_1.default[type];
     const error = new Error();
-    //error.name = this.name;
     error.type = type;
     error.status = errorData.status;
     error.message = errorData.message;
-    if (typeof data !== "undefined") {
+    if (data) {
         error.message = error.message.replace(/:(\w+)/g, (match, key) => {
             if (typeof data[key] === "undefined")
                 throw new Error(`The "${key}" key is required in "data" argument.`);
@@ -187,18 +208,6 @@ async function getModels() {
     return models;
 }
 exports.getModels = getModels;
-function loadDir(dirPath) {
-    const directories = dirPath.split(path_1.default.sep);
-    let currentPath = "";
-    for (const dir of directories) {
-        currentPath = path_1.default.join(currentPath, dir);
-        const fullPath = path_1.default.join(__dirname, currentPath);
-        if (!fs_1.default.existsSync(currentPath)) {
-            fs_1.default.mkdirSync(currentPath);
-        }
-    }
-}
-exports.loadDir = loadDir;
 function generateEndpointsFromDirTree(rootPath) {
     const endpointPathPair = {};
     const stack = [rootPath];

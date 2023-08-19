@@ -8,12 +8,6 @@ import Token from "app/models/Token";
 
 export default class InjectHelpers extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {
-    req.hasValidSignature = async function () {
-      const { sign } = this.query;
-      return typeof sign === "string" && 
-        await Token.isValid(sign, "urlSignature", { url: this.baseUrl + this.path });
-    };
-
     res.api = function (response: RawResponse) {
       const defaultErrorMessages: Record<number, string> = {
         404: "Resource Not Found!",

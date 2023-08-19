@@ -1,5 +1,5 @@
 import config from 'config';
-import Token from "app/models/Token";
+import Token, { IToken } from "app/models/Token";
 import path from "path";
 import urls from "register/urls";
 
@@ -30,12 +30,21 @@ export default class URL {
 
   static async signedRoute(routeName: keyof typeof urls, data?: Record < string, string | number >, expireAfter?: number): string {
     const fullUrl = this.route(routeName, data);
-    const url = fullUrl.replace(this.resolve(), "/");
-    const token = await Token.create({
-      type: "urlSignature",
-      data: { url }, 
-      expireAt: Date.now() + expireAfter
-    });
-    return `${fullUrl}?sign=${token.key}`;
+    const path = fullUrl.replace(this.resolve(), "/");
+    let token: IToken;
+    if(expireAfter) {
+      token = await Token.create({
+        key: path, 
+        type: "urlSignature",
+        expireAt: Date.now() + expireAfter
+      });
+    }
+    else {
+      token = await Token.findOneOrCreate({
+        key: path,
+        type: "urlSignature"
+      });
+    }
+    return `${fullUrl}?sign=${token.secret}`;
   }
 }

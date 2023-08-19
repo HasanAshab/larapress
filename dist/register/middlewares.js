@@ -10,5 +10,4 @@ exports.default = {
     "response.cache": "<global>/CacheResponse",
     "error.handle": "<global>/ErrorHandler",
     "helpers.inject": "<global>/InjectHelpers",
-    "performance.trace": "<global>/TracePerformance"
 };

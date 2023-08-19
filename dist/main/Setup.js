@@ -3,15 +3,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const config_1 = __importDefault(require("config"));
 const fs_1 = __importDefault(require("fs"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const mongoose_hidden_1 = __importDefault(require("mongoose-hidden"));
 const helpers_1 = require("helpers");
 const node_cron_1 = __importDefault(require("node-cron"));
 const Artisan_1 = __importDefault(require("illuminate/utils/Artisan"));
+const Cache_1 = __importDefault(require("illuminate/utils/Cache"));
 const events_1 = __importDefault(require("register/events"));
 const cron_1 = __importDefault(require("register/cron"));
 class Setup {
+    static async cachedConfig() {
+        const customConfig = await Cache_1.default.driver("redis").get("config");
+        customConfig && Object.assign(config_1.default, customConfig);
+    }
     static cronJobs() {
         for (const [schedule, commands] of Object.entries(cron_1.default)) {
             if (Array.isArray(commands)) {

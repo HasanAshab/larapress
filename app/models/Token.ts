@@ -4,16 +4,16 @@ import crypto from "crypto";
 
 const TokenSchema = new Schema({
   key: {
+    required: true,
+    type: String
+  },
+  secret: {
     type: String,
     default: () => crypto.randomBytes(32).toString('hex')
   },
   type: {
     required: true,
     type: String
-  },
-  data: {
-    required: true,
-    type: Object
   },
   expiresAt: {
     type: Date,
@@ -22,8 +22,8 @@ const TokenSchema = new Schema({
   }
 });
 
-TokenSchema.statics.isValid = async function(key: string, type: string, data: object) {
-  const token = await this.findOne({ key, type, data });
+TokenSchema.statics.isValid = async function(key: string, type: string, secret: string) {
+  const token = await this.findOne({ key, type, secret });
   if(!token) return false;
   token.expiresAt && this.deleteOne({ _id: token._id });
   return true;

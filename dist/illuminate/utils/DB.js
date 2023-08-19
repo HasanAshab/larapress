@@ -2,12 +2,12 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
+const config_1 = __importDefault(require("config"));
 class DB {
     static async connect(options = this.defaultConnectOptions) {
-        await mongoose_1.default.connect(this.url, options);
+        await mongoose_1.default.connect(config_1.default.get("db.url"), options);
     }
     static async disconnect() {
         await mongoose_1.default.disconnect();
@@ -30,8 +30,7 @@ class DB {
         return Promise.all(dropPromises);
     }
 }
-DB.url = (_a = process.env.DB_URL) !== null && _a !== void 0 ? _a : "mongodb://127.0.0.1:27017/test";
 DB.defaultConnectOptions = {
-    maxPoolSize: (_b = Number(process.env.DB_MAX_POOL_SIZE)) !== null && _b !== void 0 ? _b : 5
+    maxPoolSize: config_1.default.get("db.maxPoolSize")
 };
 exports.default = DB;

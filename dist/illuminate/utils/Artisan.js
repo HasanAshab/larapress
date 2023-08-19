@@ -18,7 +18,15 @@ class Artisan {
         const handler = commandClass[subCommand] || commandClass.handle;
         if (typeof handler === "undefined")
             throw (0, helpers_1.customError)("COMMAND_NOT_FOUND");
-        return handler.apply(commandClass);
+        try {
+            await handler.apply(commandClass);
+        }
+        catch (err) {
+            if (commandClass.onError) {
+                commandClass.onError(err);
+            }
+            throw err;
+        }
     }
     static parseArgs(args) {
         const flags = [];

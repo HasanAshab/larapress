@@ -48,7 +48,7 @@ export default class TestPerformance extends Command {
     const versions = fs.readdirSync(this.benchmarkRootPath);
     for (const version of versions) {
       this.info(`parsing benchmarks of ${version}...`);
-      config.requests = await this.parseBenchmarks(version);
+      config.requests = await this.parseBenchmarks(version, connections, this.params.pattern);
       if(config.requests.length === 0) {
         this.error("No benchmark matched!");
       }
@@ -80,12 +80,12 @@ export default class TestPerformance extends Command {
     this.success("Test report saved at /storage/reports/performance");
   }
   
-  private async parseBenchmarks(version: string) {
+  private async parseBenchmarks(version: string, connections: number, pattern?: string) {
     global.base = base;
     const requests = [];
     const endpointPathPair = generateEndpointsFromDirTree(path.join(this.benchmarkRootPath, version));
     for(const [endpoint, path] of Object.entries(endpointPathPair)){
-     if(this.params.path && endpoint !== this.params.path) continue
+     if(pattern && !endpoint.includes(pattern)) continue
       const benchmarkFile = require(path);
       for(const method in benchmarkFile) {
         const doc = benchmarkFile[method];
@@ -100,26 +100,39 @@ export default class TestPerformance extends Command {
           }
         }
         Object.assign(context, await request.setupContext?.apply(context));
-        let resolvedEndpoint = endpoint;
-        if(endpoint.includes("{")){
-          if(!request.params) this.error(`param() method is required in benchmark ${path}`)
-          const params = await request.params.apply(context);
-          resolvedEndpoint = endpoint.replace(/\{(\w+)\}/g, (match: string, key: string) => {
-            const value = params[key];
-            if(!value) this.error(`The "${key}" param is required in benchmark ${path}`);
-            return value;
-          });
-        }
-        request.path = "/api/" + version + resolvedEndpoint;
         request.method = method.toUpperCase();
-        if(request.setupRequest) {
-          request.setupRequest = request.setupRequest?.bind(context);
+        const resolvedEndpoints = [endpoint];
+        if(endpoint.includes("{")){
+          resolvedEndpoints.pop();
+          if(!request.params) this.error(`param() method is required in benchmark ${path}`)
+          const getParams = request.params.bind(context);
+          if(request.params.constructor.name ===  "GeneratorFunction" || request.params.constructor.name === "AsyncGeneratorFunction") {
+            const paramGenerator = getParams();
+            for(let i = 0; i < connections; i++) {
+              const { value: params } = await paramGenerator.next();
+              resolvedEndpoints.push(this.resolveDynamicPath(endpoint, params));
+            }
+          }
+          else resolvedEndpoints[0] = this.resolveDynamicPath(endpoint, await getParams());
+        }
+        console.log(resolvedEndpoints)
+        let i = 0;
+        const realSetupFunc = request.setupRequest?.bind(context);
+        request.setupRequest = function (req) {
+          if(realSetupFunc)
+            req = realSetupFunc(req);
+          const subPath = resolvedEndpoints.length > 1
+            ? resolvedEndpoints[i++]
+            : resolvedEndpoints[0];
+          req.path = "/api/" + version + subPath;
+          console.log("resolved path: " + req.path);
+          return req;
         }
         request.onResponse = (status, body) => {
           if(status > 399){
-            this.error(`${request.method} -> ${request.path} \n STATUS: ${status} \n BODY: ${body}`);
+            this.error(`${request.method} -> ${endpoint} \n STATUS: ${status} \n BODY: ${body}`);
           }
-          console.log(`${request.method} -> ${request.path} -> STATUS: ${status}`);
+          console.log(`${request.method} -> ${endpoint} -> STATUS: ${status}`);
         }
         requests.push(request);
       }
@@ -134,4 +147,13 @@ export default class TestPerformance extends Command {
       this.cachedUsers[doc.auth] = await User.factory().create({ role: doc.auth });
     return this.cachedUsers[doc.auth];
   }
+  
+  private resolveDynamicPath(endpoint: string, params: object) {
+    return endpoint.replace(/\{(\w+)\}/g, (match: string, key: string) => {
+      const value = params[key];
+      if(!value) this.error(`The "${key}" param is required in benchmark of endpoint ${endpoint}`);
+      return value;
+    });
+  }
+  
 }

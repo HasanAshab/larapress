@@ -42,7 +42,9 @@ export default class UserController {
         message: "Your have not enough privilege to perfom this action!"
       };
     }
-    const { deletedCount } = await User.deleteOne({_id: user._id});
+    console.log(user)
+    const { deletedCount } = await User.deleteOne(req.params);
+    console.log(deletedCount)
     return deletedCount === 1
       ? { status: 204 }
       : { status: 500 };
