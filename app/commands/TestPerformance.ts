@@ -54,6 +54,13 @@ export default class TestPerformance extends Command {
       }
       config.amount = config.requests.length * parseInt(connections);
       this.info("load test started...");
+      const result = await autocannon(config);
+      const outDir = "storage/reports/performance/" + version;
+      await exec("mkdir -p " + outDir);
+      fs.writeFileSync(path.join(outDir, Date.now() + ".json"), JSON.stringify(result, null, 2));
+      this.info("clearing database...");
+      await DB.reset();
+      /*
       const instance = autocannon(config);
       autocannon.track(instance, {
       onResponse: async (client, statusCode, resBytes, context, ee, next) => {
@@ -68,8 +75,9 @@ export default class TestPerformance extends Command {
         this.info("clearing database...");
         await DB.reset();
         this.success("Test report saved at /storage/reports/performance");
-      });
+      });*/
     }
+    this.success("Test report saved at /storage/reports/performance");
   }
   
   private async parseBenchmarks(version: string) {
@@ -107,14 +115,12 @@ export default class TestPerformance extends Command {
         if(request.setupRequest) {
           request.setupRequest = request.setupRequest?.bind(context);
         }
-        /*
         request.onResponse = (status, body) => {
           if(status > 399){
             this.error(`${request.method} -> ${request.path} \n STATUS: ${status} \n BODY: ${body}`);
           }
           console.log(`${request.method} -> ${request.path} -> STATUS: ${status}`);
         }
-        */
         requests.push(request);
       }
     }

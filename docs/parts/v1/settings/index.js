@@ -7,7 +7,7 @@ module.exports = {
     auth: "novice",
     benchmark: {
       setupContext() {
-        return Settings.create({ userId: this.user._id });
+        return Settings.updateOne({ userId: this.user._id }, {}, { upsert: true });
       }
     },
     responses: {
