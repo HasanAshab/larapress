@@ -1,13 +1,28 @@
+const User = require(base("app/models/User")).default;
+const Settings = require(base("app/models/Settings")).default;
+
 module.exports = {
   post: {
     summary: "Login a User",
     description: "Returns api token if credentials match",
     validationPath: "Auth/Login",
     benchmark: {
-      body: JSON.stringify({
-        email: "0foo@gmail.com",
-        password: "Foo@123456"
-      })
+      async setupContext(){
+        const user = await User.factory().create();
+        await Settings.create({
+          userId: user._id, 
+          twoFactorAuth: { enabled: true }
+        });
+        return { email: user.email };
+      },
+
+      setupRequest(req) {
+        req.body = JSON.stringify({
+          email: this.email,
+          password: "password"
+        });
+        return req;
+      }
     },
     responses: {
       200: {

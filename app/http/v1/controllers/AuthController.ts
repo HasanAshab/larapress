@@ -134,16 +134,15 @@ export default class AuthController {
   };
 
   async resendEmailVerification(req: Request){
-    const user = await User.findOne({email: req.validated.email});
-    user && await user.sendVerificationEmail();
+    const user = await User.findOne(req.validated);
+    user && user.sendVerificationEmail().catch(log);
     return {
       message: "Verification email sent!",
     };
   };
 
   async sendResetPasswordEmail(req: Request){
-    const email = req.validated.email;
-    const user = await User.findOne({ email });
+    const user = await User.findOne(req.validated);
     if (user) {
       if(!user.password) {
         return {

@@ -9,7 +9,6 @@ import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
 
-
 export default class TestPerformance extends Command {
   private benchmarkRootPath = base("docs/parts");
   private serverProcess = spawn('npm', ['run', 'dev'], {
@@ -63,22 +62,6 @@ export default class TestPerformance extends Command {
       fs.writeFileSync(path.join(outDir, Date.now() + ".json"), JSON.stringify(result, null, 2));
       this.info("clearing database...");
       await DB.reset();
-      /*
-      const instance = autocannon(config);
-      autocannon.track(instance, {
-      onResponse: async (client, statusCode, resBytes, context, ee, next) => {
-        console.log('Response status code:', statusCode);
-        next();
-      }
-      });
-      instance.on('done', async (result) => {
-        const outDir = "storage/reports/performance/" + version;
-        await exec("mkdir -p " + outDir);
-        fs.writeFileSync(path.join(outDir, Date.now() + ".json"), JSON.stringify(result, null, 2));
-        this.info("clearing database...");
-        await DB.reset();
-        this.success("Test report saved at /storage/reports/performance");
-      });*/
     }
     this.success("Test report saved at /storage/reports/performance");
   }
@@ -131,9 +114,9 @@ export default class TestPerformance extends Command {
         }
         request.onResponse = (status, body) => {
           if(status > 399){
-            this.error(`${request.method} -> ${endpoint} \n STATUS: ${status} \n BODY: ${body}`);
+            this.info(`${request.method} -> ${endpoint} -> STATUS: ${status} \n BODY: ${body}\n`);
           }
-          console.log(`${request.method} -> ${endpoint} -> STATUS: ${status}`);
+          else console.log(`${request.method} -> ${endpoint} -> STATUS: ${status}`);
         }
         requests.push(request);
       }

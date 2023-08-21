@@ -10,14 +10,18 @@ module.exports = {
         const user = await User.findOne();
         Mail.mock();
         return { 
+          id: user._id,
           token: await user.sendResetPasswordEmail()
         };
       },
-
-      body: JSON.stringify({
-        token: this.token,
-        password: "baz.123456"
-      })
+      setupRequest(req) {
+        req.body = JSON.stringify({
+          id: this.id
+          token: this.token,
+          password: "baz.123456"
+        });
+        return req;
+      }
     },
     responses: {
       200: {

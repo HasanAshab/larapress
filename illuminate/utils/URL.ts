@@ -45,6 +45,10 @@ export default class URL {
         type: "urlSignature"
       });
     }
-    return `${fullUrl}?sign=${token.secret}`;
+    let [baseUrl, queryString] = fullUrl.split("?");
+    if(queryString) 
+      queryString += "&sign=" + token.secret;
+    else queryString = "?sign=" + token.secret;
+    return baseUrl + queryString;
   }
 }

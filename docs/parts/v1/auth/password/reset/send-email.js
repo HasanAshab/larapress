@@ -11,9 +11,10 @@ module.exports = {
           email:  (await User.findOne()).email
         }
       },
-      body: JSON.stringify({
-        email: this.email,
-      })
+      setupRequest(req) {
+        req.body = JSON.stringify(this);
+        return req;
+      }
     },
     responses: {
       200: {
