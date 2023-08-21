@@ -216,6 +216,6 @@ export default class AuthController {
       };
     }
     await user.sendOtp(method);
-    return { message: `6 digit OTP code sent to phone number!`};
+    return { message: `6 digit OTP code sent to phone number!` };
   }
 }

@@ -6,7 +6,6 @@ module.exports = {
     auth: "novice",
     benchmark: {
       params() {
-        console.log(this)
         return { 
           username: this.user.username
         }

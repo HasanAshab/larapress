@@ -5,12 +5,15 @@ module.exports = {
     summary: "Mark notification as read",
     auth: "novice",
     benchmark: {
-      async params() {
-        const notification = await Notification.factory().create({
-          notifiableId: this.user._id,
-          readAt: null
-        });
-        return { id: notification._id }
+      async *params() {
+        while(true){
+          yield { 
+            id: (await Notification.factory().create({
+              notifiableId: this.user._id,
+              readAt: null
+            }))._id 
+          }
+        }
       }
     },
     responses: {
@@ -33,9 +36,13 @@ module.exports = {
     summary: "Remove notification",
     auth: "novice",
     benchmark: {
-      async params() {
-        return {
-          id: (await this.user.notifications)[0]._id
+      async *params() {
+        while(true){
+          yield { 
+            id: (await Notification.factory().create({
+              notifiableId: this.user._id,
+            }))._id 
+          }
         }
       }
     },

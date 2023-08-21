@@ -1,13 +1,10 @@
 import Middleware from "illuminate/middlewares/Middleware";
-import {
-  Request,
-  Response,
-  NextFunction
-} from "express";
+import { Request, Response, NextFunction } from "express";
+import Token from "app/models/Token";
 
 export default class ValidateSignature extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {
-    const { sign } = this.query;
+    const sign = this.query?.sign;
     const hasValidSignature = typeof sign === "string" && await Token.isValid(this.baseUrl + this.path, "urlSignature", sign);
     return hasValidSignature
       ? next()

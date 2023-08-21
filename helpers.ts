@@ -98,7 +98,8 @@ export function controller(name: string, version = getVersion()): Record < strin
           const { status = 200 } = response;
           delete response.status;
           res.status(status).api(response);
-        } else throw new Error(`Unknown param on ${name}:${methodName}`);
+        } 
+        else throw new Error(`Unknown param on ${name}:${methodName}`);
       }
       catch(err: any) {
         next(err)
@@ -106,9 +107,7 @@ export function controller(name: string, version = getVersion()): Record < strin
     }
     const validationSubPath = `${controllerPrefix}/${capitalizeFirstLetter(methodName)}`;
     handlerAndValidatorStack[methodName] = [
-      ...middleware(["validate", {
-        version, validationSubPath
-      }]),
+      ...middleware(["validate", { version, validationSubPath }]),
       requestHandler
     ];
   }

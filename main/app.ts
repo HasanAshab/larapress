@@ -17,8 +17,8 @@ app.use(helmet())
 app.use("*", middleware("maintenance.check", ["limit", {time: 60 * 1000, count: 60}]))
 
 // Setting middlewares for request parsing 
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "1mb" }));
+app.use(bodyParser.urlencoded({extended: false, limit: "1mb"}));
 app.use(multipartParser());
 
 // Registering mongoose global plugins

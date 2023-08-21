@@ -10,10 +10,8 @@ export default class SettingsController {
   }
   
   async notification(req: Request) {
-    const { modifiedCount } = await Settings.updateOne({ userId: req.user._id }, { notification: req.validated });
-    return modifiedCount === 1
-      ? { message: "Settings saved!" }
-      : { status: 500, message: "Faild to update settings!" };
+    await Settings.updateOne({ userId: req.user._id }, { notification: req.validated });
+    return { message: "Settings saved!" }
   }
   
   async enableTwoFactorAuth(req: Request){

@@ -7,16 +7,13 @@ module.exports = {
     validationPath: "Auth/SendOtp",
     benchmark: {
       async setupContext(){
-        const user = await User.findOne();
-        await Settings.updateOne(
-          { userId: user._id }, 
-          { 
-            twoFactorAuth: { enabled: true }
-          }
-        );
+        const user = await User.factory().create();
+        await Settings.create({
+          userId: user._id, 
+          twoFactorAuth: { enabled: true }
+        });
         return { userId: user._id }
       },
-      
       setupRequest(req) {
         req.body = JSON.stringify({
           userId: this.userId,

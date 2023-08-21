@@ -19,7 +19,7 @@ export default class TestPerformance extends Command {
   private startTime = Date.now();
   
   async handle(){
-    const { connections = 2, workers = 0, stdout = false } = this.params
+    const { connections = 2, workers = 0, stdout = true, v } = this.params
     this.info("starting server...");
 
     this.serverProcess.unref();
@@ -44,8 +44,11 @@ export default class TestPerformance extends Command {
       url: URL.resolve(),
       connections: parseInt(connections),
       workers: parseInt(workers),
+      headers: {
+        "content-type": "application/json"
+      }
     };
-    const versions = fs.readdirSync(this.benchmarkRootPath);
+    const versions = v?.split(',') ?? fs.readdirSync(this.benchmarkRootPath);
     for (const version of versions) {
       this.info(`parsing benchmarks of ${version}...`);
       config.requests = await this.parseBenchmarks(version, connections, this.params.pattern);
@@ -95,8 +98,7 @@ export default class TestPerformance extends Command {
         if(doc.auth) {
           context.user = await this.getUser(doc);
           request.headers = {
-            "authorization": "Bearer " + context.user.createToken(),
-            "content-type": "application/json"
+            "authorization": "Bearer " + context.user.createToken()
           }
         }
         Object.assign(context, await request.setupContext?.apply(context));
@@ -115,17 +117,16 @@ export default class TestPerformance extends Command {
           }
           else resolvedEndpoints[0] = this.resolveDynamicPath(endpoint, await getParams());
         }
-        console.log(resolvedEndpoints)
         let i = 0;
         const realSetupFunc = request.setupRequest?.bind(context);
         request.setupRequest = function (req) {
-          if(realSetupFunc)
-            req = realSetupFunc(req);
           const subPath = resolvedEndpoints.length > 1
             ? resolvedEndpoints[i++]
             : resolvedEndpoints[0];
           req.path = "/api/" + version + subPath;
-          console.log("resolved path: " + req.path);
+          if(realSetupFunc)
+            req = realSetupFunc(req);
+          //console.log("resolved path: " + req.path + "\n");
           return req;
         }
         request.onResponse = (status, body) => {

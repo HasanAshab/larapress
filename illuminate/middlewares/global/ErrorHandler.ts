@@ -9,7 +9,7 @@ export default class ErrorHandler extends Middleware {
     let message = err.message ?? "Internal server error!";
     if(err.kind === "ObjectId"){
       status = 404;
-      message = undefined;
+      message = "Resource Not Found!";
     }
     res.status(status);
     if(status === 500){

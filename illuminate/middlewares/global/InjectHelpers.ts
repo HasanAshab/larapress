@@ -2,8 +2,6 @@ import Middleware from "illuminate/middlewares/Middleware";
 import mongoose from "mongoose";
 import { Request, Response, NextFunction } from "express";
 import { ApiResponse, RawResponse } from "types";
-import URL from "illuminate/utils/URL";
-import Token from "app/models/Token";
 
 
 export default class InjectHelpers extends Middleware {
@@ -17,10 +15,7 @@ export default class InjectHelpers extends Middleware {
         success: this.statusCode >= 200 && this.statusCode < 300,
         data: {}
       }
-      if(Array.isArray(response)) {
-        apiResponse.data = response;
-      }
-      else if(response instanceof mongoose.Document){
+      if(Array.isArray(response) || response instanceof mongoose.Document) {
         apiResponse.data = response;
       }
       else {
@@ -34,8 +29,7 @@ export default class InjectHelpers extends Middleware {
           }
         }
       }
-      if(!("message" in response))
-        apiResponse.message = defaultErrorMessages[this.statusCode];
+      apiResponse.message = response.message ?? defaultErrorMessages[this.statusCode];
       this.json(apiResponse);
     };
 

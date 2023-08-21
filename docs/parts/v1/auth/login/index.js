@@ -6,7 +6,7 @@ module.exports = {
     benchmark: {
       body: JSON.stringify({
         email: "0foo@gmail.com",
-        password: "foo.123456"
+        password: "Foo@123456"
       })
     },
     responses: {

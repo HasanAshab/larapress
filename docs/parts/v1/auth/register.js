@@ -11,7 +11,7 @@ module.exports = {
         const form = new FormData();
         form.append("username", i + "foo");
         form.append("email", i++ + "foo@gmail.com");
-        form.append("password", "foo.123456");
+        form.append("password", "Foo@123456");
         Object.assign(req.headers, form.getHeaders());
         req.body = form.getBuffer();
         return req;

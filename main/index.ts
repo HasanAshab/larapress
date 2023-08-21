@@ -12,13 +12,8 @@ import fs from "fs";
   // Connecting to database
   if (config.get("db.connect")) {
     console.log("Connecting to database...");
-    DB.connect()
-    .then(() => {
-      console.log("DB connected!");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    await DB.connect();
+    console.log("DB connected!");
   }
   
   // Registering Mongoose Models

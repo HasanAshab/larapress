@@ -2,6 +2,7 @@ module.exports = {
   get: {
     summary: "Resend account verification email",
     validationPath: "Auth/ResendEmailVerification",
+    preset: ["signature"],
     benchmark: {
       body: JSON.stringify({
         email: "0foo@gmail.com",
