@@ -14,7 +14,7 @@ export default class VerifyRecaptcha extends Middleware {
     });
     const verificationResult = await verificationResponse.json();
     if (!verificationResult.success) {
-      return res.status(400).json({
+      return res.status(400).api({
         message: 'reCAPTCHA verification failed!'
       });
     }

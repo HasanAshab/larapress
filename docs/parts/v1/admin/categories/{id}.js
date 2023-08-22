@@ -4,6 +4,7 @@ module.exports = {
   get: {
     summary: "Get a specific category",
     auth: "admin",
+    cached: false,
     benchmark: {
       async params() {
         return { 

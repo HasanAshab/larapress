@@ -13,10 +13,17 @@ import { generateFromEmail } from "unique-username-generator";
 export default class AuthController {
   async register(req: Request){
     const logo = req.files?.logo;
+    
+    console.log(req.validated)
+    console.log("1")
     const user = await User.create(req.validated);
-    logo && await user.attach("logo", logo as any, true);
+    console.log("2")
+    logo && user.attach("logo", logo as any, true).catch(log);
+    console.log("3")
     const token = user.createToken();
+    console.log("5")
     req.app.emit("Registered", user);
+    console.log("6")
     return {
       status: 201,
       token,
@@ -76,19 +83,11 @@ export default class AuthController {
         code: req.query.code as string,
         redirect_uri: redirectUrl 
       })!;
-      const d = await fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
-        headers: {
-          "Authorization": "Bearer " + tokens.access_token
-        }
-      })
-      console.log(await d.json())
       const ticket = await client.verifyIdToken({
         idToken: tokens.id_token!,
         audience: clientId,
       });
       const { email, picture, sub } = ticket.getPayload()!;
-      console.log(ticket.getPayload())
-      return res.send({})
       const user = await User.findOneAndUpdate(
         { email },
         { 

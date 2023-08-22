@@ -9,13 +9,13 @@ export default class Authenticate extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
     const { verified = true, roles = [] } = this.config
-    
     if (authHeader) {
       const token = authHeader.split(" ")[1];
       if (token) {
         try {
           const decoded = jwt.verify(token, config.get("app.key")) as JwtPayload;
           const user = await User.findById(decoded.userId);
+    console.log(user)
           if (user !== null && user.tokenVersion === decoded.version) {
             if(verified && !user.verified){
               return res.status(401).api({

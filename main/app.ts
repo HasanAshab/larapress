@@ -24,6 +24,10 @@ app.use(multipartParser());
 // Registering mongoose global plugins
 Setup.mongooseGlobalPlugins();
 
+app.use((req, res, next) => {
+  console.log(req.originalUrl);
+  next()
+})
 // Registering global middlewares
 app.use(middleware("helpers.inject"));
 

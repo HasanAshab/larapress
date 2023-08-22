@@ -7,7 +7,7 @@ module.exports = {
     validationPath: 'Auth/ResetPassword',
     benchmark: {
       async setupContext(){
-        const user = await User.findOne();
+        const user = await User.factory().create();
         Mail.mock();
         return { 
           id: user._id,
@@ -16,9 +16,9 @@ module.exports = {
       },
       setupRequest(req) {
         req.body = JSON.stringify({
-          id: this.id
+          id: this.id,
           token: this.token,
-          password: "baz.123456"
+          password: "Baz@123456"
         });
         return req;
       }

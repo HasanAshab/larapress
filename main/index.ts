@@ -4,10 +4,12 @@ import { base } from "helpers";
 import app from "main/app";
 import Setup from "main/Setup";
 import DB from "illuminate/utils/DB";
+import Mail from "illuminate/utils/Mail";
 import https from "https";
 import fs from "fs";
 
 (async () => {
+  Mail.mock()
   process.env.NODE_ENV === "production" && await Setup.cachedConfig();
   // Connecting to database
   if (config.get("db.connect")) {

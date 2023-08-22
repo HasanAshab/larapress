@@ -3,6 +3,7 @@ module.exports = {
     summary: "Change password",
     validationPath: 'Auth/ChangePassword',
     auth: "novice",
+    cached: false,
     benchmark: {
       body: JSON.stringify({
         oldPassword: "password",
