@@ -1,5 +1,4 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
-import { log } from "helpers";
 import config from "config";
 import URL from "illuminate/utils/URL"
 import bcrypt from "bcryptjs";
@@ -59,11 +58,6 @@ const UserSchema = new Schema({
 }
 );
 
-let foo = false;
-UserSchema.post("save", function (user, next) {
-  !foo && Settings.create({ userId: user._id }).then(() => next()).catch(log);
-  foo = true;
-});
 
 
 UserSchema.pre("save", async function(next) {

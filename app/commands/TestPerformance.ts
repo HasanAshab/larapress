@@ -1,6 +1,6 @@
 import Command from "illuminate/commands/Command";
 import { base, generateEndpointsFromDirTree } from "helpers";
-import { execSync, spawn } from "child_process";
+import { exec, spawn } from "child_process";
 import autocannon from "autocannon";
 import DB from "illuminate/utils/DB";
 import URL from "illuminate/utils/URL";
@@ -11,17 +11,19 @@ import fs from "fs";
 
 export default class TestPerformance extends Command {
   private benchmarkRootPath = base("docs/parts");
-/*  private serverProcess = spawn('npm', ['run', 'dev'], {
+  private serverProcess = spawn('npm', ['run', 'dev'], {
     env: { ...process.env, NODE_ENV: "test" }
-  });*/
+  });
   private cachedUsers = {};
   private startTime = Date.now();
   
   async handle(){
     const { connections = 2, workers = 0, stdout = true, version = "v1" } = this.params
-    /*
+    this.info("starting server...");
+
     this.serverProcess.unref();
     process.on("exit", () => {
+      this.info("closing server...");
       this.serverProcess.kill();
       this.info(`Time: ${(Date.now() - this.startTime) / 1000}s`)
     })
@@ -32,7 +34,7 @@ export default class TestPerformance extends Command {
       this.serverProcess.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
       });
-    }*/
+    }
     this.info("connecting to database...");
     await DB.connect();
     this.info("reseting database...");
@@ -41,37 +43,30 @@ export default class TestPerformance extends Command {
       url: URL.resolve(),
       connections: parseInt(connections),
       workers: parseInt(workers),
-      renderProgressBar: false,
       headers: {
         "content-type": "application/json"
       }
     };
     this.info(`parsing benchmarks of ${version}...`);
     config.requests = await this.parseBenchmarks(version, connections, this.params.pattern);
-    //console.log(config.requests)
     if(config.requests.length === 0) {
       this.error("No benchmark matched!");
     }
     config.amount = config.requests.length * parseInt(connections);
     this.info("load test started...");
-    const instance = autocannon(config);
-    //this.subscribeListeners(instance);
-    instance.on("reqError", (...args) => {
-      console.log(args)
-    })
-  instance.on("error", (...args) => {
-        console.log("err")
-      })
-
+    setTimeout(() => {
+      const instance = autocannon(config);
+    instance.on("reqError", console.log)
+    instance.on("error", console.log)
     instance.on("done", async (result) => {
       const outDir = "storage/reports/performance/" + version;
-      execSync("mkdir -p " + outDir);
+      await exec("mkdir -p " + outDir);
       fs.writeFileSync(path.join(outDir, Date.now() + ".json"), JSON.stringify(result, null, 2));
       this.info("clearing database...");
       await DB.reset();
-      this.success("Test report saved at " + outDir);
+      this.success("Test report saved at /storage/reports/performance");
     });
-    autocannon.track(instance)
+    }, 10000);
   }
   
   private async parseBenchmarks(version: string, connections: number, pattern?: string) {
@@ -87,8 +82,8 @@ export default class TestPerformance extends Command {
         const request = doc.benchmark;
         if(!request) continue;
         if(doc.auth) {
-          context.user = await User.factory().create({ role: doc.auth });
-          console.log(context)
+          context.user = await this.getUser(doc);
+          console.log(context.user)
           request.headers = {
             "authorization": "Bearer " + context.user.createToken()
           }
@@ -130,6 +125,14 @@ export default class TestPerformance extends Command {
       }
     }
     return requests;
+  }
+  
+  private async getUser(doc: object) {
+    if(doc.cached === false)
+      return await User.factory().create({ role: doc.auth });
+    if(!this.cachedUsers[doc.auth])
+      this.cachedUsers[doc.auth] = await User.factory().create({ role: doc.auth });
+    return this.cachedUsers[doc.auth];
   }
   
   private resolveDynamicPath(endpoint: string, params: object) {

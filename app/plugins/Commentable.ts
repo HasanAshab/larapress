@@ -32,8 +32,10 @@ export default (schema: Schema) => {
   });
   
   schema.pre<CommentableDocument>(["deleteOne", "deleteMany"], function(next) {
-    this.comments.deleteMany();
-    next();
+    Comment.deleteMany({
+      commentableId: this._id,
+      commentableType: (this.constructor as any).modelName,
+    }).then(() => next());
   });
   
   schema.statics.commentAt = function(id: string, commenter: IUser, text: string) {

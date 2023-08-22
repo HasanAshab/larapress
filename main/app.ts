@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import multipartParser from "express-fileupload";
 import Setup from "main/Setup";
 
+
 const app: Application = express();
 
 // Securing Application From Potential Attacks
@@ -24,10 +25,6 @@ app.use(multipartParser());
 // Registering mongoose global plugins
 Setup.mongooseGlobalPlugins();
 
-app.use((req, res, next) => {
-  console.log(req.originalUrl);
-  next()
-})
 // Registering global middlewares
 app.use(middleware("helpers.inject"));
 
