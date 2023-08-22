@@ -10,8 +10,6 @@ export default class Notification {
   static async send(notifiables: IUser | IUser[], notification: NotificationData) {
     notifiables = Array.isArray(notifiables) ? notifiables: [notifiables];
     for (const notifiable of notifiables) {
-      (notifiable as any).modelName = (notifiable.constructor as any).modelName;
-      console.log(notifiable.constructor)
       const channels = await notification.via(notifiable);
       const settings = await notifiable.settings;
 

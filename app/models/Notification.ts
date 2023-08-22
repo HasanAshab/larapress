@@ -5,6 +5,10 @@ import HumanReadableTime from "app/plugins/HumanReadableTime";
 import { IUser } from "app/models/User";
 
 const NotificationSchema = new Schema({
+  userId: {
+    required: true,
+    type: Schema.Types.ObjectId
+  },
   data: {
     required: true,
     type: Object
@@ -33,11 +37,9 @@ const NotificationSchema = new Schema({
 
 
 NotificationSchema.plugin(HasFactory);
-NotificationSchema.plugin(Polymorphable, "notifiable");
 NotificationSchema.plugin(HumanReadableTime);
 
 export interface INotification extends Document, InferSchemaType<typeof NotificationSchema> {
-  notifiable: IUser;
   markAsRead(): Promise<void>;
 }
 

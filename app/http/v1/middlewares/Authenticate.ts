@@ -15,7 +15,6 @@ export default class Authenticate extends Middleware {
         try {
           const decoded = jwt.verify(token, config.get("app.key")) as JwtPayload;
           const user = await User.findById(decoded.userId);
-    console.log(user)
           if (user !== null && user.tokenVersion === decoded.version) {
             if(verified && !user.verified){
               return res.status(401).api({

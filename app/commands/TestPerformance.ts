@@ -83,7 +83,6 @@ export default class TestPerformance extends Command {
         if(!request) continue;
         if(doc.auth) {
           context.user = await this.getUser(doc);
-          console.log(context.user)
           request.headers = {
             "authorization": "Bearer " + context.user.createToken()
           }

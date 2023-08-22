@@ -9,7 +9,7 @@ module.exports = {
         while(true){
           yield { 
             id: (await Notification.factory().create({
-              notifiableId: this.user._id,
+              userId: this.user._id,
               readAt: null
             }))._id 
           }
@@ -40,7 +40,7 @@ module.exports = {
         while(true){
           yield { 
             id: (await Notification.factory().create({
-              notifiableId: this.user._id,
+              userId: this.user._id,
             }))._id 
           }
         }

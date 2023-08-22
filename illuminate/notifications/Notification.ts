@@ -1,7 +1,8 @@
 import { IUser } from "app/models/User";
 import Mail from "illuminate/utils/Mail";
 import Mailable from "illuminate/mails/Mailable";
-import NotificationModel from "app/models/Notification";
+import Notification from "app/models/Notification";
+import NotificationData from "illuminate/notifications/Notification";
 import notificationConfig from "register/notification";
 
 type NotificationChannel = typeof notificationConfig["channels"][number];
@@ -21,16 +22,20 @@ export default abstract class Notification {
   abstract toSite?(notifiable: IUser): object;
   
   async sendEmail(notifiable: IUser) {
-    this.toEmail && await Mail.to(notifiable.email).send(this.toEmail(notifiable));
+    this.assertProviderExist(this, "toEmail");
+    await Mail.to(notifiable.email).send(this.toEmail(notifiable));
   }
 
   async sendSite(notifiable: IUser) {
-    if(this.toSite){
-      const notification = await NotificationModel.create({
-        notifiableType: (notifiable as any).modelName,
-        notifiableId: notifiable._id,
-        data: this.toSite(notifiable)
-      });
-    }
+    this.assertProviderExist(this, "toSite");
+    await Notification.create({
+      userId: notifiable._id,
+      data: this.toSite(notifiable)
+    });
+  }
+  
+  assertProviderExist(notification: Notification, methodName: string){
+    if(!this[methodName])
+      throw new Error(`${methodName}() is required in notification ${notification.constructor.name}!`);
   }
 }
