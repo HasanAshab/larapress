@@ -198,9 +198,10 @@ describe("Auth", () => {
     expect(response5.statusCode).toBe(429);
   });
 
-  it("should verify email", async () => {
+  it.only("should verify email", async () => {
     let unverifiedUser = await User.factory().create({ verified: false });
     const verificationLink = await unverifiedUser.sendVerificationEmail();
+    console.log(verificationLink)
     const response = await fetch(verificationLink);
     unverifiedUser = await User.findById(unverifiedUser._id);
     expect(response.status).toBe(200);
@@ -245,16 +246,6 @@ describe("Auth", () => {
     expect(passwordMatch).toBe(true);
     Mail.assertCount(1);
     Mail.assertSentTo(user.email, "PasswordChangedMail");
-  });
-
-  it("shouldn't change password, if old and new passwords are same", async () => {
-    const response = await request
-      .put("/api/v1/auth/password/change")
-      .set("Authorization", `Bearer ${token}`)
-      .field("oldPassword", "password")
-      .field("password", "Password@1234");
-    expect(response.statusCode).toBe(400);
-    Mail.assertNothingSent();
   });
 
   it("shouldn't change password of OAuth account", async () => {

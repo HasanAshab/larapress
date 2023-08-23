@@ -7,6 +7,10 @@ const TokenSchema = new Schema({
     required: true,
     type: String
   },
+  data: {
+    type: Object,
+    default: null
+  },
   secret: {
     type: String,
     default: () => crypto.randomBytes(32).toString('hex')
@@ -23,7 +27,9 @@ const TokenSchema = new Schema({
 });
 
 TokenSchema.statics.isValid = async function(key: string, type: string, secret: string) {
+  console.log(key)
   const token = await this.findOne({ key, type, secret });
+  console.log(token)
   if(!token) return false;
   token.expiresAt && this.deleteOne({ _id: token._id });
   return true;

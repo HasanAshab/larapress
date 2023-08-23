@@ -2,6 +2,7 @@ import config from 'config';
 import Token, { IToken } from "app/models/Token";
 import path from "path";
 import urls from "register/urls";
+import crypto from "crypto";
 
 export default class URL {
   static resolve(url_path = ""): string {
@@ -31,24 +32,27 @@ export default class URL {
   static async signedRoute(routeName: keyof typeof urls, data?: Record < string, string | number >, expireAfter?: number): string {
     const fullUrl = this.route(routeName, data);
     const path = fullUrl.replace(this.resolve(), "/");
-    let token: IToken;
-    if(expireAfter) {
-      token = await Token.create({
-        key: path, 
-        type: "urlSignature",
-        expireAt: Date.now() + expireAfter
-      });
-    }
-    else {
-      token = await Token.findOneOrCreate({
-        key: path,
-        type: "urlSignature"
-      });
-    }
+    console.log(fullUrl)
     let [baseUrl, queryString] = fullUrl.split("?");
-    if(queryString) 
-      queryString += "&sign=" + token.secret;
-    else queryString = "?sign=" + token.secret;
-    return baseUrl + queryString;
+    const payload = {
+      type: "urlSignature",
+      data: { fullUrl }
+    }
+    if(!expireAfter) {
+      const token = await Token.findOne(payload);
+      if(token) return token.key;
+    }
+    payload.secret = crypto.randomBytes(32).toString('hex');
+    if(queryString)
+      queryString += "&sign=" + payload.secret;
+    else queryString = "?sign=" + payload.secret;
+    const originalUrl = baseUrl + queryString;
+    console.log(originalUrl) is it same?
+    payload.key = originalUrl;
+    if(expireAfter) {
+      payload.expireAt = Date.now() + expireAfter;
+    }
+    await Token.create(payload);
+    return originalUrl;
   }
 }
