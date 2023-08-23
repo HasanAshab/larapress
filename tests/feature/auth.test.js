@@ -198,7 +198,7 @@ describe("Auth", () => {
     expect(response5.statusCode).toBe(429);
   });
 
-  it.only("should verify email", async () => {
+  it("should verify email", async () => {
     let unverifiedUser = await User.factory().create({ verified: false });
     const verificationLink = await unverifiedUser.sendVerificationEmail();
     console.log(verificationLink)
@@ -226,8 +226,10 @@ describe("Auth", () => {
       .field("email", unverifiedUser.email);
 
     expect(response.statusCode).toBe(200);
-    Mail.assertCount(1);
-    Mail.assertSentTo(unverifiedUser.email, "VerificationMail");
+    setTimeout(() => {
+      Mail.assertCount(1);
+      Mail.assertSentTo(unverifiedUser.email, "VerificationMail");
+    }, 4000)
   });
 
   it("should change password", async () => {

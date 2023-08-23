@@ -32,27 +32,28 @@ export default class URL {
   static async signedRoute(routeName: keyof typeof urls, data?: Record < string, string | number >, expireAfter?: number): string {
     const fullUrl = this.route(routeName, data);
     const path = fullUrl.replace(this.resolve(), "/");
-    console.log(fullUrl)
-    let [baseUrl, queryString] = fullUrl.split("?");
     const payload = {
       type: "urlSignature",
       data: { fullUrl }
     }
     if(!expireAfter) {
-      const token = await Token.findOne(payload);
-      if(token) return token.key;
+      const token = await Token.findOne({
+        type: payload.type,
+        "data.fullUrl": payload.data.fullUrl
+      });
+      if(token) return token.data.originalUrl;
     }
+    let [baseUrl, queryString] = fullUrl.split("?");
     payload.secret = crypto.randomBytes(32).toString('hex');
     if(queryString)
       queryString += "&sign=" + payload.secret;
     else queryString = "?sign=" + payload.secret;
-    const originalUrl = baseUrl + queryString;
-    console.log(originalUrl) is it same?
-    payload.key = originalUrl;
+    payload.data.originalUrl = baseUrl + queryString;
+    payload.key = path + queryString;
     if(expireAfter) {
-      payload.expireAt = Date.now() + expireAfter;
+      payload.expiresAt = Date.now() + expireAfter;
     }
     await Token.create(payload);
-    return originalUrl;
+    return payload.data.originalUrl;
   }
 }

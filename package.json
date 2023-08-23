@@ -1,4 +1,8 @@
 {
+  "_moduleAliases": {
+    "~": "."
+  },
+  "_moduleDirectories": ["./illuminate/utils"],
   "name": "larapress",
   "version": "1.0.4",
   "description": "This is a Feature-Rich boilerplate of Express inspired by Laravel. it is more optimal for big projects. it has own CLI (Artisan) with builtin commands",
@@ -35,6 +39,7 @@
     "joi": "^17.9.1",
     "jsonwebtoken": "^9.0.0",
     "memory-cache": "^0.2.0",
+    "module-alias": "^2.2.3",
     "mongoose": "^7.0.3",
     "mongoose-hidden": "^1.9.1",
     "newrelic": "^10.5.0",

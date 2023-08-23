@@ -1,8 +1,11 @@
+//import 'module-alias/register';
 import "dotenv/config"
 import config from 'config';
 import { base } from "helpers";
+//import app from "~/main/app";
 import app from "main/app";
 import Setup from "main/Setup";
+//import DB from "DB";
 import DB from "illuminate/utils/DB";
 import Mail from "illuminate/utils/Mail";
 import https from "https";
