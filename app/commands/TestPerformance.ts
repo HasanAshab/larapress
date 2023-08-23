@@ -11,16 +11,16 @@ import fs from "fs";
 
 export default class TestPerformance extends Command {
   private benchmarkRootPath = base("docs/parts");
-  private serverProcess = spawn('npm', ['run', 'dev'], {
+ /* private serverProcess = spawn('npm', ['run', 'dev'], {
     env: { ...process.env, NODE_ENV: "test" }
-  });
+  });*/
   private cachedUsers = {};
   private startTime = Date.now();
   
   async handle(){
-    const { connections = 2, workers = 0, stdout = true, version = "v1" } = this.params
+    const { connections = 2, amount, workers = 0, stdout = true, version = "v1" } = this.params
     this.info("starting server...");
-
+/*
     this.serverProcess.unref();
     process.on("exit", () => {
       this.info("closing server...");
@@ -34,7 +34,7 @@ export default class TestPerformance extends Command {
       this.serverProcess.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
       });
-    }
+    }*/
     this.info("connecting to database...");
     await DB.connect();
     this.info("reseting database...");
@@ -52,7 +52,7 @@ export default class TestPerformance extends Command {
     if(config.requests.length === 0) {
       this.error("No benchmark matched!");
     }
-    config.amount = config.requests.length * parseInt(connections);
+    config.amount = amount ?? config.requests.length * parseInt(connections);
     this.info("load test started...");
     setTimeout(() => {
       const instance = autocannon(config);
@@ -66,7 +66,8 @@ export default class TestPerformance extends Command {
       await DB.reset();
       this.success("Test report saved at /storage/reports/performance");
     });
-    }, 10000);
+    }, 1);
+    //}, 10000);
   }
   
   private async parseBenchmarks(version: string, connections: number, pattern?: string) {

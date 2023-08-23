@@ -10,8 +10,8 @@ export default class URL {
   }
 
   static client(url_path: string = ""): string {
-    const { domain, port } = config.get("client");
-    return `https://${path.join(`${domain}:${port}`, url_path)}`;
+    const { domain, port, protocol } = config.get("client");
+    return `${protocol}://${path.join(`${domain}:${port}`, url_path)}`;
   }
 
   static route(name: keyof typeof urls, data?: Record < string, string | number >): string {

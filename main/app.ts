@@ -5,14 +5,14 @@ import helmet from "helmet";
 import bodyParser from "body-parser";
 import multipartParser from "express-fileupload";
 import Setup from "main/Setup";
-
+import URL from "illuminate/utils/URL";
 
 const app: Application = express();
 
 // Securing Application From Potential Attacks
 app.use(cors({
 // Domains that can only access the API
-  origin: ["http://localhost:3000"]
+  origin: [URL.client()] 
 }));
 app.use(helmet())
 app.use("*", middleware("maintenance.check", ["limit", {time: 60 * 1000, count: 60}]))

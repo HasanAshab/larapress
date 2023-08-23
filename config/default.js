@@ -3,13 +3,14 @@ module.exports = {
     name: "Samer",
     protocol: "http",
     domain: "127.0.0.1",
-    port: 8000,
+    port: process.env.PORT,
     key: "621f6b72ebfdfdb50d3f20c97515e9454043b9789550b4e913e3847d4fcc5eec",
     state: "up"
   },
   client: {
-    domain: "127.0.0.1",
-    port: 3000
+    protocol: "http",
+    domain: "localhost",
+    port: 5000
   },
   stripe: {
     key: "sk_test_51MGknmLkLQPFd1VwBCU9EYKJC6NRwY4Y2pJuuo3nPVJlUCLgUBfbY5sOEpkA8oKJkAQ1XTKRlFboNKGZeTgqoMFw00OfAl908c"
