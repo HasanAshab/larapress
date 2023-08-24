@@ -10,4 +10,8 @@ global.fakeFile = (name) => {
   return `storage/test_files/${name}`;
 };
 
+const server = require("main").default;
+global.request = require("supertest")(server);
+
+
 global.resetDatabase = DB.reset;

@@ -19,7 +19,7 @@ describe("Auth", () => {
   });
 
   beforeEach(async () => {
-    await resetDatabase();
+    await DB.reset();
     Mail.mock();
     user = await User.factory().create();
     token = user.createToken();

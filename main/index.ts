@@ -11,14 +11,16 @@ import Mail from "illuminate/utils/Mail";
 import https from "https";
 import fs from "fs";
 
+let server;
 (async () => {
   Mail.mock()
+  const log = process.env.NODE_ENV === "development";
   process.env.NODE_ENV === "production" && await Setup.cachedConfig();
   // Connecting to database
   if (config.get("db.connect")) {
-    console.log("Connecting to database...");
+    log && console.log("Connecting to database...");
     await DB.connect();
-    console.log("DB connected!");
+    log && console.log("DB connected!");
   }
   
   // Registering Mongoose Models
@@ -28,18 +30,18 @@ import fs from "fs";
   Setup.cronJobs();
   
   const port = config.get("app.port");
-  const server = app.listen(port, () => {
-    console.log(`Server running on [http://127.0.0.1:${port}] ...`);
+  server = app.listen(port, () => {
+    log && console.log(`Server running on [http://127.0.0.1:${port}] ...`);
   });
   
-  if (process.env.NODE_ENV === "development") {
-    server.on("connection", (socket) => {
-      const now = new Date();
-      const time = now.toLocaleTimeString("en-US", {
-        hour12: true
-      });
-      console.log(`*New connection: [${time}]`);
+  log && server.on("connection", (socket) => {
+    const now = new Date();
+    const time = now.toLocaleTimeString("en-US", {
+      hour12: true
     });
-  }
-  
+    console.log(`*New connection: [${time}]`);
+  });
+
 })();
+
+export default server;
