@@ -2,15 +2,15 @@ import { Schema, Document } from "mongoose";
 import { customError } from "helpers";
 import config from "config";
 import twilio from "twilio";
-import otpConfig from "register/otp"
-import OTP from "app/models/OTP";
-import Token from "app/models/Token";
-import Mail from "illuminate/utils/Mail"
-import URL from "illuminate/utils/URL"
+import otpConfig from "~/register/otp"
+import OTP from "~/app/models/OTP";
+import Token from "~/app/models/Token";
+import Mail from "Mail"
+import URL from "URL"
 import bcrypt from "bcryptjs";
-import VerificationMail from "app/mails/VerificationMail";
-import ForgotPasswordMail from "app/mails/ForgotPasswordMail";
-import PasswordChangedMail from "app/mails/PasswordChangedMail";
+import VerificationMail from "~/app/mails/VerificationMail";
+import ForgotPasswordMail from "~/app/mails/ForgotPasswordMail";
+import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
 
 
 export interface AuthenticatableDocument extends Document {

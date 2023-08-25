@@ -3,17 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateEndpointsFromDirTree = exports.getModels = exports.customError = exports.checkProperties = exports.getVersion = exports.log = exports.env = exports.controller = exports.middleware = exports.storage = exports.deepMerge = exports.toSnakeCase = exports.toCamelCase = exports.capitalizeFirstLetter = exports.base = void 0;
+exports.generateEndpointsFromDirTree = exports.getModels = exports.customError = exports.checkProperties = exports.getVersion = exports.log = exports.env = exports.controller = exports.middleware = exports.storage = exports.deepMerge = exports.toSnakeCase = exports.toCamelCase = exports.capitalizeFirstLetter = void 0;
 const config_1 = __importDefault(require("config"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-const middlewares_1 = __importDefault(require("register/middlewares"));
-const errors_1 = __importDefault(require("register/errors"));
-function base(basePath = "") {
-    return path_1.default.join(__dirname, basePath);
-}
-exports.base = base;
+const middlewares_1 = __importDefault(require("~/register/middlewares"));
+const errors_1 = __importDefault(require("~/register/errors"));
 function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -112,9 +108,7 @@ function controller(name, version = getVersion()) {
         };
         const validationSubPath = `${controllerPrefix}/${capitalizeFirstLetter(methodName)}`;
         handlerAndValidatorStack[methodName] = [
-            ...middleware(["validate", {
-                    version, validationSubPath
-                }]),
+            ...middleware(["validate", { version, validationSubPath }]),
             requestHandler
         ];
     }
@@ -200,9 +194,9 @@ function customError(type, data) {
 exports.customError = customError;
 async function getModels() {
     const models = [];
-    const modelNames = await fs_1.default.promises.readdir(base("app/models"));
+    const modelNames = await fs_1.default.promises.readdir("app/models");
     for (const modelName of modelNames) {
-        const Model = require(base(`app/models/${modelName}`)).default;
+        const Model = require(`~/app/models/${modelName}`).default;
         models.push(Model);
     }
     return models;

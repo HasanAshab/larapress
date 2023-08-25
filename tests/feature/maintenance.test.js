@@ -1,5 +1,3 @@
-const app = require("main/app").default;
-const request = require("supertest")(app);
 const config = require("config");
 
 describe("App", () => {

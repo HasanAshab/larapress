@@ -1,6 +1,6 @@
 import { ValidationSchema } from "types";
 import Joi from "joi";
-import notificationConfig from "register/notification";
+import notificationConfig from "~/register/notification";
 
 const channelsSchema: any = {}
 for(const channel of notificationConfig.channels){

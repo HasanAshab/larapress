@@ -1,8 +1,8 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
-import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
-import Polymorphable from "app/plugins/Polymorphable";
-import User, { IUser } from "app/models/User";
-import Reply, { IReply } from "app/models/Reply";
+import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
+import Polymorphable from "~/app/plugins/Polymorphable";
+import User, { IUser } from "~/app/models/User";
+import Reply, { IReply } from "~/app/models/Reply";
 
 const CommentSchema = new Schema({
   text: {

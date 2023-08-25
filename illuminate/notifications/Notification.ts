@@ -1,9 +1,9 @@
-import { IUser } from "app/models/User";
-import Mail from "illuminate/utils/Mail";
-import Mailable from "illuminate/mails/Mailable";
-import Notification from "app/models/Notification";
-import NotificationData from "illuminate/notifications/Notification";
-import notificationConfig from "register/notification";
+import { IUser } from "~/app/models/User";
+import Mail from "Mail";
+import Mailable from "~/illuminate/mails/Mailable";
+import Notification from "~/app/models/Notification";
+import NotificationData from "~/illuminate/notifications/Notification";
+import notificationConfig from "~/register/notification";
 
 type NotificationChannel = typeof notificationConfig["channels"][number];
 type NotificationTypes = typeof notificationConfig["types"][number];

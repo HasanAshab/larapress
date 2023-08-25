@@ -1,5 +1,5 @@
-import { IUser } from "app/models/User";
-import NotificationData from "illuminate/notifications/Notification";
+import { IUser } from "~/app/models/User";
+import NotificationData from "~/illuminate/notifications/Notification";
 import expect from "expect";
 
 export default class Mockable {

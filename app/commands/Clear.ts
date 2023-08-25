@@ -1,9 +1,9 @@
-import Command from "illuminate/commands/Command";
+import Command from "~/illuminate/commands/Command";
 import { storage, log } from "helpers";
 import fs from "fs";
 import path from "path";
-import Cache from "illuminate/utils/Cache";
-import cacheConfig from "register/cache";
+import Cache from "Cache";
+import cacheConfig from "~/register/cache";
 import { execSync } from "child_process";
 
 export default class Clear extends Command {

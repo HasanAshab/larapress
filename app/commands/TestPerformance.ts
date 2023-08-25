@@ -1,16 +1,16 @@
-import Command from "illuminate/commands/Command";
-import { base, generateEndpointsFromDirTree } from "helpers";
+import Command from "~/illuminate/commands/Command";
+import { generateEndpointsFromDirTree } from "helpers";
 import { exec, spawn } from "child_process";
 import autocannon from "autocannon";
-import DB from "illuminate/utils/DB";
-import URL from "illuminate/utils/URL";
-import User from "app/models/User";
+import DB from "DB";
+import URL from "URL";
+import User from "~/app/models/User";
 import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
 
 export default class TestPerformance extends Command {
-  private benchmarkRootPath = base("docs/parts");
+  private benchmarkRootPath = "docs/parts";
  /* private serverProcess = spawn('npm', ['run', 'dev'], {
     env: { ...process.env, NODE_ENV: "test" }
   });*/
@@ -71,7 +71,6 @@ export default class TestPerformance extends Command {
   }
   
   private async parseBenchmarks(version: string, connections: number, pattern?: string) {
-    global.base = base;
     const requests = [];
     const endpointPathPair = generateEndpointsFromDirTree(path.join(this.benchmarkRootPath, version));
     for(const [endpoint, path] of Object.entries(endpointPathPair)){

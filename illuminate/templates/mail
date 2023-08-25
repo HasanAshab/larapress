@@ -1,4 +1,4 @@
-import Mailable from "illuminate/mails/Mailable";
+import Mailable from "~/illuminate/mails/Mailable";
 
 export default class {{name}} extends Mailable {
   view = "{{name}}";

@@ -1,5 +1,3 @@
-const app = require("main/app").default;
-const request = require("supertest")(app);
 const DB = require("illuminate/utils/DB").default;
 const User = require("app/models/User").default;
 const Category = require("app/models/Category").default;
@@ -14,7 +12,7 @@ describe("Category", () => {
   });
   
   beforeEach(async () => {
-    await resetDatabase();
+    await DB.reset();
     admin = await User.factory().create({ role: "admin" });
     token = admin.createToken();
   });

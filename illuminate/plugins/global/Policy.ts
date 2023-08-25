@@ -1,8 +1,7 @@
-import { base } from "helpers";
 import { Schema, Document } from "mongoose";
 
 const getPolicyFor = (modelName: string) => {
-  const Policy = require(base(`app/policies/${modelName}Policy`)).default;
+  const Policy = require(`~/app/policies/${modelName}Policy`).default;
   return new Policy();
 };
 

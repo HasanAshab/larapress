@@ -1,5 +1,3 @@
-const app = require("main/app").default;
-const request = require("supertest")(app);
 const DB = require("illuminate/utils/DB").default;
 const User = require("app/models/User").default;
 const Storage = require("illuminate/utils/Storage").default;
@@ -14,7 +12,7 @@ describe("user", () => {
   });
   
   beforeEach(async () => {
-    await resetDatabase();
+    await DB.reset();
     user = await User.factory().create();
     token = user.createToken();
     Mail.mock();

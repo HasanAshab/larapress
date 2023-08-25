@@ -4,22 +4,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
+require("module-alias/register");
 const config_1 = __importDefault(require("config"));
-const app_1 = __importDefault(require("main/app"));
-const Setup_1 = __importDefault(require("main/Setup"));
-const DB_1 = __importDefault(require("illuminate/utils/DB"));
+const app_1 = __importDefault(require("~/main/app"));
+const Setup_1 = __importDefault(require("~/main/Setup"));
+const Mail_1 = __importDefault(require("Mail"));
 (async () => {
+    Mail_1.default.mock();
+    const log = process.env.NODE_ENV === "development";
     process.env.NODE_ENV === "production" && await Setup_1.default.cachedConfig();
     // Connecting to database
     if (config_1.default.get("db.connect")) {
-        console.log("Connecting to database...");
-        DB_1.default.connect()
-            .then(() => {
-            console.log("DB connected!");
-        })
-            .catch((err) => {
-            console.log(err);
-        });
+        log && console.log("Connecting to database...");
+        // await DB.connect();
+        log && console.log("DB connected!");
     }
     // Registering Mongoose Models
     Setup_1.default.mongooseModels();
@@ -27,15 +25,14 @@ const DB_1 = __importDefault(require("illuminate/utils/DB"));
     Setup_1.default.cronJobs();
     const port = config_1.default.get("app.port");
     const server = app_1.default.listen(port, () => {
-        console.log(`Server running on [http://127.0.0.1:${port}] ...`);
+        log && console.log(`Server running on [http://127.0.0.1:${port}] ...`);
     });
-    if (process.env.NODE_ENV === "development") {
-        server.on("connection", (socket) => {
-            const now = new Date();
-            const time = now.toLocaleTimeString("en-US", {
-                hour12: true
-            });
-            console.log(`*New connection: [${time}]`);
+    log && server.on("connection", (socket) => {
+        const now = new Date();
+        const time = now.toLocaleTimeString("en-US", {
+            hour12: true
         });
-    }
+        console.log(`*New connection: [${time}]`);
+    });
+    return server;
 })();

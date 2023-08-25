@@ -1,6 +1,6 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
-import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
-import Attachable, { AttachableDocument } from "app/plugins/Attachable";
+import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
+import Attachable, { AttachableDocument } from "~/app/plugins/Attachable";
 
 const CategorySchema = new Schema(
 {

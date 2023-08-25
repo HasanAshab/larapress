@@ -1,9 +1,9 @@
 import { base } from "helpers";
-import Command from "illuminate/commands/Command";
+import Command from "~/illuminate/commands/Command";
 import { execSync } from "child_process";
-import DB from "illuminate/utils/DB";
-import User from "app/models/User";
-import components from "register/components";
+import DB from "DB";
+import User from "~/app/models/User";
+import components from "~/register/components";
 import fs from "fs";
 import path from "path";
 

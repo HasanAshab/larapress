@@ -1,4 +1,4 @@
-import Factory from "illuminate/factories/Factory";
+import Factory from "~/illuminate/factories/Factory";
 
 export default class UserFactory extends Factory {
   definition() {

@@ -1,11 +1,11 @@
 import { base } from "helpers";
-import URL from "illuminate/utils/URL"
-import Command from "illuminate/commands/Command";
+import URL from "URL"
+import Command from "~/illuminate/commands/Command";
 import { exec } from "child_process";
-import app from "main/app";
+import app from "~/main/app";
 import fs from "fs";
 import swaggerUi from "swagger-ui-express";
-import docs from "docs/parse";
+import docs from "~/docs/parse";
 
 
 export default class GenerateDoc extends Command {

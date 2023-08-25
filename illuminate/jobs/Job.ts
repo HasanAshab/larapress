@@ -1,4 +1,4 @@
-import Queue from "illuminate/queue/Queue";
+import Queue from "~/illuminate/queue/Queue";
 
 export default abstract class Job {
   abstract dispatch(data: object): Promise<void>

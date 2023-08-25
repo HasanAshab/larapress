@@ -1,5 +1,5 @@
 import { Request } from "express";
-import Category from "app/models/Category";
+import Category from "~/app/models/Category";
 
 export default class CategoryController {
   async index(req: Request) {

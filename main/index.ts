@@ -1,17 +1,13 @@
+import "dotenv/config";
 //import 'module-alias/register';
-import "dotenv/config"
 import config from 'config';
-import { base } from "helpers";
-//import app from "~/main/app";
-import app from "main/app";
-import Setup from "main/Setup";
-//import DB from "DB";
-import DB from "illuminate/utils/DB";
-import Mail from "illuminate/utils/Mail";
+import app from "~/main/app";
+import Setup from "~/main/Setup";
+import DB from "DB";
+import Mail from "Mail";
 import https from "https";
 import fs from "fs";
 
-let server;
 (async () => {
   Mail.mock()
   const log = process.env.NODE_ENV === "development";
@@ -19,7 +15,7 @@ let server;
   // Connecting to database
   if (config.get("db.connect")) {
     log && console.log("Connecting to database...");
-    await DB.connect();
+   // await DB.connect();
     log && console.log("DB connected!");
   }
   
@@ -30,7 +26,7 @@ let server;
   Setup.cronJobs();
   
   const port = config.get("app.port");
-  server = app.listen(port, () => {
+  const server = app.listen(port, () => {
     log && console.log(`Server running on [http://127.0.0.1:${port}] ...`);
   });
   
@@ -41,7 +37,5 @@ let server;
     });
     console.log(`*New connection: [${time}]`);
   });
-
+  return server;
 })();
-
-export default server;

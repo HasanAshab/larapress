@@ -1,5 +1,5 @@
-import Factory from "illuminate/factories/Factory";
-import User from "app/models/User";
+import Factory from "~/illuminate/factories/Factory";
+import User from "~/app/models/User";
 
 export default class VoteFactory extends Factory {
   definition() {

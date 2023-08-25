@@ -1,6 +1,6 @@
 import { ValidationSchema } from "types";
 import Joi from "joi";
-import otpConfig from "register/otp"
+import otpConfig from "~/register/otp"
 
 const schema: ValidationSchema = {
   urlencoded: {

@@ -1,9 +1,9 @@
-import Middleware from "illuminate/middlewares/Middleware";
+import Middleware from "~/illuminate/middlewares/Middleware";
 import { customError } from "helpers";
 import { Request, Response, NextFunction } from "express";
 import config from "config";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import User from "app/models/User";
+import User from "~/app/models/User";
 
 export default class Authenticate extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {

@@ -1,5 +1,5 @@
 import { Request } from "express";
-import User from "app/models/User";
+import User from "~/app/models/User";
 
 export default class UserController {
   async index(req: Request) {

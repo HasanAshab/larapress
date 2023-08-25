@@ -1,7 +1,7 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
-import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
-import User, { IUser } from "app/models/User";
-import Comment, { IComment } from "app/models/Comment";
+import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
+import User, { IUser } from "~/app/models/User";
+import Comment, { IComment } from "~/app/models/Comment";
 
 const ReplySchema = new Schema({
   commentId: {

@@ -1,6 +1,6 @@
-import User, { IUser } from "app/models/User";
-import NewUserJoined from "app/notifications/NewUserJoined";
-import Notification from "illuminate/utils/Notification";
+import User, { IUser } from "~/app/models/User";
+import NewUserJoined from "~/app/notifications/NewUserJoined";
+import Notification from "Notification";
 
 export default class SendNewUserJoinedNotificationToAdmins {
   async dispatch(user: IUser){

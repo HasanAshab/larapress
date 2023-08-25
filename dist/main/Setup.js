@@ -9,10 +9,10 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const mongoose_hidden_1 = __importDefault(require("mongoose-hidden"));
 const helpers_1 = require("helpers");
 const node_cron_1 = __importDefault(require("node-cron"));
-const Artisan_1 = __importDefault(require("illuminate/utils/Artisan"));
-const Cache_1 = __importDefault(require("illuminate/utils/Cache"));
-const events_1 = __importDefault(require("register/events"));
-const cron_1 = __importDefault(require("register/cron"));
+const Artisan_1 = __importDefault(require("Artisan"));
+const Cache_1 = __importDefault(require("Cache"));
+const events_1 = __importDefault(require("~/register/events"));
+const cron_1 = __importDefault(require("~/register/cron"));
 class Setup {
     static async cachedConfig() {
         const customConfig = await Cache_1.default.driver("redis").get("config");
@@ -36,7 +36,7 @@ class Setup {
     static events(app) {
         for (const [event, listenerNames] of Object.entries(events_1.default)) {
             for (const listenerName of listenerNames) {
-                const Listener = require((0, helpers_1.base)(`app/listeners/${listenerName}`)).default;
+                const Listener = require(`~/app/listeners/${listenerName}`).default;
                 const listenerInstance = new Listener();
                 app.on(event, listenerInstance.dispatch.bind(listenerInstance));
             }
@@ -44,25 +44,25 @@ class Setup {
     }
     ;
     static routes(app) {
-        const routesRootPath = (0, helpers_1.base)("routes");
+        const routesRootPath = "routes";
         const routesEndpointPaths = (0, helpers_1.generateEndpointsFromDirTree)(routesRootPath);
         for (const [endpoint, path] of Object.entries(routesEndpointPaths)) {
-            app.use(endpoint, require(path).default);
+            app.use(endpoint, require("~/" + path).default);
         }
     }
     ;
     static mongooseModels() {
-        const modelsBaseDir = (0, helpers_1.base)("app/models");
+        const modelsBaseDir = "app/models";
         const modelsName = fs_1.default.readdirSync(modelsBaseDir);
         for (const modelName of modelsName) {
-            require(modelsBaseDir + "/" + modelName);
+            require("~/" + modelsBaseDir + "/" + modelName);
         }
     }
     static mongooseGlobalPlugins() {
-        const globalPluginsBaseDir = (0, helpers_1.base)("illuminate/plugins/global");
+        const globalPluginsBaseDir = "illuminate/plugins/global";
         const globalPluginsName = fs_1.default.readdirSync(globalPluginsBaseDir);
         for (const globalPluginName of globalPluginsName) {
-            const plugin = require(globalPluginsBaseDir + "/" + globalPluginName).default;
+            const plugin = require("~/" + globalPluginsBaseDir + "/" + globalPluginName).default;
             mongoose_1.default.plugin(plugin);
         }
         mongoose_1.default.plugin((0, mongoose_hidden_1.default)(), { hidden: { _id: false } });

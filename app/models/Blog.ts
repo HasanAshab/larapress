@@ -1,9 +1,8 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
-import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
-import Commentable, { CommentableDocument, CommentableModel } from "app/plugins/Commentable";
-//import Voteable, { VoteableDocument } from "app/plugins/Voteable";
-import Polymorphable from "app/plugins/Polymorphable";
-import { IUser } from "app/models/User";
+import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
+import Commentable, { CommentableDocument, CommentableModel } from "~/app/plugins/Commentable";
+import Polymorphable from "~/app/plugins/Polymorphable";
+import { IUser } from "~/app/models/User";
 
 const BlogSchema = new Schema(
 {

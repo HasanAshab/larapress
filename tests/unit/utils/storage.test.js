@@ -1,4 +1,4 @@
-const Storage = require(base("illuminate/utils/Storage")).default;
+const Storage = require("~/illuminate/utils/Storage").default;
 const fs = require("fs");
 
 describe("storage", () => {

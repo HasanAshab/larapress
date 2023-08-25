@@ -1,7 +1,7 @@
 import { Schema, Document } from "mongoose";
-import NotificationClass from "illuminate/notifications/Notification";
-import Notification from "illuminate/utils/Notification";
-import NotificationModel, { INotification, NotificationQuery } from "app/models/Notification";
+import NotificationClass from "~/illuminate/notifications/Notification";
+import Notification from "Notification";
+import NotificationModel, { INotification, NotificationQuery } from "~/app/models/Notification";
 
 export interface NotifiableDocument extends Document {
   notifications: NotificationQuery;

@@ -1,9 +1,6 @@
 import { ArtisanBaseInput } from "types" 
-import {
-  base,
-  customError
-} from "helpers";
-import commands from "register/commands";
+import { customError } from "helpers";
+import commands from "~/register/commands";
 
 export default class Artisan {
   static async call(baseInput: ArtisanBaseInput, args: string[], fromShell = true) {
@@ -12,7 +9,7 @@ export default class Artisan {
     const commandName = commands[commandKey as keyof typeof commands];
     if (typeof commandName === "undefined") throw customError("COMMAND_NOT_FOUND");
 
-    const CommandClass = require(base(`app/commands/${commandName}`))?.default;
+    const CommandClass = require(`~/app/commands/${commandName}`)?.default;
 
     const commandClass = new CommandClass(subCommand, fromShell, flags, params);
     const handler = commandClass[subCommand] || commandClass.handle;

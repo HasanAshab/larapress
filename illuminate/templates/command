@@ -1,4 +1,4 @@
-import Command from "illuminate/commands/Command";
+import Command from "~/illuminate/commands/Command";
 
 export default class {{name}} extends Command {
   async handle(){

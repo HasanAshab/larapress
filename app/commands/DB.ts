@@ -1,8 +1,8 @@
-import { base, getModels } from "helpers";
-import Command from "illuminate/commands/Command";
+import { getModels } from "helpers";
+import Command from "~/illuminate/commands/Command";
 import mongoose from "mongoose";
 import fs from "fs";
-import Database from "illuminate/utils/DB";
+import Database from "DB";
 
 export default class DB extends Command {
   async wipe(){
@@ -20,7 +20,7 @@ export default class DB extends Command {
     }
     else {
       this.info(`Clearing Model ${model}...`)
-      const Model = require(base(`app/models/${model}`)).default;
+      const Model = require(`~/app/models/${model}`).default;
       await Model.deleteMany({});
     }
     this.success("Done!");
@@ -32,7 +32,7 @@ export default class DB extends Command {
     const { model, count, ...others} = this.params;
     console.log(model)
     try {
-      const Model = require(base(`app/models/${model}`)).default;
+      const Model = require(`~/app/models/${model}`).default;
       this.info("Seeding started...");
       if(typeof Model.factory === "undefined") this.error(`Use "HasFactory" Plugin on ${model} model.`)
       await Model.factory(count).create(others)

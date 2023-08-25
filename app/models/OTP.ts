@@ -1,5 +1,5 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
-import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
+import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 
 const OTPSchema = new Schema(
 {

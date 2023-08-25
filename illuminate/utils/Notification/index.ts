@@ -1,8 +1,8 @@
-import Queue from "illuminate/queue/Queue";
-import NotificationData from "illuminate/notifications/Notification";
-import Mockable from "illuminate/utils/Notification/Mockable";
-import { util } from "illuminate/decorators/class";
-import { IUser } from "app/models/User";
+import Queue from "~/illuminate/queue/Queue";
+import NotificationData from "~/illuminate/notifications/Notification";
+import Mockable from "~/illuminate/utils/Notification/Mockable";
+import { util } from "~/illuminate/decorators/class";
+import { IUser } from "~/app/models/User";
 import { capitalizeFirstLetter } from "helpers";
 
 @util(Mockable)

@@ -1,9 +1,8 @@
-import { base } from "helpers";
 import { Recipient } from "types";
-import { util } from "illuminate/decorators/class";
+import { util } from "~/illuminate/decorators/class";
 import config from 'config';
-import Mockable from "illuminate/utils/Mail/Mockable";
-import Mailable from "illuminate/mails/Mailable";
+import Mockable from "~/illuminate/utils/Mail/Mockable";
+import Mailable from "~/illuminate/mails/Mailable";
 import { createTransport, Transporter, SendMailOptions, TransportOptions } from "nodemailer";
 import { create as createHandlebars } from "express-handlebars";
 import nodemailerHbs from "nodemailer-express-handlebars";
@@ -41,10 +40,10 @@ export default class Mail {
         viewEngine: createHandlebars({
           extname: ".handlebars",
           defaultLayout: "main",
-          layoutsDir: base("views/layouts"),
-          partialsDir: base("views/partials"),
+          layoutsDir: "~/views/layouts",
+          partialsDir: "~/views/partials",
         }),
-        viewPath: base("views/emails"),
+        viewPath: "~/views/emails",
         extName: ".handlebars",
       })
     );

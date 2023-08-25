@@ -14,8 +14,8 @@ module.exports = {
     "./tests/registerHelpers.js",
     "./tests/customMatchers.js"
   ],
-  modulePaths: [compilerOptions.baseUrl],
+  modulePaths: ["<rootDir>"],
   preset: "ts-jest",
   testEnvironment: "node",
-  forceExit: true
+  forceExit: true,
 };

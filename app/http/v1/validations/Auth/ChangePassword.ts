@@ -1,6 +1,4 @@
-import {
-  ValidationSchema
-} from "types";
+import { ValidationSchema } from "types";
 import Joi from "joi";
 
 const schema: ValidationSchema = {

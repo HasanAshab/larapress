@@ -4,13 +4,10 @@ import config from "config";
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
-import middlewarePairs from "register/middlewares";
-import customErrors from "register/errors";
+import middlewarePairs from "~/register/middlewares";
+import customErrors from "~/register/errors";
 import mongoose from "mongoose";
 
-export function base(basePath = "") {
-  return path.join(__dirname, basePath);
-}
 
 export function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -191,9 +188,9 @@ export function customError(type: keyof typeof customErrors, data?: object): Err
 
 export async function getModels(): Promise < Model < any > [] > {
   const models: Model < any > [] = []
-  const modelNames = await fs.promises.readdir(base("app/models"));
+  const modelNames = await fs.promises.readdir("app/models");
   for (const modelName of modelNames) {
-    const Model = require(base(`app/models/${modelName}`)).default;
+    const Model = require(`~/app/models/${modelName}`).default;
     models.push(Model);
   }
   return models;

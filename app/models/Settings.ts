@@ -1,7 +1,7 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
-import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
-import notificationConfig from "register/notification";
-import otpConfig from "register/otp"
+import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
+import notificationConfig from "~/register/notification";
+import otpConfig from "~/register/otp"
 
 const schemaData: any = {
   userId: {

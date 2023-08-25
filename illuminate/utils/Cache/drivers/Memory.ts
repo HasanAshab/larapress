@@ -1,4 +1,4 @@
-import Driver from "illuminate/utils/Cache/Driver";
+import Driver from "~/illuminate/utils/Cache/Driver";
 import memoryCache from "memory-cache";
 import { CacheDataArg } from "types";
 

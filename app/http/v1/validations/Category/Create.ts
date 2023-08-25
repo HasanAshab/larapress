@@ -1,7 +1,7 @@
 import { ValidationSchema } from "types";
 import Joi from "joi";
-import FileValidator from "illuminate/utils/FileValidator";
-import Category from "app/models/Category";
+import FileValidator from "FileValidator";
+import Category from "~/app/models/Category";
 
 const schema: ValidationSchema = {
   urlencoded: {

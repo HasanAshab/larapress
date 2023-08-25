@@ -1,8 +1,8 @@
 import { Schema, Document } from "mongoose";
-import Attachment, { IAttachment, AttachmentQuery } from "app/models/Attachment";
+import Attachment, { IAttachment, AttachmentQuery } from "~/app/models/Attachment";
 import { UploadedFile } from "express-fileupload";
-import Storage from "illuminate/utils/Storage"
-import URL from "illuminate/utils/URL"
+import Storage from "Storage"
+import URL from "URL"
 import { promises as fs } from "fs"
 
 export interface AttachableDocument extends Document {

@@ -1,11 +1,11 @@
-import { base, middleware } from "helpers";
+import { middleware } from "helpers";
 import express, { Application } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import bodyParser from "body-parser";
 import multipartParser from "express-fileupload";
-import Setup from "main/Setup";
-import URL from "illuminate/utils/URL";
+import Setup from "~/main/Setup";
+import URL from "URL";
 
 const app: Application = express();
 
@@ -35,7 +35,7 @@ Setup.events(app);
 Setup.routes(app);
 
 // Serving static folder
-app.use("/static", express.static(base("storage/public/static")));
+//app.use("/static", express.static("~/storage/public/static"));
 
 // Registering global error handling middleware
 app.use(middleware("error.handle"));

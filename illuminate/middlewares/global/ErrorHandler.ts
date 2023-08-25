@@ -1,4 +1,4 @@
-import Middleware from "illuminate/middlewares/Middleware";
+import Middleware from "~/illuminate/middlewares/Middleware";
 import { Request, Response, NextFunction } from "express";
 import { log } from "helpers";
 import mongoose from "mongoose";

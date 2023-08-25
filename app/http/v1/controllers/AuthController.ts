@@ -2,11 +2,11 @@ import { Request, Response } from "express";
 import { log } from "helpers";
 import config from "config"
 import bcrypt from "bcryptjs";
-import User from "app/models/User";
-import URL from "illuminate/utils/URL";
-import Cache from "illuminate/utils/Cache";
-import Mail from "illuminate/utils/Mail";
-import PasswordChangedMail from "app/mails/PasswordChangedMail";
+import User from "~/app/models/User";
+import URL from "URL";
+import Cache from "Cache";
+import Mail from "Mail";
+import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
 import { OAuth2Client } from 'google-auth-library';
 import { generateFromEmail } from "unique-username-generator";
 

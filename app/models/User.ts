@@ -1,14 +1,14 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
 import config from "config";
-import URL from "illuminate/utils/URL"
+import URL from "URL"
 import bcrypt from "bcryptjs";
-import Authenticatable, { AuthenticatableDocument } from "app/plugins/Authenticatable";
-import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
-import HasApiTokens, { HasApiTokensDocument } from "app/plugins/HasApiTokens";
-import Notifiable, { NotifiableDocument } from "app/plugins/Notifiable";
-import Attachable, { AttachableDocument } from "app/plugins/Attachable";
-import Billable, { BillableDocument } from "app/plugins/Billable";
-import Settings, { ISettings } from "app/models/Settings";
+import Authenticatable, { AuthenticatableDocument } from "~/app/plugins/Authenticatable";
+import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
+import HasApiTokens, { HasApiTokensDocument } from "~/app/plugins/HasApiTokens";
+import Notifiable, { NotifiableDocument } from "~/app/plugins/Notifiable";
+import Attachable, { AttachableDocument } from "~/app/plugins/Attachable";
+import Billable, { BillableDocument } from "~/app/plugins/Billable";
+import Settings, { ISettings } from "~/app/models/Settings";
 
 const UserSchema = new Schema({
   username: {

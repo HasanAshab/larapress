@@ -1,6 +1,6 @@
 import { Request } from "express";
-//import Comment, { IComment } from "app/models/Comment";
-import { isCommentableDocument } from "app/plugins/Commentable";
+//import Comment, { IComment } from "~/app/models/Comment";
+import { isCommentableDocument } from "~/app/plugins/Commentable";
 import { model } from "mongoose";
 
 export default class CommentController {

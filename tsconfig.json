@@ -4,8 +4,11 @@
     "lib": ["es2021"],
     "module": "commonjs",
     "outDir": "./dist",
-    "rootDir": "./",
     "baseUrl": "./",
+    "paths": {
+      "~/*": ["*"],
+      "helpers": ["helpers"]
+    },
     "strict": true,
     "alwaysStrict": true,
     "esModuleInterop": true,

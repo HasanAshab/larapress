@@ -1,4 +1,4 @@
-import { IUser } from "app/models/User";
+import { IUser } from "~/app/models/User";
 
 export default class UserPolicy {
   delete(user: IUser){

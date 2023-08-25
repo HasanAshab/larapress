@@ -1,10 +1,10 @@
 import { CacheDataArg } from "types";
 import config from "config";
 import { customError, capitalizeFirstLetter } from "helpers";
-import Driver from "illuminate/utils/Cache/Driver";
-import cacheConfig from "register/cache";
-import Mockable from "illuminate/utils/Cache/Mockable";
-import { util } from "illuminate/decorators/class";
+import Driver from "~/illuminate/utils/Cache/Driver";
+import cacheConfig from "~/register/cache";
+import Mockable from "~/illuminate/utils/Cache/Mockable";
+import { util } from "~/illuminate/decorators/class";
 import fs from "fs";
 
 @util(Mockable)

@@ -1,5 +1,5 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
-import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
+import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import crypto from "crypto";
 
 const TokenSchema = new Schema({

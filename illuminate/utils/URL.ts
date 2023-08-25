@@ -1,7 +1,7 @@
 import config from 'config';
-import Token, { IToken } from "app/models/Token";
+import Token, { IToken } from "~/app/models/Token";
 import path from "path";
-import urls from "register/urls";
+import urls from "~/register/urls";
 import crypto from "crypto";
 
 export default class URL {

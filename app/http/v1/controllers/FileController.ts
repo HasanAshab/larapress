@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Attachment from "app/models/Attachment";
+import Attachment from "~/app/models/Attachment";
 
 export default class FileController {
   async index(req: Request, res: Response) {

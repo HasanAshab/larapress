@@ -1,8 +1,7 @@
 import { model, QueryWithHelpers, HydratedDocument, Schema, Model, Document, InferSchemaType } from "mongoose";
-import HasFactory, { HasFactoryModel } from "app/plugins/HasFactory";
-import Polymorphable from "app/plugins/Polymorphable";
-import HumanReadableTime from "app/plugins/HumanReadableTime";
-import { IUser } from "app/models/User";
+import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
+import HumanReadableTime from "~/app/plugins/HumanReadableTime";
+import { IUser } from "~/app/models/User";
 
 const NotificationSchema = new Schema({
   userId: {

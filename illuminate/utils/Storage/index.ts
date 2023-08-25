@@ -1,8 +1,8 @@
 import { storage } from "helpers";
 import { UploadedFile } from "express-fileupload";
 import { promises as fs } from "fs";
-import Mockable from "illuminate/utils/Storage/Mockable";
-import { util } from "illuminate/decorators/class";
+import Mockable from "~/illuminate/utils/Storage/Mockable";
+import { util } from "~/illuminate/decorators/class";
 import path from "path";
 import crypto from "crypto";
 

@@ -1,7 +1,7 @@
 import { Schema, Document } from "mongoose";
 import config from "config";
 import Stripe from "stripe";
-import URL from "illuminate/utils/URL";
+import URL from "URL";
 
 
 export interface BillableDocument extends Document {

@@ -1,6 +1,6 @@
 import { Schema, Document } from "mongoose";
-import Comment, { IComment } from "app/models/Comment";
-import { IUser } from "app/models/User";
+import Comment, { IComment } from "~/app/models/Comment";
+import { IUser } from "~/app/models/User";
 
 export interface CommentableDocument extends Document {
   totalComments: Number;

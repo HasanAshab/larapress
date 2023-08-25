@@ -1,4 +1,4 @@
-import Driver from "illuminate/utils/Cache/Driver";
+import Driver from "~/illuminate/utils/Cache/Driver";
 import config from "config";
 import { createClient } from "redis";
 import { CacheDataArg } from "types";

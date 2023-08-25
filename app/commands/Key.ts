@@ -1,4 +1,4 @@
-import Command from "illuminate/commands/Command";
+import Command from "~/illuminate/commands/Command";
 import { env } from "helpers";
 import crypto from "crypto";
 

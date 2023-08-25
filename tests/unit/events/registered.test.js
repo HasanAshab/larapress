@@ -14,7 +14,7 @@ describe("Registered Event", () => {
   });
 
   beforeEach(async () => {
-    await resetDatabase();
+    await DB.reset();
     user = await User.factory().create({ verified: false });
   });
   

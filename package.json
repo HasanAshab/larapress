@@ -1,6 +1,7 @@
 {
   "_moduleAliases": {
-    "~": "."
+    "~": ".",
+    "helpers": "./helpers"
   },
   "_moduleDirectories": ["./illuminate/utils"],
   "name": "larapress",

@@ -1,8 +1,8 @@
 import { Request } from "express";
 import { deepMerge } from "helpers";
 import config from "config";
-import Cache from "illuminate/utils/Cache";
-import Settings from "app/models/Settings";
+import Cache from "Cache";
+import Settings from "~/app/models/Settings";
 
 export default class SettingsController {
   async index(req: Request) {

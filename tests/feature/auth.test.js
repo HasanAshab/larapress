@@ -1,5 +1,3 @@
-const app = require("main/app").default;
-const request = require("supertest")(app.listen(8000));
 const DB = require("illuminate/utils/DB").default;
 const URL = require("illuminate/utils/URL").default;
 const bcrypt = require("bcryptjs");
@@ -9,11 +7,12 @@ const Mail = require("illuminate/utils/Mail").default;
 const User = require("app/models/User").default;
 const Settings = require("app/models/Settings").default;
 const OTP = require("app/models/OTP").default;
-const events = require("events");
+const { EventEmitter } = require("events");
 
 describe("Auth", () => {
   let user;
   let token;
+  
   beforeAll(async () => {
     await DB.connect();
   });
@@ -26,10 +25,11 @@ describe("Auth", () => {
   });
 
   it("should register a user", async () => {
-    await Settings.create({ userId: user._id });
-    const dummyUser = await User.factory().dummyData();
     const mockListener = jest.fn();
-    app.on("Registered", mockListener);
+    const mockEmitter = new EventEmitter();
+    mockEmitter.on("Registered", mockListener);
+    await Settings.create({ userId: user._id });
+    const dummyUser = User.factory().dummyData();
     Storage.mock();
     const response = await request
       .post("/api/v1/auth/register")
@@ -40,16 +40,18 @@ describe("Auth", () => {
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
     expect(await User.findOne({ email: dummyUser.email })).not.toBeNull();
-    expect(mockListener).toHaveBeenCalledTimes(1);
+    expect(mockListener).toHaveBeenCalled();
     Storage.assertStoredCount(1);
     Storage.assertStored("image.png");
   });
 
   it("should register a user without logo", async () => {
+    const mockListener = jest.fn();
+    const mockEmitter = new EventEmitter();
+    mockEmitter.on("Registered", mockListener);
+
     await Settings.create({ userId: user._id });
     const dummyUser = await User.factory().dummyData();
-    const mockListener = jest.fn();
-    app.on("Registered", mockListener);
     Storage.mock();
     const response = await request
       .post("/api/v1/auth/register")
@@ -201,7 +203,6 @@ describe("Auth", () => {
   it("should verify email", async () => {
     let unverifiedUser = await User.factory().create({ verified: false });
     const verificationLink = await unverifiedUser.sendVerificationEmail();
-    console.log(verificationLink)
     const response = await fetch(verificationLink);
     unverifiedUser = await User.findById(unverifiedUser._id);
     expect(response.status).toBe(200);

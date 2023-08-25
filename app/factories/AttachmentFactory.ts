@@ -1,6 +1,6 @@
-import Factory from "illuminate/factories/Factory";
+import Factory from "~/illuminate/factories/Factory";
 import { storage } from "helpers"; 
-import User from "app/models/User";
+import User from "~/app/models/User";
 
 export default class AttachmentFactory extends Factory {
   definition() {

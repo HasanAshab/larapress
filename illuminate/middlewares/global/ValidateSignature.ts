@@ -1,6 +1,6 @@
-import Middleware from "illuminate/middlewares/Middleware";
+import Middleware from "~/illuminate/middlewares/Middleware";
 import { Request, Response, NextFunction } from "express";
-import Token from "app/models/Token";
+import Token from "~/app/models/Token";
 
 export default class ValidateSignature extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {

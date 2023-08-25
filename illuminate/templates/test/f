@@ -1,6 +1,4 @@
-const app = require("main/app").default;
-const request = require("supertest")(app);
-const DB = require("illuminate/utils/DB").default;
+const DB = require("~/illuminate/utils/DB").default;
 
 describe("{{name}}", () => {
   beforeAll(async () => {

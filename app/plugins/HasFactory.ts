@@ -1,5 +1,4 @@
 import { Schema, Document } from "mongoose";
-import { base } from "helpers";
 
 export interface HasFactoryModel {
   factory(count?: number): {
@@ -12,7 +11,7 @@ export interface HasFactoryModel {
 export default (schema: Schema) => {
   schema.statics.factory = function(count = 1) {
     const modelName = this.modelName;
-    const Factory = require(base(`app/factories/${modelName}Factory`)).default;
+    const Factory = require(`~/app/factories/${modelName}Factory`).default;
     const factory = new Factory();
     return {
       create: async (data?: object) => {
