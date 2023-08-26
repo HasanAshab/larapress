@@ -61,7 +61,7 @@ const UserSchema = new Schema({
 
 
 UserSchema.pre("save", async function(next) {
-  const bcryptRounds = config.get("bcrypt.rounds") ?? 10;
+  const bcryptRounds = config.get<any>("bcrypt.rounds") ?? 10;
   if (!this.isModified("password")) {
     return next();
   }

@@ -21,7 +21,7 @@ export default (schema: Schema) => {
         userId: this._id,
         version: this.tokenVersion,
       },
-      config.get("app.key"),
+      config.get<any>("app.key"),
       { expiresIn: 2592000 }
     );
   };

@@ -14,7 +14,7 @@ export interface BillableDocument extends Document {
 }
 
 export default (schema: Schema) => {
-  const stripe = new Stripe(config.get("stripe.key"), {
+  const stripe = new Stripe(config.get<any>("stripe.key"), {
     apiVersion: '2022-11-15',
   });
 

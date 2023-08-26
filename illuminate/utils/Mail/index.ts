@@ -12,7 +12,7 @@ export default class Mail {
   public mailable: Mailable = {} as Mailable;
   static transporter: Transporter < SendMailOptions > = {} as any;
   static email: string;
-  static mailConfig = config.get("mail");
+  static mailConfig = config.get<any>("mail");
 
   static to(email: string) {
     this.email = email;

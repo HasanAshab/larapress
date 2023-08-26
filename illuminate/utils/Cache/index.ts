@@ -9,7 +9,7 @@ import fs from "fs";
 
 @util(Mockable)
 export default class Cache {
-  static driverName: typeof cacheConfig.drivers[number] = config.get("cache") as any;
+  static driverName: typeof cacheConfig.drivers[number] = config.get<any>("cache") as any;
   
   static driver(name: typeof cacheConfig.drivers[number]) {
     this.driverName = name;
@@ -19,7 +19,7 @@ export default class Cache {
   static async getDriver<T extends keyof Driver>(methodName: T): Promise<Driver[T]> {
     const { default: DriverClass } = await import(`./drivers/${capitalizeFirstLetter(this.driverName)}`);
     const driver = new DriverClass();
-    this.driverName = config.get("cache") as any;
+    this.driverName = config.get<any>("cache") as any;
     if(Driver.isDriver(driver)){
       return driver[methodName].bind(driver) as Driver[T];
     }

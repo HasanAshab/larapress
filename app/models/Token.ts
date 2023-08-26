@@ -37,5 +37,7 @@ TokenSchema.statics.isValid = async function(key: string, type: string, secret: 
 TokenSchema.plugin(HasFactory);
 
 export interface IToken extends Document, InferSchemaType<typeof TokenSchema> {};
-interface TokenModel extends Model<IToken>, HasFactoryModel {};
+interface TokenModel extends Model<IToken>, HasFactoryModel {
+  isValid(key: string, type: string, secret: string): boolean;
+};
 export default model<IToken, TokenModel>("Token", TokenSchema);

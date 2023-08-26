@@ -130,7 +130,7 @@ export function env(envValues?: Record<string, string>) {
 }
 
 export async function log(data: any) {
-  const logChannel = config.get("log");
+  const logChannel = config.get<any>("log");
   if(logChannel === "file"){
     const path = "./storage/logs/error.log";
     if(data instanceof Error){

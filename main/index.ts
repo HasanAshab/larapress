@@ -12,7 +12,7 @@ import fs from "fs";
   const log = process.env.NODE_ENV === "development";
   process.env.NODE_ENV === "production" && await Setup.cachedConfig();
   // Connecting to database
-  if (config.get("db.connect")) {
+  if (config.get<any>("db.connect")) {
     log && console.log("Connecting to database...");
    // await DB.connect();
     log && console.log("DB connected!");
@@ -24,7 +24,7 @@ import fs from "fs";
   // Registering Cron Jobs
   Setup.cronJobs();
   
-  const port = config.get("app.port");
+  const port = config.get<any>("app.port");
   const server = app.listen(port, () => {
     log && console.log(`Server running on [http://127.0.0.1:${port}] ...`);
   });

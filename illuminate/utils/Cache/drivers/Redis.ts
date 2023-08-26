@@ -7,7 +7,7 @@ import { log } from "helpers";
 export default class Redis extends Driver {
   private createClient() {
     const client = createClient({
-      url: config.get("redis.url")
+      url: config.get<any>("redis.url")
     });
     client.on("error", err => log(err));
     return client;

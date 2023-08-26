@@ -6,12 +6,12 @@ import crypto from "crypto";
 
 export default class URL {
   static resolve(url_path = ""): string {
-    const { domain, port, protocol } = config.get("app");
+    const { domain, port, protocol } = config.get<any>("app");
     return `${protocol}://${path.join(`${domain}:${port}/`, url_path)}`;
   }
 
   static client(url_path: string = ""): string {
-    const { domain, port, protocol } = config.get("client");
+    const { domain, port, protocol } = config.get<any>("client");
     return `${protocol}://${path.join(`${domain}:${port}`, url_path)}`;
   }
 
@@ -29,10 +29,10 @@ export default class URL {
     return this.resolve(endpoint);
   }
 
-  static async signedRoute(routeName: keyof typeof urls, data?: Record < string, string | number >, expireAfter?: number): string {
+  static async signedRoute(routeName: keyof typeof urls, data?: Record < string, string | number >, expireAfter?: number) {
     const fullUrl = this.route(routeName, data);
     const path = fullUrl.replace(this.resolve(), "/");
-    const payload = {
+    const payload: Partial<IToken> = {
       type: "urlSignature",
       data: { fullUrl }
     }
@@ -51,7 +51,7 @@ export default class URL {
     payload.data.originalUrl = baseUrl + queryString;
     payload.key = path + queryString;
     if(expireAfter) {
-      payload.expiresAt = Date.now() + expireAfter;
+      payload.expiresAt = new Date(Date.now() + expireAfter);
     }
     await Token.create(payload);
     return payload.data.originalUrl;

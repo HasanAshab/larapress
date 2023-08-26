@@ -11,7 +11,7 @@ export default class Queue {
   
   static set(channel: string, worker: (data: object) => Promise<void>, concurrency = 1) {
     if(typeof this.queue === "undefined"){
-      this.queue = new bull("default", config.get("redis.url"), {
+      this.queue = new bull("default", config.get<any>("redis.url"), {
         defaultJobOptions: {
           removeOnComplete: true,
           removeOnFail: true,

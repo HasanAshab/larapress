@@ -23,7 +23,7 @@ export interface AuthenticatableDocument extends Document {
 
 export default (schema: Schema) => {
   const expireAfter = 3 * 24 * 60 * 60;
-  const twilioConfig = config.get("twilio");
+  const twilioConfig = config.get<any>("twilio");
   const twilioClient = twilio(twilioConfig.sid, twilioConfig.authToken);
 
   schema.methods.sendVerificationEmail = async function () {
