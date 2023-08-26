@@ -1,5 +1,5 @@
 import "dotenv/config";
-//import 'module-alias/register';
+import 'module-alias/register';
 import config from 'config';
 import app from "~/main/app";
 import Setup from "~/main/Setup";
@@ -9,7 +9,6 @@ import https from "https";
 import fs from "fs";
 
 (async () => {
-  Mail.mock()
   const log = process.env.NODE_ENV === "development";
   process.env.NODE_ENV === "production" && await Setup.cachedConfig();
   // Connecting to database

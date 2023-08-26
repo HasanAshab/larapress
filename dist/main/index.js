@@ -8,9 +8,7 @@ require("module-alias/register");
 const config_1 = __importDefault(require("config"));
 const app_1 = __importDefault(require("~/main/app"));
 const Setup_1 = __importDefault(require("~/main/Setup"));
-const Mail_1 = __importDefault(require("Mail"));
 (async () => {
-    Mail_1.default.mock();
     const log = process.env.NODE_ENV === "development";
     process.env.NODE_ENV === "production" && await Setup_1.default.cachedConfig();
     // Connecting to database
