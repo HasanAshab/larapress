@@ -7,13 +7,13 @@ export default class Artisan {
     const { params, flags } = this.parseArgs(args);
     const [commandKey, subCommand] = baseInput.split(":");
     const commandName = commands[commandKey as keyof typeof commands];
-    if (typeof commandName === "undefined") throw customError("COMMAND_NOT_FOUND");
+    if (!commandName) throw customError("COMMAND_NOT_FOUND");
 
     const CommandClass = require(`~/app/commands/${commandName}`)?.default;
 
     const commandClass = new CommandClass(subCommand, fromShell, flags, params);
     const handler = commandClass[subCommand] || commandClass.handle;
-    if (typeof handler === "undefined") throw customError("COMMAND_NOT_FOUND");
+    if (!handler) throw customError("COMMAND_NOT_FOUND");
     try {
       await handler.apply(commandClass);
     }

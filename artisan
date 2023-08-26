@@ -1,1 +1,11 @@
-ts-node -r tsconfig-paths/register --transpile-only cli.ts "$@"
+require("dotenv/config");
+const moduleAlias = require('module-alias')
+moduleAlias.addAliases({
+  "~": __dirname + "/dist",
+  "helpers": __dirname + "/dist/helpers"
+});
+moduleAlias.addPath(__dirname + "/dist/illuminate/utils");
+
+process.env.NODE_ENV = "shell";
+const args = process.argv;
+require('Artisan').default.call(args[2], args.splice(2));
