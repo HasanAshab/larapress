@@ -1,4 +1,3 @@
-import { base } from "helpers";
 import Command from "~/illuminate/commands/Command";
 import { execSync } from "child_process";
 import DB from "DB";
@@ -34,7 +33,7 @@ export default class Make extends Command {
     let content = "";
     const name = fullPath.pop() as string;
     const parentPath = fullPath.join("/");
-    let templatePath = base(`illuminate/templates/${this.subCommand}`);
+    let templatePath = `illuminate/templates/${this.subCommand}`;
     const templateDistination = components[this.subCommand];
     if (typeof templateDistination === "object" && fs.statSync(templatePath).isDirectory()){
       templatePath += (typeof this.flags[0] !== "undefined")
@@ -64,7 +63,7 @@ export default class Make extends Command {
     execSync("mkdir -p " + path.dirname(filepath));
 
     try {
-      fs.writeFileSync(base(filepath), content, {
+      fs.writeFileSync(filepath, content, {
         flag: "wx"
       });
     } catch {

@@ -17,7 +17,7 @@ export interface AuthenticatableDocument extends Document {
   sendVerificationEmail(): Promise<string | boolean>;
   sendResetPasswordEmail(): Promise<string>;
   resetPassword(token: string, newPassword: string): Promise<boolean>;
-  sendOtp(): number;
+  sendOtp(method: typeof otpConfig["methods"][number]): number;
   verifyOtp(code: number): boolean;
 }
 
@@ -76,7 +76,7 @@ export default (schema: Schema) => {
       twilioClient.calls.create({
         from: twilioConfig.phoneNumber,
         to: this.phoneNumber,
-        twiml: otpConfig.voice(otp)
+        twiml: otpConfig.voice(code)
       });
     }
     return code;

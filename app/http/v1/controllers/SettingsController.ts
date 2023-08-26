@@ -40,7 +40,7 @@ export default class SettingsController {
   }
   
   async updateAppSettings(req: Request) {
-    config = deepMerge(config, req.validated);
+    deepMerge(config, req.validated);
     Cache.driver("redis").put("config", config);
     return { message: "Settings updated!" }
   }

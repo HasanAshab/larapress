@@ -1,4 +1,3 @@
-import { base } from "helpers";
 import URL from "URL"
 import Command from "~/illuminate/commands/Command";
 import { exec } from "child_process";
@@ -6,10 +5,10 @@ import app from "~/main/app";
 import fs from "fs";
 import swaggerUi from "swagger-ui-express";
 import docs from "~/docs/parse";
-
+import fetch from "node-fetch";
 
 export default class GenerateDoc extends Command {
-  public outputDir = base("/docs/public");
+  public outputDir = "/docs/public";
   public baseUrl = URL.resolve("docs");
   
   async handle() {

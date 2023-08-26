@@ -206,7 +206,7 @@ export default class AuthController {
         message: "Two Factor Auth is disabled for this user!"
       };
     }
-    await user.sendOtp(method);
+    user.sendOtp(method);
     return { message: `6 digit OTP code sent to phone number!` };
   }
 }

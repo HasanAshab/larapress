@@ -29,7 +29,7 @@ export default class InjectHelpers extends Middleware {
           }
         }
       }
-      apiResponse.message = response.message ?? defaultErrorMessages[this.statusCode];
+      apiResponse.message = (response as any).message ?? defaultErrorMessages[this.statusCode];
       this.json(apiResponse);
     };
 

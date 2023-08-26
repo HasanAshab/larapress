@@ -1,10 +1,10 @@
 import Command from "~/illuminate/commands/Command";
 import { generateEndpointsFromDirTree } from "helpers";
 import { exec, spawn } from "child_process";
-import autocannon from "autocannon";
+import autocannon, { Options } from "autocannon";
 import DB from "DB";
 import URL from "URL";
-import User from "~/app/models/User";
+import User, { IUser } from "~/app/models/User";
 import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
@@ -14,12 +14,12 @@ export default class TestPerformance extends Command {
  /* private serverProcess = spawn('npm', ['run', 'dev'], {
     env: { ...process.env, NODE_ENV: "test" }
   });*/
-  private cachedUsers = {};
+  private cachedUsers: Record<string, IUser> = {};
   private startTime = Date.now();
   
   async handle(){
     const { connections = 2, amount, workers = 0, stdout = true, version = "v1" } = this.params
-    this.info("starting server...");
+    //this.info("starting server...");
 /*
     this.serverProcess.unref();
     process.on("exit", () => {
@@ -39,26 +39,22 @@ export default class TestPerformance extends Command {
     await DB.connect();
     this.info("reseting database...");
     await DB.reset();
-    const config = {
+    const config: Options = {
       url: URL.resolve(),
-      connections: parseInt(connections),
-      workers: parseInt(workers),
+      connections: Number(connections),
+      workers: Number(workers),
       headers: {
         "content-type": "application/json"
       }
     };
     this.info(`parsing benchmarks of ${version}...`);
-    config.requests = await this.parseBenchmarks(version, connections, this.params.pattern);
+    config.requests = await this.parseBenchmarks(version, Number(connections), this.params.pattern);
     if(config.requests.length === 0) {
       this.error("No benchmark matched!");
     }
-    config.amount = amount ?? config.requests.length * parseInt(connections);
+    config.amount = Number(amount) ?? config.requests.length * Number(connections);
     this.info("load test started...");
-    setTimeout(() => {
-      const instance = autocannon(config);
-    instance.on("reqError", console.log)
-    instance.on("error", console.log)
-    instance.on("done", async (result) => {
+    const instance = autocannon(config, async (err, result) => {
       const outDir = "storage/reports/performance/" + version;
       await exec("mkdir -p " + outDir);
       fs.writeFileSync(path.join(outDir, Date.now() + ".json"), JSON.stringify(result, null, 2));
@@ -66,8 +62,8 @@ export default class TestPerformance extends Command {
       await DB.reset();
       this.success("Test report saved at /storage/reports/performance");
     });
-    }, 1);
-    //}, 10000);
+    instance.on("reqError", console.log)
+    instance.on("error", console.log)
   }
   
   private async parseBenchmarks(version: string, connections: number, pattern?: string) {
@@ -78,7 +74,7 @@ export default class TestPerformance extends Command {
       const benchmarkFile = require(path);
       for(const method in benchmarkFile) {
         const doc = benchmarkFile[method];
-        let context = {}; 
+        let context: Record<string, any> = {}; 
         const request = doc.benchmark;
         if(!request) continue;
         if(doc.auth) {
@@ -105,7 +101,7 @@ export default class TestPerformance extends Command {
         }
         let i = 0;
         const realSetupFunc = request.setupRequest?.bind(context);
-        request.setupRequest = function (req) {
+        request.setupRequest = function (req: Record<string, any>) {
           const subPath = resolvedEndpoints.length > 1
             ? resolvedEndpoints[i++]
             : resolvedEndpoints[0];
@@ -114,7 +110,7 @@ export default class TestPerformance extends Command {
             req = realSetupFunc(req);
           return req;
         }
-        request.onResponse = (status, body) => {
+        request.onResponse = (status: number, body: object) => {
           if(status > 399){
             this.info(`${request.method} -> ${endpoint} -> STATUS: ${status} \n BODY: ${body}\n`);
           }
@@ -126,15 +122,15 @@ export default class TestPerformance extends Command {
     return requests;
   }
   
-  private async getUser(doc: object) {
+  private async getUser(doc: Record<string, any>) {
     if(doc.cached === false)
       return await User.factory().create({ role: doc.auth });
     if(!this.cachedUsers[doc.auth])
-      this.cachedUsers[doc.auth] = await User.factory().create({ role: doc.auth });
+      this.cachedUsers[doc.auth] = await User.factory().create({ role: doc.auth }) as IUser;
     return this.cachedUsers[doc.auth];
   }
   
-  private resolveDynamicPath(endpoint: string, params: object) {
+  private resolveDynamicPath(endpoint: string, params: Record<string, any>) {
     return endpoint.replace(/\{(\w+)\}/g, (match: string, key: string) => {
       const value = params[key];
       if(!value) this.error(`The "${key}" param is required in benchmark of endpoint ${endpoint}`);
