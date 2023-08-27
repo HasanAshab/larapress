@@ -58,9 +58,9 @@ function middleware(...keysWithConfig) {
         var _a;
         const middlewarePath = middlewares_1.default[middlewareKey];
         const fullPath = middlewarePath.startsWith("<global>")
-            ? middlewarePath.replace("<global>", "illuminate/middlewares/global")
-            : `app/http/${(_a = config === null || config === void 0 ? void 0 : config.version) !== null && _a !== void 0 ? _a : "v1"}/middlewares/${middlewarePath}`;
-        const MiddlewareClass = require(path_1.default.resolve(fullPath)).default;
+            ? middlewarePath.replace("<global>", "~/illuminate/middlewares/global")
+            : `~/app/http/${(_a = config === null || config === void 0 ? void 0 : config.version) !== null && _a !== void 0 ? _a : "v1"}/middlewares/${middlewarePath}`;
+        const MiddlewareClass = require(fullPath).default;
         const middlewareInstance = new MiddlewareClass(config);
         const handler = middlewareInstance.handle.length === 4 ? middlewareInstance.handle.bind(middlewareInstance) : wrapMiddleware(middlewareInstance, middlewareInstance.handle);
         return handler;
@@ -78,7 +78,7 @@ function middleware(...keysWithConfig) {
 }
 exports.middleware = middleware;
 function controller(name, version = getVersion()) {
-    const controllerPath = path_1.default.resolve(path_1.default.join(`app/http/${version}/controllers`, name));
+    const controllerPath = path_1.default.join(`~/app/http/${version}/controllers`, name);
     const controllerClass = require(controllerPath).default;
     const controllerInstance = new controllerClass;
     const controllerPrefix = controllerClass.name.replace("Controller", "");
@@ -220,7 +220,7 @@ function generateEndpointsFromDirTree(rootPath) {
                     .split(".")[0]
                     .toLowerCase()
                     .replace(/index$/, "");
-                endpointPathPair[itemPathEndpoint] = itemPath;
+                endpointPathPair[itemPathEndpoint] = itemPath.split(".")[0];
             }
             else if (status.isDirectory()) {
                 stack.push(itemPath);

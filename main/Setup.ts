@@ -52,7 +52,7 @@ export default class Setup {
     const modelsBaseDir = "app/models";
     const modelsName = fs.readdirSync(modelsBaseDir);
     for(const modelName of modelsName){
-      require("~/" + modelsBaseDir + "/" + modelName);
+      require("~/" + modelsBaseDir + "/" + modelName.split(".")[0]);
     }
   }
   
@@ -60,7 +60,7 @@ export default class Setup {
     const globalPluginsBaseDir = "illuminate/plugins/global";
     const globalPluginsName = fs.readdirSync(globalPluginsBaseDir);
     for(const globalPluginName of globalPluginsName){
-      const plugin = require("~/" + globalPluginsBaseDir + "/" + globalPluginName).default;
+      const plugin = require("~/" + globalPluginsBaseDir + "/" + globalPluginName.split(".")[0]).default;
       mongoose.plugin(plugin);
     }
     mongoose.plugin(hidden(), { hidden: { _id: false } });

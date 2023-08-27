@@ -1,7 +1,6 @@
 import Middleware from "~/illuminate/middlewares/Middleware";
 import { Request, Response, NextFunction } from "express";
 import config from "config";
-import fetch from "node-fetch";
 
 export default class VerifyRecaptcha extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {

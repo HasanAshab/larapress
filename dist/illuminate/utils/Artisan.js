@@ -3,8 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const commands_1 = __importDefault(require("~/register/commands"));
 const helpers_1 = require("helpers");
+const commands_1 = __importDefault(require("~/register/commands"));
 class Artisan {
     static async call(baseInput, args, fromShell = true) {
         var _a;

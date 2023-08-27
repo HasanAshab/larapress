@@ -55,14 +55,14 @@ class Setup {
         const modelsBaseDir = "app/models";
         const modelsName = fs_1.default.readdirSync(modelsBaseDir);
         for (const modelName of modelsName) {
-            require("~/" + modelsBaseDir + "/" + modelName);
+            require("~/" + modelsBaseDir + "/" + modelName.split(".")[0]);
         }
     }
     static mongooseGlobalPlugins() {
         const globalPluginsBaseDir = "illuminate/plugins/global";
         const globalPluginsName = fs_1.default.readdirSync(globalPluginsBaseDir);
         for (const globalPluginName of globalPluginsName) {
-            const plugin = require("~/" + globalPluginsBaseDir + "/" + globalPluginName).default;
+            const plugin = require("~/" + globalPluginsBaseDir + "/" + globalPluginName.split(".")[0]).default;
             mongoose_1.default.plugin(plugin);
         }
         mongoose_1.default.plugin((0, mongoose_hidden_1.default)(), { hidden: { _id: false } });

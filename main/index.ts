@@ -1,5 +1,5 @@
 import "dotenv/config";
-import 'module-alias/register';
+process.env.NODE_ENV === "production" && require('module-alias/register');
 import config from 'config';
 import app from "~/main/app";
 import Setup from "~/main/Setup";
@@ -26,7 +26,7 @@ import fs from "fs";
   
   const port = config.get<any>("app.port");
   const server = app.listen(port, () => {
-    log && console.log(`Server running on [http://127.0.0.1:${port}] ...`);
+    console.log(`Server running on [http://127.0.0.1:${port}] ...`);
   });
   
   log && server.on("connection", (socket) => {

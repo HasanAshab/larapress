@@ -57,9 +57,9 @@ export function middleware(
   function getMiddleware(middlewareKey: string, config?: Record < string, unknown >): RequestHandler {
     const middlewarePath = middlewarePairs[middlewareKey as keyof typeof middlewarePairs];
       const fullPath = middlewarePath.startsWith("<global>")
-        ? middlewarePath.replace("<global>", "illuminate/middlewares/global")
-        : `app/http/${config?.version ?? "v1"}/middlewares/${middlewarePath}`;
-      const MiddlewareClass = require(path.resolve(fullPath)).default;
+        ? middlewarePath.replace("<global>", "~/illuminate/middlewares/global")
+        : `~/app/http/${config?.version ?? "v1"}/middlewares/${middlewarePath}`;
+      const MiddlewareClass = require(fullPath).default;
       const middlewareInstance = new MiddlewareClass(config);
       const handler = middlewareInstance.handle.length === 4 ? middlewareInstance.handle.bind(middlewareInstance): wrapMiddleware(middlewareInstance, middlewareInstance.handle);
       return handler;
@@ -76,7 +76,7 @@ export function middleware(
 }
 
 export function controller(name: string, version = getVersion()): Record < string, RequestHandler[] > {
-  const controllerPath = path.resolve(path.join(`app/http/${version}/controllers`, name));
+  const controllerPath = path.join(`~/app/http/${version}/controllers`, name);
   const controllerClass = require(controllerPath).default;
   const controllerInstance = new controllerClass;
   const controllerPrefix = controllerClass.name.replace("Controller", "");
@@ -217,7 +217,7 @@ export function generateEndpointsFromDirTree(rootPath: string): Record < string,
         .toLowerCase()
         .replace(/index$/, "");
         
-        endpointPathPair[itemPathEndpoint] = itemPath;
+        endpointPathPair[itemPathEndpoint] = itemPath.split(".")[0];
       } else if (status.isDirectory()) {
         stack.push(itemPath);
       }

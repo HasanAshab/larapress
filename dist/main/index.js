@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
-require("module-alias/register");
+process.env.NODE_ENV === "production" && require('module-alias/register');
 const config_1 = __importDefault(require("config"));
 const app_1 = __importDefault(require("~/main/app"));
 const Setup_1 = __importDefault(require("~/main/Setup"));
@@ -23,7 +23,7 @@ const Setup_1 = __importDefault(require("~/main/Setup"));
     Setup_1.default.cronJobs();
     const port = config_1.default.get("app.port");
     const server = app_1.default.listen(port, () => {
-        log && console.log(`Server running on [http://127.0.0.1:${port}] ...`);
+        console.log(`Server running on [http://127.0.0.1:${port}] ...`);
     });
     log && server.on("connection", (socket) => {
         const now = new Date();
