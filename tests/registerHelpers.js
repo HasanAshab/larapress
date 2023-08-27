@@ -1,5 +1,4 @@
 require("dotenv/config");
-//require("module-alias/register");
 process.env.NODE_ENV = "test";
 
 global.fakeFile = (name) => {

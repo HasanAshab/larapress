@@ -1,5 +1,3 @@
-const { compilerOptions } = require("./tsconfig.json");
-
 module.exports = {
   globals: {
     "ts-jest": {
@@ -14,7 +12,12 @@ module.exports = {
     "./tests/registerHelpers.js",
     "./tests/customMatchers.js"
   ],
-  modulePaths: [compilerOptions.baseUrl],
+  moduleNameMapper: {
+    "^~/(.*)$": "<rootDir>/$1",
+    "^helpers$": "<rootDir>/helpers",
+    "^types/(.*)$": "<rootDir>/types/$1"
+  },
+  modulePaths: ['<rootDir>/illuminate/utils/'],
   preset: "ts-jest",
   testEnvironment: "node",
   forceExit: true
