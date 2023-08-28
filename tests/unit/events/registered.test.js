@@ -25,7 +25,7 @@ describe("Registered Event", () => {
     Mail.assertSentTo(user.email, "VerificationMail");
   });
 
-  it.only("should notify admins about new user", async () => {
+  it("should notify admins about new user", async () => {
     const admins = await User.factory(3).create({ role: "admin" });
     await Settings.create({ userId: user._id });
     for(const admin of admins){

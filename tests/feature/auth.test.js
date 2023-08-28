@@ -24,12 +24,13 @@ describe("Auth", () => {
     token = user.createToken();
   });
 
-  it("should register a user", async () => {
+  it.only("should register a user", async () => {
     const mockListener = jest.fn();
     const mockEmitter = new EventEmitter();
     mockEmitter.on("Registered", mockListener);
     await Settings.create({ userId: user._id });
     const dummyUser = User.factory().dummyData();
+    console.log(dummyUser)
     Storage.mock();
     const response = await request
       .post("/api/v1/auth/register")

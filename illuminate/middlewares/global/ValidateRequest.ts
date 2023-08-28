@@ -15,7 +15,7 @@ export default class ValidateRequest extends Middleware {
     if (typeof version !== "string" || typeof validationSubPath !== "string") throw new Error("version and validationSubPath args required as type String.");
 
     try {
-      const Schema = require(path.join(`app/http/${version}/validations/`, validationSubPath));
+      const Schema = require(path.join(`~/app/http/${version}/validations/`, validationSubPath));
       var ValidationSchema = Schema.default as ValidationSchema;
     } catch(err: any) {
       if (err.code === "MODULE_NOT_FOUND") return next();

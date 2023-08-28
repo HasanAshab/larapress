@@ -1,5 +1,7 @@
 import mongoose, { ConnectOptions } from "mongoose";
 import config from "config";
+import Setup from "~/main/Setup";
+import fs from "fs";
 
 export default class DB {
   static defaultConnectOptions = {
@@ -14,15 +16,27 @@ export default class DB {
     await mongoose.disconnect();
   }
   
-  static reset() {
+  static async reset() {
     const collections = mongoose.connection.collections;
-    //console.log(collections)
     const dropPromises = [];
     for (const name in collections) {
       const dropPromise = collections[name].drop();
       dropPromises.push(dropPromise);
     }
-    return Promise.all(dropPromises);
+    await Promise.all(dropPromises);
+    await this.createCollections()
   }
+  
+  static createCollections() {
+    const modelsBaseDir = "app/models";
+    const modelsName = fs.readdirSync(modelsBaseDir);
+    const createPromises = [];
+    for(const modelName of modelsName){
+      const Model = require("~/" + modelsBaseDir + "/" + modelName.split(".")[0]).default;
+      createPromises.push(Model.createCollection());
+    }
+    return Promise.all(createPromises)
+  }
+
 }
 

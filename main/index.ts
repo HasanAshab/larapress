@@ -14,11 +14,7 @@ process.env.NODE_ENV === "production" && Setup.cachedConfig();
 // Connect to database
 if (config.get("db.connect")) {
   log && console.log("Connecting to database...");
-  //DB.connect().then(Setup.mongooseModels);
-  DB.connect().then(() => {
-    //Setup.mongooseModels()
-    DB.reset().then(() => console.log("sjsj")).catch(console.log)
-  });
+  DB.connect().then(DB.createCollections);
   log && console.log("DB connected!");
 }
 

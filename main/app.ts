@@ -41,6 +41,4 @@ Setup.routes(app);
 app.use(middleware("error.handle"));
 
 
-Setup.routes(app);
-
 export default app;

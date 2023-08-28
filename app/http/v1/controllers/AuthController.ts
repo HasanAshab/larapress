@@ -12,6 +12,7 @@ import { generateFromEmail } from "unique-username-generator";
 
 export default class AuthController {
   async register(req: Request){
+    console.log(req.validated)
     const logo = req.files?.logo;
     const user = await User.create(req.validated);
     logo && user.attach("logo", logo as any, true).catch(log);
