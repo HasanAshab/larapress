@@ -1,7 +1,7 @@
-const DB = require("illuminate/utils/DB").default;
-const User = require("app/models/User").default;
-const Storage = require("illuminate/utils/Storage").default;
-const Mail = require("illuminate/utils/Mail").default;
+const DB = require("DB").default;
+const User = require("~/app/models/User").default;
+const Storage = require("Storage").default;
+const Mail = require("Mail").default;
 
 describe("user", () => {
   let user;

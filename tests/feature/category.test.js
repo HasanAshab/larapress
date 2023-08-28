@@ -1,7 +1,7 @@
-const DB = require("illuminate/utils/DB").default;
-const User = require("app/models/User").default;
-const Category = require("app/models/Category").default;
-const Storage = require("illuminate/utils/Storage").default;
+const DB = require("DB").default;
+const User = require("~/app/models/User").default;
+const Category = require("~/app/models/Category").default;
+const Storage = require("Storage").default;
 
 describe("Category", () => {
   let admin;

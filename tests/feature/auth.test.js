@@ -1,12 +1,12 @@
-const DB = require("illuminate/utils/DB").default;
-const URL = require("illuminate/utils/URL").default;
+const DB = require("DB").default;
+const URL = require("URL").default;
 const bcrypt = require("bcryptjs");
-const Cache = require("illuminate/utils/Cache").default;
-const Storage = require("illuminate/utils/Storage").default;
-const Mail = require("illuminate/utils/Mail").default;
-const User = require("app/models/User").default;
-const Settings = require("app/models/Settings").default;
-const OTP = require("app/models/OTP").default;
+const Cache = require("Cache").default;
+const Storage = require("Storage").default;
+const Mail = require("Mail").default;
+const User = require("~/app/models/User").default;
+const Settings = require("~/app/models/Settings").default;
+const OTP = require("~/app/models/OTP").default;
 const { EventEmitter } = require("events");
 
 describe("Auth", () => {

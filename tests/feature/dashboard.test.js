@@ -1,5 +1,5 @@
-const DB = require("illuminate/utils/DB").default;
-const User = require("app/models/User").default;
+const DB = require("DB").default;
+const User = require("~/app/models/User").default;
 const { env, toCamelCase } = require("helpers");
 
 describe("Dashboard", () => {

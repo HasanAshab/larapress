@@ -8,33 +8,34 @@ import Mail from "Mail";
 import https from "https";
 import fs from "fs";
 
-(async () => {
-  const log = process.env.NODE_ENV === "development";
-  process.env.NODE_ENV === "production" && await Setup.cachedConfig();
-  // Connecting to database
-  if (config.get<any>("db.connect")) {
-    log && console.log("Connecting to database...");
-   // await DB.connect();
-    log && console.log("DB connected!");
-  }
-  
-  // Registering Mongoose Models
-  Setup.mongooseModels();
-  
-  // Registering Cron Jobs
-  Setup.cronJobs();
-  
-  const port = config.get<any>("app.port");
-  const server = app.listen(port, () => {
-    console.log(`Server running on [http://127.0.0.1:${port}] ...`);
+const log = process.env.NODE_ENV === "development";
+process.env.NODE_ENV === "production" && Setup.cachedConfig();
+
+// Connect to database
+if (config.get("db.connect")) {
+  log && console.log("Connecting to database...");
+  //DB.connect().then(Setup.mongooseModels);
+  DB.connect().then(() => {
+    //Setup.mongooseModels()
+    DB.reset().then(() => console.log("sjsj")).catch(console.log)
   });
-  
-  log && server.on("connection", (socket) => {
-    const now = new Date();
-    const time = now.toLocaleTimeString("en-US", {
-      hour12: true
-    });
-    console.log(`*New connection: [${time}]`);
+  log && console.log("DB connected!");
+}
+
+// Registering Cron Jobs
+Setup.cronJobs();
+
+const port = config.get<number>("app.port");
+const server = app.listen(port, () => {
+  process.env.NODE_ENV !== "test" && console.log(`Server running on [http://127.0.0.1:${port}] ...`);
+});
+
+log && server.on("connection", (socket) => {
+  const now = new Date();
+  const time = now.toLocaleTimeString("en-US", {
+    hour12: true
   });
-  return server;
-})();
+  console.log(`*New connection: [${time}]`);
+});
+
+export default server;

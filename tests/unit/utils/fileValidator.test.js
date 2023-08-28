@@ -1,4 +1,4 @@
-const FileValidator = require("illuminate/utils/FileValidator").default;
+const FileValidator = require("FileValidator").default;
 
 describe("FileValidator method works", () => {
   const files = {

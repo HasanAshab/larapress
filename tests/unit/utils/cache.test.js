@@ -1,5 +1,5 @@
-const Cache = require("illuminate/utils/Cache").default;
-const { drivers } = require("register/cache").default;
+const Cache = require("Cache").default;
+const { drivers } = require("~/register/cache").default;
 
 describe("Cache", () => {
   beforeAll(async () => {

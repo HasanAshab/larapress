@@ -1,6 +1,6 @@
-const DB = require("illuminate/utils/DB").default;
-const URL = require("illuminate/utils/URL").default;
-const Attachment = require("app/models/Attachment").default;
+const DB = require("DB").default;
+const URL = require("URL").default;
+const Attachment = require("~/app/models/Attachment").default;
 
 describe("File", () => {
   beforeAll(async () => {

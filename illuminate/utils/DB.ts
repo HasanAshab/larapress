@@ -16,6 +16,7 @@ export default class DB {
   
   static reset() {
     const collections = mongoose.connection.collections;
+    //console.log(collections)
     const dropPromises = [];
     for (const name in collections) {
       const dropPromise = collections[name].drop();
