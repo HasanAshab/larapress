@@ -5,7 +5,7 @@ import fs from "fs";
 
 export default class DB {
   static defaultConnectOptions = {
-    maxPoolSize: config.get<any>("db.maxPoolSize")
+    maxPoolSize: config.get<number>("db.maxPoolSize")
   }
   
   static async connect(options: ConnectOptions = this.defaultConnectOptions) {
@@ -16,15 +16,17 @@ export default class DB {
     await mongoose.disconnect();
   }
   
-  static async reset() {
+  static reset() {
     const collections = mongoose.connection.collections;
     const dropPromises = [];
     for (const name in collections) {
-      const dropPromise = collections[name].drop();
+      const dropPromise = collections[name].drop().catch(err => {
+        if (err.codeName !== 'NamespaceNotFound') 
+          throw err;
+      });
       dropPromises.push(dropPromise);
     }
-    await Promise.all(dropPromises);
-    await this.createCollections()
+    return Promise.all(dropPromises);
   }
   
   static createCollections() {

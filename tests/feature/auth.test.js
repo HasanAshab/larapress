@@ -7,7 +7,6 @@ const Mail = require("Mail").default;
 const User = require("~/app/models/User").default;
 const Settings = require("~/app/models/Settings").default;
 const OTP = require("~/app/models/OTP").default;
-const { EventEmitter } = require("events");
 
 describe("Auth", () => {
   let user;
@@ -24,13 +23,9 @@ describe("Auth", () => {
     token = user.createToken();
   });
 
-  it.only("should register a user", async () => {
-    const mockListener = jest.fn();
-    const mockEmitter = new EventEmitter();
-    mockEmitter.on("Registered", mockListener);
+  it("should register a user", async () => {
     await Settings.create({ userId: user._id });
     const dummyUser = User.factory().dummyData();
-    console.log(dummyUser)
     Storage.mock();
     const response = await request
       .post("/api/v1/auth/register")
@@ -41,16 +36,11 @@ describe("Auth", () => {
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
     expect(await User.findOne({ email: dummyUser.email })).not.toBeNull();
-    expect(mockListener).toHaveBeenCalled();
     Storage.assertStoredCount(1);
     Storage.assertStored("image.png");
   });
 
   it("should register a user without logo", async () => {
-    const mockListener = jest.fn();
-    const mockEmitter = new EventEmitter();
-    mockEmitter.on("Registered", mockListener);
-
     await Settings.create({ userId: user._id });
     const dummyUser = await User.factory().dummyData();
     Storage.mock();
@@ -63,7 +53,6 @@ describe("Auth", () => {
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
     expect(await User.findOne({ email: dummyUser.email })).not.toBeNull();
-    expect(mockListener).toHaveBeenCalledTimes(1);
     Storage.assertNothingStored();
   });
 

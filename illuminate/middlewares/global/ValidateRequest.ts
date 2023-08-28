@@ -17,9 +17,8 @@ export default class ValidateRequest extends Middleware {
     try {
       const Schema = require(path.join(`~/app/http/${version}/validations/`, validationSubPath));
       var ValidationSchema = Schema.default as ValidationSchema;
-    } catch(err: any) {
-      if (err.code === "MODULE_NOT_FOUND") return next();
-      else throw err;
+    } catch {
+      return next();
     }
     const urlencoded = ValidationSchema.urlencoded;
     const multipart = ValidationSchema.multipart;
