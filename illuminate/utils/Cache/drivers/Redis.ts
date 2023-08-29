@@ -4,17 +4,13 @@ import { createClient } from "redis";
 import { CacheDataArg } from "types";
 import { log } from "helpers";
 
-export default class Redis extends Driver {
-  private createClient() {
-    const client = createClient({
-      url: config.get<any>("redis.url")
-    });
-    client.on("error", err => log(err));
-    return client;
-  }
+const client = createClient({
+  url: config.get<string>("redis.url")
+});
+client.on("error", err => log(err));
 
+export default class Redis extends Driver {
   async get(key: string) {
-    const client = this.createClient();
     await client.connect();
     const result = await client.get(key);
     await client.disconnect();
@@ -22,7 +18,6 @@ export default class Redis extends Driver {
   }
 
   async put(key: string, data: CacheDataArg, expiry?: number) {
-    const client = this.createClient();
     await client.connect();
     if (typeof expiry === "number") await client.setEx(key, expiry, JSON.stringify(data));
     else await client.set(key, JSON.stringify(data));
@@ -30,7 +25,6 @@ export default class Redis extends Driver {
   }
 
   async clear(key?: string) {
-    const client = this.createClient();
     await client.connect();
     if(typeof key === "undefined") await client.flushAll();
     else await client.del(key)

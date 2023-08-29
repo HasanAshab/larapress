@@ -1,5 +1,5 @@
 import { ValidationSchema } from "types";
-import config from "config";
+import Config from "Config";
 import Joi from "joi";
 
 const parseFields = function(obj: any) {
@@ -14,7 +14,7 @@ const parseFields = function(obj: any) {
 const schema: ValidationSchema = {
   urlencoded: {
     target: "body",
-    rules: Joi.object(parseFields(config))
+    rules: Joi.object(parseFields(Config.get()))
   }
 }
 

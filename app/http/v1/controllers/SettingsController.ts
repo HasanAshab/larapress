@@ -36,11 +36,11 @@ export default class SettingsController {
   }
   
   async getAppSettings() {
-    return { data: config };
+    return { data: Config.get() };
   }
   
   async updateAppSettings(req: Request) {
-    for(key in req.validated){
+    for(const key in req.validated){
       Config.set(key, req.validated[key])
     }
     return { message: "Settings updated!" }

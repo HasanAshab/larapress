@@ -3,7 +3,7 @@ process.env.NODE_ENV === "production" && require('module-alias/register');
 import config from 'config';
 import app from "~/main/app";
 import Setup from "~/main/Setup";
-import Config from "Config";
+//import Config from "Config";
 import DB from "DB";
 import Mail from "Mail";
 import https from "https";
@@ -11,7 +11,12 @@ import fs from "fs";
 
 const log = process.env.NODE_ENV === "development";
 //process.env.NODE_ENV === "production" && Setup.cachedConfig();
-Config.parse({ saveChanges: true });
+/*
+Config.parse({ redisUrl: "redis://default:raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1@redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com:12100" }).then(() => {
+  console.log(Config.get())
+  Config.set("app.name", "Foo");
+  console.log(Config.get())
+});*/
 
 // Connect to database
 if (config.get("db.connect")) {
