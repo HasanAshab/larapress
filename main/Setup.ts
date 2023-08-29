@@ -48,6 +48,13 @@ export default class Setup {
     }
   };
   
+  static mongooseModels() {
+    const modelsBaseDir = "app/models";
+    const modelsName = fs.readdirSync(modelsBaseDir);
+    for(const modelName of modelsName){
+      require("~/" + modelsBaseDir + "/" + modelName.split(".")[0]);
+    }
+  }
   
   static mongooseGlobalPlugins() {
     const globalPluginsBaseDir = "illuminate/plugins/global";

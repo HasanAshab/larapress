@@ -11,7 +11,9 @@ router.post("/enable-2fa", middleware("auth"), SettingsController.enableTwoFacto
 router.put("/notification", middleware("auth"), SettingsController.notification);
 
 router.route("/app")
-  .get(middleware(["auth", { roles: ["admin"] }]), SettingsController.getAppSettings)
-  .put(middleware(["auth", { roles: ["admin"] }]), SettingsController.updateAppSettings);
+  .get(SettingsController.getAppSettings)
+  .put(SettingsController.updateAppSettings);
+ // .get(middleware(["auth", { roles: ["admin"] }]), SettingsController.getAppSettings)
+  //.put(middleware(["auth", { roles: ["admin"] }]), SettingsController.updateAppSettings);
 
 export default router;

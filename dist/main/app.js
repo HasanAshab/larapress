@@ -35,5 +35,4 @@ Setup_1.default.routes(app);
 //app.use("/static", express.static("~/storage/public/static"));
 // Registering global error handling middleware
 app.use((0, helpers_1.middleware)("error.handle"));
-Setup_1.default.routes(app);
 exports.default = app;

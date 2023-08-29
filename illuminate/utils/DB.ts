@@ -28,17 +28,5 @@ export default class DB {
     }
     return Promise.all(dropPromises);
   }
-  
-  static createCollections() {
-    const modelsBaseDir = "app/models";
-    const modelsName = fs.readdirSync(modelsBaseDir);
-    const createPromises = [];
-    for(const modelName of modelsName){
-      const Model = require("~/" + modelsBaseDir + "/" + modelName.split(".")[0]).default;
-      createPromises.push(Model.createCollection());
-    }
-    return Promise.all(createPromises)
-  }
-
 }
 

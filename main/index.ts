@@ -3,18 +3,20 @@ process.env.NODE_ENV === "production" && require('module-alias/register');
 import config from 'config';
 import app from "~/main/app";
 import Setup from "~/main/Setup";
+import Config from "Config";
 import DB from "DB";
 import Mail from "Mail";
 import https from "https";
 import fs from "fs";
 
 const log = process.env.NODE_ENV === "development";
-process.env.NODE_ENV === "production" && Setup.cachedConfig();
+//process.env.NODE_ENV === "production" && Setup.cachedConfig();
+Config.parse({ saveChanges: true });
 
 // Connect to database
 if (config.get("db.connect")) {
   log && console.log("Connecting to database...");
-  DB.connect().then(DB.createCollections);
+ // DB.connect().then(Setup.mongooseModels);
   log && console.log("DB connected!");
 }
 

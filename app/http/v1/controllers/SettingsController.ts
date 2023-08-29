@@ -1,6 +1,6 @@
 import { Request } from "express";
 import { deepMerge } from "helpers";
-import config from "config";
+import Config from "Config";
 import Cache from "Cache";
 import Settings from "~/app/models/Settings";
 
@@ -40,8 +40,9 @@ export default class SettingsController {
   }
   
   async updateAppSettings(req: Request) {
-    deepMerge(config, req.validated);
-    Cache.driver("redis").put("config", config);
+    for(key in req.validated){
+      Config.set(key, req.validated[key])
+    }
     return { message: "Settings updated!" }
   }
 }

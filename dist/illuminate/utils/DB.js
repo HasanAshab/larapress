@@ -16,7 +16,10 @@ class DB {
         const collections = mongoose_1.default.connection.collections;
         const dropPromises = [];
         for (const name in collections) {
-            const dropPromise = collections[name].drop();
+            const dropPromise = collections[name].drop().catch(err => {
+                if (err.codeName !== 'NamespaceNotFound')
+                    throw err;
+            });
             dropPromises.push(dropPromise);
         }
         return Promise.all(dropPromises);
