@@ -13,10 +13,10 @@ import Settings, { ISettings } from "~/app/models/Settings";
 
 const UserSchema = new Schema({
   username: {
-    required: true,
     type: String,
     text: true,
-    unique: true
+    unique: true,
+    default: null,
   },
   email: {
     required: true,

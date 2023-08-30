@@ -28,8 +28,10 @@ Config.parse({ caching: "redis", redisUrl: "redis://default:raAjgzb9ceMv8MVUFzSl
 // Connect to database
 if (config.get("db.connect")) {
   log && console.log("Connecting to database...");
- // DB.connect().then(Setup.mongooseModels);
-  log && console.log("DB connected!");
+  DB.connect().then(() => {
+    log && console.log("DB connected!");
+    Setup.mongooseModels();
+  });
 }
 
 // Registering Cron Jobs

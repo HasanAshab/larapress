@@ -79,21 +79,16 @@ export default class AuthController {
         idToken: tokens.id_token!,
         audience: clientId,
       });
-      const { email, picture, sub } = ticket.getPayload()!;
+      const { email, picture: logoUrl, sub } = ticket.getPayload()!;
       const user = await User.findOneAndUpdate(
         { email },
-        { 
-          username: generateFromEmail(email!, 4).substr(0, 12), 
-          logoUrl: picture,
-          verified: true
-        },
-        {
-          upsert: true,
-          new: true
-        }
+        { logoUrl, verified: true },
+        { upsert: true, new: true }
       );
-      const frontendClientUrl = URL.client("oauth/success?token=" + user.createToken());
-      res.redirect(frontendClientUrl);
+      const frontendClientUrl = user.username
+        ? URL.client("oauth/success?token=" + user.createToken())
+        : URL.client("oauth/set-username?token=" + user.createToken());
+      return res.redirect(frontendClientUrl);
     }
     catch (err: any) {
       log(err);

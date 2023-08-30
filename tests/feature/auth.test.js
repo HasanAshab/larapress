@@ -216,6 +216,7 @@ describe("Auth", () => {
       .field("email", unverifiedUser.email);
 
     expect(response.statusCode).toBe(200);
+    console.log(user.email)
     Mail.assertCount(1);
     Mail.assertSentTo(unverifiedUser.email, "VerificationMail");
   });
@@ -233,6 +234,7 @@ describe("Auth", () => {
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
     expect(await user.attempt(passwords.new)).toBe(true);
+    console.log(user.email)
     Mail.assertCount(1);
     Mail.assertSentTo(user.email, "PasswordChangedMail");
   });
@@ -253,6 +255,7 @@ describe("Auth", () => {
       .post("/api/v1/auth/password/reset/send-email")
       .field("email", user.email);
     expect(response.statusCode).toBe(200);
+    console.log(user.email)
     Mail.assertCount(1);
     Mail.assertSentTo(user.email, "ForgotPasswordMail");
   });
@@ -268,7 +271,6 @@ describe("Auth", () => {
 
   it("should reset password", async () => {
     const resetToken = await user.sendResetPasswordEmail();
-    Mail.mock();
     const newPassword = "Password@1234";
     const response = await request
       .put("/api/v1/auth/password/reset")
@@ -280,6 +282,7 @@ describe("Auth", () => {
     const passwordMatch = await user.attempt(newPassword);
     expect(response.statusCode).toBe(200);
     expect(passwordMatch).toBe(true);
+    console.log(user.email)
     Mail.assertCount(1);
     Mail.assertSentTo(user.email, "PasswordChangedMail");
   });

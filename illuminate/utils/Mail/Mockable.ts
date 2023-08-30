@@ -20,16 +20,17 @@ export default class Mockable {
   }
   
   static send(mailable: Mailable) {
+    console.log(this.email)
     const mocked = this.mocked;
     mocked.total++;
-    if (typeof mocked.recipients[this.email] === "undefined") {
+    if (!mocked.recipients[this.email]) {
       mocked.recipients[this.email] = {}
       mocked.recipients[this.email][mailable.constructor.name] = {
         mailable: mailable,
         count: 1
       };
     } else {
-      if (typeof mocked.recipients[this.email][mailable.constructor.name] === "undefined") {
+      if (!mocked.recipients[this.email][mailable.constructor.name]) {
         mocked.recipients[this.email][mailable.constructor.name] = {
           mailable: mailable,
           count: 1
