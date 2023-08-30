@@ -3,7 +3,6 @@ import { Application } from "express";
 import config from "config";
 import fs from "fs";
 import mongoose from "mongoose";
-import hidden from "mongoose-hidden";
 import { generateEndpointsFromDirTree } from "helpers";
 import nodeCron from "node-cron";
 import Artisan from "Artisan";
@@ -63,6 +62,5 @@ export default class Setup {
       const plugin = require("~/" + globalPluginsBaseDir + "/" + globalPluginName.split(".")[0]).default;
       mongoose.plugin(plugin);
     }
-    mongoose.plugin(hidden(), { hidden: { _id: false } });
   }
 }

@@ -14,11 +14,12 @@ import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
 
 
 export interface AuthenticatableDocument extends Document {
-  sendVerificationEmail(): Promise<string | boolean>;
+  attempt(password: string): Promise<boolean>;
+  sendVerificationEmail(): Promise<string>;
   sendResetPasswordEmail(): Promise<string>;
   resetPassword(token: string, newPassword: string): Promise<boolean>;
   sendOtp(method: typeof otpConfig["methods"][number]): number;
-  verifyOtp(code: number): boolean;
+  verifyOtp(code: number): Promise<boolean>;
 }
 
 export default (schema: Schema) => {
@@ -26,6 +27,10 @@ export default (schema: Schema) => {
   const twilioConfig = config.get<any>("twilio");
   const twilioClient = twilio(twilioConfig.sid, twilioConfig.authToken);
 
+  schema.methods.attempt = function (password: string) {
+    return bcrypt.compare(password, this.password);
+  }
+  
   schema.methods.sendVerificationEmail = async function () {
     if (this.verified)
       throw new Error("The user is already verified: \n" + this.safeDetails());

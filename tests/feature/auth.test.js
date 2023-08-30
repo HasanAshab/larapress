@@ -1,6 +1,5 @@
 const DB = require("DB").default;
 const URL = require("URL").default;
-const bcrypt = require("bcryptjs");
 const Cache = require("Cache").default;
 const Storage = require("Storage").default;
 const Mail = require("Mail").default;
@@ -217,10 +216,8 @@ describe("Auth", () => {
       .field("email", unverifiedUser.email);
 
     expect(response.statusCode).toBe(200);
-    setTimeout(() => {
-      Mail.assertCount(1);
-      Mail.assertSentTo(unverifiedUser.email, "VerificationMail");
-    }, 4000)
+    Mail.assertCount(1);
+    Mail.assertSentTo(unverifiedUser.email, "VerificationMail");
   });
 
   it("should change password", async () => {
@@ -234,9 +231,8 @@ describe("Auth", () => {
       .field("oldPassword", passwords.old)
       .field("password", passwords.new);
     user = await User.findById(user._id);
-    const passwordMatch = await bcrypt.compare(passwords.new, user.password);
     expect(response.statusCode).toBe(200);
-    expect(passwordMatch).toBe(true);
+    expect(await user.attempt(passwords.new)).toBe(true);
     Mail.assertCount(1);
     Mail.assertSentTo(user.email, "PasswordChangedMail");
   });
@@ -281,7 +277,7 @@ describe("Auth", () => {
       .field("token", resetToken);
 
     user = await User.findById(user._id);
-    const passwordMatch = await bcrypt.compare(newPassword, user.password);
+    const passwordMatch = await user.attempt(newPassword);
     expect(response.statusCode).toBe(200);
     expect(passwordMatch).toBe(true);
     Mail.assertCount(1);
@@ -296,7 +292,7 @@ describe("Auth", () => {
       .field("password", newPassword)
       .field("token", "foo");
     user = await User.findById(user._id);
-    const passwordMatch = await bcrypt.compare(newPassword, user.password);
+    const passwordMatch = await user.attempt(newPassword);
     expect(response.statusCode).toBe(401);
     expect(passwordMatch).toBe(false);
     Mail.assertNothingSent();

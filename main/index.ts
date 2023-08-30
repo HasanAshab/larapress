@@ -10,13 +10,20 @@ import https from "https";
 import fs from "fs";
 
 const log = process.env.NODE_ENV === "development";
-//process.env.NODE_ENV === "production" && Setup.cachedConfig();
+process.env.NODE_ENV === "production" && Setup.cachedConfig();
+
 /*
-Config.parse({ redisUrl: "redis://default:raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1@redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com:12100" }).then(() => {
+Config.parse({ caching: "redis", redisUrl: "redis://default:raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1@redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com:12100" }).then(async () => {
   console.log(Config.get())
-  Config.set("app.name", "Foo");
+  await Config.set({
+    app: {
+      name: "Blalalal"
+    }
+  })
   console.log(Config.get())
-});*/
+
+});
+*/
 
 // Connect to database
 if (config.get("db.connect")) {

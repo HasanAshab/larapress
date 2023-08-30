@@ -48,6 +48,7 @@ export default class Mockable {
   }
   
   static assertCount(expectedNumber: number){
+    console.log(this.mocked)
     expect(this.mocked.total).toBe(expectedNumber);
   }
 }

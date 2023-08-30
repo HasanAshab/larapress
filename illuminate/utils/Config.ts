@@ -9,28 +9,21 @@ export type ConfigOptions = {
   redisUrl?: string;
 };
 
-const client = createClient();
-
-const getAsync = promisify(client.get).bind(client);
-const setAsync = promisify(client.set).bind(client);
 
 export default class Config {
   static data: Record<string, ConfigValue> = {};
   static options: ConfigOptions;
 
   static async parse({ caching = "none", redisUrl }: ConfigOptions = {}) {
-    this.options = { caching };
-
+    this.options = { caching, redisUrl };
     if (caching === "redis" && redisUrl) {
-      try {
-        const cachedData = await this.loadFromRedis(redisUrl);
-        if (cachedData) {
-          this.data = cachedData;
-          return;
-        }
-      } catch {}
+      this.client = createClient({ url: redisUrl });
+      const cachedData = await this.loadFromRedis();
+      if (cachedData) {
+        this.data = cachedData;
+        return;
+      }
     }
-
     const data = require("~/config/default");
     try {
       Object.assign(data, require("~/config/" + process.env.NODE_ENV));
@@ -39,9 +32,7 @@ export default class Config {
     this.data = Object.assign(this.flattenObject(data), data);
 
     if (caching === "redis" && redisUrl) {
-      try {
-        await this.saveToRedis(redisUrl);
-      } catch {}
+      await this.saveToRedis();
     }
   }
 
@@ -52,41 +43,27 @@ export default class Config {
     return value;
   }
 
-  static async set(key: string, value: ConfigValue) {
-    this.data[key] = value;
-    
+  static async set(data: object) {
+    Object.assign(this.data, data, this.flattenObject(data));
+    console.log(this.options)
     if (this.options.caching === "redis" && this.options.redisUrl) {
-      try {
-        await this.saveToRedis(this.options.redisUrl);
-      } catch {}
-    }
-  }
-  
-  private createClient() {
-    const client = createClient({
-      url: config.get<any>("redis.url")
-    });
-    client.on("error", err => log(err));
-    return client;
-  }
-
-
-  private static async loadFromRedis(redisUrl: string): Promise<Record<string, ConfigValue> | null> {
-    try {
-      const cachedData = await getAsync("configData");
-      return JSON.parse(cachedData);
-    } catch {
-      return null;
+      await this.saveToRedis(this.options.redisUrl);
     }
   }
 
-  private static async saveToRedis(redisUrl: string): Promise<void> {
-    try {
-      await setAsync("configData", JSON.stringify(this.data));
-    } catch {}
+
+  private static async loadFromRedis() {
+    await this.client.connect();
+    const cachedData = await this.client.get("configData");
+    await this.client.disconnect();
+    return JSON.parse(cachedData);
   }
 
-  // Rest of the methods
+  private static async saveToRedis() {
+    await this.client.connect();
+    await this.client.set("configData", JSON.stringify(this.data));
+    await this.client.disconnect();
+  }
 
   private static flattenObject<T extends Record<string, any>>(obj: T, prefix = ''): Record<string, any> {
     const flatObject: Record<string, any> = {};

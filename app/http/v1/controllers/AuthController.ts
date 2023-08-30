@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { log } from "helpers";
 import config from "config"
-import bcrypt from "bcryptjs";
 import User from "~/app/models/User";
 import URL from "URL";
 import Cache from "Cache";
@@ -35,7 +34,7 @@ export default class AuthController {
       }
     }
     const user = await User.findOne({ email, password: { $ne: null }});
-    if (user && user.password && await bcrypt.compare(password, user.password)) {
+    if (user && user.password && await user.attempt(password)) {
       const userSettings = await user.settings;
       if(userSettings.twoFactorAuth.enabled){
         if(!otp) {
@@ -173,7 +172,7 @@ export default class AuthController {
       }
     }
     const { oldPassword, password } = req.validated;
-    const oldPasswordMatch = await bcrypt.compare(oldPassword, user.password);
+    const oldPasswordMatch = await user.attempt(oldPassword);
     if (!oldPasswordMatch) {
       return {
         status: 401,

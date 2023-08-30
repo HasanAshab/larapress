@@ -2,6 +2,7 @@ import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
 import config from "config";
 import URL from "URL"
 import bcrypt from "bcryptjs";
+import hidden from "mongoose-hidden";
 import Authenticatable, { AuthenticatableDocument } from "~/app/plugins/Authenticatable";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import HasApiTokens, { HasApiTokensDocument } from "~/app/plugins/HasApiTokens";
@@ -81,7 +82,8 @@ UserSchema.plugin(HasFactory);
 UserSchema.plugin(HasApiTokens);
 UserSchema.plugin(Notifiable);
 UserSchema.plugin(Attachable);
-UserSchema.plugin(Billable);
+UserSchema.plugin(hidden(), { hidden: { _id: false } });
+//UserSchema.plugin(Billable);
 
 export interface IUser extends Document, InferSchemaType<typeof UserSchema>, AuthenticatableDocument, AttachableDocument, HasApiTokensDocument, NotifiableDocument, AttachableDocument, BillableDocument {
   safeDetails(): Omit<InferSchemaType<typeof UserSchema>, "email" | "phoneNumber" | "password">;
