@@ -34,10 +34,13 @@ describe("Cache", () => {
     for(const driverName of drivers){
       await Cache.driver(driverName).put("key", "data", 1000)
     }
-    setTimeout(async () => {
-      for(const driverName of drivers){
-        expect(await Cache.driver(driverName).get("key")).toBe(null);
-      }
-    }, 1000)
+    await new Promise(resolve => {
+      setTimeout(async () => {
+        for(const driverName of drivers){
+          expect(await Cache.driver(driverName).get("key")).toBe(null);
+        }
+        resolve();
+      }, 1000);
+    });
   });
 });

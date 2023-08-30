@@ -19,8 +19,7 @@ export default class Mockable {
     }
   }
   
-  static send(mailable: Mailable) {
-    console.log(this.email)
+  static async send(mailable: Mailable) {
     const mocked = this.mocked;
     mocked.total++;
     if (!mocked.recipients[this.email]) {
@@ -49,7 +48,6 @@ export default class Mockable {
   }
   
   static assertCount(expectedNumber: number){
-    console.log(this.mocked)
     expect(this.mocked.total).toBe(expectedNumber);
   }
 }

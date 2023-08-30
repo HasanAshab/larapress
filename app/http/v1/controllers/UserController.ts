@@ -1,5 +1,6 @@
 import { Request } from "express";
 import User from "~/app/models/User";
+import { log } from "helpers";
 
 export default class UserController {
   async index(req: Request) {
@@ -23,7 +24,7 @@ export default class UserController {
     }
     await user.save();
     if(!req.validated.email) return { message: "Profile updated!" };
-    await user.sendVerificationEmail();
+    user.sendVerificationEmail().catch(log);
     return { message: "Verification email sent to new email!" };
   };
   

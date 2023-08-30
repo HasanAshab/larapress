@@ -35,7 +35,7 @@ export default (schema: Schema) => {
     if (this.verified)
       throw new Error("The user is already verified: \n" + this.safeDetails());
     const link = await URL.signedRoute("email.verify", { id: this._id }, expireAfter);
-    const result = await Mail.to(this.email).send(new VerificationMail({ link }));
+    await Mail.to(this.email).send(new VerificationMail({ link }));
     return link;
   };
 

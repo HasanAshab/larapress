@@ -117,8 +117,13 @@ describe("user", () => {
     expect(response.statusCode).toBe(200);
     expect(user.username).toBe(newUserData.username);
     expect(user.email).toBe(newUserData.email);
-    Mail.assertCount(1);
-    Mail.assertSentTo(user.email, "VerificationMail");
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        Mail.assertCount(1);
+        Mail.assertSentTo(user.email, "VerificationMail");
+        resolve();
+      }, 3000);
+    });
     Storage.assertStoredCount(1);
     Storage.assertStored("image.png");
   });

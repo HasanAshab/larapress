@@ -7,7 +7,6 @@ import Cache from "Cache";
 import Mail from "Mail";
 import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
 import { OAuth2Client } from 'google-auth-library';
-import { generateFromEmail } from "unique-username-generator";
 
 export default class AuthController {
   async register(req: Request){
@@ -120,8 +119,9 @@ export default class AuthController {
   };
 
   async resendEmailVerification(req: Request){
-    const user = await User.findOne(req.validated);
-    user && user.sendVerificationEmail().catch(log);
+    User.findOne(req.validated).then(user => {
+      user && user.sendVerificationEmail().catch(log);
+    }).catch(log);
     return {
       message: "Verification email sent!",
     };
@@ -163,7 +163,7 @@ export default class AuthController {
     if(!user.password) {
       return {
         status: 400,
-        message: "This action is not available for OAuth account!"
+        message: "This feature is not supported for OAuth account!"
       }
     }
     const { oldPassword, password } = req.validated;
@@ -177,7 +177,7 @@ export default class AuthController {
     user.password = password;
     user.tokenVersion++;
     await user.save();
-    await Mail.to(user.email).send(new PasswordChangedMail());
+    Mail.to(user.email).send(new PasswordChangedMail()).catch(log);
     return { message: "Password changed!" };
   };
   

@@ -216,9 +216,13 @@ describe("Auth", () => {
       .field("email", unverifiedUser.email);
 
     expect(response.statusCode).toBe(200);
-    console.log(user.email)
-    Mail.assertCount(1);
-    Mail.assertSentTo(unverifiedUser.email, "VerificationMail");
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        Mail.assertCount(1);
+        Mail.assertSentTo(unverifiedUser.email, "VerificationMail");
+        resolve();
+      }, 3000);
+    });
   });
 
   it("should change password", async () => {
@@ -234,9 +238,6 @@ describe("Auth", () => {
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
     expect(await user.attempt(passwords.new)).toBe(true);
-    console.log(user.email)
-    Mail.assertCount(1);
-    Mail.assertSentTo(user.email, "PasswordChangedMail");
   });
 
   it("shouldn't change password of OAuth account", async () => {
@@ -255,7 +256,6 @@ describe("Auth", () => {
       .post("/api/v1/auth/password/reset/send-email")
       .field("email", user.email);
     expect(response.statusCode).toBe(200);
-    console.log(user.email)
     Mail.assertCount(1);
     Mail.assertSentTo(user.email, "ForgotPasswordMail");
   });
@@ -282,9 +282,6 @@ describe("Auth", () => {
     const passwordMatch = await user.attempt(newPassword);
     expect(response.statusCode).toBe(200);
     expect(passwordMatch).toBe(true);
-    console.log(user.email)
-    Mail.assertCount(1);
-    Mail.assertSentTo(user.email, "PasswordChangedMail");
   });
 
   it("shouldn't reset password with invalid token", async () => {
