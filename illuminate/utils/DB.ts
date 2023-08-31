@@ -17,16 +17,12 @@ export default class DB {
   }
   
   static reset() {
-    const collections = mongoose.connection.collections;
-    const dropPromises = [];
-    for (const name in collections) {
-      const dropPromise = collections[name].drop().catch(err => {
-        if (err.codeName !== 'NamespaceNotFound') 
-          throw err;
-      });
-      dropPromises.push(dropPromise);
+    const models = mongoose.modelNames();
+    const promises = [];
+    for (const model of models) {
+      promises.push(mongoose.model(model).deleteMany({}));
     }
-    return Promise.all(dropPromises);
+    return Promise.all(promises);
   }
 }
 

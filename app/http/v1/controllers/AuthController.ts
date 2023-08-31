@@ -78,7 +78,7 @@ export default class AuthController {
         idToken: tokens.id_token!,
         audience: clientId,
       });
-      const { email, picture: logoUrl, sub } = ticket.getPayload()!;
+      const { email, picture: logoUrl } = ticket.getPayload()!;
       const user = await User.findOneAndUpdate(
         { email },
         { logoUrl, verified: true },

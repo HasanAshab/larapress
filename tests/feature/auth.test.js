@@ -6,6 +6,7 @@ const Mail = require("Mail").default;
 const User = require("~/app/models/User").default;
 const Settings = require("~/app/models/Settings").default;
 const OTP = require("~/app/models/OTP").default;
+const { OAuth2Client } = require("google-auth-library");
 
 describe("Auth", () => {
   let user;
