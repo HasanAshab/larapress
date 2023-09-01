@@ -1,4 +1,4 @@
-import Mailable from "~/illuminate/mails/Mailable";
+import Mailable from "~/core/mails/Mailable";
 
 export default class VerificationMail extends Mailable {
   view = "verification";

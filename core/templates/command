@@ -1,0 +1,7 @@
+import Command from "~/core/commands/Command";
+
+export default class {{name}} extends Command {
+  async handle(){
+    //
+  }
+}

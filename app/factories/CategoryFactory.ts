@@ -1,4 +1,4 @@
-import Factory from "~/illuminate/factories/Factory";
+import Factory from "~/core/factories/Factory";
 
 export default class CategoryFactory extends Factory {
   definition() {

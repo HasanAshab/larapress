@@ -56,7 +56,7 @@ export default class Setup {
   }
   
   static mongooseGlobalPlugins() {
-    const globalPluginsBaseDir = "illuminate/plugins/global";
+    const globalPluginsBaseDir = "core/plugins/global";
     const globalPluginsName = fs.readdirSync(globalPluginsBaseDir);
     for(const globalPluginName of globalPluginsName){
       const plugin = require("~/" + globalPluginsBaseDir + "/" + globalPluginName.split(".")[0]).default;

@@ -17,7 +17,7 @@ module.exports = {
     "^helpers$": "<rootDir>/helpers",
     "^types/(.*)$": "<rootDir>/types/$1"
   },
-  modulePaths: ['<rootDir>/illuminate/utils/'],
+  modulePaths: ['<rootDir>/core/utils/'],
   preset: "ts-jest",
   testEnvironment: "node",
   forceExit: true

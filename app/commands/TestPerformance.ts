@@ -1,4 +1,4 @@
-import Command from "~/illuminate/commands/Command";
+import Command from "~/core/commands/Command";
 import { generateEndpointsFromDirTree } from "helpers";
 import { exec, spawn } from "child_process";
 import autocannon, { Options } from "autocannon";

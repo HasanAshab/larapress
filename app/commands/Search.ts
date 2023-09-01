@@ -1,5 +1,5 @@
 import Wildcard from "Wildcard";
-import Command from "~/illuminate/commands/Command";
+import Command from "~/core/commands/Command";
 import fs from "fs";
 import path from "path";
 

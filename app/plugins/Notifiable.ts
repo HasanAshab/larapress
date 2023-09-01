@@ -1,5 +1,5 @@
 import { Schema, Document } from "mongoose";
-import NotificationClass from "~/illuminate/notifications/Notification";
+import NotificationClass from "~/core/notifications/Notification";
 import Notification from "Notification";
 import NotificationModel, { INotification, NotificationQuery } from "~/app/models/Notification";
 

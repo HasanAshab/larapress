@@ -1,8 +1,8 @@
 import { ObjectSchema } from "joi";
 import { UploadedFile } from "express-fileupload";
 import commands from "register/commands";
-import FileValidator from "illuminate/utils/FileValidator";
-import Mailable from "illuminate/mails/Mailable";
+import FileValidator from "core/utils/FileValidator";
+import Mailable from "core/mails/Mailable";
 
 export type RawResponse = {
   status?: number,

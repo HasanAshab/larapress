@@ -1,4 +1,4 @@
-import Factory from "~/illuminate/factories/Factory";
+import Factory from "~/core/factories/Factory";
 import { storage } from "helpers"; 
 import User from "~/app/models/User";
 

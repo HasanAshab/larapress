@@ -1,4 +1,4 @@
-const URL = require('illuminate/utils/URL').default;
+const URL = require('URL').default;
 const appName = process.env.APP_NAME;
 
 module.exports = {

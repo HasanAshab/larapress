@@ -1,5 +1,5 @@
 import { getModels } from "helpers";
-import Command from "~/illuminate/commands/Command";
+import Command from "~/core/commands/Command";
 import mongoose from "mongoose";
 import fs from "fs";
 import Database from "DB";

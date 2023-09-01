@@ -1,4 +1,4 @@
-import Command from "~/illuminate/commands/Command";
+import Command from "~/core/commands/Command";
 import { storage, log } from "helpers";
 import fs from "fs";
 import path from "path";

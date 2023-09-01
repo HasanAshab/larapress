@@ -1,4 +1,4 @@
-import Factory from "~/illuminate/factories/Factory";
+import Factory from "~/core/factories/Factory";
 import User from "~/app/models/User";
 
 export default class BlogFactory extends Factory {

@@ -3,7 +3,7 @@ const components: Record<string, string | Record<string, string>> = {
   "plugin": {
     "default": "l",
     "l": "app/plugins/{name}.ts",
-    "g": "illuminate/plugins/global/{name}.ts"
+    "g": "core/plugins/global/{name}.ts"
   },
   "factory": "app/factories/{name}Factory.ts",
   "policy": "app/policies/{name}.ts",
@@ -17,7 +17,7 @@ const components: Record<string, string | Record<string, string>> = {
   "middleware": {
     "default": "l",
     "l": "app/http/{v}/middlewares/{name}.ts",
-    "g": "illuminate/middlewares/global/{name}.ts"
+    "g": "core/middlewares/global/{name}.ts"
   },
   "command": "app/commands/{name}.ts",
   "test": {

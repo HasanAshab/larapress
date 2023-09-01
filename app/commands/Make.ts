@@ -1,4 +1,4 @@
-import Command from "~/illuminate/commands/Command";
+import Command from "~/core/commands/Command";
 import { execSync } from "child_process";
 import DB from "DB";
 import User from "~/app/models/User";
@@ -33,7 +33,7 @@ export default class Make extends Command {
     let content = "";
     const name = fullPath.pop() as string;
     const parentPath = fullPath.join("/");
-    let templatePath = `illuminate/templates/${this.subCommand}`;
+    let templatePath = `core/templates/${this.subCommand}`;
     const templateDistination = components[this.subCommand];
     if (typeof templateDistination === "object" && fs.statSync(templatePath).isDirectory()){
       templatePath += (typeof this.flags[0] !== "undefined")

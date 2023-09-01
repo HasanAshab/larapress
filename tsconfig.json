@@ -6,7 +6,7 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "*": ["illuminate/utils/*"],
+      "*": ["core/utils/*"],
       "~/*": ["*"],
       "helpers": ["helpers"],
       "types": ["types"]

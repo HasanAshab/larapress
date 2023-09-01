@@ -1,4 +1,4 @@
-import Middleware from "~/illuminate/middlewares/Middleware";
+import Middleware from "~/core/middlewares/Middleware";
 import { customError } from "helpers";
 import { Request, Response, NextFunction } from "express";
 import config from "config";

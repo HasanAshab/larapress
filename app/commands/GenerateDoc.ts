@@ -1,5 +1,5 @@
 import URL from "URL"
-import Command from "~/illuminate/commands/Command";
+import Command from "~/core/commands/Command";
 import { exec } from "child_process";
 import app from "~/main/app";
 import fs from "fs";

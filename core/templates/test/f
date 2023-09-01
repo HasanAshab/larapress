@@ -1,0 +1,16 @@
+const DB = require("~/core/utils/DB").default;
+
+describe("{{name}}", () => {
+  beforeAll(async () => {
+    //await DB.connect();
+  });
+  
+  beforeEach(async () => {
+    //await resetDatabase();
+  });
+
+  it("Should work", async () => {
+    const response = await request.get("/");
+    expect(true).toBe(true);
+  });
+});

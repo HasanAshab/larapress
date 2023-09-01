@@ -1,0 +1,9 @@
+import Factory from "~/core/factories/Factory";
+
+export default class {{name}}Factory extends Factory {
+  definition() {
+    return {
+      //
+    };
+  };
+}

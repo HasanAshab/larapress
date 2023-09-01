@@ -1,4 +1,4 @@
-const { base, getVersion, generateEndpointsFromDirTree } = require("~/helpers");
+const { base, getVersion, generateEndpointsFromDirTree } = require("helpers");
 const path = require("~/path");
 const fs = require("~/fs");
 const baseDoc = require("~/docs/base");

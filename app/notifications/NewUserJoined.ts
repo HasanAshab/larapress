@@ -1,5 +1,5 @@
 import { IUser } from "~/app/models/User";
-import Notification from "~/illuminate/notifications/Notification";
+import Notification from "~/core/notifications/Notification";
 import NewUserJoinedMail from "~/app/mails/NewUserJoinedMail";
 
 export default class NewUserJoined extends Notification {

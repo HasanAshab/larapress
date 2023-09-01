@@ -1,0 +1,15 @@
+import { IUser } from "~/app/models/User";
+import Notification from "~/core/notifications/Notification";
+
+export default class {{name}} extends Notification {
+  //shouldQueue = true;
+  //type = "{{name}}";
+  
+  via(notifiable: IUser){
+    return ["site"];
+  }
+  
+  toSite(notifiable: IUser) {
+    return {}
+  }
+}

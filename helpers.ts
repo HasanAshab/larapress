@@ -49,7 +49,7 @@ export function middleware(
   function getMiddleware(middlewareKey: string, config?: Record < string, unknown >): RequestHandler {
     const middlewarePath = middlewarePairs[middlewareKey as keyof typeof middlewarePairs];
       const fullPath = middlewarePath.startsWith("<global>")
-        ? middlewarePath.replace("<global>", "~/illuminate/middlewares/global")
+        ? middlewarePath.replace("<global>", "~/core/middlewares/global")
         : `~/app/http/${config?.version ?? "v1"}/middlewares/${middlewarePath}`;
       const MiddlewareClass = require(fullPath).default;
       const middlewareInstance = new MiddlewareClass(config);
