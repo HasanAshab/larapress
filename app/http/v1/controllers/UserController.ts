@@ -14,8 +14,8 @@ export default class UserController {
   async updateProfile(req: Request){
     const logo = req.files?.logo;
     const user = req.user;
-    Object.assign(user, req.validated);
-    if(req.validated.email){
+    Object.assign(user, req.body);
+    if(req.body.email){
       user.verified = false;
     }
     if (logo && !Array.isArray(logo)) {
@@ -23,7 +23,7 @@ export default class UserController {
       await user.attach("logo", logo, true);
     }
     await user.save();
-    if(!req.validated.email) return { message: "Profile updated!" };
+    if(!req.body.email) return { message: "Profile updated!" };
     user.sendVerificationEmail().catch(log);
     return { message: "Verification email sent to new email!" };
   };

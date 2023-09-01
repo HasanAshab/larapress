@@ -40,15 +40,11 @@ export default class ValidateRequest extends Middleware {
 
     if (typeof urlencoded !== "undefined") {
       const target = req[urlencoded.target];
-      urlencoded.rules.validateAsync(target).then(() => {
-        req.validated = target;
-        next();
-      }).catch(error => {
+      urlencoded.rules.validateAsync(target).then(() => next()).catch(error => {
         res.status(400).api({
           message: error.details ? error.details[0].message: error.message,
         });
-      })
+      });
     }
   }
-
 }

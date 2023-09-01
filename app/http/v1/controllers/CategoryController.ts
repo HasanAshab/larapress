@@ -11,7 +11,7 @@ export default class CategoryController {
   }
   
   async create(req: Request) {
-    const category = await Category.create(req.validated);
+    const category = await Category.create(req.body);
     const icon = req.files?.icon;
     if (icon && !Array.isArray(icon)) 
       await category.attach("icon", icon, true);
@@ -21,14 +21,14 @@ export default class CategoryController {
   async update(req: Request) {
     const icon = req.files?.icon;
     if(!icon){
-      const { modifiedCount } = await Category.updateOne({_id: req.params.id}, req.validated);
+      const { modifiedCount } = await Category.updateOne({_id: req.params.id}, req.body);
       return modifiedCount === 1
         ? { message: "Category updated!" }
         : { status: 404 };
     }
     const category = await Category.findById(req.params.id);
     if(!category) return { status: 404 };
-    Object.assign(category, req.validated);
+    Object.assign(category, req.body);
     await category.detach("icon");
     await category.attach("icon", icon as any, true);
     await category.save();

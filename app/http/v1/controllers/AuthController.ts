@@ -11,7 +11,7 @@ import { OAuth2Client } from 'google-auth-library';
 export default class AuthController {
   async register(req: Request){
     const logo = req.files?.logo;
-    const user = await User.create(req.validated);
+    const user = await User.create(req.body);
     logo && user.attach("logo", logo as any, true).catch(log);
     const token = user.createToken();
     req.app.emit("Registered", user);
@@ -23,7 +23,7 @@ export default class AuthController {
   };
 
   async login(req: Request){
-    const { email, password, otp } = req.validated;
+    const { email, password, otp } = req.body;
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
     let failedAttemptsCount = (await Cache.get(attemptCacheKey) ?? 0) as number;
     if(failedAttemptsCount > 3) {
@@ -119,7 +119,7 @@ export default class AuthController {
   };
 
   async resendEmailVerification(req: Request){
-    User.findOne(req.validated).then(user => {
+    User.findOne(req.body).then(user => {
       user && user.sendVerificationEmail().catch(log);
     }).catch(log);
     return {
@@ -128,7 +128,7 @@ export default class AuthController {
   };
 
   async sendResetPasswordEmail(req: Request){
-    const user = await User.findOne(req.validated);
+    const user = await User.findOne(req.body);
     if (user) {
       if(!user.password) {
         return {
@@ -144,7 +144,7 @@ export default class AuthController {
   };
 
   async resetPassword(req: Request){
-    const { id, password, token } = req.validated;
+    const { id, password, token } = req.body;
     const user = await User.findById(id);
     if (user) {
       await user.resetPassword(token, password);
@@ -166,7 +166,7 @@ export default class AuthController {
         message: "This feature is not supported for OAuth account!"
       }
     }
-    const { oldPassword, password } = req.validated;
+    const { oldPassword, password } = req.body;
     const oldPasswordMatch = await user.attempt(oldPassword);
     if (!oldPasswordMatch) {
       return {
@@ -182,7 +182,7 @@ export default class AuthController {
   };
   
   async changePhoneNumber(req: Request){
-    req.user.phoneNumber = req.validated.phoneNumber;
+    req.user.phoneNumber = req.body.phoneNumber;
     await req.user.save();
     return {
       message: "Phone number has been updated/ set successfully!",
@@ -190,7 +190,7 @@ export default class AuthController {
   }
   
   async sendOtp(req: Request){
-    const { userId, method } = req.validated;
+    const { userId, method } = req.body;
     const user = await User.findById(userId);
     if(!user) return { status: 404 };
     const settings = await user.settings;

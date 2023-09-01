@@ -42,7 +42,8 @@ Setup.cronJobs();
 let server;
 const loadBalancerConfig = config.get<any>("loadBalancer");
 if(loadBalancerConfig.enabled) {
-  console.log("Server running on:")
+  console.log(`load Balancer: [http://127.0.0.1:${config.get("app.port")}]\n`)
+  console.log("Server Instances:")
   for (const port of loadBalancerConfig.ports) {
     app.listen(port, () => {
       console.log(`[http://127.0.0.1:${port}]`);

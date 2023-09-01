@@ -10,12 +10,12 @@ export default class SettingsController {
   }
   
   async notification(req: Request) {
-    await Settings.updateOne({ userId: req.user._id }, { notification: req.validated });
+    await Settings.updateOne({ userId: req.user._id }, { notification: req.body });
     return { message: "Settings saved!" }
   }
   
   async enableTwoFactorAuth(req: Request){
-    const { otp, method } = req.validated;
+    const { otp, method } = req.body;
     const isValidOtp = await req.user.verifyOtp(parseInt(otp));
     if (!isValidOtp){
       return {
@@ -40,7 +40,7 @@ export default class SettingsController {
   }
   
   async updateAppSettings(req: Request) {
-    deepMerge(config, req.validated);
+    deepMerge(config, req.body);
     Cache.driver("redis").put("config", config);
     return { message: "Settings updated!" }
   }
