@@ -6,7 +6,7 @@ moduleAlias.addAliases({
   "~": __dirname + "/dist",
   "helpers": __dirname + "/dist/helpers"
 });
-moduleAlias.addPath(__dirname + "/dist/illuminate/utils");
+moduleAlias.addPath(__dirname + "/dist/core/utils");
 process.env.NODE_ENV = "shell";
 const args = process.argv;
 require('Artisan').default.call(args[2], args.splice(2));
