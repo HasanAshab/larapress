@@ -1,4 +1,4 @@
-const Category = require(base("app/models/Category")).default;
+const Category = require("~/app/models/Category").default;
 
 module.exports = {
   get: {

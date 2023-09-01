@@ -1,5 +1,5 @@
 const FormData = require("form-data");
-const User = require(base("app/models/User")).default;
+const User = require("~/app/models/User").default;
 
 module.exports = {
   get: {

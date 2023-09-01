@@ -1,5 +1,5 @@
-const User = require(base("app/models/User")).default;
-const Mail = require(base("illuminate/utils/Mail")).default;
+const User = require("~/app/models/User").default;
+const Mail = require("~/illuminate/utils/Mail").default;
 
 module.exports = {
   put: {

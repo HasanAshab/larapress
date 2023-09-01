@@ -18,7 +18,19 @@ export default class TestPerformance extends Command {
   private startTime = Date.now();
   
   async handle(){
-    const { connections = 2, amount, workers = 0, stdout = true, version = "v1" } = this.params
+    const { 
+      connections = 2, 
+      amount, 
+      workers = 0,
+      stdout = true,
+      version = "v1",
+      key = Date.now() + ".json"
+    } = this.params
+    
+    process.on("exit", () => {
+      this.info(`Time: ${(Date.now() - this.startTime) / 1000}s`)
+    })
+
     //this.info("starting server...");
 /*
     this.serverProcess.unref();
@@ -43,6 +55,7 @@ export default class TestPerformance extends Command {
       url: URL.resolve(),
       connections: Number(connections),
       workers: Number(workers),
+      timeout: 20,
       headers: {
         "content-type": "application/json"
       }
@@ -52,12 +65,12 @@ export default class TestPerformance extends Command {
     if(config.requests.length === 0) {
       this.error("No benchmark matched!");
     }
-    config.amount = Number(amount) ?? config.requests.length * Number(connections);
+    config.amount = amount ? Number(amount) : config.requests.length * Number(connections);
     this.info("load test started...");
     const instance = autocannon(config, async (err, result) => {
       const outDir = "storage/reports/performance/" + version;
       await exec("mkdir -p " + outDir);
-      fs.writeFileSync(path.join(outDir, Date.now() + ".json"), JSON.stringify(result, null, 2));
+      fs.writeFileSync(path.join(outDir, key), JSON.stringify(result, null, 2));
       this.info("clearing database...");
       await DB.reset();
       this.success("Test report saved at /storage/reports/performance");
@@ -71,7 +84,7 @@ export default class TestPerformance extends Command {
     const endpointPathPair = generateEndpointsFromDirTree(path.join(this.benchmarkRootPath, version));
     for(const [endpoint, path] of Object.entries(endpointPathPair)){
      if(pattern && !endpoint.includes(pattern)) continue
-      const benchmarkFile = require(path);
+      const benchmarkFile = require(path.replace("~/", "~/../"));
       for(const method in benchmarkFile) {
         const doc = benchmarkFile[method];
         let context: Record<string, any> = {}; 

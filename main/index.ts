@@ -1,11 +1,13 @@
 import "dotenv/config";
-process.env.NODE_ENV === "production" && require('module-alias/register');
+(process.env.NODE_ENV === "production" || process.env.NODE_ENV === "loadTest")
+  && require('module-alias/register');
 import config from 'config';
 import app from "~/main/app";
 import Setup from "~/main/Setup";
 //import Config from "Config";
 import DB from "DB";
 import Mail from "Mail";
+process.env.NODE_ENV === "loadTest" && (Mail as any).mock();
 import https from "https";
 import fs from "fs";
 
@@ -37,17 +39,30 @@ if (config.get("db.connect")) {
 // Registering Cron Jobs
 Setup.cronJobs();
 
-const port = config.get<number>("app.port");
-const server = app.listen(port, () => {
-  process.env.NODE_ENV !== "test" && console.log(`Server running on [http://127.0.0.1:${port}] ...`);
-});
+let server;
+const loadBalancerConfig = config.get<any>("loadBalancer");
+if(loadBalancerConfig.enabled) {
+  console.log("Server running on:")
+  for (const port of loadBalancerConfig.ports) {
+    app.listen(port, () => {
+      console.log(`[http://127.0.0.1:${port}]`);
+    }).on("connection", (socket) => {
+      const time = new Date().toLocaleTimeString("en-US", { hour12: true });
+      log && console.log(`*New connection on port ${port} [${time}]`);
+    });
+  }
+}
 
-log && server.on("connection", (socket) => {
-  const now = new Date();
-  const time = now.toLocaleTimeString("en-US", {
-    hour12: true
+else {
+  const port = config.get<number>("app.port");
+  server = app.listen(port, () => {
+    process.env.NODE_ENV !== "test" && console.log(`Server running on [http://127.0.0.1:${port}] ...`);
   });
-  console.log(`*New connection: [${time}]`);
-});
+  
+  log && server.on("connection", (socket) => {
+    const time = new Date().toLocaleTimeString("en-US", { hour12: true });
+    console.log(`*New connection: [${time}]`);
+  });
+}
 
 export default server;

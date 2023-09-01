@@ -7,6 +7,10 @@ module.exports = {
     key: "621f6b72ebfdfdb50d3f20c97515e9454043b9789550b4e913e3847d4fcc5eec",
     state: "up"
   },
+  loadBalancer: {
+    enabled: false,
+    ports: [3000, 3001, 3002]
+  },
   client: {
     protocol: "http",
     domain: "localhost",

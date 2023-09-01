@@ -1,4 +1,4 @@
-const Notification = require(base("app/models/Notification")).default;
+const Notification = require("~/app/models/Notification").default;
 
 module.exports = {
   get: {

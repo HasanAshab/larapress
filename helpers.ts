@@ -217,7 +217,7 @@ export function generateEndpointsFromDirTree(rootPath: string): Record < string,
         .toLowerCase()
         .replace(/index$/, "");
         
-        endpointPathPair[itemPathEndpoint] = itemPath.split(".")[0];
+        endpointPathPair[itemPathEndpoint] = "~/" + itemPath.split(".")[0];
       } else if (status.isDirectory()) {
         stack.push(itemPath);
       }

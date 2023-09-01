@@ -1,47 +1,25 @@
-import { Request } from "express";
-import { deepMerge } from "helpers";
+import { ValidationSchema } from "types";
 import config from "config";
-import Cache from "Cache";
-import Settings from "~/app/models/Settings";
+import Joi from "joi";
 
-export default class SettingsController {
-  async index(req: Request) {
-    return await req.user.settings;
+const parseFields = function(obj: any) {
+  const fields: Record<string, any> = {};
+  const type = typeof obj;
+  if(type !== "object")
+    //@ts-ignore
+    return Joi[type]();
+  for(const key of Object.keys(obj)){
+    fields[key] = parseFields(obj[key])
   }
-  
-  async notification(req: Request) {
-    await Settings.updateOne({ userId: req.user._id }, { notification: req.validated });
-    return { message: "Settings saved!" }
-  }
-  
-  async enableTwoFactorAuth(req: Request){
-    const { otp, method } = req.validated;
-    const isValidOtp = await req.user.verifyOtp(parseInt(otp));
-    if (!isValidOtp){
-      return {
-        status: 401,
-        message: "Invalid OTP. Please try again!",
-      };
-    }
-    await Settings.updateOne(
-    { userId: req.user._id },
-    {
-      twoFactorAuth: {
-        enabled: true,
-        method
-      }
-    }
-    );
-    return { message: `Two Factor Auth enabled!`};
-  }
-  
-  async getAppSettings() {
-    return { data: config };
-  }
-  
-  async updateAppSettings(req: Request) {
-    deepMerge(config, req.validated);
-    Cache.driver("redis").put("config", config);
-    return { message: "Settings updated!" }
+  return fields;
+}
+
+const schema: ValidationSchema = {
+  urlencoded: {
+    target: "body",
+    rules: Joi.object(parseFields(config))
   }
 }
+
+
+export default schema;

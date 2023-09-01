@@ -1,3 +1,4 @@
+/*
 import { createClient } from "redis";
 import { promisify } from "util";
 
@@ -81,3 +82,4 @@ export default class Config {
     return flatObject;
   }
 }
+*/

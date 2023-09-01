@@ -40,10 +40,10 @@ export default class Mail {
         viewEngine: createHandlebars({
           extname: ".handlebars",
           defaultLayout: "main",
-          layoutsDir: "/views/layouts",
-          partialsDir: "/views/partials",
+          layoutsDir: "views/layouts",
+          partialsDir: "views/partials",
         }),
-        viewPath: "/views/emails",
+        viewPath: "views/emails",
         extName: ".handlebars",
       })
     );

@@ -13,16 +13,12 @@ class DB {
         await mongoose_1.default.disconnect();
     }
     static reset() {
-        const collections = mongoose_1.default.connection.collections;
-        const dropPromises = [];
-        for (const name in collections) {
-            const dropPromise = collections[name].drop().catch(err => {
-                if (err.codeName !== 'NamespaceNotFound')
-                    throw err;
-            });
-            dropPromises.push(dropPromise);
+        const models = mongoose_1.default.modelNames();
+        const promises = [];
+        for (const model of models) {
+            promises.push(mongoose_1.default.model(model).deleteMany({}));
         }
-        return Promise.all(dropPromises);
+        return Promise.all(promises);
     }
 }
 DB.defaultConnectOptions = {

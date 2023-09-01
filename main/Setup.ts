@@ -43,7 +43,7 @@ export default class Setup {
     const routesRootPath = "routes";
     const routesEndpointPaths = generateEndpointsFromDirTree(routesRootPath);
     for (const [endpoint, path] of Object.entries(routesEndpointPaths)) {
-      app.use(endpoint, require("~/" + path).default);
+      app.use(endpoint, require(path).default);
     }
   };
   

@@ -1,7 +1,7 @@
 const DB = require("DB").default;
 const User = require("~/app/models/User").default;
 const Settings = require("~/app/models/Settings").default;
-const { env, toCamelCase } = require("helpers");
+const config = require("config")
 
 describe("Settings", () => {
   let user;
@@ -32,19 +32,12 @@ describe("Settings", () => {
   
   it("Admin should get app settings", async () => {
     const admin = await User.factory().create({ role: "admin" });
-    const envData = env();
-    const camelCaseData = {};
-    for (const key in envData) {
-      const camelCaseKey = toCamelCase(key.toLowerCase())
-      camelCaseData[camelCaseKey] = envData[key];
-    }
-    
     const response = await request
       .get("/api/v1/settings/app")
       .set("Authorization", `Bearer ${admin.createToken()}`);
     
     expect(response.statusCode).toBe(200);
-    expect(response.body.data).toEqual(camelCaseData);
+    expect(response.body.data).toEqual(config);
   });
 
   it("Admin should update app settings", async () => {
@@ -52,11 +45,15 @@ describe("Settings", () => {
     const response = await request
       .put("/api/v1/settings/app")
       .set("Authorization", `Bearer ${admin.createToken()}`)
-      .field("appName", "FooBar")
+      .send({
+        app: {
+          name: "FooBar"
+        }
+      });
 
     expect(response.statusCode).toBe(200);
-    expect(env().APP_NAME).toBe("FooBar");
-    env({APP_NAME: "Samer"});
+    expect(config.get("app.name")).toBe("FooBar");
+    config.app.name = "Samer";
   });
   
   it("Should get settings", async () => {

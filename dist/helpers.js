@@ -220,7 +220,7 @@ function generateEndpointsFromDirTree(rootPath) {
                     .split(".")[0]
                     .toLowerCase()
                     .replace(/index$/, "");
-                endpointPathPair[itemPathEndpoint] = itemPath.split(".")[0];
+                endpointPathPair[itemPathEndpoint] = "~/" + itemPath.split(".")[0];
             }
             else if (status.isDirectory()) {
                 stack.push(itemPath);

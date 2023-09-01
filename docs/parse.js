@@ -1,10 +1,10 @@
-const { base, getVersion, generateEndpointsFromDirTree } = require("helpers");
-const path = require("path");
-const fs = require("fs");
-const baseDoc = require(base("docs/base"));
+const { base, getVersion, generateEndpointsFromDirTree } = require("~/helpers");
+const path = require("~/path");
+const fs = require("~/fs");
+const baseDoc = require("~/docs/base");
 
 const rootDoc = {};
-const subDocRootPath = base("docs/parts");
+const subDocRootPath = "docs/parts";
 const versions = fs.readdirSync(subDocRootPath);
 for (const version of versions) {
   baseDoc.basePath += version;
@@ -22,11 +22,11 @@ for (const version of versions) {
       methodDoc.parameters = [];
       try {
         const version = getVersion(docPath);
-        const Validation = require(base(
+        const Validation = require(
           path.join(
             `app/http/${version}/validations/`,
             methodDoc.validationPath
-          )
+          
         )).default;
         const { urlencoded, multipart } = Validation;
         if (typeof urlencoded !== "undefined") {

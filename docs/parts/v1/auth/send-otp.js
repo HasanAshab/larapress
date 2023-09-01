@@ -1,5 +1,5 @@
-const User = require(base("app/models/User")).default;
-const Settings = require(base("app/models/Settings")).default;
+const User = require("~/app/models/User").default;
+const Settings = require("~/app/models/Settings").default;
 
 module.exports = {
   post: {

@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const config_1 = __importDefault(require("config"));
 const fs_1 = __importDefault(require("fs"));
 const mongoose_1 = __importDefault(require("mongoose"));
-const mongoose_hidden_1 = __importDefault(require("mongoose-hidden"));
 const helpers_1 = require("helpers");
 const node_cron_1 = __importDefault(require("node-cron"));
 const Artisan_1 = __importDefault(require("Artisan"));
@@ -47,7 +46,7 @@ class Setup {
         const routesRootPath = "routes";
         const routesEndpointPaths = (0, helpers_1.generateEndpointsFromDirTree)(routesRootPath);
         for (const [endpoint, path] of Object.entries(routesEndpointPaths)) {
-            app.use(endpoint, require("~/" + path).default);
+            app.use(endpoint, require(path).default);
         }
     }
     ;
@@ -65,7 +64,6 @@ class Setup {
             const plugin = require("~/" + globalPluginsBaseDir + "/" + globalPluginName.split(".")[0]).default;
             mongoose_1.default.plugin(plugin);
         }
-        mongoose_1.default.plugin((0, mongoose_hidden_1.default)(), { hidden: { _id: false } });
     }
 }
 exports.default = Setup;
