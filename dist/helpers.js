@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateEndpointsFromDirTree = exports.getModels = exports.customError = exports.checkProperties = exports.getVersion = exports.log = exports.env = exports.controller = exports.middleware = exports.storage = exports.deepMerge = exports.toSnakeCase = exports.toCamelCase = exports.capitalizeFirstLetter = void 0;
+exports.generateEndpointsFromDirTree = exports.getModels = exports.customError = exports.getVersion = exports.log = exports.env = exports.controller = exports.middleware = exports.storage = exports.deepMerge = exports.capitalizeFirstLetter = void 0;
 const config_1 = __importDefault(require("config"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const fs_1 = __importDefault(require("fs"));
@@ -11,17 +11,9 @@ const path_1 = __importDefault(require("path"));
 const middlewares_1 = __importDefault(require("~/register/middlewares"));
 const errors_1 = __importDefault(require("~/register/errors"));
 function capitalizeFirstLetter(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    return str[0].toUpperCase() + str.slice(1);
 }
 exports.capitalizeFirstLetter = capitalizeFirstLetter;
-function toCamelCase(str) {
-    return str.replace(/_./g, (match) => match.charAt(1).toUpperCase());
-}
-exports.toCamelCase = toCamelCase;
-function toSnakeCase(str) {
-    return str.replace(/([A-Z])/g, '_$1');
-}
-exports.toSnakeCase = toSnakeCase;
 function deepMerge(target, source) {
     for (const key in source) {
         if (source.hasOwnProperty(key)) {
@@ -167,15 +159,6 @@ function getVersion(path) {
     return match[1];
 }
 exports.getVersion = getVersion;
-function checkProperties(obj, properties) {
-    for (const [name, type] of Object.entries(properties)) {
-        if (!(name in obj && typeof obj[name] === type)) {
-            return false;
-        }
-    }
-    return true;
-}
-exports.checkProperties = checkProperties;
 function customError(type, data) {
     const errorData = errors_1.default[type];
     const error = new Error();

@@ -10,15 +10,7 @@ import mongoose from "mongoose";
 
 
 export function capitalizeFirstLetter(str: string) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-export function toCamelCase(str: string) {
-  return str.replace(/_./g, (match) => match.charAt(1).toUpperCase());
-}
-
-export function toSnakeCase(str: string) {
-  return str.replace(/([A-Z])/g, '_$1');
+  return str[0].toUpperCase() + str.slice(1);
 }
 
 export function deepMerge(target: any, source: any): any {
@@ -111,8 +103,6 @@ export function controller(name: string, version = getVersion()): Record < strin
   return handlerAndValidatorStack;
 }
 
-
-
 export function env(envValues?: Record<string, string>) {
   const envConfig = dotenv.parse(fs.readFileSync(".env"));
   if(!envValues) return envConfig;
@@ -130,7 +120,7 @@ export function env(envValues?: Record<string, string>) {
 }
 
 export async function log(data: any) {
-  const logChannel = config.get<any>("log");
+  const logChannel = config.get<string>("log");
   if(logChannel === "file"){
     const path = "./storage/logs/error.log";
     if(data instanceof Error){
@@ -146,7 +136,6 @@ export async function log(data: any) {
   }
 }
 
-
 export function getVersion(path?: string): string {
   let target: string;
   if (typeof path === "undefined") {
@@ -159,16 +148,6 @@ export function getVersion(path?: string): string {
   const match = target.match(regex);
   if (!match) throw new Error('This path is not a nested versional path!');
   return match[1];
-}
-
-
-export function checkProperties(obj: any, properties: Record < string, string >): boolean {
-  for (const [name, type] of Object.entries(properties)) {
-    if (!(name in obj && typeof obj[name] === type)) {
-      return false;
-    }
-  }
-  return true;
 }
 
 export function customError(type: keyof typeof customErrors, data?: object): Error {

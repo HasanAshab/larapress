@@ -19,11 +19,8 @@ export default class Cache {
   static async getDriver<T extends keyof Driver>(methodName: T): Promise<Driver[T]> {
     const { default: DriverClass } = await import(`./drivers/${capitalizeFirstLetter(this.driverName)}`);
     const driver = new DriverClass();
-    this.driverName = config.get<any>("cache") as any;
-    if(Driver.isDriver(driver)){
-      return driver[methodName].bind(driver) as Driver[T];
-    }
-    throw customError("INVALID_CACHE_DRIVER", {driverName: this.driverName});
+    this.driverName = config.get<any>("cache");
+    return (driver[methodName] as any).bind(driver) as Driver[T];
   }
   
   static async get(key: string) {
