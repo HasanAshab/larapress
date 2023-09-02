@@ -5,7 +5,8 @@ import {
   NextFunction
 } from "express";
 import path from "path";
-import { ValidationSchema } from "types"
+import { ValidationSchema } from "types";
+
 export default class ValidateRequest extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {
     const {
@@ -15,8 +16,7 @@ export default class ValidateRequest extends Middleware {
     if (typeof version !== "string" || typeof validationSubPath !== "string") throw new Error("version and validationSubPath args required as type String.");
 
     try {
-      const Schema = require(path.join(`~/app/http/${version}/validations/`, validationSubPath));
-      var ValidationSchema = Schema.default as ValidationSchema;
+      var { default: ValidationSchema } = await import(path.join(`~/app/http/${version}/validations/`, validationSubPath)) as ValidationSchema;
     } catch {
       return next();
     }

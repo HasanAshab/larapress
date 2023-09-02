@@ -25,9 +25,9 @@ export default class Config {
         return;
       }
     }
-    const data = require("~/config/default");
+    const data = await import("~/config/default");
     try {
-      Object.assign(data, require("~/config/" + process.env.NODE_ENV));
+      Object.assign(data, await import("~/config/" + process.env.NODE_ENV));
     } catch {}
 
     this.data = Object.assign(this.flattenObject(data), data);

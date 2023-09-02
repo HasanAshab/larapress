@@ -9,7 +9,7 @@ export default class Artisan {
     const commandName = commands[commandKey as keyof typeof commands];
     if (!commandName) throw customError("COMMAND_NOT_FOUND");
 
-    const CommandClass = require(`~/app/commands/${commandName}`)?.default;
+    const { default: CommandClass } = await import(`~/app/commands/${commandName}`);
 
     const commandClass = new CommandClass(subCommand, fromShell, flags, params);
     const handler = commandClass[subCommand] || commandClass.handle;

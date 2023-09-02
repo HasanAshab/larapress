@@ -9,7 +9,7 @@ export default class CommentController {
     const { modelName, id } = req.params;
     const doc = model(modelName).findById(id);
     if(!isCommentableDocument(doc)) return { status: 404 };
-    if(req.user.can("readComments", doc)){
+    if(await req.user.can("readComments", doc)){
       return await doc.comments;
     }
     return {

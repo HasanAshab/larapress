@@ -1,23 +1,13 @@
 import { Schema, Document } from "mongoose";
 
-const getPolicyFor = (modelName: string) => {
-  const Policy = require(`~/app/policies/${modelName}Policy`).default;
+const getPolicyFor = async (modelName: string) => {
+  const { default: Policy } = await import(`~/app/policies/${modelName}Policy`);
   return new Policy();
 };
 
 export default (schema: Schema) => {
-  schema.statics.whereCan = function (action: string, performer: Document) {
-    const policy = getPolicyFor(this.modelName);
-    const filter = policy[action](performer);
-    return this.find(
-      Array.isArray(filter)
-        ? {$or: filter}
-        : filter
-    );
-  }
-  
-  schema.methods.can = function (action: string, target: Document) {
-    const policy = getPolicyFor((target.constructor as any).modelName);
+  schema.methods.can = async function (action: string, target: Document) {
+    const policy = await getPolicyFor((target.constructor as any).modelName);
     const filters = policy[action](this);
     return (Array.isArray(filters))
       ? filters.some(filter => this.matchFilter(target, filter))

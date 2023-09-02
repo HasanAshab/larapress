@@ -6,10 +6,8 @@ declare module 'mongoose' {
     paginate(pageSize: number, cursor?: string): Query<{ data: ResultType[]; next: string | null }, DocType, THelpers>;
     paginateReq(req: Request): Query<{ data: ResultType[]; next: string | null }, DocType, THelpers>;
   }
-  interface Model<TRawDocType, TQueryHelpers = {}, TInstanceMethods = {}, TVirtuals = {}, THydratedDocumentType = DocType, TSchema = any, DocType = Document<any, THelpers>, THelpers = {}> {
-    whereCan(action: string, performer: Document): Query<DocType[], DocType, THelpers>
-  }
+  //interface Model<TRawDocType, TQueryHelpers = {}, TInstanceMethods = {}, TVirtuals = {}, THydratedDocumentType = DocType, TSchema = any, DocType = Document<any, THelpers>, THelpers = {}> {}
   interface Document {
-    can(action: string, target: Document): boolean;
+    can(action: string, target: Document): Promise<boolean>;
   }
 }

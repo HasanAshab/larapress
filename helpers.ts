@@ -169,7 +169,7 @@ export async function getModels(): Promise < Model < any > [] > {
   const models: Model < any > [] = []
   const modelNames = await fs.promises.readdir("app/models");
   for (const modelName of modelNames) {
-    const Model = require(`~/app/models/${modelName}`).default;
+    const { default: Model } = await import(`~/app/models/${modelName}`);
     models.push(Model);
   }
   return models;
