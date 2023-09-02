@@ -7,9 +7,8 @@ import User from "~/app/models/User";
 
 export default class Authenticate extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {
-    console.log(this.config)
     const authHeader = req.headers.authorization;
-    const { verified = true, roles = [] } = this.config
+    const { verified = true, roles } = this.config
     if (authHeader) {
       const token = authHeader.split(" ")[1];
       if (token) {
@@ -22,7 +21,11 @@ export default class Authenticate extends Middleware {
                 message: "Your have to verify your email to perfom this action!"
               });
             }
-            if(Array.isArray(roles) && roles.length > 0 && !roles.includes(user.role)){
+            if( 
+              roles && (
+                (Array.isArray(roles) && !roles.includes(user.role)) || roles !== user.role
+              )
+            ){
               return res.status(403).api({
                 message: "Your have not enough privilege to perfom this action!"
               });

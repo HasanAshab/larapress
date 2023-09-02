@@ -115,7 +115,7 @@ export function controller(name: string, version = getVersion()): Record < strin
     }
     const validationSubPath = `${controllerPrefix}/${capitalizeFirstLetter(methodName)}`;
     handlerAndValidatorStack[methodName] = [
-      ...middleware(["validate", { version, validationSubPath }]),
+      ...middleware(`validate@version:${version}|validationSubPath:${validationSubPath}`),
       requestHandler
     ];
   }
