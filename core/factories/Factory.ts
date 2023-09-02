@@ -4,7 +4,7 @@ export default abstract class Factory {
   abstract definition(): Record<string, any>;
   public faker = faker;
   
-  constructor(public options = {}) {
+  constructor(public options: Record<string, unknown> = {}) {
     this.options = options;
   }
   

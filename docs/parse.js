@@ -1,7 +1,7 @@
 const { base, getVersion, generateEndpointsFromDirTree } = require("helpers");
-const path = require("~/path");
-const fs = require("~/fs");
-const baseDoc = require("~/docs/base");
+const path = require("path");
+const fs = require("fs");
+const baseDoc = require("~/../docs/base");
 
 const rootDoc = {};
 const subDocRootPath = "docs/parts";
@@ -13,9 +13,11 @@ for (const version of versions) {
     path.join(subDocRootPath, version)
   );
   for (const [endpoint, docPath] of Object.entries(endpointPathPair)) {
-    const pathDoc = require(docPath);
+    const pathDoc = require(docPath.replace("~/", "~/../"));
     for (const [method, methodDoc] of Object.entries(pathDoc)) {
-      delete methodDoc.admin;
+      if(methodDoc.auth) {
+        methodDoc.description = "Need Authentication (Bearer Token).\n Role: " + methodDoc.auth;
+      }
       delete methodDoc.auth;
       delete methodDoc.benchmark;
       

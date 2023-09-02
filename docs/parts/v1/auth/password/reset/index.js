@@ -1,5 +1,5 @@
 const User = require("~/app/models/User").default;
-const Mail = require("~/Mail").default;
+const Mail = require("Mail").default;
 
 module.exports = {
   put: {

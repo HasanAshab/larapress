@@ -9,7 +9,7 @@ export interface HasFactoryModel {
 
 
 export default (schema: Schema) => {
-  let Factory = null;
+  let Factory: any;
   schema.statics.factory = function(options?: Record<string, any>) {
     const count = options?.count ?? 1;
     const events = options?.events ?? true;

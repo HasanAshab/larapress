@@ -11,7 +11,7 @@ window.onload = function() {
   "swaggerDoc": {
     "swagger": "2.0",
     "info": {
-      "title": "undefined API Docs",
+      "title": "Samer API Docs",
       "version": "v1"
     },
     "host": "http://127.0.0.1:8000/",
@@ -36,8 +36,8 @@ window.onload = function() {
                     "items": {
                       "type": "object",
                       "example": {
-                        "username": "Claude",
-                        "email": "Hilda.Ernser@gmail.com",
+                        "username": "Destini",
+                        "email": "Gregorio91@yahoo.com",
                         "phoneNumber": "+15005550006",
                         "password": "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi",
                         "verified": true
@@ -51,6 +51,7 @@ window.onload = function() {
               }
             }
           },
+          "description": "Need Authentication (Bearer Token).\n Role: admin",
           "parameters": []
         }
       },
@@ -68,8 +69,8 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "username": "Zoe",
-                      "email": "Immanuel.Lebsack83@yahoo.com",
+                      "username": "Irving",
+                      "email": "Hilma.Koch@hotmail.com",
                       "phoneNumber": "+15005550006",
                       "password": "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi",
                       "verified": true
@@ -79,11 +80,13 @@ window.onload = function() {
               }
             }
           },
+          "description": "Need Authentication (Bearer Token).\n Role: novice",
           "parameters": []
         },
         "put": {
           "summary": "Update own user details",
           "validationPath": "Auth/UpdateProfile",
+          "cached": false,
           "responses": {
             "200": {
               "schema": {
@@ -99,6 +102,7 @@ window.onload = function() {
               }
             }
           },
+          "description": "Need Authentication (Bearer Token).\n Role: novice",
           "parameters": []
         }
       },
@@ -116,8 +120,8 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "username": "Monserrate",
-                      "email": "Rex_Green73@gmail.com",
+                      "username": "Maritza",
+                      "email": "Jesus_Considine@yahoo.com",
                       "phoneNumber": "+15005550006",
                       "password": "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi",
                       "verified": true
@@ -127,6 +131,7 @@ window.onload = function() {
               }
             }
           },
+          "description": "Need Authentication (Bearer Token).\n Role: novice",
           "parameters": []
         },
         "delete": {
@@ -136,6 +141,7 @@ window.onload = function() {
               "description": "User deleted"
             }
           },
+          "description": "Need Authentication (Bearer Token).\n Role: admin",
           "parameters": []
         }
       },
@@ -157,12 +163,13 @@ window.onload = function() {
               }
             }
           },
+          "description": "Need Authentication (Bearer Token).\n Role: admin",
           "parameters": []
         }
       },
       "/settings/app": {
         "get": {
-          "summary": "Get app settings (ENV)",
+          "summary": "Get app settings (CONFIG)",
           "responses": {
             "200": {
               "schema": {
@@ -178,13 +185,22 @@ window.onload = function() {
                         "name": "Samer",
                         "protocol": "http",
                         "domain": "127.0.0.1",
-                        "port": 8000,
+                        "port": "8000",
                         "key": "621f6b72ebfdfdb50d3f20c97515e9454043b9789550b4e913e3847d4fcc5eec",
                         "state": "up"
                       },
+                      "loadBalancer": {
+                        "enabled": false,
+                        "ports": [
+                          3000,
+                          3001,
+                          3002
+                        ]
+                      },
                       "client": {
-                        "domain": "127.0.0.1",
-                        "port": 3000
+                        "protocol": "http",
+                        "domain": "localhost",
+                        "port": 5000
                       },
                       "stripe": {
                         "key": "sk_test_51MGknmLkLQPFd1VwBCU9EYKJC6NRwY4Y2pJuuo3nPVJlUCLgUBfbY5sOEpkA8oKJkAQ1XTKRlFboNKGZeTgqoMFw00OfAl908c"
@@ -199,7 +215,7 @@ window.onload = function() {
                         "maxPoolSize": 1
                       },
                       "redis": {
-                        "url": "redis://localhost:6379"
+                        "url": "redis://default:raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1@redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com:12100"
                       },
                       "bcrypt": {
                         "rounds": 10
@@ -237,10 +253,11 @@ window.onload = function() {
               }
             }
           },
+          "description": "Need Authentication (Bearer Token).\n Role: admin",
           "parameters": []
         },
         "put": {
-          "summary": "Update app settings (ENV)",
+          "summary": "Update app settings (CONFIG)",
           "validationPath": "Settings/UpdateAppSettings",
           "responses": {
             "200": {
@@ -257,195 +274,8 @@ window.onload = function() {
               }
             }
           },
-          "parameters": [
-            {
-              "name": "app",
-              "in": "body",
-              "type": "object",
-              "required": false,
-              "properties": {
-                "name": {
-                  "type": "string"
-                },
-                "protocol": {
-                  "type": "string"
-                },
-                "domain": {
-                  "type": "string"
-                },
-                "port": {
-                  "type": "string"
-                },
-                "key": {
-                  "type": "string"
-                },
-                "state": {
-                  "type": "string"
-                }
-              }
-            },
-            {
-              "name": "client",
-              "in": "body",
-              "type": "object",
-              "required": false,
-              "properties": {
-                "domain": {
-                  "type": "string"
-                },
-                "port": {
-                  "type": "string"
-                }
-              }
-            },
-            {
-              "name": "stripe",
-              "in": "body",
-              "type": "object",
-              "required": false,
-              "properties": {
-                "key": {
-                  "type": "string"
-                }
-              }
-            },
-            {
-              "name": "vapid",
-              "in": "body",
-              "type": "object",
-              "required": false,
-              "properties": {
-                "publicKey": {
-                  "type": "string"
-                },
-                "privateKey": {
-                  "type": "string"
-                }
-              }
-            },
-            {
-              "name": "db",
-              "in": "body",
-              "type": "object",
-              "required": false,
-              "properties": {
-                "connect": {
-                  "type": "string"
-                },
-                "url": {
-                  "type": "string"
-                },
-                "maxPoolSize": {
-                  "type": "string"
-                }
-              }
-            },
-            {
-              "name": "redis",
-              "in": "body",
-              "type": "object",
-              "required": false,
-              "properties": {
-                "url": {
-                  "type": "string"
-                }
-              }
-            },
-            {
-              "name": "bcrypt",
-              "in": "body",
-              "type": "object",
-              "required": false,
-              "properties": {
-                "rounds": {
-                  "type": "string"
-                }
-              }
-            },
-            {
-              "name": "socialite",
-              "in": "body",
-              "type": "object",
-              "required": false,
-              "properties": {
-                "google": {
-                  "type": "object"
-                }
-              }
-            },
-            {
-              "name": "recaptcha",
-              "in": "body",
-              "type": "object",
-              "required": false,
-              "properties": {
-                "siteKey": {
-                  "type": "string"
-                },
-                "secretKey": {
-                  "type": "string"
-                }
-              }
-            },
-            {
-              "name": "mail",
-              "in": "body",
-              "type": "object",
-              "required": false,
-              "properties": {
-                "host": {
-                  "type": "string"
-                },
-                "port": {
-                  "type": "string"
-                },
-                "username": {
-                  "type": "string"
-                },
-                "password": {
-                  "type": "string"
-                },
-                "fromName": {
-                  "type": "string"
-                },
-                "fromAddress": {
-                  "type": "string"
-                },
-                "encryption": {
-                  "type": "string"
-                }
-              }
-            },
-            {
-              "name": "twilio",
-              "in": "body",
-              "type": "object",
-              "required": false,
-              "properties": {
-                "sid": {
-                  "type": "string"
-                },
-                "authToken": {
-                  "type": "string"
-                },
-                "phoneNumber": {
-                  "type": "string"
-                }
-              }
-            },
-            {
-              "name": "cache",
-              "in": "body",
-              "type": "string",
-              "required": false
-            },
-            {
-              "name": "log",
-              "in": "body",
-              "type": "string",
-              "required": false
-            }
-          ]
+          "description": "Need Authentication (Bearer Token).\n Role: admin",
+          "parameters": []
         }
       },
       "/settings/enable-2fa": {
@@ -467,20 +297,8 @@ window.onload = function() {
               }
             }
           },
-          "parameters": [
-            {
-              "name": "method",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "otp",
-              "in": "body",
-              "type": "number",
-              "required": true
-            }
-          ]
+          "description": "Need Authentication (Bearer Token).\n Role: novice",
+          "parameters": []
         }
       },
       "/settings/": {
@@ -497,7 +315,7 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "userId": "64d96082d9dcd3494e92c645",
+                      "userId": "64f3b90c5250fe4f72ebfd72",
                       "twoFactorAuth": {
                         "enabled": false,
                         "method": "sms"
@@ -516,13 +334,14 @@ window.onload = function() {
                           "email": true
                         }
                       },
-                      "_id": "64d96082d9dcd3494e92c646"
+                      "_id": "64f3b90c5250fe4f72ebfd73"
                     }
                   }
                 }
               }
             }
           },
+          "description": "Need Authentication (Bearer Token).\n Role: novice",
           "parameters": []
         }
       },
@@ -545,50 +364,8 @@ window.onload = function() {
               }
             }
           },
-          "parameters": [
-            {
-              "name": "announcement",
-              "in": "body",
-              "type": "object",
-              "required": false,
-              "properties": {
-                "site": {
-                  "type": "boolean"
-                },
-                "email": {
-                  "type": "boolean"
-                }
-              }
-            },
-            {
-              "name": "feature",
-              "in": "body",
-              "type": "object",
-              "required": false,
-              "properties": {
-                "site": {
-                  "type": "boolean"
-                },
-                "email": {
-                  "type": "boolean"
-                }
-              }
-            },
-            {
-              "name": "others",
-              "in": "body",
-              "type": "object",
-              "required": false,
-              "properties": {
-                "site": {
-                  "type": "boolean"
-                },
-                "email": {
-                  "type": "boolean"
-                }
-              }
-            }
-          ]
+          "description": "Need Authentication (Bearer Token).\n Role: novice",
+          "parameters": []
         }
       },
       "/notifications/": {
@@ -607,12 +384,11 @@ window.onload = function() {
                     "items": {
                       "type": "object",
                       "example": {
-                        "notifiableId": "64d96082d9dcd3494e92c647",
-                        "notifiableType": "User",
+                        "userId": "64f3b90c5250fe4f72ebfd74",
                         "data": {
-                          "text": "Commodi ea voluptates voluptas commodi ut autem. Dolore iusto qui ratione. Ipsa temporibus repellat ab.\nSapiente vero libero. Architecto excepturi commodi. Quidem maxime debitis praesentium error sint iure esse ipsum.\nNemo dolor vero optio alias quod quae corporis corrupti eveniet. Laboriosam consequuntur facilis veniam unde. Rerum libero tempora facere corrupti."
+                          "text": "Quis expedita architecto natus. Ipsa tenetur ipsa expedita. Reprehenderit aliquam sunt ratione nostrum provident ipsa.\nVel necessitatibus laudantium hic ea nihil rerum repellat dicta tempore. Excepturi et molestiae minus saepe. Qui fugiat quia dolorum voluptates sint aspernatur.\nMolestias architecto aliquam magnam illum nobis ut. Tempora in aspernatur itaque beatae autem exercitationem deleniti ut quidem. Quibusdam atque deleniti repellat molestiae eligendi voluptatum."
                         },
-                        "readAt": "2023-08-13T23:00:18.119Z"
+                        "readAt": "2023-09-02T22:37:00.079Z"
                       }
                     }
                   },
@@ -623,6 +399,7 @@ window.onload = function() {
               }
             }
           },
+          "description": "Need Authentication (Bearer Token).\n Role: novice",
           "parameters": []
         }
       },
@@ -649,6 +426,7 @@ window.onload = function() {
               }
             }
           },
+          "description": "Need Authentication (Bearer Token).\n Role: novice",
           "parameters": []
         }
       },
@@ -670,6 +448,7 @@ window.onload = function() {
               }
             }
           },
+          "description": "Need Authentication (Bearer Token).\n Role: novice",
           "parameters": []
         },
         "delete": {
@@ -679,6 +458,7 @@ window.onload = function() {
               "description": "Notification deleted"
             }
           },
+          "description": "Need Authentication (Bearer Token).\n Role: novice",
           "parameters": []
         }
       },
@@ -715,11 +495,12 @@ window.onload = function() {
               }
             }
           },
+          "description": "Need Authentication (Bearer Token).\n Role: admin",
           "parameters": []
         }
       },
       "/auth/change-phone-number": {
-        "Put": {
+        "put": {
           "summary": "Set or Update user's phone number",
           "validationPath": "Auth/ChangePhoneNumber",
           "responses": {
@@ -737,14 +518,8 @@ window.onload = function() {
               }
             }
           },
-          "parameters": [
-            {
-              "name": "phoneNumber",
-              "in": "body",
-              "type": "string",
-              "required": true
-            }
-          ]
+          "description": "Need Authentication (Bearer Token).\n Role: novice",
+          "parameters": []
         }
       },
       "/auth/register": {
@@ -775,29 +550,7 @@ window.onload = function() {
               }
             }
           },
-          "parameters": [
-            {
-              "name": "username",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "email",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "password",
-              "in": "body",
-              "type": "string",
-              "required": true
-            }
-          ],
-          "consumes": [
-            "multipart/form-data"
-          ]
+          "parameters": []
         }
       },
       "/auth/send-otp": {
@@ -819,54 +572,13 @@ window.onload = function() {
               }
             }
           },
-          "parameters": [
-            {
-              "name": "userId",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "method",
-              "in": "body",
-              "type": "string",
-              "required": true
-            }
-          ]
+          "parameters": []
         }
       },
       "/auth/verify/resend": {
-        "get": {
+        "post": {
           "summary": "Resend account verification email",
           "validationPath": "Auth/ResendEmailVerification",
-          "responses": {
-            "200": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "success": {
-                    "type": "boolean"
-                  },
-                  "message": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          "parameters": [
-            {
-              "name": "email",
-              "in": "body",
-              "type": "string",
-              "required": true
-            }
-          ]
-        }
-      },
-      "/auth/verify/{id}": {
-        "get": {
-          "summary": "Verify User account",
           "responses": {
             "200": {
               "schema": {
@@ -889,6 +601,7 @@ window.onload = function() {
         "put": {
           "summary": "Change password",
           "validationPath": "Auth/ChangePassword",
+          "cached": false,
           "responses": {
             "200": {
               "schema": {
@@ -904,53 +617,11 @@ window.onload = function() {
               }
             }
           },
-          "parameters": [
-            {
-              "name": "oldPassword",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "password",
-              "in": "body",
-              "type": "string",
-              "required": true
-            }
-          ]
+          "description": "Need Authentication (Bearer Token).\n Role: novice",
+          "parameters": []
         }
       },
-      "/auth/password/forgot": {
-        "post": {
-          "summary": "Forgot password",
-          "description": "This will sent an password reset email if user is exist on the app",
-          "validationPath": "Auth/ForgotPassword",
-          "responses": {
-            "200": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "success": {
-                    "type": "boolean"
-                  },
-                  "message": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          "parameters": [
-            {
-              "name": "email",
-              "in": "body",
-              "type": "string",
-              "required": true
-            }
-          ]
-        }
-      },
-      "/auth/password/reset": {
+      "/auth/password/reset/": {
         "put": {
           "summary": "Reset password",
           "validationPath": "Auth/ResetPassword",
@@ -969,26 +640,30 @@ window.onload = function() {
               }
             }
           },
-          "parameters": [
-            {
-              "name": "id",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "password",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "token",
-              "in": "body",
-              "type": "string",
-              "required": true
+          "parameters": []
+        }
+      },
+      "/auth/password/reset/send-email": {
+        "post": {
+          "summary": "Forgot password",
+          "description": "This will sent an password reset email if user is exist on the app",
+          "validationPath": "Auth/SendPasswordResetEmail",
+          "responses": {
+            "200": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
             }
-          ]
+          },
+          "parameters": []
         }
       },
       "/auth/login/google": {
@@ -1037,26 +712,7 @@ window.onload = function() {
               }
             }
           },
-          "parameters": [
-            {
-              "name": "email",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "password",
-              "in": "body",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "otp",
-              "in": "body",
-              "type": "number",
-              "required": false
-            }
-          ]
+          "parameters": []
         }
       },
       "/admin/categories/": {
@@ -1075,8 +731,8 @@ window.onload = function() {
                     "items": {
                       "type": "object",
                       "example": {
-                        "name": "Rustic Frozen Mouse",
-                        "slug": "voluptatum-possimus-voluptatem"
+                        "name": "Fantastic Frozen Pizza",
+                        "slug": "ea-quo-nisi"
                       }
                     }
                   },
@@ -1087,12 +743,14 @@ window.onload = function() {
               }
             }
           },
+          "description": "Need Authentication (Bearer Token).\n Role: admin",
           "parameters": []
         }
       },
       "/admin/categories/{id}": {
         "get": {
           "summary": "Get a specific category",
+          "cached": false,
           "responses": {
             "200": {
               "schema": {
@@ -1104,14 +762,15 @@ window.onload = function() {
                   "data": {
                     "type": "object",
                     "example": {
-                      "name": "Refined Concrete Salad",
-                      "slug": "nemo-non-consectetur"
+                      "name": "Tasty Metal Mouse",
+                      "slug": "eaque-praesentium-quidem"
                     }
                   }
                 }
               }
             }
           },
+          "description": "Need Authentication (Bearer Token).\n Role: admin",
           "parameters": []
         }
       }

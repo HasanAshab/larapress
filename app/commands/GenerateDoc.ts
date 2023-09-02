@@ -4,17 +4,16 @@ import { exec } from "child_process";
 import app from "~/main/app";
 import fs from "fs";
 import swaggerUi from "swagger-ui-express";
-import docs from "~/docs/parse";
-import fetch from "node-fetch";
 
 export default class GenerateDoc extends Command {
-  public outputDir = "/docs/public";
-  public baseUrl = URL.resolve("docs");
-  
+  private outputDir = "docs/public";
+  private baseUrl = URL.resolve("docs");
+  private docs: Record<string, Record<string, any>> = require("~/../docs/parse");
+
   async handle() {
     this.info("starting server...");
     this._setupServer();
-    for (const version of Object.keys(docs)){
+    for (const version of Object.keys(this.docs)){
       this.info(`******\t${version.toUpperCase()}\t******`);
       await exec("mkdir -p " + "/docs/public/" + version)
       this.info("fetching index.html...");
@@ -35,12 +34,12 @@ export default class GenerateDoc extends Command {
       this.info(`fetching ${name}...`);
       const response = await fetch(`${this.baseUrl}/${version}/${name}`);
       const html = await response.text();
-      fs.writeFileSync(`${this.outputDir}/${version}/${name}`, html);
+      await fs.promises.writeFile(`${this.outputDir}/${version}/${name}`, html);
     }
   }
   
   _setupServer() {
-    for (const [version, doc] of Object.entries(docs)){
+    for (const [version, doc] of Object.entries(this.docs)){
       app.use(`/docs/${version}`, swaggerUi.serve, swaggerUi.setup(doc));
     }
     const server = app.listen(8000, () => {

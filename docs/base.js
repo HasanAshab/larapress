@@ -1,10 +1,10 @@
 const URL = require('URL').default;
-const appName = process.env.APP_NAME;
+const config = require("config");
 
 module.exports = {
   swagger: "2.0",
   info: {
-    title: `${appName} API Docs`,
+    title: `${config.get("app.name")} API Docs`,
   },
   host: URL.resolve(),
   basePath: "/api/",
