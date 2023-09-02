@@ -1,6 +1,5 @@
 const DB = require("DB").default;
 const User = require("~/app/models/User").default;
-const { env, toCamelCase } = require("helpers");
 
 describe("Dashboard", () => {
   let admin;
@@ -25,8 +24,8 @@ describe("Dashboard", () => {
   });
   
   it("Admin should get dashboard", async () => {
-    const todayUser = await User.factory(2).create();
-    const oldUser = await User.factory(3).create({createdAt: new Date(2022, 0, 1)});
+    const todayUser = await User.factory({ count: 2 }).create();
+    const oldUser = await User.factory({ count: 3 }).create({createdAt: new Date(2022, 0, 1)});
     const response = await request
       .get("/api/v1/dashboard/admin")
       .set("Authorization", `Bearer ${token}`);

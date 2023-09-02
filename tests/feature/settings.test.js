@@ -6,8 +6,7 @@ const config = require("config")
 describe("Settings", () => {
   let user;
   let token;
-  let settings;
-  
+
   beforeAll(async () => {
     await DB.connect();
   });
@@ -16,7 +15,6 @@ describe("Settings", () => {
     await DB.reset();
     user = await User.factory().create();
     token = user.createToken();
-    settings = await Settings.create({ userId: user._id });
   });
   
   it("App settings shouldn't accessable by general users", async () => {
@@ -61,7 +59,7 @@ describe("Settings", () => {
       .get("/api/v1/settings")
       .set("Authorization", `Bearer ${token}`)
     expect(response.statusCode).toBe(200);
-    expect(response.body.data).toEqualDocument(settings);
+    expect(response.body.data).toEqualDocument(await user.settings);
   });
   
   it("Should enable Two Factor Authorization", async () => {
@@ -71,7 +69,7 @@ describe("Settings", () => {
       .field("method", "sms")
       .field("otp", await user.sendOtp());
     
-    settings = await user.settings;
+    const settings = await user.settings;
     expect(response.statusCode).toBe(200);
     expect(settings.twoFactorAuth.enabled).toBe(true);
   });
@@ -95,7 +93,7 @@ describe("Settings", () => {
       .set("Authorization", `Bearer ${token}`)
       .send(data)
     
-    settings = await user.settings;
+    const settings = await user.settings;
     expect(response.statusCode).toBe(200);
     for(key1 in data){
       for(key2 in data[key1]){

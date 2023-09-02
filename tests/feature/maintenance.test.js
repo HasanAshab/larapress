@@ -2,7 +2,7 @@ const config = require("config");
 
 describe("App", () => {
   beforeAll(() => {
-    process.env.APP_STATE = "down";
+    config.app.state = "down";
   });
   
   it("shouldn't accessable when in maintenance mode", async () => {
@@ -16,7 +16,7 @@ describe("App", () => {
   });
   
   it("should accessable with valid bypass key when in maintenance mode", async () => {
-    const response = await request.get("/").query({ bypassKey: config.get<any>("app.key") });
+    const response = await request.get("/").query({ bypassKey: config.get("app.key") });
     expect(response.statusCode).toBe(404);
   });
 });

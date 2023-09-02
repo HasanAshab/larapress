@@ -19,8 +19,8 @@ describe("user", () => {
   });
   
   it("Admin should get all users", async () => {
-    const admin = await User.factory().create({ role: "admin" });
-    const users = await User.factory(3).create();
+    const admin = await User.factory({ events: false }).create({ role: "admin" });
+    const users = await User.factory({ count: 3, events: false }).create();
     users.unshift(user);
     const response = await request
       .get("/api/v1/users")
@@ -31,7 +31,7 @@ describe("user", () => {
   });
   
   it("General user shouldn't get all users", async () => {
-    const users = await User.factory(3).create();
+    const users = await User.factory({ count: 3, events: false }).create();
     const response = await request
       .get("/api/v1/users")
       .set("Authorization", `Bearer ${users[0].createToken()}`)
@@ -76,7 +76,7 @@ describe("user", () => {
   });
 
   it("Shouldn't update profile with existing username", async () => {
-    const randomUser = await User.factory().create();
+    const randomUser = await User.factory({ events: false }).create();
     const response = await request
       .put("/api/v1/users/me")
       .set("Authorization", `Bearer ${token}`)
@@ -89,7 +89,7 @@ describe("user", () => {
   });
 
   it("Shouldn't update profile with existing email", async () => {
-    const randomUser = await User.factory().create();
+    const randomUser = await User.factory({ events: false }).create();
     const response = await request
       .put("/api/v1/users/me")
       .set("Authorization", `Bearer ${token}`)
@@ -129,7 +129,7 @@ describe("user", () => {
   });
 
   it("Should get user profile by username", async () => {
-    const user = await User.factory().create();
+    const user = await User.factory({ events: false }).create();
     const response = await request
       .get("/api/v1/users/" + user.username)
       .set("Authorization", `Bearer ${token}`)
@@ -139,7 +139,7 @@ describe("user", () => {
   });
   
   it("Admin should delete user", async () => {
-    const admin = await User.factory().create({ role: "admin" });
+    const admin = await User.factory({ events: false }).create({ role: "admin" });
     const response = await request
       .delete("/api/v1/users/" + user.username)
       .set("Authorization", `Bearer ${admin.createToken()}`);
@@ -148,7 +148,7 @@ describe("user", () => {
   });
   
   it("Admin should delete own account", async () => {
-    const admin = await User.factory().create({ role: "admin" });
+    const admin = await User.factory({ events: false }).create({ role: "admin" });
     const response = await request
       .delete("/api/v1/users/" + admin.username)
       .set("Authorization", `Bearer ${admin.createToken()}`);
@@ -158,7 +158,7 @@ describe("user", () => {
   });
   
   it("General user should delete own account", async () => {
-    const user = await User.factory().create();
+    const user = await User.factory({ events: false }).create();
     const response = await request
       .delete("/api/v1/users/" + user.username)
       .set("Authorization", `Bearer ${user.createToken()}`);
@@ -168,7 +168,7 @@ describe("user", () => {
   });
   
   it("Shouldn't delete admin user", async () => {
-    const admin = await User.factory().create({ role: "admin" });
+    const admin = await User.factory({ events: false }).create({ role: "admin" });
     const response = await request
       .delete("/api/v1/users/" + admin.username)
       .set("Authorization", `Bearer ${token}`);
@@ -178,7 +178,7 @@ describe("user", () => {
   });
   
   it("General user shouldn't delete other user", async () => {
-    const user = await User.factory(2).create();
+    const user = await User.factory({ count: 2, events: false }).create();
     const response = await request
       .delete("/api/v1/users/" + user[1].username)
       .set("Authorization", `Bearer ${user[0].createToken()}`);
@@ -188,7 +188,7 @@ describe("user", () => {
   });
     
   it("Should make admin", async () => {
-    const admin = await User.factory().create({ role: "admin" });
+    const admin = await User.factory({ events: false }).create({ role: "admin" });
     const response = await request
       .put(`/api/v1/users/${user.username}/make-admin`)
       .set("Authorization", `Bearer ${admin.createToken()}`);
@@ -198,7 +198,7 @@ describe("user", () => {
   });
   
   it("General user Should't make admin", async () => {
-    let user = await User.factory().create();
+    let user = await User.factory({ events: false }).create();
     const response = await request
       .put(`/api/v1/users/${user.username}/make-admin`)
       .set("Authorization", `Bearer ${token}`);

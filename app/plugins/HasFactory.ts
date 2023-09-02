@@ -1,7 +1,7 @@
 import { Schema, Document } from "mongoose";
 
 export interface HasFactoryModel {
-  factory(count?: number): {
+  factory(options?: object): {
     create(data?: object): Promise<Document | Document[]>;
     dummyData(data?: object): object;
   };
@@ -9,10 +9,12 @@ export interface HasFactoryModel {
 
 
 export default (schema: Schema) => {
-  schema.statics.factory = function(options: Record<string, any>) {
-    const count = options.count ?? 1;
+  let Factory = null;
+  schema.statics.factory = function(options?: Record<string, any>) {
+    const count = options?.count ?? 1;
+    const events = options?.events ?? true;
     const modelName = this.modelName;
-    const Factory = require(`~/app/factories/${modelName}Factory`).default;
+    Factory = Factory ?? require(`~/app/factories/${modelName}Factory`).default;
     const factory = new Factory(options);
     return {
       create: async (data?: object) => {
@@ -21,7 +23,7 @@ export default (schema: Schema) => {
           docsData.push(factory.merge(data));
         }
         const docs = await this.insertMany(docsData);
-        if(factory.post){
+        if(events && factory.post){
           const postPromises: any = [];
           for(const doc of docs) {
             postPromises.push(factory.post(doc));
