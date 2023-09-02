@@ -4,6 +4,10 @@ export default abstract class Factory {
   abstract definition(): Record<string, any>;
   public faker = faker;
   
+  constructor(public options = {}) {
+    this.options = options;
+  }
+  
   merge(data?: Record<string, any>) {
     const modelData = this.definition();
     if(typeof data === "undefined"){

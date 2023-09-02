@@ -65,5 +65,19 @@ else {
     console.log(`*New connection: [${time}]`);
   });
 }
+/*
+import User from "~/app/models/User";
+import Settings from "~/app/models/Settings";
 
+Promise.all([
+  User.deleteMany(),
+  Settings.deleteMany()
+]).then(async () => {
+
+  await User.factory(2, { mfa: true }).create();
+  console.log(await User.find());
+  console.log(await Settings.find());
+
+})
+*/
 export default server;

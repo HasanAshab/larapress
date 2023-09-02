@@ -1,4 +1,6 @@
 import Factory from "~/core/factories/Factory";
+import { IUser } from "~/app/models/User";
+import Settings from "~/app/models/Settings";
 
 export default class UserFactory extends Factory {
   definition() {
@@ -9,5 +11,14 @@ export default class UserFactory extends Factory {
       password: "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi", // "password"
       verified: true
     };
-  };
+  }
+  
+  async post(user: IUser){
+    await Settings.create({
+      userId: user._id,
+      twoFactorAuth: { 
+        enabled: this.options.mfa
+      }
+    });
+  }
 }

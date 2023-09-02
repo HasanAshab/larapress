@@ -9,18 +9,25 @@ export interface HasFactoryModel {
 
 
 export default (schema: Schema) => {
-  schema.statics.factory = function(count = 1) {
+  schema.statics.factory = function(options: Record<string, any>) {
+    const count = options.count ?? 1;
     const modelName = this.modelName;
     const Factory = require(`~/app/factories/${modelName}Factory`).default;
-    const factory = new Factory();
+    const factory = new Factory(options);
     return {
       create: async (data?: object) => {
-        const docs: Schema[] = [];
+        const docsData: Schema[] = [];
         for (let i = 0; i < count; i++) {
-          const doc = new this(factory.merge(data));
-          docs.push(doc);
+          docsData.push(factory.merge(data));
         }
-        await this.insertMany(docs);
+        const docs = await this.insertMany(docsData);
+        if(factory.post){
+          const postPromises: any = [];
+          for(const doc of docs) {
+            postPromises.push(factory.post(doc));
+          }
+          await Promise.all(postPromises)
+        }
         return count === 1 ? docs[0] : docs;
       },
       dummyData: (data?: object) => {

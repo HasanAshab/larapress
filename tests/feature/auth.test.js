@@ -4,7 +4,6 @@ const Cache = require("Cache").default;
 const Storage = require("Storage").default;
 const Mail = require("Mail").default;
 const User = require("~/app/models/User").default;
-const Settings = require("~/app/models/Settings").default;
 const OTP = require("~/app/models/OTP").default;
 const { OAuth2Client } = require("google-auth-library");
 
@@ -16,15 +15,15 @@ describe("Auth", () => {
     await DB.connect();
   });
 
-  beforeEach(async () => {
+  async function setup(mfa = false) {
     await DB.reset();
     Mail.mock();
-    user = await User.factory().create();
+    user = await User.factory({ mfa }).create();
     token = user.createToken();
-  });
+  }
 
   it("should register a user", async () => {
-    await Settings.create({ userId: user._id });
+    await setup();
     const dummyUser = User.factory().dummyData();
     Storage.mock();
     const response = await request
@@ -41,7 +40,7 @@ describe("Auth", () => {
   });
 
   it("should register a user without logo", async () => {
-    await Settings.create({ userId: user._id });
+    await setup();
     const dummyUser = await User.factory().dummyData();
     Storage.mock();
     const response = await request
@@ -57,6 +56,7 @@ describe("Auth", () => {
   });
 
   it("shouldn't register with existing email", async () => {
+    await setup();
     const response = await request
       .post("/api/v1/auth/register")
       .field("username", "foo")
@@ -68,6 +68,7 @@ describe("Auth", () => {
   });
 
   it("shouldn't register with existing username", async () => {
+    await setup();
     const response = await request
       .post("/api/v1/auth/register")
       .field("username", user.username)
@@ -79,10 +80,7 @@ describe("Auth", () => {
   });
 
   it("should login a user", async () => {
-    await Settings.create({
-      userId: user._id,
-      twoFactorAuth: { enabled: false } 
-    });
+    await setup();
     const response = await request
       .post("/api/v1/auth/login")
       .field("email", user.email)
@@ -92,6 +90,7 @@ describe("Auth", () => {
   });
 
   it("shouldn't login with wrong password", async () => {
+    await setup();
     const response = await request
       .post("/api/v1/auth/login")
       .field("email", user.email)
@@ -99,8 +98,9 @@ describe("Auth", () => {
     expect(response.statusCode).toBe(401);
     expect(response.body.data?.token).toBe(undefined);
   });
-
+    
   it("shouldn't login manually in OAuth account", async () => {
+    await setup();
     const OAuthUser = await User.factory().create({ password: null });
     const response = await request
       .post("/api/v1/auth/login")
@@ -111,10 +111,7 @@ describe("Auth", () => {
   });
 
   it("Login should flag for otp if not provided in (2FA)", async () => {
-    await Settings.create({
-      userId: user._id,
-      twoFactorAuth: { enabled: true } 
-    });
+    await setup(true);
     const response = await request
       .post("/api/v1/auth/login")
       .field("email", user.email)
@@ -125,10 +122,7 @@ describe("Auth", () => {
   });
 
   it("should login a user with valid otp (2FA)", async () => {
-    await Settings.create({
-      userId: user._id,
-      twoFactorAuth: { enabled: true } 
-    });
+    await setup(true);
     const otp = await user.sendOtp();
     const response = await request
       .post("/api/v1/auth/login")
@@ -141,10 +135,7 @@ describe("Auth", () => {
   });
 
   it("shouldn't login a user with invalid OTP (2FA)", async () => {
-    await Settings.create({
-      userId: user._id,
-      twoFactorAuth: { enabled: true } 
-    });
+    await setup(true);
     const response = await request
       .post("/api/v1/auth/login")
       .field("email", user.email)
@@ -154,8 +145,33 @@ describe("Auth", () => {
     expect(response.statusCode).toBe(401);
     expect(response.body.data).not.toHaveProperty("token");
   });
+  
+  it("Should send otp", async () => {
+    await setup(true);
+    const response = await request.post("/api/v1/auth/send-otp").send({
+      userId: user._id.toString(),
+      method: "sms"
+    });
+    const otp = await OTP.findOne({ userId: user._id });
+    expect(response.statusCode).toBe(200);
+    expect(otp).not.toBeNull();
+  });
+  
+  it("Shouldn't send otp if 2fa is disabled", async () => {
+    await setup();
+    const response = await request.post("/api/v1/auth/send-otp").send({
+      userId: user._id.toString(),
+      method: "sms"
+    });
+ 
+    expect(response.statusCode).toBe(403);
+    const otp = await OTP.findOne({ userId: user._id });
+    expect(otp).toBeNull();
+  });
+
 
   it("should prevent Brute Force login", async () => {
+    await setup();
     Cache.mock();
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + user.email;
     const response1 = await request
@@ -191,6 +207,7 @@ describe("Auth", () => {
   });
 
   it("should verify email", async () => {
+    await setup();
     let unverifiedUser = await User.factory().create({ verified: false });
     const verificationLink = await unverifiedUser.sendVerificationEmail();
     const response = await fetch(verificationLink);
@@ -200,6 +217,7 @@ describe("Auth", () => {
   });
 
   it("shouldn't verify email without signature", async () => {
+    await setup();
     let unverifiedUser = await User.factory().create({ verified: false });
     const verificationLink = URL.route("email.verify", {
       id: unverifiedUser._id,
@@ -211,6 +229,7 @@ describe("Auth", () => {
   });
 
   it("should resend verification email", async () => {
+    await setup();
     let unverifiedUser = await User.factory().create({ verified: false });
     const response = await request
       .post("/api/v1/auth/verify/resend")
@@ -227,6 +246,7 @@ describe("Auth", () => {
   });
 
   it("should change password", async () => {
+    await setup();
     const passwords = {
       old: "password",
       new: "Password@1234",
@@ -242,6 +262,7 @@ describe("Auth", () => {
   });
 
   it("shouldn't change password of OAuth account", async () => {
+    await setup();
     const OAuthUser = await User.factory().create({ password: null });
     const response = await request
       .put("/api/v1/auth/password/change")
@@ -253,6 +274,7 @@ describe("Auth", () => {
   });
 
   it("Should send reset email", async () => {
+    await setup();
     const response = await request
       .post("/api/v1/auth/password/reset/send-email")
       .field("email", user.email);
@@ -262,6 +284,7 @@ describe("Auth", () => {
   });
 
   it("Shouldn't send reset email of OAuth account", async () => {
+    await setup();
     const OAuthUser = await User.factory().create({ password: null });
     const response = await request
       .post("/api/v1/auth/password/reset/send-email")
@@ -271,6 +294,7 @@ describe("Auth", () => {
   });
 
   it("should reset password", async () => {
+    await setup();
     const resetToken = await user.sendResetPasswordEmail();
     const newPassword = "Password@1234";
     const response = await request
@@ -286,6 +310,7 @@ describe("Auth", () => {
   });
 
   it("shouldn't reset password with invalid token", async () => {
+    await setup();
     const newPassword = "Password@1234";
     const response = await request
       .put("/api/v1/auth/password/reset")
@@ -300,6 +325,7 @@ describe("Auth", () => {
   });
 
   it("Should update phone number", async () => {
+    await setup();
     const newNumber = "+14155552671";
     const response = await request
       .put("/api/v1/auth/change-phone-number")
@@ -308,31 +334,5 @@ describe("Auth", () => {
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
     expect(user.phoneNumber).toBe(newNumber);
-  });
-
-  it("Should send otp", async () => {
-    await Settings.create({
-      userId: user._id,
-      twoFactorAuth: { enabled: true } 
-    });
-    const response = await request.post("/api/v1/auth/send-otp").send({
-      userId: user._id.toString(),
-      method: "sms"
-    });
-    const otp = await OTP.findOne({ userId: user._id });
-    expect(response.statusCode).toBe(200);
-    expect(otp).not.toBeNull();
-  });
-
-  it("Shouldn't send otp if 2fa is disabled", async () => {
-    await Settings.create({ userId: user._id });
-    const response = await request.post("/api/v1/auth/send-otp").send({
-      userId: user._id.toString(),
-      method: "sms"
-    });
- 
-    expect(response.statusCode).toBe(403);
-    const otp = await OTP.findOne({ userId: user._id });
-    expect(otp).toBeNull();
   });
 });

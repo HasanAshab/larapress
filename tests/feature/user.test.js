@@ -138,7 +138,7 @@ describe("user", () => {
     expect(response.body.data).toEqualDocument(user.safeDetails());
   });
   
-  it.only("Admin should delete user", async () => {
+  it("Admin should delete user", async () => {
     const admin = await User.factory().create({ role: "admin" });
     const response = await request
       .delete("/api/v1/users/" + user.username)
@@ -147,7 +147,7 @@ describe("user", () => {
     expect(await User.findById(user._id)).toBeNull();
   });
   
-  it.only("Admin should delete own account", async () => {
+  it("Admin should delete own account", async () => {
     const admin = await User.factory().create({ role: "admin" });
     const response = await request
       .delete("/api/v1/users/" + admin.username)
@@ -157,7 +157,7 @@ describe("user", () => {
     expect(await User.findById(admin._id)).toBeNull();
   });
   
-  it.only("General user should delete own account", async () => {
+  it("General user should delete own account", async () => {
     const user = await User.factory().create();
     const response = await request
       .delete("/api/v1/users/" + user.username)
@@ -167,7 +167,7 @@ describe("user", () => {
     expect(await User.findById(user._id)).toBeNull();
   });
   
-  it.only("Shouldn't delete admin user", async () => {
+  it("Shouldn't delete admin user", async () => {
     const admin = await User.factory().create({ role: "admin" });
     const response = await request
       .delete("/api/v1/users/" + admin.username)
@@ -177,7 +177,7 @@ describe("user", () => {
     expect(await User.findById(admin._id)).not.toBeNull();
   });
   
-  it.only("General user shouldn't delete other user", async () => {
+  it("General user shouldn't delete other user", async () => {
     const user = await User.factory(2).create();
     const response = await request
       .delete("/api/v1/users/" + user[1].username)
