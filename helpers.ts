@@ -59,7 +59,7 @@ export function middleware(
   }
   function parseConfig(onelinerConfig: string) {
     const keyValuePairs = onelinerConfig.split("|");
-    const result = {};
+    const result: Record<string, any> = {};
     for (const pair of keyValuePairs) {
       const [key, value] = pair.split(":");
       if (/^\d+$/.test(value)) {

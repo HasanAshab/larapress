@@ -15,7 +15,7 @@ export default class ValidateRequest extends Middleware {
     } = this.config as Record<string, string>;
 
     try {
-      var { default: ValidationSchema } = await import(path.join(`~/app/http/${version}/validations/`, validationSubPath)) as ValidationSchema;
+      var { default: ValidationSchema } = await import(path.join(`~/app/http/${version}/validations/`, validationSubPath)) as { default: ValidationSchema };
     } catch {
       return next();
     }
