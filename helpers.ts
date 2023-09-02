@@ -80,7 +80,7 @@ export function middleware(
     const [key, onelinerConfig] = keyWithConfig.split("@");
     if(onelinerConfig)
       middlewares.push(getMiddleware(key, parseConfig(onelinerConfig)));
-    middlewares.push(getMiddleware(key));
+    else middlewares.push(getMiddleware(key));
   }
   return middlewares;
 }
@@ -114,10 +114,8 @@ export function controller(name: string, version = getVersion()): Record < strin
       }
     }
     const validationSubPath = `${controllerPrefix}/${capitalizeFirstLetter(methodName)}`;
-    handlerAndValidatorStack[methodName] = [
-      ...middleware(`validate@version:${version}|validationSubPath:${validationSubPath}`),
-      requestHandler
-    ];
+    handlerAndValidatorStack[methodName] = middleware(`validate@version:${version}|validationSubPath:${validationSubPath}`),
+    handlerAndValidatorStack[methodName].push(requestHandler);
   }
   return handlerAndValidatorStack;
 }

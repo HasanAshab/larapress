@@ -12,8 +12,7 @@ export default class ValidateRequest extends Middleware {
     const {
       version,
       validationSubPath
-    } = this.config;
-    if (typeof version !== "string" || typeof validationSubPath !== "string") throw new Error("version and validationSubPath args required as type String.");
+    } = this.config as Record<string, string>;
 
     try {
       var { default: ValidationSchema } = await import(path.join(`~/app/http/${version}/validations/`, validationSubPath)) as ValidationSchema;

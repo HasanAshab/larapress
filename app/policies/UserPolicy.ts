@@ -1,11 +1,8 @@
 import { IUser } from "~/app/models/User";
 
 export default class UserPolicy {
-  delete(user: IUser){
-    if(user.role === "novice") return { _id: user._id };
-    return [
-      { _id: user._id },
-      { role: "novice" }
-    ];
+  delete(user: IUser, targetUser: IUser){
+    return user._id.toString() === targetUser._id.toString() ||
+      (user.role === "admin" && targetUser.role !== "admin");
   }
 }
