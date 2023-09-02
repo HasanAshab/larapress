@@ -33,8 +33,9 @@ export function storage(storage_path = "") {
   return path.join(__dirname, "storage", storage_path);
 }
 
+
 export function middleware(
-  ...keysWithConfig: (keyof typeof middlewarePairs | [keyof typeof middlewarePairs, Record < string, unknown >])[]
+  ...keysWithConfig:  (keyof typeof middlewarePairs | `${keyof typeof middlewarePairs}@${string}`)[]
 ): RequestHandler[] {
   function wrapMiddleware(context: object, handler: Function) {
     return async (req: Request, res: Response, next: NextFunction) => {
@@ -56,16 +57,34 @@ export function middleware(
       const handler = middlewareInstance.handle.length === 4 ? middlewareInstance.handle.bind(middlewareInstance): wrapMiddleware(middlewareInstance, middlewareInstance.handle);
       return handler;
   }
+  function parseConfig(onelinerConfig: string) {
+    const keyValuePairs = onelinerConfig.split("|");
+    const result = {};
+    for (const pair of keyValuePairs) {
+      const [key, value] = pair.split(":");
+      if (/^\d+$/.test(value)) {
+        result[key] = parseInt(value);
+      }
+      else if (value.includes(",")) {
+        result[key] = value.split(",");
+      } else if (value === "true" || value === "false") {
+        result[key] = value === "true";
+      } else {
+        result[key] = value;
+      }
+    }
+    return result;
+  }
   let middlewares: RequestHandler[] = [];
   for (const keyWithConfig of keysWithConfig) {
-    if (typeof keyWithConfig === "string") {
-      middlewares.push(getMiddleware(keyWithConfig));
-    } else {
-      middlewares.push(getMiddleware(keyWithConfig[0], keyWithConfig[1]));
-    }
+    const [key, onelinerConfig] = keyWithConfig.split("@");
+    if(onelinerConfig)
+      middlewares.push(getMiddleware(key, parseConfig(onelinerConfig)));
+    middlewares.push(getMiddleware(key));
   }
   return middlewares;
 }
+
 
 export function controller(name: string, version = getVersion()): Record < string, RequestHandler[] > {
   const controllerPath = path.join(`~/app/http/${version}/controllers`, name);

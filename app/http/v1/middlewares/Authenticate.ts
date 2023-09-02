@@ -7,6 +7,7 @@ import User from "~/app/models/User";
 
 export default class Authenticate extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {
+    console.log(this.config)
     const authHeader = req.headers.authorization;
     const { verified = true, roles = [] } = this.config
     if (authHeader) {

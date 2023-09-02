@@ -15,7 +15,7 @@ app.use(cors({
   origin: [URL.client()] 
 }));
 app.use(helmet())
-app.use("*", middleware("maintenance.check", ["limit", {time: 60 * 1000, count: 60}]))
+app.use("*", middleware("maintenance.check", "limit@time:60000|count:60"))
 
 // Setting middlewares for request parsing 
 app.use(bodyParser.json({ limit: "1mb" }));
@@ -39,6 +39,5 @@ Setup.routes(app);
 
 // Registering global error handling middleware
 app.use(middleware("error.handle"));
-
 
 export default app;
