@@ -24,7 +24,9 @@ export default class ContactController {
   }
   
   async search(req: Request) {
-    return Contact.find({$text: {$search: searchString}}).paginateReq(req);
+    return await Contact.find({
+      $text: { $search: req.query.query }, status: req.query.status 
+    }).paginateReq(req);
   }
 
 }

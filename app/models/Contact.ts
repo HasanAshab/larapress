@@ -17,9 +17,10 @@ const ContactSchema = new Schema(
       required: true,
       text: true
     },
-    active: {
-      type: Boolean,
-      default: true,
+    status: {
+      type: String,
+      enum: ["open", "closed"],
+      default: "open",
     }
   },
   { timestamps: true }

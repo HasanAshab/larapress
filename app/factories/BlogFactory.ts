@@ -7,8 +7,8 @@ export default class BlogFactory extends Factory {
       authorId: new User()._id,
       authorType: "User",
       categoryId: new User()._id,
-      title: this.faker.lorem.words(),
-      content: this.faker.lorem.paragraphs(),
+      title: this.faker.lorem.words(4),
+      content: this.faker.lorem.paragraphs(2),
       slug: this.faker.lorem.slug(),
       visibility: "public"
     };

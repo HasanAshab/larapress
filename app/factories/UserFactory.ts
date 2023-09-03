@@ -13,12 +13,16 @@ export default class UserFactory extends Factory {
     };
   }
   
-  async post(user: IUser){
-    await Settings.create({
-      userId: user._id,
-      twoFactorAuth: { 
-        enabled: this.options.mfa
-      }
-    });
+  async post(users: IUser[]){
+    const settingsData: any[] = [];
+    for(const user of users){
+      settingsData.push({
+        userId: user._id,
+        twoFactorAuth: { 
+          enabled: this.options.mfa
+        }
+      });
+    }
+    await Settings.insertMany(settingsData);
   }
 }
