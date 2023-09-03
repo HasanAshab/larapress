@@ -7,3 +7,6 @@ global.fakeFile = (name) => {
 
 const server = require("~/main").default;
 global.request = require("supertest")(server);
+global.sleep = function(miliseconds) {
+  return new Promise(r => setTimeout(r, miliseconds));
+}

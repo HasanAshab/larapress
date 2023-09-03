@@ -10,15 +10,19 @@ const client = createClient({
 client.on("error", err => log(err));
 client.connect();
 
+
 export default class Redis extends Driver {
+  
   async get(key: string) {
     const result = await client.get(key);
     return result !== null ? JSON.parse(result): null;
   }
 
   async put(key: string, data: CacheDataArg, expiry?: number) {
-    if (typeof expiry === "number") await client.setEx(key, expiry, JSON.stringify(data));
-    else await client.set(key, JSON.stringify(data));
+    if (expiry) 
+      await client.setEx(key, expiry, JSON.stringify(data));
+    else 
+      await client.set(key, JSON.stringify(data));
   }
 
   async clear(key?: string) {
@@ -26,3 +30,5 @@ export default class Redis extends Driver {
     else await client.del(key)
   }
 }
+
+export { client };

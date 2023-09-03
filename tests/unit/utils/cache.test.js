@@ -2,9 +2,9 @@ const Cache = require("Cache").default;
 const { drivers } = require("~/register/cache").default;
 
 describe("Cache", () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
     for(const driver of drivers){
-      await Cache.driver(driver).clear();
+      await Cache.driver(driver).clear("key");
     }
   });
   
@@ -25,22 +25,18 @@ describe("Cache", () => {
   
   it("Should store cache with expiry time", async () => {
     for(const driverName of drivers){
-      await Cache.driver(driverName).put("key", "data", 10 * 1000)
+      await Cache.driver(driverName).put("key", "data", 10)
       expect(await Cache.driver(driverName).get("key")).toBe("data");
     }
   });
   
   it("Shouldn't get expired cache", async () => {
     for(const driverName of drivers){
-      await Cache.driver(driverName).put("key", "data", 1000)
+      await Cache.driver(driverName).put("key", "data", 1)
     }
-    await new Promise(resolve => {
-      setTimeout(async () => {
-        for(const driverName of drivers){
-          expect(await Cache.driver(driverName).get("key")).toBe(null);
-        }
-        resolve();
-      }, 1000);
-    });
+    await sleep(1002);
+    for(const driverName of drivers){
+      expect(await Cache.driver(driverName).get("key")).toBe(null);
+    }
   });
 });

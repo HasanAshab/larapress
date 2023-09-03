@@ -60,5 +60,5 @@ module.exports = {
     phoneNumber: "+15005550006"
   },
   cache: "redis",
-  log: "file"
+  log: "console"
 };
