@@ -15,7 +15,7 @@ describe("Dashboard", () => {
     token = admin.createToken();
   });
   
-  it("General users shouldn't get admin dashboard", async () => {
+  it("Novice users shouldn't get admin dashboard", async () => {
     const user = await User.factory().create();
     const response = await request
       .get("/v1/dashboard/admin")

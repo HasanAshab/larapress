@@ -8,10 +8,11 @@ export default class ContactController {
   }
   
   async create(req: Request) {
-    console.log(req.body)
-    // samitize TODO
     await Contact.create(req.body);
-    return { message: "Thanks for contacting us!" }
+    return { 
+      status: 201,
+      message: "Thanks for contacting us!" 
+    }
   }
   
   async find(req: Request) {

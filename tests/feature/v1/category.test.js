@@ -13,12 +13,12 @@ describe("Category", () => {
   
   beforeEach(async () => {
     await DB.reset();
-    admin = await User.factory().create({ role: "admin" });
+    admin = await User.factory({ events: false }).create({ role: "admin" });
     token = admin.createToken();
   });
   
   it("Shouldn't accessable by general users", async () => {
-    const user = await User.factory().create();
+    const user = await User.factory({ events: false }).create();
     const userToken = user.createToken();
     const responses = [
       request.get("/v1/admin/categories"),
@@ -28,7 +28,7 @@ describe("Category", () => {
       request.delete("/v1/admin/categories/foo-user-id")
     ]
     const isNotAccessable = responses.every(async (response) => {
-      return await response.set("Authorization", `Bearer ${userToken}`).statusCode === 401;
+      return await response.set("Authorization", `Bearer ${userToken}`).statusCode === 403;
     });
     expect(isNotAccessable).toBe(true);
   });

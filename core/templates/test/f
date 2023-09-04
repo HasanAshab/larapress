@@ -1,16 +1,22 @@
 const DB = require("~/core/utils/DB").default;
+//const User = require("~/app/models/User").default;
 
 describe("{{name}}", () => {
+  //let user;
+  //let token;
+  
   beforeAll(async () => {
     //await DB.connect();
   });
   
   beforeEach(async () => {
-    //await resetDatabase();
+    //await DB.reset();
+    //user = await User.factory().create();
+    //token = user.createToken();
   });
 
   it("Should work", async () => {
-    const response = await request.get("/");
+    //const response = await request.get("/");
     expect(true).toBe(true);
   });
 });

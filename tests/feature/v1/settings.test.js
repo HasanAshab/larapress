@@ -17,14 +17,15 @@ describe("Settings", () => {
     token = user.createToken();
   });
   
-  it("App settings shouldn't accessable by general users", async () => {
-    const responses = [
+  it("App settings shouldn't accessable by novice users", async () => {
+    const requests = [
       request.get("/v1/settings/app"),
       request.put("/v1/settings/app"),
     ];
-    const isNotAccessable = responses.every(async (response) => {
-      return await response.set("Authorization", `Bearer ${token}`).statusCode === 401;
-    });
+    const responses = await Promise.all(
+      requests.map((request) => request.set("Authorization", `Bearer ${userToken}`))
+    );
+    const isNotAccessable = responses.every((response) => response.statusCode === 403);
     expect(isNotAccessable).toBe(true);
   });
   

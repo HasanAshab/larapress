@@ -158,12 +158,12 @@ export function getVersion(path?: string): string {
   if (typeof path === "undefined") {
     const error = new Error();
     const stackTrace = error.stack;
-    if (!stackTrace) throw new Error("Failed to auto infer version. try to pass target path!");
+    if (!stackTrace) throw new Error("Failed to auto infer version. try to pass path manually!");
     target = stackTrace
   } else target = path;
   const regex = /\/(v\d+)\//;
   const match = target.match(regex);
-  if (!match) throw new Error('This path is not a nested versional path!');
+  if (!match) throw new Error('Not a nested versional path!\n Call Stack or Path:\n' + target);
   return match[1];
 }
 
