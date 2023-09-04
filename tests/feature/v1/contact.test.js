@@ -16,7 +16,7 @@ describe("Contact", () => {
     token = admin.createToken();
   });
 
-  it.only("Should post contact", async () => {
+  it("Should post contact", async () => {
     const data = Contact.factory().dummyData();
     const response = await request.post("/contact").send(data);
 
@@ -32,7 +32,7 @@ describe("Contact", () => {
     };
     const script = "<script>alert('hacked')</script>";
 
-    const response = await request.post("/v1/contact").send({
+    const response = await request.post("/contact").send({
       email: data.email,
       subject: data.subject + script,
       message: data.message + script
@@ -46,11 +46,11 @@ describe("Contact", () => {
     const userToken = user.createToken();
   
     const requests = [
-      request.get("/v1/contact/inquiries"),
-      request.get("/v1/contact/inquiries/fooId"),
-      request.delete("/v1/contact/inquiries/fooId"),
-      request.put("/v1/contact/inquiries/fooId/status"),
-      request.get("/v1/contact/inquiries/search"),
+      request.get("/contact/inquiries"),
+      request.get("/contact/inquiries/fooId"),
+      request.delete("/contact/inquiries/fooId"),
+      request.put("/contact/inquiries/fooId/status"),
+      request.get("/contact/inquiries/search"),
     ];
   
     const responses = await Promise.all(
@@ -61,28 +61,32 @@ describe("Contact", () => {
     expect(isNotAccessable).toBe(true);
   });
   
-  it("Should get all contacts", async () => {
-    const response = await request.get("/v1/contact");
+  it.only("Should get all contacts", async () => {
+    const contacts = await Contact.factory(2).create();
+    const response = await request.get("/contact/inquiries");
+    expect(response.statusCode).toBe(200);
+    expect(response.body.data).toEqualDocument(contacts);
+    
   });
   
   it("Should get contact by id", async () => {
-    const response = await request.get("/v1/contact");
+    const response = await request.get("/contact");
   });
   
   it("Should delete contact by id", async () => {
-    const response = await request.get("/v1/contact");
+    const response = await request.get("/contact");
   });
 
   it("Should search contacts", async () => {
-    const response = await request.get("/v1/contact");
+    const response = await request.get("/contact");
   });
   
   it("Should filter search contacts", async () => {
-    const response = await request.get("/v1/contact");
+    const response = await request.get("/contact");
   });
   
   it("Should update contact status", async () => {
-    const response = await request.get("/v1/contact");
+    const response = await request.get("/contact");
   });
 
 });

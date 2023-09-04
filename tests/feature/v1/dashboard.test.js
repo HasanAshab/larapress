@@ -18,7 +18,7 @@ describe("Dashboard", () => {
   it("Novice users shouldn't get admin dashboard", async () => {
     const user = await User.factory().create();
     const response = await request
-      .get("/v1/dashboard/admin")
+      .get("/dashboard/admin")
       .set("Authorization", `Bearer ${user.createToken()}`);
     expect(response.statusCode).toBe(403);
   });
@@ -27,7 +27,7 @@ describe("Dashboard", () => {
     const todayUser = await User.factory({ count: 2 }).create();
     const oldUser = await User.factory({ count: 3 }).create({createdAt: new Date(2022, 0, 1)});
     const response = await request
-      .get("/v1/dashboard/admin")
+      .get("/dashboard/admin")
       .set("Authorization", `Bearer ${token}`);
     expect(response.statusCode).toBe(200);
     expect(response.body.data.totalUsers).toBe(5);

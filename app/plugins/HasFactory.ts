@@ -1,7 +1,7 @@
 import { Schema, Document } from "mongoose";
 
 export interface HasFactoryModel {
-  factory(options?: object): {
+  factory(options?: number | Record<string, any>): {
     create(data?: object): Promise<Document | Document[]>;
     dummyData(data?: object): object;
   };
@@ -10,9 +10,11 @@ export interface HasFactoryModel {
 
 export default (schema: Schema) => {
   let FactoryClass: any;
-  schema.statics.factory = function(options?: Record<string, any>) {
-    const count = options?.count ?? 1;
-    const events = options?.events ?? true;
+  schema.statics.factory = function(options?: number | Record<string, any>) {
+    const count = typeof options === "number"
+      ? options
+      : options?.count ?? 1;
+    const events = (typeof options !== "number" && options?.events) || true;
     const modelName = this.modelName;
     FactoryClass = FactoryClass ?? require(`~/app/factories/${modelName}Factory`).default;
     const factory = new FactoryClass(options);

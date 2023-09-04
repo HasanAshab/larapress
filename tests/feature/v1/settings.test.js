@@ -19,8 +19,8 @@ describe("Settings", () => {
   
   it("App settings shouldn't accessable by novice users", async () => {
     const requests = [
-      request.get("/v1/settings/app"),
-      request.put("/v1/settings/app"),
+      request.get("/settings/app"),
+      request.put("/settings/app"),
     ];
     const responses = await Promise.all(
       requests.map((request) => request.set("Authorization", `Bearer ${userToken}`))
@@ -32,7 +32,7 @@ describe("Settings", () => {
   it("Admin should get app settings", async () => {
     const admin = await User.factory().create({ role: "admin" });
     const response = await request
-      .get("/v1/settings/app")
+      .get("/settings/app")
       .set("Authorization", `Bearer ${admin.createToken()}`);
     
     expect(response.statusCode).toBe(200);
@@ -42,7 +42,7 @@ describe("Settings", () => {
   it("Admin should update app settings", async () => {
     const admin = await User.factory().create({ role: "admin" });
     const response = await request
-      .put("/v1/settings/app")
+      .put("/settings/app")
       .set("Authorization", `Bearer ${admin.createToken()}`)
       .send({
         app: {
@@ -57,7 +57,7 @@ describe("Settings", () => {
   
   it("Should get settings", async () => {
     const response = await request
-      .get("/v1/settings")
+      .get("/settings")
       .set("Authorization", `Bearer ${token}`)
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(await user.settings);
@@ -65,7 +65,7 @@ describe("Settings", () => {
   
   it("Should enable Two Factor Authorization", async () => {
     const response = await request
-      .post("/v1/settings/enable-2fa")
+      .post("/settings/enable-2fa")
       .set("Authorization", `Bearer ${token}`)
       .field("method", "sms")
       .field("otp", await user.sendOtp());
@@ -90,7 +90,7 @@ describe("Settings", () => {
     };
 
     const response = await request
-      .put("/v1/settings/notification")
+      .put("/settings/notification")
       .set("Authorization", `Bearer ${token}`)
       .send(data)
     
