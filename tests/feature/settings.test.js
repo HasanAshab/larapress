@@ -19,8 +19,8 @@ describe("Settings", () => {
   
   it("App settings shouldn't accessable by general users", async () => {
     const responses = [
-      request.get("/api/v1/settings/app"),
-      request.put("/api/v1/settings/app"),
+      request.get("/v1/settings/app"),
+      request.put("/v1/settings/app"),
     ];
     const isNotAccessable = responses.every(async (response) => {
       return await response.set("Authorization", `Bearer ${token}`).statusCode === 401;
@@ -31,7 +31,7 @@ describe("Settings", () => {
   it("Admin should get app settings", async () => {
     const admin = await User.factory().create({ role: "admin" });
     const response = await request
-      .get("/api/v1/settings/app")
+      .get("/v1/settings/app")
       .set("Authorization", `Bearer ${admin.createToken()}`);
     
     expect(response.statusCode).toBe(200);
@@ -41,7 +41,7 @@ describe("Settings", () => {
   it("Admin should update app settings", async () => {
     const admin = await User.factory().create({ role: "admin" });
     const response = await request
-      .put("/api/v1/settings/app")
+      .put("/v1/settings/app")
       .set("Authorization", `Bearer ${admin.createToken()}`)
       .send({
         app: {
@@ -56,7 +56,7 @@ describe("Settings", () => {
   
   it("Should get settings", async () => {
     const response = await request
-      .get("/api/v1/settings")
+      .get("/v1/settings")
       .set("Authorization", `Bearer ${token}`)
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(await user.settings);
@@ -64,7 +64,7 @@ describe("Settings", () => {
   
   it("Should enable Two Factor Authorization", async () => {
     const response = await request
-      .post("/api/v1/settings/enable-2fa")
+      .post("/v1/settings/enable-2fa")
       .set("Authorization", `Bearer ${token}`)
       .field("method", "sms")
       .field("otp", await user.sendOtp());
@@ -89,7 +89,7 @@ describe("Settings", () => {
     };
 
     const response = await request
-      .put("/api/v1/settings/notification")
+      .put("/v1/settings/notification")
       .set("Authorization", `Bearer ${token}`)
       .send(data)
     

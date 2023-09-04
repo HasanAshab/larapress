@@ -23,7 +23,7 @@ describe("user", () => {
     const users = await User.factory({ count: 3, events: false }).create();
     users.unshift(user);
     const response = await request
-      .get("/api/v1/users")
+      .get("/v1/users")
       .set("Authorization", `Bearer ${admin.createToken()}`)
 
     expect(response.statusCode).toBe(200);
@@ -33,14 +33,14 @@ describe("user", () => {
   it("General user shouldn't get all users", async () => {
     const users = await User.factory({ count: 3, events: false }).create();
     const response = await request
-      .get("/api/v1/users")
+      .get("/v1/users")
       .set("Authorization", `Bearer ${users[0].createToken()}`)
     expect(response.statusCode).toBe(403);
   });
   
   it("should get profile", async () => {
     const response = await request
-      .get("/api/v1/users/me")
+      .get("/v1/users/me")
       .set("Authorization", `Bearer ${token}`);
     expect(response.statusCode).toBe(200);
     delete user.password;
@@ -50,7 +50,7 @@ describe("user", () => {
   it("should update profile", async () => {
     Storage.mock();
     const response = await request
-      .put("/api/v1/users/me")
+      .put("/v1/users/me")
       .set("Authorization", `Bearer ${token}`)
       .field("username", "newName")
       .attach("logo", fakeFile("image.png"));
@@ -65,7 +65,7 @@ describe("user", () => {
   it("Should update profile without logo", async () => {
     Storage.mock();
     const response = await request
-      .put("/api/v1/users/me")
+      .put("/v1/users/me")
       .set("Authorization", `Bearer ${token}`)
       .field("username", "newName");
     user = await User.findById(user._id);
@@ -78,7 +78,7 @@ describe("user", () => {
   it("Shouldn't update profile with existing username", async () => {
     const randomUser = await User.factory({ events: false }).create();
     const response = await request
-      .put("/api/v1/users/me")
+      .put("/v1/users/me")
       .set("Authorization", `Bearer ${token}`)
       .field("username", randomUser.username);
 
@@ -91,7 +91,7 @@ describe("user", () => {
   it("Shouldn't update profile with existing email", async () => {
     const randomUser = await User.factory({ events: false }).create();
     const response = await request
-      .put("/api/v1/users/me")
+      .put("/v1/users/me")
       .set("Authorization", `Bearer ${token}`)
       .field("email", randomUser.email);
 
@@ -108,7 +108,7 @@ describe("user", () => {
     };
     Storage.mock();
     const response = await request
-      .put("/api/v1/users/me")
+      .put("/v1/users/me")
       .set("Authorization", `Bearer ${token}`)
       .field("username", newUserData.username)
       .field("email", newUserData.email)
@@ -131,7 +131,7 @@ describe("user", () => {
   it("Should get user profile by username", async () => {
     const user = await User.factory({ events: false }).create();
     const response = await request
-      .get("/api/v1/users/" + user.username)
+      .get("/v1/users/" + user.username)
       .set("Authorization", `Bearer ${token}`)
 
     expect(response.statusCode).toBe(200);
@@ -141,7 +141,7 @@ describe("user", () => {
   it("Admin should delete user", async () => {
     const admin = await User.factory({ events: false }).create({ role: "admin" });
     const response = await request
-      .delete("/api/v1/users/" + user.username)
+      .delete("/v1/users/" + user.username)
       .set("Authorization", `Bearer ${admin.createToken()}`);
     expect(response.statusCode).toBe(204);
     expect(await User.findById(user._id)).toBeNull();
@@ -150,7 +150,7 @@ describe("user", () => {
   it("Admin should delete own account", async () => {
     const admin = await User.factory({ events: false }).create({ role: "admin" });
     const response = await request
-      .delete("/api/v1/users/" + admin.username)
+      .delete("/v1/users/" + admin.username)
       .set("Authorization", `Bearer ${admin.createToken()}`);
 
     expect(response.statusCode).toBe(204);
@@ -160,7 +160,7 @@ describe("user", () => {
   it("General user should delete own account", async () => {
     const user = await User.factory({ events: false }).create();
     const response = await request
-      .delete("/api/v1/users/" + user.username)
+      .delete("/v1/users/" + user.username)
       .set("Authorization", `Bearer ${user.createToken()}`);
 
     expect(response.statusCode).toBe(204);
@@ -170,7 +170,7 @@ describe("user", () => {
   it("Shouldn't delete admin user", async () => {
     const admin = await User.factory({ events: false }).create({ role: "admin" });
     const response = await request
-      .delete("/api/v1/users/" + admin.username)
+      .delete("/v1/users/" + admin.username)
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.statusCode).toBe(403);
@@ -180,7 +180,7 @@ describe("user", () => {
   it("General user shouldn't delete other user", async () => {
     const user = await User.factory({ count: 2, events: false }).create();
     const response = await request
-      .delete("/api/v1/users/" + user[1].username)
+      .delete("/v1/users/" + user[1].username)
       .set("Authorization", `Bearer ${user[0].createToken()}`);
 
     expect(response.statusCode).toBe(403);
@@ -190,7 +190,7 @@ describe("user", () => {
   it("Should make admin", async () => {
     const admin = await User.factory({ events: false }).create({ role: "admin" });
     const response = await request
-      .put(`/api/v1/users/${user.username}/make-admin`)
+      .put(`/v1/users/${user.username}/make-admin`)
       .set("Authorization", `Bearer ${admin.createToken()}`);
     expect(response.statusCode).toBe(200);
     user = await User.findById(user._id);
@@ -200,7 +200,7 @@ describe("user", () => {
   it("General user Should't make admin", async () => {
     let user = await User.factory({ events: false }).create();
     const response = await request
-      .put(`/api/v1/users/${user.username}/make-admin`)
+      .put(`/v1/users/${user.username}/make-admin`)
       .set("Authorization", `Bearer ${token}`);
     expect(response.statusCode).toBe(403);
     user = await User.findById(user._id);

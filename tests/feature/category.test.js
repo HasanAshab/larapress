@@ -21,11 +21,11 @@ describe("Category", () => {
     const user = await User.factory().create();
     const userToken = user.createToken();
     const responses = [
-      request.get("/api/v1/admin/categories"),
-      request.post("/api/v1/admin/categories"),
-      request.get("/api/v1/admin/categories/foo-user-id"),
-      request.put("/api/v1/admin/categories/foo-user-id"),
-      request.delete("/api/v1/admin/categories/foo-user-id")
+      request.get("/v1/admin/categories"),
+      request.post("/v1/admin/categories"),
+      request.get("/v1/admin/categories/foo-user-id"),
+      request.put("/v1/admin/categories/foo-user-id"),
+      request.delete("/v1/admin/categories/foo-user-id")
     ]
     const isNotAccessable = responses.every(async (response) => {
       return await response.set("Authorization", `Bearer ${userToken}`).statusCode === 401;
@@ -36,7 +36,7 @@ describe("Category", () => {
   it("Should get all categories", async () => {
     const categories = await Category.factory(3).create();
     const response = await request
-      .get("/api/v1/admin/categories")
+      .get("/v1/admin/categories")
       .set("Authorization", `Bearer ${token}`);
     
     expect(response.statusCode).toBe(200);
@@ -46,7 +46,7 @@ describe("Category", () => {
   it("Should create category", async () => {
     Storage.mock();
     const response = await request
-      .post("/api/v1/admin/categories")
+      .post("/v1/admin/categories")
       .set("Authorization", `Bearer ${token}`)
       .field("name", "foo bar")
       .field("slug", "foo-bar")
@@ -61,7 +61,7 @@ describe("Category", () => {
   it("Should create category without icon", async () => {
     Storage.mock();
     const response = await request
-      .post("/api/v1/admin/categories")
+      .post("/v1/admin/categories")
       .set("Authorization", `Bearer ${token}`)
       .field("name", "foo bar")
       .field("slug", "foo-bar");
@@ -74,7 +74,7 @@ describe("Category", () => {
   it("Shouldn't create category with existing slug", async () => {
     const category = await Category.factory().create();
     const response = await request
-      .post("/api/v1/admin/categories")
+      .post("/v1/admin/categories")
       .set("Authorization", `Bearer ${token}`)
       .field("name", "foo bar")
       .field("slug", category.slug)
@@ -85,7 +85,7 @@ describe("Category", () => {
   it("Should get category by id", async () => {
     const category = await Category.factory().create();
     const response = await request
-      .get("/api/v1/admin/categories/" + category._id)
+      .get("/v1/admin/categories/" + category._id)
       .set("Authorization", `Bearer ${token}`);
     
     expect(response.statusCode).toBe(200);
@@ -95,7 +95,7 @@ describe("Category", () => {
   it("Should update category", async () => {
     let category = await Category.factory().create();
     const response = await request
-      .put("/api/v1/admin/categories/" + category._id)
+      .put("/v1/admin/categories/" + category._id)
       .set("Authorization", `Bearer ${token}`)
       .field("name", "foo bar")
       .field("slug", "foo-bar")
@@ -110,7 +110,7 @@ describe("Category", () => {
     let category = await Category.factory().create();
     Storage.mock();
     const response = await request
-      .put("/api/v1/admin/categories/" + category._id)
+      .put("/v1/admin/categories/" + category._id)
       .set("Authorization", `Bearer ${token}`)
       .field("name", "foo bar")
       .field("slug", "foo-bar")
@@ -128,7 +128,7 @@ describe("Category", () => {
     let category = await Category.factory().create();
     let anotherCategory = await Category.factory().create();
     const response = await request
-      .put("/api/v1/admin/categories/" + category._id)
+      .put("/v1/admin/categories/" + category._id)
       .set("Authorization", `Bearer ${token}`)
       .field("name", "foo bar")
       .field("slug", anotherCategory.slug);
@@ -139,7 +139,7 @@ describe("Category", () => {
   it("Should delete category", async () => {
     const category = await Category.factory().create();
     const response = await request
-      .delete("/api/v1/admin/categories/" + category._id)
+      .delete("/v1/admin/categories/" + category._id)
       .set("Authorization", `Bearer ${token}`);
       
     expect(response.statusCode).toBe(204);
