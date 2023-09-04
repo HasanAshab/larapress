@@ -20,7 +20,7 @@ export default class Cache {
     const { default: DriverClass } = await import(`./drivers/${capitalizeFirstLetter(this.driverName)}`);
     const driver = new DriverClass();
     this.driverName = config.get<any>("cache");
-    return (driver[methodName] as any).bind(driver) as Driver[T];
+    return (driver[methodName] as any).bind(driver) as any;
   }
   
   static async get(key: string) {

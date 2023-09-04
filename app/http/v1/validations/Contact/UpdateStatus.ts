@@ -3,10 +3,9 @@ import Joi from "joi";
 
 const schema: ValidationSchema = {
   urlencoded: {
-    target: "query",
+    target: "body",
     rules: Joi.object({
-      query: Joi.string().required(),
-      status: Joi.string().valid("opened", "closed")
+      status: Joi.string().valid("opened", "closed").required()
     })
   }
 }

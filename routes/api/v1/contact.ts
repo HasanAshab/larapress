@@ -5,13 +5,13 @@ const router: Router = express.Router();
 const ContactController = controller("ContactController");
 
 // Endpoints for contact
-
-router.get("/inquiries", middleware("auth@roles:admin"), ContactController.index);
-router.post("/", middleware("auth"), ContactController.create);
+router.post("/", ContactController.create[0], middleware("sanitize@fields:subject,message"), ContactController.create[1]);
+router.use(middleware("auth@roles:admin"));
+router.get("/inquiries", ContactController.index);
 router.route("/inquiries/:id")
-  .get(middleware("auth@roles:admin"), ContactController.find)
-  .delete(middleware("auth@roles:admin"), ContactController.delete);
-router.put("/inquiries/search", middleware("auth@roles:admin"), ContactController.search);
-/*router.put("/inquiries/:id/status", middleware("auth@roles:admin"), ContactController.updateStatus);
-*/
+  .get(ContactController.find)
+  .delete(ContactController.delete);
+router.put("/inquiries/search", ContactController.search);
+router.put("/inquiries/:id/status", ContactController.updateStatus);
+
 export default router;
