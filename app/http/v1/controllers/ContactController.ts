@@ -19,7 +19,7 @@ export default class ContactController {
   }
   
   async delete(req: Request) {
-    const { deletedCount } = await Contact.deleteById(req.params.id);
+    const { deletedCount } = await Contact.deleteOne({ _id: req.params.id });
     return deletedCount === 1
       ? { message: "Contact form deleted!" }
       : { status: 404 }
@@ -27,7 +27,7 @@ export default class ContactController {
   
   async search(req: Request) {
     return await Contact.find({
-      $text: { $search: req.query.query }, 
+      $text: { $search: req.query.query as string }, 
       status: req.query.status
     }).paginateReq(req);
   }

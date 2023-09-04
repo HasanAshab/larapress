@@ -1,5 +1,4 @@
 import { Schema, Document } from "mongoose";
-import Factory from "~/core/factories/Factory";
 
 export interface HasFactoryModel {
   factory(options?: object): {
@@ -10,7 +9,7 @@ export interface HasFactoryModel {
 
 
 export default (schema: Schema) => {
-  let FactoryClass: Factory;
+  let FactoryClass: any;
   schema.statics.factory = function(options?: Record<string, any>) {
     const count = options?.count ?? 1;
     const events = options?.events ?? true;

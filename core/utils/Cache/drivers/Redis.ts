@@ -11,7 +11,7 @@ client.on("error", err => log(err));
 client.connect();
 
 
-export default class Redis extends Driver {
+export default class Redis implements Driver {
   
   async get(key: string) {
     const result = await client.get(key);
