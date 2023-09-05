@@ -13,8 +13,9 @@ export default abstract class Factory {
     if(typeof data === "undefined"){
       return modelData;
     }
-    for (const field of Object.keys(data)){
-      modelData[field] = data[field];
+    for (const field in data){
+      if(typeof data[field] !== "undefined")
+        modelData[field] = data[field];
     }
     return modelData;
   };
