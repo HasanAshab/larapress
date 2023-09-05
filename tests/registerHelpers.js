@@ -15,6 +15,15 @@ for(const method of methods) {
     obj.actingAs = function(token) {
       return obj.set("Authorization", `Bearer ${token}`)
     }
+    obj.multipart = function(data) {
+      for(const fieldName in data){
+        const value = data[fieldName];
+        if(value._type === "file")
+          obj.attach(fieldName, value.path);
+        else obj.field(fieldName, value);
+      }
+      return obj
+    }
     return obj;
   }
 }
@@ -26,5 +35,8 @@ global.sleep = function(miliseconds) {
 }
 
 global.fakeFile = (name) => {
-  return `storage/test_files/${name}`;
+  return {
+    _type: "file",
+    path: `storage/test_files/${name}`
+  }
 };

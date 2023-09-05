@@ -15,26 +15,31 @@ describe("Auth", () => {
     await DB.connect();
   });
 
-  async function setup(mfa = false) {
+  async function setup(mfa = false, createUser = true) {
     await DB.reset();
     Mail.mock();
-    user = await User.factory({ mfa }).create();
-    token = user.createToken();
+    if(createUser) {
+      user = await User.factory({ mfa }).create();
+      token = user.createToken();
+    }
   }
 
-  it("should register a user", async () => {
+  it.only("should register a user", async () => {
     await setup();
-    const dummyUser = User.factory().dummyData();
+    const data = {
+      username: "foobar123",
+      email: "foo@gmail.com",
+      password: "Password@1234",
+      logo: fakeFile("image.png")
+    };
     Storage.mock();
     const response = await request
       .post("/auth/register")
-      .field("username", dummyUser.username)
-      .field("email", dummyUser.email)
-      .field("password", "Password@1234")
-      .attach("logo", fakeFile("image.png"));
+      .multipart(data);
+      console.log(response.body)
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
-    expect(await User.findOne({ email: dummyUser.email })).not.toBeNull();
+    expect(await User.findOne({ email: data.email })).not.toBeNull();
     Storage.assertStoredCount(1);
     Storage.assertStored("image.png");
   });

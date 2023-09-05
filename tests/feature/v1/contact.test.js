@@ -41,7 +41,7 @@ describe("Contact", () => {
     expect(await Contact.findOne(data)).not.toBeNull();
   });
   
-  it("Contact management endpoints shouldn't be accessible by novice", async () => {
+  it ("Contact management endpoints shouldn't be accessible by novice", async () => {
     const user = await User.factory({ events: false }).create();
     const userToken = user.createToken();
   
