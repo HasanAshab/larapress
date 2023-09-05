@@ -11,9 +11,14 @@ for(const method of methods) {
   const realHandler = request[method];
   request[method] = function(subUrl) {
     version = version ?? getVersion();
-    return realHandler.call(request, "/api/" + version + subUrl);
+    const obj = realHandler.call(request, "/api/" + version + subUrl);
+    obj.actingAs = function(token) {
+      return obj.set("Authorization", `Bearer ${token}`)
+    }
+    return obj;
   }
 }
+
 global.request = request;
 
 global.sleep = function(miliseconds) {

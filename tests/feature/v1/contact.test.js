@@ -54,19 +54,19 @@ describe("Contact", () => {
     ];
   
     const responses = await Promise.all(
-      requests.map((request) => request.set("Authorization", `Bearer ${userToken}`))
+      requests.map((request) => request.actingAs(userToken))
     );
   
     const isNotAccessable = responses.every((response) => response.statusCode === 403);
     expect(isNotAccessable).toBe(true);
   });
   
-  it.only("Should get all contacts", async () => {
+  it("Should get all contacts", async () => {
     const contacts = await Contact.factory(2).create();
-    const response = await request.get("/contact/inquiries");
+    const response = await request.get("/contact/inquiries").actingAs(token);
+
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(contacts);
-    
   });
   
   it("Should get contact by id", async () => {
