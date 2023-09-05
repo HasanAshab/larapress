@@ -4,14 +4,13 @@ global.beforeEach = function(cb) {
 }
 
 const realIt = global.it;
-// TODO only, except methods
-const runTest = function(summery, config, cb, method ) {
+const runTest = function(method, summery, config, cb) {
   const wrappedCb = async () => {
     if(!cb) {
       cb = config;
       config = {};
     }
-    if(!config.skipBeforeEach) {
+    if(typeof config.skipBeforeEach === "undefined" || !config.skipBeforeEach) {
       await setup(config);
     }
     await cb();
@@ -21,12 +20,15 @@ const runTest = function(summery, config, cb, method ) {
   else realIt(summery, wrappedCb);
 }
 
-global.it = (...args) {
-  runTest(...args);
+global.it = (...args) => {
+  runTest(undefined, ...args);
 }
-global.it.skip = (...args) {
-  runTest(...args, "skip");
+
+global.it.skip = (...args) => {
+  runTest("skip", ...args);
 }
-global.it.except = (...args) {
-  runTest(...args, "except");
+
+global.it.only = (...args) => {
+  runTest("only", ...args);
 }
+

@@ -80,7 +80,7 @@ describe("Auth", () => {
     expect(response.body.data).not.toHaveProperty("token");
   });
 
-  it("should login a user", async () => {
+  it.only("should login a user", async () => {
     const response = await request.post("/auth/login").send({
       email: user.email,
       password: "password"
@@ -220,7 +220,6 @@ describe("Auth", () => {
     await sleep(3000);
     Mail.assertCount(1);
     Mail.assertSentTo(user.email, "VerificationMail");
-    resolve();
   });
 
   it("should change password", async () => {
@@ -280,7 +279,7 @@ describe("Auth", () => {
       id: user._id.toString(),
       token: "foo",
       password
-    }),
+    });
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(401);
     expect(await user.attempt(password)).toBe(false);

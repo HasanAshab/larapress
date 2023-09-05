@@ -11,14 +11,15 @@ export interface HasFactoryModel {
 export default (schema: Schema) => {
   let FactoryClass: any;
   schema.statics.factory = function(options?: number | Record<string, any>) {
+    
     const count = typeof options === "number"
       ? options
       : options?.count ?? 1;
     const events = typeof options === "object"
       ? options.events ?? true
       : true;
-    const modelName = this.modelName;
-    FactoryClass = FactoryClass ?? require(`~/app/factories/${modelName}Factory`).default;
+      
+    FactoryClass = FactoryClass ?? require(`~/app/factories/${this.modelName}Factory`).default;
     const factory = new FactoryClass(options);
     return {
       create: async (data?: object) => {
