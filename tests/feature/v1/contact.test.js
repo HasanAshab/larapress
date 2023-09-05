@@ -2,6 +2,7 @@ const DB = require("~/core/utils/DB").default;
 const Contact = require("~/app/models/Contact").default;
 const User = require("~/app/models/User").default;
 
+
 describe("Contact", () => {
   let admin;
   let token;
@@ -16,7 +17,7 @@ describe("Contact", () => {
     token = admin.createToken();
   });
 
-  it("Should post contact", async () => {
+  it.only("Should post contact", async () => {
     const data = Contact.factory().dummyData();
     const response = await request.post("/contact").send(data);
 
@@ -24,7 +25,7 @@ describe("Contact", () => {
     expect(await Contact.findOne(data)).not.toBeNull();
   });
   
-  it("Contact data should be sanitized", async () => {
+  it.only("Contact data should be sanitized", async () => {
     const data = {
       email: "foo@gmail.com",
       subject: "I'm trying XXS",

@@ -10,6 +10,7 @@ module.exports = {
   testTimeout: 10000000,
   setupFilesAfterEnv: [
     "./tests/registerHelpers.js",
+    "./tests/overrideHooks.js",
     "./tests/customMatchers.js"
   ],
   moduleNameMapper: {

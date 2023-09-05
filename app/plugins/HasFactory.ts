@@ -14,7 +14,9 @@ export default (schema: Schema) => {
     const count = typeof options === "number"
       ? options
       : options?.count ?? 1;
-    const events = (typeof options !== "number" && options?.events) || true;
+    const events = typeof options === "object"
+      ? options.events ?? true
+      : true;
     const modelName = this.modelName;
     FactoryClass = FactoryClass ?? require(`~/app/factories/${modelName}Factory`).default;
     const factory = new FactoryClass(options);
