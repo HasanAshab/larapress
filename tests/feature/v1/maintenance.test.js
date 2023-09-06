@@ -11,7 +11,7 @@ describe("App", () => {
   });
   
   it("shouldn't accessable with invalid bypass key when in maintenance mode", async () => {
-    const response = await request.get("/").query({bypassKey: "foo-invalid-key"});
+    const response = await request.get("/").query({ bypassKey: "foo-invalid-key" });
     expect(response.statusCode).toBe(503);
   });
   

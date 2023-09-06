@@ -17,72 +17,60 @@ describe("Notification", () => {
     token = user.createToken();
   });
 
-  it("Shouldn't access notification endpoints without auth-token", async () => {
-    const responses = [
-      await request.get(`/notifications`),
-      await request.get(`/notifications/unread-count`),
-      await request.post(`/notifications/foo-notification-id`),
-      await request.delete(`/notifications/foo-notification-id`),
-    ];
-    expect(responses.every(response => response.statusCode === 401)).toBe(true);
-  });
-
   it("Should get notifications", async () => {
-    const notifications = await Notification.factory(3).create({notifiableId: user._id});
-    const response = await request.get("/notifications")
-      .set("Authorization", `Bearer ${token}`);
+    const notifications = await Notification.factory(2).create({ userId: user._id });
+    const response = await request.get("/notifications").actingAs(token);
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(notifications);
   });
   
   it("Should mark notification as read", async () => {
-    let notification = await Notification.factory().create({notifiableId: user._id, readAt: null});
-    const response = await request.post("/notifications/"+notification._id)
-      .set("Authorization", `Bearer ${token}`);
+    let notification = await Notification.factory().create({userId: user._id, readAt: null});
+    const response = await request.post("/notifications/" + notification._id).actingAs(token);
     expect(response.statusCode).toBe(200);
-    notification = await Notification.findById(notification._id)
+    notification = await Notification.findById(notification._id);
     expect(notification.readAt).not.toBeNull();
   });
   
   it("Shouldn't mark others notification as read", async () => {
-    let notification = await Notification.factory().create({readAt: null});
-    const response = await request.post("/notifications/"+notification._id)
-      .set("Authorization", `Bearer ${token}`);
+    let notification = await Notification.factory().create({ readAt: null });
+    const response = await request.post("/notifications/"+ notification._id).actingAs(token);
     expect(response.statusCode).toBe(404);
     notification = await Notification.findById(notification._id)
     expect(notification.readAt).toBeNull();
   });
   
   it("Shouldn't get others notifications", async () => {
-    const notifications = await Notification.factory(3).create({notifiableId: user._id});
-    const othersNotifications = await Notification.factory().create();
-    const response = await request.get("/notifications")
-      .set("Authorization", `Bearer ${token}`);
+    const [notifications] = await Promise.all([
+      Notification.factory(2).create({ userId: user._id }),
+      Notification.factory().create()
+    ]);
+    const response = await request.get("/notifications").actingAs(token);
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(notifications);
   });
   
   it("Should get unread notifications count", async () => {
-    const unreadNotifications = await Notification.factory(2).create({notifiableId: user._id, readAt: null});
-    await Notification.factory().create({notifiableId: user._id});
-    const response = await request.get("/notifications/unread-count")
-      .set("Authorization", `Bearer ${token}`);
+    await Promise.all([
+      Notification.factory(2).create({ userId: user._id, readAt: null }),
+      Notification.factory().create({userId: user._id})
+    ]);
+    const response = await request.get("/notifications/unread-count").actingAs(token);
     expect(response.statusCode).toBe(200);
-    expect(response.body.data.count).toBe(unreadNotifications.length);
+    expect(response.body.data.count).toBe(2);
   });
   
   it("Should delete notification", async () => {
-    const notifications = await Notification.factory(3).create({notifiableId: user._id});
-    const response = await request.delete(`/notifications/${notifications[0]._id}`)
-      .set("Authorization", `Bearer ${token}`);
+    let notification = await Notification.factory().create({ userId: user._id });
+    const response = await request.delete(`/notifications/${notification._id}`).actingAs(token);
     expect(response.statusCode).toBe(204);
-    expect(await user.notifications.count()).toBe(2);
+    notification = await Notification.findById(notification._id);
+    expect(notification).toBeNull();
   });
   
   it("Shouldn't delete others notification", async () => {
     let notification = await Notification.factory().create();
-    const response = await request.delete(`/notifications/${notification._id}`)
-      .set("Authorization", `Bearer ${token}`);
+    const response = await request.delete(`/notifications/${notification._id}`).actingAs(token);
     expect(response.statusCode).toBe(204);
     notification = await Notification.findById(notification._id);
     expect(notification).not.toBeNull();

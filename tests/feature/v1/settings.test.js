@@ -11,10 +11,12 @@ describe("Settings", () => {
     await DB.connect();
   });
   
-  beforeEach(async () => {
+  beforeEach(async (config) => {
     await DB.reset();
-    user = await User.factory().create();
-    token = user.createToken();
+    if(config.user !== false) {
+      user = await User.factory().create();
+      token = user.createToken();
+    }
   });
   
   it("App settings shouldn't accessable by novice users", async () => {
@@ -23,33 +25,24 @@ describe("Settings", () => {
       request.put("/settings/app"),
     ];
     const responses = await Promise.all(
-      requests.map((request) => request.set("Authorization", `Bearer ${userToken}`))
+      requests.map((request) => request.actingAs(userToken))
     );
     const isNotAccessable = responses.every((response) => response.statusCode === 403);
     expect(isNotAccessable).toBe(true);
   });
   
-  it("Admin should get app settings", async () => {
+  it("Admin should get app settings", { user: false }, async () => {
     const admin = await User.factory().create({ role: "admin" });
-    const response = await request
-      .get("/settings/app")
-      .set("Authorization", `Bearer ${admin.createToken()}`);
-    
+    const response = await request.get("/settings/app").actingAs(admin.createToken());
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqual(config);
   });
 
-  it("Admin should update app settings", async () => {
+  it("Admin should update app settings", { user: false }, async () => {
     const admin = await User.factory().create({ role: "admin" });
-    const response = await request
-      .put("/settings/app")
-      .set("Authorization", `Bearer ${admin.createToken()}`)
-      .send({
-        app: {
-          name: "FooBar"
-        }
-      });
-
+    const response = await request.put("/settings/app").actingAs(admin.createToken()).send({
+      app: { name: "FooBar" }
+    });
     expect(response.statusCode).toBe(200);
     expect(config.get("app.name")).toBe("FooBar");
     config.app.name = "Samer";
