@@ -10,7 +10,8 @@ router.get("/", middleware("auth@roles:admin"), UserController.index);
 
 router.route("/me")
   .get(middleware("auth"), UserController.profile)
-  .put(middleware("auth"), UserController.updateProfile);
+  .put(middleware("auth"), UserController.updateProfile)
+  .delete(middleware("auth"), UserController.deleteAccount);
 
 router.route("/:username")
   .get(middleware("auth"), UserController.find)

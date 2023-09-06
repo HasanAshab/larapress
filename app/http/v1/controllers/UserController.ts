@@ -28,6 +28,13 @@ export default class UserController {
     return { message: "Verification email sent to new email!" };
   };
   
+  async deleteAccount(req: Request) {
+    const { deletedCount } = await User.deleteOne({ _id: req.user._id });
+    return deletedCount === 1
+      ? { status: 204 }
+      : { status: 500 };
+  }
+  
   async find(req: Request) {
     const user = await User.findOne(req.params);
     if(!user) return { status: 404 };
