@@ -1,6 +1,7 @@
 import Factory from "~/core/factories/Factory";
+import { faker } from "@faker-js/faker";
 
-export default class {{name}}Factory extends Factory {
+export default class {{name}}Factory implements Factory {
   definition() {
     return {
       //

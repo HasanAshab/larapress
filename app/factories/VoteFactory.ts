@@ -1,7 +1,7 @@
 import Factory from "~/core/factories/Factory";
 import User from "~/app/models/User";
 
-export default class VoteFactory extends Factory {
+export default class VoteFactory implements Factory {
   definition() {
     return {
       voteableId: new User()._id,

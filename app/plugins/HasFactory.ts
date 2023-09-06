@@ -1,14 +1,14 @@
 import { Schema, Document } from "mongoose";
 
 export interface HasFactoryModel {
-  factory(config?: number | Record<string, any>): {
+  factory(configOrCount?: number | Record<string, any>): {
     create(data?: object): Promise<Document | Document[]>;
     dummyData(data?: object): object;
   };
 }
 
 
-export default (schema: Schema) {
+export default (schema: Schema) => {
   let Factory: any;
   
   function importFactoryOnce(modelName: string) {
@@ -28,27 +28,25 @@ export default (schema: Schema) {
   };
 
   
-  schema.statics.factory = function(configOrCount?: number | Record<string, any>) {
+  schema.statics.factory = function(configOrCount: number | Record<string, any> = 1) {
     importFactoryOnce(this.modelName);
     const factory = new Factory();
-    
     const config = typeof configOrCount === "number"
       ? { count: configOrCount }
       : configOrCount;
     config.count = config.count ?? 1;
-    factory.setConfig(config)
-    
+    Object.assign(factory.config, config);
     return {
       create: async (data?: object) => {
-        const docsData: Schema[] = [];
-        for (let i = 0; i < factory.config.count; i++) {
+        const docsData: any[] = [];
+        for (let i = 0; i < config.count; i++) {
           docsData.push(mergeFields(factory.definition(), data));
         }
         const docs = await this.insertMany(docsData);
         if(factory.config.events && factory.post){
           await factory.post(docs);
         }
-        return factory.config.count === 1 ? docs[0] : docs;
+        return config.count === 1 ? docs[0] : docs;
       },
       dummyData: (data?: object) => {
         return factory.merge(data);

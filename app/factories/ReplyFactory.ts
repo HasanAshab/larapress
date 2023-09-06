@@ -1,13 +1,14 @@
 import Factory from "~/core/factories/Factory";
+import { faker } from "@faker-js/faker";
 import User from "~/app/models/User";
 
-export default class ReplyFactory extends Factory {
+export default class ReplyFactory implements Factory {
   definition() {
     return {
       commentId: new User()._id,
       replierId: new User()._id,
       replierType: "User",
-      text: this.faker.lorem.paragraphs()
+      text: faker.lorem.paragraphs()
     };
   };
 }

@@ -1,16 +1,18 @@
 import Factory from "~/core/factories/Factory";
+import { faker } from "@faker-js/faker";
 import { IUser } from "~/app/models/User";
 import Settings from "~/app/models/Settings";
 
-export default class UserFactory extends Factory {
+export default class UserFactory implements Factory {
   public config = {
-    events: false
+    events: false,
+    mfa: false
   };
   
   definition() {
     return {
-      username: this.faker.person.firstName(),
-      email: this.faker.internet.email(),
+      username: faker.person.firstName(),
+      email: faker.internet.email(),
       phoneNumber: "+15005550006",
       password: "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi", // "password"
       verified: true

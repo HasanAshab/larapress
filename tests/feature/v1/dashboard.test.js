@@ -18,15 +18,15 @@ describe("Dashboard", () => {
   });
   
   it("Novice users shouldn't get admin dashboard", { user: false }, async () => {
-    const user = await User.factory({ events: false }).create();
+    const user = await User.factory().create();
     const response = await request.get("/dashboard/admin").actingAs(user.createToken());
     expect(response.statusCode).toBe(403);
   });
   
   it("Admin should get dashboard", async () => {
     const [todayUser, oldUser] = await Promise.all([
-      User.factory({ count: 2, events: false }).create(),
-      User.factory({ count: 3, events: false }).create({ createdAt: new Date(2022, 0, 1) })
+      User.factory(2).create(),
+      User.factory(3).create({ createdAt: new Date(2022, 0, 1) })
     ]);
     const response = await request.get("/dashboard/admin").actingAs(token);
     expect(response.statusCode).toBe(200);

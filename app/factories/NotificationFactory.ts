@@ -1,11 +1,12 @@
 import Factory from "~/core/factories/Factory";
+import { faker } from "@faker-js/faker";
 import User from "~/app/models/User";
 
-export default class NotificationFactory extends Factory {
+export default class NotificationFactory implements Factory {
   definition() {
     return {
       userId: new User()._id,
-      data: { text: this.faker.lorem.words(5) },
+      data: { text: faker.lorem.words(5) },
       readAt: new Date()
     };
   };

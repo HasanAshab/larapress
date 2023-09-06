@@ -1,15 +1,16 @@
 import Factory from "~/core/factories/Factory";
+import { faker } from "@faker-js/faker";
 import User from "~/app/models/User";
 
-export default class BlogFactory extends Factory {
+export default class BlogFactory implements Factory {
   definition() {
     return {
       authorId: new User()._id,
       authorType: "User",
       categoryId: new User()._id,
-      title: this.faker.lorem.words(4),
-      content: this.faker.lorem.paragraphs(2),
-      slug: this.faker.lorem.slug(),
+      title: faker.lorem.words(4),
+      content: faker.lorem.paragraphs(2),
+      slug: faker.lorem.slug(),
       visibility: "public"
     };
   };

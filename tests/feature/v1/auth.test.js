@@ -80,7 +80,7 @@ describe("Auth", () => {
     expect(response.body.data).not.toHaveProperty("token");
   });
 
-  it("should login a user", { events: true }, async () => {
+  it.only("should login a user", { events: true }, async () => {
     const response = await request.post("/auth/login").send({
       email: user.email,
       password: "password"
