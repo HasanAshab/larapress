@@ -9,13 +9,11 @@ const ContactSchema = new Schema(
     },
     subject: {
       type: String,
-      required: true,
-      text: true
+      required: true
     },
     message: {
       type: String,
-      required: true,
-      text: true
+      required: true
     },
     status: {
       type: String,
@@ -25,6 +23,8 @@ const ContactSchema = new Schema(
   },
   { timestamps: true }
 );
+
+ContactSchema.index({ subject: 'text', message: 'text' });
 
 ContactSchema.plugin(HasFactory);
 

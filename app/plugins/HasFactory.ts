@@ -50,7 +50,7 @@ export default (schema: Schema) => {
         return config.count === 1 ? docs[0] : docs;
       },
       dummyData: (data?: object) => {
-        return factory.merge(data);
+        return mergeFields(factory.definition(), data);
       },
     };
   };

@@ -16,12 +16,15 @@ export default (schema: any) => {
       next
     };
   };
-  schema.query.paginateReq = async function (req: Request) {
-    const fullUrl = `${req.protocol}://${req.get('host')}${req.baseUrl}`
+  schema.query.paginateReq = async function (req) {
+    const baseUrl = req.baseUrl;
+    const originalUrl = req.originalUrl;
+    const hasQuery = originalUrl.includes('?');
     const limit = typeof req.query.limit === "string" ? parseInt(req.query.limit) : 20;
+    const querySeparator = hasQuery ? '&' : '?';
     const paginatedData = await this.paginate(limit, req.query.cursor);
     paginatedData.nextCursor = paginatedData.next;
-    paginatedData.next = paginatedData.next ? `${fullUrl}?limit=${limit}&cursor=${paginatedData.next}` : null;
-    return paginatedData
+    paginatedData.next = paginatedData.next ? `${baseUrl}${originalUrl}${querySeparator}limit=${limit}&cursor=${paginatedData.next}` : null;
+    return paginatedData;
   }
 }

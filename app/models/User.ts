@@ -14,7 +14,6 @@ import Settings, { ISettings } from "~/app/models/Settings";
 const UserSchema = new Schema({
   username: {
     type: String,
-    text: true,
     unique: true,
     default: null,
   },

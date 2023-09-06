@@ -94,14 +94,14 @@ describe("user", () => {
     Mail.assertSentTo(email, "VerificationMail");
   });
 
-  it.only("Should get other user's profile by username", async () => {
+  it("Should get other user's profile by username", async () => {
     const otherUser = await User.factory().create();
     const response = await request.get("/users/" + otherUser.username).actingAs(token);
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(otherUser.safeDetails());
   });
 
-  it.only("Should delete own account", async () => {
+  it("Should delete own account", async () => {
     const response = await request.delete("/users/me").actingAs(token);
     expect(response.statusCode).toBe(204);
     expect(await User.findById(user._id)).toBeNull();
@@ -121,7 +121,7 @@ describe("user", () => {
     expect(await User.findById(admin._id)).not.toBeNull();
   });
   
-  it.only("Admin shouldn't delete other admin user", { user: false }, async () => {
+  it("Admin shouldn't delete other admin user", { user: false }, async () => {
     const admins = await User.factory(2).create({ role: "admin" });
     const response = await request.delete("/users/" + admins[0].username).actingAs(admins[1].createToken());
     expect(response.statusCode).toBe(403);
