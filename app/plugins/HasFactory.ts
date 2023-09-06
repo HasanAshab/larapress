@@ -31,11 +31,12 @@ export default (schema: Schema) => {
   schema.statics.factory = function(configOrCount: number | Record<string, any> = 1) {
     importFactoryOnce(this.modelName);
     const factory = new Factory();
-    const config = typeof configOrCount === "number"
+    let config = typeof configOrCount === "number"
       ? { count: configOrCount }
       : configOrCount;
     config.count = config.count ?? 1;
-    Object.assign(factory.config, config);
+    if(factory.config)
+      config = Object.assign(factory.config, config);
     return {
       create: async (data?: object) => {
         const docsData: any[] = [];
@@ -43,7 +44,7 @@ export default (schema: Schema) => {
           docsData.push(mergeFields(factory.definition(), data));
         }
         const docs = await this.insertMany(docsData);
-        if(factory.config.events && factory.post){
+        if(config.events && factory.post){
           await factory.post(docs);
         }
         return config.count === 1 ? docs[0] : docs;

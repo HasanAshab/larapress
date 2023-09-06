@@ -11,47 +11,46 @@ describe("Category", () => {
     await DB.connect();
   });
   
-  beforeEach(async () => {
+  beforeEach(async (config) => {
     await DB.reset();
-    admin = await User.factory({ events: false }).create({ role: "admin" });
-    token = admin.createToken();
+    if(config.user !== false) {
+      admin = await User.factory().create({ role: "admin" });
+      token = admin.createToken();
+    }
   });
   
-  it("Shouldn't accessable by general users", async () => {
-    const user = await User.factory({ events: false }).create();
+  it("Shouldn't accessable by general users", { user: false }, async () => {
+    const user = await User.factory().create();
     const userToken = user.createToken();
-    const responses = [
+    const requests = [
       request.get("/admin/categories"),
       request.post("/admin/categories"),
       request.get("/admin/categories/foo-user-id"),
       request.put("/admin/categories/foo-user-id"),
       request.delete("/admin/categories/foo-user-id")
     ]
-    const isNotAccessable = responses.every(async (response) => {
-      return await response.set("Authorization", `Bearer ${userToken}`).statusCode === 403;
-    });
+    const responses = await Promise.all(
+      requests.map((request) => request.actingAs(userToken))
+    );
+    const isNotAccessable = responses.every(response => response.statusCode === 403);
     expect(isNotAccessable).toBe(true);
   });
   
   it("Should get all categories", async () => {
     const categories = await Category.factory(3).create();
-    const response = await request
-      .get("/admin/categories")
-      .set("Authorization", `Bearer ${token}`);
-    
+    const response = await request.get("/admin/categories").actingAs(token);
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(categories);
   });
   
   it("Should create category", async () => {
     Storage.mock();
-    const response = await request
-      .post("/admin/categories")
-      .set("Authorization", `Bearer ${token}`)
-      .field("name", "foo bar")
-      .field("slug", "foo-bar")
-      .attach("icon", fakeFile("image.png"));
-  
+    const response = await request.post("/admin/categories").actingAs(token).multipart({
+      name: "foo bar",
+      slug: "foo-bar",
+      icon: fakeFile("image.png")
+    });
+    
     expect(response.statusCode).toBe(201);
     expect(await Category.findOne({ slug: "foo-bar" })).not.toBeNull();
     Storage.assertStoredCount(1);
@@ -60,11 +59,10 @@ describe("Category", () => {
   
   it("Should create category without icon", async () => {
     Storage.mock();
-    const response = await request
-      .post("/admin/categories")
-      .set("Authorization", `Bearer ${token}`)
-      .field("name", "foo bar")
-      .field("slug", "foo-bar");
+    const response = await request.post("/admin/categories").actingAs(token).multipart({
+      name: "foo bar",
+      slug: "foo-bar"
+    });
 
     expect(response.statusCode).toBe(201);
     expect(await Category.findOne({ slug: "foo-bar" })).not.toBeNull();
@@ -73,33 +71,26 @@ describe("Category", () => {
 
   it("Shouldn't create category with existing slug", async () => {
     const category = await Category.factory().create();
-    const response = await request
-      .post("/admin/categories")
-      .set("Authorization", `Bearer ${token}`)
-      .field("name", "foo bar")
-      .field("slug", category.slug)
-
+    const response = await request.post("/admin/categories").actingAs(token).multipart({
+      name: "foo bar",
+      slug: category.slug,
+    });
     expect(response.statusCode).toBe(400);
   });
 
   it("Should get category by id", async () => {
     const category = await Category.factory().create();
-    const response = await request
-      .get("/admin/categories/" + category._id)
-      .set("Authorization", `Bearer ${token}`);
-    
+    const response = await request.get("/admin/categories/" + category._id).actingAs(token)
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(category);
   });
   
   it("Should update category", async () => {
     let category = await Category.factory().create();
-    const response = await request
-      .put("/admin/categories/" + category._id)
-      .set("Authorization", `Bearer ${token}`)
-      .field("name", "foo bar")
-      .field("slug", "foo-bar")
-    
+    const response = await request.put("/admin/categories/" + category._id).actingAs(token).multipart({
+      name: "foo bar",
+      slug: "foo-bar"
+    });
     category = await Category.findById(category._id);
     expect(response.statusCode).toBe(200);
     expect(category.name).toBe("foo bar");
@@ -109,13 +100,11 @@ describe("Category", () => {
   it("Should update category with icon", async () => {
     let category = await Category.factory().create();
     Storage.mock();
-    const response = await request
-      .put("/admin/categories/" + category._id)
-      .set("Authorization", `Bearer ${token}`)
-      .field("name", "foo bar")
-      .field("slug", "foo-bar")
-      .attach("icon", fakeFile("image.png"));
-    
+    const response = await request.put("/admin/categories/" + category._id).actingAs(token).multipart({
+      name: "foo bar",
+      slug: "foo-bar",
+      icon: fakeFile("image.png")
+    });
     category = await Category.findById(category._id);
     expect(response.statusCode).toBe(200);
     expect(category.name).toBe("foo bar");
@@ -127,21 +116,16 @@ describe("Category", () => {
   it("Shouldn't update category with existing slug", async () => {
     let category = await Category.factory().create();
     let anotherCategory = await Category.factory().create();
-    const response = await request
-      .put("/admin/categories/" + category._id)
-      .set("Authorization", `Bearer ${token}`)
-      .field("name", "foo bar")
-      .field("slug", anotherCategory.slug);
-    
+    const response = await request.put("/admin/categories/" + category._id).actingAs(token).multipart({
+      name: "foo bar",
+      slug: anotherCategory.slug,
+    });
     expect(response.statusCode).toBe(400);
   });
 
   it("Should delete category", async () => {
     const category = await Category.factory().create();
-    const response = await request
-      .delete("/admin/categories/" + category._id)
-      .set("Authorization", `Bearer ${token}`);
-      
+    const response = await request.delete("/admin/categories/" + category._id).actingAs(token);
     expect(response.statusCode).toBe(204);
     expect(await Category.findById(category._id)).toBeNull();
   });

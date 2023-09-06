@@ -58,7 +58,7 @@ describe("Contact", () => {
       requests.map((request) => request.actingAs(userToken))
     );
   
-    const isNotAccessable = responses.every((response) => response.statusCode === 403);
+    const isNotAccessable = responses.every(response => response.statusCode === 403);
     expect(isNotAccessable).toBe(true);
   });
   
