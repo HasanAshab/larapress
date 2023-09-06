@@ -3,6 +3,10 @@ import { IUser } from "~/app/models/User";
 import Settings from "~/app/models/Settings";
 
 export default class UserFactory extends Factory {
+  public config = {
+    events: false
+  };
+  
   definition() {
     return {
       username: this.faker.person.firstName(),
@@ -19,7 +23,7 @@ export default class UserFactory extends Factory {
       settingsData.push({
         userId: user._id,
         twoFactorAuth: { 
-          enabled: this.options.mfa
+          enabled: this.config.mfa
         }
       });
     }

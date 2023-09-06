@@ -23,7 +23,7 @@ describe("Auth", () => {
         verified: config.verified ?? true,
         password: config.oauth && null
       }
-      user = await User.factory({ mfa: config.mfa }).create(userData);
+      user = await User.factory({ mfa: config.mfa, events: config.events }).create(userData);
       token = user.createToken();
     }
   })
@@ -80,7 +80,7 @@ describe("Auth", () => {
     expect(response.body.data).not.toHaveProperty("token");
   });
 
-  it.only("should login a user", async () => {
+  it("should login a user", { events: true }, async () => {
     const response = await request.post("/auth/login").send({
       email: user.email,
       password: "password"
@@ -107,7 +107,7 @@ describe("Auth", () => {
     expect(response.body.data?.token).toBe(undefined);
   });
 
-  it("Login should flag for otp if not provided in (2FA)", { mfa: true }, async () => {
+  it("Login should flag for otp if not provided in (2FA)", { mfa: true, events: true }, async () => {
     const response = await request.post("/auth/login").send({
       email: user.email,
       password: "password"
@@ -117,7 +117,7 @@ describe("Auth", () => {
     expect(response.body.data).not.toHaveProperty("token");
   });
 
-  it("should login a user with valid otp (2FA)", { mfa: true }, async () => {
+  it("should login a user with valid otp (2FA)", { mfa: true, events: true }, async () => {
     const otp = await user.sendOtp();
     const response = await request.post("/auth/login").send({
       otp,
@@ -128,7 +128,7 @@ describe("Auth", () => {
     expect(response.body.data).toHaveProperty("token");
   });
 
-  it("shouldn't login a user with invalid OTP (2FA)", { mfa: true }, async () => {
+  it("shouldn't login a user with invalid OTP (2FA)", { mfa: true, events: true }, async () => {
     const response = await request.post("/auth/login").send({
       email: user.email,
       password: "password",
@@ -138,7 +138,7 @@ describe("Auth", () => {
     expect(response.body.data).not.toHaveProperty("token");
   });
   
-  it("Should send otp", { mfa: true }, async () => {
+  it("Should send otp", { mfa: true, events: true }, async () => {
     const response = await request.post("/auth/send-otp").send({
       userId: user._id.toString(),
       method: "sms"
@@ -148,7 +148,7 @@ describe("Auth", () => {
     expect(otp).not.toBeNull();
   });
   
-  it("Shouldn't send otp if 2fa is disabled", async () => {
+  it("Shouldn't send otp if 2fa is disabled", { events: true }, async () => {
     const response = await request.post("/auth/send-otp").send({
       userId: user._id.toString(),
       method: "sms"
@@ -211,7 +211,7 @@ describe("Auth", () => {
     expect(user.verified).toBe(false);
   });
 
-  it.only("should resend verification email", { verified: false }, async () => {
+  it("should resend verification email", { verified: false }, async () => {
     const response = await request.post("/auth/verify/resend").send({
       email: user.email
     });
@@ -273,7 +273,7 @@ describe("Auth", () => {
     expect(await user.attempt(password)).toBe(true);
   });
 
-  it.only("shouldn't reset password with invalid token", async () => {
+  it("shouldn't reset password with invalid token", async () => {
     const password = "Password@1234";
     const response = await request.put("/auth/password/reset").send({
       id: user._id.toString(),

@@ -1,22 +1,13 @@
 import { faker } from "@faker-js/faker";
 
 export default abstract class Factory {
-  abstract definition(): Record<string, any>;
-  public faker = faker;
+  config: Record<string, unknown> = { events: true };
+  faker = faker;
   
-  constructor(public options: Record<string, unknown> = {}) {
-    this.options = options;
+  setConfig(config: object) {
+    Object.assign(this.config, config);
   }
-  
-  merge(data?: Record<string, any>) {
-    const modelData = this.definition();
-    if(typeof data === "undefined"){
-      return modelData;
-    }
-    for (const field in data){
-      if(typeof data[field] !== "undefined")
-        modelData[field] = data[field];
-    }
-    return modelData;
-  };
+
+  abstract definition(): Record<string, any>;
+  abstract post(documents: any[]): Promise<void>;
 }
