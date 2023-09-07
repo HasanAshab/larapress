@@ -11,7 +11,7 @@ const runTest = function(method, summery, config, cb) {
       config = {};
     }
     if(typeof config.skipBeforeEach === "undefined" || !config.skipBeforeEach) {
-      await setup(config);
+      await setup?.(config);
     }
     await cb();
   };

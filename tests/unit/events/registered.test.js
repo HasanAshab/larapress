@@ -11,13 +11,9 @@ describe("Registered Event", () => {
 
   beforeAll(async () => {
     await DB.connect();
-  });
-
-  beforeEach(async () => {
-    await DB.reset();
     user = await User.factory().create({ verified: false });
   });
-  
+
   it("should send verification email", async () => {
     Mail.mock();
     await new SendEmailVerificationNotification().dispatch(user);
