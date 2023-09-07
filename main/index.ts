@@ -66,4 +66,7 @@ else {
   });
 }
 
+//import Contact from "~/app/models/Contact";
+//Contact.factory(10).create().then(console.log)
+
 export default server;

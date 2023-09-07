@@ -20,7 +20,7 @@ export default class ContactController {
     }
     if(req.query.status)
       filter.status = req.query.status
-    return await Contact.find(filter).paginateReq(req);
+    return await Contact.find(filter, { score: { $meta: "textScore" } }).sort({ score: { $meta: "textScore" } }).paginateReq(req);
   }
 
   async find(req: Request) {
