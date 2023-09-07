@@ -1,3 +1,5 @@
+import { Request, Response, NextFunction } from "express";
+
 export function performance(constructor: Function) {
   const methodNames = Object.getOwnPropertyNames(constructor.prototype);
   for (const methodName of methodNames) {
@@ -14,24 +16,19 @@ export function performance(constructor: Function) {
   }
 }
 
-export function passErrorsToHandler(constructor: Function) {
+export function controller(constructor: Function) {
   const methodNames = Object.getOwnPropertyNames(constructor.prototype);
   for (const methodName of methodNames) {
-    const method = constructor.prototype[methodName];
-    if (methodName === "constructor" || typeof method !== "function") {
+    const handler = constructor.prototype[methodName];
+    if (methodName === "constructor" || typeof handler !== "function") {
       continue;
     }
-    constructor.prototype[methodName] = async function (...args: any[]) {
+    constructor.prototype[methodName] = async function (req: Request, res: Response, next: NextFunction) {
       try {
-        return await method.apply(constructor, args);
+        return await handler.call(constructor, req, res);
       }
-      catch (err: any) {
-        for (const arg of args) {
-          if (typeof arg === "function") {
-            arg(err);
-            break;
-          }
-        }
+      catch (err: Error) {
+        next(err)
       }
     }
   }

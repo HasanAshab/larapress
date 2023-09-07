@@ -1,8 +1,12 @@
-import { Request } from "express";
+import { Request, Response } from "express";
 import Contact from "~/app/models/Contact";
+import { controller } from "~/core/decorators/class";
 
+@controller
 export default class ContactController {
-  async index(req: Request) {
+  async index(req: Request, res: Response) {
+    return res.api({ message: "hello", foo: "bar"});
+    
     return await Contact.find().paginateReq(req);
   }
   

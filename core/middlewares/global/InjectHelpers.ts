@@ -2,35 +2,24 @@ import Middleware from "~/core/middlewares/Middleware";
 import mongoose from "mongoose";
 import { Request, Response, NextFunction } from "express";
 import { ApiResponse, RawResponse } from "types";
-
+import { messages } from "~/register/error";
 
 export default class InjectHelpers extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {
     res.api = function (response: RawResponse) {
-      const defaultErrorMessages: Record<number, string> = {
-        404: "Resource Not Found!",
-        401: "Unauthorized"
+      const success = this.statusCode >= 200 && this.statusCode < 300;
+      response.message = response.message || messages[this.statusCode];
+      
+      if(response.data) {
+        response.success = response.success ?? success;
+        return this.json(response);
       }
-      const apiResponse: ApiResponse = {
-        success: this.statusCode >= 200 && this.statusCode < 300,
-        data: {}
-      }
-      if(Array.isArray(response) || response instanceof mongoose.Document) {
-        apiResponse.data = response;
-      }
-      else {
-        for (const [key, value] of Object.entries(response)) {
-          if (key === "data") apiResponse.data = value;
-          else if (key === "message") apiResponse.message = value;
-          else {
-            Array.isArray(apiResponse.data)
-              ? apiResponse[key] = value
-              : apiResponse.data[key] = value;
-          }
-        }
-      }
-      apiResponse.message = (response as any).message ?? defaultErrorMessages[this.statusCode];
-      this.json(apiResponse);
+      
+      const apiResponse: ApiResponse = { success };
+      apiResponse.message = response.message
+      delete response.message;
+      apiResponse.data = response;
+      return this.json(apiResponse);
     };
 
     next();

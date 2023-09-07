@@ -93,25 +93,7 @@ export function controller(name: string, version = getVersion()): Record < strin
   const methodNames = Object.getOwnPropertyNames(Object.getPrototypeOf(controllerInstance)).filter(name => name !== "constructor" && typeof controllerInstance[name] === 'function');
   const handlerAndValidatorStack: Record <string, RequestHandler[]> = {};
   for (const methodName of methodNames) {
-    const requestHandler = async function(req: Request, res: Response, next: NextFunction) {
-      try {
-        const handler = controllerInstance[methodName];
-        if (handler.length === 2) await handler(req, res);
-        else if (handler.length === 1 || handler.length === 0) {
-          const response = await handler(req);
-          if(!response) {
-            throw new Error(`Should not return null on ${name}:${methodName}`);
-          }
-          const { status = 200 } = response;
-          delete response.status;
-          res.status(status).api(response);
-        } 
-        else throw new Error(`Unknown param on ${name}:${methodName}`);
-      }
-      catch(err: any) {
-        next(err)
-      }
-    }
+    const requestHandler = controllerInstance[methodName].bind(controllerInstance);
     const validationSubPath = `${controllerPrefix}/${capitalizeFirstLetter(methodName)}`;
     handlerAndValidatorStack[methodName] = middleware(`validate@version:${version}|validationSubPath:${validationSubPath}`),
     handlerAndValidatorStack[methodName].push(requestHandler);
