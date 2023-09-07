@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 import middlewarePairs from "~/register/middlewares";
-import customErrors from "~/register/errors";
 import mongoose from "mongoose";
 
 
@@ -165,21 +164,6 @@ export function getVersion(path?: string): string {
   const match = target.match(regex);
   if (!match) throw new Error('Not a nested versional path!\n Call Stack or Path:\n' + target);
   return match[1];
-}
-
-export function customError(type: keyof typeof customErrors, data?: object): Error {
-  const errorData = customErrors[type];
-  const error: any = new Error();
-  error.type = type;
-  error.status = errorData.status;
-  error.message = errorData.message;
-  if (data) {
-    error.message = error.message.replace(/:(\w+)/g, (match: string, key: string) => {
-      if(typeof data[key as keyof typeof data] === "undefined") throw new Error(`The "${key}" key is required in "data" argument.`);
-      return data[key as keyof typeof data];
-    });
-  }
-  return error;
 }
 
 export async function getModels(): Promise < Model < any > [] > {

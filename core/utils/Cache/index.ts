@@ -1,6 +1,6 @@
 import { CacheDataArg } from "types";
 import config from "config";
-import { customError, capitalizeFirstLetter } from "helpers";
+import { capitalizeFirstLetter } from "helpers";
 import Driver from "~/core/utils/Cache/Driver";
 import cacheConfig from "~/register/cache";
 import Mockable from "~/core/utils/Cache/Mockable";

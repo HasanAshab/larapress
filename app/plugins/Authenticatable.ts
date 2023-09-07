@@ -1,5 +1,4 @@
 import { Schema, Document } from "mongoose";
-import { customError } from "helpers";
 import config from "config";
 import twilio from "twilio";
 import otpConfig from "~/register/otp"
@@ -49,17 +48,17 @@ export default (schema: Schema) => {
     Mail.to(this.email).send(new ForgotPasswordMail({ link }));
     return secret;
   }
-  
+
   schema.methods.resetPassword = async function (token: string, newPassword: string) {
     const tokenIsValid = await Token.isValid(this._id, "resetPassword", token);
     if (!tokenIsValid) {
-      throw customError("INVALID_OR_EXPIRED_TOKEN");
+      return false;
     }
     this.password = newPassword;
     this.tokenVersion++;
     const result = await this.save();
     Mail.to(this.email).send(new PasswordChangedMail());
-    return result;
+    return true;
   }
   
   schema.methods.sendOtp = async function (method: typeof otpConfig["methods"][number]) {

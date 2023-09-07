@@ -1,5 +1,4 @@
 import { ArrayToParamsObj } from "types";
-import { customError } from "helpers";
 
 export default abstract class Command {
   constructor(
@@ -14,16 +13,16 @@ export default abstract class Command {
     this.params = params;
   }
 
-  subCommandRequired(name: string): asserts this is this & { subCommand: string } {
+  subCommandRequired(): asserts this is this & { subCommand: string } {
     if (typeof this.subCommand === "undefined") {
-      throw customError("SUB_COMMAND_REQUIRED", { name });
+      throw new Error("The Sub Command is Required!");
     }
   }
 
   requiredParams<Keys extends string[]>(requiredParamsName: Keys): asserts this is this & {params: ArrayToParamsObj<Keys>} {
     for (const name of requiredParamsName) {
       if (typeof this.params[name] === "undefined") {
-        throw customError("REQUIRED_PARAM_MISSING", { param: name });
+        throw new Error(`The "${name}" Param is Required!`);
       }
     }
   }

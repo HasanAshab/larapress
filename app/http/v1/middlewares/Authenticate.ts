@@ -1,5 +1,4 @@
 import Middleware from "~/core/middlewares/Middleware";
-import { customError } from "helpers";
 import { Request, Response, NextFunction } from "express";
 import config from "config";
 import jwt, { JwtPayload } from "jsonwebtoken";
@@ -35,11 +34,14 @@ export default class Authenticate extends Middleware {
             return next();
           }
         } catch (err){
-          if(err instanceof jwt.JsonWebTokenError) throw customError("INVALID_OR_EXPIRED_TOKEN");
-          throw err;
+          if(!(err instanceof jwt.JsonWebTokenError))
+            throw err;
         }
       }
     }
-    throw customError("INVALID_OR_EXPIRED_TOKEN");
+    return {
+      status: 401,
+      message: "Invalid or expired token!"
+    }
   }
 }

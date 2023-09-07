@@ -1,5 +1,4 @@
 import { ArtisanBaseInput } from "types" 
-import { customError } from "helpers";
 import commands from "~/register/commands";
 
 export default class Artisan {
@@ -7,13 +6,13 @@ export default class Artisan {
     const { params, flags } = this.parseArgs(args);
     const [commandKey, subCommand] = baseInput.split(":");
     const commandName = commands[commandKey as keyof typeof commands];
-    if (!commandName) throw customError("COMMAND_NOT_FOUND");
+    if (!commandName) throw new Error("Command not found!");
 
     const { default: CommandClass } = await import(`~/app/commands/${commandName}`);
 
     const commandClass = new CommandClass(subCommand, fromShell, flags, params);
     const handler = commandClass[subCommand] || commandClass.handle;
-    if (!handler) throw customError("COMMAND_NOT_FOUND");
+    if (!handler) throw new Error("Command not found!");
     try {
       await handler.apply(commandClass);
     }

@@ -146,15 +146,15 @@ export default class AuthController {
   async resetPassword(req: Request){
     const { id, password, token } = req.body;
     const user = await User.findById(id);
-    if (user) {
-      await user.resetPassword(token, password);
-      return {
-        message: "Password changed successfully!",
-      };
-    }
+    if (!user)
+      return { status: 404 };
+
+    const result = await user.resetPassword(token, password);
+    if(result)
+      return { message: "Password changed successfully!" };
     return {
-      status: 404,
-      message: "User not found!",
+      status: 401,
+      message: "Invalid or expired token!"
     };
   };
 
