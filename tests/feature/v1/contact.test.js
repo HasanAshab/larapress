@@ -81,7 +81,7 @@ describe("Contact", () => {
   it("Should delete contact by id", async () => {
     const contact = await Contact.factory().create();
     const response = await request.delete("/contact/inquiries/" + contact._id).actingAs(token);
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(204);
     expect(await Contact.findById(contact._id)).toBeNull();
   });
 

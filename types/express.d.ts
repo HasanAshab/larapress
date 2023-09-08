@@ -9,6 +9,7 @@ declare global {
     }
     interface Response {
       api(response: RawResponse): void;
+      message(text?: string): void;
     }
   }
 }

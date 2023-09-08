@@ -1,51 +1,47 @@
+import { controller } from "~/core/decorators/class";
 import { Request, Response } from "express";
 import Contact from "~/app/models/Contact";
-import { controller } from "~/core/decorators/class";
+import Cache from "Cache";
 
 @controller
 export default class ContactController {
   async index(req: Request, res: Response) {
-    return res.api({ message: "hello", foo: "bar"});
-    
-    return await Contact.find().paginateReq(req);
+    res.api(await Contact.find().paginateReq(req));
   }
   
-  async create(req: Request) {
+  async create(req: Request, res: Response) {
     await Contact.create(req.body);
-    return { 
-      status: 201,
-      message: "Thanks for contacting us!" 
-    }
+    res.status(201).message("Thanks for contacting us!");
   }
   
-  async search(req: Request) {
+  async search(req: Request, res: Response) {
     const filter = {
       $text: { $search: req.query.query as string }, 
     }
     if(req.query.status)
       filter.status = req.query.status
-    return await Contact.find(filter, { score: { $meta: "textScore" } }).sort({ score: { $meta: "textScore" } }).paginateReq(req);
+    const results = await Contact.find(filter, { score: { $meta: "textScore" } }).sort({ score: { $meta: "textScore" } }).paginateReq(req);
+    res.api(results);
   }
 
-  async find(req: Request) {
-    return {
-      data: await Contact.findById(req.params.id)
-    }
+  async find(req: Request, res: Response) {
+    const contact = await Contact.findById(req.params.id);
+    return contact 
+      ? res.api(contact)
+      : res.status(404).message();
   }
   
-  async delete(req: Request) {
+  async delete(req: Request, res: Response) {
     const { deletedCount } = await Contact.deleteOne({ _id: req.params.id });
-    return deletedCount === 1
-      ? { message: "Contact form deleted!" }
-      : { status: 404 }
+    res.status(deletedCount === 1 ? 204 : 404).message();
   }
 
-  async updateStatus(req: Request) {
+  async updateStatus(req: Request, res: Response) {
     await Contact.updateOne(
       { _id: req.params.id }, 
       { status: req.body.status }
     );
-    return { message: `Contact form ${req.body.status}!` };
+    res.message(`Contact form ${req.body.status}!`);
   }
 
 }

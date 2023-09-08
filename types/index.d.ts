@@ -4,16 +4,16 @@ import commands from "register/commands";
 import FileValidator from "core/utils/FileValidator";
 import Mailable from "core/mails/Mailable";
 
-export type RawResponse = {
-  status?: number,
+export type RawResponse = ({
+  success?: boolean, 
   message?: string,
   data?: any[] | Record < string, any >
-} & Record < string, any > | any[];
+} & Record < string, any >) | any[];
 
 export type ApiResponse = {
   success: boolean,
   message?: string,
-  data: Record < string, any > | any[],
+  data?: Record < string, any > | any[],
 } & Record < string, any >;
 
 export type Recipient = {

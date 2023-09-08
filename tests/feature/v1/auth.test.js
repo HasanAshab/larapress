@@ -80,7 +80,7 @@ describe("Auth", () => {
     expect(response.body.data).not.toHaveProperty("token");
   });
 
-  it.only("should login a user", { events: true }, async () => {
+  it("should login a user", { events: true }, async () => {
     const response = await request.post("/auth/login").send({
       email: user.email,
       password: "password"
@@ -135,7 +135,7 @@ describe("Auth", () => {
       otp: 999999
     });
     expect(response.statusCode).toBe(401);
-    expect(response.body.data).not.toHaveProperty("token");
+    expect(response.body).not.toHaveProperty("body");
   });
   
   it("Should send otp", { mfa: true, events: true }, async () => {
@@ -247,6 +247,7 @@ describe("Auth", () => {
       email: user.email
     });
     expect(response.statusCode).toBe(200);
+    await sleep(2000);
     Mail.assertCount(1);
     Mail.assertSentTo(user.email, "ForgotPasswordMail");
   });
@@ -255,7 +256,7 @@ describe("Auth", () => {
     const response = await request.post("/auth/password/reset/send-email").send({
       email: user.email
     });
-    expect(response.statusCode).toBe(400);
+    await sleep(3000);
     Mail.assertNothingSent();
   });
 

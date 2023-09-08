@@ -15,7 +15,7 @@ import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
 export interface AuthenticatableDocument extends Document {
   attempt(password: string): Promise<boolean>;
   sendVerificationEmail(): Promise<string>;
-  sendResetPasswordEmail(): Promise<string>;
+  sendResetPasswordEmail(): Promise<string | null>;
   resetPassword(token: string, newPassword: string): Promise<boolean>;
   sendOtp(method: typeof otpConfig["methods"][number]): number;
   verifyOtp(code: number): Promise<boolean>;
@@ -32,13 +32,14 @@ export default (schema: Schema) => {
   
   schema.methods.sendVerificationEmail = async function () {
     if (this.verified)
-      throw new Error("The user is already verified: \n" + this.safeDetails());
+      throw new Error("The user is already verified: \n" + this);
     const link = await URL.signedRoute("email.verify", { id: this._id }, expireAfter);
     await Mail.to(this.email).send(new VerificationMail({ link }));
     return link;
   };
 
   schema.methods.sendResetPasswordEmail = async function () {
+    if(!this.password) return null;
     const { secret } = await Token.create({
       type: "resetPassword",
       key: this._id,
@@ -70,14 +71,14 @@ export default (schema: Schema) => {
       expiresAt: Date.now() + 3600000
     });
     if(method === "sms") {
-      twilioClient.messages.create({
+      await twilioClient.messages.create({
         from: twilioConfig.phoneNumber,
         to: this.phoneNumber,
         body: "Your verification code is: " + code,
       });
     }
     else if(method === "call") {
-      twilioClient.calls.create({
+      await twilioClient.calls.create({
         from: twilioConfig.phoneNumber,
         to: this.phoneNumber,
         twiml: otpConfig.voice(code)

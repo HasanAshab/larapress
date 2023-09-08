@@ -6,9 +6,16 @@ import { messages } from "~/register/error";
 
 export default class InjectHelpers extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {
+    res.message = function (text?: string) {
+      return this.json({
+        success: this.statusCode >= 200 && this.statusCode < 300,
+        message: text ?? messages[this.statusCode]
+      });
+    }
+
     res.api = function (response: RawResponse) {
       const success = this.statusCode >= 200 && this.statusCode < 300;
-      response.message = response.message || messages[this.statusCode];
+      response.message = response.message ?? messages[this.statusCode];
       
       if(response.data) {
         response.success = response.success ?? success;

@@ -1,17 +1,19 @@
-import { Request } from "express";
+import { controller } from "~/core/decorators/class";
+import { Request, Response } from "express";
 import User from "~/app/models/User";
 import { log } from "helpers";
 
+@controller
 export default class UserController {
-  async index(req: Request) {
-    return await User.find({ role: "novice" }).paginateReq(req);
+  async index(req: Request, res: Response) {
+    res.api(await User.find({ role: "novice" }).paginateReq(req));
   }
   
-  async profile(req: Request){
-    return req.user;
+  async profile(req: Request, res: Response){
+    res.api(req.user);
   };
 
-  async updateProfile(req: Request){
+  async updateProfile(req: Request, res: Response){
     const logo = req.files?.logo;
     const user = req.user;
     Object.assign(user, req.body);
@@ -23,44 +25,36 @@ export default class UserController {
       await user.attach("logo", logo, true);
     }
     await user.save();
-    if(!req.body.email) return { message: "Profile updated!" };
+    if(!req.body.email) return res.message("Profile updated!");
     user.sendVerificationEmail().catch(log);
-    return { message: "Verification email sent to new email!" };
+    res.message("Verification email sent to your new email!");
   };
   
-  async deleteAccount(req: Request) {
+  async deleteAccount(req: Request, res: Response) {
     const { deletedCount } = await User.deleteOne({ _id: req.user._id });
-    return deletedCount === 1
-      ? { status: 204 }
-      : { status: 500 };
+    res.status(deletedCount === 1 ? 204 : 404).message();
   }
   
-  async find(req: Request) {
+  async find(req: Request, res: Response) {
     const user = await User.findOne(req.params);
-    if(!user) return { status: 404 };
-    return user.safeDetails();
+    if(!user) return res.status(404).message();
+    res.api(user.safeDetails());
   }
   
-  async delete(req: Request) {
+  async delete(req: Request, res: Response) {
     const user = await User.findOne(req.params);
-    if(!user) return { status: 404 };
-    if(await req.user.can("delete", user)) {
-      const { deletedCount } = await User.deleteOne(req.params);
-      return deletedCount === 1
-        ? { status: 204 }
-        : { status: 500 };
-    }
-    return { 
-      status: 403,
-      message: "Your have not enough privilege to perfom this action!"
-    };
+    if(!user) return res.status(404).message();
+    if(!await req.user.can("delete", user))
+      return res.status(403).message();
+    const { deletedCount } = await User.deleteOne(req.params);
+    res.status(deletedCount === 1 ? 204 : 500).message();
   }
   
-  async makeAdmin(req: Request){
+  async makeAdmin(req: Request, res: Response){
     const { modifiedCount } = await User.updateOne(req.params, { role: "admin" });
-    return modifiedCount === 1
-        ? { status: 200, message: "Admin role granted!" }
-        : { status: 404 };
+    modifiedCount === 1
+      ? res.message("Admin role granted!")
+      : res.status(404).message();
   }
 }
 

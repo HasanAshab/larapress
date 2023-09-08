@@ -16,18 +16,14 @@ export default class Authenticate extends Middleware {
           const user = await User.findById(decoded.userId);
           if (user !== null && user.tokenVersion === decoded.version) {
             if(verified && !user.verified){
-              return res.status(403).api({
-                message: "Your have to verify your email to perfom this action!"
-              });
+              return res.status(403).message("Your have to verify your email to perfom this action!");
             }
             if( 
               roles && (
                 (Array.isArray(roles) && !roles.includes(user.role)) || roles !== user.role
               )
             ){
-              return res.status(403).api({
-                message: "Your have not enough privilege to perfom this action!"
-              });
+              return res.status(403).message("Your have not enough privilege to perfom this action!");
             }
             
             req.user = user;
@@ -39,6 +35,6 @@ export default class Authenticate extends Middleware {
         }
       }
     }
-    return { status: 401 }
+    res.status(401).message(); 
   }
 }
