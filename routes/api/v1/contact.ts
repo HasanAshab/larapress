@@ -5,8 +5,8 @@ const router: Router = express.Router();
 const ContactController = controller("ContactController");
 
 // Endpoints for contact
-router.post("/", ContactController.create[0], middleware("sanitize@fields:subject,message"), ContactController.create[1]);
-//router.use(middleware("auth@roles:admin"));
+router.post("/", ContactController.create[0], middleware("sanitize:subject,message"), ContactController.create[1]);
+router.use(middleware("auth", "roles:admin"));
 router.get("/inquiries", ContactController.index);
 router.get("/inquiries/search", ContactController.search);
 router.route("/inquiries/:id")

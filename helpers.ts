@@ -34,7 +34,7 @@ export function storage(storage_path = "") {
 
 
 export function middleware(
-  ...keysWithConfig:  (keyof typeof middlewarePairs | `${keyof typeof middlewarePairs}@${string}`)[]
+  ...keysWithOptions:  (keyof typeof middlewarePairs | `${keyof typeof middlewarePairs}:${string}` | [keyof typeof middlewarePairs, object])[]
 ): RequestHandler[] {
   function wrapMiddleware(context: object, handler: Function) {
     return async (req: Request, res: Response, next: NextFunction) => {
@@ -46,40 +46,27 @@ export function middleware(
       }
     }
   }
-  function getMiddleware(middlewareKey: string, config?: Record < string, unknown >): RequestHandler {
+  function getMiddleware(middlewareKey: string, options: string[] = [], config = {}): RequestHandler {
     const middlewarePath = middlewarePairs[middlewareKey as keyof typeof middlewarePairs];
       const fullPath = middlewarePath.startsWith("<global>")
         ? middlewarePath.replace("<global>", "~/core/global/middlewares")
         : `~/app/http/${config?.version ?? "v1"}/middlewares/${middlewarePath}`;
       const MiddlewareClass = require(fullPath).default;
-      const middlewareInstance = new MiddlewareClass(config);
-      const handler = middlewareInstance.handle.length === 4 ? middlewareInstance.handle.bind(middlewareInstance): wrapMiddleware(middlewareInstance, middlewareInstance.handle);
+      const middlewareInstance = new MiddlewareClass(options, config);
+      const handler = middlewareInstance.handle.length === 4 
+        ? middlewareInstance.handle.bind(middlewareInstance)
+        : wrapMiddleware(middlewareInstance, middlewareInstance.handle);
       return handler;
   }
-  function parseConfig(onelinerConfig: string) {
-    const keyValuePairs = onelinerConfig.split("|");
-    const result: Record<string, any> = {};
-    for (const pair of keyValuePairs) {
-      const [key, value] = pair.split(":");
-      if (/^\d+$/.test(value)) {
-        result[key] = parseInt(value);
-      }
-      else if (value.includes(",")) {
-        result[key] = value.split(",");
-      } else if (value === "true" || value === "false") {
-        result[key] = value === "true";
-      } else {
-        result[key] = value;
-      }
-    }
-    return result;
-  }
   let middlewares: RequestHandler[] = [];
-  for (const keyWithConfig of keysWithConfig) {
-    const [key, onelinerConfig] = keyWithConfig.split("@");
-    if(onelinerConfig)
-      middlewares.push(getMiddleware(key, parseConfig(onelinerConfig)));
-    else middlewares.push(getMiddleware(key));
+  for (const keysWithOption of keysWithOptions) {
+    if(typeof keysWithOption === "string") {
+      const [key, options] = keysWithOption.split(":");
+      middlewares.push(getMiddleware(key, options?.split(",")));
+    }
+    else {
+      middlewares.push(getMiddleware(keysWithOption[0], undefined, keysWithOption[1]));
+    }
   }
   return middlewares;
 }
@@ -94,9 +81,13 @@ export function controller(name: string, version = getVersion()): Record < strin
   const handlerAndValidatorStack: Record <string, RequestHandler[]> = {};
   for (const methodName of methodNames) {
     const requestHandler = controllerInstance[methodName].bind(controllerInstance);
-    const validationSubPath = `${controllerPrefix}/${capitalizeFirstLetter(methodName)}`;
-    handlerAndValidatorStack[methodName] = middleware(`validate@version:${version}|validationSubPath:${validationSubPath}`),
-    handlerAndValidatorStack[methodName].push(requestHandler);
+    handlerAndValidatorStack[methodName] = [requestHandler];
+    try {
+      const validationSubPath = `${controllerPrefix}/${capitalizeFirstLetter(methodName)}`;
+      const validationSchema = require(`~/app/http/${version}/validations/${validationSubPath}`).default;
+      const validator = middleware(["validate", { validationSchema }])[0];
+      handlerAndValidatorStack[methodName].unshift(validator);
+    } catch {}
   }
   return handlerAndValidatorStack;
 }

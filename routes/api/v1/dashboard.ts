@@ -6,6 +6,6 @@ const DashboardController = controller("DashboardController");
 
 // Endpoints for dashboard
 
-router.get("/admin", middleware("auth@roles:admin"), DashboardController.admin);
+router.get("/admin", middleware("auth", "roles:admin"), DashboardController.admin);
 
 export default router;

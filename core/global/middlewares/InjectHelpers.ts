@@ -20,7 +20,7 @@ export default class InjectHelpers extends Middleware {
       if((response as any).data) {
         (response as any).success = (response as any).success ?? success;
         this.json(response);
-        return response
+        return response as ApiResponse;
       }
       
       const apiResponse: ApiResponse = { success };

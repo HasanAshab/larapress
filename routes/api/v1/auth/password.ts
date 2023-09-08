@@ -6,9 +6,9 @@ const AuthController = controller("AuthController");
 
 // Endpoints to authenticate users
 
-router.post("/reset/send-email", middleware("recaptcha", "limit@time:60000|count:6"), AuthController.sendResetPasswordEmail);
+router.post("/reset/send-email", middleware("recaptcha", "limit:10000,1"), AuthController.sendResetPasswordEmail);
 router.put("/reset", AuthController.resetPassword);
-router.put("/change", middleware("auth"), AuthController.changePassword);
+router.put("/change", middleware("auth", "verified"), AuthController.changePassword);
 
 
 export default router;

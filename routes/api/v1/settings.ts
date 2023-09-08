@@ -6,13 +6,15 @@ const SettingsController = controller("SettingsController");
 
 // Endpoints for settings
 
+router.use(middleware("verified"));
+
 router.get("/", middleware("auth"), SettingsController.index);
 router.post("/enable-2fa", middleware("auth"), SettingsController.enableTwoFactorAuth);
 router.put("/notification", middleware("auth"), SettingsController.notification);
 
 router.route("/app")
-  .get(middleware("auth@roles:admin"), SettingsController.getAppSettings)
-  .put(middleware("auth@roles:admin"), SettingsController.updateAppSettings);
+  .get(middleware("auth", "roles:admin"), SettingsController.getAppSettings)
+  .put(middleware("auth", "roles:admin"), SettingsController.updateAppSettings);
   //.get(SettingsController.getAppSettings)
   //.put(SettingsController.updateAppSettings);
  

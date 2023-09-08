@@ -24,7 +24,7 @@ module.exports = {
     privateKey: "6zO25rDm7gh3EOiaGiiQ-yA_KXxhGGu1jN5QF-90MfI"
   },
   db: {
-    connect: true,
+    connect: false,
     url: "mongodb+srv://haoronaldo18:Haomao.18205@cluster0.jqufz1a.mongodb.net/?retryWrites=true&w=majority",
     maxPoolSize: 1
   },

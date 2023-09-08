@@ -1,48 +1,25 @@
 import Middleware from "~/core/abstract/Middleware";
-import {
-  Request,
-  Response,
-  NextFunction
-} from "express";
+import { Request, Response, NextFunction } from "express";
 import path from "path";
 import { ValidationSchema } from "types";
 
 export default class ValidateRequest extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {
-    const {
-      version,
-      validationSubPath
-    } = this.config as Record<string, string>;
-
-    try {
-      var { default: ValidationSchema } = await import(path.join(`~/app/http/${version}/validations/`, validationSubPath)) as { default: ValidationSchema };
-    } catch {
-      return next();
-    }
-    const urlencoded = ValidationSchema.urlencoded;
-    const multipart = ValidationSchema.multipart;
-
-    if (typeof multipart !== "undefined") {
+    const { urlencoded, multipart } = this.config.validationSchema;
+    if (multipart) {
       const contentType = req.headers["content-type"];
       if (!contentType || !contentType.startsWith("multipart/form-data")) {
-        return res.status(400).api({
-          message: "Only multipart/form-data requests are allowed",
-        });
+        return res.status(400).message("Only multipart/form-data requests are allowed");
       }
-      const error = multipart.validate(req.files ?? {});
+      const error = multipart.validate(req.files);
       if (error) {
-        return res.status(400).api({
-          message: error,
-        });
+        return res.status(400).message(error);
       }
     }
-
-    if (typeof urlencoded !== "undefined") {
+    if (urlencoded) {
       const target = req[urlencoded.target];
       urlencoded.rules.validateAsync(target).then(() => next()).catch(error => {
-        res.status(400).api({
-          message: error.details ? error.details[0].message: error.message,
-        });
+        res.status(400).message(error.details ? error.details[0].message : error.message);
       });
     }
   }

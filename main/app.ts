@@ -15,7 +15,7 @@ app.use(cors({
   origin: [URL.client()] 
 }));
 app.use(helmet())
-app.use("*", middleware("maintenance.check", "limit@time:60000|count:60"))
+app.use("*", middleware("maintenance.check", "limit:1000,1"));
 
 // Setting middlewares for request parsing 
 app.use(bodyParser.json({ limit: "1mb" }));

@@ -1,5 +1,7 @@
 export default {
   "auth": "Authenticate",
+  "verified": "<global>/EnsureEmailIsVerified",
+  "roles": "<global>/CheckRole",
   "recaptcha": "<global>/VerifyRecaptcha",
   "maintenance.check": "<global>/CheckForMaintenanceMode",
   "limit": "<global>/LimitRequestRate",
