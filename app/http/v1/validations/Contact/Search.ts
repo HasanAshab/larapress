@@ -6,7 +6,9 @@ const schema: ValidationSchema = {
     target: "query",
     rules: Joi.object({
       query: Joi.string().required(),
-      status: Joi.string().valid("opened", "closed")
+      status: Joi.string().valid("opened", "closed"),
+      limit: Joi.string(),
+      cursor: Joi.string()
     })
   }
 }

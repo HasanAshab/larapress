@@ -59,6 +59,6 @@ module.exports = {
     authToken: "3a915d718cb1ecd3f25112dd3ac38e1b",
     phoneNumber: "+15005550006"
   },
-  cache: "redis",
+  cache: "memory",
   log: "console"
 };

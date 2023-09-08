@@ -14,13 +14,21 @@ export default class ContactController {
     res.status(201).message("Thanks for contacting us!");
   }
   
-  async search(req: Request, res: Response) {
-    const filter = {
-      $text: { $search: req.query.query as string }, 
-    }
-    if(req.query.status)
-      filter.status = req.query.status
-    const results = await Contact.find(filter, { score: { $meta: "textScore" } }).sort({ score: { $meta: "textScore" } }).paginateReq(req);
+  async search(req, res) {
+    const cacheKey = `search:${req.query.query}:${req.query.status}:${req.query.limit}:${req.query.cursor}`;
+    const cachedResults = await Cache.get(cacheKey);
+    if (cachedResults)
+      return res.api(cachedResults);
+    const filter = { $text: { $search: req.query.query as string } };
+    if (req.query.status)
+      filter.status = req.query.status;
+
+    const results = await Contact.find(filter, { score: { $meta: "textScore" } })
+      .sort({ score: { $meta: "textScore" } })
+      .select('-score')
+      .paginateReq(req);
+
+    await Cache.put(cacheKey, results, 5 * 3600);
     res.api(results);
   }
 
