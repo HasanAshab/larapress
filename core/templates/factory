@@ -1,4 +1,4 @@
-import Factory from "~/core/factories/Factory";
+import Factory from "~/core/interfaces/Factory";
 import { faker } from "@faker-js/faker";
 
 export default class {{name}}Factory implements Factory {

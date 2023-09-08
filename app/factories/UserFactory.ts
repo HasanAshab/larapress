@@ -1,4 +1,4 @@
-import Factory from "~/core/factories/Factory";
+import Factory from "~/core/interfaces/Factory";
 import { faker } from "@faker-js/faker";
 import { IUser } from "~/app/models/User";
 import Settings from "~/app/models/Settings";

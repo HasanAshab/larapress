@@ -1,4 +1,4 @@
-import Factory from "~/core/factories/Factory";
+import Factory from "~/core/interfaces/Factory";
 import User from "~/app/models/User";
 
 export default class VoteFactory implements Factory {
