@@ -1,4 +1,4 @@
-import Command from "~/core/commands/Command";
+import Command from "~/core/abstract/Command";
 import { execSync } from "child_process";
 import DB from "DB";
 import User from "~/app/models/User";

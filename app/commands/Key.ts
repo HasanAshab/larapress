@@ -1,4 +1,4 @@
-import Command from "~/core/commands/Command";
+import Command from "~/core/abstract/Command";
 import { env } from "helpers";
 import crypto from "crypto";
 

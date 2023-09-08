@@ -1,4 +1,4 @@
-import Command from "~/core/commands/Command";
+import Command from "~/core/abstract/Command";
 
 export default class {{name}} extends Command {
   async handle(){

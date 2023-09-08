@@ -1,4 +1,4 @@
-import Middleware from "~/core/middlewares/Middleware";
+import Middleware from "~/core/abstract/Middleware";
 import { Request, Response, NextFunction } from "express";
 import { log } from "helpers";
 import mongoose from "mongoose";

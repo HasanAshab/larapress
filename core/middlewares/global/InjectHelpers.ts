@@ -1,4 +1,4 @@
-import Middleware from "~/core/middlewares/Middleware";
+import Middleware from "~/core/abstract/Middleware";
 import mongoose from "mongoose";
 import { Request, Response, NextFunction } from "express";
 import { ApiResponse, RawResponse } from "types";

@@ -1,5 +1,5 @@
 import Wildcard from "Wildcard";
-import Command from "~/core/commands/Command";
+import Command from "~/core/abstract/Command";
 import fs from "fs";
 import path from "path";
 
