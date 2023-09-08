@@ -17,7 +17,7 @@ export interface AuthenticatableDocument extends Document {
   sendVerificationEmail(): Promise<string>;
   sendResetPasswordEmail(): Promise<string | null>;
   resetPassword(token: string, newPassword: string): Promise<boolean>;
-  sendOtp(method: typeof otpConfig["methods"][number]): number;
+  sendOtp(method: typeof otpConfig["methods"][number]): Promise<number>;
   verifyOtp(code: number): Promise<boolean>;
 }
 

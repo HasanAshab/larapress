@@ -1,6 +1,5 @@
-import { Request } from "express";
-import { IUser } from "app/models/User";
-import { RawResponse } from "types";
+import { IUser } from "~/app/models/User";
+import { RawResponse, ApiResponse } from "types";
 
 declare global {
   namespace Express {
@@ -8,7 +7,7 @@ declare global {
       user: IUser;
     }
     interface Response {
-      api(response: RawResponse): void;
+      api(response: RawResponse): ApiResponse;
       message(text?: string): void;
     }
   }

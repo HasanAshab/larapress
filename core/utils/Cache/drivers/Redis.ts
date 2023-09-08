@@ -12,10 +12,8 @@ client.connect();
 
 
 export default class Redis implements Driver {
-  
   async get(key: string) {
-    const result = await client.get(key);
-    return result !== null ? JSON.parse(result): null;
+    return await client.get(key);
   }
 
   async put(key: string, data: CacheDataArg, expiry?: number) {

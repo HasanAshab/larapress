@@ -34,7 +34,7 @@ export default class SettingsController {
     res.message("Two Factor Auth enabled!");
   }
   
-  async getAppSettings() {
+  async getAppSettings(req: Request, res: Response) {
     res.api(config);
   }
   

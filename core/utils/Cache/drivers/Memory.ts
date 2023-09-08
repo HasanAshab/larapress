@@ -4,8 +4,7 @@ import { CacheDataArg } from "types";
 
 export default class Memory implements Driver {
   get(key: string) {
-    const data = memoryCache.get(key);
-    return data !== null ? JSON.parse(data) : null;
+    return memoryCache.get(key);
   }
   
   put(key: string, data: CacheDataArg, expiry?: number) {

@@ -17,7 +17,7 @@ export default (schema: any) => {
       next
     };
   };
-  schema.query.paginateReq = async function (req) {
+  schema.query.paginateReq = async function (req: Request) {
     const baseUrl = req.baseUrl;
     const originalUrl = req.originalUrl;
     const hasQuery = originalUrl.includes('?');

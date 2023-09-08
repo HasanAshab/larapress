@@ -27,7 +27,7 @@ export default class Make extends Command {
   }
 
   handle() {
-    this.subCommandRequired("Material name");
+    this.subCommandRequired();
     this.requiredParams(["name"]);
     const fullPath = this.params.name.split("/");
     let content = "";

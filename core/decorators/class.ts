@@ -27,7 +27,7 @@ export function controller(constructor: Function) {
       try {
         return await handler.call(constructor, req, res);
       }
-      catch (err: Error) {
+      catch (err) {
         next(err)
       }
     }

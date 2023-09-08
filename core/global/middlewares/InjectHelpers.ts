@@ -15,18 +15,20 @@ export default class InjectHelpers extends Middleware {
 
     res.api = function (response: RawResponse) {
       const success = this.statusCode >= 200 && this.statusCode < 300;
-      response.message = response.message ?? messages[this.statusCode];
+      (response as any).message = (response as any).message ?? messages[this.statusCode];
       
-      if(response.data) {
-        response.success = response.success ?? success;
-        return this.json(response);
+      if((response as any).data) {
+        (response as any).success = (response as any).success ?? success;
+        this.json(response);
+        return response
       }
       
       const apiResponse: ApiResponse = { success };
-      apiResponse.message = response.message
-      delete response.message;
+      apiResponse.message = (response as any).message
+      delete (response as any).message;
       apiResponse.data = response;
-      return this.json(apiResponse);
+      this.json(apiResponse);
+      return apiResponse;
     };
 
     next();
