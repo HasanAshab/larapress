@@ -1,0 +1,8 @@
+import Seeder from "~/core/abstract/Seeder";
+import {{name}} from "~/app/models/{{name}}";
+
+export default class {{name}}Seeder extends Seeder {
+  async run() {
+    //
+  }
+}

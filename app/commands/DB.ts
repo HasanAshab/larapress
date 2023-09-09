@@ -4,57 +4,33 @@ import mongoose from "mongoose";
 import fs from "fs";
 import Database from "DB";
 import DatabaseSeeder from "~/database/seeders/DatabaseSeeder";
+import Setup from "~/main/Setup";
 
 export default class DB extends Command {
   async wipe(){
     const { model } = this.params;
     await Database.connect();
-    
-    if (typeof model === "undefined") {
-      this.info("Clearing Database...")
-      const models = await getModels();
-      const promises = [];
-      for (const Model of models){
-        promises.push(Model.deleteMany({}));
-      }
-      await Promise.all(promises);
-    }
-    else {
+    Setup.mongooseModels();
+    if(model) {
       this.info(`Clearing Model ${model}...`)
-      const Model = require(`~/app/models/${model}`).default;
+      const Model = mongoose.model(model);
       await Model.deleteMany({});
     }
+    else await Database.reset();
     this.success("Done!");
   }
-  
-  async seed() {
-    this.requiredParams(["model", "count"]);
-    await Database.connect();
-    const { model, count, ...others} = this.params;
-    console.log(model)
-    try {
-      const Model = require(`~/app/models/${model}`).default;
-      this.info("Seeding started...");
-      if(typeof Model.factory === "undefined") this.error(`Use "HasFactory" Plugin on ${model} model.`)
-      await Model.factory(count).create(others)
-      this.success("Seeded successfully!");
-    }
-    catch (e){
-      this.error("Model not found!");
-    }
-  }
-  
+
   async count() {
     await Database.connect();
+    const modelsName = Setup.mongooseModels();
     this.info("Counting documents...\n");
-    let total = 0;
-    const models = await getModels();
-    for (const Model of models) {
-      const documentCount = await Model.count();
-      total += documentCount;
-      this.info(`${Model.modelName}:\t${documentCount}`)
+    const countPromises: any = [];
+    this.total = 0;
+    for (const name of modelsName) {
+      countPromises.push(this.countSingeModel(name));
     }
-    this.success(`Total: ${total}`);
+    await Promise.all(countPromises);
+    this.success(`Total: ${this.total}`);
   }
   
   async seed() {
@@ -65,8 +41,14 @@ export default class DB extends Command {
     }
     else seeder = new DatabaseSeeder();
     await Database.connect();
-    console.log(seeder)
     await seeder.run();
     this.success("Seeded successfully!");
+  }
+  
+  private async countSingeModel(modelName: string) {
+    const Model = mongoose.model(modelName);
+    const documentCount = await Model.count();
+    this.total += documentCount;
+    this.info(`${Model.modelName}:\t${documentCount}`)
   }
 }

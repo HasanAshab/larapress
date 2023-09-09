@@ -5,7 +5,8 @@ const components: Record<string, string | Record<string, string>> = {
     "l": "app/plugins/{name}.ts",
     "g": "core/global/plugins/{name}.ts"
   },
-  "factory": "app/factories/{name}Factory.ts",
+  "factory": "database/factories/{name}Factory.ts",
+  "seeder": "database/seeders/{name}Seeder.ts",
   "policy": "app/policies/{name}.ts",
   "mail": "app/mails/{name}.ts",
   "notification": "app/notifications/{name}.ts",
