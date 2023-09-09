@@ -36,10 +36,10 @@ export function storage(storage_path = "") {
 export function middleware(
   ...keysWithOptions:  (keyof typeof middlewarePairs | `${keyof typeof middlewarePairs}:${string}` | [keyof typeof middlewarePairs, object])[]
 ): RequestHandler[] {
-  function wrapMiddleware(context: object, handler: Function) {
+  function wrapMiddleware(context: object, handler: Function, options = []) {
     return async (req: Request, res: Response, next: NextFunction) => {
       try {
-        return await handler.apply(context, [req, res, next]);
+        return await handler.apply(context, [req, res, next, ...options]);
       }
       catch (err: any) {
         next(err);
@@ -52,10 +52,10 @@ export function middleware(
         ? middlewarePath.replace("<global>", "~/core/global/middlewares")
         : `~/app/http/${config?.version ?? "v1"}/middlewares/${middlewarePath}`;
       const MiddlewareClass = require(fullPath).default;
-      const middlewareInstance = new MiddlewareClass(options, config);
+      const middlewareInstance = new MiddlewareClass(config);
       const handler = middlewareInstance.handle.length === 4 
         ? middlewareInstance.handle.bind(middlewareInstance)
-        : wrapMiddleware(middlewareInstance, middlewareInstance.handle);
+        : wrapMiddleware(middlewareInstance, middlewareInstance.handle, options);
       return handler;
   }
   let middlewares: RequestHandler[] = [];
