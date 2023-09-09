@@ -4,6 +4,21 @@ import { IUser } from "~/app/models/User";
 import Settings from "~/app/models/Settings";
 
 export default class UserFactory extends Factory {
+  configure() {
+    this.on("created", async (users: IUser) => {
+      const settingsData: any[] = [];
+      for(const user of users){
+        settingsData.push({
+          userId: user._id,
+          twoFactorAuth: { 
+            enabled: this.options.mfa
+          }
+        });
+      }
+      await Settings.insertMany(settingsData);
+    });
+  }
+  
   definition() {
     return {
       username: faker.person.firstName(),
@@ -14,19 +29,6 @@ export default class UserFactory extends Factory {
     };
   }
   
-  async post(users: IUser[]){
-    const settingsData: any[] = [];
-    for(const user of users){
-      settingsData.push({
-        userId: user._id,
-        twoFactorAuth: { 
-          enabled: this.config.mfa
-        }
-      });
-    }
-    await Settings.insertMany(settingsData);
-  }
-
   admin() {
     return this.state(fields => {
       fields.role = "admin";
@@ -38,11 +40,4 @@ export default class UserFactory extends Factory {
       fields.verified = false;
     });
   }
-  
-  withSettings(mfa = false) {
-    return this.state(fields => {
-      fields.set = "heeh";
-    });
-  }
-
 }

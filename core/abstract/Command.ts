@@ -13,13 +13,13 @@ export default abstract class Command {
     this.params = params;
   }
 
-  subCommandRequired(): asserts this is this & { subCommand: string } {
+  protected subCommandRequired(): asserts this is this & { subCommand: string } {
     if (typeof this.subCommand === "undefined") {
       throw new Error("The Sub Command is Required!");
     }
   }
 
-  requiredParams<Keys extends string[]>(requiredParamsName: Keys): asserts this is this & {params: ArrayToParamsObj<Keys>} {
+  protected requiredParams<Keys extends string[]>(requiredParamsName: Keys): asserts this is this & {params: ArrayToParamsObj<Keys>} {
     for (const name of requiredParamsName) {
       if (typeof this.params[name] === "undefined") {
         throw new Error(`The "${name}" Param is Required!`);
@@ -27,18 +27,18 @@ export default abstract class Command {
     }
   }
 
-  info(text: string) {
+  protected info(text: string) {
     if (this.fromShell) console.log("\x1b[33m", text, "\x1b[0m");
   }
 
-  success(text = "") {
+  protected success(text = "") {
     if (this.fromShell) {
       console.log("\x1b[32m", "\n", text, "\n", "\x1b[0m");
       process.exit(0);
     }
   }
 
-  error(text = "") {
+  protected error(text = "") {
     if (this.fromShell) {
       console.log("\x1b[31m", "\n", text, "\n", "\x1b[0m");
       process.exit(1);

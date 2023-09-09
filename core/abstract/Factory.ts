@@ -1,12 +1,15 @@
-import { model, Model } from "mongoose";
+import { Model } from "mongoose";
+import { EventEmitter } from "events";
 
-export default abstract class Factory {
+export default abstract class Factory extends EventEmitter {
   private total = 1;
-  private Model: Model;
+  private eventsEnabled = true;
   private stateCallbacks = [];
-  
-  constructor(modelName: string) {
-    this.Model = model(modelName);
+
+  constructor(private Model: Model, protected options: Record<string, unknown> = {}) {
+    super();
+    this.Model = Model;
+    this.options = options;
   }
   
   abstract definition(): Record<string, any>;
@@ -15,18 +18,29 @@ export default abstract class Factory {
     this.stateCallbacks.push(cb);
     return this;
   }
+  
   count(total: number) {
     this.total = total;
     return this;
   }
+  
+  withoutEvents() {
+    this.eventsEnabled = false;
+    return this;
+  }
+  
+  
   make(data: Record<string, any>) {
     const docsData = [];
     for(let i = 0; i < this.total; i++) {
       const docData = this.definition();
       data && this.overrideFields(docData, data);
-      this.runStateCallbacks(docData);
+      for(const stateCallback of this.stateCallbacks) {
+        stateCallback(docData);
+      }
       docsData.push(docData);
     }
+    this.eventsEnabled && this.emit("made", docsData);
     return this.total === 1 
       ? docsData[0]
       : docsData;
@@ -37,7 +51,9 @@ export default abstract class Factory {
     const method = this.total === 1 
       ? "create"
       : "insertMany";
-    return await this.Model[method](docsData);
+    const docs = await this.Model[method](docsData);
+    this.eventsEnabled && this.emit("created", Array.isArray(docs) ? docs : [docs]);
+    return docs;
   }
   
   private overrideFields(docData: Record<string, any>, data: Record<string, any>) {
@@ -47,10 +63,4 @@ export default abstract class Factory {
     }
     return docData;
   };
-  
-  private runStateCallbacks(docData: object) {
-    for(const cb of this.stateCallbacks) {
-      cb(docData);
-    }
-  }
 }
