@@ -3,6 +3,7 @@ import Command from "~/core/abstract/Command";
 import mongoose from "mongoose";
 import fs from "fs";
 import Database from "DB";
+import DatabaseSeeder from "~/database/seeders/DatabaseSeeder";
 
 export default class DB extends Command {
   async wipe(){
@@ -56,4 +57,16 @@ export default class DB extends Command {
     this.success(`Total: ${total}`);
   }
   
+  async seed() {
+    let seeder;
+    if(this.params.seeder){
+      const { default: Seeder } = await import("~/database/seeders/" + this.params.seeder);
+      seeder = new Seeder();
+    }
+    else seeder = new DatabaseSeeder();
+    await Database.connect();
+    console.log(seeder)
+    await seeder.run();
+    this.success("Seeded successfully!");
+  }
 }

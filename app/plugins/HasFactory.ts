@@ -13,7 +13,7 @@ export default (schema: Schema) => {
   
   function importFactoryOnce(modelName: string) {
     if(!Factory)
-      Factory = require(`~/app/factories/${modelName}Factory`).default;
+      Factory = require(`~/database/factories/${modelName}Factory`).default;
   }
   
   function mergeFields(modelData: Record<string, any>, data?: Record<string, any>) {

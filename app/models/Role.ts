@@ -1,12 +1,13 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 
-const RoleSchema = new Schema(
-{
-  //
-},
-{ timestamps: true }
-);
+const RoleSchema = new Schema({
+  name: {
+    required: true,
+    type: String,
+    unique: true
+  }
+});
 
 RoleSchema.plugin(HasFactory);
 
