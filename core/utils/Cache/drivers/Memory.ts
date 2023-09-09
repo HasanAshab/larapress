@@ -8,7 +8,10 @@ export default class Memory implements Driver {
   }
   
   put(key: string, data: CacheDataArg, expiry?: number) {
-    memoryCache.put(key, JSON.stringify(data), expiry && expiry * 1000)
+    data = typeof data === "string" 
+      ? data
+      : JSON.stringify(data);
+    memoryCache.put(key, data, expiry && expiry * 1000)
   }
   
   clear(key?: string){

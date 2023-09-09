@@ -22,7 +22,8 @@ export default class DB extends Command {
 
   async count() {
     await Database.connect();
-    const modelsName = Setup.mongooseModels();
+    Setup.mongooseModels()
+    const modelsName = mongoose.modelNames();
     this.info("Counting documents...\n");
     const countPromises: any = [];
     this.total = 0;

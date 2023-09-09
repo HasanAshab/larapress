@@ -139,16 +139,6 @@ export function getVersion(path?: string): string {
   return match[1];
 }
 
-export async function getModels(): Promise < Model < any > [] > {
-  const models: Model < any > [] = []
-  const modelNames = await fs.promises.readdir("app/models");
-  for (const modelName of modelNames) {
-    const { default: Model } = await import(`~/app/models/${modelName}`);
-    models.push(Model);
-  }
-  return models;
-}
-
 export function generateEndpointsFromDirTree(rootPath: string): Record < string, string > {
   const endpointPathPair: Record < string,
   string > = {}

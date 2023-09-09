@@ -50,13 +50,9 @@ export default class Setup {
   static mongooseModels() {
     const modelsBaseDir = "app/models";
     const modelsFullName = fs.readdirSync(modelsBaseDir);
-    const modelsName: string[] = [];
     for(const modelFullName of modelsFullName){
-      const modelName = modelFullName.split(".")[0];
-      modelsName.push(modelName);
-      require("~/" + modelsBaseDir + "/" + modelName);
+      require("~/" + modelsBaseDir + "/" + modelFullName.split(".")[0]);
     }
-    return modelsName;
   }
   
   static mongooseGlobalPlugins() {

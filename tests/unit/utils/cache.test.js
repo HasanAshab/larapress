@@ -1,5 +1,5 @@
 const Cache = require("Cache").default;
-const { drivers } = require("~/register/cache").default;
+const { drivers } = require("~/register/cache");
 
 describe("Cache", () => {
   beforeEach(async () => {

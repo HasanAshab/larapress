@@ -1,3 +1,1 @@
-export default {
-  drivers: ["memory", "redis"]
-};
+export const drivers = ["memory", "redis"];

@@ -17,10 +17,14 @@ export default class Redis implements Driver {
   }
 
   async put(key: string, data: CacheDataArg, expiry?: number) {
+    data = typeof data === "string" 
+      ? data 
+      : JSON.stringify(data);
+
     if (expiry) 
-      await client.setEx(key, expiry, JSON.stringify(data));
+      await client.setEx(key, expiry, data);
     else 
-      await client.set(key, JSON.stringify(data));
+      await client.set(key, data);
   }
 
   async clear(key?: string) {

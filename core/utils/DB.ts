@@ -16,13 +16,14 @@ export default class DB {
     await mongoose.disconnect();
   }
   
-  static reset() {
+  static async reset(except = []) {
     const models = mongoose.modelNames();
     const promises = [];
-    for (const model of models) {
-      promises.push(mongoose.model(model).deleteMany({}));
+    for (const name of models) {
+      if(!except.includes(name))
+        promises.push(mongoose.model(name).deleteMany());
     }
-    return Promise.all(promises);
+    await Promise.all(promises);
   }
 }
 

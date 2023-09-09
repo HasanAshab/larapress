@@ -1,13 +1,16 @@
 import { Schema, Document } from "mongoose";
 
-const getPolicyFor = async (modelName: string) => {
-  const { default: Policy } = await import(`~/app/policies/${modelName}Policy`);
-  return new Policy();
-};
 
 export default (schema: Schema) => {
+  let policy;
+  function importPolicy(modelName: string) {
+    if(Policy) return;
+    const Policy = require(`~/app/policies/${modelName}Policy`).default;
+    policy = new Policy();
+  };
+
   schema.methods.can = async function (action: string, target: Document) {
-    const policy = await getPolicyFor((target.constructor as any).modelName);
+    importPolicy((target.constructor as any).modelName);
     return await policy[action](this, target);
   };
 }
