@@ -1,7 +1,7 @@
 import { Model } from "mongoose";
-import { EventEmitter } from "events";
-
-export default abstract class Factory extends EventEmitter {
+import AwaitEventEmitter from "await-event-emitter"
+ 
+export default abstract class Factory extends AwaitEventEmitter {
   private total = 1;
   private eventsEnabled = true;
   private stateCallbacks = [];
@@ -40,7 +40,7 @@ export default abstract class Factory extends EventEmitter {
       }
       docsData.push(docData);
     }
-    this.eventsEnabled && this.emit("made", docsData);
+    this.eventsEnabled && this.emitSync("made", docsData);
     return this.total === 1 
       ? docsData[0]
       : docsData;
@@ -52,7 +52,7 @@ export default abstract class Factory extends EventEmitter {
       ? "create"
       : "insertMany";
     const docs = await this.Model[method](docsData);
-    this.eventsEnabled && this.emit("created", Array.isArray(docs) ? docs : [docs]);
+    this.eventsEnabled && await this.emit("created", Array.isArray(docs) ? docs : [docs]);
     return docs;
   }
   

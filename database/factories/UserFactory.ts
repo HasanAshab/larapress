@@ -5,7 +5,8 @@ import Settings from "~/app/models/Settings";
 
 export default class UserFactory extends Factory {
   configure() {
-    this.on("created", async (users: IUser) => {
+    this.on("created", async (users: IUser[]) => {
+      console.log(this);
       const settingsData: any[] = [];
       for(const user of users){
         settingsData.push({

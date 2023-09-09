@@ -23,6 +23,7 @@
   "dependencies": {
     "@types/config": "^3.3.0",
     "autocannon": "^7.12.0",
+    "await-event-emitter": "^2.0.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "bull": "^4.10.4",
