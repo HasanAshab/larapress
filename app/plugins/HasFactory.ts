@@ -16,19 +16,13 @@ export default (schema: Schema) => {
       Factory = require(`~/database/factories/${modelName}Factory`).default;
   }
   
-  function mergeFields(modelData: Record<string, any>, data?: Record<string, any>) {
-    if(!data){
-      return modelData;
-    }
-    for (const field in data){
-      if(typeof data[field] !== "undefined")
-        modelData[field] = data[field];
-    }
-    return modelData;
-  };
+  schema.statics.factory = function() {
+    importFactoryOnce(this.modelName)
+    return new Factory(this.modelName);
+  }
 
   
-  schema.statics.factory = function(configOrCount: number | Record<string, any> = 1) {
+  schema.statics.factoryOld = function(configOrCount: number | Record<string, any> = 1) {
     importFactoryOnce(this.modelName);
     const factory = new Factory();
     let config = typeof configOrCount === "number"

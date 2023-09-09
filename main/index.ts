@@ -28,7 +28,7 @@ Config.parse({ caching: "redis", redisUrl: "redis://default:raAjgzb9ceMv8MVUFzSl
 */
 
 // Connect to database
-if (config.get("db.connect")) {
+if (false && config.get("db.connect")) {
   log && console.log("Connecting to database...");
   DB.connect().then(() => {
     log && console.log("DB connected!");
@@ -65,5 +65,10 @@ else {
     console.log(`*New connection: [${time}]`);
   });
 }
+
+
+import User from "~/app/models/User";
+console.log(User.factory().count(2).admin().make())
+//User.factory().count(2).withSettings().create().then(console.log)
 
 export default server;

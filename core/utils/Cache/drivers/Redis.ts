@@ -8,7 +8,7 @@ const client = createClient({
   url: config.get<string>("redis.url")
 });
 client.on("error", err => log(err));
-client.connect();
+//client.connect();
 
 
 export default class Redis implements Driver {

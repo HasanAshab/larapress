@@ -1,14 +1,9 @@
-import Factory from "~/core/interfaces/Factory";
+import Factory from "~/core/abstract/Factory";
 import { faker } from "@faker-js/faker";
 import { IUser } from "~/app/models/User";
 import Settings from "~/app/models/Settings";
 
-export default class UserFactory implements Factory {
-  public config = {
-    events: false,
-    mfa: false
-  };
-  
+export default class UserFactory extends Factory {
   definition() {
     return {
       username: faker.person.firstName(),
@@ -31,4 +26,23 @@ export default class UserFactory implements Factory {
     }
     await Settings.insertMany(settingsData);
   }
+
+  admin() {
+    return this.state(fields => {
+      fields.role = "admin";
+    });
+  }
+  
+  unverified() {
+    return this.state(fields => {
+      fields.verified = false;
+    });
+  }
+  
+  withSettings(mfa = false) {
+    return this.state(fields => {
+      fields.set = "heeh";
+    });
+  }
+
 }
