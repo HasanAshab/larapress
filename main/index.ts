@@ -70,6 +70,5 @@ else {
 import User from "~/app/models/User";
 import Settings from "~/app/models/Settings";
 //console.log(User.factory().count(2).admin().make())
-User.factory({ mfa: true }).count(2).create({}).then(console.log)
-Settings.find().then(console.log);
+User.factory().withRole("admin").create().then(console.log)
 export default server;

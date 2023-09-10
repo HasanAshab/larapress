@@ -6,7 +6,6 @@ import Settings from "~/app/models/Settings";
 export default class UserFactory extends Factory {
   configure() {
     this.on("created", async (users: IUser[]) => {
-      console.log(this);
       const settingsData: any[] = [];
       for(const user of users){
         settingsData.push({
@@ -39,6 +38,12 @@ export default class UserFactory extends Factory {
   unverified() {
     return this.state(fields => {
       fields.verified = false;
+    });
+  }
+  
+  withRole(name: string) {
+    return this.state(async fields => {
+      fields.role = name;
     });
   }
 }

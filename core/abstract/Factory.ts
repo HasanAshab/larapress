@@ -30,24 +30,20 @@ export default abstract class Factory extends AwaitEventEmitter {
   }
   
   
-  make(data: Record<string, any>) {
-    const docsData = [];
+  async make(data?: object) {
+    const generateStates = [];
     for(let i = 0; i < this.total; i++) {
-      const docData = this.definition();
-      data && this.overrideFields(docData, data);
-      for(const stateCallback of this.stateCallbacks) {
-        stateCallback(docData);
-      }
-      docsData.push(docData);
+      generateStates.push(this.generateState(data))
     }
-    this.eventsEnabled && this.emitSync("made", docsData);
+    const docsData = await Promise.all(generateStates);
+    this.eventsEnabled && await this.emit("made", docsData);
     return this.total === 1 
       ? docsData[0]
       : docsData;
   }
   
   async create(data: Record<string, any>) {
-    const docsData = this.make(data);
+    const docsData = await this.make(data);
     const method = this.total === 1 
       ? "create"
       : "insertMany";
@@ -56,6 +52,23 @@ export default abstract class Factory extends AwaitEventEmitter {
     return docs;
   }
   
+  private async generateState(data?: Record<string, any>) {
+    const docData = this.definition();
+    await this.customizeState(docData);
+    data && this.overrideFields(docData, data);
+    return docData;
+  }
+
+  private async customizeState(docData: object) {
+    const promises = [];
+    for(const cb of this.stateCallbacks) {
+      const returnValue = cb(docData);
+      returnValue instanceof Promise && 
+        promises.push(returnValue);
+    }
+    await Promise.all(promises);
+  }
+
   private overrideFields(docData: Record<string, any>, data: Record<string, any>) {
     for (const field in data){
       if(typeof data[field] !== "undefined")
@@ -63,4 +76,5 @@ export default abstract class Factory extends AwaitEventEmitter {
     }
     return docData;
   };
+  
 }
