@@ -28,30 +28,32 @@ export default class AuthController {
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
     let failedAttemptsCount = (await Cache.get(attemptCacheKey) ?? 0) as number;
     console.log(failedAttemptsCount) // 0
-    if(failedAttemptsCount > 4)
+    if(failedAttemptsCount > 3)
       return res.status(429).message("Too Many Failed Attempts try again later!");
     const user = await User.findOne({ email, password: { $ne: null }});
-    if (user && user.password && await user.attempt(password)) {
-      const userSettings = await user.settings;
-      if(userSettings.twoFactorAuth.enabled){
-        if(!otp) {
-          return res.api({
-            twoFactorAuthRequired: true,
-            message: "Credentials matched. otp required!"
-          });
+    if(user && user.password) {
+      if (await user.attempt(password)) {
+        const userSettings = await user.settings;
+        if(userSettings.twoFactorAuth.enabled){
+          if(!otp) {
+            return res.api({
+              twoFactorAuthRequired: true,
+              message: "Credentials matched. otp required!"
+            });
+          }
+          const isValidOtp = await user.verifyOtp(parseInt(otp));
+          if (!isValidOtp)
+            return res.status(401).message("Invalid OTP. Please try again!");
         }
-        const isValidOtp = await user.verifyOtp(parseInt(otp));
-        if (!isValidOtp)
-          return res.status(401).message("Invalid OTP. Please try again!");
+        await Cache.clear(attemptCacheKey);
+        const token = user.createToken();
+        return res.api({
+          token,
+          message: "Logged in successfully!",
+        });
       }
-      await Cache.clear(attemptCacheKey);
-      const token = user.createToken();
-      return res.api({
-        token,
-        message: "Logged in successfully!",
-      });
+      await Cache.put(attemptCacheKey, parseInt(failedAttemptsCount) + 1, 60 * 60);
     }
-    await Cache.put(attemptCacheKey, failedAttemptsCount+1, 60 * 60);
     res.status(401).message("Credentials not match!");
   }
   

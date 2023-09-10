@@ -42,7 +42,6 @@ describe("Auth", () => {
     };
     Storage.mock();
     const response = await request.post("/auth/register").multipart(data);
-    console.log(response.body)
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
     expect(await User.findOne({ email: data.email })).not.toBeNull();
@@ -149,6 +148,26 @@ describe("Auth", () => {
     expect(response.body).not.toHaveProperty("body");
   });
   
+  it("should prevent Brute Force login", { user: true }, async () => {
+    const payload = {
+      email: user.email,
+      password: "wrong-pass"
+    };
+    
+    const responses = [];
+    for (let i = 0; i < 5; i++) {
+      const response = await request.post("/auth/login").send(payload);
+      responses.push(response);
+    }
+  
+    expect(responses[0].statusCode).toBe(401);
+    expect(responses[1].statusCode).toBe(401);
+    expect(responses[2].statusCode).toBe(401);
+    expect(responses[3].statusCode).toBe(401);
+    expect(responses[4].statusCode).toBe(429);
+  });
+
+  
   it("Should send otp", async () => {
     const user = await User.factory().hasSettings(true).create();
     const response = await request.post("/auth/send-otp").send({
@@ -169,21 +188,6 @@ describe("Auth", () => {
     expect(response.statusCode).toBe(403);
     const otp = await OTP.findOne({ userId: user._id });
     expect(otp).toBeNull();
-  });
-
-  it.only("should prevent Brute Force login", { user: true }, async () => {
-    const payload = {
-      email: user.email,
-      password: "wrong-pass"
-    };
-    const requestPromises = Array.from({ length: 5 }, () => request.post("/auth/login").send(payload));
-    const responses = await Promise.all(requestPromises);
-
-    expect(responses[0].statusCode).toBe(401);
-    expect(responses[1].statusCode).toBe(401);
-    expect(responses[2].statusCode).toBe(401);
-    expect(responses[3].statusCode).toBe(401);
-    expect(responses[4].statusCode).toBe(429);
   });
 
   it("should verify email", async () => {

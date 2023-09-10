@@ -45,9 +45,8 @@ describe("Contact", () => {
   });
   
   it("Contact management endpoints shouldn't be accessible by novice", { user: false }, async () => {
-    const user = await User.factory({ events: false }).create();
+    const user = await User.factory().create();
     const userToken = user.createToken();
-  
     const requests = [
       request.get("/contact/inquiries"),
       request.get("/contact/inquiries/fooId"),
@@ -65,7 +64,7 @@ describe("Contact", () => {
   });
   
   it("Should get all contacts", async () => {
-    const contacts = await Contact.factory(2).create();
+    const contacts = await Contact.factory().count(2).create();
     const response = await request.get("/contact/inquiries").actingAs(token);
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(contacts);
@@ -86,7 +85,7 @@ describe("Contact", () => {
   });
 
   it("Should search contacts", async () => {
-    const contact = await Contact.factory().create({ message});
+    const contact = await Contact.factory().create({ message });
     const response = await request.get("/contact/inquiries/search").actingAs(token).query({
       query: "website bug",
     });
