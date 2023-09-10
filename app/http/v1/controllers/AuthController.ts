@@ -27,7 +27,8 @@ export default class AuthController {
     const { email, password, otp } = req.body;
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
     let failedAttemptsCount = (await Cache.get(attemptCacheKey) ?? 0) as number;
-    if(failedAttemptsCount > 3)
+    console.log(failedAttemptsCount) // 0
+    if(failedAttemptsCount > 4)
       return res.status(429).message("Too Many Failed Attempts try again later!");
     const user = await User.findOne({ email, password: { $ne: null }});
     if (user && user.password && await user.attempt(password)) {

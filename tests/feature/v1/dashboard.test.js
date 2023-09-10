@@ -18,7 +18,7 @@ describe("Dashboard", () => {
   });
   
   it("Novice users shouldn't get admin dashboard", { user: false }, async () => {
-    const user = await User.factory().withoutEvent().create();
+    const user = await User.factory().create();
     const response = await request.get("/dashboard/admin").actingAs(user.createToken());
     expect(response.statusCode).toBe(403);
   });

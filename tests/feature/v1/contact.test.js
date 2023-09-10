@@ -15,13 +15,13 @@ describe("Contact", () => {
   beforeEach(async (config) => {
     await DB.reset();
     if(config.user !== false) {
-      admin = await User.factory({ events: false }).create({ role: "admin" });
+      admin = await User.factory().withRole("admin").create();
       token = admin.createToken();
     }
   });
 
   it("Should post contact", { user: false }, async () => {
-    const data = Contact.factory().dummyData();
+    const data = await Contact.factory().make();
     const response = await request.post("/contact").send(data);
 
     expect(response.statusCode).toBe(201);

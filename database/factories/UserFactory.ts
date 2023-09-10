@@ -21,6 +21,12 @@ export default class UserFactory extends Factory {
     });
   }
   
+  oauth() {
+    return this.on("made", user => {
+      delete user.password;
+    });
+  }
+  
   withRole(name: string) {
     return this.on("made", user => {
       user.role = name;

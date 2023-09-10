@@ -14,7 +14,7 @@ describe("Category", () => {
   beforeEach(async (config) => {
     await DB.reset();
     if(config.user !== false) {
-      admin = await User.factory().create({ role: "admin" });
+      admin = await User.factory().withRole("admin").create();
       token = admin.createToken();
     }
   });
@@ -37,7 +37,7 @@ describe("Category", () => {
   });
   
   it("Should get all categories", async () => {
-    const categories = await Category.factory(3).create();
+    const categories = await Category.factory().count(3).create();
     const response = await request.get("/admin/categories").actingAs(token);
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(categories);
@@ -114,11 +114,10 @@ describe("Category", () => {
   });
   
   it("Shouldn't update category with existing slug", async () => {
-    let category = await Category.factory().create();
-    let anotherCategory = await Category.factory().create();
-    const response = await request.put("/admin/categories/" + category._id).actingAs(token).multipart({
+    let categories = await Category.factory().count(2).create();
+    const response = await request.put("/admin/categories/" + categories[0]._id).actingAs(token).multipart({
       name: "foo bar",
-      slug: anotherCategory.slug,
+      slug: categories[1].slug,
     });
     expect(response.statusCode).toBe(400);
   });

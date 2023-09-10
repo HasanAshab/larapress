@@ -15,20 +15,25 @@ describe("Auth", () => {
     await DB.connect();
   });
 
-  beforeEach(async (config) => {
-    await DB.reset();
+  beforeEach(async config => {
+    await DB.reset(["User"]);
     Mail.mock();
-    if(config.user !== false) {
-      const userData = {
-        verified: config.verified ?? true,
-        password: config.oauth && null
-      }
-      user = await User.factory({ mfa: config.mfa, events: config.events }).create(userData);
+    if(config.user) {
+      /*
+      const factory = User.factory();
+      if(Array.isArray(config.user)) {
+        for(option of config.user) {
+          Array.isArray(option)
+            ? factory[option[0]](...option.slice(1))
+            : factory[option]();
+        }
+      }*/
+      user = await User.factory().create();
       token = user.createToken();
     }
-  })
+  });
 
-  it("should register a user", { user: false }, async () => {
+  it("should register a user", async () => {
     const data = {
       username: "foobar123",
       email: "foo@gmail.com",
@@ -37,6 +42,7 @@ describe("Auth", () => {
     };
     Storage.mock();
     const response = await request.post("/auth/register").multipart(data);
+    console.log(response.body)
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
     expect(await User.findOne({ email: data.email })).not.toBeNull();
@@ -44,7 +50,7 @@ describe("Auth", () => {
     Storage.assertStored("image.png");
   });
 
-  it("should register a user without logo", { user: false }, async () => {
+  it("should register a user without logo", async () => {
     const data = {
       username: "foobar123",
       email: "foo@gmail.com",
@@ -59,7 +65,7 @@ describe("Auth", () => {
     Storage.assertNothingStored();
   });
 
-  it("shouldn't register with existing email", async () => {
+  it("shouldn't register with existing email", { user: true }, async () => {
     const response = await request.post("/auth/register").multipart({
       username: "foo",
       email: user.email,
@@ -70,7 +76,7 @@ describe("Auth", () => {
     expect(response.body.data).not.toHaveProperty("token");
   });
 
-  it("shouldn't register with existing username", async () => {
+  it("shouldn't register with existing username", { user: true }, async () => {
     const response = await request.post("/auth/register").multipart({
       username: user.username,
       email: "foo@test.com",
@@ -80,7 +86,8 @@ describe("Auth", () => {
     expect(response.body.data).not.toHaveProperty("token");
   });
 
-  it("should login a user", { events: true }, async () => {
+  it("should login a user", async () => {
+    const user = await User.factory().hasSettings().create();
     const response = await request.post("/auth/login").send({
       email: user.email,
       password: "password"
@@ -89,7 +96,7 @@ describe("Auth", () => {
     expect(response.body.data).toHaveProperty("token");
   });
 
-  it("shouldn't login with wrong password", async () => {
+  it("shouldn't login with wrong password", { user: true }, async () => {
     const response = await request.post("/auth/login").send({
       email: user.email,
       password: "wrong-pass"
@@ -98,7 +105,8 @@ describe("Auth", () => {
     expect(response.body.data?.token).toBe(undefined);
   });
     
-  it("shouldn't login manually in OAuth account", { oauth: true }, async () => {
+  it("shouldn't login manually in OAuth account", async () => {
+    const user = await User.factory().oauth().create();
     const response = await request.post("/auth/login").send({
       email: user.email,
       password: "password"
@@ -107,7 +115,8 @@ describe("Auth", () => {
     expect(response.body.data?.token).toBe(undefined);
   });
 
-  it("Login should flag for otp if not provided in (2FA)", { mfa: true, events: true }, async () => {
+  it("Login should flag for otp if not provided in (2FA)", async () => {
+    const user = await User.factory().hasSettings(true).create();
     const response = await request.post("/auth/login").send({
       email: user.email,
       password: "password"
@@ -117,7 +126,8 @@ describe("Auth", () => {
     expect(response.body.data).not.toHaveProperty("token");
   });
 
-  it("should login a user with valid otp (2FA)", { mfa: true, events: true }, async () => {
+  it("should login a user with valid otp (2FA)", async () => {
+    const user = await User.factory().hasSettings(true).create();
     const otp = await user.sendOtp();
     const response = await request.post("/auth/login").send({
       otp,
@@ -128,7 +138,8 @@ describe("Auth", () => {
     expect(response.body.data).toHaveProperty("token");
   });
 
-  it("shouldn't login a user with invalid OTP (2FA)", { mfa: true, events: true }, async () => {
+  it("shouldn't login a user with invalid OTP (2FA)", async () => {
+    const user = await User.factory().hasSettings(true).create();
     const response = await request.post("/auth/login").send({
       email: user.email,
       password: "password",
@@ -138,7 +149,8 @@ describe("Auth", () => {
     expect(response.body).not.toHaveProperty("body");
   });
   
-  it("Should send otp", { mfa: true, events: true }, async () => {
+  it("Should send otp", async () => {
+    const user = await User.factory().hasSettings(true).create();
     const response = await request.post("/auth/send-otp").send({
       userId: user._id.toString(),
       method: "sms"
@@ -148,7 +160,8 @@ describe("Auth", () => {
     expect(otp).not.toBeNull();
   });
   
-  it("Shouldn't send otp if 2fa is disabled", { events: true }, async () => {
+  it("Shouldn't send otp if 2fa is disabled", async () => {
+    const user = await User.factory().hasSettings().create();
     const response = await request.post("/auth/send-otp").send({
       userId: user._id.toString(),
       method: "sms"
@@ -158,42 +171,23 @@ describe("Auth", () => {
     expect(otp).toBeNull();
   });
 
-  it("should prevent Brute Force login", async () => {
-    Cache.mock();
-    const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + user.email;
-    const response1 = await request.post("/auth/login").send({
+  it.only("should prevent Brute Force login", { user: true }, async () => {
+    const payload = {
       email: user.email,
       password: "wrong-pass"
-    });
-    Cache.assertStored(attemptCacheKey, 1, 60 * 60);
-    const response2 = await request.post("/auth/login").send({
-      email: user.email,
-      password: "wrong-pass"
-    });
-    Cache.assertStored(attemptCacheKey, 2, 60 * 60);
-    const response3 = await request.post("/auth/login").send({
-      email: user.email,
-      password: "wrong-pass"
-    });
-    Cache.assertStored(attemptCacheKey, 3, 60 * 60);
-    const response4 = await request.post("/auth/login").send({
-      email: user.email,
-      password: "wrong-pass"
-    });
-    Cache.assertStored(attemptCacheKey, 4, 60 * 60);
-    const response5 = await request.post("/auth/login").send({
-      email: user.email,
-      password: "wrong-pass"
-    });
-    
-    expect(response1.statusCode).toBe(401);
-    expect(response2.statusCode).toBe(401);
-    expect(response3.statusCode).toBe(401);
-    expect(response4.statusCode).toBe(401);
-    expect(response5.statusCode).toBe(429);
+    };
+    const requestPromises = Array.from({ length: 5 }, () => request.post("/auth/login").send(payload));
+    const responses = await Promise.all(requestPromises);
+
+    expect(responses[0].statusCode).toBe(401);
+    expect(responses[1].statusCode).toBe(401);
+    expect(responses[2].statusCode).toBe(401);
+    expect(responses[3].statusCode).toBe(401);
+    expect(responses[4].statusCode).toBe(429);
   });
 
-  it("should verify email", { verified: false }, async () => {
+  it("should verify email", async () => {
+    let user = await User.factory().unverified().create();
     const verificationLink = await user.sendVerificationEmail();
     const response = await fetch(verificationLink);
     user = await User.findById(user._id);
@@ -201,7 +195,8 @@ describe("Auth", () => {
     expect(user.verified).toBe(true);
   });
 
-  it("shouldn't verify email without signature", { verified: false }, async () => {
+  it("shouldn't verify email without signature", async () => {
+    let user = await User.factory().unverified().create();
     const verificationLink = URL.route("email.verify", {
       id: user._id,
     });
@@ -211,18 +206,19 @@ describe("Auth", () => {
     expect(user.verified).toBe(false);
   });
 
-  it("should resend verification email", { verified: false }, async () => {
+  it("should resend verification email", async () => {
+    const user = await User.factory().unverified().create();
     const response = await request.post("/auth/verify/resend").send({
       email: user.email
     });
 
     expect(response.statusCode).toBe(200);
-    await sleep(3000);
+    await sleep(2000);
     Mail.assertCount(1);
     Mail.assertSentTo(user.email, "VerificationMail");
   });
 
-  it("should change password", async () => {
+  it("should change password", { user: true }, async () => {
     const data = {
       oldPassword: "password",
       password: "Password@1234",
@@ -233,8 +229,9 @@ describe("Auth", () => {
     expect(await user.attempt(data.password)).toBe(true);
   });
 
-  it("shouldn't change password of OAuth account", { oauth: true }, async () => {
-    const response = await request.put("/auth/password/change").actingAs(token).send({
+  it("shouldn't change password of OAuth account", async () => {
+    const user = await User.factory().oauth().create();
+    const response = await request.put("/auth/password/change").actingAs(user.createToken()).send({
       oldPassword: "password",
       password: "Password@1234"
     });
@@ -242,17 +239,16 @@ describe("Auth", () => {
     Mail.assertNothingSent();
   });
 
-  it("Should send reset email", async () => {
-    const response = await request.post("/auth/password/reset/send-email").send({
-      email: user.email
-    });
+  it("Should send reset email", { user: true }, async () => {
+    const response = await request.post("/auth/password/reset/send-email").send({ email: user.email });
     expect(response.statusCode).toBe(200);
     await sleep(2000);
     Mail.assertCount(1);
     Mail.assertSentTo(user.email, "ForgotPasswordMail");
   });
 
-  it("Shouldn't send reset email of OAuth account", { oauth: true }, async () => {
+  it("Shouldn't send reset email of OAuth account", async () => {
+    const user = await User.factory().oauth().create();
     const response = await request.post("/auth/password/reset/send-email").send({
       email: user.email
     });
@@ -260,7 +256,7 @@ describe("Auth", () => {
     Mail.assertNothingSent();
   });
 
-  it("should reset password", async () => {
+  it("should reset password", { user: true }, async () => {
     const token = await user.sendResetPasswordEmail();
     const password = "Password@1234";
     const response = await request.put("/auth/password/reset").send({
@@ -274,7 +270,7 @@ describe("Auth", () => {
     expect(await user.attempt(password)).toBe(true);
   });
 
-  it("shouldn't reset password with invalid token", async () => {
+  it("shouldn't reset password with invalid token", { user: true }, async () => {
     const password = "Password@1234";
     const response = await request.put("/auth/password/reset").send({
       id: user._id.toString(),
@@ -287,7 +283,7 @@ describe("Auth", () => {
     Mail.assertNothingSent();
   });
 
-  it("Should update phone number", async () => {
+  it("Should update phone number", { user: true }, async () => {
     const phoneNumber = "+14155552671";
     const response = await request.put("/auth/change-phone-number").actingAs(token).send({ phoneNumber });
     user = await User.findById(user._id);

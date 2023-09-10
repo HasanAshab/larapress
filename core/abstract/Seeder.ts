@@ -3,7 +3,7 @@ export default abstract class Seeder {
   
   async call(seedersName: string[]) {
     for(const name of seedersName) {
-      const seeder = await getSeeder(name);
+      const seeder = await this.getSeeder(name);
       await seeder.run();
     }
   }
