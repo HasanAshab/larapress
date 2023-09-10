@@ -1,8 +1,8 @@
-import Factory from "~/core/interfaces/Factory";
+import Factory from "~/core/abstract/Factory";
 import { storage } from "helpers"; 
 import User from "~/app/models/User";
 
-export default class AttachmentFactory implements Factory {
+export default class AttachmentFactory extends Factory {
   definition() {
     return {
       name: "file",

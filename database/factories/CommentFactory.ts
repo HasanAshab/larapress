@@ -1,8 +1,8 @@
-import Factory from "~/core/interfaces/Factory";
+import Factory from "~/core/abstract/Factory";
 import { faker } from "@faker-js/faker";
 import User from "~/app/models/User";
 
-export default class CommentFactory implements Factory {
+export default class CommentFactory extends Factory {
   definition() {
     return {
       commentableId: new User()._id,

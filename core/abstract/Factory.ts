@@ -29,12 +29,8 @@ export default abstract class Factory extends AwaitEventEmitter {
     return this;
   }
   
-  
   async make(data?: object) {
-    const generateStates = [];
-    for(let i = 0; i < this.total; i++) {
-      generateStates.push(this.generateState(data))
-    }
+    const generateStates = Array.from({ length: this.total }, () => this.generateState(data));
     const docsData = await Promise.all(generateStates);
     this.eventsEnabled && await this.emit("made", docsData);
     return this.total === 1 

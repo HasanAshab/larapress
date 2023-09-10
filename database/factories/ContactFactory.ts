@@ -1,7 +1,7 @@
-import Factory from "~/core/interfaces/Factory";
+import Factory from "~/core/abstract/Factory";
 import { faker } from "@faker-js/faker";
 
-export default class ContactFactory implements Factory {
+export default class ContactFactory extends Factory {
   definition() {
     return {
       email: faker.internet.email(),

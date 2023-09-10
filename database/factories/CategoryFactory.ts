@@ -1,7 +1,7 @@
-import Factory from "~/core/interfaces/Factory";
+import Factory from "~/core/abstract/Factory";
 import { faker } from "@faker-js/faker";
 
-export default class CategoryFactory implements Factory {
+export default class CategoryFactory extends Factory {
   definition() {
     return {
       name: faker.commerce.productName(),

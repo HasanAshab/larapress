@@ -69,6 +69,5 @@ else {
 
 import User from "~/app/models/User";
 import Settings from "~/app/models/Settings";
-//console.log(User.factory().count(2).admin().make())
-User.factory().withRole("admin").create().then(console.log)
+
 export default server;
