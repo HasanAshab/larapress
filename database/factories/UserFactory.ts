@@ -2,23 +2,9 @@ import Factory from "~/core/abstract/Factory";
 import { faker } from "@faker-js/faker";
 import { IUser } from "~/app/models/User";
 import Settings from "~/app/models/Settings";
+import Role from "~/app/models/Role";
 
 export default class UserFactory extends Factory {
-  configure() {
-    this.on("created", async (users: IUser[]) => {
-      const settingsData: any[] = [];
-      for(const user of users){
-        settingsData.push({
-          userId: user._id,
-          twoFactorAuth: { 
-            enabled: this.options.mfa
-          }
-        });
-      }
-      await Settings.insertMany(settingsData);
-    });
-  }
-  
   definition() {
     return {
       username: faker.person.firstName(),
@@ -29,21 +15,30 @@ export default class UserFactory extends Factory {
     };
   }
   
-  admin() {
-    return this.state(fields => {
-      fields.role = "admin";
-    });
-  }
-  
   unverified() {
-    return this.state(fields => {
-      fields.verified = false;
+    return this.on("made", user => {
+      user.verified = false;
     });
   }
   
   withRole(name: string) {
-    return this.state(async fields => {
-      fields.role = name;
+    return this.on("made", user => {
+      user.role = name;
+    });
+  }
+  
+  hasSettings(mfa = false) {
+    return this.on("created", async (users: IUser[]) => {
+      const settingsData: any[] = [];
+      for(const user of users){
+        settingsData.push({
+          userId: user._id,
+          twoFactorAuth: { 
+            enabled: mfa
+          }
+        });
+      }
+      await Settings.insertMany(settingsData);
     });
   }
 }

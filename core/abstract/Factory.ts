@@ -4,7 +4,6 @@ import AwaitEventEmitter from "await-event-emitter"
 export default abstract class Factory extends AwaitEventEmitter {
   private total = 1;
   private eventsEnabled = true;
-  private stateCallbacks = [];
 
   constructor(private Model: Model, protected options: Record<string, unknown> = {}) {
     super();
@@ -13,11 +12,6 @@ export default abstract class Factory extends AwaitEventEmitter {
   }
   
   abstract definition(): Record<string, any>;
-  
-  state(cb) {
-    this.stateCallbacks.push(cb);
-    return this;
-  }
   
   count(total: number) {
     this.total = total;
@@ -32,7 +26,6 @@ export default abstract class Factory extends AwaitEventEmitter {
   async make(data?: object) {
     const generateStates = Array.from({ length: this.total }, () => this.generateState(data));
     const docsData = await Promise.all(generateStates);
-    this.eventsEnabled && await this.emit("made", docsData);
     return this.total === 1 
       ? docsData[0]
       : docsData;
@@ -50,19 +43,9 @@ export default abstract class Factory extends AwaitEventEmitter {
   
   private async generateState(data?: Record<string, any>) {
     const docData = this.definition();
-    await this.customizeState(docData);
     data && this.overrideFields(docData, data);
+    this.eventsEnabled && await this.emit("made", docData);
     return docData;
-  }
-
-  private async customizeState(docData: object) {
-    const promises = [];
-    for(const cb of this.stateCallbacks) {
-      const returnValue = cb(docData);
-      returnValue instanceof Promise && 
-        promises.push(returnValue);
-    }
-    await Promise.all(promises);
   }
 
   private overrideFields(docData: Record<string, any>, data: Record<string, any>) {

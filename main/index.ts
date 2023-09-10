@@ -69,5 +69,11 @@ else {
 
 import User from "~/app/models/User";
 import Settings from "~/app/models/Settings";
+console.time()
+User.factory().count(2).hasSettings().withRole("admin").create().then(async users => {
+console.timeEnd()
+  console.log(users);
+  console.log(await Settings.find())
+});
 
 export default server;

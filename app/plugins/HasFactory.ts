@@ -16,7 +16,7 @@ export default (schema: Schema) => {
   schema.statics.factory = function(options?: object) {
     importFactoryOnce(this.modelName)
     const factory = new Factory(this, options);
-    factory.configure();
+    factory.configure?.();
     return factory;
   }
 }
