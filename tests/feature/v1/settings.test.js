@@ -14,12 +14,15 @@ describe("Settings", () => {
   beforeEach(async (config) => {
     await DB.reset();
     if(config.user !== false) {
-      user = await User.factory({ events: config.events ?? true }).create();
+      factory = User.factory();
+      if(config.settings !== false)
+        factory.hasSettings();
+      user = await factory.create();
       token = user.createToken();
     }
   });
   
-  it("App settings shouldn't accessable by novice users", { events: false }, async () => {
+  it("App settings shouldn't accessable by novice users", { settings: false }, async () => {
     const requests = [
       request.get("/settings/app"),
       request.put("/settings/app"),
@@ -31,14 +34,14 @@ describe("Settings", () => {
     expect(isNotAccessable).toBe(true);
   });
   
-  it("Admin should get app settings", { user: false, events: false }, async () => {
+  it("Admin should get app settings", { user: false, settings: false }, async () => {
     const admin = await User.factory().create({ role: "admin" });
     const response = await request.get("/settings/app").actingAs(admin.createToken());
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqual(config);
   });
 
-  it("Admin should update app settings", { user: false, events: false }, async () => {
+  it("Admin should update app settings", { user: false, settings: false }, async () => {
     const admin = await User.factory().create({ role: "admin" });
     const response = await request.put("/settings/app").actingAs(admin.createToken()).send({
       app: { name: "FooBar" }

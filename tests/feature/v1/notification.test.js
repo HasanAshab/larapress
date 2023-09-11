@@ -18,14 +18,14 @@ describe("Notification", () => {
   });
 
   it("Should get notifications", async () => {
-    const notifications = await Notification.factory(2).create({ userId: user._id });
+    const notifications = await Notification.factory().count(2).create({ userId: user._id });
     const response = await request.get("/notifications").actingAs(token);
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(notifications);
   });
   
   it("Should mark notification as read", async () => {
-    let notification = await Notification.factory().create({userId: user._id, readAt: null});
+    let notification = await Notification.factory().unread().create({ userId: user._id });
     const response = await request.post("/notifications/" + notification._id).actingAs(token);
     expect(response.statusCode).toBe(200);
     notification = await Notification.findById(notification._id);
@@ -33,7 +33,7 @@ describe("Notification", () => {
   });
   
   it("Shouldn't mark others notification as read", async () => {
-    let notification = await Notification.factory().create({ readAt: null });
+    let notification = await Notification.factory().unread().create();
     const response = await request.post("/notifications/"+ notification._id).actingAs(token);
     expect(response.statusCode).toBe(404);
     notification = await Notification.findById(notification._id)
@@ -42,7 +42,7 @@ describe("Notification", () => {
   
   it("Shouldn't get others notifications", async () => {
     const [notifications] = await Promise.all([
-      Notification.factory(2).create({ userId: user._id }),
+      Notification.factory().count(2).create({ userId: user._id }),
       Notification.factory().create()
     ]);
     const response = await request.get("/notifications").actingAs(token);
@@ -52,7 +52,7 @@ describe("Notification", () => {
   
   it("Should get unread notifications count", async () => {
     await Promise.all([
-      Notification.factory(2).create({ userId: user._id, readAt: null }),
+      Notification.factory().count(2).readAt().create({ userId: user._id }),
       Notification.factory().create({userId: user._id})
     ]);
     const response = await request.get("/notifications/unread-count").actingAs(token);

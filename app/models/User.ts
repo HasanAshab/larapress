@@ -1,7 +1,4 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
-import config from "config";
-import URL from "URL"
-import bcrypt from "bcryptjs";
 import hidden from "mongoose-hidden";
 import Authenticatable, { AuthenticatableDocument } from "~/app/plugins/Authenticatable";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
@@ -58,17 +55,6 @@ const UserSchema = new Schema({
 }
 );
 
-
-
-UserSchema.pre("save", async function(next) {
-  const bcryptRounds = config.get<any>("bcrypt.rounds") ?? 10;
-  if (!this.isModified("password")) {
-    return next();
-  }
-  const hash = await bcrypt.hash(this.password, bcryptRounds);
-  this.password = hash as string;
-  next();
-});
 
 UserSchema.virtual("settings")
   .get(function () {

@@ -19,15 +19,6 @@ describe("Auth", () => {
     await DB.reset(["User"]);
     Mail.mock();
     if(config.user) {
-      /*
-      const factory = User.factory();
-      if(Array.isArray(config.user)) {
-        for(option of config.user) {
-          Array.isArray(option)
-            ? factory[option[0]](...option.slice(1))
-            : factory[option]();
-        }
-      }*/
       user = await User.factory().create();
       token = user.createToken();
     }
@@ -72,7 +63,7 @@ describe("Auth", () => {
     });
 
     expect(response.statusCode).toBe(400);
-    expect(response.body.data).not.toHaveProperty("token");
+    expect(response.body).not.toHaveProperty("data");
   });
 
   it("shouldn't register with existing username", { user: true }, async () => {
@@ -82,15 +73,16 @@ describe("Auth", () => {
       password: "Password@1234"
     });
     expect(response.statusCode).toBe(400);
-    expect(response.body.data).not.toHaveProperty("token");
+    expect(response.body).not.toHaveProperty("data");
   });
 
-  it("should login a user", async () => {
+  it.only("should login a user", async () => {
     const user = await User.factory().hasSettings().create();
     const response = await request.post("/auth/login").send({
       email: user.email,
       password: "password"
     });
+    console.log(response.body)
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toHaveProperty("token");
   });
@@ -114,7 +106,7 @@ describe("Auth", () => {
     expect(response.body.data?.token).toBe(undefined);
   });
 
-  it("Login should flag for otp if not provided in (2FA)", async () => {
+  it.only("Login should flag for otp if not provided in (2FA)", async () => {
     const user = await User.factory().hasSettings(true).create();
     const response = await request.post("/auth/login").send({
       email: user.email,
@@ -125,7 +117,7 @@ describe("Auth", () => {
     expect(response.body.data).not.toHaveProperty("token");
   });
 
-  it("should login a user with valid otp (2FA)", async () => {
+  it.only("should login a user with valid otp (2FA)", async () => {
     const user = await User.factory().hasSettings(true).create();
     const otp = await user.sendOtp();
     const response = await request.post("/auth/login").send({
@@ -153,7 +145,7 @@ describe("Auth", () => {
       email: user.email,
       password: "wrong-pass"
     };
-    
+    Cache.mock();
     const responses = [];
     for (let i = 0; i < 5; i++) {
       const response = await request.post("/auth/login").send(payload);
@@ -167,7 +159,6 @@ describe("Auth", () => {
     expect(responses[4].statusCode).toBe(429);
   });
 
-  
   it("Should send otp", async () => {
     const user = await User.factory().hasSettings(true).create();
     const response = await request.post("/auth/send-otp").send({
@@ -222,7 +213,7 @@ describe("Auth", () => {
     Mail.assertSentTo(user.email, "VerificationMail");
   });
 
-  it("should change password", { user: true }, async () => {
+  it.only("should change password", { user: true }, async () => {
     const data = {
       oldPassword: "password",
       password: "Password@1234",

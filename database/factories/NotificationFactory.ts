@@ -10,4 +10,11 @@ export default class NotificationFactory extends Factory {
       readAt: new Date()
     };
   };
+  
+  unread() {
+    return this.on("made", notification => {
+      notification.readAt = null;
+    });
+  }
+
 }

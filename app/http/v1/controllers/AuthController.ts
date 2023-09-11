@@ -8,6 +8,9 @@ import Cache from "Cache";
 import Mail from "Mail";
 import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
 import { OAuth2Client } from 'google-auth-library';
+import { Mutex } from 'async-mutex';
+
+const mutex = new Mutex();
 
 @controller
 export default class AuthController {
@@ -26,13 +29,16 @@ export default class AuthController {
   async login(req: Request, res: Response){
     const { email, password, otp } = req.body;
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
+    let release = await mutex.acquire();
     let failedAttemptsCount = (await Cache.get(attemptCacheKey) ?? 0) as number;
-    console.log(failedAttemptsCount) // 0
+    release();
     if(failedAttemptsCount > 3)
       return res.status(429).message("Too Many Failed Attempts try again later!");
     const user = await User.findOne({ email, password: { $ne: null }});
     if(user && user.password) {
+    console.log(user)
       if (await user.attempt(password)) {
+    console.log("matched")
         const userSettings = await user.settings;
         if(userSettings.twoFactorAuth.enabled){
           if(!otp) {
@@ -52,7 +58,9 @@ export default class AuthController {
           message: "Logged in successfully!",
         });
       }
+      release = await mutex.acquire();
       await Cache.put(attemptCacheKey, parseInt(failedAttemptsCount) + 1, 60 * 60);
+      release();
     }
     res.status(401).message("Credentials not match!");
   }
@@ -142,7 +150,7 @@ export default class AuthController {
     const { oldPassword, password } = req.body;
     if (!await user.attempt(oldPassword))
       return res.status(401).message("Incorrect password!");
-    user.password = password;
+    await user.setPassword(password);
     user.tokenVersion++;
     await user.save();
     Mail.to(user.email).send(new PasswordChangedMail()).catch(log);

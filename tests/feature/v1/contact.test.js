@@ -96,7 +96,7 @@ describe("Contact", () => {
   it("Should filter search contacts", async () => {
     const [openedContact] = await Promise.all([
       Contact.factory().create({ message }),
-      Contact.factory().create({ message, status: "closed" })
+      Contact.factory().closed().create({ message })
     ]);
     const response = await request.get("/contact/inquiries/search").actingAs(token).query({
       query: "website bug",

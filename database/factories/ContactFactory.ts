@@ -9,4 +9,10 @@ export default class ContactFactory extends Factory {
       message: faker.lorem.words(15),
     };
   };
+  
+  closed() {
+    return this.on("made", contact => {
+      contact.status = "closed";
+    });
+  }
 }
