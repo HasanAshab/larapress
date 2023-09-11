@@ -33,7 +33,7 @@ describe("user", () => {
   it("Novice user shouldn't get all users", async () => {
     const response = await request.get("/users").actingAs(token);
     expect(response.statusCode).toBe(403);
-    expect(response.body.data).toEqual({});
+    expect(response.body).not.toHaveProperty("data");
   });
   
   it("should get profile", async () => {
@@ -122,7 +122,7 @@ describe("user", () => {
   });
   
   it("Admin shouldn't delete other admin user", { user: false }, async () => {
-    const admins = await User.factory(2).withRole("admin").create();
+    const admins = await User.factory().count(2).withRole("admin").create();
     const response = await request.delete("/users/" + admins[0].username).actingAs(admins[1].createToken());
     expect(response.statusCode).toBe(403);
     expect(await User.findById(admins[0]._id)).not.toBeNull();

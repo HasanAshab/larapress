@@ -50,7 +50,7 @@ describe("Notification", () => {
     expect(response.body.data).toEqualDocument(notifications);
   });
   
-  it.only("Should get unread notifications count", async () => {
+  it("Should get unread notifications count", async () => {
     await Promise.all([
       Notification.factory().count(2).unread().create({ userId: user._id }),
       Notification.factory().create({userId: user._id})

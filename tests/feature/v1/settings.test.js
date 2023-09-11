@@ -14,12 +14,14 @@ describe("Settings", () => {
   beforeEach(async (config) => {
     await DB.reset();
     if(config.user !== false) {
+      console.log(config)
       factory = User.factory().withRole(config.role ?? "novice");
       if(config.settings !== false)
         factory.hasSettings();
       
       user = await factory.create();
       token = user.createToken();
+      console.log(user)
     }
   });
   
@@ -37,6 +39,7 @@ describe("Settings", () => {
   
   it("Admin should get app settings", { role: "admin", settings: false }, async () => {
     const response = await request.get("/settings/app").actingAs(token);
+    console.log(response.body)
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqual(config);
   });
