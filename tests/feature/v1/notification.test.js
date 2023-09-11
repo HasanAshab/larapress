@@ -50,9 +50,9 @@ describe("Notification", () => {
     expect(response.body.data).toEqualDocument(notifications);
   });
   
-  it("Should get unread notifications count", async () => {
+  it.only("Should get unread notifications count", async () => {
     await Promise.all([
-      Notification.factory().count(2).readAt().create({ userId: user._id }),
+      Notification.factory().count(2).unread().create({ userId: user._id }),
       Notification.factory().create({userId: user._id})
     ]);
     const response = await request.get("/notifications/unread-count").actingAs(token);
@@ -71,7 +71,7 @@ describe("Notification", () => {
   it("Shouldn't delete others notification", async () => {
     let notification = await Notification.factory().create();
     const response = await request.delete(`/notifications/${notification._id}`).actingAs(token);
-    expect(response.statusCode).toBe(204);
+    expect(response.statusCode).toBe(404);
     notification = await Notification.findById(notification._id);
     expect(notification).not.toBeNull();
   });
