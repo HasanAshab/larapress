@@ -28,7 +28,7 @@ Config.parse({ caching: "redis", redisUrl: "redis://default:raAjgzb9ceMv8MVUFzSl
 */
 
 // Connect to database
-if (config.get("db.connect")) {
+if (false && process.env.NODE_ENV !== "test" && config.get("db.connect")) {
   log && console.log("Connecting to database...");
   DB.connect().then(() => {
     log && console.log("DB connected!");
@@ -67,13 +67,12 @@ else {
 }
 
 
-/*
-import Settings from "~/app/models/Settings";
-console.time()
-User.factory().count(2).hasSettings().withRole("admin").create().then(async users => {
-console.timeEnd()
-  console.log(users);
-  console.log(await Settings.find())
-});
-*/
+import Job from "~/app/jobs/T2";
+(async () => {
+  console.log(await Job.dispatch({ a:4 }))
+  //Job.dispatch({ b:9 }).delay(2000)
+  //console.log(Job.dispatchImmediet({ c: 18 }))
+  
+})()
+
 export default server;

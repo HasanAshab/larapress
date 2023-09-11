@@ -10,15 +10,15 @@ export default class Queue {
   }
   
   static set(channel: string, worker: (data: object) => Promise<void>, concurrency = 1) {
-    if(typeof this.queue === "undefined"){
-      this.queue = new bull("default", config.get<any>("redis.url"), {
+    if(!this.queue){
+      this.queue = new bull("default", config.get<string>("redis.url"), {
         defaultJobOptions: {
           removeOnComplete: true,
           removeOnFail: true,
         },
       });
     }
-    if(typeof (this.queue as any).handlers[channel] === "undefined") {
+    if(!(this.queue as any).handlers[channel]) {
       const processor = (job: bull.Job) => worker(job.data).catch(err => log(err));
       this.queue.process(channel, concurrency, processor);
     }
