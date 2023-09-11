@@ -2,7 +2,7 @@ import Queue from "~/core/queue/Queue";
 import { log } from "helpers";
 
 export default abstract class Job<T = object> {
-  abstract handle(): Promise<unknown>;
+  abstract handle(): Promise<void>;
   //public static shouldQueue = false;
   public static concurrency = 1;
 
@@ -16,7 +16,7 @@ export default abstract class Job<T = object> {
     };
 
     return {
-      then: () => job.handle(),
+      then: (cb) => job.handle().then(cb),
       delay: executeWithDelay,
     };
   }

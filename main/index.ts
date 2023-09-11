@@ -70,7 +70,8 @@ else {
 import Job from "~/app/jobs/T2";
 (async () => {
   console.log(await Job.dispatch({ a:4 }))
-  //Job.dispatch({ b:9 }).delay(2000)
+  console.log("foo")
+  Job.dispatch({ b:9 }).delay(3000)
   //console.log(Job.dispatchImmediet({ c: 18 }))
   
 })()

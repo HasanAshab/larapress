@@ -9,14 +9,11 @@ export default class T2 extends Job {
   }
   
   async handle() {
-    console.log(this.data)
-   /* 
     await new Promise(resolve => {
       setTimeout(() => {
         console.log("fired2", this.data)
       resolve()
       }, 1500);
-    });*/
-    return "djdjd"
+    });
   }
 }
