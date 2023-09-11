@@ -22,8 +22,8 @@ describe("user", () => {
   
   it("Admin should get all users", { user: false }, async () => {
     const [admin, users] = await Promise.all([
-      User.factory().create({ role: "admin" }),
-      User.factory(2).create()
+      User.factory().withRole("admin").create(),
+      User.factory().count(2).create()
     ]);
     const response = await request.get("/users").actingAs(admin.createToken());
     expect(response.statusCode).toBe(200);
@@ -89,7 +89,7 @@ describe("user", () => {
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
     expect(user.email).toBe(email);
-    await sleep(3000);
+    await sleep(2000);
     Mail.assertCount(1);
     Mail.assertSentTo(email, "VerificationMail");
   });
@@ -108,21 +108,21 @@ describe("user", () => {
   });
   
   it("Admin should delete user", async () => {
-    const admin = await User.factory().create({ role: "admin" });
+    const admin = await User.factory().withRole("admin").create();
     const response = await request.delete("/users/" + user.username).actingAs(admin.createToken());
     expect(response.statusCode).toBe(204);
     expect(await User.findById(user._id)).toBeNull();
   });
 
   it("Shouldn't delete admin user", async () => {
-    const admin = await User.factory().create({ role: "admin" });
+    const admin = await User.factory().withRole("admin").create();
     const response = await request.delete("/users/" + admin.username).actingAs(token);
     expect(response.statusCode).toBe(403);
     expect(await User.findById(admin._id)).not.toBeNull();
   });
   
   it("Admin shouldn't delete other admin user", { user: false }, async () => {
-    const admins = await User.factory(2).create({ role: "admin" });
+    const admins = await User.factory(2).withRole("admin").create();
     const response = await request.delete("/users/" + admins[0].username).actingAs(admins[1].createToken());
     expect(response.statusCode).toBe(403);
     expect(await User.findById(admins[0]._id)).not.toBeNull();
@@ -136,7 +136,7 @@ describe("user", () => {
   });
     
   it("Should make admin", async () => {
-    const admin = await User.factory().create({ role: "admin" });
+    const admin = await User.factory().withRole("admin").create();
     const response = await request.put(`/users/${user.username}/make-admin`).actingAs(admin.createToken());
     expect(response.statusCode).toBe(200);
     user = await User.findById(user._id);

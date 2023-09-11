@@ -14,9 +14,10 @@ describe("Settings", () => {
   beforeEach(async (config) => {
     await DB.reset();
     if(config.user !== false) {
-      factory = User.factory();
+      factory = User.factory().withRole(config.role ?? "novice");
       if(config.settings !== false)
         factory.hasSettings();
+      
       user = await factory.create();
       token = user.createToken();
     }
@@ -34,16 +35,14 @@ describe("Settings", () => {
     expect(isNotAccessable).toBe(true);
   });
   
-  it("Admin should get app settings", { user: false, settings: false }, async () => {
-    const admin = await User.factory().create({ role: "admin" });
-    const response = await request.get("/settings/app").actingAs(admin.createToken());
+  it("Admin should get app settings", { role: "admin", settings: false }, async () => {
+    const response = await request.get("/settings/app").actingAs(token);
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqual(config);
   });
 
-  it("Admin should update app settings", { user: false, settings: false }, async () => {
-    const admin = await User.factory().create({ role: "admin" });
-    const response = await request.put("/settings/app").actingAs(admin.createToken()).send({
+  it("Admin should update app settings", { role: "admin", settings: false }, async () => {
+    const response = await request.put("/settings/app").actingAs(token).send({
       app: { name: "FooBar" }
     });
     expect(response.statusCode).toBe(200);

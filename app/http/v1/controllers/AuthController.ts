@@ -36,9 +36,7 @@ export default class AuthController {
       return res.status(429).message("Too Many Failed Attempts try again later!");
     const user = await User.findOne({ email, password: { $ne: null }});
     if(user && user.password) {
-    console.log(user)
       if (await user.attempt(password)) {
-    console.log("matched")
         const userSettings = await user.settings;
         if(userSettings.twoFactorAuth.enabled){
           if(!otp) {

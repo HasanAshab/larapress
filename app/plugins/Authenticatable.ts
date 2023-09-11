@@ -28,11 +28,10 @@ export default (schema: Schema) => {
 
   schema.methods.setPassword = async function (password: string) {
     const bcryptRounds = config.get<number>("bcrypt.rounds");
-    this.password = await bcrypt.hash(this.password, bcryptRounds);
+    this.password = await bcrypt.hash(password, bcryptRounds);
   }
   
   schema.methods.attempt = function (password: string) {
-    console.log(this.password)
     return bcrypt.compare(password, this.password);
   }
   
