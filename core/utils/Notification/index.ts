@@ -1,4 +1,4 @@
-import Queue from "~/core/queue/Queue";
+import Queue from "Queue";
 import NotificationData from "~/core/notifications/Notification";
 import Mockable from "~/core/utils/Notification/Mockable";
 import { util } from "~/core/decorators/class";

@@ -1,6 +1,7 @@
 import Factory from "~/core/abstract/Factory";
 import { faker } from "@faker-js/faker";
 import User from "~/app/models/User";
+import { INotification } from "~/app/models/Notification";
 
 export default class NotificationFactory extends Factory {
   definition() {
@@ -12,7 +13,7 @@ export default class NotificationFactory extends Factory {
   };
   
   unread() {
-    return this.on("made", notification => {
+    return this.on("made", (notification: INotification) => {
       notification.readAt = null;
     });
   }

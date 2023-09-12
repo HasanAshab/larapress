@@ -66,14 +66,16 @@ else {
   });
 }
 
-
+/*
 import Job from "~/app/jobs/T2";
 (async () => {
+  try {
   console.log(await Job.dispatch({ a:4 }))
+  } catch(e) {
+    console.log(e)
+  }
   console.log("foo")
-  Job.dispatch({ b:9 }).delay(3000)
-  //console.log(Job.dispatchImmediet({ c: 18 }))
-  
-})()
+
+})()*/
 
 export default server;

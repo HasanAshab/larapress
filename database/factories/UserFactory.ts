@@ -16,19 +16,19 @@ export default class UserFactory extends Factory {
   }
   
   unverified() {
-    return this.on("made", user => {
+    return this.on("made", (user: IUser) => {
       user.verified = false;
     });
   }
   
   oauth() {
-    return this.on("made", user => {
+    return this.on("made", (user: IUser) => {
       delete user.password;
     });
   }
   
-  withRole(name: string) {
-    return this.on("made", user => {
+  withRole(name: IUser["role"]) {
+    return this.on("made", (user: IUser) => {
       user.role = name;
     });
   }

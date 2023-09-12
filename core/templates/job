@@ -1,10 +1,14 @@
-import Job from "~/core/jobs/Job";
+import Job from "~/core/abstract/Job";
 
 export default class {{name}} extends Job {
-  //shouldQueue = true;
   //concurrency = 1;
   
-  async dispatch(){
+  constructor(private data: object = {}) {
+    super();
+    this.data = data;
+  }
+
+  async handle(){
     //
   }
 }

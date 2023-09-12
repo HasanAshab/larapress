@@ -1,12 +1,15 @@
-import Queue from "~/core/queue/Queue";
+import Queue from "Queue";
 import { log } from "helpers";
 
 export default abstract class Job<T = object> {
   abstract handle(): Promise<void>;
-  //public static shouldQueue = false;
   public static concurrency = 1;
 
-  static dispatch(data?: object) {
+  static dispatch(data?: T): {
+    then: Promise<void>["then"],
+    delay: (ms: number) => void
+  }
+    {
     const job = new this(data);
 
     const executeWithDelay = (ms: number) => {
@@ -16,7 +19,7 @@ export default abstract class Job<T = object> {
     };
 
     return {
-      then: (cb) => job.handle().then(cb),
+      then: (cb, errHandler) => job.handle().then(cb).catch(errHandler),
       delay: executeWithDelay,
     };
   }

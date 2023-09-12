@@ -1,5 +1,6 @@
 import Factory from "~/core/abstract/Factory";
 import { faker } from "@faker-js/faker";
+import { IContact } from "~/app/models/Contact";
 
 export default class ContactFactory extends Factory {
   definition() {
@@ -11,7 +12,7 @@ export default class ContactFactory extends Factory {
   };
   
   closed() {
-    return this.on("made", contact => {
+    return this.on("made", (contact: IContact) => {
       contact.status = "closed";
     });
   }
