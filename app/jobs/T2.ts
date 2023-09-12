@@ -1,19 +1,15 @@
 import Job from "~/core/abstract/Job";
 
 export default class T2 extends Job {
-  concurrency = 2
+  concurrency = 2;
   
-  constructor(private data: object = {}) {
-    super();
-    this.data = data;
-  }
-  
-  async handle() {
+  async handle(data: object) {
     await new Promise(resolve => {
       setTimeout(() => {
-        console.log("fired2", this.data)
+        console.log("fired2", data)
       resolve()
-      }, 1500);
+      }, 2500);
     });
   }
+  
 }

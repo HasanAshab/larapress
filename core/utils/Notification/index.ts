@@ -1,5 +1,5 @@
 import Queue from "Queue";
-import NotificationData from "~/core/notifications/Notification";
+import NotificationClass from "~/core/abstract/Notification";
 import Mockable from "~/core/utils/Notification/Mockable";
 import { util } from "~/core/decorators/class";
 import { IUser } from "~/app/models/User";
@@ -7,7 +7,7 @@ import { capitalizeFirstLetter } from "helpers";
 
 @util(Mockable)
 export default class Notification {
-  static async send(notifiables: IUser | IUser[], notification: NotificationData) {
+  static async send(notifiables: IUser | IUser[], notification: NotificationClass) {
     notifiables = Array.isArray(notifiables) ? notifiables: [notifiables];
     for (const notifiable of notifiables) {
       const channels = await notification.via(notifiable);
@@ -20,8 +20,11 @@ export default class Notification {
           if (notification.shouldQueue) {
             const method = (notification[handlerName] as any).bind(notification);
             const concurrency = notification.concurrency[channel] ?? 20;
-            Queue.set("_NOTIFICATION_" + channel, method, concurrency).add(notifiable, { delay: 0 });
-          } else await (notification[handlerName] as any)(notifiable);
+            const queueChannel = `$NOTIFICATION_${notification.constructor.name}_${channel}`;
+            Queue.set(queueChannel, method, concurrency)
+            Queue.pushOn(queueChannel, notifiable);
+          }
+          else await (notification[handlerName] as any)(notifiable);
         }
       }
     }

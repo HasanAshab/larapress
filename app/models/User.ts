@@ -12,25 +12,16 @@ const UserSchema = new Schema({
   username: {
     type: String,
     unique: true,
-    default: null,
   },
   email: {
     required: true,
     type: String,
     unique: true
   },
-  phoneNumber: {
-    type: String,
-    default: null,
-  },
+  phoneNumber: String,
   password: {
     type: String,
-    default: null,
     hide: true
-  },
-  logoUrl: {
-    type: String,
-    default: null,
   },
   role: {
     type: String,
@@ -40,8 +31,8 @@ const UserSchema = new Schema({
   verified: {
     type: Boolean,
     default: false,
-    required: true
-  }
+  },
+  logoUrl: String,
 }, 
 { 
   timestamps: true,

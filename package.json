@@ -1,7 +1,7 @@
 {
   "_moduleAliases": {
     "~": "./dist",
-    "helpers": "./dist/helpers"
+    "helpers": "./dist/core/helpers"
   },
   "_moduleDirectories": [
     "./dist/core/utils"

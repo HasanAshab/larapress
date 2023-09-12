@@ -8,7 +8,7 @@ import swaggerUi from "swagger-ui-express";
 export default class GenerateDoc extends Command {
   private outputDir = "docs/public";
   private baseUrl = URL.resolve("docs");
-  private docs: Record<string, Record<string, any>> = require("~/../docs/parse");
+  private docs: Record<string, Record<string, any>> = require("~/docs/parse");
 
   async handle() {
     this.info("starting server...");

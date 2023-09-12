@@ -2,7 +2,7 @@ import { Schema, Document } from "mongoose";
 
 
 export default (schema: Schema) => {
-  let policy;
+  let policy: any;
   function importPolicy(modelName: string) {
     if(policy) return;
     const Policy = require(`~/app/policies/${modelName}Policy`).default;

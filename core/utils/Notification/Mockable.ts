@@ -1,5 +1,5 @@
 import { IUser } from "~/app/models/User";
-import NotificationData from "~/core/notifications/Notification";
+import NotificationClass from "~/core/abstract/Notification";
 import expect from "expect";
 
 export default class Mockable {
@@ -11,7 +11,7 @@ export default class Mockable {
     this.mocked = {};
   }
   
-  static async send(notifiables: IUser | IUser[], notification: NotificationData) {
+  static async send(notifiables: IUser | IUser[], notification: NotificationClass) {
     notifiables = Array.isArray(notifiables) ? notifiables: [notifiables];
     for (const notifiable of notifiables) {
       const channels = await notification.via(notifiable);

@@ -66,16 +66,17 @@ else {
   });
 }
 
-/*
-import Job from "~/app/jobs/T2";
-(async () => {
-  try {
-  console.log(await Job.dispatch({ a:4 }))
-  } catch(e) {
-    console.log(e)
-  }
-  console.log("foo")
 
-})()*/
+//import T1 from "~/app/jobs/T1";
+//import T2 from "~/app/jobs/T2";
+import Notification from "Notification";
+import User from "~/app/models/User";
+import NewUserJoined from "~/app/notifications/NewUserJoined";
+
+(async () => {
+  console.log('yoo')
+  Notification.mock();
+  await Notification.send(await User.find(), )
+})();
 
 export default server;
