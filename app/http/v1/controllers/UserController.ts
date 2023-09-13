@@ -9,11 +9,11 @@ export default class UserController {
     res.api(await User.find({ role: "novice" }).paginateReq(req));
   }
   
-  async profile(req: Request, res: Response){
+  async profile(req: Request, res: Response) {
     res.api(req.user);
   };
 
-  async updateProfile(req: Request, res: Response){
+  async updateProfile(req: Request, res: Response) {
     const logo = req.files?.logo;
     const user = req.user;
     Object.assign(user, req.body);
@@ -21,7 +21,7 @@ export default class UserController {
       user.verified = false;
     }
     if (logo && !Array.isArray(logo)) {
-      await user.detach("logo");
+      user.detach("logo").catch(log);
       await user.attach("logo", logo, true);
     }
     await user.save();
@@ -44,7 +44,7 @@ export default class UserController {
   async delete(req: Request, res: Response) {
     const user = await User.findOne(req.params);
     if(!user) return res.status(404).message();
-    if(!await req.user.can("delete", user))
+    if(!req.user.can("delete", user))
       return res.status(403).message();
     const { deletedCount } = await User.deleteOne(req.params);
     res.status(deletedCount === 1 ? 204 : 500).message();

@@ -19,7 +19,7 @@ export default class Queue {
     }
   }
   
-  static pushOn(channel: string, data: object, opts?: bull.JobOptions){
+  static pushOn(channel: string, data: unknown, opts?: bull.JobOptions){
     return this.queue.add(channel, data, opts);
   }
 }

@@ -15,7 +15,7 @@ module.exports = {
   ],
   moduleNameMapper: {
     "^~/(.*)$": "<rootDir>/$1",
-    "^helpers$": "<rootDir>/helpers",
+    "^helpers$": "<rootDir>/core/helpers",
     "^types/(.*)$": "<rootDir>/types/$1"
   },
   modulePaths: ['<rootDir>/core/utils/'],

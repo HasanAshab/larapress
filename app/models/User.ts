@@ -35,16 +35,7 @@ const UserSchema = new Schema({
   },
   logoUrl: String,
 }, 
-{ 
-  timestamps: true,
-  methods: {
-    safeDetails(this: any) {
-      delete this.email;
-      delete this.phoneNumber;
-      return this;
-    }
-  }
-}
+{ timestamps: true }
 );
 
 UserSchema.virtual('settings', {
@@ -53,6 +44,12 @@ UserSchema.virtual('settings', {
   foreignField: 'userId',
   justOne: true
 });
+
+UserSchema.methods.safeDetails = function(this: any) {
+  delete this.email;
+  delete this.phoneNumber;
+  return this;
+}
 
 
 UserSchema.plugin(Authenticatable);

@@ -66,7 +66,7 @@ else {
   });
 }
 
-
+/*
 import User from "~/app/models/User";
 import Notification from "~/app/models/Notification";
 import Attachment from "~/app/models/Attachment";
@@ -88,7 +88,7 @@ console.log(await Notification.find())
   
 })();
 
-
+*/
 
 
 

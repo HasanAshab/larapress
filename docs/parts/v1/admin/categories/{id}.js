@@ -22,7 +22,7 @@ module.exports = {
             },
             data: {
               type: "object",
-              example: Category.factory().dummyData()
+              example: Category.factory().definition()
             }
           },
         },

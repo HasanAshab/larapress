@@ -84,7 +84,7 @@ export default class TestPerformance extends Command {
     const endpointPathPair = generateEndpointsFromDirTree(path.join(this.benchmarkRootPath, version));
     for(const [endpoint, path] of Object.entries(endpointPathPair)){
      if(pattern && !endpoint.includes(pattern)) continue
-      const benchmarkFile = require(path.replace("~/", "~/../"));
+      const benchmarkFile = require(path);
       for(const method in benchmarkFile) {
         const doc = benchmarkFile[method];
         let context: Record<string, any> = {}; 

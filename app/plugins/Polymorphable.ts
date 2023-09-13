@@ -1,4 +1,10 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Document } from "mongoose";
+
+export interface PolymorphableDocument<MorphTo extends Document, MorphToType extends string> extends Document {
+  attachable: Promise<MorphTo>;
+  [`${MorphToType}Id`]: Schema.Types.ObjectId;
+  [`${MorphToType}Type`]: string;
+}
 
 export default (schema: Schema, morphToPath: string) => {
   schema.add({

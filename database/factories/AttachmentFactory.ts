@@ -1,11 +1,12 @@
 import Factory from "~/core/abstract/Factory";
 import { storage } from "helpers"; 
-import User from "~/app/models/User";
+import User, { IUser } from "~/app/models/User";
+import { IAttachment } from "~/app/models/Attachment";
 
 export default class AttachmentFactory extends Factory {
   definition() {
     return {
-      name: "file",
+      name: "file.png",
       attachableId: new User()._id,
       attachableType: "User",
       mimetype: "image/png",
@@ -13,4 +14,11 @@ export default class AttachmentFactory extends Factory {
       link: "example.com"
     };
   };
+  
+  belongsTo(user: IUser) {
+    return this.on("made", (attachment: IAttachment) => {
+      attachment.userId = user._id;
+    });
+  }
+
 }

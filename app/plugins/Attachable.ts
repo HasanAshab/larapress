@@ -21,14 +21,6 @@ export default (schema: Schema) => {
     });
   });
   
-  schema.pre<AttachableDocument>(["deleteOne", "deleteMany"], function(next) {
-    Attachment.deleteMany({
-      attachableId: this._id,
-      attachableType: (this.constructor as any).modelName,
-    });
-    next();
-  });
-
   schema.methods.attach = async function (name: string, file: UploadedFile, attachLinkToModel = false) {
     const path = await Storage.putFile("public/uploads", file);
     let attachment = new Attachment({

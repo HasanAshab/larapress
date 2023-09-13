@@ -17,7 +17,7 @@ module.exports = {
               type: "array",
               items: {
                 type: "object",
-                example: Notification.factory().dummyData(),
+                example: Notification.factory().definition(),
               },
             },
             next: { type: "string" },

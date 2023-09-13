@@ -16,7 +16,7 @@ module.exports = {
             },
             data: {
               type: "object",
-              example: User.factory().dummyData()
+              example: User.factory().definition()
             }
           },
         },

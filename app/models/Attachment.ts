@@ -1,6 +1,6 @@
 import { model, QueryWithHelpers, HydratedDocument, Schema, Model, Document, InferSchemaType } from "mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
-import Polymorphable from "~/app/plugins/Polymorphable";
+import Polymorphable, { PolymorphableDocument } from "~/app/plugins/Polymorphable";
 import { IUser } from "~/app/models/User";
 
 const AttachmentSchema = new Schema({
@@ -28,9 +28,7 @@ const AttachmentSchema = new Schema({
 AttachmentSchema.plugin(HasFactory);
 AttachmentSchema.plugin(Polymorphable, "attachable");
 
-export interface IAttachment extends Document, InferSchemaType<typeof AttachmentSchema> {
-  attachable: IUser;
-}
+export interface IAttachment extends Document, InferSchemaType<typeof AttachmentSchema>, PolymorphableDocument<IUser, "attachable"> {}
 
 export type AttachmentQuery = QueryWithHelpers<HydratedDocument<IAttachment>[], HydratedDocument<IAttachment>>;
 interface AttachmentModel extends Model<IAttachment>, HasFactoryModel {} ;
