@@ -69,12 +69,11 @@ UserSchema.plugin(Cascade, [
   },
   {
     ref: "Attachment",
-    foreignField: "userId"
+    foreignField: "attachableId"
   }, 
   {
     ref: "Settings",
-    foreignField: "_id",
-    justOne: true
+    foreignField: "userId",
   },
 ]);
 
