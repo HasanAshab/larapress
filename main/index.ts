@@ -66,7 +66,7 @@ else {
   });
 }
 
-/*
+
 import User from "~/app/models/User";
 import Notification from "~/app/models/Notification";
 
@@ -75,12 +75,12 @@ import Notification from "~/app/models/Notification";
 
   await DB.reset(["Notification", "User"])
   const user = await User.factory().hasSettings().create();
-  await Notification.factory().count(4).create({ userId: user._id });
+  await Notification.factory().count(2).create({ userId: user._id });
   console.log(await Notification.find())
   
 })();
 
-*/
+
 
 
 

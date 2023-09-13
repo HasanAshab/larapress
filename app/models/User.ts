@@ -5,8 +5,9 @@ import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import HasApiTokens, { HasApiTokensDocument } from "~/app/plugins/HasApiTokens";
 import Notifiable, { NotifiableDocument } from "~/app/plugins/Notifiable";
 import Attachable, { AttachableDocument } from "~/app/plugins/Attachable";
-import Billable, { BillableDocument } from "~/app/plugins/Billable";
+//import Billable, { BillableDocument } from "~/app/plugins/Billable";
 import Settings, { ISettings } from "~/app/models/Settings";
+import Cascade from "~/app/plugins/Cascade";
 
 const UserSchema = new Schema({
   username: {
@@ -61,6 +62,21 @@ UserSchema.plugin(Notifiable);
 UserSchema.plugin(Attachable);
 UserSchema.plugin(hidden(), { hidden: { _id: false } });
 //UserSchema.plugin(Billable);
+UserSchema.plugin(Cascade, [
+  {
+    ref: "Notification",
+    foreignField: "userId"
+  },
+  {
+    ref: "Attachment",
+    foreignField: "userId"
+  }, 
+  {
+    ref: "Settings",
+    foreignField: "_id",
+    justOne: true
+  },
+]);
 
 export interface IUser extends Document, InferSchemaType<typeof UserSchema>, AuthenticatableDocument, AttachableDocument, HasApiTokensDocument, NotifiableDocument, AttachableDocument, BillableDocument {
   safeDetails(): Omit<InferSchemaType<typeof UserSchema>, "email" | "phoneNumber" | "password">;
