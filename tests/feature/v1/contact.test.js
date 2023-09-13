@@ -13,7 +13,7 @@ describe("Contact", () => {
   });
   
   beforeEach(async (config) => {
-    await DB.reset();
+    await DB.reset(["User", "Contact"]);
     if(config.user !== false) {
       admin = await User.factory().withRole("admin").create();
       token = admin.createToken();

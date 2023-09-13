@@ -46,10 +46,11 @@ const UserSchema = new Schema({
 }
 );
 
-
-UserSchema.virtual("settings")
-  .get(function () {
-  return Settings.findOne({ userId: this._id });
+UserSchema.virtual('settings', {
+  ref: 'Settings',
+  localField: '_id',
+  foreignField: 'userId',
+  justOne: true
 });
 
 

@@ -24,7 +24,7 @@ export default abstract class Job<T = object> {
   }
   
   static async exec(data: T) {
-    const job = new this();
+    const job = new (this as any)();
     await job.handle(data);
   }
 }

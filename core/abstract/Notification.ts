@@ -1,13 +1,12 @@
 import { IUser } from "~/app/models/User";
 import Mail from "Mail";
-import Mailable from "~/core/mails/Mailable";
 import NotificationModel from "~/app/models/Notification";
-import NotificationData from "~/core/notifications/Notification";
+import Mailable from "~/core/abstract/Mailable";
+import NotificationData from "~/core/abstract/Notification";
 import notificationConfig from "~/register/notification";
 
 type NotificationChannel = typeof notificationConfig["channels"][number];
 type NotificationTypes = typeof notificationConfig["types"][number];
-type MakeKeyNotNull<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
 
 export default abstract class Notification {
   shouldQueue = false;

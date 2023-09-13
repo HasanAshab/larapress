@@ -12,7 +12,7 @@ describe("Notification", () => {
   });
   
   beforeEach(async () => {
-    await DB.reset();
+    await DB.reset(["User", "Notification"]);
     user = await User.factory().create();
     token = user.createToken();
   });

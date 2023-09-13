@@ -11,7 +11,7 @@ const driverInstances: Record<typeof drivers[number], Driver> = {};
 
 function initializeDrivers() {
   for (const driverName of drivers) {
-    const DriverClass = require(`./drivers/${capitalizeFirstLetter(driverName)}`).default as typeof Driver;
+    const DriverClass = require(`./drivers/${capitalizeFirstLetter(driverName)}`).default as any;
     driverInstances[driverName] = new DriverClass();
   }
 }

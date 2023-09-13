@@ -1,8 +1,7 @@
-import { Recipient } from "types";
 import { util } from "~/core/decorators/class";
 import config from 'config';
 import Mockable from "~/core/utils/Mail/Mockable";
-import Mailable from "~/core/mails/Mailable";
+import Mailable from "~/core/abstract/Mailable";
 import { createTransport, Transporter, SendMailOptions, TransportOptions } from "nodemailer";
 import { create as createHandlebars } from "express-handlebars";
 import nodemailerHbs from "nodemailer-express-handlebars";
@@ -50,7 +49,7 @@ export default class Mail {
     return this;
   }
   
-  static getRecipientConfig(mailable: Mailable): Recipient {
+  static getRecipientConfig(mailable: Mailable) {
     return {
       from: `${this.mailConfig.fromName} <${this.mailConfig.fromAddress}>`,
       to: this.email,

@@ -1,6 +1,6 @@
 import expect from "expect";
 import { MailMockedData } from "types";
-import Mailable from "~/core/mails/Mailable";
+import Mailable from "~/core/abstract/Mailable";
 
 export default class Mockable {
   static isMocked = false;

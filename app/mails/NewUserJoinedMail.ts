@@ -1,4 +1,4 @@
-import Mailable from "~/core/mails/Mailable";
+import Mailable from "~/core/abstract/Mailable";
 
 export default class NewUserJoinedMail extends Mailable {
   view = "newUserJoined";

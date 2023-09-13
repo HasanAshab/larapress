@@ -28,7 +28,7 @@ Config.parse({ caching: "redis", redisUrl: "redis://default:raAjgzb9ceMv8MVUFzSl
 */
 
 // Connect to database
-if (false && process.env.NODE_ENV !== "test" && config.get("db.connect")) {
+if (process.env.NODE_ENV !== "test" && config.get("db.connect")) {
   log && console.log("Connecting to database...");
   DB.connect().then(() => {
     log && console.log("DB connected!");
@@ -66,17 +66,22 @@ else {
   });
 }
 
-
-//import T1 from "~/app/jobs/T1";
-//import T2 from "~/app/jobs/T2";
-import Notification from "Notification";
+/*
 import User from "~/app/models/User";
-import NewUserJoined from "~/app/notifications/NewUserJoined";
+import Notification from "~/app/models/Notification";
 
 (async () => {
-  console.log('yoo')
-  Notification.mock();
-  await Notification.send(await User.find(), )
+   return await User.deleteOne({ username: (await User.findOne()).username });
+
+  await DB.reset(["Notification", "User"])
+  const user = await User.factory().hasSettings().create();
+  await Notification.factory().count(4).create({ userId: user._id });
+  console.log(await Notification.find())
+  
 })();
+
+*/
+
+
 
 export default server;

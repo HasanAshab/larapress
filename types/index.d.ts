@@ -16,41 +16,13 @@ export type ApiResponse = {
   data?: Record < string, any > | any[],
 } & Record < string, any >;
 
-export type Recipient = {
-  from: string,
-  to: string,
-  subject: string,
-  template: string,
-  context: Record < string,
-  any >
-};
 
-
-export type RecipientEmails = string | string[] | ({
-  email: string
-} & Record < string, any >) | ({
-  email: string
-} & Record < string, any >)[];
-
-export type TransportConfig = {
-  host: string,
-  port: number,
-  secure: boolean,
-  auth: {
-    user: string,
-    pass: string,
-  }
-}
-
-export type FileValidatorSchema = {
-  validate(files: Record<string, UploadedFile | UploadedFile[]>): string | null
-}
 export type ValidationSchema = {
   urlencoded?: {
     target: "body" | "query",
     rules: ObjectSchema
   };
-  multipart?: FileValidatorSchema;
+  multipart?: ReturnType<FileValidator.schema>;
 }
 
 export type MailMockedData = Record < string, Record < string, {mailable: Mailable, count: number}>>;

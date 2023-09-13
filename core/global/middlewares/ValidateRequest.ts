@@ -5,7 +5,7 @@ import { ValidationSchema } from "types";
 
 export default class ValidateRequest extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {
-    const { urlencoded, multipart } = this.config.validationSchema;
+    const { urlencoded, multipart } = this.config.validationSchema as ValidationSchema;
     if (multipart) {
       const contentType = req.headers["content-type"];
       if (!contentType || !contentType.startsWith("multipart/form-data")) {

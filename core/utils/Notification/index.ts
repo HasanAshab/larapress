@@ -20,7 +20,7 @@ export default class Notification {
           if (notification.shouldQueue) {
             const method = (notification[handlerName] as any).bind(notification);
             const concurrency = notification.concurrency[channel] ?? 20;
-            const queueChannel = `$NOTIFICATION_${notification.constructor.name}_${channel}`;
+            const queueChannel = `$NOTIFICATION_${notification.constructor.name}@${channel}`;
             Queue.set(queueChannel, method, concurrency)
             Queue.pushOn(queueChannel, notifiable);
           }

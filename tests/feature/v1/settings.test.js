@@ -12,7 +12,7 @@ describe("Settings", () => {
   });
   
   beforeEach(async (config) => {
-    await DB.reset();
+    await DB.reset(["User", "Notification"]);
     if(config.user !== false) {
       console.log(config)
       factory = User.factory().withRole(config.role ?? "novice");

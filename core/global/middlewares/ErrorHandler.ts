@@ -1,9 +1,8 @@
-import Middleware from "~/core/abstract/Middleware";
 import { Request, Response, NextFunction } from "express";
 import { log } from "helpers";
 import mongoose from "mongoose";
 
-export default class ErrorHandler extends Middleware {
+export default class ErrorHandler {
   async handle(err: any, req: Request, res: Response, next:NextFunction) {
     if(err.kind === "ObjectId")
       return res.status(404).api({});

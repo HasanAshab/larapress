@@ -49,5 +49,6 @@ export interface ISettings extends Document {
     method: typeof otpConfig["methods"][number];
   }
 };
+
 interface SettingsModel extends Model<ISettings>, HasFactoryModel {};
 export default model<ISettings, SettingsModel>("Settings", SettingsSchema);
