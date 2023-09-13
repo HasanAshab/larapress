@@ -8,27 +8,36 @@ export interface CascadeOption {
 }
 
 export default (schema: Schema, options: CascadeOption[]) => {
-  schema.pre(["deleteOne", "deleteMany"], function(next) {
+  async function performCascadeDeletions(ids: string | string[]) {
+    for (const option of options) {
+      try {
+        const filter = { 
+          [option.foreignField]: Array.isArray(ids)
+            ? { $in: ids }
+            : ids
+        }
+        await model(option.ref).deleteMany(filter).exec();
+      } catch (error) {
+        log(error);
+      }
+    }
+  };
+
+  schema.pre(["deleteOne", "deleteMany"], async function(next) {
     const query = this.getQuery();
     if(query._id) {
-      for(const option of options) {
-        model(option.ref).deleteMany({ [option.foreignField]: query._id }).catch(log);
-        
-      }
-      return next();
-    }
-    this.model[this.op === "deleteMany" ? "find" : "findOne"](query).select("_id").then(parentDocs => {
       next();
-      const parentsId = Array.isArray(parentDocs) 
+      await performCascadeDeletions(query._id);
+    }
+    else {
+      const method = this.op === "deleteMany" ? "find" : "findOne";
+      const parentDocs = await this.model[method](query).select("_id");
+      next();
+      const parentDocsId = Array.isArray(parentDocs) 
         ? parentDocs.map(doc => doc._id)
-        : [parentDocs._id];
-      console.log(parentsId)
-      for(const option of options) {
-        model(option.ref).deleteMany({ [option.foreignField]: { $in: parentsId }}).then(console.log).catch(log);
-        console.log(model(option.ref))
-        
-      }
-    }).catch(log);
+        : parentDocs;
+      await performCascadeDeletions(parentDocsId);
+    }
   });
-
+  
 }

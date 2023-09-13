@@ -70,16 +70,21 @@ else {
 import User from "~/app/models/User";
 import Notification from "~/app/models/Notification";
 import Attachment from "~/app/models/Attachment";
+import Settings from "~/app/models/Settings";
 
 (async () => {
- // return await User.deleteOne({ username: (await User.findOne()).username });
 
-  await DB.reset(["Attachment", "Notification", "User"])
+ await User.deleteOne({ username: (await User.findOne()).username });
+console.log(await Notification.find())
+  console.log(await Attachment.find())
+  return console.log(await Settings.find())
+  
+      await DB.reset(["Attachment", "Notification", "User", "Settings"])
+
   const user = await User.factory().hasSettings().create();
   await Notification.factory().count(2).create({ userId: user._id });
   await Attachment.factory().count(2).create({ attachableId: user._id });
-  console.log(await Notification.find())
-  console.log(await Attachment.find())
+  
   
 })();
 
