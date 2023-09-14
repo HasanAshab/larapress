@@ -1,26 +1,18 @@
 import { log } from "helpers";
-import { Queue, Worker } from 'bullmq';
-import IORedis from "ioredis";
-import { client } from "~/core/utils/Cache/drivers/Redis";
+import Queue from 'bull';
 import fs from "fs";
+import config from "config";
 
-const jobs = {};
-
-shipJobs()
-
-export default new Queue("default", { connection: client });
-
-export const worker = new Worker("default", task => {
-  const job = jobs[task.name];
-  if(!job)
-    log(new Error(`Job ${task.name} not found!`))
-  return job.handle(task.data).catch(log);
-}, { connection: client });
+const queue = new Queue("default", config.get("redis.url"));
 
 
-function shipJobs() {
-  fs.readdirSync("app/jobs").forEach(jobFileName => {
-    const jobName = jobFileName.split(".")[0];
-    jobs[jobName] = new (require("~/app/jobs/" + jobName).default);
-  });
-}
+fs.readdirSync("app/jobs").forEach(jobFileName => {
+  const jobName = jobFileName.split(".")[0];
+  const Job = require("~/app/jobs/" + jobName).default;
+  const job = new Job();
+  const processor = (_) => job.handle(_.data).catch(log);
+  queue.process(jobName, job.concurrency, processor);
+});
+
+
+export default queue;

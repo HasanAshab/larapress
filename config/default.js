@@ -29,6 +29,7 @@ module.exports = {
     maxPoolSize: 1
   },
   redis: {
+    url: "redis://raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1@redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com:12100",
     host: "redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com",
     port: 12100,
     password: "raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1",

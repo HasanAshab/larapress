@@ -27,6 +27,7 @@
     "await-event-emitter": "^2.0.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
+    "bull": "^4.11.3",
     "bullmq": "^4.10.0",
     "config": "^3.3.9",
     "cookie-parser": "^1.4.6",

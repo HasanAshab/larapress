@@ -10,6 +10,6 @@ export default class T2 extends Job {
       resolve()
       }, 2500);
     });
-  }
+  } 
   
 }
