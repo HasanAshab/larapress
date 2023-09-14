@@ -36,6 +36,6 @@ export default abstract class Notification {
   
   assertProviderExist(notification: Notification, methodName: string) {
     if(!this[methodName as keyof this])
-      throw new Error(`${methodName}() is required in notification ${notification.constructor.name}!`);
+      throw new Error(`${methodName}() is required in ${notification.constructor.name} notification!`);
   }
 }

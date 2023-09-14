@@ -28,7 +28,7 @@ Config.parse({ caching: "redis", redisUrl: "redis://default:raAjgzb9ceMv8MVUFzSl
 */
 
 // Connect to database
-if (false && process.env.NODE_ENV !== "test" && config.get("db.connect")) {
+if (true && process.env.NODE_ENV !== "test" && config.get("db.connect")) {
   log && console.log("Connecting to database...");
   DB.connect().then(() => {
     log && console.log("DB connected!");
@@ -65,15 +65,19 @@ else {
     console.log(`*New connection: [${time}]`);
   });
 }
+
 /*
-import T1 from "~/app/jobs/T1";
-import T2 from "~/app/jobs/T2";
+import Notification from "Notification";
+import User from "~/app/models/User";
+import NotificationModel from "~/app/models/Notification";
+import NewUserJoined from "~/app/notifications/NewUserJoined";
 
 (async () => {
-  await T1.dispatch({x: 39})
-  await T2.dispatch({y: 39})
-  console.log("yh")
- 
-})();
-*/
+  return console.log(await NotificationModel.find())
+  //return await User.factory().count(4).create();
+  
+  const users = await User.find().limit(4)
+  Notification.send(users, new NewUserJoined({ user: users[0]}));
+})()*/;
+
 export default server;

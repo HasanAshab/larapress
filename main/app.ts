@@ -15,11 +15,14 @@ app.use(cors({
   origin: [URL.client()] 
 }));
 app.use(helmet())
-app.use("*", middleware("maintenance.check", "limit:1000,1"));
+app.use("*", middleware("maintenance.check", "limit:1000,2"));
 
 // Setting middlewares for request parsing 
 app.use(bodyParser.json({ limit: "1mb" }));
-app.use(bodyParser.urlencoded({extended: false, limit: "1mb"}));
+app.use(bodyParser.urlencoded({
+  extended: false,
+  limit: "1mb"
+}));
 app.use(multipartParser());
 
 // Registering mongoose global plugins

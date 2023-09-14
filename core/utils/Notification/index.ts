@@ -18,11 +18,14 @@ export default class Notification {
         const handlerName = "send" + capitalizeFirstLetter(channel) as keyof typeof notification;
         if (typeof notification[handlerName] === "function") {
           if (notification.shouldQueue) {
-            const method = (notification[handlerName] as any).bind(notification);
-            const concurrency = notification.concurrency[channel] ?? 20;
-            const queueChannel = `$NOTIFICATION_${notification.constructor.name}@${channel}`;
-            Queue.set(queueChannel, method, concurrency)
-            Queue.pushOn(queueChannel, notifiable);
+            Queue.add("SendNotification", {
+              notifiable,
+              notification: {
+                name: notification.constructor.name,
+                data: notification.data,
+                method: handlerName
+              }
+            });
           }
           else await (notification[handlerName] as any)(notifiable);
         }
