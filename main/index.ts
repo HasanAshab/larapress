@@ -28,7 +28,7 @@ Config.parse({ caching: "redis", redisUrl: "redis://default:raAjgzb9ceMv8MVUFzSl
 */
 
 // Connect to database
-if (true && process.env.NODE_ENV !== "test" && config.get("db.connect")) {
+if (false && process.env.NODE_ENV !== "test" && config.get("db.connect")) {
   log && console.log("Connecting to database...");
   DB.connect().then(() => {
     log && console.log("DB connected!");
@@ -78,6 +78,14 @@ import NewUserJoined from "~/app/notifications/NewUserJoined";
   
   const users = await User.find().limit(4)
   Notification.send(users, new NewUserJoined({ user: users[0]}));
-})()*/;
+})();
+*/
+import T1 from "~/app/jobs/T1";
+import T2 from "~/app/jobs/T2";
+
+(async () => {
+  T1.dispatch({ x: 1})
+  T2.dispatch({ x: 2})
+})();
 
 export default server;
