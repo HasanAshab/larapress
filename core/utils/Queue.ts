@@ -1,25 +1,14 @@
 import { log } from "helpers";
-import config from "config";
-import bull from "bull";
+import { Queue, Worker } from 'bullmq';
+import IORedis from "ioredis";
+import { client } from "~/core/utils/Cache/drivers/Redis";
 
-export default class Queue {
-  static queue: bull.Queue;
+export default new Queue("default", { connection: client });
 
-  static set(channel: string, processor: (job: bull.Job) => Promise<void>, concurrency = 1) {
-    if(!this.queue){
-      this.queue = new bull("default", config.get<string>("redis.url"), {
-        defaultJobOptions: {
-          removeOnComplete: true,
-          removeOnFail: true,
-        },
-      });
-    }
-    if(!(this.queue as any).handlers[channel]) {
-      this.queue.process(channel, concurrency, processor);
-    }
-  }
-  
-  static pushOn(channel: string, data: unknown, opts?: bull.JobOptions){
-    return this.queue.add(channel, data, opts);
-  }
-}
+export const worker = new Worker("default", task => {
+  const Job = require("~/app/jobs/" + task.name).default;
+  const job = new Job();
+  return job.handle(task.data).catch(log);
+}, { connection: client });
+
+

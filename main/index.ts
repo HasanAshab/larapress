@@ -28,7 +28,7 @@ Config.parse({ caching: "redis", redisUrl: "redis://default:raAjgzb9ceMv8MVUFzSl
 */
 
 // Connect to database
-if (process.env.NODE_ENV !== "test" && config.get("db.connect")) {
+if (false && process.env.NODE_ENV !== "test" && config.get("db.connect")) {
   log && console.log("Connecting to database...");
   DB.connect().then(() => {
     log && console.log("DB connected!");
@@ -65,31 +65,15 @@ else {
     console.log(`*New connection: [${time}]`);
   });
 }
-
 /*
-import User from "~/app/models/User";
-import Notification from "~/app/models/Notification";
-import Attachment from "~/app/models/Attachment";
-import Settings from "~/app/models/Settings";
+import T1 from "~/app/jobs/T1";
+import T2 from "~/app/jobs/T2";
 
 (async () => {
-
- await User.deleteOne({ username: (await User.findOne()).username });
-console.log(await Notification.find())
-  console.log(await Attachment.find())
-  return console.log(await Settings.find())
-  
-      await DB.reset(["Attachment", "Notification", "User", "Settings"])
-
-  const user = await User.factory().hasSettings().create();
-  await Notification.factory().count(2).create({ userId: user._id });
-  await Attachment.factory().count(2).create({ attachableId: user._id });
-  
-  
+  await T1.dispatch({x: 39})
+  await T2.dispatch({y: 39})
+  console.log("yh")
+ 
 })();
-
 */
-
-
-
 export default server;
