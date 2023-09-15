@@ -1,5 +1,4 @@
 import { Schema, Document } from "mongoose";
-import Attachment, { IAttachment, AttachmentQuery } from "~/app/models/Attachment";
 import { UploadedFile } from "express-fileupload";
 import Storage from "Storage"
 import URL from "URL"
@@ -13,33 +12,24 @@ export interface AttachableDocument extends Document {
   detachAll(): Promise<void>;
 }
 
-export default (schema: Schema) => {
-  schema.virtual('attachments').get(function () {
-    return Attachment.find({
-      attachableId: this._id,
-      attachableType: (this.constructor as any).modelName,
-    });
-  });
-  
-  schema.methods.attach = async function (name: string, file: UploadedFile, attachLinkToModel = false) {
-    const path = await Storage.putFile("public/uploads", file);
-    let attachment = new Attachment({
-      name,
-      attachableId: this._id,
-      attachableType: (this.constructor as any).modelName,
-      mimetype: file.mimetype,
-      path
-    });
-    const link = await URL.signedRoute("file.serve", {
+export default (schema: Schema, attachmentFields: string[]) => {
+  schema.methods.attach = async function (field: string, file: UploadedFile) {
+    Storage.mock()
+    const fileMeta = {};
+    fileMeta.path = await Storage.putFile("public/uploads", file);
+    /*fileMeta.url = await URL.signedRoute("file.serve", {
       id: attachment._id.toString()
-    });
-    attachment.link = link;
-    await attachment.save()
-    if (attachLinkToModel) {
-      this[`${name}Url`] = link;
-    }
-    return attachment;
+    });*/
+   // console.log(this[field].push({foo: 2}))
+    if(Array.isArray(schema.tree[field]))
+      this[field].push(fileMeta)
+    else
+      this[field] = fileMeta;
+
+
+   //return fileMeta;
   }
+  
   
   schema.methods.attachMany = async function (files: Record<string, UploadedFile>, attachLinkToModel = false) {
     const attachments: IAttachment[] = [];

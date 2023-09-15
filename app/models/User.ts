@@ -33,10 +33,14 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  logoUrl: String,
+  logo: [{
+    path: String,
+    url: String
+  }]
 }, 
 { timestamps: true }
 );
+
 
 UserSchema.virtual("settings").get(function() {
   return Settings.findOne({ userId: this._id });
@@ -53,7 +57,7 @@ UserSchema.plugin(Authenticatable);
 UserSchema.plugin(HasFactory);
 UserSchema.plugin(HasApiTokens);
 UserSchema.plugin(Notifiable);
-UserSchema.plugin(Attachable);
+UserSchema.plugin(Attachable, ["logo"]);
 UserSchema.plugin(hidden(), { hidden: { _id: false } });
 //UserSchema.plugin(Billable);
 UserSchema.plugin(Cascade, [

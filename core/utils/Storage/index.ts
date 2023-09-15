@@ -10,7 +10,7 @@ import crypto from "crypto";
 export default class Storage {
   static async putFile(disk: string, file: UploadedFile) {
     const hash = this.hashFileName(file.name);
-    const filePath = path.join(storage(disk), hash);
+    const filePath = path.join("storage", disk, hash);
     await fs.writeFile(filePath, file.data);
     return filePath;
   };

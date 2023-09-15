@@ -27,12 +27,26 @@ Config.parse({ caching: "redis", redisUrl: "redis://default:raAjgzb9ceMv8MVUFzSl
 });
 */
 
+import User from "~/app/models/User";
+
 // Connect to database
 if (process.env.NODE_ENV !== "test" && config.get("db.connect")) {
   log && console.log("Connecting to database...");
-  DB.connect().then(() => {
+  DB.connect().then(async () => {
     log && console.log("DB connected!");
     Setup.mongooseModels();
+    
+    const user = await User.findOne();
+    const file = {
+      name: `dummy1.jpg`,
+      data: Buffer.from("dummy file content"),
+      size: 1000,
+      encoding: "utf-8",
+      mimetype: "image/jpeg"
+    }
+    await user.attach("logo", file)
+    await user.save()
+    console.log(user);
   });
 }
 
@@ -81,12 +95,18 @@ import NewUserJoined from "~/app/notifications/NewUserJoined";
 })();
 */
 /*
-import T1 from "~/app/jobs/T1";
-import T2 from "~/app/jobs/T2";
+import User from "~/app/models/User";
 
 (async () => {
-  //for(let i = 0; i < 5; i++)
-    T2.dispatch({ i: 93 })
-})();*/
-
+  const user = await User.findOne();
+  const file = {
+    name: `dummy1.jpg`,
+    data: Buffer.from("dummy file content"),
+    size: 1000,
+    encoding: "utf-8",
+    mimetype: "image/jpeg"
+  }
+  await user.attach("logo", file)
+})();
+*/
 export default server;
