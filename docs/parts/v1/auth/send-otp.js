@@ -1,5 +1,4 @@
 const User = require("~/app/models/User").default;
-const Settings = require("~/app/models/Settings").default;
 
 module.exports = {
   post: {
@@ -7,11 +6,7 @@ module.exports = {
     validationPath: "Auth/SendOtp",
     benchmark: {
       async setupContext(){
-        const user = await User.factory().create();
-        await Settings.create({
-          userId: user._id, 
-          twoFactorAuth: { enabled: true }
-        });
+        const user = await User.factory().hasSettings(true).create();
         return { userId: user._id }
       },
       setupRequest(req) {

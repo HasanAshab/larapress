@@ -8,11 +8,7 @@ module.exports = {
     validationPath: "Auth/Login",
     benchmark: {
       async setupContext(){
-        const user = await User.factory().create();
-        await Settings.create({
-          userId: user._id, 
-          twoFactorAuth: { enabled: true }
-        });
+        const user = await User.factory().hasSettings(true).create();
         return { email: user.email };
       },
 

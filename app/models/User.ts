@@ -38,11 +38,8 @@ const UserSchema = new Schema({
 { timestamps: true }
 );
 
-UserSchema.virtual('settings', {
-  ref: 'Settings',
-  localField: '_id',
-  foreignField: 'userId',
-  justOne: true
+UserSchema.virtual("settings").get(function() {
+  return Settings.findOne({ userId: this._id });
 });
 
 UserSchema.methods.safeDetails = function(this: any) {

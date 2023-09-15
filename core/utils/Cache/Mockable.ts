@@ -10,7 +10,7 @@ export default class Mockable {
       all: 0,
       keys: [] as string[]
     }
-  }
+  };
   
   static mock() {
     this.isMocked = true;
@@ -34,8 +34,8 @@ export default class Mockable {
 
   static clearLogger(key?: string) {
     typeof key === "string" 
-      ?this.mocked.clear.keys.push(key)
-      :this.mocked.clear.all++;
+      ? this.mocked.clear.keys.push(key)
+      : this.mocked.clear.all++;
   }
   
   static assertFetched(keys: string | string[]){
