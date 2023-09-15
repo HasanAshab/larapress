@@ -15,7 +15,7 @@ const mutex = new Mutex();
 @controller
 export default class AuthController {
   async register(req: Request, res: Response){
-    const logo = req.files?.logo;
+    const logo = req.files!.logo;
     const user = await User.create(req.body);
     logo && user.attach("logo", logo as any, true).catch(log);
     const token = user.createToken();
@@ -31,9 +31,9 @@ export default class AuthController {
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
     let release = await mutex.acquire();
     let failedAttemptsCount = await Cache.get(attemptCacheKey) || 0;
+    release();
     if(typeof failedAttemptsCount === "string")
       failedAttemptsCount = parseInt(failedAttemptsCount);
-    release();
     if(failedAttemptsCount > 3)
       return res.status(429).message("Too Many Failed Attempts try again later!");
     const user = await User.findOne({ email, password: { $ne: null }});
@@ -137,10 +137,9 @@ export default class AuthController {
     if (!user)
       return res.status(404).message();
 
-    const result = await user.resetPassword(token, password);
-    if(result)
-      return res.message("Password changed successfully!");
-    res.status(401).message("Invalid or expired token!");
+    return await user.resetPassword(token, password)
+      ? res.message("Password changed successfully!")
+      : res.status(401).message("Invalid or expired token!");
   };
 
   async changePassword(req: Request, res: Response){
@@ -169,7 +168,7 @@ export default class AuthController {
     if(!user) return res.status(404).message();
     const settings = await user.settings;
     if(!settings.twoFactorAuth.enabled)
-      return res.status(403).message("Two Factor Auth is disabled for this user!");
+      return res.status(403).message("Two Factor Auth is disabled!");
     user.sendOtp(method).catch(log);
     res.message("6 digit OTP code sent to phone number!");
   }

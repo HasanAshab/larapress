@@ -27,8 +27,7 @@ export default class ContactController {
       .sort({ score: { $meta: "textScore" } })
       .select('-score')
       .paginateReq(req);
-
-    await Cache.put(cacheKey, res.api(results), 5)// * 3600);
+    await Cache.put(cacheKey, res.api(results), 5 * 3600);
   }
 
   async find(req: Request, res: Response) {
