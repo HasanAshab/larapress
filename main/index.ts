@@ -35,7 +35,6 @@ if (process.env.NODE_ENV !== "test" && config.get("db.connect")) {
   DB.connect().then(async () => {
     log && console.log("DB connected!");
     Setup.mongooseModels();
-    
     const user = await User.findOne();
     const file = {
       name: `dummy1.jpg`,

@@ -1,4 +1,3 @@
-import { storage } from "helpers";
 import { UploadedFile } from "express-fileupload";
 import { promises as fs } from "fs";
 import Mockable from "~/core/utils/Storage/Mockable";
@@ -9,10 +8,10 @@ import crypto from "crypto";
 @util(Mockable)
 export default class Storage {
   static async putFile(disk: string, file: UploadedFile) {
-    const hash = this.hashFileName(file.name);
-    const filePath = path.join("storage", disk, hash);
+    const name = `${Date.now()}_${file.name}`;
+    const filePath = path.join("storage", disk, name);
     await fs.writeFile(filePath, file.data);
-    return filePath;
+    return name;
   };
 
   static hashFileName(fileName: string) {

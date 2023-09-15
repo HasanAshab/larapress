@@ -12,22 +12,22 @@ export interface AttachableDocument extends Document {
   detachAll(): Promise<void>;
 }
 
+export const Attachment = new Schema({
+  name: String,
+  url: String
+}, { _id: false });
+
 export default (schema: Schema, attachmentFields: string[]) => {
   schema.methods.attach = async function (field: string, file: UploadedFile) {
     Storage.mock()
     const fileMeta = {};
-    fileMeta.path = await Storage.putFile("public/uploads", file);
-    /*fileMeta.url = await URL.signedRoute("file.serve", {
-      id: attachment._id.toString()
-    });*/
-   // console.log(this[field].push({foo: 2}))
+    fileMeta.name = await Storage.putFile("public/uploads", file);
+    fileMeta.url = await URL.signedRoute("file.serve", { path: "uploads/" + fileMeta.name });
     if(Array.isArray(schema.tree[field]))
       this[field].push(fileMeta)
     else
       this[field] = fileMeta;
-
-
-   //return fileMeta;
+    return fileMeta;
   }
   
   

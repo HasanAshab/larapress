@@ -37,9 +37,9 @@ Setup.events(app);
 // Registering all group routes 
 Setup.routes(app);
 
-// Serving static folder
-//app.use("/static", express.static("~/storage/public/static"));
-
+// Serving public folder
+app.use("/api/files", express.static(__dirname + "/../storage/public"));
+ 
 // Registering global error handling middleware
 app.use(middleware("error.handle"));
 

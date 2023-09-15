@@ -4,7 +4,7 @@ import Authenticatable, { AuthenticatableDocument } from "~/app/plugins/Authenti
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import HasApiTokens, { HasApiTokensDocument } from "~/app/plugins/HasApiTokens";
 import Notifiable, { NotifiableDocument } from "~/app/plugins/Notifiable";
-import Attachable, { AttachableDocument } from "~/app/plugins/Attachable";
+import Attachable, { Attachment, AttachableDocument } from "~/app/plugins/Attachable";
 //import Billable, { BillableDocument } from "~/app/plugins/Billable";
 import Settings, { ISettings } from "~/app/models/Settings";
 import Cascade from "~/app/plugins/Cascade";
@@ -33,10 +33,7 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  logo: [{
-    path: String,
-    url: String
-  }]
+  logo: Attachment
 }, 
 { timestamps: true }
 );

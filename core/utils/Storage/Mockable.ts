@@ -1,5 +1,4 @@
 import { UploadedFile } from "express-fileupload";
-import { storage } from "helpers";
 import expect from "expect";
 
 export default class Mockable {
@@ -13,7 +12,7 @@ export default class Mockable {
   
   static putFile(disk: string, file: UploadedFile) {
     this.mocked[file.name] = { file, disk };
-    return storage(disk);
+    return disk;
   }
   
   static assertNothingStored(){
