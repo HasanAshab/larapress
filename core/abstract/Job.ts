@@ -6,6 +6,8 @@ export default abstract class Job {
   static dispatchAfter = 0;
   
   public concurrency = 1;
+  public tries = 1;
+  public timeout = 10000;
   abstract handle(data: unknown): Promise<void>;
   
   static delay(ms: number) {
@@ -19,10 +21,10 @@ export default abstract class Job {
   }
   
   static async dispatch(data: unknown) {
+    const job = new (this as any)();
     if(this.shouldQueue)
-      Queue.add(this.name, data, { delay: this.dispatchAfter }).catch(log);
+      Queue.add(this.name, data, { delay: this.dispatchAfter, attempts: job.tries, timeout: job.timeout }).catch(log);
     else {
-      const job = new (this as any)();
       await job.handle(data);
     }
     this.shouldQueue = true;

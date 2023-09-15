@@ -84,8 +84,8 @@ import T1 from "~/app/jobs/T1";
 import T2 from "~/app/jobs/T2";
 
 (async () => {
-  for(let i = 0; i < 8; i++)
-    T2.dispatch({ i })
+  //for(let i = 0; i < 5; i++)
+    T2.dispatch({ i: 93 })
 })();
 
 export default server;
