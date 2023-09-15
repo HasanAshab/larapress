@@ -1,4 +1,4 @@
-import { CacheDataArg } from "types";
+import { CacheDataArg } from "Cache";
 import expect from "expect";
 
 export default class Mockable {

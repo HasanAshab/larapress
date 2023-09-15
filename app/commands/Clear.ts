@@ -3,7 +3,7 @@ import { storage, log } from "helpers";
 import fs from "fs";
 import path from "path";
 import Cache from "Cache";
-import cacheConfig from "~/register/cache";
+import { drivers } from "~/register/cache";
 import { execSync } from "child_process";
 
 export default class Clear extends Command {
@@ -28,7 +28,7 @@ export default class Clear extends Command {
     }
     else {
       const tasks: any = [];
-      for(const driverName of cacheConfig.drivers) {
+      for(const driverName of drivers) {
         const task = Cache.driver(driverName).clear(key);
         tasks.push(task);
       }

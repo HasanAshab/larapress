@@ -30,8 +30,8 @@ export default (schema: Schema, options: CascadeOption[]) => {
       await performCascadeDeletions(query._id);
     }
     else {
-      const method = this.op === "deleteMany" ? "find" : "findOne";
-      const parentDocs = await this.model[method](query).select("_id");
+      const method = (this as any).op === "deleteMany" ? "find" : "findOne";
+      const parentDocs = await (this.model as any)[method](query).select("_id");
       next();
       const parentDocsId = Array.isArray(parentDocs) 
         ? parentDocs.map(doc => doc._id)

@@ -137,9 +137,9 @@ export default class TestPerformance extends Command {
   
   private async getUser(doc: Record<string, any>) {
     if(doc.cached === false)
-      return await User.factory().create({ role: doc.auth });
+      return await User.factory().withRole(doc.auth).create();
     if(!this.cachedUsers[doc.auth])
-      this.cachedUsers[doc.auth] = await User.factory().create({ role: doc.auth }) as IUser;
+      this.cachedUsers[doc.auth] = await User.factory().withRole(doc.auth).create() as IUser;
     return this.cachedUsers[doc.auth];
   }
   

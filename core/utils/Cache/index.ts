@@ -1,4 +1,3 @@
-import { CacheDataArg } from "types";
 import config from "config";
 import { capitalizeFirstLetter } from "helpers";
 import Driver from "~/core/utils/Cache/Driver";
@@ -6,6 +5,8 @@ import { drivers } from "~/register/cache";
 import Mockable from "~/core/utils/Cache/Mockable";
 import { util } from "~/core/decorators/class";
 import fs from "fs";
+
+export type CacheDataArg = string | number | boolean | object | unknown[] | Buffer;
 
 const driverInstances: Record<typeof drivers[number], Driver> = {};
 
@@ -29,21 +30,20 @@ export default class Cache {
     return driverInstances[this.driverName];
   }
 
-  static async get(key: string) {
+  static get(key: string) {
     const driver = this.getDriver();
-    return await driver.get(key);
+    return driver.get(key);
   }
 
-  static async put(key: string, data: CacheDataArg, expiry?: number) {
+  static put(key: string, data: CacheDataArg, expiry?: number) {
     const driver = this.getDriver();
-    return await driver.put(key, data, expiry);
+    return driver.put(key, data, expiry);
   }
 
-  static async clear(key?: string) {
+  static clear(key?: string) {
     const driver = this.getDriver();
-    return await driver.clear(key);
+    return driver.clear(key);
   }
 }
 
-// Initialize drivers when the module is imported
 initializeDrivers();

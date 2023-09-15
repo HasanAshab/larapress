@@ -1,4 +1,3 @@
-import { ArtisanBaseInput } from "types"
 import { Application } from "express";
 import config from "config";
 import fs from "fs";
@@ -20,11 +19,11 @@ export default class Setup {
       if (Array.isArray(commands)) {
         for (const command of commands) {
           const [commandName, ...args] = command.split(" ")
-          nodeCron.schedule(schedule, (async () => await Artisan.call(commandName as ArtisanBaseInput, args, false)) as ((now: Date | "init" | "manual") => void));
+          nodeCron.schedule(schedule, (async () => await Artisan.call(commandName as any, args, false)) as ((now: Date | "init" | "manual") => void));
         }
       } else {
         const [commandName, ...args] = commands.split(" ")
-        nodeCron.schedule(schedule, (async () => await Artisan.call(commandName as ArtisanBaseInput, args, false)) as ((now: Date | "init" | "manual") => void));
+        nodeCron.schedule(schedule, (async () => await Artisan.call(commandName as any, args, false)) as ((now: Date | "init" | "manual") => void));
       }
     }
   };

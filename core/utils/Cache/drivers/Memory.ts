@@ -1,6 +1,6 @@
 import Driver from "~/core/utils/Cache/Driver";
 import memoryCache from "memory-cache";
-import { CacheDataArg } from "types";
+import { CacheDataArg } from "Cache";
 
 export default class Memory extends Driver {
   get(key: string) {

@@ -5,7 +5,7 @@ export default abstract class Factory extends AwaitEventEmitter {
   private total = 1;
   private eventsEnabled = true;
 
-  constructor(private Model: Model, protected options: Record<string, unknown> = {}) {
+  constructor(private Model: Model<any>, protected options: Record<string, unknown> = {}) {
     super();
     this.Model = Model;
     this.options = options;
@@ -36,7 +36,7 @@ export default abstract class Factory extends AwaitEventEmitter {
     const method = this.total === 1 
       ? "create"
       : "insertMany";
-    const docs = await this.Model[method](docsData);
+    const docs = await (this.Model as any)[method](docsData);
     this.eventsEnabled && await this.emit("created", Array.isArray(docs) ? docs : [docs]);
     return docs;
   }

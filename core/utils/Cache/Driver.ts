@@ -1,4 +1,4 @@
-import { CacheDataArg } from "types";
+import { CacheDataArg } from "Cache";
 
 export default abstract class Driver {
   abstract get(key: string): Promise<string | null> | string | null;

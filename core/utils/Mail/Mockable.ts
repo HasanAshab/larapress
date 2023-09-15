@@ -1,14 +1,18 @@
 import expect from "expect";
-import { MailMockedData } from "types";
 import Mailable from "~/core/abstract/Mailable";
+
+export type MailMockedData = {
+  total: number;
+  recipients: Record < string, Record < string, {mailable: Mailable, count: number}>>;
+}
 
 export default class Mockable {
   static isMocked = false;
   static email: string;
   
-  static mocked = {
+  static mocked: MailMockedData = {
     total: 0,
-    recipients: {} as MailMockedData
+    recipients: {}
   }
 
   static mock() {

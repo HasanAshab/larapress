@@ -1,7 +1,7 @@
 import { Schema, Document } from "mongoose";
 
 export interface HasFactoryModel {
-  factory(options?: Record<string, any>): {};
+  factory(options?: Record<string, any>): any;
 }
 
 

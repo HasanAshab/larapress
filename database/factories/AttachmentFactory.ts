@@ -17,7 +17,7 @@ export default class AttachmentFactory extends Factory {
   
   belongsTo(user: IUser) {
     return this.on("made", (attachment: IAttachment) => {
-      attachment.userId = user._id;
+      attachment.attachableId = user._id;
     });
   }
 

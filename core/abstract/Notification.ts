@@ -10,13 +10,12 @@ type NotificationTypes = typeof notificationConfig["types"][number];
 
 export default abstract class Notification {
   shouldQueue = false;
-  concurrency: Record<NotificationChannel, number>  = {};
   type?: NotificationTypes;
   
   constructor(public data: Record<string, unknown>) {
     this.data = data;
   }
-  
+
   abstract via(notifiable: IUser): Promise<NotificationChannel[]> | NotificationChannel[];
   abstract toEmail?(notifiable: IUser): Mailable;
   abstract toSite?(notifiable: IUser): object;

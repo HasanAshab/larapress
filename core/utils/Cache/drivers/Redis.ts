@@ -1,7 +1,7 @@
 import Driver from "~/core/utils/Cache/Driver";
 import config from "config";
 import IORedis from "ioredis";
-import { CacheDataArg } from "types";
+import { CacheDataArg } from "Cache";
 
 const client = new IORedis(config.get("redis"));
 
@@ -22,7 +22,7 @@ export default class Redis extends Driver {
   }
 
   async clear(key?: string) {
-    if(typeof key === "undefined") await client.flushAll();
+    if(typeof key === "undefined") await client.flushall();
     else await client.del(key)
   }
 }

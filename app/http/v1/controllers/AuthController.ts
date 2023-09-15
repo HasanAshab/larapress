@@ -30,7 +30,9 @@ export default class AuthController {
     const { email, password, otp } = req.body;
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
     let release = await mutex.acquire();
-    let failedAttemptsCount = (await Cache.get(attemptCacheKey) ?? 0) as number;
+    let failedAttemptsCount = await Cache.get(attemptCacheKey) || 0;
+    if(typeof failedAttemptsCount === "string")
+      failedAttemptsCount = parseInt(failedAttemptsCount);
     release();
     if(failedAttemptsCount > 3)
       return res.status(429).message("Too Many Failed Attempts try again later!");
@@ -57,7 +59,7 @@ export default class AuthController {
         });
       }
       release = await mutex.acquire();
-      await Cache.put(attemptCacheKey, parseInt(failedAttemptsCount) + 1, 60 * 60);
+      await Cache.put(attemptCacheKey, String(failedAttemptsCount++), 60 * 60);
       release();
     }
     res.status(401).message("Credentials not match!");

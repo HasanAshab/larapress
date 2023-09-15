@@ -13,7 +13,7 @@ export default class NotificationFactory extends Factory {
   };
   
   unread() {
-    return this.on("made", (notification: INotification) => {
+    return this.on("made", (notification: any) => {
       notification.readAt = null;
     });
   }

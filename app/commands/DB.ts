@@ -1,4 +1,3 @@
-import { getModels } from "helpers";
 import Command from "~/core/abstract/Command";
 import mongoose from "mongoose";
 import fs from "fs";
@@ -7,6 +6,8 @@ import DatabaseSeeder from "~/database/seeders/DatabaseSeeder";
 import Setup from "~/main/Setup";
 
 export default class DB extends Command {
+  total = 0;
+  
   async wipe(){
     const { model } = this.params;
     await Database.connect();
@@ -26,7 +27,6 @@ export default class DB extends Command {
     const modelsName = mongoose.modelNames();
     this.info("Counting documents...\n");
     const countPromises: any = [];
-    this.total = 0;
     for (const name of modelsName) {
       countPromises.push(this.countSingeModel(name));
     }

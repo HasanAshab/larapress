@@ -9,7 +9,7 @@ export default class T2 extends Job {
     await new Promise(resolve => {
       setTimeout(() => {
         console.log("fired2", data)
-      resolve()
+      resolve("done")
       }, 2500);
     });
   } 

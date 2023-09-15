@@ -1,5 +1,6 @@
-import { ArtisanBaseInput } from "types" 
 import commands from "~/register/commands";
+
+export type ArtisanBaseInput = `${keyof typeof commands}${`:${string}` | ''}`
 
 export default class Artisan {
   static async call(baseInput: ArtisanBaseInput, args: string[], fromShell = true) {

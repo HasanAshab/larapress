@@ -13,6 +13,7 @@ import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
 
 
 export interface AuthenticatableDocument extends Document {
+  setPassword(password: string): Promise<void>;
   attempt(password: string): Promise<boolean>;
   sendVerificationEmail(): Promise<string>;
   sendResetPasswordEmail(): Promise<string | null>;
