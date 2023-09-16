@@ -16,8 +16,9 @@ const mutex = new Mutex();
 export default class AuthController {
   async register(req: Request, res: Response){
     const logo = req.files!.logo;
-    const user = await User.create(req.body);
-    logo && user.attach("logo", logo as any, true).catch(log);
+    const user = new User(req.body);
+    logo && await user.attach("logo", logo as any);
+    await user.save();
     const token = user.createToken();
     req.app.emit("Registered", user);
     res.status(201).api({

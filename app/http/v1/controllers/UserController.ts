@@ -20,9 +20,9 @@ export default class UserController {
     if(req.body.email){
       user.verified = false;
     }
-    if (logo && !Array.isArray(logo)) {
-      user.detach("logo").catch(log);
-      await user.attach("logo", logo, true);
+    if (logo) {
+      user.detach("logo");
+      await user.attach("logo", logo as any);
     }
     await user.save();
     if(!req.body.email) return res.message("Profile updated!");

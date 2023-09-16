@@ -4,7 +4,7 @@ import Authenticatable, { AuthenticatableDocument } from "~/app/plugins/Authenti
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import HasApiTokens, { HasApiTokensDocument } from "~/app/plugins/HasApiTokens";
 import Notifiable, { NotifiableDocument } from "~/app/plugins/Notifiable";
-import Attachable, { Attachment, AttachableDocument } from "~/app/plugins/Attachable";
+import Attachable, { FileMeta, AttachableDocument } from "~/app/plugins/Attachable";
 //import Billable, { BillableDocument } from "~/app/plugins/Billable";
 import Settings, { ISettings } from "~/app/models/Settings";
 import Cascade from "~/app/plugins/Cascade";
@@ -32,16 +32,7 @@ const UserSchema = new Schema({
   verified: {
     type: Boolean,
     default: false,
-  },
-  logo: {
-    type: [{
-      _id: false,
-      name: String,
-      url: String
-    }],
-    default: []
   }
-
 }, 
 { timestamps: true }
 );
@@ -57,12 +48,11 @@ UserSchema.methods.safeDetails = function(this: any) {
   return this;
 }
 
-
 UserSchema.plugin(Authenticatable);
 UserSchema.plugin(HasFactory);
 UserSchema.plugin(HasApiTokens);
 UserSchema.plugin(Notifiable);
-UserSchema.plugin(Attachable);
+UserSchema.plugin(Attachable, { logo: {} });
 UserSchema.plugin(hidden(), { hidden: { _id: false } });
 //UserSchema.plugin(Billable);
 UserSchema.plugin(Cascade, [
@@ -71,18 +61,15 @@ UserSchema.plugin(Cascade, [
     foreignField: "userId"
   },
   {
-    ref: "Attachment",
-    foreignField: "attachableId"
-  }, 
-  {
     ref: "Settings",
     foreignField: "userId",
   },
 ]);
 
 export interface IUser extends Document, InferSchemaType<typeof UserSchema>, AuthenticatableDocument, AttachableDocument, HasApiTokensDocument, NotifiableDocument, AttachableDocument {
-  safeDetails(): Omit<InferSchemaType<typeof UserSchema>, "email" | "phoneNumber" | "password">;
+  logo: FileMeta | null;
   settings: Promise<ISettings>;
+  safeDetails(): Omit<InferSchemaType<typeof UserSchema>, "email" | "phoneNumber">;
 };
 interface UserModel extends Model<IUser>, HasFactoryModel {};
 export default model<IUser, UserModel>("User", UserSchema);

@@ -1,6 +1,6 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
-import Attachable, { AttachableDocument } from "~/app/plugins/Attachable";
+import Attachable, { FileMeta, AttachableDocument } from "~/app/plugins/Attachable";
 
 const CategorySchema = new Schema(
 {
@@ -13,18 +13,16 @@ const CategorySchema = new Schema(
     required: true,
     unique: true
   },
-  iconUrl: {
-    type: String,
-    default: null
-  }
 },
 { timestamps: true }
 );
 
 CategorySchema.plugin(HasFactory);
-CategorySchema.plugin(Attachable);
+CategorySchema.plugin(Attachable, { icon: {} });
 
 
-export interface ICategory extends Document, InferSchemaType<typeof CategorySchema>, AttachableDocument {};
+export interface ICategory extends Document, InferSchemaType<typeof CategorySchema>, AttachableDocument {
+  icon: FileMeta | null;
+};
 interface CategoryModel extends Model<ICategory>, HasFactoryModel {};
 export default model<ICategory, CategoryModel>("Category", CategorySchema);

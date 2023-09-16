@@ -35,7 +35,7 @@ export default class CategoryController {
     if(!category) return res.status(404).message();
     Object.assign(category, req.body);
     category.detach("icon");
-    await category.attach("icon", icon as any, true);
+    await category.attach("icon", icon as any);
     await category.save();
     res.message("Category updated!");
   }
