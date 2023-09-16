@@ -35,6 +35,7 @@ if (process.env.NODE_ENV !== "test" && config.get("db.connect")) {
   DB.connect().then(async () => {
     log && console.log("DB connected!");
     Setup.mongooseModels();
+    return;
     const user = await User.findOne();
     const file = {
       name: `dummy1.jpg`,
@@ -43,7 +44,8 @@ if (process.env.NODE_ENV !== "test" && config.get("db.connect")) {
       encoding: "utf-8",
       mimetype: "image/jpeg"
     }
-    await user.attach("logo", file)
+    //await user.attach("logo", file)
+    await user.detach("logo")
     await user.save()
     console.log(user);
   });

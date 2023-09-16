@@ -33,7 +33,15 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  logo: Attachment
+  logo: {
+    type: [{
+      _id: false,
+      name: String,
+      url: String
+    }],
+    default: []
+  }
+
 }, 
 { timestamps: true }
 );
@@ -54,7 +62,7 @@ UserSchema.plugin(Authenticatable);
 UserSchema.plugin(HasFactory);
 UserSchema.plugin(HasApiTokens);
 UserSchema.plugin(Notifiable);
-UserSchema.plugin(Attachable, ["logo"]);
+UserSchema.plugin(Attachable);
 UserSchema.plugin(hidden(), { hidden: { _id: false } });
 //UserSchema.plugin(Billable);
 UserSchema.plugin(Cascade, [
