@@ -4,12 +4,8 @@ import Setup from "~/main/Setup";
 import fs from "fs";
 
 export default class DB {
-  static defaultConnectOptions = {
-    maxPoolSize: config.get<number>("db.maxPoolSize")
-  }
-  
-  static async connect(options: ConnectOptions = this.defaultConnectOptions) {
-    await mongoose.connect(config.get<any>("db.url"), options);
+  static async connect() {
+    await mongoose.connect(config.get<string>("db.url"), config.get<ConnectOptions>("db.options"));
   }
   
   static async disconnect() {

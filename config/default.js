@@ -26,7 +26,9 @@ module.exports = {
   db: {
     connect: true,
     url: "mongodb+srv://haoronaldo18:Haomao.18205@cluster0.jqufz1a.mongodb.net/?retryWrites=true&w=majority",
-    maxPoolSize: 1
+    options: {
+      maxPoolSize: 1,
+    }
   },
   redis: {
     url: "redis://raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1@redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com:12100",
