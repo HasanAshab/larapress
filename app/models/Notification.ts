@@ -17,23 +17,22 @@ const NotificationSchema = new Schema({
     default: null
   },
 },
-{ 
-  timestamps: true,
-  query: {
-    async markAsRead(){
-      const { modifiedCount } = await this.updateOne(this.getFilter(), {readAt: new Date()});
-      return modifiedCount === 1;
-    }
-  },
-  methods: {
-    async markAsRead(){
-      this.readAt = new Date();
-      await this.save();
-    }
-  }
-}
+{ timestamps: true }
 );
 
+NotificationSchema.methods.markAsRead = async function(){
+  this.readAt = new Date();
+  await this.save();
+}
+
+const notificationQuery = {
+  async markAsRead(){
+    const { modifiedCount } = await this.updateOne(this.getFilter(), {readAt: new Date()});
+    return modifiedCount === 1;
+  }
+};
+
+NotificationSchema.query = notificationQuery;
 
 NotificationSchema.plugin(HasFactory);
 NotificationSchema.plugin(HumanReadableTime);
@@ -45,7 +44,7 @@ export interface INotification extends Document, InferSchemaType<typeof Notifica
 export type NotificationQuery = QueryWithHelpers<HydratedDocument<INotification>[], HydratedDocument<INotification>, NotificationQueryHelpers>;
 
 interface NotificationQueryHelpers {
-  markAsRead(): NotificationQuery
+  markAsRead(): boolean
 }
 
 interface NotificationModel extends Model<INotification, NotificationQueryHelpers>, HasFactoryModel {}

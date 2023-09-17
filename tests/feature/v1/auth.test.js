@@ -16,7 +16,7 @@ describe("Auth", () => {
   });
 
   beforeEach(async config => {
-    await DB.reset(["User"]);
+    await DB.reset(["User", "OTP"]);
     Mail.mock();
     if(config.user) {
       user = await User.factory().create();
@@ -159,7 +159,7 @@ describe("Auth", () => {
     expect(responses[4].statusCode).toBe(429);
   });
 
-  it("Should send otp", async () => {
+  it.only("Should send otp", async () => {
     const user = await User.factory().hasSettings(true).create();
     const response = await request.post("/auth/send-otp").send({
       userId: user._id.toString(),

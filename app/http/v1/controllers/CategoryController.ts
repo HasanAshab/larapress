@@ -18,7 +18,7 @@ export default class CategoryController {
   async create(req: Request, res: Response) {
     const category = new Category(req.body);
     const icon = req.files!.icon;
-    icon && await category.attach("icon", icon as any, true);
+    icon && await category.attach("icon", icon as any);
     await category.save();
     res.status(201).message("Category successfully created!");
   }

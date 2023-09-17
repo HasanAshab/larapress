@@ -27,29 +27,12 @@ Config.parse({ caching: "redis", redisUrl: "redis://default:raAjgzb9ceMv8MVUFzSl
 });
 */
 
-import User from "~/app/models/User";
-
 // Connect to database
-if (process.env.NODE_ENV !== "test" && config.get("db.connect")) {
+if (false && process.env.NODE_ENV !== "test" && config.get("db.connect")) {
   log && console.log("Connecting to database...");
   DB.connect().then(async () => {
     log && console.log("DB connected!");
     Setup.mongooseModels();
-    return
-    //return await User.factory().create()
-    //return await User.deleteOne({ username: (await User.findOne()).username});
-    const user = await User.findOne();
-    const file = {
-      name: `dummy1.jpg`,
-      data: Buffer.from("dummy file content"),
-      size: 1000,
-      encoding: "utf-8",
-      mimetype: "image/jpeg"
-    }
-    await user.attach("logo", file)
-    //await user.detach("logo")
-    await user.save()
-    console.log(user);
   });
 }
 
@@ -97,19 +80,12 @@ import NewUserJoined from "~/app/notifications/NewUserJoined";
   Notification.send(users, new NewUserJoined({ user: users[0]}));
 })();
 */
-/*
-import User from "~/app/models/User";
+//import T1 from "~/app/jobs/T1";
 
 (async () => {
-  const user = await User.findOne();
-  const file = {
-    name: `dummy1.jpg`,
-    data: Buffer.from("dummy file content"),
-    size: 1000,
-    encoding: "utf-8",
-    mimetype: "image/jpeg"
-  }
-  await user.attach("logo", file)
+  
+ // await T1.dispatch({ a: 39 })
+  //await T1.dispatch({ a: 49 })
 })();
-*/
+
 export default server;

@@ -10,9 +10,9 @@ export interface FileMeta {
   url: string;
 }
 
-export interface AttachableDocument extends Document {
-  attach(field: string, file: UploadedFile): Promise<FileMeta>;
-  detach(field: string): void;
+export interface AttachableDocument<T extends object> extends Document {
+  attach(field: keyof T, file: UploadedFile): Promise<FileMeta>;
+  detach(field: keyof T): void;
 }
 
 
@@ -21,49 +21,54 @@ export interface FieldOptions {
 }
 
 export default (schema: Schema, options: Record<string, FieldOptions>) => {
+  const attachableFieldsName = Object.keys(options);
   schema.add(generateAttachableFields());
   
   schema.pre(["deleteOne", "deleteMany"], async function(next) {
-    const query = this.getQuery();
     const method = (this as any).op === "deleteMany" ? "find" : "findOne";
-    let docs = await (this.model as any)[method](query, Object.keys(options));
+    const query = attachableFieldsName.reduce((query, attachableField) => {
+      query[attachableField] = {
+        $ne: null
+      }
+      return query;
+    }, this.getQuery());
+    let docs = await (this.model as any)[method](query).select(attachableFieldsName);
     next();
     docs = Array.isArray(docs) ? docs : [docs];
-    docs.forEach(doc => {
+    for(const doc of docs) {
       for(const field in doc.toObject()) {
         if(field !== "_id")
           deleteFile(doc[field]).catch(log)
       }
-    });
+    }
   });
 
   schema.methods.attach = async function (field: string, file: UploadedFile) {
-    const fileMeta = {};
+    const fileMeta: FileMeta = { name: '', url: '' };
     fileMeta.name = await Storage.putFile("public/uploads", file);
     fileMeta.url = await URL.signedRoute("file.serve", { path: "uploads/" + fileMeta.name });
-    if(Array.isArray(this[field]))
-      this[field].push(fileMeta)
+    if(Array.isArray(this[field]!))
+      this[field]!.push(fileMeta)
     else
-      this[field] = fileMeta;
+      this[field]! = fileMeta;
     return fileMeta;
   }
   
   schema.methods.detach = function (field: string) {
-    if(Array.isArray(this[field])) { 
+    if(Array.isArray(this[field]!)) { 
       for (const fileMeta of this[field]) {
-        deleteFile(fileMeta).catch(log);
+        deleteFile(fileMeta!).catch(log);
       }
       this[field] = [];
     }
     else {
-      console.log(this)
-      deleteFile(this[field]).catch(log);
+      deleteFile(this[field]!).catch(log);
       this[field] = null;
     }
   }
 
   function generateAttachableFields() {
-    const attachableFields = {};
+    const attachableFields: Record<string, object> = {};
     for(const field in options) {
       if(options[field].multiple){
         attachableFields[field] = {
@@ -89,9 +94,13 @@ export default (schema: Schema, options: Record<string, FieldOptions>) => {
     return attachableFields;
   }
   
-  function deleteFile(meta: FileMeta) {
-    if(!Storage.isMocked)
-      return fs.unlink("storage/public/uploads/" + meta.name);
+/*  function assertAttachable(field: string): asserts  {
+    
+  }
+  */
+  async function deleteFile(meta: FileMeta) {
+    if(!(Storage as any).isMocked)
+      await fs.unlink("storage/public/uploads/" + meta.name);
   }
 
 }

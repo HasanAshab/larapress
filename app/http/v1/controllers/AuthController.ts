@@ -80,10 +80,10 @@ export default class AuthController {
         idToken: tokens.id_token!,
         audience: clientId,
       });
-      const { email, picture: logoUrl } = ticket.getPayload()!;
+      const { email, picture } = ticket.getPayload()!;
       const user = await User.findOneAndUpdate(
         { email },
-        { logoUrl, verified: true },
+        { "logo.url": picture, verified: true },
         { upsert: true, new: true }
       );
       const frontendClientUrl = user.username
@@ -158,9 +158,12 @@ export default class AuthController {
   };
   
   async changePhoneNumber(req: Request, res: Response) {
-    req.user.phoneNumber = req.body.phoneNumber;
-    await req.user.save();
-    res.message("Phone number has been updated successfully!");
+    const phoneNumber = req.body.phoneNumber;
+    if(!req.user.phoneNumber || req.user.phoneNumber !== phoneNumber) {
+      req.user.phoneNumber = phoneNumber;
+      await req.user.save();
+    }
+    res.message("Phone number has been updated!");
   }
   
   async sendOtp(req: Request, res: Response){

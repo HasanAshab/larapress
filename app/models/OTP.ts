@@ -1,5 +1,4 @@
 import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
-import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 
 const OTPSchema = new Schema(
 {
@@ -22,9 +21,7 @@ const OTPSchema = new Schema(
 }
 );
 
-OTPSchema.plugin(HasFactory);
-
-
-export interface IOTP extends Document, InferSchemaType<typeof OTPSchema> {};
-interface OTPModel extends Model<IOTP>, HasFactoryModel {};
-export default model<IOTP, OTPModel>("OTP", OTPSchema);
+export interface IOTP extends InferSchemaType<typeof OTPSchema> {};
+export interface OTPDocument extends Document, IOTP {};
+interface OTPModel extends Model<OTPDocument> {};
+export default model<OTPDocument, OTPModel>("OTP", OTPSchema);

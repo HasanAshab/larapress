@@ -1,6 +1,6 @@
 import { Schema, Document } from "mongoose";
 import config from "config";
-import twilio from "twilio";
+import { sendMessage, sendCall } from "~/core/services/twilio";
 import otpConfig from "~/register/otp"
 import OTP from "~/app/models/OTP";
 import Token from "~/app/models/Token";
@@ -23,10 +23,6 @@ export interface AuthenticatableDocument extends Document {
 }
 
 export default (schema: Schema) => {
-  const expireAfter = 3 * 24 * 60 * 60;
-  const twilioConfig = config.get<any>("twilio");
-  const twilioClient = twilio(twilioConfig.sid, twilioConfig.authToken);
-
   schema.methods.setPassword = async function (password: string) {
     const bcryptRounds = config.get<number>("bcrypt.rounds");
     this.password = await bcrypt.hash(password, bcryptRounds);
@@ -39,7 +35,7 @@ export default (schema: Schema) => {
   schema.methods.sendVerificationEmail = async function () {
     if (this.verified)
       throw new Error("The user is already verified: \n" + this);
-    const link = await URL.signedRoute("email.verify", { id: this._id }, expireAfter);
+    const link = await URL.signedRoute("email.verify", { id: this._id }, 259200);
     await Mail.to(this.email).send(new VerificationMail({ link }));
     return link;
   };
@@ -49,7 +45,7 @@ export default (schema: Schema) => {
     const { secret } = await Token.create({
       type: "resetPassword",
       key: this._id,
-      expiresAt: Date.now() + expireAfter
+      expiresAt: Date.now() + 259200
     });
     const link = URL.client(`/password/reset/${this._id}?token=${secret}`);
     Mail.to(this.email).send(new ForgotPasswordMail({ link }));
@@ -76,20 +72,10 @@ export default (schema: Schema) => {
       code,
       expiresAt: Date.now() + 3600000
     });
-    if(method === "sms") {
-      await twilioClient.messages.create({
-        from: twilioConfig.phoneNumber,
-        to: this.phoneNumber,
-        body: "Your verification code is: " + code,
-      });
-    }
-    else if(method === "call") {
-      await twilioClient.calls.create({
-        from: twilioConfig.phoneNumber,
-        to: this.phoneNumber,
-        twiml: otpConfig.voice(code)
-      });
-    }
+    if(method === "sms")
+      await sendMessage(this.phoneNumber, "Your verification code is: " + code);
+    else if(method === "call")
+      await sendCall(this.phoneNumber, otpConfig.voice(code));
     return code;
   }
   

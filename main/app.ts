@@ -14,7 +14,7 @@ app.use(cors({
 // Domains that can only access the API
   origin: [URL.client()] 
 }));
-app.use(helmet())
+app.use(helmet());
 app.use("*", middleware("maintenance.check", "limit:1000,2"));
 
 // Setting middlewares for request parsing 

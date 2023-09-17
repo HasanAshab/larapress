@@ -1,54 +1,52 @@
-import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
-import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
-import notificationConfig from "~/register/notification";
-import otpConfig from "~/register/otp"
+import { model, Schema, Model, Document } from "mongoose";
+import { channels, types } from "~/register/notification";
+import { methods } from "~/register/otp";
 
-const schemaData: any = {
+const notificationDefaults = channels.reduce((defaults, channel) => {
+  defaults[channel] = {
+    type: Boolean,
+    default: true
+  }
+  return defaults;
+}, {});
+
+const SettingsSchema = new Schema({
   userId: {
     required: true,
     type: Schema.Types.ObjectId,
-    unique: true
+    unique: true,
   },
   twoFactorAuth: {
     enabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     method: {
       type: String,
-      enum: otpConfig.methods,
-      default: "sms"
-    }
+      enum: methods,
+      default: "sms",
+    },
   },
-  notification: {}
-}
+  notification: types.reduce((typeObj, notificationType) => {
+    typeObj[notificationType] = notificationDefaults;
+    return typeObj;
+  }, {})
+});
 
-const value: any = {};
-for(const channel of notificationConfig.channels){
-  value[channel] = {
-    type: Boolean,
-    default: true
-  };
-}
-for(const notificationType of notificationConfig.types){
-  schemaData.notification[notificationType] = value;
-}
-const SettingsSchema = new Schema(schemaData);
-
-SettingsSchema.plugin(HasFactory);
-
-export interface ISettings extends Document {
+export interface ISettings {
   userId: Schema.Types.ObjectId;
   notification: {
-    [type in typeof notificationConfig.types[number]]: {
-      [channel in typeof notificationConfig.channels[number]]: boolean;
+    [type in typeof types[number]]: {
+      [channel in typeof channels[number]]: boolean;
     };
   };
   twoFactorAuth: {
     enabled: boolean;
-    method: typeof otpConfig["methods"][number];
+    method: typeof methods[number];
   }
 };
 
-interface SettingsModel extends Model<ISettings>, HasFactoryModel {};
-export default model<ISettings, SettingsModel>("Settings", SettingsSchema);
+export interface SettingsDocument extends Document {};
+interface SettingsModel extends Model<ISettings> {};
+
+export default model<SettingsDocument, SettingsModel>("Settings", SettingsSchema);

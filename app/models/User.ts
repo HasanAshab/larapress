@@ -1,4 +1,4 @@
-import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
+import { model, Schema, Model, Document } from "mongoose";
 import hidden from "mongoose-hidden";
 import Authenticatable, { AuthenticatableDocument } from "~/app/plugins/Authenticatable";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
@@ -66,10 +66,21 @@ UserSchema.plugin(Cascade, [
   },
 ]);
 
-export interface IUser extends Document, InferSchemaType<typeof UserSchema>, AuthenticatableDocument, AttachableDocument, HasApiTokensDocument, NotifiableDocument, AttachableDocument {
+export interface IUser {
+  username: string | null;
+  email: string;
+  phoneNumber: string | null;
+  password: string | null;
+  role: "admin" | "novice";
+  verified: boolean;
   logo: FileMeta | null;
+}
+
+export interface UserDocument extends Document, IUser, AuthenticatableDocument, AttachableDocument, HasApiTokensDocument, NotifiableDocument, AttachableDocument {
   settings: Promise<ISettings>;
   safeDetails(): Omit<InferSchemaType<typeof UserSchema>, "email" | "phoneNumber">;
 };
-interface UserModel extends Model<IUser>, HasFactoryModel {};
+
+interface UserModel extends Model<UserDocument>, HasFactoryModel {};
+
 export default model<IUser, UserModel>("User", UserSchema);

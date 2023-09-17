@@ -15,5 +15,6 @@ fs.readdirSync("app/jobs").forEach(jobFileName => {
   queue.process(jobName, job.concurrency, processor);
 });
 
-queue.on('failed', (job, err) => log(err))
+queue.on('failed', (job, err) => log(`Job ${job.name} failed for: ${err.stack}`))
+
 export default queue;

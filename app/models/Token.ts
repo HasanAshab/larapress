@@ -1,6 +1,6 @@
-import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
-import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
+import { model, Schema, Model, Document } from "mongoose";
 import crypto from "crypto";
+import { log } from "helpers";
 
 const TokenSchema = new Schema({
   key: {
@@ -26,18 +26,26 @@ const TokenSchema = new Schema({
   }
 });
 
-TokenSchema.statics.isValid = async function(key: string, type: string, secret: string) {
+TokenSchema.statics.isValid = async function(this: TokenModel, key: string, type: string, secret: string) {
   const token = await this.findOne({ key, type, secret });
   if(!token) return false;
-  token.expiresAt && this.deleteOne({ _id: token._id });
+  token.expiresAt && this.deleteOne({ _id: token._id }).catch(log);
   return true;
 }
 
+export interface IToken {
+  key: string;
+  data: object | null;
+  type: string;
+  secret: string;
+  expiresAt: Date | null;
+} 
 
-TokenSchema.plugin(HasFactory);
+export interface TokenDocument extends Document {};
 
-export interface IToken extends Document, InferSchemaType<typeof TokenSchema> {};
-interface TokenModel extends Model<IToken>, HasFactoryModel {
+interface TokenModel extends Model<IToken> {
   isValid(key: string, type: string, secret: string): boolean;
 };
-export default model<IToken, TokenModel>("Token", TokenSchema);
+
+
+export default model<TokenDocument, TokenModel>("Token", TokenSchema);

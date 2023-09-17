@@ -28,7 +28,8 @@ ContactSchema.index({ subject: 'text', message: 'text' });
 
 ContactSchema.plugin(HasFactory);
 
+export interface IContact extends InferSchemaType<typeof ContactSchema> {};
+export interface ContactDocument extends Document, IContact {};
+interface ContactModel extends Model<ContactDocument>, HasFactoryModel {};
 
-export interface IContact extends Document, InferSchemaType<typeof ContactSchema> {};
-interface ContactModel extends Model<IContact>, HasFactoryModel {};
-export default model<IContact, ContactModel>("Contact", ContactSchema);
+export default model<ContactDocument, ContactModel>("Contact", ContactSchema);

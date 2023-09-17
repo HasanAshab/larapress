@@ -1,4 +1,2 @@
-export default {
-  channels: ["site", "email"],
-  types: ["announcement", "feature", "others"]
-}
+export const channels = ["site", "email"];
+export const types = ["announcement", "feature", "others"];
