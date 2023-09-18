@@ -9,7 +9,6 @@ export default class UserFactory extends Factory {
     return {
       username: faker.person.firstName(),
       email: faker.internet.email(),
-      phoneNumber: "+15005550006",
       password: "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi", // "password"
       verified: true
     };
@@ -45,6 +44,12 @@ export default class UserFactory extends Factory {
         });
       }
       await Settings.insertMany(settingsData);
+    });
+  }
+  
+  withPhoneNumber() {
+    return this.on("made", (user: IUser) => {
+      user.phoneNumber = "+15005550006";
     });
   }
 }

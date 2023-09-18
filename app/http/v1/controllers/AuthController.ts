@@ -1,5 +1,6 @@
 import { controller } from "~/core/decorators/class";
 import { Request, Response } from "express";
+import { sendMessage } from "~/core/services/twilio";
 import { log } from "helpers";
 import config from "config"
 import User from "~/app/models/User";
@@ -36,7 +37,7 @@ export default class AuthController {
     if(typeof failedAttemptsCount === "string")
       failedAttemptsCount = parseInt(failedAttemptsCount);
     if(failedAttemptsCount > 3)
-      return res.status(429).message("Too Many Failed Attempts try again later!");
+      return res.status(429).message("Too Many Failed Attempts  again later!");
     const user = await User.findOne({ email, password: { $ne: null }});
     if(user && user.password) {
       if (await user.attempt(password)) {
@@ -50,7 +51,7 @@ export default class AuthController {
           }
           const isValidOtp = await user.verifyOtp(parseInt(otp));
           if (!isValidOtp)
-            return res.status(401).message("Invalid OTP. Please try again!");
+            return res.status(401).message("Invalid OTP. Please  again!");
         }
         await Cache.clear(attemptCacheKey);
         const token = user.createToken();
@@ -67,7 +68,7 @@ export default class AuthController {
   }
   
   async loginWithGoogle(req: Request, res: Response) {
-    try {
+     {
       const { clientId, clientSecret, redirectUrl } = config.get<any>("socialite.google");
       const client = new OAuth2Client(clientId, clientSecret);
       
@@ -98,7 +99,7 @@ export default class AuthController {
   }
   
   async redirectToGoogle(req: Request, res: Response) {
-    try {
+     {
       const { clientId, clientSecret, redirectUrl } = config.get<any>("socialite.google");
       const client = new OAuth2Client(clientId, clientSecret);
       const authUrl = client.generateAuthUrl({
@@ -158,12 +159,19 @@ export default class AuthController {
   };
   
   async changePhoneNumber(req: Request, res: Response) {
-    const phoneNumber = req.body.phoneNumber;
-    if(!req.user.phoneNumber || req.user.phoneNumber !== phoneNumber) {
+    const { phoneNumber, otp } = req.body;
+    if(req.user.phoneNumber && req.user.phoneNumber === phoneNumber)
+      return res.message("Phone number is same as old one!");
+    if(opt) {
+      const isValid = await req.user.verifyOtp(otp);
+      if(!isValid)
+        return res.status(401).message("Invalid OTP. Please  again!");
       req.user.phoneNumber = phoneNumber;
       await req.user.save();
+      res.message("Phone number updated!");
     }
-    res.message("Phone number has been updated!");
+    req.user.sendOtp("sms", phoneNumber).catch(log);
+    res.message("6 digit OTP code sent to phone number!");
   }
   
   async sendOtp(req: Request, res: Response){

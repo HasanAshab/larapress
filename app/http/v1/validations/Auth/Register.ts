@@ -8,10 +8,10 @@ const schema: ValidationSchema = {
     target: "body",
     rules: Joi.object({
       username: Joi.string().alphanum().min(3).max(12).required().external(async (username) => {
-        if (await User.findOne({ username })) throw new Error("username already exists!");
+        if (await User.exist({ username })) throw new Error("username already exists!");
       }),
       email: Joi.string().email().required().external(async (email) => {
-        if (await User.findOne({ email })) throw new Error("email already exists!");
+        if (await User.exist({ email })) throw new Error("email already exists!");
       }),
       password: Joi.string()
         .min(8)

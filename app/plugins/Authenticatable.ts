@@ -18,7 +18,7 @@ export interface AuthenticatableDocument extends Document {
   sendVerificationEmail(): Promise<string>;
   sendResetPasswordEmail(): Promise<string | null>;
   resetPassword(token: string, newPassword: string): Promise<boolean>;
-  sendOtp(method: typeof otpConfig["methods"][number]): Promise<number>;
+  sendOtp(method: typeof otpConfig["methods"][number], phoneNumber?: string): Promise<number>;
   verifyOtp(code: number): Promise<boolean>;
 }
 
@@ -64,12 +64,10 @@ export default (schema: Schema) => {
     return true;
   }
   
-  schema.methods.sendOtp = async function (method: typeof otpConfig["methods"][number]) {
-    if(!this.phoneNumber) return false;
-    const code = Math.floor(100000 + Math.random() * 900000);
-    const otp = await OTP.create({ 
+  schema.methods.sendOtp = async function (method: typeof otpConfig["methods"][number], phoneNumber: string = this.phoneNumber) {
+    if(!phoneNumber) return false;
+    const { code } = await OTP.create({ 
       userId: this._id,
-      code,
       expiresAt: Date.now() + 3600000
     });
     if(method === "sms")
@@ -80,10 +78,6 @@ export default (schema: Schema) => {
   }
   
   schema.methods.verifyOtp = async function (code: number) {
-    if(!this.phoneNumber) return false;
-    const otp = await OTP.findOne({ userId: this._id, code });
-    if(!otp) return false;
-    OTP.deleteMany({ userId: this._id });
-    return true;
-  }
+    return await OTP.findOneAndDelete({ userId: this._id, code }) !== null;
+  };
 };
