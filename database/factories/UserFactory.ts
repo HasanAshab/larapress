@@ -47,9 +47,9 @@ export default class UserFactory extends Factory {
     });
   }
   
-  withPhoneNumber() {
+  withPhoneNumber(phoneNumber = "+15005550006") {
     return this.on("made", (user: IUser) => {
-      user.phoneNumber = "+15005550006";
+      user.phoneNumber = phoneNumber;
     });
   }
 }

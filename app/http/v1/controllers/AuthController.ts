@@ -161,7 +161,7 @@ export default class AuthController {
   async changePhoneNumber(req: Request, res: Response) {
     const { phoneNumber, otp } = req.body;
     if(req.user.phoneNumber && req.user.phoneNumber === phoneNumber)
-      return res.message("Phone number is same as old one!");
+      return res.status(400).message("Phone number is same as old one!");
     if(opt) {
       const isValid = await req.user.verifyOtp(otp);
       if(!isValid)
@@ -175,13 +175,10 @@ export default class AuthController {
   }
   
   async sendOtp(req: Request, res: Response){
-    const { userId, method } = req.body;
+    const { userId } = req.body;
     const user = await User.findById(userId);
     if(!user) return res.status(404).message();
-    const settings = await user.settings;
-    if(!settings.twoFactorAuth.enabled)
-      return res.status(403).message("Two Factor Auth is disabled!");
-    user.sendOtp(method).catch(log);
+    user.sendOtp().catch(log);
     res.message("6 digit OTP code sent to phone number!");
   }
 }

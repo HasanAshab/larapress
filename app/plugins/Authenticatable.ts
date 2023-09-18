@@ -18,7 +18,7 @@ export interface AuthenticatableDocument extends Document {
   sendVerificationEmail(): Promise<string>;
   sendResetPasswordEmail(): Promise<string | null>;
   resetPassword(token: string, newPassword: string): Promise<boolean>;
-  sendOtp(method: typeof otpConfig["methods"][number], phoneNumber?: string): Promise<number>;
+  sendOtp(method: typeof otpConfig["methods"][number], phoneNumber?: string): Promise<number | null>;
   verifyOtp(code: number): Promise<boolean>;
 }
 
@@ -64,8 +64,11 @@ export default (schema: Schema) => {
     return true;
   }
   
-  schema.methods.sendOtp = async function (method: typeof otpConfig["methods"][number], phoneNumber: string = this.phoneNumber) {
-    if(!phoneNumber) return false;
+  schema.methods.sendOtp = async function (method?: typeof otpConfig["methods"][number], phoneNumber: string = this.phoneNumber) {
+    if(!phoneNumber) return null;
+    const settings = await user.settings;
+    if(!settings.twoFactorAuth.enabled) return null;
+    method = method ?? settings.twoFactorAuth.method;
     const { code } = await OTP.create({ 
       userId: this._id,
       expiresAt: Date.now() + 3600000

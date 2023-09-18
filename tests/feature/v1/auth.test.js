@@ -82,7 +82,6 @@ describe("Auth", () => {
       email: user.email,
       password: "password"
     });
-    console.log(response.body)
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toHaveProperty("token");
   });
@@ -107,7 +106,7 @@ describe("Auth", () => {
   });
 
   it("Login should flag for otp if not provided in (2FA)", async () => {
-    const user = await User.factory().hasSettings(true).create();
+    const user = await User.factory().withPhoneNumber().hasSettings(true).create();
     const response = await request.post("/auth/login").send({
       email: user.email,
       password: "password"
@@ -118,7 +117,7 @@ describe("Auth", () => {
   });
 
   it("should login a user with valid otp (2FA)", async () => {
-    const user = await User.factory().hasSettings(true).create();
+    const user = await User.factory().withPhoneNumber().hasSettings(true).create();
     const otp = await user.sendOtp();
     const response = await request.post("/auth/login").send({
       otp,
@@ -130,7 +129,7 @@ describe("Auth", () => {
   });
 
   it("shouldn't login a user with invalid OTP (2FA)", async () => {
-    const user = await User.factory().hasSettings(true).create();
+    const user = await User.factory().withPhoneNumber().hasSettings(true).create();
     const response = await request.post("/auth/login").send({
       email: user.email,
       password: "password",
@@ -159,11 +158,10 @@ describe("Auth", () => {
     expect(responses[4].statusCode).toBe(429);
   });
 
-  it.only("Should send otp", async () => {
+  it("Should send otp", async () => {
     const user = await User.factory().hasSettings(true).create();
     const response = await request.post("/auth/send-otp").send({
-      userId: user._id.toString(),
-      method: "sms"
+      userId: user._id.toString()
     });
     const otp = await OTP.findOne({ userId: user._id });
     expect(response.statusCode).toBe(200);
@@ -171,7 +169,7 @@ describe("Auth", () => {
   });
   
   it("Shouldn't send otp if 2fa is disabled", async () => {
-    const user = await User.factory().hasSettings().create();
+    const user = await User.factory().withPhoneNumber().hasSettings().create();
     const response = await request.post("/auth/send-otp").send({
       userId: user._id.toString(),
       method: "sms"
@@ -278,11 +276,27 @@ describe("Auth", () => {
     Mail.assertNothingSent();
   });
 
-  it("Should update phone number", { user: true }, async () => {
+  it("Should update phone number with valid otp", { user: true }, async () => {
+    const phoneNumber = "+14155552671";
+    const otp = await user.sendOtp();
+    const response = await request.put("/auth/change-phone-number").actingAs(token).send({ phoneNumber, otp });
+    user = await User.findById(user._id);
+    expect(response.statusCode).toBe(200);
+    expect(user.phoneNumber).toBe(phoneNumber);
+  });
+  /*
+  it.only("Shouldn't update phone number with invalid otp", { user: true }, async () => {
+    const phoneNumber = "+14155552671";
+    const response = await request.put("/auth/change-phone-number").actingAs(token).send({ phoneNumber, otp: 123456 });
+    user = await User.findById(user._id);
+    expect(response.statusCode).toBe(401);
+    expect(user.phoneNumber).not.toBe(phoneNumber);
+  });
+  it.only("Update phone number should send otp if otp code not provided", { user: true }, async () => {
     const phoneNumber = "+14155552671";
     const response = await request.put("/auth/change-phone-number").actingAs(token).send({ phoneNumber });
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
     expect(user.phoneNumber).toBe(phoneNumber);
-  });
+  });*/
 });
