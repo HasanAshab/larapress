@@ -71,10 +71,7 @@ export default (schema: Schema) => {
       const { twoFactorAuth } = await this.settings;
       method = twoFactorAuth.method;
     }
-    const { code } = await OTP.create({ 
-      userId: this._id,
-      expiresAt: Date.now() + 3600000
-    });
+    const { code } = await OTP.create({ userId: this._id });
     if(method === "sms")
       await sendMessage(phoneNumber, "Your verification code is: " + code);
     else if(method === "call")

@@ -11,9 +11,9 @@ const OTPSchema = new Schema(
     default: () => Math.floor(100000 + Math.random() * 900000)
   },
   expiresAt: {
-    required: true,
     type: Date,
-    expires: 0
+    expires: 0,
+    default: Date.now() + 60000
   }
 },
 {
