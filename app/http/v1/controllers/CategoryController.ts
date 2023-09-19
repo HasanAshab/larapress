@@ -17,14 +17,14 @@ export default class CategoryController {
   
   async create(req: Request, res: Response) {
     const category = new Category(req.body);
-    const icon = req.files!.icon;
+    const icon = req.files?.icon;
     icon && await category.attach("icon", icon as any);
     await category.save();
     res.status(201).message("Category successfully created!");
   }
   
   async update(req: Request, res: Response) {
-    const icon = req.files!.icon;
+    const icon = req.files?.icon;
     if(!icon){
       const { modifiedCount } = await Category.updateOne({_id: req.params.id}, req.body);
       return modifiedCount === 1

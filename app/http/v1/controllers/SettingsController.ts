@@ -16,22 +16,18 @@ export default class SettingsController {
     res.message("Settings saved!");
   }
   
-  async enableTwoFactorAuth(req: Request, res: Response){
-    const { otp, method } = req.body;
-    const isValidOtp = await req.user.verifyOtp(parseInt(otp));
-    if (!isValidOtp){
-      return res.status(401).message("Invalid OTP. Please try again!");
+  async setupTwoFactorAuth(req: Request, res: Response){
+    if (!req.user.phoneNumber){
+      return res.status(400).api({
+        phoneNumberRequired: true,
+        message: "Please set phone number before trying to enable Two Factor Auth!"
+      });
     }
     await Settings.updateOne(
-    { userId: req.user._id },
-    {
-      twoFactorAuth: {
-        enabled: true,
-        method
-      }
-    }
+      { userId: req.user._id },
+      { twoFactorAuth: req.body }
     );
-    res.message("Two Factor Auth enabled!");
+    res.message("Settings saved!");
   }
   
   async getAppSettings(req: Request, res: Response) {
@@ -41,6 +37,6 @@ export default class SettingsController {
   async updateAppSettings(req: Request, res: Response) {
     deepMerge(config, req.body);
     Cache.driver("redis").put("config", config);
-    return res.message("Settings updated!");
+    return res.message("App Settings updated!");
   }
 }

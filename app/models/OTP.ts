@@ -8,7 +8,7 @@ const OTPSchema = new Schema(
   },
   code: {
     type: Number,
-    default: () => Math.floor(100000 + Math.random() * 900000);
+    default: () => Math.floor(100000 + Math.random() * 900000)
   },
   expiresAt: {
     required: true,

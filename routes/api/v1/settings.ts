@@ -8,7 +8,7 @@ const SettingsController = controller("SettingsController");
 
 
 router.get("/", middleware("auth", "verified"), SettingsController.index);
-router.post("/enable-2fa", middleware("auth", "verified"), SettingsController.enableTwoFactorAuth);
+router.post("/setup-2fa", middleware("auth", "verified"), SettingsController.setupTwoFactorAuth);
 router.put("/notification", middleware("auth", "verified"), SettingsController.notification);
 
 router.route("/app")

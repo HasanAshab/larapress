@@ -7,12 +7,8 @@ const schema: ValidationSchema = {
   urlencoded: {
     target: "body",
     rules: Joi.object({
-      username: Joi.string().alphanum().min(3).max(12).required().external(async (username) => {
-        if (await User.exist({ username })) throw new Error("username already exists!");
-      }),
-      email: Joi.string().email().required().external(async (email) => {
-        if (await User.exist({ email })) throw new Error("email already exists!");
-      }),
+      username: Joi.string().alphanum().min(3).max(12).required(),
+      email: Joi.string().email().required(),
       password: Joi.string()
         .min(8)
         .pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\.@$!%*?&])[A-Za-z\\d@$!%*?&]+$'))

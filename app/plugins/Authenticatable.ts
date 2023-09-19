@@ -66,17 +66,18 @@ export default (schema: Schema) => {
   
   schema.methods.sendOtp = async function (method?: typeof otpConfig["methods"][number], phoneNumber: string = this.phoneNumber) {
     if(!phoneNumber) return null;
-    const settings = await user.settings;
-    if(!settings.twoFactorAuth.enabled) return null;
-    method = method ?? settings.twoFactorAuth.method;
+    if(!method) {
+      const settings = await user.settings;
+      method = settings.twoFactorAuth.method;
+    }
     const { code } = await OTP.create({ 
       userId: this._id,
       expiresAt: Date.now() + 3600000
     });
     if(method === "sms")
-      await sendMessage(this.phoneNumber, "Your verification code is: " + code);
+      await sendMessage(phoneNumber, "Your verification code is: " + code);
     else if(method === "call")
-      await sendCall(this.phoneNumber, otpConfig.voice(code));
+      await sendCall(phoneNumber, otpConfig.voice(code));
     return code;
   }
   

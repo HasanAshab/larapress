@@ -24,13 +24,14 @@ describe("Auth", () => {
     }
   });
 
-  it("should register a user", async () => {
+  it.only("should register a user", async () => {
     const data = {
       username: "foobar123",
       email: "foo@gmail.com",
       password: "Password@1234",
       logo: fakeFile("image.png")
     };
+    console.log(await User.find())
     Storage.mock();
     const response = await request.post("/auth/register").multipart(data);
     expect(response.statusCode).toBe(201);
@@ -40,7 +41,7 @@ describe("Auth", () => {
     Storage.assertStored("image.png");
   });
 
-  it("should register a user without logo", async () => {
+  it.only("should register a user without logo", async () => {
     const data = {
       username: "foobar123",
       email: "foo@gmail.com",
@@ -150,7 +151,6 @@ describe("Auth", () => {
       const response = await request.post("/auth/login").send(payload);
       responses.push(response);
     }
-  
     expect(responses[0].statusCode).toBe(401);
     expect(responses[1].statusCode).toBe(401);
     expect(responses[2].statusCode).toBe(401);
@@ -276,27 +276,31 @@ describe("Auth", () => {
     Mail.assertNothingSent();
   });
 
-  it("Should update phone number with valid otp", { user: true }, async () => {
+  it("Should update phone number with valid otp", async () => {
+    let user = await User.factory().hasSettings().create();
     const phoneNumber = "+14155552671";
-    const otp = await user.sendOtp();
-    const response = await request.put("/auth/change-phone-number").actingAs(token).send({ phoneNumber, otp });
+    const otp = await user.sendOtp("sms", phoneNumber);
+    const response = await request.put("/auth/change-phone-number").actingAs(user.createToken()).send({ phoneNumber, otp });
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
     expect(user.phoneNumber).toBe(phoneNumber);
   });
-  /*
-  it.only("Shouldn't update phone number with invalid otp", { user: true }, async () => {
+  
+  it("Shouldn't update phone number with invalid otp", { user: true }, async () => {
     const phoneNumber = "+14155552671";
     const response = await request.put("/auth/change-phone-number").actingAs(token).send({ phoneNumber, otp: 123456 });
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(401);
     expect(user.phoneNumber).not.toBe(phoneNumber);
   });
-  it.only("Update phone number should send otp if otp code not provided", { user: true }, async () => {
+  
+  it("Update phone number should send otp if otp code not provided", { user: true }, async () => {
     const phoneNumber = "+14155552671";
     const response = await request.put("/auth/change-phone-number").actingAs(token).send({ phoneNumber });
+    const otp = await OTP.findOne({ userId: user._id });
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
-    expect(user.phoneNumber).toBe(phoneNumber);
-  });*/
+    expect(user.phoneNumber).not.toBe(phoneNumber);
+    expect(otp).not.toBeNull();
+  });
 });

@@ -16,8 +16,16 @@ const mutex = new Mutex();
 @controller
 export default class AuthController {
   async register(req: Request, res: Response){
-    const logo = req.files!.logo;
-    const user = new User(req.body);
+    const { email, username, password } = req.body;
+    const logo = req.files?.logo;
+    const userExists = await User.exists({
+      $or: [ { email }, { username } ] 
+    });
+    if (userExists)
+      return res.status(400).message("username or email already exists!");
+
+    const user = new User({ email, username });
+    await user.setPassword(password);
     logo && await user.attach("logo", logo as any);
     await user.save();
     const token = user.createToken();
@@ -31,9 +39,9 @@ export default class AuthController {
   async login(req: Request, res: Response){
     const { email, password, otp } = req.body;
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
-    let release = await mutex.acquire();
-    let failedAttemptsCount = await Cache.get(attemptCacheKey) || 0;
-    release();
+    await mutex.acquire();
+    let failedAttemptsCount = await Cache.get(attemptCacheKey) ?? 0;
+    mutex.release();
     if(typeof failedAttemptsCount === "string")
       failedAttemptsCount = parseInt(failedAttemptsCount);
     if(failedAttemptsCount > 3)
@@ -60,9 +68,9 @@ export default class AuthController {
           message: "Logged in successfully!",
         });
       }
-      release = await mutex.acquire();
-      await Cache.put(attemptCacheKey, String(failedAttemptsCount++), 60 * 60);
-      release();
+      await mutex.acquire();
+      await Cache.put(attemptCacheKey, String(failedAttemptsCount + 1), 60 * 60);
+      mutex.release();
     }
     res.status(401).message("Credentials not match!");
   }
@@ -162,16 +170,16 @@ export default class AuthController {
     const { phoneNumber, otp } = req.body;
     if(req.user.phoneNumber && req.user.phoneNumber === phoneNumber)
       return res.status(400).message("Phone number is same as old one!");
-    if(opt) {
-      const isValid = await req.user.verifyOtp(otp);
-      if(!isValid)
-        return res.status(401).message("Invalid OTP. Please  again!");
-      req.user.phoneNumber = phoneNumber;
-      await req.user.save();
-      res.message("Phone number updated!");
+    if(!otp) {
+      req.user.sendOtp("sms", phoneNumber).catch(log);
+      return res.message("6 digit OTP code sent to phone number!");
     }
-    req.user.sendOtp("sms", phoneNumber).catch(log);
-    res.message("6 digit OTP code sent to phone number!");
+    const isValid = await req.user.verifyOtp(otp);
+    if(!isValid)
+      return res.status(401).message("Invalid OTP. Please  again!");
+    req.user.phoneNumber = phoneNumber;
+    await req.user.save();
+    res.message("Phone number updated!");
   }
   
   async sendOtp(req: Request, res: Response){

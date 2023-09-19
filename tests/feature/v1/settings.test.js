@@ -14,14 +14,15 @@ describe("Settings", () => {
   beforeEach(async (config) => {
     await DB.reset(["User", "Notification"]);
     if(config.user !== false) {
-      console.log(config)
       factory = User.factory().withRole(config.role ?? "novice");
       if(config.settings !== false)
-        factory.hasSettings();
+        factory.hasSettings(config.mfa);
+      
+      if(config.phone)
+        factory.withPhoneNumber();
       
       user = await factory.create();
       token = user.createToken();
-      console.log(user)
     }
   });
   
@@ -59,16 +60,36 @@ describe("Settings", () => {
     expect(response.body.data).toEqualDocument(await user.settings);
   });
   
-  it("Should enable Two Factor Authorization", async () => {
-    const response = await request.post("/settings/enable-2fa").actingAs(token).send({
-      method: "sms",
-      otp: await user.sendOtp()
-    });
+  it("Should enable Two Factor Authorization", { phone: true }, async () => {
+    const response = await request.post("/settings/setup-2fa").actingAs(token).send({ enabled: true });
     const settings = await user.settings;
     expect(response.statusCode).toBe(200);
     expect(settings.twoFactorAuth.enabled).toBe(true);
   });
   
+  it("Should disable Two Factor Authorization", { mfa: true, phone: true }, async () => {
+    const response = await request.post("/settings/setup-2fa").actingAs(token).send({ enabled: false });
+    const settings = await user.settings;
+    expect(response.statusCode).toBe(200);
+    expect(settings.twoFactorAuth.enabled).toBe(false);
+  });
+  
+  it("Two Factor Authorization should flag for phone number if not setted", async () => {
+    const response = await request.post("/settings/setup-2fa").actingAs(token).send({ enabled: true });
+    const settings = await user.settings;
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data.phoneNumberRequired).toBe(true);
+    expect(settings.twoFactorAuth.enabled).toBe(false);
+  });
+  
+  it("Should change Two Factor Authorization method", { mfa: true, phone: true }, async () => {
+    const response = await request.post("/settings/setup-2fa").actingAs(token).send({ method: "call" });
+    const settings = await user.settings;
+    expect(response.statusCode).toBe(200);
+    expect(settings.twoFactorAuth.method).toBe("call");
+  });
+
+
   it("Should update notification settings", async () => {
     const data = {
       announcement: {

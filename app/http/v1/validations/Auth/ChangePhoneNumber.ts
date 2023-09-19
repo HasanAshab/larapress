@@ -7,7 +7,7 @@ const schema: ValidationSchema = {
     target: "body",
     rules: Joi.object({
       phoneNumber: Joi.string().required(),
-      otp: Joi.string()
+      otp: Joi.number()
     }),
   },
 };
