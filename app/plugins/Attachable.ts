@@ -31,7 +31,8 @@ export default (schema: Schema, options: Record<string, FieldOptions>) => {
         $ne: null
       }
       return query;
-    }, this.getQuery());
+    }, { ...this.getQuery() });
+    
     let docs = await (this.model as any)[method](query).select(attachableFieldsName);
     next();
     docs = Array.isArray(docs) ? docs : [docs];

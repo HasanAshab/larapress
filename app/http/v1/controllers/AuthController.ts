@@ -76,7 +76,7 @@ export default class AuthController {
   }
   
   async loginWithGoogle(req: Request, res: Response) {
-     {
+    try {
       const { clientId, clientSecret, redirectUrl } = config.get<any>("socialite.google");
       const client = new OAuth2Client(clientId, clientSecret);
       
@@ -107,7 +107,7 @@ export default class AuthController {
   }
   
   async redirectToGoogle(req: Request, res: Response) {
-     {
+    try {
       const { clientId, clientSecret, redirectUrl } = config.get<any>("socialite.google");
       const client = new OAuth2Client(clientId, clientSecret);
       const authUrl = client.generateAuthUrl({

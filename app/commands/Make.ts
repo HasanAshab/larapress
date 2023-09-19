@@ -2,6 +2,7 @@ import Command from "~/core/abstract/Command";
 import { execSync } from "child_process";
 import DB from "DB";
 import User from "~/app/models/User";
+import Settings from "~/app/models/Settings";
 import components from "~/register/components";
 import fs from "fs";
 import path from "path";
@@ -9,20 +10,21 @@ import path from "path";
 
 export default class Make extends Command {
   async admin() {
-    this.requiredParams(["name", "email", "password"]);
+    this.requiredParams(["username", "email", "password"]);
     const {
-      name,
+      username,
       email,
       password
     } = this.params;
     await DB.connect();
-    const user = await User.create({
-      name,
+    const admin = await User.create({
+      username,
       email,
       password,
       role: "admin",
       verified: true,
     });
+    await Settings.create({ userId: admin._id })
     this.success("Admin account created successfully!");
   }
 
