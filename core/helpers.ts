@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 import middlewarePairs from "~/register/middlewares";
-import mongoose from "mongoose";
 
 
 export function capitalizeFirstLetter(str: string) {

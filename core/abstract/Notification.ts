@@ -3,10 +3,10 @@ import Mail from "Mail";
 import NotificationModel from "~/app/models/Notification";
 import Mailable from "~/core/abstract/Mailable";
 import NotificationData from "~/core/abstract/Notification";
-import notificationConfig from "~/register/notification";
+import { channels, types } from "~/register/notification";
 
-type NotificationChannel = typeof notificationConfig["channels"][number];
-type NotificationTypes = typeof notificationConfig["types"][number];
+type NotificationChannel = typeof channels[number];
+type NotificationTypes = typeof types[number];
 
 export default abstract class Notification {
   shouldQueue = false;
