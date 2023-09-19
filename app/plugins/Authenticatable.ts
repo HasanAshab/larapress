@@ -1,6 +1,7 @@
 import { Schema, Document } from "mongoose";
 import config from "config";
 import { sendMessage, sendCall } from "~/core/services/twilio";
+import speakeasy from "speakeasy";
 import otpConfig from "~/register/otp"
 import OTP from "~/app/models/OTP";
 import Token from "~/app/models/Token";
@@ -64,11 +65,11 @@ export default (schema: Schema) => {
     return true;
   }
   
-  schema.methods.sendOtp = async function (method?: typeof otpConfig["methods"][number], phoneNumber: string = this.phoneNumber) {
+  schema.methods.sendOtp = async function (method?: Omit<typeof otpConfig["methods"][number], "app">, phoneNumber: string = this.phoneNumber) {
     if(!phoneNumber) return null;
     if(!method) {
-      const settings = await user.settings;
-      method = settings.twoFactorAuth.method;
+      const { twoFactorAuth } = await this.settings;
+      method = twoFactorAuth.method;
     }
     const { code } = await OTP.create({ 
       userId: this._id,
@@ -81,7 +82,16 @@ export default (schema: Schema) => {
     return code;
   }
   
-  schema.methods.verifyOtp = async function (code: number) {
-    return await OTP.findOneAndDelete({ userId: this._id, code }) !== null;
+  schema.methods.verifyOtp = async function (code: number, method) {
+    if(method !== "app")
+      return await OTP.findOneAndDelete({ userId: this._id, code }) !== null;
+    
+    const { twoFactorAuth } = await this.settings;
+    return speakeasy.totp.verify({
+      secret: twoFactorAuth.secret,
+      encoding: 'ascii',
+      token: code,
+      window: 2,
+    });
   };
 };

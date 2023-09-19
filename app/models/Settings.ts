@@ -26,6 +26,10 @@ const SettingsSchema = new Schema({
       enum: methods,
       default: "sms",
     },
+    secret: {
+      type: String,
+      default: null
+    }
   },
   notification: types.reduce((typeObj, notificationType) => {
     typeObj[notificationType] = notificationDefaults;
@@ -43,6 +47,7 @@ export interface ISettings {
   twoFactorAuth: {
     enabled: boolean;
     method: typeof methods[number];
+    secret: string | null;
   }
 };
 

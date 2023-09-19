@@ -82,6 +82,15 @@ describe("Settings", () => {
     expect(settings.twoFactorAuth.enabled).toBe(false);
   });
   
+  it("Two Factor Authorization app method sends OTP Auth URL", async () => {
+    const response = await request.post("/settings/setup-2fa").actingAs(token).send({ enabled: true, method: "app" });
+    const settings = await user.settings;
+    expect(response.statusCode).toBe(200);
+    expect(response.body.data).toHaveProperty("otpauthURL");
+    expect(settings.twoFactorAuth.enabled).toBe(true);
+  });
+
+  
   it("Should change Two Factor Authorization method", { mfa: true, phone: true }, async () => {
     const response = await request.post("/settings/setup-2fa").actingAs(token).send({ method: "call" });
     const settings = await user.settings;

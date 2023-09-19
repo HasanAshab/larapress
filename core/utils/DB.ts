@@ -15,7 +15,7 @@ export default class DB {
   static async reset(models = mongoose.modelNames()) {
     const promises = [];
     for (const name of models)
-      promises.push(mongoose.model(name).deleteMany({}).then(console.log));
+      promises.push(mongoose.model(name).deleteMany());
     await Promise.all(promises);
   }
 }

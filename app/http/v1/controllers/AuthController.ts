@@ -49,16 +49,16 @@ export default class AuthController {
     const user = await User.findOne({ email, password: { $ne: null }});
     if(user && user.password) {
       if (await user.attempt(password)) {
-        const userSettings = await user.settings;
-        if(userSettings.twoFactorAuth.enabled){
+        const { twoFactorAuth } = await user.settings;
+        if(twoFactorAuth.enabled){
           if(!otp) {
             return res.api({
               twoFactorAuthRequired: true,
               message: "Credentials matched. otp required!"
             });
           }
-          const isValidOtp = await user.verifyOtp(parseInt(otp));
-          if (!isValidOtp)
+          const isValid = await user.verifyOtp(parseInt(otp), twoFactorAuth.method);
+          if (!isValid)
             return res.status(401).message("Invalid OTP. Please  again!");
         }
         await Cache.clear(attemptCacheKey);
