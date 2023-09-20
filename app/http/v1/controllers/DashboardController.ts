@@ -1,8 +1,6 @@
-import { controller } from "~/core/decorators/class";
 import { Request, Response } from "express";
 import User from "~/app/models/User";
 
-@controller
 export default class DashboardController {
   async admin(req: Request, res: Response) {
     const now = new Date();

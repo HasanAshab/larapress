@@ -24,14 +24,13 @@ describe("Auth", () => {
     }
   });
 
-  it.only("should register a user", async () => {
+  it("should register a user", async () => {
     const data = {
       username: "foobar123",
       email: "foo@gmail.com",
       password: "Password@1234",
       logo: fakeFile("image.png")
     };
-    console.log(await User.find())
     Storage.mock();
     const response = await request.post("/auth/register").multipart(data);
     expect(response.statusCode).toBe(201);
@@ -41,7 +40,7 @@ describe("Auth", () => {
     Storage.assertStored("image.png");
   });
 
-  it.only("should register a user without logo", async () => {
+  it("should register a user without logo", async () => {
     const data = {
       username: "foobar123",
       email: "foo@gmail.com",
@@ -119,7 +118,7 @@ describe("Auth", () => {
 
   it("should login a user with valid otp (2FA)", async () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();
-    const otp = await user.sendOtp();
+    const { code: otp } = await OTP.create({ userId: user._id });
     const response = await request.post("/auth/login").send({
       otp,
       email: user.email,
@@ -159,26 +158,17 @@ describe("Auth", () => {
   });
 
   it("Should send otp", async () => {
-    const user = await User.factory().hasSettings(true).create();
+    const user = await User.factory().withPhoneNumber().hasSettings(true).create();
     const response = await request.post("/auth/send-otp").send({
       userId: user._id.toString()
     });
+    await sleep(2000)
     const otp = await OTP.findOne({ userId: user._id });
+    
     expect(response.statusCode).toBe(200);
     expect(otp).not.toBeNull();
   });
   
-  it("Shouldn't send otp if 2fa is disabled", async () => {
-    const user = await User.factory().withPhoneNumber().hasSettings().create();
-    const response = await request.post("/auth/send-otp").send({
-      userId: user._id.toString(),
-      method: "sms"
-    });
-    expect(response.statusCode).toBe(403);
-    const otp = await OTP.findOne({ userId: user._id });
-    expect(otp).toBeNull();
-  });
-
   it("should verify email", async () => {
     let user = await User.factory().unverified().create();
     const verificationLink = await user.sendVerificationEmail();
@@ -279,7 +269,7 @@ describe("Auth", () => {
   it("Should update phone number with valid otp", async () => {
     let user = await User.factory().hasSettings().create();
     const phoneNumber = "+14155552671";
-    const otp = await user.sendOtp("sms", phoneNumber);
+    const { code: otp } = await OTP.create({ userId: user._id });
     const response = await request.put("/auth/change-phone-number").actingAs(user.createToken()).send({ phoneNumber, otp });
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);

@@ -1,8 +1,6 @@
-import { controller } from "~/core/decorators/class";
 import { Request, Response } from "express";
 import Category from "~/app/models/Category";
 
-@controller
 export default class CategoryController {
   async index(req: Request, res: Response) {
     res.api(await Category.find().paginateReq(req));

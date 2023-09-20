@@ -1,9 +1,7 @@
-import { controller } from "~/core/decorators/class";
 import { Request, Response } from "express";
 import User from "~/app/models/User";
 import { log } from "helpers";
 
-@controller
 export default class UserController {
   async index(req: Request, res: Response) {
     res.api(await User.find({ role: "novice" }).paginateReq(req));

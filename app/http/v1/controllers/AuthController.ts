@@ -59,7 +59,7 @@ export default class AuthController {
               message: "Credentials matched. otp required!"
             });
           }
-          const isValid = await user.verifyOtp(parseInt(otp), twoFactorAuth.method);
+          const isValid = await this.twoFactorAuthService.verifyOtp(user, twoFactorAuth.method, parseInt(otp));
           if (!isValid)
             return res.status(401).message("Invalid OTP. Please  again!");
         }
@@ -172,23 +172,22 @@ export default class AuthController {
     const { phoneNumber, otp } = req.body;
     if(req.user.phoneNumber && req.user.phoneNumber === phoneNumber)
       return res.status(400).message("Phone number is same as old one!");
+    req.user.phoneNumber = phoneNumber;
     if(!otp) {
-      req.user.sendOtp("sms", phoneNumber).catch(log);
+      await this.twoFactorAuthService.sendOtp(req.user, "sms");
       return res.message("6 digit OTP code sent to phone number!");
     }
-    const isValid = await req.user.verifyOtp(otp);
+    const isValid = await this.twoFactorAuthService.verifyOtp(req.user, "sms", parseInt(otp));
     if(!isValid)
       return res.status(401).message("Invalid OTP. Please  again!");
-    req.user.phoneNumber = phoneNumber;
     await req.user.save();
     res.message("Phone number updated!");
   }
   
   async sendOtp(req: Request, res: Response){
-    const { userId } = req.body;
-    const user = await User.findById(userId);
+    const user = await User.findById(req.body.userId);
     if(!user) return res.status(404).message();
-    user.sendOtp().catch(log);
+    this.twoFactorAuthService.sendOtp(user).catch(log);
     res.message("6 digit OTP code sent to phone number!");
   }
 }

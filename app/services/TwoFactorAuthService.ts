@@ -28,19 +28,25 @@ export default class TwoFactorAuthService {
     return modifiedCount === 1;
   }
   
-  async sendOtp(user, method) {
+  async sendOtp(user, method?) {
     if(!user.phoneNumber) return null;
+    if(!method) {
+      const { twoFactorAuth } = await user.settings;
+      if(twoFactorAuth.method === "app") return null;
+      method = twoFactorAuth.method;
+    }
+    console.log(user, method)
     const { code } = await OTP.create({ userId: user._id });
     if(method === "sms")
-      await sendMessage(phoneNumber, "Your verification code is: " + code);
+      await sendMessage(user.phoneNumber, "Your verification code is: " + code);
     else if(method === "call")
-      await sendCall(phoneNumber, `<Response><Say>Your verification code is ${code}</Say></Response>`);
+      await sendCall(user.phoneNumber, `<Response><Say>Your verification code is ${code}</Say></Response>`);
     return code;
   }
   
-  async verifyOtp(user, code: number, method) {
+  async verifyOtp(user, method, code: number) {
     if(method !== "app")
-      return await OTP.findOneAndDelete({ userId: this._id, code }) !== null;
+      return await OTP.findOneAndDelete({ userId: user._id, code }) !== null;
     const { twoFactorAuth } = await user.settings;
     return speakeasy.totp.verify({
       secret: twoFactorAuth.secret,
