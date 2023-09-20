@@ -3,13 +3,13 @@ import { deepMerge } from "helpers";
 import config from "config";
 import Cache from "Cache";
 import Settings from "~/app/models/Settings";
-import speakeasy from "speakeasy";
+import TwoFactorAuthService from "~/app/services/TwoFactorAuthService";
 import TestS from "~/app/services/TestS";
 import { injectable } from "tsyringe";
 
 @injectable()
 export default class SettingsController {
-  constructor(public service: TestS) {}
+  constructor(public service: TestS, public twoFactorAuthService: TwoFactorAuthService) {}
   
   async index(req: Request, res: Response) {
     res.api(await req.user.settings);
@@ -21,44 +21,32 @@ export default class SettingsController {
   }
   
   async setupTwoFactorAuth(req: Request, res: Response){
-    if(req.body.method !== "app") {
-      if (!req.user.phoneNumber){
-        return res.status(400).api({
-          phoneNumberRequired: true,
-          message: "Please set phone number before trying to enable Two Factor Auth!"
-        });
-      }
-      await Settings.updateOne(
-        { userId: req.user._id },
-        { twoFactorAuth: req.body }
-      );
-      return res.message("Two Factor Auth enabled!");
+    const { enable = true, method } = req.body;
+    if(!enable) {
+      await this.twoFactorAuthService.disable(req.user);
+      return res.message("Two Factor Auth disabled!");
     }
-    const secret = speakeasy.generateSecret({ length: 20 });
-    req.body.secret = secret.ascii;
-    await Settings.updateOne(
-      { userId: req.user._id },
-      { twoFactorAuth: req.body }
-    );
-    const appName = config.get<string>("app.name");
-    const otpauthURL = speakeasy.otpauthURL({
-      secret: secret.ascii,
-      label: appName,
-      issuer: appName,
-    });
-    res.api({
-      otpauthURL,
-      message: "Two Factor Auth enabled!"
+    const result = await this.twoFactorAuthService.enable(req.user, method);
+    if(method === "app") {
+      return res.api({
+        otpauthURL: result,
+        message: "Two Factor Auth enabled!"
+      });
+    }
+    if(result)
+      return res.message("Two Factor Auth enabled!");
+    res.status(400).api({
+      phoneNumberRequired: true,
+      message: "Please set phone number before trying to enable Two Factor Auth!"
     });
   }
   
   async getAppSettings(req: Request, res: Response) {
+    this.service.fetch();
     res.api(config);
   }
   
   async updateAppSettings(req: Request, res: Response) {
-    this.service.fetch();
-    return res.message("Check kor")
     deepMerge(config, req.body);
     Cache.driver("redis").put("config", config);
     return res.message("App Settings updated!");

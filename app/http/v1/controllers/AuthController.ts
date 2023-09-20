@@ -1,6 +1,6 @@
-import { controller } from "~/core/decorators/class";
+import { injectable } from "tsyringe";
 import { Request, Response } from "express";
-import { sendMessage } from "~/core/services/twilio";
+import TwoFactorAuthService from "~/app/services/TwoFactorAuthService";
 import { log } from "helpers";
 import config from "config"
 import User from "~/app/models/User";
@@ -11,10 +11,11 @@ import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
 import { OAuth2Client } from 'google-auth-library';
 import { Mutex } from 'async-mutex';
 
-const mutex = new Mutex();
 
-@controller
+@injectable()
 export default class AuthController {
+  constructor(public twoFactorAuthService: TwoFactorAuthService) {}
+
   async register(req: Request, res: Response){
     const { email, username, password } = req.body;
     const logo = req.files?.logo;
@@ -22,7 +23,7 @@ export default class AuthController {
       $or: [ { email }, { username } ] 
     });
     if (userExists)
-      return res.status(400).message("username or email already exists!");
+      return res.status(400).message("username or email already exist!");
 
     const user = new User({ email, username });
     await user.setPassword(password);
@@ -39,6 +40,7 @@ export default class AuthController {
   async login(req: Request, res: Response){
     const { email, password, otp } = req.body;
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
+    const mutex = new Mutex();
     await mutex.acquire();
     let failedAttemptsCount = await Cache.get(attemptCacheKey) ?? 0;
     mutex.release();

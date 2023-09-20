@@ -38,9 +38,7 @@ export default class UserFactory extends Factory {
       for(const user of users){
         settingsData.push({
           userId: user._id,
-          twoFactorAuth: { 
-            enabled: mfa
-          }
+          "twoFactorAuth.enabled": mfa
         });
       }
       await Settings.insertMany(settingsData);

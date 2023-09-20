@@ -1,9 +1,5 @@
 import { Schema, Document } from "mongoose";
 import config from "config";
-import { sendMessage, sendCall } from "~/core/services/twilio";
-import speakeasy from "speakeasy";
-import { methods } from "~/register/otp"
-import OTP from "~/app/models/OTP";
 import Token from "~/app/models/Token";
 import Mail from "Mail"
 import URL from "URL"
@@ -19,8 +15,6 @@ export interface AuthenticatableDocument extends Document {
   sendVerificationEmail(): Promise<string>;
   sendResetPasswordEmail(): Promise<string | null>;
   resetPassword(token: string, newPassword: string): Promise<boolean>;
-  sendOtp(method: typeof methods[number], phoneNumber?: string): Promise<number | null>;
-  verifyOtp(code: number): Promise<boolean>;
 }
 
 export default (schema: Schema) => {
@@ -64,31 +58,4 @@ export default (schema: Schema) => {
     Mail.to(this.email).send(new PasswordChangedMail());
     return true;
   }
-  
-  schema.methods.sendOtp = async function (method?: Omit<typeof methods[number], "app">, phoneNumber: string = this.phoneNumber) {
-    if(!phoneNumber) return null;
-    if(!method) {
-      const { twoFactorAuth } = await this.settings;
-      method = twoFactorAuth.method;
-    }
-    const { code } = await OTP.create({ userId: this._id });
-    if(method === "sms")
-      await sendMessage(phoneNumber, "Your verification code is: " + code);
-    else if(method === "call")
-      await sendCall(phoneNumber, `<Response><Say>Your verification code is ${code}</Say></Response>`);
-    return code;
-  }
-  
-  schema.methods.verifyOtp = async function (code: number, method: typeof methods[number]) {
-    if(method !== "app")
-      return await OTP.findOneAndDelete({ userId: this._id, code }) !== null;
-    
-    const { twoFactorAuth } = await this.settings;
-    return speakeasy.totp.verify({
-      secret: twoFactorAuth.secret,
-      encoding: 'ascii',
-      token: code,
-      window: 2,
-    });
-  };
 };

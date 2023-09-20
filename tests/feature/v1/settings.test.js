@@ -61,21 +61,22 @@ describe("Settings", () => {
   });
   
   it("Should enable Two Factor Authorization", { phone: true }, async () => {
-    const response = await request.post("/settings/setup-2fa").actingAs(token).send({ enabled: true });
+    const response = await request.post("/settings/setup-2fa").actingAs(token).send({ enable: true });
     const settings = await user.settings;
     expect(response.statusCode).toBe(200);
     expect(settings.twoFactorAuth.enabled).toBe(true);
+    expect(settings.twoFactorAuth.method).toBe("sms");
   });
   
   it("Should disable Two Factor Authorization", { mfa: true, phone: true }, async () => {
-    const response = await request.post("/settings/setup-2fa").actingAs(token).send({ enabled: false });
+    const response = await request.post("/settings/setup-2fa").actingAs(token).send({ enable: false });
     const settings = await user.settings;
     expect(response.statusCode).toBe(200);
     expect(settings.twoFactorAuth.enabled).toBe(false);
   });
   
   it("Two Factor Authorization should flag for phone number if not setted", async () => {
-    const response = await request.post("/settings/setup-2fa").actingAs(token).send({ enabled: true });
+    const response = await request.post("/settings/setup-2fa").actingAs(token).send({ enable: true });
     const settings = await user.settings;
     expect(response.statusCode).toBe(400);
     expect(response.body.data.phoneNumberRequired).toBe(true);
@@ -83,7 +84,7 @@ describe("Settings", () => {
   });
   
   it("Two Factor Authorization app method sends OTP Auth URL", async () => {
-    const response = await request.post("/settings/setup-2fa").actingAs(token).send({ enabled: true, method: "app" });
+    const response = await request.post("/settings/setup-2fa").actingAs(token).send({ enable: true, method: "app" });
     const settings = await user.settings;
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toHaveProperty("otpauthURL");
