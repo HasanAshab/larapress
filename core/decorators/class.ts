@@ -25,7 +25,7 @@ export function controller(constructor: Function) {
     }
     constructor.prototype[methodName] = async function (req: Request, res: Response, next: NextFunction) {
       try {
-        return await handler.call(constructor, req, res);
+        return await handler.call(constructor.prototype, req, res);
       }
       catch (err) {
         next(err)

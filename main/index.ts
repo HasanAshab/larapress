@@ -1,10 +1,10 @@
+import "reflect-metadata";
 import "dotenv/config";
 (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "loadTest")
   && require('module-alias/register');
 import config from 'config';
 import app from "~/main/app";
 import Setup from "~/main/Setup";
-//import Config from "Config";
 import DB from "DB";
 import Mail from "Mail";
 process.env.NODE_ENV === "loadTest" && (Mail as any).mock();
@@ -14,21 +14,8 @@ import fs from "fs";
 const log = process.env.NODE_ENV === "development";
 process.env.NODE_ENV === "production" && Setup.cachedConfig();
 
-/*
-Config.parse({ caching: "redis", redisUrl: "redis://default:raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1@redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com:12100" }).then(async () => {
-  console.log(Config.get())
-  await Config.set({
-    app: {
-      name: "Blalalal"
-    }
-  })
-  console.log(Config.get())
-
-});
-*/
-
 // Connect to database
-if (config.get("db.connect")) {
+if (false && config.get("db.connect")) {
   log && console.log("Connecting to database...");
   DB.connect().then(async () => {
     log && console.log("DB connected!");
@@ -66,6 +53,17 @@ else {
   });
 }
 
+import { container } from "tsyringe";
+import TestS from "~/app/services/TestS";
+
+//const p = new TestSP(container);
+//p.register();
+
+//const p = new TestS();
+//p.fetch()
+//container.registerInstance(TestS, new TestS("hehe"))
+//const testS = container.resolve(TestS);
+//testS.fetch();
 
 /*
 import Notification from "Notification";

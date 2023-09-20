@@ -6,7 +6,6 @@ const SettingsController = controller("SettingsController");
 
 // Endpoints for settings
 
-
 router.get("/", middleware("auth", "verified"), SettingsController.index);
 router.post("/setup-2fa", middleware("auth", "verified"), SettingsController.setupTwoFactorAuth);
 router.put("/notification", middleware("auth", "verified"), SettingsController.notification);

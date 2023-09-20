@@ -3,7 +3,7 @@ import config from "config";
 import IORedis from "ioredis";
 import { CacheDataArg } from "Cache";
 
-const client = new IORedis(config.get("redis"));
+const client = null;//new IORedis(config.get("redis"));
 
 export default class Redis extends Driver {
   async get(key: string) {

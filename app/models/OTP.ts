@@ -13,7 +13,7 @@ const OTPSchema = new Schema(
   expiresAt: {
     type: Date,
     expires: 0,
-    default: Date.now() + 60000
+    default: () => Date.now() + 60000
   }
 },
 {

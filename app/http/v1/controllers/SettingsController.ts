@@ -1,13 +1,16 @@
-import { controller } from "~/core/decorators/class";
 import { Request, Response } from "express";
 import { deepMerge } from "helpers";
 import config from "config";
 import Cache from "Cache";
 import Settings from "~/app/models/Settings";
 import speakeasy from "speakeasy";
+import TestS from "~/app/services/TestS";
+import { injectable } from "tsyringe";
 
-@controller
+@injectable()
 export default class SettingsController {
+  constructor(public service: TestS) {}
+  
   async index(req: Request, res: Response) {
     res.api(await req.user.settings);
   }
@@ -54,6 +57,8 @@ export default class SettingsController {
   }
   
   async updateAppSettings(req: Request, res: Response) {
+    this.service.fetch();
+    return res.message("Check kor")
     deepMerge(config, req.body);
     Cache.driver("redis").put("config", config);
     return res.message("App Settings updated!");

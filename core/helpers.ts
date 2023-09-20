@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 import middlewarePairs from "~/register/middlewares";
-
+import { container } from "tsyringe";
 
 export function capitalizeFirstLetter(str: string) {
   return str[0].toUpperCase() + str.slice(1);
@@ -73,13 +73,20 @@ export function middleware(
 
 export function controller(name: string, version = getVersion()): Record < string, RequestHandler[] > {
   const controllerPath = path.join(`~/app/http/${version}/controllers`, name);
-  const controllerClass = require(controllerPath).default;
-  const controllerInstance = new controllerClass;
-  const controllerPrefix = controllerClass.name.replace("Controller", "");
+  const ControllerClass = require(controllerPath).default;
+  const controllerInstance = container.resolve(ControllerClass);
+  const controllerPrefix = name.replace("Controller", "");
   const methodNames = Object.getOwnPropertyNames(Object.getPrototypeOf(controllerInstance)).filter(name => name !== "constructor" && typeof controllerInstance[name] === 'function');
   const handlerAndValidatorStack: Record <string, RequestHandler[]> = {};
   for (const methodName of methodNames) {
-    const requestHandler = controllerInstance[methodName].bind(controllerInstance);
+    const requestHandler = async function(req: Request, res: Response, next: NextFunction) {
+      try {
+        return await controllerInstance[methodName].call(controllerInstance, req, res);
+      }
+      catch (err) {
+        next(err)
+      }
+    }
     handlerAndValidatorStack[methodName] = [requestHandler];
     try {
       const validationSubPath = `${controllerPrefix}/${capitalizeFirstLetter(methodName)}`;
