@@ -7,10 +7,10 @@ import OTP from "~/app/models/OTP";
 export default class TwoFactorAuthService {
   async enable(user, method) {
     if (!user.phoneNumber && method !== "app")
-      throw new Error("User phone number is required for sms and call method (2FA)");
-    user.generateRecoveryCodes();
-    await user.save();
-    const data = { recoveryCodes: user.recoveryCodes };
+      throw new Error("User phone number is required for sms or call method (2FA)");
+    const data = { 
+      recoveryCodes: await user.generateRecoveryCodes()
+    };
     const twoFactorAuth = { enabled: true, method };
     if(method === "app") {
       const secret = speakeasy.generateSecret({ length: 20 });

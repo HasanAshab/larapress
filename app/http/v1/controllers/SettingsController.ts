@@ -29,7 +29,10 @@ export default class SettingsController {
     if(method !== "app" && !req.user.phoneNumber)
       return res.status(400).api({ phoneNumberRequired: true });
     const result = await this.twoFactorAuthService.enable(req.user, method);
-    res.api(result);
+    res.api({
+      message: "Two Factor Auth enabled!",
+      data: result
+    });
   }
   
   async getAppSettings(req: Request, res: Response) {

@@ -157,9 +157,36 @@ describe("Auth", () => {
     expect(responses[4].statusCode).toBe(429);
   });
   
-  it.only("should login a user with valid recovery code", async () => {})
-  it.only("shouldn't login a user with invalid recovery code", async () => {})
-  it.only("should generate new recovery codes", async () => {})
+  it("should login a user with valid recovery code", async () => {
+    const user = await User.factory().withPhoneNumber().hasSettings(true).create();
+    const [ code ] = await user.generateRecoveryCodes(1);
+    const response = await request.post("/auth/login/recovery-code").send({
+      email: user.email,
+      code
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.data).toHaveProperty("token");
+  });
+  
+  it("shouldn't login a user with invalid recovery code", async () => {
+    const user = await User.factory().withPhoneNumber().hasSettings(true).create();
+    await user.generateRecoveryCodes(1);
+    const response = await request.post("/auth/login/recovery-code").send({
+      email: user.email,
+      code: "foo-bar"
+    });
+    expect(response.statusCode).toBe(401);
+    expect(response.body).not.toHaveProperty("data");
+  });
+  
+  it.only("should generate new recovery codes", { user: true }, async () => {
+    const user = await User.factory().withPhoneNumber().hasSettings(true).create();
+    const oldCodes = await user.generateRecoveryCodes();
+    const response = await request.post("/auth/generate-recovery-codes").actingAs(user.createToken());
+    expect(response.statusCode).toBe(200);
+    expect(response.body.data).toHaveLength(10);
+    expect(response.body.data).not.toEqual(oldCodes);
+  });
 
   it("Should send otp", async () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();

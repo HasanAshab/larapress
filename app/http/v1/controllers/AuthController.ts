@@ -64,9 +64,8 @@ export default class AuthController {
             return res.status(401).message("Invalid OTP. Please  again!");
         }
         await Cache.clear(attemptCacheKey);
-        const token = user.createToken();
         return res.api({
-          token,
+          token: user.createToken(),
           message: "Logged in successfully!",
         });
       }
@@ -78,7 +77,17 @@ export default class AuthController {
   }
   
   async loginWithRecoveryCode(req: Request, res: Response) {
-    //
+    const { email, code } = req.body;
+    const user = await User.findOne({ email });
+    if(!user)
+      return res.status(404).message();
+        
+    return await user.verifyRecoveryCode(code)
+      ? res.api({
+          token: user.createToken(),
+          message: "Logged in successfully!",
+        })
+      : res.status(401).message("Invalid recovery code!");
   }
   
   async loginWithGoogle(req: Request, res: Response) {
@@ -195,9 +204,7 @@ export default class AuthController {
     res.message("6 digit OTP code sent to phone number!");
   }
   
-  async generateRecoveryCodes(req: Request, res: Response){
-    req.user.generateRecoveryCodes();
-    await req.user.save();
-    res.api(req.user.recoveryCodes);
+  async generateRecoveryCodes(req: Request, res: Response) {
+    res.api(await req.user.generateRecoveryCodes());
   }
 }

@@ -19,8 +19,9 @@ export interface AuthenticatableDocument extends Document {
 }
 
 export default (schema: Schema) => {
+  const bcryptRounds = config.get<number>("bcrypt.rounds");
+
   schema.methods.setPassword = async function (password: string) {
-    const bcryptRounds = config.get<number>("bcrypt.rounds");
     this.password = await bcrypt.hash(password, bcryptRounds);
   }
   
@@ -60,11 +61,28 @@ export default (schema: Schema) => {
     return true;
   }
     
-  schema.methods.generateRecoveryCodes = function() {
-    this.recoveryCodes = [];
-    for (let i = 0; i < 10; i++) {
+  schema.methods.generateRecoveryCodes = async function(count = 10) {
+    const rawCodes = [];
+    const hashPromises = [];
+    for (let i = 0; i < count; i++) {
       const code = crypto.randomBytes(16).toString('hex');
-      this.recoveryCodes.push(code);
+      rawCodes.push(code);
+      hashPromises.push(bcrypt.hash(code, bcryptRounds));
     }
+    this.recoveryCodes = await Promise.all(hashPromises);
+    await this.save();
+    return rawCodes;
   }
+
+  schema.methods.verifyRecoveryCode = async function(code) {
+    for (let i = 0; i < this.recoveryCodes.length; i++) {
+      const hashedCode = this.recoveryCodes[i];
+      if (await bcrypt.compare(code, hashedCode)) {
+        this.recoveryCodes.splice(i, 1);
+        await this.save();
+        return true;
+      }
+    }
+    return false;
+  };
 };
