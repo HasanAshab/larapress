@@ -10,5 +10,6 @@ router.post("/register", middleware("recaptcha", "limit:60000,1"), AuthControlle
 router.get("/callback/google", AuthController.loginWithGoogle);
 router.post("/send-otp", middleware("limit:60000,3"), AuthController.sendOtp);
 router.put("/change-phone-number", middleware("auth", "verified"), AuthController.changePhoneNumber);
+router.put("/generate-recovery-codes", middleware("limit:60000,3", "auth", "verified"), AuthController.generateRecoveryCodes);
 
 export default router;

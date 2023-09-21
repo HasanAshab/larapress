@@ -4,6 +4,7 @@ import Token from "~/app/models/Token";
 import Mail from "Mail"
 import URL from "URL"
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 import VerificationMail from "~/app/mails/VerificationMail";
 import ForgotPasswordMail from "~/app/mails/ForgotPasswordMail";
 import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
@@ -57,5 +58,13 @@ export default (schema: Schema) => {
     const result = await this.save();
     Mail.to(this.email).send(new PasswordChangedMail());
     return true;
+  }
+    
+  schema.methods.generateRecoveryCodes = function() {
+    this.recoveryCodes = [];
+    for (let i = 0; i < 10; i++) {
+      const code = crypto.randomBytes(16).toString('hex');
+      this.recoveryCodes.push(code);
+    }
   }
 };

@@ -156,6 +156,10 @@ describe("Auth", () => {
     expect(responses[3].statusCode).toBe(401);
     expect(responses[4].statusCode).toBe(429);
   });
+  
+  it.only("should login a user with valid recovery code", async () => {})
+  it.only("shouldn't login a user with invalid recovery code", async () => {})
+  it.only("should generate new recovery codes", async () => {})
 
   it("Should send otp", async () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();

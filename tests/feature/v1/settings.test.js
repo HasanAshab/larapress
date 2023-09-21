@@ -64,6 +64,7 @@ describe("Settings", () => {
     const response = await request.post("/settings/setup-2fa").actingAs(token).send({ enable: true });
     const settings = await user.settings;
     expect(response.statusCode).toBe(200);
+    expect(response.body.data.recoveryCodes).toHaveLength(10);
     expect(settings.twoFactorAuth.enabled).toBe(true);
     expect(settings.twoFactorAuth.method).toBe("sms");
   });
@@ -88,6 +89,7 @@ describe("Settings", () => {
     const settings = await user.settings;
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toHaveProperty("otpauthURL");
+    expect(response.body.data.recoveryCodes).toHaveLength(10);
     expect(settings.twoFactorAuth.enabled).toBe(true);
   });
 
@@ -96,6 +98,7 @@ describe("Settings", () => {
     const response = await request.post("/settings/setup-2fa").actingAs(token).send({ method: "call" });
     const settings = await user.settings;
     expect(response.statusCode).toBe(200);
+    expect(response.body.data.recoveryCodes).toHaveLength(10);
     expect(settings.twoFactorAuth.method).toBe("call");
   });
 

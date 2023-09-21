@@ -72,6 +72,7 @@ export default class Setup {
       const Provider = require("~/" + providersBaseDir + "/" + providerFullName.split(".")[0]).default;
       const provider = new Provider(container);
       provider.register();
+      provider.boot?.();
     }
   }
 }

@@ -77,6 +77,10 @@ export default class AuthController {
     res.status(401).message("Credentials not match!");
   }
   
+  async loginWithRecoveryCode(req: Request, res: Response) {
+    //
+  }
+  
   async loginWithGoogle(req: Request, res: Response) {
     try {
       const { clientId, clientSecret, redirectUrl } = config.get<any>("socialite.google");
@@ -189,5 +193,11 @@ export default class AuthController {
     if(!user) return res.status(404).message();
     this.twoFactorAuthService.sendOtp(user).catch(log);
     res.message("6 digit OTP code sent to phone number!");
+  }
+  
+  async generateRecoveryCodes(req: Request, res: Response){
+    req.user.generateRecoveryCodes();
+    await req.user.save();
+    res.api(req.user.recoveryCodes);
   }
 }

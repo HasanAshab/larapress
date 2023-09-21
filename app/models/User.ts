@@ -32,7 +32,8 @@ const UserSchema = new Schema({
   verified: {
     type: Boolean,
     default: false,
-  }
+  },
+  recoveryCodes: [String]
 }, 
 { timestamps: true }
 );
@@ -74,6 +75,7 @@ export interface IUser {
   role: "admin" | "novice";
   verified: boolean;
   logo: FileMeta | null;
+  recoveryCodes: string[];
 }
 
 export interface UserDocument extends Document, IUser, AuthenticatableDocument, AttachableDocument, HasApiTokensDocument, NotifiableDocument, AttachableDocument {

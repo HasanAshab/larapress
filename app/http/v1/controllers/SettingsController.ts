@@ -19,26 +19,17 @@ export default class SettingsController {
     await Settings.updateOne({ userId: req.user._id }, { notification: req.body });
     res.message("Settings saved!");
   }
-  
+
   async setupTwoFactorAuth(req: Request, res: Response){
     const { enable = true, method } = req.body;
     if(!enable) {
       await this.twoFactorAuthService.disable(req.user);
       return res.message("Two Factor Auth disabled!");
     }
+    if(method !== "app" && !req.user.phoneNumber)
+      return res.status(400).api({ phoneNumberRequired: true });
     const result = await this.twoFactorAuthService.enable(req.user, method);
-    if(method === "app") {
-      return res.api({
-        otpauthURL: result,
-        message: "Two Factor Auth enabled!"
-      });
-    }
-    if(result)
-      return res.message("Two Factor Auth enabled!");
-    res.status(400).api({
-      phoneNumberRequired: true,
-      message: "Please set phone number before trying to enable Two Factor Auth!"
-    });
+    res.api(result);
   }
   
   async getAppSettings(req: Request, res: Response) {

@@ -6,21 +6,24 @@ import OTP from "~/app/models/OTP";
 
 export default class TwoFactorAuthService {
   async enable(user, method) {
+    if (!user.phoneNumber && method !== "app")
+      throw new Error("User phone number is required for sms and call method (2FA)");
+    user.generateRecoveryCodes();
+    await user.save();
+    const data = { recoveryCodes: user.recoveryCodes };
     const twoFactorAuth = { enabled: true, method };
-    if(method !== "app") {
-      if (!user.phoneNumber) return false;
-      await Settings.updateOne({ userId: user._id }, { twoFactorAuth });
-      return true;
+    if(method === "app") {
+      const secret = speakeasy.generateSecret({ length: 20 });
+      twoFactorAuth.secret = secret.ascii;
+      const appName = config.get<string>("app.name");
+      data.otpauthURL = speakeasy.otpauthURL({
+        secret: secret.ascii,
+        label: appName,
+        issuer: appName,
+      });
     }
-    const secret = speakeasy.generateSecret({ length: 20 });
-    twoFactorAuth.secret = secret.ascii;
     await Settings.updateOne({ userId: user._id }, { twoFactorAuth });
-    const appName = config.get<string>("app.name");
-    return speakeasy.otpauthURL({
-      secret: secret.ascii,
-      label: appName,
-      issuer: appName,
-    });
+    return data;
   }
   
   async disable(user) {
