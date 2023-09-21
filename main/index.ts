@@ -72,11 +72,13 @@ import NewUserJoined from "~/app/notifications/NewUserJoined";
   const users = await User.find().limit(4)
   Notification.send(users, new NewUserJoined({ user: users[0]}));
 })();
-//import T1 from "~/app/jobs/T1";
+
+import T1 from "~/app/jobs/T1";
 
 (async () => {
-  
- // await T1.dispatch({ a: 39 })
+  for(let i = 0; i < 5; i++)
+    T1.dispatch({ a: i })
+    
   //await T1.dispatch({ a: 49 })
 })();
 */

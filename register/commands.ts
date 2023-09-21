@@ -7,5 +7,6 @@ export default {
   performance: "TestPerformance",
   db: "DB",
   search: "Search",
+  queue: "Queue"
 } as const;
 

@@ -3,14 +3,13 @@ import queue from "~/core/clients/queue";
 import fs from "fs";
 import { log } from "helpers";
 
-export default class Test extends Command {
-  async handle(){
-    this.info("setting up jobs...")
+export default class Queue extends Command {
+  async work(){
     this.setupJobs()
     this.info("listening for jobs...")
   }
   
-  setupJobs() {
+  private setupJobs() {
     fs.readdirSync("app/jobs").forEach(jobFileName => {
       const jobName = jobFileName.split(".")[0];
       const Job = require("~/app/jobs/" + jobName).default;
