@@ -1,5 +1,5 @@
 import config from "config";
-import { sendMessage, sendCall } from "~/core/services/twilio";
+import { sendMessage, sendCall } from "~/core/clients/twilio";
 import speakeasy from "speakeasy";
 import Settings from "~/app/models/Settings";
 import OTP from "~/app/models/OTP";
@@ -35,7 +35,6 @@ export default class TwoFactorAuthService {
       if(twoFactorAuth.method === "app") return null;
       method = twoFactorAuth.method;
     }
-    console.log(user, method)
     const { code } = await OTP.create({ userId: user._id });
     if(method === "sms")
       await sendMessage(user.phoneNumber, "Your verification code is: " + code);

@@ -1,4 +1,4 @@
-import Queue from "Queue";
+import queue from "~/core/clients/queue";
 import NotificationClass from "~/core/abstract/Notification";
 import Mockable from "~/core/utils/Notification/Mockable";
 import { util } from "~/core/decorators/class";
@@ -18,7 +18,7 @@ export default class Notification {
         const handlerName = "send" + capitalizeFirstLetter(channel) as keyof typeof notification;
         if (typeof notification[handlerName] === "function") {
           if (notification.shouldQueue) {
-            Queue.add("SendNotification", {
+            queue.add("SendNotification", {
               notifiable,
               notification: {
                 name: notification.constructor.name,

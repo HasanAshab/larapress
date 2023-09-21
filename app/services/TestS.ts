@@ -1,7 +1,7 @@
-import { autoInjectable } from "tsyringe";
+import { injectable } from "tsyringe";
 import TestR from "~/app/repo/TestR";
 
-@autoInjectable()
+@injectable()
 export default class TestS {
   constructor(public testR: TestR) {}
   

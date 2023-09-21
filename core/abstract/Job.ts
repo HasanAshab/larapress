@@ -1,5 +1,5 @@
 import { log } from "helpers";
-import Queue from "Queue";
+import queue from "~/core/clients/queue";
 
 export default abstract class Job {
   static shouldQueue = true;
@@ -23,7 +23,7 @@ export default abstract class Job {
   static async dispatch(data: unknown) {
     const job = new (this as any)();
     if(this.shouldQueue)
-      Queue.add(this.name, data, { delay: this.dispatchAfter, attempts: job.tries, timeout: job.timeout }).catch(log);
+      queue.add(this.name, data, { delay: this.dispatchAfter, attempts: job.tries, timeout: job.timeout }).catch(log);
     else await job.handle(data);
     this.shouldQueue = true;
     this.dispatchAfter = 0;

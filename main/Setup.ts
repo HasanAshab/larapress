@@ -2,6 +2,7 @@ import { Application } from "express";
 import config from "config";
 import fs from "fs";
 import mongoose from "mongoose";
+import { container } from "tsyringe";
 import { generateEndpointsFromDirTree } from "helpers";
 import nodeCron from "node-cron";
 import Artisan from "Artisan";
@@ -14,6 +15,7 @@ export default class Setup {
     const customConfig = await Cache.driver("redis").get("config");
     customConfig && Object.assign(config, customConfig);
   }
+  
   static cronJobs() {
     for (const [schedule, commands] of Object.entries(crons)) {
       if (Array.isArray(commands)) {
@@ -60,6 +62,16 @@ export default class Setup {
     for(const globalPluginName of globalPluginsName){
       const plugin = require("~/" + globalPluginsBaseDir + "/" + globalPluginName.split(".")[0]).default;
       mongoose.plugin(plugin);
+    }
+  }
+  
+  static bootupServices() {
+    const providersBaseDir = "app/providers";
+    const providersFullName = fs.readdirSync(providersBaseDir);
+    for(const providerFullName of providersFullName){
+      const Provider = require("~/" + providersBaseDir + "/" + providerFullName.split(".")[0]).default;
+      const provider = new Provider(container);
+      provider.register();
     }
   }
 }

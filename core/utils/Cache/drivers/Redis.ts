@@ -1,9 +1,6 @@
 import Driver from "~/core/utils/Cache/Driver";
-import config from "config";
-import IORedis from "ioredis";
 import { CacheDataArg } from "Cache";
-
-const client = null;//new IORedis(config.get("redis"));
+import client from "~/core/clients/redis";
 
 export default class Redis extends Driver {
   async get(key: string) {

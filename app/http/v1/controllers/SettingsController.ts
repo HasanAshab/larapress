@@ -42,7 +42,7 @@ export default class SettingsController {
   }
   
   async getAppSettings(req: Request, res: Response) {
-    this.service.fetch();
+    console.log(this.service);
     res.api(config);
   }
   

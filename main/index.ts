@@ -53,15 +53,9 @@ else {
   });
 }
 
-import { container } from "tsyringe";
-import TestS from "~/app/services/TestS";
-
-//const p = new TestSP(container);
-//p.register();
 
 //const p = new TestS();
 //p.fetch()
-//container.registerInstance(TestS, new TestS("hehe"))
 //const testS = container.resolve(TestS);
 //testS.fetch();
 

@@ -25,6 +25,8 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(multipartParser());
 
+Setup.bootupServices();
+
 // Registering mongoose global plugins
 Setup.mongooseGlobalPlugins();
 
