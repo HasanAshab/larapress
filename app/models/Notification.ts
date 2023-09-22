@@ -1,4 +1,4 @@
-import { model, QueryWithHelpers, HydratedDocument, Schema, Model, Document, InferSchemaType } from "mongoose";
+import { model, QueryWithHelpers, HydratedDocument, Schema, Model, Document } from "mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import HumanReadableTime from "~/app/plugins/HumanReadableTime";
 import { IUser } from "~/app/models/User";
@@ -37,15 +37,17 @@ NotificationSchema.query = notificationQuery;
 NotificationSchema.plugin(HasFactory);
 NotificationSchema.plugin(HumanReadableTime);
 
-export interface INotification extends Document, InferSchemaType<typeof NotificationSchema> {
+export interface INotification {
+  userId: string;
+  data: object;
+  readAt: object | null;
+}
+
+export interface NotificationDocument extends Document, INotification {
   markAsRead(): Promise<void>;
 }
 
-export type NotificationQuery = QueryWithHelpers<HydratedDocument<INotification>[], HydratedDocument<INotification>, NotificationQueryHelpers>;
+export type NotificationQuery = QueryWithHelpers<NotificationDocument[], NotificationDocument, typeof notificationQuery>;
+interface NotificationModel extends Model<INotification, typeof notificationQuery>, HasFactoryModel {}
 
-interface NotificationQueryHelpers {
-  markAsRead(): boolean
-}
-
-interface NotificationModel extends Model<INotification, NotificationQueryHelpers>, HasFactoryModel {}
-export default model<INotification, NotificationModel>("Notification", NotificationSchema);
+export default model<NotificationDocument, NotificationModel>("Notification", NotificationSchema);

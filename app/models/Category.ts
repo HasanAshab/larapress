@@ -1,4 +1,4 @@
-import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
+import { model, Schema, Model, Document } from "mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import Attachable, { FileMeta, AttachableDocument } from "~/app/plugins/Attachable";
 
@@ -21,8 +21,13 @@ CategorySchema.plugin(HasFactory);
 CategorySchema.plugin(Attachable, { icon: {} });
 
 
-export interface ICategory extends Document, InferSchemaType<typeof CategorySchema>, AttachableDocument {
+export interface ICategory {
+  name: string;
+  slug: string;
   icon: FileMeta | null;
-};
-interface CategoryModel extends Model<ICategory>, HasFactoryModel {};
-export default model<ICategory, CategoryModel>("Category", CategorySchema);
+}
+
+export interface CategoryDocument extends Document, ICategory, AttachableDocument {};
+interface CategoryModel extends Model<CategoryDocument>, HasFactoryModel {};
+
+export default model<CategoryDocument, CategoryModel>("Category", CategorySchema);

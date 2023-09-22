@@ -1,4 +1,4 @@
-import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
+import { model, Schema, Model, Document } from "mongoose";
 
 const OTPSchema = new Schema(
 {
@@ -21,7 +21,13 @@ const OTPSchema = new Schema(
 }
 );
 
-export interface IOTP extends InferSchemaType<typeof OTPSchema> {};
+export interface IOTP {
+  userId: string;
+  code: number;
+  expiresAt: Date;
+};
+
 export interface OTPDocument extends Document, IOTP {};
 interface OTPModel extends Model<OTPDocument> {};
+
 export default model<OTPDocument, OTPModel>("OTP", OTPSchema);

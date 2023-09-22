@@ -1,16 +1,14 @@
 import { Request, Response } from "express";
+import Controller from "~/core/decorators/controller";
+import { inject } from "~/core/decorators/meta-data";
 import { deepMerge } from "helpers";
 import config from "config";
 import Cache from "Cache";
 import Settings from "~/app/models/Settings";
 import TwoFactorAuthService from "~/app/services/TwoFactorAuthService";
-import TestS from "~/app/services/TestS";
-import { injectable } from "tsyringe";
 
-@injectable()
+@Controller
 export default class SettingsController {
-  constructor(public service: TestS, public twoFactorAuthService: TwoFactorAuthService) {}
-  
   async index(req: Request, res: Response) {
     res.api(await req.user.settings);
   }
@@ -20,15 +18,15 @@ export default class SettingsController {
     res.message("Settings saved!");
   }
 
-  async setupTwoFactorAuth(req: Request, res: Response){
+  async setupTwoFactorAuth(req: Request, res: Response, @inject twoFactorAuthService: TwoFactorAuthService){
     const { enable = true, method } = req.body;
     if(!enable) {
-      await this.twoFactorAuthService.disable(req.user);
+      await twoFactorAuthService.disable(req.user);
       return res.message("Two Factor Auth disabled!");
     }
     if(method !== "app" && !req.user.phoneNumber)
       return res.status(400).api({ phoneNumberRequired: true });
-    const result = await this.twoFactorAuthService.enable(req.user, method);
+    const result = await twoFactorAuthService.enable(req.user, method);
     res.api({
       message: "Two Factor Auth enabled!",
       data: result
@@ -36,10 +34,9 @@ export default class SettingsController {
   }
   
   async getAppSettings(req: Request, res: Response) {
-    console.log(this.service);
     res.api(config);
   }
-  
+
   async updateAppSettings(req: Request, res: Response) {
     deepMerge(config, req.body);
     Cache.driver("redis").put("config", config);

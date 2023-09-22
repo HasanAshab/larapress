@@ -168,6 +168,19 @@ describe("Auth", () => {
     expect(response.body.data).toHaveProperty("token");
   });
   
+  it("shouldn't login a user with same recovery code multiple times", async () => {
+    const user = await User.factory().withPhoneNumber().hasSettings(true).create();
+    const [ code ] = await user.generateRecoveryCodes(1);
+    const responses = await Promise.all([
+      request.post("/auth/login/recovery-code").send({ email: user.email, code }),
+      request.post("/auth/login/recovery-code").send({ email: user.email, code })
+    ]);
+    expect(responses[0].statusCode).toBe(200);
+    expect(responses[1].statusCode).toBe(401);
+    expect(responses[0].body.data).toHaveProperty("token");
+    expect(responses[1].body).not.toHaveProperty("data");
+  });
+  
   it("shouldn't login a user with invalid recovery code", async () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();
     await user.generateRecoveryCodes(1);
@@ -179,7 +192,7 @@ describe("Auth", () => {
     expect(response.body).not.toHaveProperty("data");
   });
   
-  it.only("should generate new recovery codes", { user: true }, async () => {
+  it("should generate new recovery codes", { user: true }, async () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();
     const oldCodes = await user.generateRecoveryCodes();
     const response = await request.post("/auth/generate-recovery-codes").actingAs(user.createToken());

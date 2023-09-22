@@ -1,4 +1,5 @@
-import { injectable } from "tsyringe";
+import Controller from "~/core/decorators/controller";
+import { inject } from "~/core/decorators/meta-data";
 import { Request, Response } from "express";
 import TwoFactorAuthService from "~/app/services/TwoFactorAuthService";
 import { log } from "helpers";
@@ -11,11 +12,8 @@ import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
 import { OAuth2Client } from 'google-auth-library';
 import { Mutex } from 'async-mutex';
 
-
-@injectable()
+@Controller
 export default class AuthController {
-  constructor(public twoFactorAuthService: TwoFactorAuthService) {}
-
   async register(req: Request, res: Response){
     const { email, username, password } = req.body;
     const logo = req.files?.logo;
@@ -37,7 +35,7 @@ export default class AuthController {
     });
   };
 
-  async login(req: Request, res: Response){
+  async login(req: Request, res: Response, @inject twoFactorAuthService: TwoFactorAuthService){
     const { email, password, otp } = req.body;
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
     const mutex = new Mutex();
@@ -59,7 +57,7 @@ export default class AuthController {
               message: "Credentials matched. otp required!"
             });
           }
-          const isValid = await this.twoFactorAuthService.verifyOtp(user, twoFactorAuth.method, parseInt(otp));
+          const isValid = await twoFactorAuthService.verifyOtp(user, twoFactorAuth.method, parseInt(otp));
           if (!isValid)
             return res.status(401).message("Invalid OTP. Please  again!");
         }
@@ -181,26 +179,26 @@ export default class AuthController {
     res.message("Password changed!");
   };
   
-  async changePhoneNumber(req: Request, res: Response) {
+  async changePhoneNumber(req: Request, res: Response, @inject twoFactorAuthService: TwoFactorAuthService) {
     const { phoneNumber, otp } = req.body;
     if(req.user.phoneNumber && req.user.phoneNumber === phoneNumber)
       return res.status(400).message("Phone number is same as old one!");
     req.user.phoneNumber = phoneNumber;
     if(!otp) {
-      await this.twoFactorAuthService.sendOtp(req.user, "sms");
+      await twoFactorAuthService.sendOtp(req.user, "sms");
       return res.message("6 digit OTP code sent to phone number!");
     }
-    const isValid = await this.twoFactorAuthService.verifyOtp(req.user, "sms", parseInt(otp));
+    const isValid = await twoFactorAuthService.verifyOtp(req.user, "sms", parseInt(otp));
     if(!isValid)
       return res.status(401).message("Invalid OTP. Please  again!");
     await req.user.save();
     res.message("Phone number updated!");
   }
   
-  async sendOtp(req: Request, res: Response){
+  async sendOtp(req: Request, res: Response, @inject twoFactorAuthService: TwoFactorAuthService){
     const user = await User.findById(req.body.userId);
     if(!user) return res.status(404).message();
-    this.twoFactorAuthService.sendOtp(user).catch(log);
+    twoFactorAuthService.sendOtp(user).catch(log);
     res.message("6 digit OTP code sent to phone number!");
   }
   

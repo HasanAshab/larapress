@@ -53,12 +53,6 @@ else {
   });
 }
 
-
-//const p = new TestS();
-//p.fetch()
-//const testS = container.resolve(TestS);
-//testS.fetch();
-
 /*
 import Notification from "Notification";
 import User from "~/app/models/User";

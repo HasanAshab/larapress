@@ -11,9 +11,9 @@ router.post("/setup-2fa", middleware("auth", "verified"), SettingsController.set
 router.put("/notification", middleware("auth", "verified"), SettingsController.notification);
 
 router.route("/app")
-  //.get(middleware("auth", "roles:admin"), SettingsController.getAppSettings)
+  .get(middleware("auth", "roles:admin"), SettingsController.getAppSettings)
   .put(middleware("auth", "roles:admin"), SettingsController.updateAppSettings)
-  .get(SettingsController.getAppSettings)
+  //.get(SettingsController.getAppSettings)
   //.put(SettingsController.updateAppSettings);
  
 export default router;

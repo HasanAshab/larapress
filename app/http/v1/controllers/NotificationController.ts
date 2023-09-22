@@ -1,5 +1,7 @@
+import Controller from "~/core/decorators/controller";
 import { Request, Response } from "express";
 
+@Controller
 export default class NotificationController {
   async index(req: Request, res: Response) {
     res.api(await req.user.notifications.paginateReq(req));

@@ -1,4 +1,4 @@
-import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
+import { model, Schema, Model, Document } from "mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 
 const ContactSchema = new Schema(
@@ -28,7 +28,13 @@ ContactSchema.index({ subject: 'text', message: 'text' });
 
 ContactSchema.plugin(HasFactory);
 
-export interface IContact extends InferSchemaType<typeof ContactSchema> {};
+export interface IContact {
+  email: string;
+  subject: string;
+  message: string;
+  status: "opened" | "closed";
+};
+
 export interface ContactDocument extends Document, IContact {};
 interface ContactModel extends Model<ContactDocument>, HasFactoryModel {};
 

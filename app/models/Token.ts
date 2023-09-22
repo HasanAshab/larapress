@@ -41,7 +41,7 @@ export interface IToken {
   expiresAt: Date | null;
 } 
 
-export interface TokenDocument extends Document {};
+export interface TokenDocument extends Document, IToken {};
 
 interface TokenModel extends Model<IToken> {
   isValid(key: string, type: string, secret: string): boolean;

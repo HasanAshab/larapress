@@ -51,7 +51,7 @@ export interface ISettings {
   }
 };
 
-export interface SettingsDocument extends Document {};
+export interface SettingsDocument extends Document, ISettings {};
 interface SettingsModel extends Model<ISettings> {};
 
 export default model<SettingsDocument, SettingsModel>("Settings", SettingsSchema);

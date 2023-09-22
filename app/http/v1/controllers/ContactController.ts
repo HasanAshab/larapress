@@ -1,7 +1,9 @@
+import Controller from "~/core/decorators/controller";
 import { Request, Response } from "express";
 import Contact from "~/app/models/Contact";
 import Cache from "Cache";
 
+@Controller
 export default class ContactController {
   async index(req: Request, res: Response) {
     res.api(await Contact.find().paginateReq(req));
