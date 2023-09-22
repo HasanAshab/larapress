@@ -1,16 +1,18 @@
-import URL from "URL"
 import Command from "~/core/abstract/Command";
+import URL from "URL"
 import { exec } from "child_process";
 import app from "~/main/app";
 import fs from "fs";
 import swaggerUi from "swagger-ui-express";
+import { generateEndpointsFromDirTree } from "helpers";
 
-export default class GenerateDoc extends Command {
+export default class Documentation extends Command {
   private outputDir = "docs/public";
   private baseUrl = URL.resolve("docs");
-  private docs: Record<string, Record<string, any>> = require("~/docs/parse");
+  private docs: Record<string, Record<string, any>>;
 
   async generate() {
+    this.docs = require("~/docs/parse");
     this.info("starting server...");
     this.setupServer();
     for (const version of Object.keys(this.docs)){
@@ -28,7 +30,6 @@ export default class GenerateDoc extends Command {
     }
     this.success(`API Documentation generated on ${this.outputDir}`);
   }
-
   private async fetchStaticFiles(version: string, staticfileNames: string[]) {
     for (const name of staticfileNames) {
       this.info(`fetching ${name}...`);
@@ -37,7 +38,6 @@ export default class GenerateDoc extends Command {
       await fs.promises.writeFile(`${this.outputDir}/${version}/${name}`, html);
     }
   }
-  
   private setupServer() {
     for (const [version, doc] of Object.entries(this.docs)){
       app.use(`/docs/${version}`, swaggerUi.serve, swaggerUi.setup(doc));
@@ -46,4 +46,30 @@ export default class GenerateDoc extends Command {
       this.info("server started...");
     });
   }
+  
+  async uncovered() {
+    const eps = this.getAllEndpoints();
+    
+    console.log(generateEndpointsFromDirTree("docs/parts"))
+    this.success()
+  }
+  
+  private getAllEndpoints() {
+    const endpoints = {};
+    const traverse = (layer, parentPath = '') => {
+      if (layer.route)
+        endpoints[parentPath + layer.route.path] = Object.keys(layer.route.methods);
+      else if (layer.name === 'router' && layer.handle.stack) {
+        layer.handle.stack.forEach((middleware) => {
+          traverse(middleware, parentPath + layer.regexp);
+        });
+      }
+    }
+  
+    app._router.stack.forEach((middleware) => {
+      traverse(middleware);
+    });
+    return endpoints;
+  }
+
 }
