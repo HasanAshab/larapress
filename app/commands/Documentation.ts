@@ -49,8 +49,11 @@ export default class Documentation extends Command {
   
   async uncovered() {
     const eps = this.getAllEndpoints();
-    
-    console.log(generateEndpointsFromDirTree("docs/parts"))
+    const docsTree = generateEndpointsFromDirTree("docs/parts");
+    for(pathRegex in eps) {
+      console.log(pathRegex.test)
+    }
+    console.log(eps)
     this.success()
   }
   
