@@ -1,6 +1,6 @@
 import Mailable from "~/core/mails/Mailable";
 
-export default class {{name}} extends Mailable {
+export default class {{name}}Mail extends Mailable {
   view = "{{name}}";
   subject = "{{name}}";
 }

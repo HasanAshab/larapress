@@ -1,6 +1,6 @@
 import ServiceProvider from "~/core/abstract/ServiceProvider";
 
-export default class TestSP extends ServiceProvider {
+export default class {{name}}ServiceProvider extends ServiceProvider {
   register() {
     //
   }

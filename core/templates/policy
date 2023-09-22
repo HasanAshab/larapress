@@ -1,6 +1,6 @@
 import { IUser } from "~/app/models/User";
 
-export default class BlogPolicy {
+export default class {{name}}Policy {
   read(user: IUser){
     if(user.role === "admin") return {};
     return [];

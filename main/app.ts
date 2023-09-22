@@ -45,46 +45,5 @@ app.use("/api/files", express.static(__dirname + "/../storage/public"));
 // Registering global error handling middleware
 app.use(middleware("error.handle"));
 
-
-/*
-import { container } from 'tsyringe';
-import TestS from "~/app/services/TestS";
-
-function inject(target: any, propertyKey: string, parameterIndex: number) {
-  const injectableParamsIndex = Reflect.getMetadata('inject', target, propertyKey) ?? [];
-  injectableParamsIndex.push(parameterIndex);
-  Reflect.defineMetadata('inject', injectableParamsIndex, target, propertyKey);
-}
-
-
-function Controller(constructor: Function) {
-  const methodNames = Object.getOwnPropertyNames(constructor.prototype);
-  for (const methodName of methodNames) {
-    const method = constructor.prototype[methodName];
-    if (methodName === "constructor" || typeof method !== "function") continue;
-    const paramTypes = Reflect.getMetadata('design:paramtypes', constructor.prototype, methodName);
-    const injectableIndexes = Reflect.getMetadata('inject', constructor.prototype, methodName);
-
-    // Cache resolved dependencies
-    const resolvedDependencies = injectableIndexes.map((index) => container.resolve(paramTypes[index]));
-
-    constructor.prototype[methodName] = function (...args) {
-      for (let i = 0; i < injectableIndexes.length; i++) {
-        args[injectableIndexes[i]] = resolvedDependencies[i];
-      }
-      return method.apply(this, args);
-    }
-  }
-}
-
-@Controller
-class Calc {
-  add(foo: number, @inject ser: TestS) {
-    console.log(foo, ser)
-  }
-}
-
-new Calc().add(69)
-*/
 export default app;
 

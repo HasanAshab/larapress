@@ -16,25 +16,6 @@ export function performance(constructor: Function) {
   }
 }
 
-export function controller(constructor: Function) {
-  const methodNames = Object.getOwnPropertyNames(constructor.prototype);
-  for (const methodName of methodNames) {
-    const handler = constructor.prototype[methodName];
-    if (methodName === "constructor" || typeof handler !== "function") {
-      continue;
-    }
-    constructor.prototype[methodName] = async function (req: Request, res: Response, next: NextFunction) {
-      try {
-        return await handler.call(constructor.prototype, req, res);
-      }
-      catch (err) {
-        next(err)
-      }
-    }
-  }
-}
-
-
 export function util(mockClass: any) {
   return function(targetClass: any) {
     const staticMethods = Object.getOwnPropertyNames(mockClass).filter(

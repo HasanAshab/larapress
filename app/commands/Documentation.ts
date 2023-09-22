@@ -10,9 +10,9 @@ export default class GenerateDoc extends Command {
   private baseUrl = URL.resolve("docs");
   private docs: Record<string, Record<string, any>> = require("~/docs/parse");
 
-  async handle() {
+  async generate() {
     this.info("starting server...");
-    this._setupServer();
+    this.setupServer();
     for (const version of Object.keys(this.docs)){
       this.info(`******\t${version.toUpperCase()}\t******`);
       await exec("mkdir -p " + "/docs/public/" + version)
@@ -24,12 +24,12 @@ export default class GenerateDoc extends Command {
       const matches = [...html.matchAll(regex)];
       this.info("fetching static files...");
       const staticfileNames = matches.map((match) => match[1].replace("./", ""));
-      await this._fetchStaticFiles(version, staticfileNames);
+      await this.fetchStaticFiles(version, staticfileNames);
     }
     this.success(`API Documentation generated on ${this.outputDir}`);
   }
 
-  async _fetchStaticFiles(version: string, staticfileNames: string[]) {
+  private async fetchStaticFiles(version: string, staticfileNames: string[]) {
     for (const name of staticfileNames) {
       this.info(`fetching ${name}...`);
       const response = await fetch(`${this.baseUrl}/${version}/${name}`);
@@ -38,7 +38,7 @@ export default class GenerateDoc extends Command {
     }
   }
   
-  _setupServer() {
+  private setupServer() {
     for (const [version, doc] of Object.entries(this.docs)){
       app.use(`/docs/${version}`, swaggerUi.serve, swaggerUi.setup(doc));
     }

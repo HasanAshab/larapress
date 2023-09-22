@@ -77,4 +77,28 @@ import T1 from "~/app/jobs/T1";
 })();
 */
 
+function getAllEndpoints(app) {
+  const endpoints = [];
+
+  function traverse(layer, parentPath = '') {
+    console.log(layer)
+    if (layer.route) {
+      endpoints.push({
+        method: Object.keys(layer.route.methods)[0].toUpperCase(),
+        path: parentPath + layer.route.path,
+      });
+    } else if (layer.name === 'router' && layer.handle.stack) {
+      layer.handle.stack.forEach((middleware) => {
+        traverse(middleware, parentPath + layer.regexp);
+      });
+    }
+  }
+
+  app._router.stack.forEach((middleware) => {
+    traverse(middleware);
+  });
+
+  return endpoints;
+}
+console.log(getAllEndpoints(app))
 export default server;

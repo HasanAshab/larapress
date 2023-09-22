@@ -40,7 +40,6 @@ describe("Settings", () => {
   
   it("Admin should get app settings", { role: "admin", settings: false }, async () => {
     const response = await request.get("/settings/app").actingAs(token);
-    console.log(response.body)
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqual(config);
   });

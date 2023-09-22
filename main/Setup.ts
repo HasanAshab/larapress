@@ -71,7 +71,7 @@ export default class Setup {
     for(const providerFullName of providersFullName){
       const Provider = require("~/" + providersBaseDir + "/" + providerFullName.split(".")[0]).default;
       const provider = new Provider(container);
-      provider.register();
+      provider.register?.();
       provider.boot?.();
     }
   }
