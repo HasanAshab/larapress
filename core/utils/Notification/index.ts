@@ -1,11 +1,10 @@
 import queue from "~/core/clients/queue";
 import NotificationClass from "~/core/abstract/Notification";
-import Mockable from "~/core/utils/Notification/Mockable";
 import { util } from "~/core/decorators/class";
 import { IUser } from "~/app/models/User";
 import { capitalizeFirstLetter } from "helpers";
 
-@util(Mockable)
+@util("~/core/utils/Notification/Mockable")
 export default class Notification {
   static async send(notifiables: IUser | IUser[], notification: NotificationClass) {
     notifiables = Array.isArray(notifiables) ? notifiables: [notifiables];

@@ -1,12 +1,11 @@
 import { util } from "~/core/decorators/class";
 import config from 'config';
-import Mockable from "~/core/utils/Mail/Mockable";
 import Mailable from "~/core/abstract/Mailable";
 import { createTransport, Transporter, SendMailOptions, TransportOptions } from "nodemailer";
 import { create as createHandlebars } from "express-handlebars";
 import nodemailerHbs from "nodemailer-express-handlebars";
 
-@util(Mockable)
+@util("~/core/utils/Mail/Mockable")
 export default class Mail {
   public mailable: Mailable = {} as Mailable;
   static transporter: Transporter < SendMailOptions > = {} as any;

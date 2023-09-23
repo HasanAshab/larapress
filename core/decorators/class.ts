@@ -16,7 +16,8 @@ export function performance(constructor: Function) {
   }
 }
 
-export function util(mockClass: any) {
+export function util(mockClassPath: string) {
+  const mockClass: any = require(mockClassPath).default;
   return function(targetClass: any) {
     const staticMethods = Object.getOwnPropertyNames(mockClass).filter(
       (method) =>

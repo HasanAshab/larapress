@@ -2,7 +2,6 @@ import config from "config";
 import { Config } from "types";
 import { capitalizeFirstLetter } from "helpers";
 import Driver from "~/core/utils/Cache/Driver";
-import Mockable from "~/core/utils/Cache/Mockable";
 import { util } from "~/core/decorators/class";
 import fs from "fs";
 
@@ -20,7 +19,7 @@ function initializeDrivers() {
   }
 }
 
-@util(Mockable)
+@util("~/core/utils/Cache/Mockable")
 export default class Cache {
   static driverName = config.get<DriverName>("cache.default");
 
