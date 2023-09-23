@@ -3,7 +3,10 @@ import Mail from "Mail";
 import NotificationModel from "~/app/models/Notification";
 import Mailable from "~/core/abstract/Mailable";
 import NotificationData from "~/core/abstract/Notification";
-import { channels, types } from "~/register/notification";
+import config from "config";
+import { Config } from "types";
+
+const { channels, types } = config.get<Config["notification"]>("notification");
 
 type NotificationChannel = typeof channels[number];
 type NotificationTypes = typeof types[number];

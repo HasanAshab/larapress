@@ -3,7 +3,7 @@ import { execSync } from "child_process";
 import DB from "DB";
 import User from "~/app/models/User";
 import Settings from "~/app/models/Settings";
-import components from "~/register/components";
+import componentsPath from "~/core/component/paths";
 import fs from "fs";
 import path from "path";
 
@@ -35,8 +35,8 @@ export default class Make extends Command {
     let content = "";
     const name = fullPath.pop() as string;
     const parentPath = fullPath.join("/");
-    let templatePath = `core/templates/${this.subCommand}`;
-    const templateDistination = components[this.subCommand];
+    let templatePath = `core/component/templates/${this.subCommand}`;
+    const templateDistination = componentsPath[this.subCommand];
     if (typeof templateDistination === "object" && fs.statSync(templatePath).isDirectory()){
       templatePath += (typeof this.flags[0] !== "undefined")
         ?'/' + this.flags[0]
@@ -49,7 +49,7 @@ export default class Make extends Command {
       this.error("Component not available!");
     }
     
-    let pathSchema = components[this.subCommand];
+    let pathSchema = componentsPath[this.subCommand];
     if(typeof pathSchema === "object"){
       pathSchema = pathSchema[this.flags[0] || pathSchema.default];
     }

@@ -1,13 +1,14 @@
 import { ValidationSchema } from "types";
 import Joi from "joi";
-import { channels, types } from "~/register/notification";
+import config from "config";
 
-const channelsSchema: any = {}
+const { channels, types } = config.get("notification");
+const channelsSchema: Record<string, unknown> = {}
+const fields: Record<string, unknown> = {};
+
 for(const channel of channels){
   channelsSchema[channel] = Joi.boolean();
 }
-
-const fields: any = {};
 for(const notificationType of types){
   fields[notificationType] = channelsSchema;
 }

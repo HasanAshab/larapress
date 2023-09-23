@@ -1,8 +1,10 @@
 import config from 'config';
+import { Config } from "types";
 import Token, { IToken } from "~/app/models/Token";
 import path from "path";
-import urls from "~/register/urls";
 import crypto from "crypto";
+
+type UrlName = keyof Config["urls"];
 
 export default class URL {
   static resolve(url_path = ""): string {
@@ -15,8 +17,8 @@ export default class URL {
     return `${protocol}://${path.join(`${domain}:${port}`, url_path)}`;
   }
 
-  static route(name: keyof typeof urls, data?: Record < string, string | number >): string {
-    let endpoint: string = urls[name];
+  static route(name: UrlName, data?: Record < string, string | number >): string {
+    let endpoint = config.get<string>("urls." + name);
     if (data) {
       const regex = /:(\w+)/g;
       const params = endpoint.match(regex);
@@ -29,7 +31,7 @@ export default class URL {
     return this.resolve(endpoint);
   }
 
-  static async signedRoute(routeName: keyof typeof urls, data?: Record < string, string | number >, expireAfter?: number) {
+  static async signedRoute(routeName: UrlName, data?: Record < string, string | number >, expireAfter?: number) {
     const fullUrl = this.route(routeName, data);
     const path = fullUrl.replace(this.resolve(), "/");
     const payload: Partial<IToken> = {

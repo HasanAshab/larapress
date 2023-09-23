@@ -2,10 +2,12 @@ import Middleware from "~/core/abstract/Middleware";
 import mongoose from "mongoose";
 import { Request, Response, NextFunction } from "express";
 import { ApiResponse, RawResponse } from "types";
-import { messages } from "~/register/error";
+import config from "config";
 
 export default class InjectHelpers extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {
+    const messages = config.get("errorMessages");
+    
     res.message = function (text?: string) {
       return this.json({
         success: this.statusCode >= 200 && this.statusCode < 300,

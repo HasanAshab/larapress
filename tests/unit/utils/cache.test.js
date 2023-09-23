@@ -1,7 +1,9 @@
 const Cache = require("Cache").default;
-const { drivers } = require("~/register/cache");
+const config = require("config").default;
 
 describe("Cache", () => {
+  const drivers = config.get("cache.drivers");
+  
   beforeEach(async () => {
     for(const driver of drivers){
       await Cache.driver(driver).clear("key");
