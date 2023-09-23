@@ -1,6 +1,5 @@
 import { model, Schema, Model, Document } from "mongoose";
 import { channels, types } from "~/register/notification";
-import { methods } from "~/register/otp";
 
 const notificationDefaults = channels.reduce((defaults, channel) => {
   defaults[channel] = {
@@ -9,6 +8,8 @@ const notificationDefaults = channels.reduce((defaults, channel) => {
   }
   return defaults;
 }, {});
+
+const twoFactorAuthMethods = ["sms", "call", "app"];
 
 const SettingsSchema = new Schema({
   userId: {
@@ -23,7 +24,7 @@ const SettingsSchema = new Schema({
     },
     method: {
       type: String,
-      enum: methods,
+      enum: twoFactorAuthMethods,
       default: "sms",
     },
     secret: {
@@ -46,7 +47,7 @@ export interface ISettings {
   };
   twoFactorAuth: {
     enabled: boolean;
-    method: typeof methods[number];
+    method: typeof twoFactorAuthMethods[number];
     secret: string | null;
   }
 };

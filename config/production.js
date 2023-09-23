@@ -6,5 +6,6 @@ module.exports = {
     host: "smtp-relay.sendinblue.com",
     port: 587,
   },
+  cache: { default: "redis" },
   log: "file"
 }

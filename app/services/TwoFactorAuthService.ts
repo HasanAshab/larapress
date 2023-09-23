@@ -1,7 +1,7 @@
 import config from "config";
 import { sendMessage, sendCall } from "~/core/clients/twilio";
 import speakeasy from "speakeasy";
-import Settings from "~/app/models/Settings";
+import Settings, { ISettings } from "~/app/models/Settings";
 import OTP from "~/app/models/OTP";
 
 export default class TwoFactorAuthService {
