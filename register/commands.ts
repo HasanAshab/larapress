@@ -1,5 +1,6 @@
 export default {
   make: "Make",
+  backup: "CommitProject",
   clear: "Clear",
   test: "Test",
   key: "Key",

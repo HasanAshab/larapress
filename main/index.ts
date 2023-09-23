@@ -12,7 +12,6 @@ import https from "https";
 import fs from "fs";
 
 const log = process.env.NODE_ENV === "development";
-process.env.NODE_ENV === "production" && Setup.cachedConfig();
 
 // Connect to database
 if (false && config.get("db.connect")) {

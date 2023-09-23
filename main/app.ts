@@ -25,16 +25,13 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(multipartParser());
 
-Setup.bootupServices();
+Setup.bootstrap(app);
 
 // Registering mongoose global plugins
 Setup.mongooseGlobalPlugins();
 
 // Registering global middlewares
 app.use(middleware("helpers.inject"));
-
-// Registering all event and listeners
-Setup.events(app);
 
 // Registering all group routes 
 Setup.routes(app);
