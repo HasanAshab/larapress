@@ -1,4 +1,4 @@
-export default {
+export const middlewareAliases = {
   "auth": "Authenticate",
   "verified": "<global>/EnsureEmailIsVerified",
   "roles": "<global>/CheckRole",
@@ -11,4 +11,10 @@ export default {
   "response.cache": "<global>/CacheResponse",
   "error.handle": "<global>/ErrorHandler",
   "helpers.inject": "<global>/InjectHelpers",
-} as const;
+};
+
+
+export const globalMiddlewares = [
+  "maintenance.check",
+  "limit:1000,5"
+];

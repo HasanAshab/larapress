@@ -4,7 +4,7 @@ import config from "config";
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
-import middlewarePairs from "~/register/middlewares";
+import { middlewareAliases } from "~/app/http/kernel";
 import { container } from "tsyringe";
 
 export function capitalizeFirstLetter(str: string) {
@@ -33,7 +33,7 @@ export function storage(storage_path = "") {
 
 
 export function middleware(
-  ...keysWithOptions:  (keyof typeof middlewarePairs | `${keyof typeof middlewarePairs}:${string}` | [keyof typeof middlewarePairs, object])[]
+  ...keysWithOptions:  (keyof typeof middlewareAliases | `${keyof typeof middlewareAliases}:${string}` | [keyof typeof middlewareAliases, object])[]
 ): RequestHandler[] {
   function wrapMiddleware(context: object, handler: Function, options: string[] = []) {
     return async (req: Request, res: Response, next: NextFunction) => {
@@ -46,7 +46,7 @@ export function middleware(
     }
   }
   function getMiddleware(middlewareKey: string, options: string[] = [], config = {}): RequestHandler {
-    const middlewarePath = middlewarePairs[middlewareKey as keyof typeof middlewarePairs];
+    const middlewarePath = middlewareAliases[middlewareKey as keyof typeof middlewareAliases];
       const fullPath = middlewarePath.startsWith("<global>")
         ? middlewarePath.replace("<global>", "~/core/global/middlewares")
         : `~/app/http/${getVersion()}/middlewares/${middlewarePath}`;

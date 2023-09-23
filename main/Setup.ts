@@ -2,7 +2,8 @@ import { Application } from "express";
 import fs from "fs";
 import mongoose from "mongoose";
 import { container } from "tsyringe";
-import { generateEndpointsFromDirTree } from "helpers";
+import { middleware, generateEndpointsFromDirTree } from "helpers";
+import { globalMiddlewares } from "~/app/http/kernel"
 import nodeCron from "node-cron";
 import Artisan from "Artisan";
 import crons from "~/register/cron";
@@ -56,5 +57,9 @@ export default class Setup {
       provider.register?.();
       provider.boot?.();
     }
+  }
+  
+  static globalMiddlewares(app: Application) {
+    app.use(middleware(...globalMiddlewares));
   }
 }

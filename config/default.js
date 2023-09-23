@@ -5,7 +5,7 @@ module.exports = {
     domain: "127.0.0.1",
     port: process.env.PORT,
     key: "621f6b72ebfdfdb50d3f20c97515e9454043b9789550b4e913e3847d4fcc5eec",
-    state: "up"
+    state: "down"
   },
   loadBalancer: {
     enabled: false,
@@ -65,6 +65,10 @@ module.exports = {
     authToken: "3a915d718cb1ecd3f25112dd3ac38e1b",
     phoneNumber: "+15005550006"
   },
-  cache: "memory",
+  cache: {
+    default: "memory",
+    drivers: ["memory", "redis"]
+  }
+    
   log: "console"
 };

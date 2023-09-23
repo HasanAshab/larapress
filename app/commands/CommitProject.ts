@@ -11,7 +11,7 @@ export default class CommitProject extends Command {
   async handle(){
     const { stdout, stderr } = await exec(this.steps.join(" & "));
     if(stderr) {
-      this.error(stderr);
+      this.info(stderr);
     }
     this.info(stdout);
     this.success("Project backup created successfully");

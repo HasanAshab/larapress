@@ -15,9 +15,8 @@ app.use(cors({
   origin: [URL.client()] 
 }));
 app.use(helmet());
-app.use("*", middleware("maintenance.check", "limit:1000,2"));
 
-// Setting middlewares for request parsing 
+// Middlewares for request parsing 
 app.use(bodyParser.json({ limit: "1mb" }));
 app.use(bodyParser.urlencoded({
   extended: false,
@@ -32,6 +31,8 @@ Setup.mongooseGlobalPlugins();
 
 // Registering global middlewares
 app.use(middleware("helpers.inject"));
+
+Setup.globalMiddlewares(app);
 
 // Registering all group routes 
 Setup.routes(app);
