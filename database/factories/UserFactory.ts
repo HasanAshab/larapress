@@ -2,7 +2,6 @@ import Factory from "~/core/abstract/Factory";
 import { faker } from "@faker-js/faker";
 import { IUser } from "~/app/models/User";
 import Settings from "~/app/models/Settings";
-import Role from "~/app/models/Role";
 
 export default class UserFactory extends Factory {
   definition() {

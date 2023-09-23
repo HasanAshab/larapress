@@ -1,3 +1,5 @@
+import { MiddlewareKeyWithOptions } from "types"; 
+
 export const middlewareAliases = {
   "auth": "Authenticate",
   "verified": "<global>/EnsureEmailIsVerified",
@@ -13,8 +15,7 @@ export const middlewareAliases = {
   "helpers.inject": "<global>/InjectHelpers",
 };
 
-
-export const globalMiddlewares = [
+export const globalMiddlewares: MiddlewareKeyWithOptions[] = [
   "maintenance.check",
   "limit:1000,5"
 ];

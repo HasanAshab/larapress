@@ -5,7 +5,7 @@ module.exports = {
     domain: "127.0.0.1",
     port: process.env.PORT,
     key: "621f6b72ebfdfdb50d3f20c97515e9454043b9789550b4e913e3847d4fcc5eec",
-    state: "down"
+    state: "up"
   },
   loadBalancer: {
     enabled: false,
@@ -60,6 +60,10 @@ module.exports = {
     fromAddress: "noreply@Samer.com",
     encryption: "tls"
   },
+  notification: {
+    channels: ["site", "email"],
+    types: ["announcement", "feature", "others"]
+  },
   twilio: {
     sid: "AC8a263aa117170b2087eeac0c919ebe6a",
     authToken: "3a915d718cb1ecd3f25112dd3ac38e1b",
@@ -68,7 +72,16 @@ module.exports = {
   cache: {
     default: "memory",
     drivers: ["memory", "redis"]
+  },
+  log: "console",
+  errorMessages: {
+    404: "Resource Not Found!",
+    403: "You don't have permission to access this resource",
+    401: "Unauthorized"
+  },
+  urls: {
+    "email.verify": "api/v1/auth/verify/:id",
+    "file.serve": "api/files/:path",
+    "client.password.reset": "/password/reset/:id"
   }
-    
-  log: "console"
-};
+} as const;

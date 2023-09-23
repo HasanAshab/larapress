@@ -1,17 +1,20 @@
 import config from "config";
+import { Config } from "types";
 import { capitalizeFirstLetter } from "helpers";
 import Driver from "~/core/utils/Cache/Driver";
-import { drivers } from "~/register/cache";
 import Mockable from "~/core/utils/Cache/Mockable";
 import { util } from "~/core/decorators/class";
 import fs from "fs";
 
 export type CacheDataArg = string | number | boolean | object | unknown[] | Buffer;
+type DriverName = Config["cache"]["drivers"][number];
 
-const driverInstances: Record<typeof drivers[number], Driver> = {};
+const driverInstances = {} as {
+  [Name in DriverName]: Driver
+};
 
 function initializeDrivers() {
-  for (const driverName of drivers) {
+  for (const driverName of config.get<DriverName[]>("cache.drivers")) {
     const DriverClass = require(`./drivers/${capitalizeFirstLetter(driverName)}`).default as any;
     driverInstances[driverName] = new DriverClass();
   }
@@ -19,15 +22,17 @@ function initializeDrivers() {
 
 @util(Mockable)
 export default class Cache {
-  static driverName: typeof drivers[number] = config.get<any>("cache") as any;
+  static driverName = config.get<DriverName>("cache.default");
 
-  static driver(name: typeof drivers[number]) {
+  static driver(name: DriverName) {
     this.driverName = name;
     return this;
   }
 
   private static getDriver(): Driver {
-    return driverInstances[this.driverName];
+    const driver = driverInstances[this.driverName];
+    this.driverName = config.get<DriverName>("cache.default");
+    return driver;
   }
 
   static get(key: string) {

@@ -1,4 +1,4 @@
-const components: Record<string, string | Record<string, string>> = {
+export default {
   "model": "app/models/{name}.ts",
   "plugin": {
     "default": "l",
@@ -28,6 +28,4 @@ const components: Record<string, string | Record<string, string>> = {
     "u": "tests/unit/{name}.test.js"
   },
   "router": "routes/{name}.ts"
-}
-
-export default components;
+} as Record<string, string | Record<string, string>>;

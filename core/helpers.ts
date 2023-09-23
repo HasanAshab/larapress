@@ -1,4 +1,5 @@
 import { NextFunction, RequestHandler, Request, Response } from "express";
+import { MiddlewareKeyWithOptions } from "types"; 
 import { Model } from "mongoose";
 import config from "config";
 import dotenv from "dotenv";
@@ -32,9 +33,7 @@ export function storage(storage_path = "") {
 }
 
 
-export function middleware(
-  ...keysWithOptions:  (keyof typeof middlewareAliases | `${keyof typeof middlewareAliases}:${string}` | [keyof typeof middlewareAliases, object])[]
-): RequestHandler[] {
+export function middleware(...keysWithOptions: MiddlewareKeyWithOptions[]): RequestHandler[] {
   function wrapMiddleware(context: object, handler: Function, options: string[] = []) {
     return async (req: Request, res: Response, next: NextFunction) => {
       try {
