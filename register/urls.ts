@@ -3,4 +3,3 @@ export default {
   "file.serve": "api/files/:path",
   "client.password.reset": "/password/reset/:id"
 } as const;
-

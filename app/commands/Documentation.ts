@@ -50,18 +50,24 @@ export default class Documentation extends Command {
   async uncovered() {
     const eps = this.getAllEndpoints();
     const docsTree = generateEndpointsFromDirTree("docs/parts");
-    for(pathRegex in eps) {
-      console.log(pathRegex.test)
+    for(const [pathRegex, methods] of eps) {
+      for(const documentedPath in docsTree){
+        console.log(pathRegex.test(documentedPath))
+        pathRegex.test(documentedPath) && eps.delete()
+      }
     }
     console.log(eps)
     this.success()
   }
   
   private getAllEndpoints() {
-    const endpoints = {};
+    const endpoints = new Map();
     const traverse = (layer, parentPath = '') => {
-      if (layer.route)
-        endpoints[parentPath + layer.route.path] = Object.keys(layer.route.methods);
+      if (layer.route) {
+        const regex = new RegExp(parentPath + layer.route.path)
+        const methods = Object.keys(layer.route.methods);
+        endpoints.set(regex, methods);
+      }
       else if (layer.name === 'router' && layer.handle.stack) {
         layer.handle.stack.forEach((middleware) => {
           traverse(middleware, parentPath + layer.regexp);
