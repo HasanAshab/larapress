@@ -28,12 +28,22 @@ export function deepMerge(target: any, source: any): any {
   return target;
 }
 
-export function storage(storage_path = "") {
-  return path.join(__dirname, "storage", storage_path);
-}
 
-
+/**
+ * Generates middlewares stack based on keys. Options are injected to the middleware class.
+ * You can pass only keys
+ * or strings that are devided by ':' first part is the key and second is options separated by ','
+ * or an array of first element as key and second element as config obj. This may be used when you need complex config
+ *
+ * Examples:
+ * 
+ * middleware("foo")
+ * middleware("foo", "bar")
+ * middleware("foo:opt1", "bar:opt1,opt2")
+ * middleware(["foo", config], ["bar", config])
+*/
 export function middleware(...keysWithOptions: MiddlewareKeyWithOptions[]): RequestHandler[] {
+  //helper function to auto pass errors of middleware to next() closure
   function wrapMiddleware(context: object, handler: Function, options: string[] = []) {
     return async (req: Request, res: Response, next: NextFunction) => {
       try {
@@ -44,6 +54,10 @@ export function middleware(...keysWithOptions: MiddlewareKeyWithOptions[]): Requ
       }
     }
   }
+  /**
+   * Helper function to import middleware class by using middlewareAliases. Injects config and options to the middleware class.
+   * Returns actual middleware function.
+  */
   function getMiddleware(middlewareKey: string, options: string[] = [], config = {}): RequestHandler {
     const middlewarePath = middlewareAliases[middlewareKey as keyof typeof middlewareAliases];
       const fullPath = middlewarePath.startsWith("<global>")
@@ -69,9 +83,24 @@ export function middleware(...keysWithOptions: MiddlewareKeyWithOptions[]): Requ
   return middlewares;
 }
 
-
-export function controller(name: string, version = getVersion()): Record < string, RequestHandler[] > {
-  const controllerPath = path.join(`~/app/http/${version}/controllers`, name);
+/**
+ * Takes controller file name and version (if not provided, it uses getVersion() to auto detect version) as argument.
+ * It search for Controller on app/http/{version}/controllers directory with that name. It travers to all methods of
+ * the controller to make a stack of request validation middleware and the method. 
+ * Returns a object with key of controller method name and value as their assosiated stack.
+ * 
+ * Example:
+ * 
+ * Assume we have AuthController with login, register and profile methods. login and register have validation files
+ * and profile haven't. Calling controller("AuthController") will give an object like that:
+ * { 
+ *  register: [ Validator, Method ],
+ *  login: [ Validator, Method ],
+ *  profile: [ Method ],
+ * }
+*/ 
+export function controller(name: string, version = getVersion()): Record<string, RequestHandler[]> {
+  const controllerPath = `~/app/http/${version}/controllers/${name}`;
   const ControllerClass = require(controllerPath).default;
   const controllerInstance = container.resolve(ControllerClass);
   const controllerPrefix = name.replace("Controller", "");
@@ -89,6 +118,9 @@ export function controller(name: string, version = getVersion()): Record < strin
   return handlerAndValidatorStack;
 }
 
+/**
+ * Returns environment variables. if envValues provided, then it updates environment
+*/
 export function env(envValues?: Record<string, string>) {
   const envConfig = dotenv.parse(fs.readFileSync(".env"));
   if(!envValues) return envConfig;
@@ -105,6 +137,9 @@ export function env(envValues?: Record<string, string>) {
   return envConfig;
 }
 
+/**
+ * Logs data on different channels based on config
+*/
 export async function log(data: any) {
   const logChannel = config.get<string>("log");
   if(logChannel === "file"){
@@ -122,12 +157,18 @@ export async function log(data: any) {
   }
 }
 
+/**
+ * Get version from call location or provide a path to get its version
+ * 
+ * Examples:
+ * 
+*/ 
 export function getVersion(path?: string): string {
   let target: string;
   if (typeof path === "undefined") {
     const error = new Error();
     const stackTrace = error.stack;
-    if (!stackTrace) throw new Error("Failed to auto infer version. try to pass path manually!");
+    if (!stackTrace) throw new Error("Failed to auto infer version. try to pass path explicitly!");
     target = stackTrace
   } else target = path;
   const regex = /\/(v\d+)\//;
