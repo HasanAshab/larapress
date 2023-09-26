@@ -9,7 +9,7 @@
       "*": ["core/utils/*"],
       "~/*": ["*"],
       "helpers": ["core/helpers"],
-      "types": ["types"]
+      "types/*": ["types/*"]
     },
     "strict": true,
     "alwaysStrict": true,

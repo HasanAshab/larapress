@@ -1,9 +1,11 @@
 import config from "config";
+import { singleton } from "tsyringe";
 import { sendMessage, sendCall } from "~/core/clients/twilio";
 import speakeasy from "speakeasy";
 import Settings, { ISettings } from "~/app/models/Settings";
 import OTP from "~/app/models/OTP";
 
+@singleton()
 export default class TwoFactorAuthService {
   async enable(user, method) {
     if (!user.phoneNumber && method !== "app")
