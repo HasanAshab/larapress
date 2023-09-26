@@ -4,7 +4,8 @@ import Cache from "Cache";
 
 export default class AppServiceProvider extends ServiceProvider {
   boot() {
-    process.env.NODE_ENV === "production" && this.useCachedConfig();
+    if(process.env.NODE_ENV === "production")
+      this.useCachedConfig();
   }
   
   private async useCachedConfig() {
