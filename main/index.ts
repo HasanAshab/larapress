@@ -53,11 +53,10 @@ else {
 }
 
 import TwoFactorAuthService from "~/app/services/TwoFactorAuthService";
-import { Request, Response } from "~/core/express";
+import { AuthenticRequest, Response } from "~/core/express";
 import RequestHandler from "~/core/decorators/RequestHandler";
 
-class LoginRequest extends Request {
-  user!: object;
+class LoginRequest extends AuthenticRequest {
   body!: { 
     email: string;
     password: string;

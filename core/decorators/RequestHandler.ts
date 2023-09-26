@@ -1,4 +1,4 @@
-import { Request, Response } from "~/core/express";
+import { Request, AuthenticRequest, Response } from "~/core/express";
 import { container } from 'tsyringe';
 import { getParams } from "helpers";
 
@@ -13,7 +13,7 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
       for(let i = 0; i < paramNames.length; i++) {
         const paramType = paramTypes[i];
         const paramName = paramNames[i];
-        if(paramType === Request) {
+        if(paramType === Request || paramType === AuthenticRequest) {
           args.push(req);
         }
         else if(paramType.prototype instanceof Request) {

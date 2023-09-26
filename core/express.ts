@@ -1,4 +1,5 @@
 import * as http from 'http';
+import { UserDocument } from "~/app/models/User";
 import Express from 'express';
 import { SendFileOptions, DownloadOptions } from "express-serve-static-core";
 import { RawResponse, ApiResponse } from "types";
@@ -82,6 +83,10 @@ export abstract class Request<
   is!: {
     (type: string | string[]): string | false | null;
   };
+}
+
+export class AuthenticRequest extends Request {
+  user!: UserDocument;
 }
 
 export class Response<
