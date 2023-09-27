@@ -72,26 +72,47 @@ class LoginRequest extends AuthenticRequest {
     }
   }
 }
-
+/*
 class JustNothing {
   @RequestHandler
   ehhe(res: Response, req: LoginRequest, service: TwoFactorAuthService, bar = "jd") {
     console.log(req, res, service, bar)
-    /*res.download("foo/bar", "djd")
-    res.download("foo/bar", console.log)
-    res.download("foo/bar", false)
-    req.headers
-    req.body
-    req.foo
-    req.app
-    //console.log(bar)
-    */
   }
 }
 
 const req: any = {body: {foo: 93}, params: {bar:82}}
 new JustNothing().ehhe(req, {}, console.log)
+*/
 
-//console.log(container.resolve(TwoFactorAuthService) === container.resolve(TwoFactorAuthService))
+
+import Joi from "joi";
+import Validator from "Validator";
+
+const schema = Validator.object({
+  email: Validator.file().max(1000).min(200).parts(1).required(),
+  password: Validator.string().required(),
+  otp: Validator.number(),
+})
+
+const req = {
+  files:   {
+  email: {
+      name: `dummy1.jpg`,
+      data: Buffer.from("dummy file content"),
+      size: 500,
+      encoding: "utf-8",
+      mimetype: "image/jpeg",
+    }
+    
+},
+  body: {
+    password: "barj",
+  }
+}
+
+const result = schema.validate(Object.assign({}, req.files, req.body));
+
+console.log(result)
+//console.log(result.error.details)
 
 export default server;
