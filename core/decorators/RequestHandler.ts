@@ -1,6 +1,7 @@
 import { Request, AuthenticRequest, Response } from "~/core/express";
 import { container } from 'tsyringe';
 import { getParams } from "helpers";
+import Validator from "Validator";
 
 export default function RequestHandler(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
   const handler = descriptor.value;
@@ -17,7 +18,10 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
           args.push(req);
         }
         else if(paramType.prototype instanceof Request) {
-          console.log("Validate it!")
+          const rules = new paramType().rules();
+          const result = rules.validate(Object.assign({}, req.files, req.body));
+          console.log(result)
+
           args.push(req);
         }
         else if(paramType === Response){
