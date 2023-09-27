@@ -1,18 +1,17 @@
-import Controller from "~/core/decorators/controller";
-import { inject } from "~/core/decorators/meta-data";
-import { Request, Response } from "express";
+import RequestHandler from "~/core/decorators/RequestHandler";
+import { Request, Response } from "~/core/express";
+import LoginRequest from "~/app/http/v1/requests/LoginRequest";
 import TwoFactorAuthService from "~/app/services/TwoFactorAuthService";
 import { log } from "helpers";
 import config from "config"
-import User from "~/app/models/User";
 import URL from "URL";
 import Cache from "Cache";
 import Mail from "Mail";
+import User from "~/app/models/User";
 import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
 import { OAuth2Client } from 'google-auth-library';
 import { Mutex } from 'async-mutex';
 
-@Controller
 export default class AuthController {
   async register(req: Request, res: Response){
     const { email, username, password } = req.body;
@@ -34,8 +33,9 @@ export default class AuthController {
       message: "Verification email sent!",
     });
   };
-
-  async login(req: Request, res: Response, @inject twoFactorAuthService: TwoFactorAuthService){
+  
+  @RequestHandler
+  async login(req: LoginRequest, res: Response, twoFactorAuthService: TwoFactorAuthService){
     const { email, password, otp } = req.body;
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
     const mutex = new Mutex();
@@ -179,7 +179,7 @@ export default class AuthController {
     res.message("Password changed!");
   };
   
-  async changePhoneNumber(req: Request, res: Response, @inject twoFactorAuthService: TwoFactorAuthService) {
+  async changePhoneNumber(req: Request, res: Response, twoFactorAuthService: TwoFactorAuthService) {
     const { phoneNumber, otp } = req.body;
     if(req.user.phoneNumber && req.user.phoneNumber === phoneNumber)
       return res.status(400).message("Phone number is same as old one!");
@@ -195,7 +195,7 @@ export default class AuthController {
     res.message("Phone number updated!");
   }
   
-  async sendOtp(req: Request, res: Response, @inject twoFactorAuthService: TwoFactorAuthService){
+  async sendOtp(req: Request, res: Response, twoFactorAuthService: TwoFactorAuthService){
     const user = await User.findById(req.body.userId);
     if(!user) return res.status(404).message();
     twoFactorAuthService.sendOtp(user).catch(log);

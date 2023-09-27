@@ -52,9 +52,11 @@ else {
   });
 }
 
+/*
 import TwoFactorAuthService from "~/app/services/TwoFactorAuthService";
 import { AuthenticRequest, Response } from "~/core/express";
 import RequestHandler from "~/core/decorators/RequestHandler";
+import Validator from "Validator";
 
 class LoginRequest extends AuthenticRequest {
   body!: { 
@@ -68,7 +70,6 @@ class LoginRequest extends AuthenticRequest {
       email: Validator.string().email().required(),
       password: Validator.string().required(),
       otp: Validator.number(),
-      logo: Validator.file()
     }
   }
 }
@@ -93,7 +94,7 @@ const req = {
   },
   body: {
     password: "heheeheh",
-  }
+  },
   params: {
     foo: "bar"
   }
@@ -101,5 +102,5 @@ const req = {
 new JustNothing().ehhe(req, {}, console.log)
 
 
-
+*/
 export default server;

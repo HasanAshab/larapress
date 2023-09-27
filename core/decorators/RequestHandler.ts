@@ -7,7 +7,6 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
   const handler = descriptor.value;
   const paramNames = getParams(handler);
   const paramTypes = Reflect.getMetadata("design:paramtypes", target, propertyKey);
-  console.log(paramTypes, paramNames)
   const args = [];
   descriptor.value = async function(req, res, next) {
     try {
@@ -18,10 +17,10 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
           args.push(req);
         }
         else if(paramType.prototype instanceof Request) {
-          const rules = new paramType().rules();
-          const result = rules.validate(Object.assign({}, req.files, req.body));
-          console.log(result)
-
+          const rules = Validator.object(new paramType().rules());
+          const { error } = rules.validate(Object.assign({}, req.files, req.body));
+          if(error)
+            return res.status(400).message(error.details[0].message);
           args.push(req);
         }
         else if(paramType === Response){
@@ -34,7 +33,6 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
           args.push(container.resolve(paramType));
         }
       }
-
       await handler.apply(target, args);
     }
     catch(err) {

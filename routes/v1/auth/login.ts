@@ -1,13 +1,13 @@
-import { controller, middleware } from "helpers";
+import { middleware } from "helpers";
 import express, { Router } from "express";
+import AuthController from "~/app/http/v1/controllers/AuthController";
 
 const router: Router = express.Router();
-const AuthController = controller("AuthController");
+const authController = new AuthController();
+// Endpoints to login users
 
-// Endpoints to authenticate users
-
-router.post("/", middleware("limit:2000,2", "recaptcha"), AuthController.login);
-router.post("/recovery-code", middleware("limit:2000,1", "recaptcha"), AuthController.loginWithRecoveryCode);
-router.get("/google", AuthController.redirectToGoogle);
+router.post("/", middleware("limit:2000,2"), authController.login);
+router.post("/recovery-code", middleware("limit:2000,1", "recaptcha"), authController.loginWithRecoveryCode);
+router.get("/google", authController.redirectToGoogle);
 
 export default router;
