@@ -1,6 +1,13 @@
 import RequestHandler from "~/core/decorators/RequestHandler";
-import { Request, Response } from "~/core/express";
+import { Request, AuthenticRequest, Response } from "~/core/express";
 import LoginRequest from "~/app/http/v1/requests/LoginRequest";
+import RegisterRequest from "~/app/http/v1/requests/RegisterRequest";
+import LoginWithRecoveryCodeRequest from "~/app/http/v1/requests/LoginWithRecoveryCodeRequest";
+import ResendEmailVerificationRequest from "~/app/http/v1/requests/ResendEmailVerificationRequest";
+import SendResetPasswordEmailRequest from "~/app/http/v1/requests/SendResetPasswordEmailRequest";
+import ResetPasswordRequest from "~/app/http/v1/requests/ResetPasswordRequest";
+import ChangePhoneNumberRequest from "~/app/http/v1/requests/ChangePhoneNumberRequest";
+import SendOtpRequest from "~/app/http/v1/requests/SendOtpRequest";
 import TwoFactorAuthService from "~/app/services/TwoFactorAuthService";
 import { log } from "helpers";
 import config from "config"
@@ -13,7 +20,8 @@ import { OAuth2Client } from 'google-auth-library';
 import { Mutex } from 'async-mutex';
 
 export default class AuthController {
-  async register(req: Request, res: Response){
+  @RequestHandler
+  async register(req: RegisterRequest, res: Response){
     const { email, username, password } = req.body;
     const logo = req.files?.logo;
     const userExists = await User.exists({
@@ -24,7 +32,7 @@ export default class AuthController {
 
     const user = new User({ email, username });
     await user.setPassword(password);
-    logo && await user.attach("logo", logo as any);
+    logo && await user.attach("logo", logo);
     await user.save();
     const token = user.createToken();
     req.app.emit("Registered", user);
@@ -74,7 +82,8 @@ export default class AuthController {
     res.status(401).message("Credentials not match!");
   }
   
-  async loginWithRecoveryCode(req: Request, res: Response) {
+  @RequestHandler
+  async loginWithRecoveryCode(req: LoginWithRecoveryCodeRequest, res: Response) {
     const { email, code } = req.body;
     const user = await User.findOne({ email });
     if(!user)
@@ -88,6 +97,7 @@ export default class AuthController {
       : res.status(401).message("Invalid recovery code!");
   }
   
+  @RequestHandler
   async loginWithGoogle(req: Request, res: Response) {
     try {
       const { clientId, clientSecret, redirectUrl } = config.get<any>("socialite.google");
@@ -119,6 +129,7 @@ export default class AuthController {
     }
   }
   
+  @RequestHandler
   async redirectToGoogle(req: Request, res: Response) {
     try {
       const { clientId, clientSecret, redirectUrl } = config.get<any>("socialite.google");
@@ -135,26 +146,30 @@ export default class AuthController {
     }
   }
   
-  async verifyEmail(req: Request, res: Response){
-    await User.updateOne({ _id: req.params.id }, { verified: true });
+  @RequestHandler
+  async verifyEmail(req: Request, res: Response, id: string){
+    await User.updateOne({ _id: id }, { verified: true });
     res.message("Email verified!");
   };
 
-  async resendEmailVerification(req: Request, res: Response){
+  @RequestHandler
+  async resendEmailVerification(req: ResendEmailVerificationRequest, res: Response){
     User.findOne(req.body).then(user => {
       user && user.sendVerificationEmail().catch(log);
     }).catch(log);
     res.message("Verification email sent!");
   };
-
-  async sendResetPasswordEmail(req: Request, res: Response){
+  
+  @RequestHandler
+  async sendResetPasswordEmail(req: SendResetPasswordEmailRequest, res: Response){
     User.findOne(req.body).then(user => {
       user && user.sendResetPasswordEmail().catch(log);
     }).catch(log);
     res.message("Password reset email sent!");
   };
 
-  async resetPassword(req: Request, res: Response){
+  @RequestHandler
+  async resetPassword(req: ResetPasswordRequest, res: Response){
     const { id, password, token } = req.body;
     const user = await User.findById(id);
     if (!user)
@@ -165,7 +180,8 @@ export default class AuthController {
       : res.status(401).message("Invalid or expired token!");
   };
 
-  async changePassword(req: Request, res: Response){
+  @RequestHandler
+  async changePassword(req: ChangePasswordRequest, res: Response) {
     const user = req.user;
     if(!user.password)
       return res.status(400).message("This feature is not supported for OAuth account!");
@@ -178,8 +194,9 @@ export default class AuthController {
     Mail.to(user.email).send(new PasswordChangedMail()).catch(log);
     res.message("Password changed!");
   };
-  
-  async changePhoneNumber(req: Request, res: Response, twoFactorAuthService: TwoFactorAuthService) {
+ 
+  @RequestHandler
+  async changePhoneNumber(req: ChangePhoneNumberRequest, res: Response, twoFactorAuthService: TwoFactorAuthService) {
     const { phoneNumber, otp } = req.body;
     if(req.user.phoneNumber && req.user.phoneNumber === phoneNumber)
       return res.status(400).message("Phone number is same as old one!");
@@ -195,14 +212,16 @@ export default class AuthController {
     res.message("Phone number updated!");
   }
   
-  async sendOtp(req: Request, res: Response, twoFactorAuthService: TwoFactorAuthService){
+  @RequestHandler
+  async sendOtp(req: SendOtpRequest, res: Response, twoFactorAuthService: TwoFactorAuthService){
     const user = await User.findById(req.body.userId);
     if(!user) return res.status(404).message();
     twoFactorAuthService.sendOtp(user).catch(log);
     res.message("6 digit OTP code sent to phone number!");
   }
   
-  async generateRecoveryCodes(req: Request, res: Response) {
+  @RequestHandler
+  async generateRecoveryCodes(req: AuthenticRequest, res: Response) {
     res.api(await req.user.generateRecoveryCodes());
   }
 }

@@ -6,7 +6,7 @@ const router: Router = express.Router();
 const authController = new AuthController();
 // Endpoints to login users
 
-router.post("/", middleware("limit:2000,2"), authController.login);
+router.post("/", middleware("limit:2000,2", "recaptcha"), authController.login);
 router.post("/recovery-code", middleware("limit:2000,1", "recaptcha"), authController.loginWithRecoveryCode);
 router.get("/google", authController.redirectToGoogle);
 

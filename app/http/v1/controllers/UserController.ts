@@ -22,7 +22,7 @@ export default class UserController {
     }
     if (logo) {
       user.detach("logo");
-      await user.attach("logo", logo as any);
+      await user.attach("logo", logo);
     }
     await user.save();
     if(!req.body.email) return res.message("Profile updated!");

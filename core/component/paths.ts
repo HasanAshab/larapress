@@ -15,7 +15,7 @@ export default {
   "provider": "app/providers/{name}ServiceProvider.ts",
   "exception": "app/exceptions/{name}.ts",
   "controller": "app/http/{v}/controllers/{name}Controller.ts",
-  "validation": "app/http/{v}/validations/{name}.ts",
+  "request": "app/http/{v}/requests/{name}Request.ts",
   "middleware": {
     "default": "l",
     "l": "app/http/{v}/middlewares/{name}.ts",

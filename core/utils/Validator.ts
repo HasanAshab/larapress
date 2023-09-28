@@ -5,8 +5,8 @@ export default Joi.extend((joi) => ({
   base: joi.any(),
   messages: {
     "file.base": "{{#label}} should be a file",
-    "file.size.max": "{{#label}} size shouldn't more than {{#size}} bytes",
-    "file.size.min": "{{#label}} size should be at least {{#size}} bytes",
+    "file.size.max": "{{#label}} size shouldn't more than {{#size}} KB",
+    "file.size.min": "{{#label}} size should be at least {{#size}} KB",
     "file.parts": "{{#label}} should have {{#count}} parts",
     "file.parts.max": "{{#label}} shouldn't have more than {{#count}} parts",
     "file.parts.min": "{{#label}} should have at least {{#count}} parts",
@@ -33,7 +33,7 @@ export default Joi.extend((joi) => ({
         },
       ],
       validate(files, helpers, { size }) {
-        return files.every(file => file.size <= size)
+        return files.every(file => file.size * 1000 <= size)
           ? files
           : helpers.error("file.size.max", { size });
       },
@@ -51,7 +51,7 @@ export default Joi.extend((joi) => ({
         },
       ],
       validate(files, helpers, { size }) {
-        return files.every(file => file.size >= size)
+        return files.every(file => file.size * 1000 >= size)
           ? files
           : helpers.error("file.size.min", { size });
       },

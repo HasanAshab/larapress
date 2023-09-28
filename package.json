@@ -54,7 +54,8 @@
     "speakeasy": "^2.0.0",
     "stripe": "^12.10.0",
     "tsyringe": "^4.8.0",
-    "twilio": "^4.14.0"
+    "twilio": "^4.14.0",
+    "utility-types": "^3.10.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.1",

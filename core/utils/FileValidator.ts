@@ -21,9 +21,7 @@ export default class FileValidator {
       for (const fieldName in schema) {
         const fileParts = files[fieldName];
         const fileStack = Array.isArray(fileParts)? fileParts: [fileParts];
-        const {
-          rules
-        } = schema[fieldName];
+        const { rules } = schema[fieldName];
         if (!rules.isMandatory && !fileStack[0]) continue;
         if (rules.isMandatory && !fileStack[0]) return `The ${fieldName} field is required.`;
         if (rules.parts) {

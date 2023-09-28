@@ -12,7 +12,7 @@ export default class SettingsController {
   async index(req: Request, res: Response) {
     res.api(await req.user.settings);
   }
-  
+
   async notification(req: Request, res: Response) {
     await Settings.updateOne({ userId: req.user._id }, { notification: req.body });
     res.message("Settings saved!");

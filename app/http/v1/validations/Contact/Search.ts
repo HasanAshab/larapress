@@ -1,6 +1,7 @@
 import { ValidationSchema } from "types";
 import Joi from "joi";
 
+//ChatGpt re ask kor Laravel er ekta blog search sys banaite
 const schema: ValidationSchema = {
   urlencoded: {
     target: "query",
