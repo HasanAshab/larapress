@@ -24,7 +24,7 @@ export default class AuthController {
   @RequestHandler
   async register(req: RegisterRequest, res: Response){
     const { email, username, password } = req.body;
-    const logo = req.files?.logo;
+    const logo = req.files.logo;
     const userExists = await User.exists({
       $or: [ { email }, { username } ] 
     });

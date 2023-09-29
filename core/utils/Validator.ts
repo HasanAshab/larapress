@@ -1,16 +1,72 @@
 import Joi, { AnySchema } from "joi";
+import { model } from "mongoose";
+import sanitizeHtml from 'sanitize-html';
 
-/*
+const passwordPatterns = {
+  strong: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/,
+  medium: /(?=.*[a-zA-Z])(?=.*[0-9])(?=.{6,})/,
+  weak: /(?=.{6,})/,
+};
+
 let Validator = Joi.extend((joi) => ({
   type: "string",
   base: joi.string(),
   messages: {
-    "string.password": "{#label} must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, one digit, and one special character (@ $ ! % * ? &)",
+    "string.password.strong": "{#label} must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, one digit, and one special character (@ $ ! % * ? &)",
+    "string.password.medium": "{#label} should be at least 6 characters long and include both letters and numbers",
+    "string.password.weak": "{#label} should be at least 6 characters long",
+    "string.unique": "{#label} already exists",
+    "string.unique": "{#label} already exists",
+  },
+  rules: {
+    password: {
+      method(strength: keyof typeof passwordPatterns = "strong") {
+        return this.$_addRule({ name: "password", args: { strength } });
+      },
+      args: [
+        {
+          name: "strength",
+          assert: Joi.string().valid(...Object.keys(passwordPatterns)).required(),
+        },
+      ],
+      validate(value, helpers, { strength }) {
+        return passwordPatterns[strength].test(value)
+          ? value
+          : helpers.error("string.password." + strength);
+      },
+    },
+    unique: {
+      method(modelName: string, field: string) {
+        return this.$_addRule({ name: "unique", args: { modelName, field } });
+      },
+      args: [
+        {
+          name: "modelName",
+          assert: Joi.string().required(),
+        },
+        {
+          name: "field",
+          assert: Joi.string().required(),
+        }
+      ],
+      async validate(value, helpers, { modelName, field }) {
+        return await model(modelName).exists({ field: value })
+          ? helpers.error("string.password." + strength)
+          : value;
+      },
+    }
+    sanitize: {
+      validate(value, helpers) {
+        return sanitizeHtml(value, {
+          allowedTags: [],
+          allowedAttributes: {}
+        });
+      },
+    }
   }
-  
 }))
-*/
-let Validator = Joi.extend((joi) => ({
+
+Validator = Validator.extend((joi) => ({
   type: "file",
   base: joi.any(),
   messages: {

@@ -11,8 +11,8 @@ export default class CreateContactRequest extends Request {
   protected rules() {
     return {
       email: Validator.string().email().required(),
-      subject: Validator.string().min(5).max(72).required(),
-      message: Validator.string().min(20).max(300).required()
+      subject: Validator.string().min(5).max(72).sanitize().required(),
+      message: Validator.string().min(20).max(300).sanitize().required()
     }
   }
 }
