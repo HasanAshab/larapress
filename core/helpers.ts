@@ -158,8 +158,7 @@ export function getVersion(path?: string): string {
 }
 
 export function generateEndpointsFromDirTree(rootPath: string): Record < string, string > {
-  const endpointPathPair: Record < string,
-  string > = {}
+  const endpointPathPair: Record<string, string> = {}
   const stack = [rootPath];
   while (stack.length > 0) {
     const currentPath = stack.pop();
@@ -190,22 +189,6 @@ export function generateEndpointsFromDirTree(rootPath: string): Record < string,
 
 export function capitalizeFirstLetter(str: string) {
   return str[0].toUpperCase() + str.slice(1);
-}
-
-export function deepMerge(target: any, source: any): any {
-  for (const key in source) {
-    if (source.hasOwnProperty(key)) {
-      if (source[key] instanceof Object && !Array.isArray(source[key])) {
-        if (!target[key]) {
-          target[key] = {};
-        }
-        deepMerge(target[key], source[key]);
-      } else {
-        target[key] = source[key];
-      }
-    }
-  }
-  return target;
 }
 
 export function getParams(func: Function) {

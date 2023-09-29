@@ -1,10 +1,10 @@
-import Controller from "~/core/decorators/controller";
-import { Request, Response } from "express";
+import RequestHandler from "~/core/decorators/RequestHandler";
+import { AuthenticRequest, Response } from "~/core/express";
 import User from "~/app/models/User";
 
-@Controller
 export default class DashboardController {
-  async admin(req: Request, res: Response) {
+  @RequestHandler
+  async admin(req: AuthenticRequest, res: Response) {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     
@@ -12,7 +12,6 @@ export default class DashboardController {
       User.count({ role: "novice" }),
       User.count({ role: "novice", createdAt: { $gte: today }})
     ]);
-    
     res.api({ totalUsers, newUsersToday });
   }
 }

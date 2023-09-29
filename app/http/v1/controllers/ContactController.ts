@@ -1,20 +1,25 @@
-import Controller from "~/core/decorators/controller";
-import { Request, Response } from "express";
+import RequestHandler from "~/core/decorators/RequestHandler";
+import { AuthenticRequest, Response } from "~/core/express";
+import CreateContactRequest from "~/app/http/v1/requests/CreateContactRequest";
+import SearchContactRequest from "~/app/http/v1/requests/SearchContactRequest";
+import UpdateContactStatusRequest from "~/app/http/v1/requests/UpdateContactStatusRequest";
 import Contact from "~/app/models/Contact";
 import Cache from "Cache";
 
-@Controller
 export default class ContactController {
-  async index(req: Request, res: Response) {
+  @RequestHandler
+  async index(req: AuthenticRequest, res: Response) {
     res.api(await Contact.find().paginateReq(req));
   }
   
-  async create(req: Request, res: Response) {
+  @RequestHandler
+  async create(req: CreateContactRequest, res: Response) {
     await Contact.create(req.body);
     res.status(201).message("Thanks for contacting us!");
   }
   
-  async search(req: Request, res: Response) {
+  @RequestHandler
+  async search(req: SearchContactRequest, res: Response) {
     const cacheKey = `$_SEARCH(${req.query.q}:${req.query.status}:${req.query.limit}:${req.query.cursor})`;
     const cachedResults = await Cache.get(cacheKey);
     if (cachedResults)
@@ -29,22 +34,25 @@ export default class ContactController {
       .paginateReq(req);
     await Cache.put(cacheKey, res.api(results), 5 * 3600);
   }
-
-  async find(req: Request, res: Response) {
-    const contact = await Contact.findById(req.params.id);
+  
+  @RequestHandler
+  async find(res: Response, id: string) {
+    const contact = await Contact.findById(id);
     return contact 
       ? res.api(contact)
       : res.status(404).message();
   }
   
-  async delete(req: Request, res: Response) {
-    const { deletedCount } = await Contact.deleteOne({ _id: req.params.id });
+  @RequestHandler
+  async delete(res: Response, id: string) {
+    const { deletedCount } = await Contact.deleteOne({ _id: id });
     res.status(deletedCount === 1 ? 204 : 404).message();
   }
 
-  async updateStatus(req: Request, res: Response) {
+  @RequestHandler
+  async updateStatus(req: UpdateContactStatusRequest, res: Response, id: string) {
     await Contact.updateOne(
-      { _id: req.params.id }, 
+      { _id: id }, 
       { status: req.body.status }
     );
     res.message(`Contact form ${req.body.status}!`);
