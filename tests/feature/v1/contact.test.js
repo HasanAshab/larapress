@@ -87,7 +87,7 @@ describe("Contact", () => {
   it("Should search contacts", async () => {
     const contact = await Contact.factory().create({ message });
     const response = await request.get("/contact/inquiries/search").actingAs(token).query({
-      query: "website bug",
+      q: "website bug",
     });
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument([contact]);
@@ -99,7 +99,7 @@ describe("Contact", () => {
       Contact.factory().closed().create({ message })
     ]);
     const response = await request.get("/contact/inquiries/search").actingAs(token).query({
-      query: "website bug",
+      q: "website bug",
       status: "opened"
     });
     expect(response.statusCode).toBe(200);

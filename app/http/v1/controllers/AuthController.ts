@@ -6,6 +6,7 @@ import LoginWithRecoveryCodeRequest from "~/app/http/v1/requests/LoginWithRecove
 import ResendEmailVerificationRequest from "~/app/http/v1/requests/ResendEmailVerificationRequest";
 import SendResetPasswordEmailRequest from "~/app/http/v1/requests/SendResetPasswordEmailRequest";
 import ResetPasswordRequest from "~/app/http/v1/requests/ResetPasswordRequest";
+import ChangePasswordRequest from "~/app/http/v1/requests/ChangePasswordRequest";
 import ChangePhoneNumberRequest from "~/app/http/v1/requests/ChangePhoneNumberRequest";
 import SendOtpRequest from "~/app/http/v1/requests/SendOtpRequest";
 import TwoFactorAuthService from "~/app/services/TwoFactorAuthService";
@@ -147,7 +148,7 @@ export default class AuthController {
   }
   
   @RequestHandler
-  async verifyEmail(req: Request, res: Response, id: string){
+  async verifyEmail(res: Response, id: string){
     await User.updateOne({ _id: id }, { verified: true });
     res.message("Email verified!");
   };

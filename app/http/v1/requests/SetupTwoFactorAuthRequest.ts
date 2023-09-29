@@ -11,8 +11,8 @@ export default class SetupTwoFactorAuthRequest extends AuthenticRequest {
   
   protected rules() {
     return {
-      enable: Joi.boolean(),
-      method: Joi.string().valid(...config.get("twoFactorAuth.methods"))
+      enable: Validator.boolean(),
+      method: Validator.string().valid(...config.get("twoFactorAuth.method"))
     }
   }
 }

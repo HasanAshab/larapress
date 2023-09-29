@@ -101,6 +101,25 @@ const req = {
 }
 new JustNothing().ehhe(req, {}, console.log)
 
+import Validator from "Validator";
 
+const rules = {
+     username: Validator.string().alphanum().min(3).max(12).required(),
+      email: Validator.string().email().required(),
+      password: Validator.string()
+        .min(8)
+        .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\.@$!%*?&])[A-Za-z\\d@$!%*?&]+$/)
+        .message('"{#label}" must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, one digit, and one special character (@ $ ! % * ? &)')
+        .required(),
+     foo: Validator.file().parts(1).max(1).mimetypes(["image/jpeg", "image/png"])
+  }
+const sc = Validator.object(rules)
+
+console.log(
+  sc.validate({
+  foo: {a:20}
+})
+)
 */
+
 export default server;

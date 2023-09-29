@@ -188,6 +188,7 @@ describe("Auth", () => {
       email: user.email,
       code: "foo-bar"
     });
+    console.log(response.body)
     expect(response.statusCode).toBe(401);
     expect(response.body).not.toHaveProperty("data");
   });

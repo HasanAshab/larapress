@@ -7,9 +7,9 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
   const handler = descriptor.value;
   const paramNames = getParams(handler);
   const paramTypes = Reflect.getMetadata("design:paramtypes", target, propertyKey);
-  const args = [];
   descriptor.value = async function(req, res, next) {
     try {
+      const args = [];
       for(let i = 0; i < paramNames.length; i++) {
         const paramType = paramTypes[i];
         const paramName = paramNames[i];
@@ -18,7 +18,10 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
         }
         else if(paramType.prototype instanceof Request) {
           const rules = Validator.object(new paramType().rules());
-          const { error } = rules.validate(Object.assign({}, req.files, req.body));
+          const data = req.method === "get"
+            ? req.query
+            : Object.assign({}, req.body, req.files);
+          const { error } = rules.validate(data);
           if(error)
             return res.status(400).message(error.details[0].message);
           args.push(req);

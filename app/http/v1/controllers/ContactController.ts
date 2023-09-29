@@ -15,11 +15,11 @@ export default class ContactController {
   }
   
   async search(req: Request, res: Response) {
-    const cacheKey = `search:${req.query.query}:${req.query.status}:${req.query.limit}:${req.query.cursor}`;
+    const cacheKey = `$_SEARCH(${req.query.q}:${req.query.status}:${req.query.limit}:${req.query.cursor})`;
     const cachedResults = await Cache.get(cacheKey);
     if (cachedResults)
       return res.send(cachedResults);
-    const filter: any = { $text: { $search: req.query.query } };
+    const filter: any = { $text: { $search: req.query.q } };
     if (req.query.status)
       filter.status = req.query.status;
 

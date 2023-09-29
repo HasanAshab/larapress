@@ -7,7 +7,7 @@ export default class AppServiceProvider extends ServiceProvider {
     if(process.env.NODE_ENV === "production")
       this.useCachedConfig();
   }
-  
+ // TODO use lodash here
   private async useCachedConfig() {
     const customConfig = await Cache.driver("redis").get("config");
     customConfig && Object.assign(config, customConfig);

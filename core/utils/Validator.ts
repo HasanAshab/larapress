@@ -1,12 +1,22 @@
 import Joi, { AnySchema } from "joi";
 
-export default Joi.extend((joi) => ({
+/*
+let Validator = Joi.extend((joi) => ({
+  type: "string",
+  base: joi.string(),
+  messages: {
+    "string.password": "{#label} must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, one digit, and one special character (@ $ ! % * ? &)",
+  }
+  
+}))
+*/
+let Validator = Joi.extend((joi) => ({
   type: "file",
   base: joi.any(),
   messages: {
     "file.base": "{{#label}} should be a file",
-    "file.size.max": "{{#label}} size shouldn't more than {{#size}} KB",
-    "file.size.min": "{{#label}} size should be at least {{#size}} KB",
+    "file.size.max": "{{#label}} size shouldn't more than {{#size}} MB",
+    "file.size.min": "{{#label}} size should be at least {{#size}} MB",
     "file.parts": "{{#label}} should have {{#count}} parts",
     "file.parts.max": "{{#label}} shouldn't have more than {{#count}} parts",
     "file.parts.min": "{{#label}} should have at least {{#count}} parts",
@@ -27,15 +37,14 @@ export default Joi.extend((joi) => ({
       args: [
         {
           name: "size",
-          ref: true,
           assert: Joi.number().integer().min(0).required(),
           message: "must be a positive integer",
         },
       ],
       validate(files, helpers, { size }) {
-        return files.every(file => file.size * 1000 <= size)
+        return files.every(file => file.size <= size * 1000000)
           ? files
-          : helpers.error("file.size.max", { size });
+          : helpers.error("file.size.max", { size: size });
       },
     },
     min: {
@@ -45,13 +54,12 @@ export default Joi.extend((joi) => ({
       args: [
         {
           name: "size",
-          ref: true,
           assert: Joi.number().integer().min(0).required(),
           message: "must be a positive integer",
         },
       ],
       validate(files, helpers, { size }) {
-        return files.every(file => file.size * 1000 >= size)
+        return files.every(file => file.size >= size * 1000000)
           ? files
           : helpers.error("file.size.min", { size });
       },
@@ -63,7 +71,6 @@ export default Joi.extend((joi) => ({
       args: [
         {
           name: "count",
-          ref: true,
           assert: Joi.number().integer().min(1).required(),
           message: "must be at least 1",
         },
@@ -81,7 +88,6 @@ export default Joi.extend((joi) => ({
       args: [
         {
           name: "count",
-          ref: true,
           assert: Joi.number().integer().min(1).required(),
           message: "must be at least 1",
         },
@@ -99,7 +105,6 @@ export default Joi.extend((joi) => ({
       args: [
         {
           name: "count",
-          ref: true,
           assert: Joi.number().integer().min(1).required(),
           message: "must be at least 1",
         },
@@ -117,7 +122,6 @@ export default Joi.extend((joi) => ({
       args: [
         {
           name: "type",
-          ref: true,
           assert: Joi.string().required(),
           message: "must be a string",
         },
@@ -130,13 +134,12 @@ export default Joi.extend((joi) => ({
     },
     mimetypes: {
       method(types: string[]) {
-        return this.$_addRule({ name: "mimetype", args: { types } });
+        return this.$_addRule({ name: "mimetypes", args: { types } });
       },
       args: [
         {
           name: "types",
-          ref: true,
-          assert: Joi.array().items(Joi.string()).required(),
+          assert: Joi.array().items(Joi.string().required()).required(),
           message: "must be an array of string",
         },
       ],
@@ -150,3 +153,4 @@ export default Joi.extend((joi) => ({
 }));
 
 
+export default Validator;

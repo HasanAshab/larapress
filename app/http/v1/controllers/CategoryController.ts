@@ -1,47 +1,53 @@
-import Controller from "~/core/decorators/controller";
-import { Request, Response } from "express";
+import RequestHandler from "~/core/decorators/RequestHandler";
+import { Request, AuthenticRequest, Response } from "~/core/express";
 import Category from "~/app/models/Category";
+import CreateCategoryRequest from "~/app/http/v1/requests/CreateCategoryRequest";
+import UpdateCategoryRequest from "~/app/http/v1/requests/UpdateCategoryRequest";
 
-@Controller
 export default class CategoryController {
-  async index(req: Request, res: Response) {
+  @RequestHandler
+  async index(req: AuthenticRequest, res: Response) {
     res.api(await Category.find().paginateReq(req));
   }
   
-  async find(req: Request, res: Response) {
-    const category = await Category.findById(req.params.id);
+  @RequestHandler
+  async find(res: Response, id: string) {
+    const category = await Category.findById(id);
     return category 
       ? res.api(category)
       : res.status(404).message();
   }
   
-  async create(req: Request, res: Response) {
+  @RequestHandler
+  async create(req: CreateCategoryRequest, res: Response) {
+    const icon = req.files.icon;
     const category = new Category(req.body);
-    const icon = req.files?.icon;
-    icon && await category.attach("icon", icon as any);
+    icon && await category.attach("icon", icon);
     await category.save();
     res.status(201).message("Category successfully created!");
   }
   
-  async update(req: Request, res: Response) {
-    const icon = req.files?.icon;
-    if(!icon){
-      const { modifiedCount } = await Category.updateOne({_id: req.params.id}, req.body);
+  @RequestHandler
+  async update(req: UpdateCategoryRequest, res: Response, id: string) {
+    const icon = req.files.icon;
+    if(!icon) {
+      const { modifiedCount } = await Category.updateOne({_id: id}, req.body);
       return modifiedCount === 1
         ? res.message("Category updated!")
         : res.status(404).message();
     }
-    const category = await Category.findById(req.params.id);
+    const category = await Category.findById(id);
     if(!category) return res.status(404).message();
     Object.assign(category, req.body);
     category.detach("icon");
-    await category.attach("icon", icon as any);
+    await category.attach("icon", icon);
     await category.save();
     res.message("Category updated!");
   }
   
-  async delete(req: Request, res: Response) {
-    const { deletedCount } = await Category.deleteOne({_id: req.params.id});
+  @RequestHandler
+  async delete(res: Response, id: string) {
+    const { deletedCount } = await Category.deleteOne({ _id: id });
     res.status(deletedCount === 1 ? 204 : 404).message();
   }
 }

@@ -10,7 +10,7 @@ export default class LoginWithRecoveryCodeRequest extends Request {
   protected rules() {
     return {
       email: Validator.string().email().required(),
-      otp: Validator.string().required()
+      code: Validator.string().required()
     }
   }
 }
