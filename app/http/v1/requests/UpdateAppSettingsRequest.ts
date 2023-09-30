@@ -8,6 +8,9 @@ export default class UpdateAppSettingsRequest extends AuthenticRequest {
   body!: DeepPartial<Config>;
   
   protected rules(obj = config) {
+    if(obj === null || typeof obj === "undefined")
+      return null;
+
     const fields: Record<string, any> = {};
     const type = typeof obj;
     if(type !== "object")

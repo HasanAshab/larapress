@@ -46,7 +46,7 @@ export default class SettingsController {
   @RequestHandler
   async updateAppSettings(req: UpdateAppSettingsRequest, res: Response) {
     _.merge(config, req.body);
-    Cache.driver("redis").put("config", config);
+    Cache.driver("redis").put("config", req.body);
     return res.message("App Settings updated!");
   }
 }

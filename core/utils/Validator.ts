@@ -1,7 +1,6 @@
 import Joi, { AnySchema } from "joi";
 import { model } from "mongoose";
 import sanitizeHtml from 'sanitize-html';
-import { Response } from "~/core/express";
 
 const passwordPatterns = {
   strong: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/,
