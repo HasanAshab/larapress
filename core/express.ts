@@ -89,11 +89,29 @@ export class AuthenticRequest extends Request {
   user!: UserDocument;
 }
 
+export class ResponseData {
+  constructor(public readonly statusCode: number, public readonly payload: unknown) {
+    this.statusCode = statusCode;
+    this.payload = payload;
+  }
+}
+
 export class Response<
   ResBody = any,
   LocalsObj extends Record<string, any> = Record<string, any>,
   StatusCode extends number = number
 > extends http.ServerResponse {
+  static statusCode = 200;
+  static status(statusCode: number) {
+    this.statusCode = statusCode;
+    return this;
+  }
+  static send(payload: uknown) {
+    const data = new ResponseData(this.statusCode, payload);
+    this.statusCode = 200;
+    throw data;
+  }
+  
   app!: Express.Application;
   locals: LocalsObj & Express.Locals = {};
   status!: (code: StatusCode) => this;
