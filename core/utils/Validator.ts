@@ -8,14 +8,13 @@ const passwordPatterns = {
   weak: /(?=.{6,})/,
 };
 
-let Validator = Joi.extend((joi) => ({
+let Validator = Joi.extend(joi => ({
   type: "string",
   base: joi.string(),
   messages: {
     "string.password.strong": "{#label} must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, one digit, and one special character (@ $ ! % * ? &)",
     "string.password.medium": "{#label} should be at least 6 characters long and include both letters and numbers",
     "string.password.weak": "{#label} should be at least 6 characters long",
-    "string.unique": "{#label} already exists",
     "string.unique": "{#label} already exists",
   },
   rules: {
@@ -57,17 +56,16 @@ let Validator = Joi.extend((joi) => ({
     },
     sanitize: {
       validate(value, helpers) {
-        value = sanitizeHtml(value, {
+        return sanitizeHtml(value, {
           allowedTags: [],
           allowedAttributes: {}
         });
-        return { value };
-      },
+      }
     }
   }
 }))
 
-Validator = Validator.extend((joi) => ({
+Validator = Validator.extend(joi => ({
   type: "file",
   base: joi.any(),
   messages: {

@@ -22,9 +22,10 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
           const data = req.method === "get"
             ? req.query
             : Object.assign({}, req.body, req.files);
-          const { error } = rules.validate(data);
+          const { error, value } = rules.validate(data);
           if(error)
             return res.status(400).message(error.details[0].message);
+          req.body = value;
           args.push(req);
         }
         else if(paramType === Response){

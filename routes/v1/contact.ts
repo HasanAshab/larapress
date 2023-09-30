@@ -8,12 +8,11 @@ const contactController = new ContactController();
 // Endpoints for contact
 
 router.post("/", contactController.create);
-router.use(middleware("auth", "roles:admin"));
-router.get("/inquiries", contactController.index);
-router.get("/inquiries/search", contactController.search);
+router.get("/inquiries", middleware("auth", "roles:admin"), contactController.index);
+router.get("/inquiries/search", middleware("auth", "roles:admin"), contactController.search);
 router.route("/inquiries/:id")
-  .get(contactController.find)
-  .delete(contactController.delete);
-router.put("/inquiries/:id/status", contactController.updateStatus);
+  .get(middleware("auth", "roles:admin"), contactController.find)
+  .delete(middleware("auth", "roles:admin"), contactController.delete);
+router.put("/inquiries/:id/status", middleware("auth", "roles:admin"), contactController.updateStatus);
 
 export default router;
