@@ -1,17 +1,18 @@
-import { middleware, controller } from "helpers";
+import { middleware } from "helpers";
 import express, { Router } from "express";
+import NotificationController from "~/app/http/v1/controllers/NotificationController";
 
 const router: Router = express.Router();
-const NotificationController = controller("NotificationController");
+const notificationController = new NotificationController();
 
 // Endpoints for notification
 
 router.use(middleware("auth", "verified"));
 
-router.get("/", NotificationController.index);
-router.get("/unread-count", NotificationController.unreadCount);
+router.get("/", notificationController.index);
+router.get("/unread-count", notificationController.unreadCount);
 router.route("/:id")
-  .post(NotificationController.markAsRead)
-  .delete(NotificationController.delete);
+  .post(notificationController.markAsRead)
+  .delete(notificationController.delete);
 
 export default router;

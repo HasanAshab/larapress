@@ -1,3 +1,4 @@
+import _ from "lodash";
 import RequestHandler from "~/core/decorators/RequestHandler";
 import { AuthenticRequest, Response } from "~/core/express";
 import { deepMerge } from "helpers";
@@ -44,7 +45,7 @@ export default class SettingsController {
 
   @RequestHandler
   async updateAppSettings(req: UpdateAppSettingsRequest, res: Response) {
-    deepMerge(config, req.body);
+    _.merge(config, req.body);
     Cache.driver("redis").put("config", config);
     return res.message("App Settings updated!");
   }

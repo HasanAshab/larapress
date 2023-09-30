@@ -28,7 +28,7 @@ describe("Contact", () => {
     expect(await Contact.findOne(data)).not.toBeNull();
   });
   
-  it("Contact data should be sanitized", { user: false }, async () => {
+  it.only("Contact data should be sanitized", { user: false }, async () => {
     const data = {
       email: "foo@gmail.com",
       subject: "I'm trying XXS",
@@ -41,6 +41,7 @@ describe("Contact", () => {
       message: data.message + script
     });
     expect(response.statusCode).toBe(201);
+    console.log(await Contact.find())
     expect(await Contact.findOne(data)).not.toBeNull();
   });
   

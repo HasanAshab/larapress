@@ -1,17 +1,19 @@
-import { middleware, controller } from "helpers";
+import { middleware } from "helpers";
 import express, { Router } from "express";
+import ContactController from "~/app/http/v1/controllers/ContactController";
 
 const router: Router = express.Router();
-const ContactController = controller("ContactController");
+const contactController = new ContactController();
 
 // Endpoints for contact
-router.post("/", ContactController.create);
+
+router.post("/", contactController.create);
 router.use(middleware("auth", "roles:admin"));
-router.get("/inquiries", ContactController.index);
-router.get("/inquiries/search", ContactController.search);
+router.get("/inquiries", contactController.index);
+router.get("/inquiries/search", contactController.search);
 router.route("/inquiries/:id")
-  .get(ContactController.find)
-  .delete(ContactController.delete);
-router.put("/inquiries/:id/status", ContactController.updateStatus);
+  .get(contactController.find)
+  .delete(contactController.delete);
+router.put("/inquiries/:id/status", contactController.updateStatus);
 
 export default router;

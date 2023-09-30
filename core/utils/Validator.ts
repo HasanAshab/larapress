@@ -54,13 +54,14 @@ let Validator = Joi.extend((joi) => ({
           ? helpers.error("string.password." + strength)
           : value;
       },
-    }
+    },
     sanitize: {
       validate(value, helpers) {
-        return sanitizeHtml(value, {
+        value = sanitizeHtml(value, {
           allowedTags: [],
           allowedAttributes: {}
         });
+        return { value };
       },
     }
   }

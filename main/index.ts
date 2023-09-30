@@ -101,23 +101,5 @@ const req = {
 }
 new JustNothing().ehhe(req, {}, console.log)
 */
-import Validator from "Validator";
-
-const rules = {
-      password: Validator.string().password("weak").required()
-  }
-const sc = Validator.object(rules)
-
-console.log(
-  sc.validate({
-  password: "haomao",
-}),
-sc.validate({
-  password: "Haomao@12345",
-})
-
-
-)
-
 
 export default server;

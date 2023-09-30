@@ -1,20 +1,21 @@
-import { middleware, controller } from "helpers";
+import { middleware } from "helpers";
 import express, { Router } from "express";
+import SettingsController from "~/app/http/v1/controllers/SettingsController";
 
 const router: Router = express.Router();
-const SettingsController = controller("SettingsController");
+const settingsController = new SettingsController();
 
 // Endpoints for settings
 
-router.get("/", middleware("auth", "verified"), SettingsController.index);
-router.post("/setup-2fa", middleware("auth", "verified"), SettingsController.setupTwoFactorAuth);
+router.get("/", middleware("auth", "verified"), settingsController.index);
+router.post("/setup-2fa", middleware("auth", "verified"), settingsController.setupTwoFactorAuth);
 
-router.put("/notification", middleware("auth", "verified"), SettingsController.notification);
+router.put("/notification", middleware("auth", "verified"), settingsController.notification);
 
 router.route("/app")
-  .get(middleware("auth", "roles:admin"), SettingsController.getAppSettings)
-  .put(middleware("auth", "roles:admin"), SettingsController.updateAppSettings)
-  //.get(SettingsController.getAppSettings)
-  //.put(SettingsController.updateAppSettings);
+  .get(middleware("auth", "roles:admin"), settingsController.getAppSettings)
+  .put(middleware("auth", "roles:admin"), settingsController.updateAppSettings)
+  //.get(settingsController.getAppSettings)
+  //.put(settingsController.updateAppSettings);
  
 export default router;

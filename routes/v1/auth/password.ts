@@ -1,14 +1,14 @@
-import { controller, middleware } from "helpers";
+import { middleware } from "helpers";
 import express, { Router } from "express";
+import AuthController from "~/app/http/v1/controllers/AuthController";
 
 const router: Router = express.Router();
-const AuthController = controller("AuthController");
+const authController = new AuthController();
 
 // Endpoints to authenticate users
 
-router.post("/reset/send-email", middleware("recaptcha", "limit:10000,1"), AuthController.sendResetPasswordEmail);
-router.put("/reset", AuthController.resetPassword);
-router.put("/change", middleware("auth", "verified"), AuthController.changePassword);
-
+router.post("/reset/send-email", middleware("recaptcha", "limit:10000,2"), authController.sendResetPasswordEmail);
+router.put("/reset", authController.resetPassword);
+router.put("/change", middleware("auth", "verified"), authController.changePassword);
 
 export default router;

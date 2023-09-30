@@ -14,6 +14,7 @@ export default class ContactController {
   
   @RequestHandler
   async create(req: CreateContactRequest, res: Response) {
+    console.log(req.body)
     await Contact.create(req.body);
     res.status(201).message("Thanks for contacting us!");
   }

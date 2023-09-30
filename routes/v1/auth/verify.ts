@@ -1,13 +1,14 @@
-import { controller, middleware } from "helpers";
+import { middleware } from "helpers";
 import express, { Router } from "express";
+import AuthController from "~/app/http/v1/controllers/AuthController";
 
 const router: Router = express.Router();
-const AuthController = controller("AuthController");
+const authController = new AuthController();
 
-// Endpoints to authenticate users
+// Endpoints to verify users
 
-router.post("/resend", middleware("limit:60000,1"), AuthController.resendEmailVerification);
-router.get("/:id", middleware("signed"), AuthController.verifyEmail);
+router.post("/resend", middleware("limit:60000,1"), authController.resendEmailVerification);
+router.get("/:id", middleware("signed"), authController.verifyEmail);
 
 
 export default router;
