@@ -9,7 +9,7 @@ export default class InjectHelpers extends Middleware {
     const messages = config.get("errorMessages");
     
     res.message = function (text?: string) {
-      return this.json({
+      this.json({
         success: this.statusCode >= 200 && this.statusCode < 300,
         message: text ?? messages[this.statusCode]
       });
@@ -30,7 +30,6 @@ export default class InjectHelpers extends Middleware {
       delete (response as any).message;
       apiResponse.data = response;
       this.json(apiResponse);
-      return apiResponse;
     };
 
     next();

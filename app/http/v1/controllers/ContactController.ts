@@ -1,5 +1,5 @@
 import RequestHandler from "~/core/decorators/RequestHandler";
-import { AuthenticRequest, response } from "~/core/express";
+import { AuthenticRequest, Response, res } from "~/core/express";
 import CreateContactRequest from "~/app/http/v1/requests/CreateContactRequest";
 import SearchContactRequest from "~/app/http/v1/requests/SearchContactRequest";
 import UpdateContactStatusRequest from "~/app/http/v1/requests/UpdateContactStatusRequest";
@@ -13,15 +13,7 @@ export default class ContactController {
   }
   
   @RequestHandler
-  //async create(req: CreateContactRequest, res: Response) {
-  async create(req: AuthenticRequest, res: Response) {
-    //response.append("foo", 33).status(290).append("bar", 69).json({ehhoo: 93});
-    response.redirect("/")
-    //res.append("foo", 93).append("bar", 84).json("ehhe")
-    console.log(res.get("foo"))
-    console.log(res.get("bar"))
-    return;
-    //return req.body;
+  async create(req: CreateContactRequest) {
     await Contact.create(req.body);
     res.status(201).message("Thanks for contacting us!");
   }
@@ -45,27 +37,23 @@ export default class ContactController {
   }
   
   @RequestHandler
-  async find(res: Response, id: string) {
-    const contact = await Contact.findById(id);
-    return contact 
-      ? res.api(contact)
-      : res.status(404).message();
+  async find(id: string) {
+    return await Contact.findByIdOrFail(id);
   }
   
   @RequestHandler
-  async delete(res: Response, id: string) {
+  async delete(id: string) {
     const { deletedCount } = await Contact.deleteOne({ _id: id });
     res.status(deletedCount === 1 ? 204 : 404).message();
   }
 
   @RequestHandler
-  async updateStatus(req: UpdateContactStatusRequest, res: Response, id: string) {
+  async updateStatus(req: UpdateContactStatusRequest, id: string) {
     await Contact.updateOne(
       { _id: id }, 
       { status: req.body.status }
     );
-    res.message(`Contact form ${req.body.status}!`);
+    return `Contact form ${req.body.status}!`;
   }
-
 }
 
