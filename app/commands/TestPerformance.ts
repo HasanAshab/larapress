@@ -1,5 +1,5 @@
 import Command from "~/core/abstract/Command";
-import { generateEndpointsFromDirTree } from "helpers";
+import { generateEndpoints } from "helpers";
 import { exec, spawn } from "child_process";
 import autocannon, { Options } from "autocannon";
 import DB from "DB";
@@ -81,7 +81,7 @@ export default class TestPerformance extends Command {
   
   private async parseBenchmarks(version: string, connections: number, pattern?: string) {
     const requests = [];
-    const endpointPathPair = generateEndpointsFromDirTree(path.join(this.benchmarkRootPath, version));
+    const endpointPathPair = generateEndpoints(path.join(this.benchmarkRootPath, version));
     for(const [endpoint, path] of Object.entries(endpointPathPair)){
      if(pattern && !endpoint.includes(pattern)) continue
       const benchmarkFile = require(path);

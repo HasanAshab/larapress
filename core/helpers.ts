@@ -64,42 +64,7 @@ export function middleware(...keysWithOptions: MiddlewareKeyWithOptions[]): Requ
 }
 
 /**
- * Takes controller file name and version (if not provided, it uses getVersion() to auto detect version) as argument.
- * It search for Controller on app/http/{version}/controllers directory with that name. It travers to all methods of
- * the controller to make a stack of request validation middleware and the method. 
- * Returns a object with key of controller method name and value as their assosiated stack.
- * 
- * Example:
- * 
- * Assume we have AuthController with login, register and profile methods. login and register have validation files
- * and profile haven't. Calling controller("AuthController") will give an object like that:
- * { 
- *  register: [ Validator, Method ],
- *  login: [ Validator, Method ],
- *  profile: [ Method ],
- * }
-*/ 
-export function controller(name: string, version = getVersion()): Record<string, RequestHandler[]> {
-  const controllerPath = `~/app/http/${version}/controllers/${name}`;
-  const ControllerClass = require(controllerPath).default;
-  const controllerInstance = container.resolve(ControllerClass);
-  const controllerPrefix = name.replace("Controller", "");
-  const methodNames = Object.getOwnPropertyNames(Object.getPrototypeOf(controllerInstance)).filter(name => name !== "constructor" && typeof controllerInstance[name] === 'function');
-  const handlerAndValidatorStack: Record <string, RequestHandler[]> = {};
-  for (const methodName of methodNames) {
-    handlerAndValidatorStack[methodName] = [controllerInstance[methodName]];
-    try {
-      const validationSubPath = `${controllerPrefix}/${capitalizeFirstLetter(methodName)}`;
-      const validationSchema = require(`~/app/http/${version}/validations/${validationSubPath}`).default;
-      const validator = middleware(["validate", { validationSchema }])[0];
-      handlerAndValidatorStack[methodName].unshift(validator);
-    } catch {}
-  }
-  return handlerAndValidatorStack;
-}
-
-/**
- * Returns environment variables. if envValues provided, then it updates environment
+ * Returns environment variables, if envValues is provided else it updates environment
 */
 export function env(envValues?: Record<string, string>) {
   const envConfig = dotenv.parse(fs.readFileSync(".env"));
@@ -139,9 +104,6 @@ export async function log(data: any) {
 
 /**
  * Get version from call location or provide a path to get its version
- * 
- * Examples:
- * 
 */ 
 export function getVersion(path?: string): string {
   let target: string;
@@ -157,7 +119,11 @@ export function getVersion(path?: string): string {
   return match[1];
 }
 
-export function generateEndpointsFromDirTree(rootPath: string): Record < string, string > {
+/**
+ * Generates endpoints from a patent directory.
+ * Used for a simple File Based Routing.
+*/
+export function generateEndpoints(rootPath: string): Record < string, string > {
   const endpointPathPair: Record<string, string> = {}
   const stack = [rootPath];
   while (stack.length > 0) {
@@ -184,11 +150,6 @@ export function generateEndpointsFromDirTree(rootPath: string): Record < string,
     }
   }
   return endpointPathPair;
-}
-
-
-export function capitalizeFirstLetter(str: string) {
-  return str[0].toUpperCase() + str.slice(1);
 }
 
 export function getParams(func: Function) {

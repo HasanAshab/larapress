@@ -4,7 +4,7 @@ import { exec } from "child_process";
 import app from "~/main/app";
 import fs from "fs";
 import swaggerUi from "swagger-ui-express";
-import { generateEndpointsFromDirTree } from "helpers";
+import { generateEndpoints } from "helpers";
 
 export default class Documentation extends Command {
   private outputDir = "docs/public";
@@ -49,7 +49,7 @@ export default class Documentation extends Command {
   
   async uncovered() {
     const eps = this.getAllEndpoints();
-    const docsTree = generateEndpointsFromDirTree("docs/parts");
+    const docsTree = generateEndpoints("docs/parts");
     for(const [pathRegex, methods] of eps) {
       for(const documentedPath in docsTree){
         console.log(pathRegex.test(documentedPath))

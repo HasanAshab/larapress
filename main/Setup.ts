@@ -2,7 +2,7 @@ import { Application } from "express";
 import fs from "fs";
 import mongoose from "mongoose";
 import { container } from "tsyringe";
-import { middleware, generateEndpointsFromDirTree } from "helpers";
+import { middleware, generateEndpoints } from "helpers";
 import { globalMiddlewares } from "~/app/http/kernel"
 import nodeCron from "node-cron";
 import Artisan from "Artisan";
@@ -24,7 +24,7 @@ export default class Setup {
   };
 
   static routes(app: Application) {
-    const routesEndpointPaths = generateEndpointsFromDirTree("routes");
+    const routesEndpointPaths = generateEndpoints("routes");
     for (const [endpoint, path] of Object.entries(routesEndpointPaths)) {
      // console.log(endpoint, path)
       app.use("/api" + endpoint, require(path).default);

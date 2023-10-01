@@ -1,5 +1,5 @@
 import RequestHandler from "~/core/decorators/RequestHandler";
-import { AuthenticRequest, Response } from "~/core/express";
+import { AuthenticRequest, response } from "~/core/express";
 import CreateContactRequest from "~/app/http/v1/requests/CreateContactRequest";
 import SearchContactRequest from "~/app/http/v1/requests/SearchContactRequest";
 import UpdateContactStatusRequest from "~/app/http/v1/requests/UpdateContactStatusRequest";
@@ -8,23 +8,30 @@ import Cache from "Cache";
 
 export default class ContactController {
   @RequestHandler
-  async index(req: AuthenticRequest, res: Response) {
-    res.api(await Contact.find().paginateReq(req));
+  async index(req: AuthenticRequest) {
+    return await Contact.find().paginateReq(req);
   }
   
   @RequestHandler
-  async create(req: CreateContactRequest, res: Response) {
-    console.log(req.body)
+  //async create(req: CreateContactRequest, res: Response) {
+  async create(req: AuthenticRequest, res: Response) {
+    //response.append("foo", 33).status(290).append("bar", 69).json({ehhoo: 93});
+    response.redirect("/")
+    //res.append("foo", 93).append("bar", 84).json("ehhe")
+    console.log(res.get("foo"))
+    console.log(res.get("bar"))
+    return;
+    //return req.body;
     await Contact.create(req.body);
     res.status(201).message("Thanks for contacting us!");
   }
   
   @RequestHandler
-  async search(req: SearchContactRequest, res: Response) {
+  async search(req: SearchContactRequest) {
     const cacheKey = `$_SEARCH(${req.query.q}:${req.query.status}:${req.query.limit}:${req.query.cursor})`;
     const cachedResults = await Cache.get(cacheKey);
     if (cachedResults)
-      return res.send(cachedResults);
+      return cachedResults;
     const filter: any = { $text: { $search: req.query.q } };
     if (req.query.status)
       filter.status = req.query.status;
@@ -33,7 +40,8 @@ export default class ContactController {
       .sort({ score: { $meta: "textScore" } })
       .select('-score')
       .paginateReq(req);
-    await Cache.put(cacheKey, res.api(results), 5 * 3600);
+    Cache.put(cacheKey, results, 5 * 3600).then(log);
+    return results;
   }
   
   @RequestHandler

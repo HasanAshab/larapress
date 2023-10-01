@@ -1,6 +1,6 @@
+import _ from "lodash";
 import config from "config";
 import { Config } from "types";
-import { capitalizeFirstLetter } from "helpers";
 import Driver from "~/core/utils/Cache/Driver";
 import { util } from "~/core/decorators/class";
 import fs from "fs";
@@ -14,7 +14,7 @@ const driverInstances = {} as {
 
 function initializeDrivers() {
   for (const driverName of config.get<DriverName[]>("cache.drivers")) {
-    const DriverClass = require(`./drivers/${capitalizeFirstLetter(driverName)}`).default as any;
+    const DriverClass = require(`./drivers/${_.capitalize(driverName)}`).default as any;
     driverInstances[driverName] = new DriverClass();
   }
 }

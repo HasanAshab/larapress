@@ -1,4 +1,4 @@
-import { Request, AuthenticRequest, Response } from "~/core/express";
+import { Request, AuthenticRequest } from "~/core/express";
 import { container } from 'tsyringe';
 import { getParams } from "helpers";
 import Validator from "Validator";
@@ -14,9 +14,8 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
       for(let i = 0; i < paramNames.length; i++) {
         const paramType = paramTypes[i];
         const paramName = paramNames[i];
-        if(paramType === Request || paramType === AuthenticRequest) {
+        if(paramType === Request || paramType === AuthenticRequest)
           args.push(req);
-        }
         else if(paramType.prototype instanceof Request) {
           rules = rules ?? Validator.object(new paramType().rules());
           const data = req.method === "get"
@@ -28,17 +27,14 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
           req.body = value;
           args.push(req);
         }
-        else if(paramType === Response){
-          args.push(res);
-        }
-        else if(paramType.name === "String" || paramType.name === "Object"){
+        else if(paramName === "res")
+          args.push(res)
+        else if(paramType.name === "String" || paramType.name === "Object")
           args.push(req.params[paramName]);
-        }
-        else {
-          args.push(container.resolve(paramType));
-        }
+        else args.push(container.resolve(paramType));
       }
-      await handler.apply(target, args);
+      const result = await handler.apply(target, args);
+      //result && res.api(result);
     }
     catch(err) {
       next(err)

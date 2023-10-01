@@ -6,7 +6,7 @@ import { ResponseData } from "~/core/express";
 export default class ErrorHandler {
   async handle(err: any, req: Request, res: Response, next:NextFunction) {
     if(err instanceof ResponseData)
-      return res.status(err.statusCode).json(err.payload)
+      return err.send(res);
     if(err.kind === "ObjectId")
       return res.status(404).message();
     res.status(500);
