@@ -14,7 +14,7 @@ import fs from "fs";
 const log = process.env.NODE_ENV === "development";
 
 // Connect to database
-if (false && config.get("db.connect")) {
+if (config.get("db.connect")) {
   log && console.log("Connecting to database...");
   DB.connect().then(async () => {
     log && console.log("DB connected!");
@@ -51,55 +51,5 @@ else {
     console.log(`*New connection: [${time}]`);
   });
 }
-
-/*
-import TwoFactorAuthService from "~/app/services/TwoFactorAuthService";
-import { AuthenticRequest, Response } from "~/core/express";
-import RequestHandler from "~/core/decorators/RequestHandler";
-import Validator from "Validator";
-
-class LoginRequest extends AuthenticRequest {
-  body!: { 
-    email: string;
-    password: string;
-    otp: number;
-  };
-  
-  protected rules() {
-    return {
-      email: Validator.string().email().required(),
-      password: Validator.string().required(),
-      otp: Validator.number(),
-    }
-  }
-}
-
-
-class JustNothing {
-  @RequestHandler
-  ehhe(res: Response, req: LoginRequest, service: TwoFactorAuthService, bar = "jd") {
-    console.log(req)
-  }
-}
-
-const req = {
-  files:   {
-    email: {
-      name: `dummy1.jpg`,
-      data: Buffer.from("dummy file content"),
-      size: 500,
-      encoding: "utf-8",
-      mimetype: "image/jpeg",
-    }
-  },
-  body: {
-    password: "heheeheh",
-  },
-  params: {
-    foo: "bar"
-  }
-}
-new JustNothing().ehhe(req, {}, console.log)
-*/
 
 export default server;

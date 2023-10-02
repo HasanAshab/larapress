@@ -7,7 +7,7 @@ const categoryController = new CategoryController();
 
 // Endpoints for category management
 
-router.use(middleware("auth", "roles:admin"));
+//router.use(middleware("auth", "roles:admin"));
 
 router.route("/")
   .get(categoryController.index)

@@ -120,7 +120,7 @@ export function getVersion(path?: string): string {
 }
 
 /**
- * Generates endpoints from a patent directory.
+ * Generates endpoints of a directory.
  * Used for a simple File Based Routing.
 */
 export function generateEndpoints(rootPath: string): Record < string, string > {

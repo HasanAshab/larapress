@@ -8,6 +8,8 @@ const passwordPatterns = {
   weak: /(?=.{6,})/,
 };
 
+
+
 let Validator = Joi.extend(joi => ({
   type: "string",
   base: joi.string(),
@@ -32,26 +34,6 @@ let Validator = Joi.extend(joi => ({
         return passwordPatterns[strength].test(value)
           ? value
           : helpers.error("string.password." + strength);
-      },
-    },
-    unique: {
-      method(modelName: string, field: string) {
-        return this.$_addRule({ name: "unique", args: { modelName, field } });
-      },
-      args: [
-        {
-          name: "modelName",
-          assert: Joi.string().required(),
-        },
-        {
-          name: "field",
-          assert: Joi.string().required(),
-        }
-      ],
-      async validate(value, helpers, { modelName, field }) {
-        return await model(modelName).exists({ field: value })
-          ? helpers.error("string.password." + strength)
-          : value;
       },
     },
     sanitize: {
@@ -209,3 +191,12 @@ Validator = Validator.extend(joi => ({
 
 
 export default Validator;
+
+
+export function unique(modelName: string, field: string) {
+  return async (value, helpers) => {
+    return await model(modelName).exists({ [field]: value })
+      ? helpers.error("string.unique")
+      : value;
+  }
+}

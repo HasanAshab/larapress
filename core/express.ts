@@ -3,6 +3,7 @@ import { UserDocument } from "~/app/models/User";
 import Express from 'express';
 import { SendFileOptions, DownloadOptions } from "express-serve-static-core";
 import { RawResponse, ApiResponse } from "types";
+import { UploadedFile } from "express-fileupload";
 
 type Send<ResBody, T> = (body?: ResBody) => T;
 
@@ -31,6 +32,7 @@ export abstract class Request<
   stale!: boolean;
   subdomains!: string[];
   xhr!: boolean;
+  files!: Record<string, UploadedFile | UploadedFile[]>;
   api!: (response: RawResponse) => ApiResponse;
   message!: (text?: string) => void;
   

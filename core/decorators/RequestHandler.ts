@@ -10,6 +10,7 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
   let rules = null;
   descriptor.value = async (req, res, next) => {
     try {
+      req.files = req.files ?? {};
       const args = [];
       for(let i = 0; i < paramNames.length; i++) {
         const paramType = paramTypes[i];
@@ -21,11 +22,8 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
           const data = req.method === "GET"
             ? req.query
             : Object.assign({}, req.body, req.files);
-            console.log(req.method, data)
-          const { error, value } = rules.validate(data);
-          if(error)
-            return res.status(400).message(error.details[0].message);
-          req[req.method === "GET" ? "query" : "body"] = value;
+          const validated = await rules.validateAsync(data);
+          req[req.method === "GET" ? "query" : "body"] = validated;
           args.push(req);
         }
         else if(paramType === Response)
@@ -42,6 +40,8 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
       }
     }
     catch(err) {
+      if(err instanceof Validator.ValidationError)
+        return res.status(400).message(err.details[0].message);
       next(err)
     }
   }
