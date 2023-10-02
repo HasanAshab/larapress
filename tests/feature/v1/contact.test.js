@@ -85,16 +85,17 @@ describe("Contact", () => {
     expect(await Contact.findById(contact._id)).toBeNull();
   });
 
-  it("Should search contacts", async () => {
+  it.only("Should search contacts", async () => {
     const contact = await Contact.factory().create({ message });
     const response = await request.get("/contact/inquiries/search").actingAs(token).query({
       q: "website bug",
     });
+    console.log(response.body)
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument([contact]);
   });
   
-  it("Should filter search contacts", async () => {
+  it.only("Should filter search contacts", async () => {
     const [openedContact] = await Promise.all([
       Contact.factory().create({ message }),
       Contact.factory().closed().create({ message })

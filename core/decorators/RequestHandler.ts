@@ -18,13 +18,14 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
           args.push(req);
         else if(paramType.prototype instanceof Request) {
           rules = rules ?? Validator.object(new paramType().rules());
-          const data = req.method === "get"
+          const data = req.method === "GET"
             ? req.query
             : Object.assign({}, req.body, req.files);
+            console.log(req.method, data)
           const { error, value } = rules.validate(data);
           if(error)
             return res.status(400).message(error.details[0].message);
-          req.body = value;
+          req[req.method === "GET" ? "query" : "body"] = value;
           args.push(req);
         }
         else if(paramType === Response)
