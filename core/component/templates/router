@@ -1,4 +1,4 @@
-import { middleware, controller } from "helpers";
+import { middleware, controller } from "~/core/utils";
 import express, { Router } from "express";
 
 const router: Router = express.Router();

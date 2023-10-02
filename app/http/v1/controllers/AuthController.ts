@@ -10,7 +10,7 @@ import ChangePasswordRequest from "~/app/http/v1/requests/ChangePasswordRequest"
 import ChangePhoneNumberRequest from "~/app/http/v1/requests/ChangePhoneNumberRequest";
 import SendOtpRequest from "~/app/http/v1/requests/SendOtpRequest";
 import TwoFactorAuthService from "~/app/services/TwoFactorAuthService";
-import { log } from "helpers";
+import { log } from "~/core/utils";
 import config from "config"
 import URL from "URL";
 import Cache from "Cache";

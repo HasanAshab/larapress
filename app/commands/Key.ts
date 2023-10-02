@@ -1,5 +1,5 @@
 import Command from "~/core/abstract/Command";
-import { env } from "helpers";
+import { env } from "~/core/utils";
 import crypto from "crypto";
 
 export default class Key extends Command {

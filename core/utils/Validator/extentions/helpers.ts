@@ -1,6 +1,12 @@
 import sanitizeHtml from 'sanitize-html';
 
 export default function(joi) {
+  const passwordPatterns = {
+    strong: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/,
+    medium: /(?=.*[a-zA-Z])(?=.*[0-9])(?=.{6,})/,
+    weak: /(?=.{6,})/,
+  };
+
   return {
     type: "string",
     base: joi.string(),
@@ -18,7 +24,7 @@ export default function(joi) {
         args: [
           {
             name: "strength",
-            assert: Joi.string().valid(...Object.keys(passwordPatterns)).required(),
+            assert: joi.string().valid(...Object.keys(passwordPatterns)).required(),
           },
         ],
         validate(value, helpers, { strength }) {

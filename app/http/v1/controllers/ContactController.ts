@@ -3,7 +3,7 @@ import { AuthenticRequest, res } from "~/core/express";
 import CreateContactRequest from "~/app/http/v1/requests/CreateContactRequest";
 import SearchContactRequest from "~/app/http/v1/requests/SearchContactRequest";
 import UpdateContactStatusRequest from "~/app/http/v1/requests/UpdateContactStatusRequest";
-import { log } from "helpers";
+import { log } from "~/core/utils";
 import Contact from "~/app/models/Contact";
 import Cache from "Cache";
 

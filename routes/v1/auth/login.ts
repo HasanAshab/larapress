@@ -1,4 +1,4 @@
-import { middleware } from "helpers";
+import { middleware } from "~/core/utils";
 import express, { Router } from "express";
 import AuthController from "~/app/http/v1/controllers/AuthController";
 

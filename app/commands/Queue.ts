@@ -1,7 +1,7 @@
 import Command from "~/core/abstract/Command";
 import queue from "~/core/clients/queue";
 import fs from "fs";
-import { log } from "helpers";
+import { log } from "~/core/utils";
 
 export default class Queue extends Command {
   async work(){

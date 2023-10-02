@@ -1,4 +1,4 @@
-import { log } from "helpers";
+import { log } from "~/core/utils";
 import Queue from 'bull';
 import fs from "fs";
 import config from "config";

@@ -1,6 +1,6 @@
 import { model, Schema, Model, Document } from "mongoose";
 import crypto from "crypto";
-import { log } from "helpers";
+import { log } from "~/core/utils";
 
 const TokenSchema = new Schema({
   key: {

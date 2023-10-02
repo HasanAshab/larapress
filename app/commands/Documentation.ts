@@ -4,7 +4,7 @@ import { exec } from "child_process";
 import app from "~/main/app";
 import fs from "fs";
 import swaggerUi from "swagger-ui-express";
-import { generateEndpoints } from "helpers";
+import { generateEndpoints } from "~/core/utils";
 
 export default class Documentation extends Command {
   private outputDir = "docs/public";

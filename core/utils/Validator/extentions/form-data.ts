@@ -33,7 +33,7 @@ export default function(joi) {
         },
         args: [{
           name: "size",
-          assert: Joi.number().integer().min(0).required(),
+          assert: joi.number().integer().min(0).required(),
           message: "must be a positive integer",
         },
         ],
@@ -56,7 +56,7 @@ export default function(joi) {
         },
         args: [{
           name: "size",
-          assert: Joi.number().integer().min(0).required(),
+          assert: joi.number().integer().min(0).required(),
           message: "must be a positive integer",
         },
         ],
@@ -79,7 +79,7 @@ export default function(joi) {
         },
         args: [{
           name: "count",
-          assert: Joi.number().integer().min(1).required(),
+          assert: joi.number().integer().min(1).required(),
           message: "must be at least 1",
         },
         ],
@@ -102,7 +102,7 @@ export default function(joi) {
         },
         args: [{
           name: "count",
-          assert: Joi.number().integer().min(1).required(),
+          assert: joi.number().integer().min(1).required(),
           message: "must be at least 1",
         },
         ],
@@ -125,7 +125,7 @@ export default function(joi) {
         },
         args: [{
           name: "count",
-          assert: Joi.number().integer().min(1).required(),
+          assert: joi.number().integer().min(1).required(),
           message: "must be at least 1",
         },
         ],
@@ -148,7 +148,7 @@ export default function(joi) {
         },
         args: [{
           name: "type",
-          assert: Joi.string().required(),
+          assert: joi.string().required(),
           message: "must be a string",
         },
         ],
@@ -171,7 +171,7 @@ export default function(joi) {
         },
         args: [{
           name: "types",
-          assert: Joi.array().items(Joi.string().required()).required(),
+          assert: joi.array().items(joi.string().required()).required(),
           message: "must be an array of string",
         },
         ],

@@ -1,5 +1,5 @@
 import RequestHandler from "~/core/decorators/RequestHandler";
-import { Request, AuthenticRequest, res } from "~/core/express";
+import { Request, AuthenticRequest } from "~/core/express";
 import Category from "~/app/models/Category";
 import CreateCategoryRequest from "~/app/http/v1/requests/CreateCategoryRequest";
 import UpdateCategoryRequest from "~/app/http/v1/requests/UpdateCategoryRequest";

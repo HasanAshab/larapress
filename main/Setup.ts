@@ -2,7 +2,7 @@ import { Application } from "express";
 import fs from "fs";
 import mongoose from "mongoose";
 import { container } from "tsyringe";
-import { middleware, generateEndpoints } from "helpers";
+import { middleware, generateEndpoints } from "~/core/utils";
 import { globalMiddlewares } from "~/app/http/kernel"
 import nodeCron from "node-cron";
 import Artisan from "Artisan";

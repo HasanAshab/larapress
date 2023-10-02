@@ -1,6 +1,6 @@
 import { Request, AuthenticRequest, Response } from "~/core/express";
 import { container } from 'tsyringe';
-import { getParams } from "helpers";
+import { getParams } from "~/core/utils";
 import Validator from "Validator";
 
 export default function RequestHandler(target: any, propertyKey: string, descriptor: PropertyDescriptor) {

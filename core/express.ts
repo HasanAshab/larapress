@@ -171,6 +171,7 @@ export class Response<
   append!: (field: string, value?: string[] | string) => this;
 }
 
+cocurrency issue hoite pare
 export class ResponseData {
   constructor(steps){
     this.steps = steps;
@@ -182,7 +183,7 @@ export class ResponseData {
   }
 }
 
-export const res = {
+const res = {
   steps: []
 } as ResponseType
 
@@ -242,3 +243,5 @@ type ResponseType = {
     ...args: Parameters<Express.Response[K]>
   ) => void;
 };
+
+global.res = res;

@@ -1,4 +1,4 @@
-import { middleware } from "helpers";
+import { middleware } from "~/core/utils";
 import express, { Application } from "express";
 import cors from "cors";
 import helmet from "helmet";

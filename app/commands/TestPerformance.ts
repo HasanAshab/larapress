@@ -1,5 +1,5 @@
 import Command from "~/core/abstract/Command";
-import { generateEndpoints } from "helpers";
+import { generateEndpoints } from "~/core/utils";
 import { exec, spawn } from "child_process";
 import autocannon, { Options } from "autocannon";
 import DB from "DB";
