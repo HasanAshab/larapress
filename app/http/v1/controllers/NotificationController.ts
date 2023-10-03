@@ -1,28 +1,27 @@
 import RequestHandler from "~/core/decorators/RequestHandler";
-import { AuthenticRequest, Response } from "~/core/express";
+import { AuthenticRequest } from "~/core/express";
 
 export default class NotificationController {
   @RequestHandler
-  async index(req: AuthenticRequest, res: Response) {
-    res.api(await req.user.notifications.paginateReq(req));
+  async index(req: AuthenticRequest) {
+    return await req.user.notifications.paginateReq(req);
   }
   
   @RequestHandler
-  async markAsRead(req: AuthenticRequest, res: Response, id: string) {
-    await req.user.unreadNotifications.findOne({ _id: id }).markAsRead()
-      ? res.message('Notification marked as read')
-      : res.status(404).message();
+  async markAsRead(req: AuthenticRequest, id: string) {
+    await req.user.unreadNotifications.findOneOrFail({ _id: id }).markAsRead()
+    return 'Notification marked as read';
   }
   
   @RequestHandler
-  async unreadCount(req: AuthenticRequest, res: Response) {
-    res.api({
+  async unreadCount(req: AuthenticRequest) {
+    return {
       count: await req.user.unreadNotifications.count()
-    });
+    };
   }
   
   @RequestHandler
-  async delete(req: AuthenticRequest, res: Response, id: string) {
+  async delete(req: AuthenticRequest, id: string) {
     const { deletedCount } = await req.user.notifications.where("_id").equals(id).deleteOne();
     return deletedCount === 1
       ? res.status(204).message()

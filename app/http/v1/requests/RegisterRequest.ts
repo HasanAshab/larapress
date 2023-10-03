@@ -1,5 +1,5 @@
 import { Request } from "~/core/express";
-import Validator from "Validator";
+import Validator, { unique } from "Validator";
 import { UploadedFile } from "express-fileupload";
 
 export default class RegisterRequest extends Request {
@@ -15,8 +15,8 @@ export default class RegisterRequest extends Request {
   
   protected rules() {
     return {
-      username: Validator.string().alphanum().min(3).max(12).required(),
-      email: Validator.string().email().required(),
+      username: Validator.string().alphanum().min(3).max(12).external(unique("User", "username")).required(),
+      email: Validator.string().email().external(unique("User", "email")).required(),
       password: Validator.string()
         .min(8)
         .regex(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/)

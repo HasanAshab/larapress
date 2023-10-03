@@ -1,5 +1,5 @@
 import RequestHandler from "~/core/decorators/RequestHandler";
-import { AuthenticRequest, res } from "~/core/express";
+import { AuthenticRequest } from "~/core/express";
 import CreateContactRequest from "~/app/http/v1/requests/CreateContactRequest";
 import SearchContactRequest from "~/app/http/v1/requests/SearchContactRequest";
 import UpdateContactStatusRequest from "~/app/http/v1/requests/UpdateContactStatusRequest";

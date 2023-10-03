@@ -22,15 +22,9 @@ import { Mutex } from 'async-mutex';
 
 export default class AuthController {
   @RequestHandler
-  async register(req: RegisterRequest, res: Response){
+  async register(req: RegisterRequest){
     const { email, username, password } = req.body;
     const logo = req.files.logo;
-    const userExists = await User.exists({
-      $or: [ { email }, { username } ] 
-    });
-    if (userExists)
-      return res.status(400).message("username or email already exist!");
-
     const user = new User({ email, username });
     await user.setPassword(password);
     logo && await user.attach("logo", logo);
@@ -44,7 +38,7 @@ export default class AuthController {
   };
   
   @RequestHandler
-  async login(req: LoginRequest, res: Response, twoFactorAuthService: TwoFactorAuthService){
+  async login(req: LoginRequest, twoFactorAuthService: TwoFactorAuthService) {
     const { email, password, otp } = req.body;
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
     const mutex = new Mutex();
@@ -61,20 +55,20 @@ export default class AuthController {
         const { twoFactorAuth } = await user.settings;
         if(twoFactorAuth.enabled){
           if(!otp) {
-            return res.api({
+            return {
               twoFactorAuthRequired: true,
               message: "Credentials matched. otp required!"
-            });
+            };
           }
           const isValid = await twoFactorAuthService.verifyOtp(user, twoFactorAuth.method, parseInt(otp));
           if (!isValid)
             return res.status(401).message("Invalid OTP. Please  again!");
         }
         await Cache.clear(attemptCacheKey);
-        return res.api({
+        return {
           token: user.createToken(),
           message: "Logged in successfully!",
-        });
+        };
       }
       await mutex.acquire();
       await Cache.put(attemptCacheKey, String(failedAttemptsCount + 1), 60 * 60);
@@ -84,17 +78,14 @@ export default class AuthController {
   }
   
   @RequestHandler
-  async loginWithRecoveryCode(req: LoginWithRecoveryCodeRequest, res: Response) {
+  async loginWithRecoveryCode(req: LoginWithRecoveryCodeRequest) {
     const { email, code } = req.body;
-    const user = await User.findOne({ email });
-    if(!user)
-      return res.status(404).message();
-        
+    const user = await User.findOneOrFail({ email });
     return await user.verifyRecoveryCode(code)
-      ? res.api({
-          token: user.createToken(),
-          message: "Logged in successfully!",
-        })
+      ? {
+        token: user.createToken(),
+        message: "Logged in successfully!",
+      }
       : res.status(401).message("Invalid recovery code!");
   }
   
@@ -148,41 +139,38 @@ export default class AuthController {
   }
   
   @RequestHandler
-  async verifyEmail(res: Response, id: string){
+  async verifyEmail(id: string){
     await User.updateOne({ _id: id }, { verified: true });
-    res.message("Email verified!");
+    return "Email verified!";
   };
 
   @RequestHandler
-  async resendEmailVerification(req: ResendEmailVerificationRequest, res: Response){
+  async resendEmailVerification(req: ResendEmailVerificationRequest){
     User.findOne(req.body).then(user => {
       user && user.sendVerificationEmail().catch(log);
     }).catch(log);
-    res.message("Verification email sent!");
+    return "Verification link sent to email!";
   };
   
   @RequestHandler
-  async sendResetPasswordEmail(req: SendResetPasswordEmailRequest, res: Response){
+  async sendResetPasswordEmail(req: SendResetPasswordEmailRequest){
     User.findOne(req.body).then(user => {
       user && user.sendResetPasswordEmail().catch(log);
     }).catch(log);
-    res.message("Password reset email sent!");
+    return "Password reset link sent to email!";
   };
 
   @RequestHandler
-  async resetPassword(req: ResetPasswordRequest, res: Response){
+  async resetPassword(req: ResetPasswordRequest){
     const { id, password, token } = req.body;
-    const user = await User.findById(id);
-    if (!user)
-      return res.status(404).message();
-
+    const user = await User.findByIdOrFail(id);
     return await user.resetPassword(token, password)
-      ? res.message("Password changed successfully!")
+      ? "Password changed successfully!"
       : res.status(401).message("Invalid or expired token!");
   };
 
   @RequestHandler
-  async changePassword(req: ChangePasswordRequest, res: Response) {
+  async changePassword(req: ChangePasswordRequest) {
     const user = req.user;
     if(!user.password)
       return res.status(400).message("This feature is not supported for OAuth account!");
@@ -193,36 +181,35 @@ export default class AuthController {
     user.tokenVersion++;
     await user.save();
     Mail.to(user.email).send(new PasswordChangedMail()).catch(log);
-    res.message("Password changed!");
+    return "Password changed!";
   };
  
   @RequestHandler
-  async changePhoneNumber(req: ChangePhoneNumberRequest, res: Response, twoFactorAuthService: TwoFactorAuthService) {
+  async changePhoneNumber(req: ChangePhoneNumberRequest, twoFactorAuthService: TwoFactorAuthService) {
     const { phoneNumber, otp } = req.body;
     if(req.user.phoneNumber && req.user.phoneNumber === phoneNumber)
       return res.status(400).message("Phone number is same as old one!");
     req.user.phoneNumber = phoneNumber;
     if(!otp) {
       await twoFactorAuthService.sendOtp(req.user, "sms");
-      return res.message("6 digit OTP code sent to phone number!");
+      return "6 digit OTP code sent to phone number!";
     }
     const isValid = await twoFactorAuthService.verifyOtp(req.user, "sms", parseInt(otp));
     if(!isValid)
       return res.status(401).message("Invalid OTP. Please  again!");
     await req.user.save();
-    res.message("Phone number updated!");
+    return "Phone number updated!";
   }
   
   @RequestHandler
-  async sendOtp(req: SendOtpRequest, res: Response, twoFactorAuthService: TwoFactorAuthService){
-    const user = await User.findById(req.body.userId);
-    if(!user) return res.status(404).message();
+  async sendOtp(req: SendOtpRequest, twoFactorAuthService: TwoFactorAuthService){
+    const user = await User.findByIdOrFail(req.body.userId);
     twoFactorAuthService.sendOtp(user).catch(log);
-    res.message("6 digit OTP code sent to phone number!");
+    return "6 digit OTP code sent to phone number!";
   }
   
   @RequestHandler
-  async generateRecoveryCodes(req: AuthenticRequest, res: Response) {
-    res.api(await req.user.generateRecoveryCodes());
+  async generateRecoveryCodes(req: AuthenticRequest) {
+    return await req.user.generateRecoveryCodes();
   }
 }

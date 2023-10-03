@@ -26,7 +26,6 @@ export default class Setup {
   static routes(app: Application) {
     const routesEndpointPaths = generateEndpoints("routes");
     for (const [endpoint, path] of Object.entries(routesEndpointPaths)) {
-     // console.log(endpoint, path)
       app.use("/api" + endpoint, require(path).default);
     }
   };

@@ -1,5 +1,5 @@
 import { AuthenticRequest } from "~/core/express";
-import Validator from "Validator";
+import Validator, { unique } from "Validator";
 import { UploadedFile } from "express-fileupload";
 
 export default class UpdateCategoryRequest extends AuthenticRequest {
@@ -15,7 +15,7 @@ export default class UpdateCategoryRequest extends AuthenticRequest {
   protected rules() {
     return {
       name: Validator.string(),
-      slug: Validator.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).unique("Category", "slug"),
+      slug: Validator.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).external(unique("Category", "slug")),
       icon: Validator.file().parts(1).max(1000*1000).mimetypes(["image/jpeg", "image/png"]),
     }
   }

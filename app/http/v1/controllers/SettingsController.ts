@@ -1,6 +1,6 @@
 import _ from "lodash";
 import RequestHandler from "~/core/decorators/RequestHandler";
-import { AuthenticRequest, Response } from "~/core/express";
+import { AuthenticRequest } from "~/core/express";
 import { deepMerge } from "~/core/utils";
 import config from "config";
 import Cache from "Cache";
@@ -12,41 +12,40 @@ import UpdateAppSettingsRequest from "~/app/http/v1/requests/UpdateAppSettingsRe
 
 export default class SettingsController {
   @RequestHandler
-  async index(req: AuthenticRequest, res: Response) {
-    res.api(await req.user.settings);
+  async index(req: AuthenticRequest) {
+    return await req.user.settings;
   }
   
   @RequestHandler
-  async notification(req: UpdateNotificationSettingsRequest, res: Response) {
+  async notification(req: UpdateNotificationSettingsRequest) {
     await Settings.updateOne({ userId: req.user._id }, { notification: req.body });
-    res.message("Settings saved!");
+    return "Settings saved!";
   }
   
   @RequestHandler
-  async setupTwoFactorAuth(req: SetupTwoFactorAuthRequest, res: Response, twoFactorAuthService: TwoFactorAuthService){
-    const { enable = true, method } = req.body;
+  async setupTwoFactorAuth(req: SetupTwoFactorAuthRequest, twoFactorAuthService: TwoFactorAuthService){
+    const { enable, method } = req.body;
     if(!enable) {
       await twoFactorAuthService.disable(req.user);
-      return res.message("Two Factor Auth disabled!");
+      return "Two Factor Auth disabled!";
     }
     if(method !== "app" && !req.user.phoneNumber)
       return res.status(400).api({ phoneNumberRequired: true });
-    const result = await twoFactorAuthService.enable(req.user, method);
-    res.api({
+    return {
       message: "Two Factor Auth enabled!",
-      data: result
-    });
+      data: await twoFactorAuthService.enable(req.user, method)
+    };
   }
   
   @RequestHandler
-  async getAppSettings(res: Response) {
-    res.api(config);
+  async getAppSettings() {
+    return config;
   }
 
   @RequestHandler
-  async updateAppSettings(req: UpdateAppSettingsRequest, res: Response) {
+  async updateAppSettings(req: UpdateAppSettingsRequest) {
     _.merge(config, req.body);
     Cache.driver("redis").put("config", req.body);
-    return res.message("App Settings updated!");
+    return "App Settings updated!";
   }
 }

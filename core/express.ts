@@ -171,12 +171,12 @@ export class Response<
   append!: (field: string, value?: string[] | string) => this;
 }
 
-cocurrency issue hoite pare
 export class ResponseData {
   constructor(steps){
     this.steps = steps;
   }
   send(res) {
+    console.log(this.steps)
     for(const step of this.steps) {
       res[step[0]](...step[1])
     }
