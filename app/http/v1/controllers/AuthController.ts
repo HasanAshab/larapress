@@ -9,7 +9,7 @@ import ResetPasswordRequest from "~/app/http/v1/requests/ResetPasswordRequest";
 import ChangePasswordRequest from "~/app/http/v1/requests/ChangePasswordRequest";
 import ChangePhoneNumberRequest from "~/app/http/v1/requests/ChangePhoneNumberRequest";
 import SendOtpRequest from "~/app/http/v1/requests/SendOtpRequest";
-import TwoFactorAuthService from "~/app/services/TwoFactorAuthService";
+import AuthService from "~/app/services/AuthService";
 import { log } from "~/core/utils";
 import config from "config"
 import URL from "URL";
@@ -22,15 +22,9 @@ import { Mutex } from 'async-mutex';
 
 export default class AuthController {
   @RequestHandler
-  async register(req: RegisterRequest){
+  async register(req: RegisterRequest, authService: AuthService){
     const { email, username, password } = req.body;
-    const logo = req.files.logo;
-    const user = new User({ email, username });
-    await user.setPassword(password);
-    logo && await user.attach("logo", logo);
-    await user.save();
-    const token = user.createToken();
-    req.app.emit("Registered", user);
+    const token = await authService.register(email, username, password, req.files.logo);
     res.status(201).api({
       token,
       message: "Verification email sent!",
@@ -38,7 +32,7 @@ export default class AuthController {
   };
   
   @RequestHandler
-  async login(req: LoginRequest, twoFactorAuthService: TwoFactorAuthService) {
+  async login(req: LoginRequest, authService: AuthService) {
     const { email, password, otp } = req.body;
     const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
     const mutex = new Mutex();
@@ -60,7 +54,7 @@ export default class AuthController {
               message: "Credentials matched. otp required!"
             };
           }
-          const isValid = await twoFactorAuthService.verifyOtp(user, twoFactorAuth.method, parseInt(otp));
+          const isValid = await authService.verifyOtp(user, twoFactorAuth.method, parseInt(otp));
           if (!isValid)
             return res.status(401).message("Invalid OTP. Please  again!");
         }
@@ -185,16 +179,16 @@ export default class AuthController {
   };
  
   @RequestHandler
-  async changePhoneNumber(req: ChangePhoneNumberRequest, twoFactorAuthService: TwoFactorAuthService) {
+  async changePhoneNumber(req: ChangePhoneNumberRequest, authService: AuthService) {
     const { phoneNumber, otp } = req.body;
     if(req.user.phoneNumber && req.user.phoneNumber === phoneNumber)
       return res.status(400).message("Phone number is same as old one!");
     req.user.phoneNumber = phoneNumber;
     if(!otp) {
-      await twoFactorAuthService.sendOtp(req.user, "sms");
+      await authService.sendOtp(req.user, "sms");
       return "6 digit OTP code sent to phone number!";
     }
-    const isValid = await twoFactorAuthService.verifyOtp(req.user, "sms", parseInt(otp));
+    const isValid = await authService.verifyOtp(req.user, "sms", parseInt(otp));
     if(!isValid)
       return res.status(401).message("Invalid OTP. Please  again!");
     await req.user.save();
@@ -202,9 +196,9 @@ export default class AuthController {
   }
   
   @RequestHandler
-  async sendOtp(req: SendOtpRequest, twoFactorAuthService: TwoFactorAuthService){
+  async sendOtp(req: SendOtpRequest, authService: AuthService){
     const user = await User.findByIdOrFail(req.body.userId);
-    twoFactorAuthService.sendOtp(user).catch(log);
+    authService.sendOtp(user).catch(log);
     return "6 digit OTP code sent to phone number!";
   }
   

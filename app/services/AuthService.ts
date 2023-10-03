@@ -1,12 +1,23 @@
+import app from "~/main/app";
 import config from "config";
 import { singleton } from "tsyringe";
 import { sendMessage, sendCall } from "~/core/clients/twilio";
 import speakeasy from "speakeasy";
+import User from "~/app/models/User";
 import Settings, { ISettings } from "~/app/models/Settings";
 import OTP from "~/app/models/OTP";
 
 @singleton()
 export default class AuthService {
+  async register(email: string, username: string, password: string, logo?){
+    const user = new User({ email, username });
+    await user.setPassword(password);
+    logo && await user.attach("logo", logo);
+    await user.save();
+    app.emit("Registered", user);
+    return user.createToken();
+  }
+  
   async enableTwoFactorAuth(user, method) {
     if (!user.phoneNumber && method !== "app")
       throw new Error("User phone number is required for sms or call method (2FA)");
@@ -34,7 +45,8 @@ export default class AuthService {
   }
   
   async sendOtp(user, method?) {
-    if(!user.phoneNumber) return null;
+    if(!user.phoneNumber)
+      throw new Error("User phone number is required sending OTP (2FA)");
     if(!method) {
       const { twoFactorAuth } = await user.settings;
       if(twoFactorAuth.method === "app") return null;
