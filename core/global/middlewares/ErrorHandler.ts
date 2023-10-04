@@ -1,17 +1,19 @@
 import { Request, Response, NextFunction } from "express";
+import Exception from "~/core/abstract/Exception";
 import { log } from "~/core/utils";
 import mongoose from "mongoose";
-import { ResponseData } from "~/core/express";
 
 export default class ErrorHandler {
-  async handle(err: any, req: Request, res: Response, next:NextFunction) {
-    if(err instanceof ResponseData)
-      return err.send(res);
+  async handle(err: any, req: Request, res: Response, next: NextFunction) {
+    if(err instanceof Exception)
+      return err.render(req, res);
+
     if(err.kind === "ObjectId")
       return res.status(404).message();
-    res.status(500);
+    
     log(`${new Date().toLocaleString()}\n${req.originalUrl} - ${req.method} - ${req.ip}\nStack: ${err.stack}`);
-    if(process.env.NODE_ENV === "production") res.api({});
-    else res.json({ error: err.stack });
+    return process.env.NODE_ENV === "production"
+      ? res.status(500).message()
+      : res.status(500).json({ error: err.stack });
   };
 }

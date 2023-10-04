@@ -17,6 +17,7 @@ export const middlewareAliases = {
   "sanitize": "<global>/SanitizeRequest",
   "validate": "<global>/ValidateRequest",
   "response.cache": "<global>/CacheResponse",
+  "global.responser": "<global>/GlobalResponser",
   "error.handle": "<global>/ErrorHandler",
   "helpers.inject": "<global>/InjectHelpers",
 };

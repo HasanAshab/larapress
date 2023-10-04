@@ -40,8 +40,8 @@ Setup.routes(app);
 // Serving public folder
 app.use("/api/files", express.static(__dirname + "/../storage/public"));
  
-// Registering global error handling middleware
-app.use(middleware("error.handle"));
+// Global error handling middleware
+app.use(middleware("global.responser", "error.handle"));
 
 export default app;
 

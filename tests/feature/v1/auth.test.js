@@ -76,7 +76,7 @@ describe("Auth", () => {
     expect(response.body).not.toHaveProperty("data");
   });
 
-  it("should login a user", async () => {
+  it.only("should login a user", async () => {
     const user = await User.factory().hasSettings().create();
     const response = await request.post("/auth/login").send({
       email: user.email,

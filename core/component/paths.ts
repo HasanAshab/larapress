@@ -13,7 +13,7 @@ export default {
   "listener": "app/listeners/{name}.ts",
   "job": "app/jobs/{name}.ts",
   "provider": "app/providers/{name}ServiceProvider.ts",
-  "exception": "app/exceptions/{name}.ts",
+  "exception": "app/exceptions/{name}Exception.ts",
   "controller": "app/http/{v}/controllers/{name}Controller.ts",
   "request": "app/http/{v}/requests/{name}Request.ts",
   "middleware": {

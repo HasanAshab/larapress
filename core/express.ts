@@ -176,7 +176,6 @@ export class ResponseData {
     this.steps = steps;
   }
   send(res) {
-    console.log(this.steps)
     for(const step of this.steps) {
       res[step[0]](...step[1])
     }

@@ -13,16 +13,14 @@ import AuthService from "~/app/services/AuthService";
 import { log } from "~/core/utils";
 import config from "config"
 import URL from "URL";
-import Cache from "Cache";
 import Mail from "Mail";
 import User from "~/app/models/User";
 import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
 import { OAuth2Client } from 'google-auth-library';
-import { Mutex } from 'async-mutex';
 
 export default class AuthController {
   @RequestHandler
-  async register(req: RegisterRequest, authService: AuthService){
+  async register(req: RegisterRequest, res: Response, authService: AuthService){
     const { email, username, password } = req.body;
     const token = await authService.register(email, username, password, req.files.logo);
     res.status(201).api({
@@ -34,43 +32,13 @@ export default class AuthController {
   @RequestHandler
   async login(req: LoginRequest, authService: AuthService) {
     const { email, password, otp } = req.body;
-    const attemptCacheKey = "LOGIN-FAILED-ATTEMPTS_" + email;
-    const mutex = new Mutex();
-    await mutex.acquire();
-    let failedAttemptsCount = await Cache.get(attemptCacheKey) ?? 0;
-    mutex.release();
-    if(typeof failedAttemptsCount === "string")
-      failedAttemptsCount = parseInt(failedAttemptsCount);
-    if(failedAttemptsCount > 3)
-      return res.status(429).message("Too Many Failed Attempts  again later!");
-    const user = await User.findOne({ email, password: { $ne: null }});
-    if(user && user.password) {
-      if (await user.attempt(password)) {
-        const { twoFactorAuth } = await user.settings;
-        if(twoFactorAuth.enabled){
-          if(!otp) {
-            return {
-              twoFactorAuthRequired: true,
-              message: "Credentials matched. otp required!"
-            };
-          }
-          const isValid = await authService.verifyOtp(user, twoFactorAuth.method, parseInt(otp));
-          if (!isValid)
-            return res.status(401).message("Invalid OTP. Please  again!");
-        }
-        await Cache.clear(attemptCacheKey);
-        return {
-          token: user.createToken(),
-          message: "Logged in successfully!",
-        };
-      }
-      await mutex.acquire();
-      await Cache.put(attemptCacheKey, String(failedAttemptsCount + 1), 60 * 60);
-      mutex.release();
-    }
-    res.status(401).message("Credentials not match!");
+    const token = await authService.login(email, password, otp);
+    return {
+      token,
+      message: "Logged in successfully!",
+    };
   }
-  
+
   @RequestHandler
   async loginWithRecoveryCode(req: LoginWithRecoveryCodeRequest) {
     const { email, code } = req.body;
