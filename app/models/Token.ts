@@ -1,6 +1,7 @@
 import { model, Schema, Model, Document } from "mongoose";
 import crypto from "crypto";
 import { log } from "~/core/utils";
+import InvalidTokenException from "~/app/exceptions/InvalidTokenException";
 
 const TokenSchema = new Schema({
   key: {
@@ -31,6 +32,12 @@ TokenSchema.statics.isValid = async function(this: TokenModel, key: string, type
   if(!token) return false;
   token.expiresAt && this.deleteOne({ _id: token._id }).catch(log);
   return true;
+}
+
+TokenSchema.statics.assertValid = async function(this: TokenModel, key: string, type: string, secret: string) {
+  const isValid = await this.isValid(key, type, secret);
+  if(!isValid)
+    throw new InvalidTokenException();
 }
 
 export interface IToken {

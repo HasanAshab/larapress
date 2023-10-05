@@ -75,7 +75,7 @@ module.exports = {
   },
   log: "console",
   errorMessages: {
-    404: "Resource Not Found!",
+    404: "Not Found",
     403: "You don't have permission to access this resource",
     401: "Unauthorized"
   },

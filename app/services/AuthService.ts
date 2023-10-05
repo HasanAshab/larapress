@@ -1,16 +1,27 @@
 import app from "~/main/app";
+import { log } from "helpers";
 import config from "config";
-import { singleton } from "tsyringe";
+import bcrypt from "bcryptjs";
+import crypto from "crypto";
 import Cache from "Cache";
+import URL from "URL";
+import Mail from "Mail";
+import speakeasy from "speakeasy";
+import { singleton } from "tsyringe";
 import { Mutex } from 'async-mutex';
 import { sendMessage, sendCall } from "~/core/clients/twilio";
-import speakeasy from "speakeasy";
-import User from "~/app/models/User";
+import User, { UserDocument } from "~/app/models/User";
 import Settings, { ISettings } from "~/app/models/Settings";
+import Token from "~/app/models/Token";
 import OTP from "~/app/models/OTP";
 import LoginAttemptLimitExceededException from "~/app/exceptions/LoginAttemptLimitExceededException";
 import InvalidOtpException from "~/app/exceptions/InvalidOtpException";
-import InvalidCredentialException from "~/app/exceptions/InvalidCredentialException";
+import OtpRequiredException from "~/app/exceptions/OtpRequiredException";
+import PasswordChangeNotAllowedException from "~/app/exceptions/PasswordChangeNotAllowedException";
+import InvalidPasswordException from "~/app/exceptions/InvalidPasswordException";
+import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
+import VerificationMail from "~/app/mails/VerificationMail";
+import ForgotPasswordMail from "~/app/mails/ForgotPasswordMail";
 
 @singleton()
 export default class AuthService {
@@ -36,13 +47,9 @@ export default class AuthService {
       if (await user.attempt(password)) {
         const { twoFactorAuth } = await user.settings;
         if(twoFactorAuth.enabled){
-          if(!otp) {
-            return {
-              twoFactorAuthRequired: true,
-              message: "Credentials matched. otp required!"
-            };
-          }
-          const isValid = await this.verifyOtp(user, twoFactorAuth.method, parseInt(otp));
+          if(!otp)
+            throw new OtpRequiredException();
+          const isValid = await this.verifyOtp(user, twoFactorAuth.method, otp);
           if (!isValid)
             throw new InvalidOtpException();
         }
@@ -53,9 +60,74 @@ export default class AuthService {
       await Cache.put(failedAttemptCacheKey, String(failedAttemptsCount + 1), 60 * 60);
       mutex.release();
     }
-    throw new InvalidCredentialException();
+    return null;
   }
   
+  async sendVerificationLink(user: UserDocument) {
+    if (user.verified)
+      return null;
+    const link = await URL.signedRoute("email.verify", { id: user._id }, 259200);
+    Mail.to(user.email).send(new VerificationMail({ link })).catch(log);
+    return link;
+  }
+  
+  async sendResetPasswordLink(user: UserDocument) {
+    if(!user.password) return null;
+    const { secret } = await Token.create({
+      type: "resetPassword",
+      key: user._id,
+      expiresAt: Date.now() + 259200
+    });
+    const link = URL.client(`/password/reset/${user._id}?token=${secret}`);
+    Mail.to(user.email).send(new ForgotPasswordMail({ link })).catch(log);
+    return secret;
+  }
+  
+  async resetPassword(user: UserDocument, token: string, password: string) {
+    await Token.assertValid(user._id, "resetPassword", token);
+    await user.setPassword(newPassword);
+    user.tokenVersion++;
+    await user.save();
+    Mail.to(user.email).send(new PasswordChangedMail()).catch(log);
+  }
+  
+  async changePassword(user: UserDocument, oldPassword: string, newPassword: string) {
+    if(!user.password)
+      throw new PasswordChangeNotAllowedException();
+    if (!await user.attempt(oldPassword))
+      throw new InvalidPasswordException();
+    await user.setPassword(newPassword);
+    user.tokenVersion++;
+    await user.save();
+    Mail.to(user.email).send(new PasswordChangedMail()).catch(log);
+  }
+  
+  async generateRecoveryCodes(user: UserDocument, count = 10) {
+    const rawCodes = [];
+    const hashPromises = [];
+    for (let i = 0; i < count; i++) {
+    //TODO wrap this block in async
+      const code = crypto.randomBytes(16).toString('hex');
+      rawCodes.push(code);
+      hashPromises.push(bcrypt.hash(code, bcryptRounds));
+    }
+    user.recoveryCodes = await Promise.all(hashPromises);
+    await user.save();
+    return rawCodes;
+  }
+  
+  async verifyRecoveryCode(user: UserDocument, code: string) {
+    for (let i = 0; i < user.recoveryCodes.length; i++) {
+      const hashedCode = user.recoveryCodes[i];
+      if (await bcrypt.compare(code, hashedCode)) {
+        user.recoveryCodes.splice(i, 1);
+        await user.save();
+        return true;
+      }
+    }
+    return false;
+  };
+
   async enableTwoFactorAuth(user, method) {
     if (!user.phoneNumber && method !== "app")
       throw new Error("User phone number is required for sms or call method (2FA)");
@@ -82,9 +154,8 @@ export default class AuthService {
     return modifiedCount === 1;
   }
   
-  async sendOtp(user, method?) {
-    if(!user.phoneNumber)
-      throw new Error("User phone number is required sending OTP (2FA)");
+  async sendOtp(user: UserDocument, method?: "sms" | "call") {
+    if(!user.phoneNumber) return null;
     if(!method) {
       const { twoFactorAuth } = await user.settings;
       if(twoFactorAuth.method === "app") return null;
