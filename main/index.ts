@@ -13,15 +13,6 @@ import fs from "fs";
 
 const shouldLog = process.env.NODE_ENV === "development";
 
-// Connect to database
-if (false && config.get("db.connect")) {
-  shouldLog && console.log("Connecting to database...");
-  DB.connect().then(async () => {
-    shouldLog && console.log("DB connected!");
-    Setup.mongooseModels();
-  });
-}
-
 // Registering Cron Jobs
 Setup.cronJobs();
 

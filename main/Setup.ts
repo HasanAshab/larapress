@@ -23,31 +23,6 @@ export default class Setup {
     }
   };
 
-  static routes(app: Application) {
-    const routesEndpointPaths = generateEndpoints("routes");
-    for (const [endpoint, path] of Object.entries(routesEndpointPaths)) {
-      app.use("/api" + endpoint, require(path).default);
-    }
-  };
-  
-  static mongooseModels() {
-    const modelsBaseDir = "app/models";
-    const modelsFullName = fs.readdirSync(modelsBaseDir);
-    for(const modelFullName of modelsFullName){
-      require("~/" + modelsBaseDir + "/" + modelFullName.split(".")[0]);
-    }
-  }
-  
-  static mongooseGlobalPlugins() {
-    const globalPluginsBaseDir = "core/global/plugins";
-    const globalPluginsName = fs.readdirSync(globalPluginsBaseDir);
-    for(const globalPluginName of globalPluginsName){
-      const plugin = require("~/" + globalPluginsBaseDir + "/" + globalPluginName.split(".")[0]).default;
-      mongoose.plugin(plugin);
-    }
-    //mongoose.set('validateBeforeSave', false);
-  }
-  
   static bootstrap(app: Application) {
     const providersBaseDir = "app/providers";
     const providersFullName = fs.readdirSync(providersBaseDir);
@@ -57,9 +32,5 @@ export default class Setup {
       provider.register?.();
       provider.boot?.();
     }
-  }
-  
-  static globalMiddlewares(app: Application) {
-    app.use(middleware(...globalMiddlewares));
   }
 }

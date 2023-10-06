@@ -1,4 +1,5 @@
 import { NextFunction, RequestHandler, Request, Response } from "express";
+import { ResponseData } from "~/core/express";
 import { MiddlewareKeyWithOptions } from "types"; 
 import { Model } from "mongoose";
 import config from "config";
@@ -67,3 +68,70 @@ export function getParams(func: Function) {
   });
   return params;
 }
+
+/**
+ * Send response globally.
+ * Avoid as much as possible. Use custom exception instead.
+*/ 
+
+type ResponseType = {
+  steps: Array<[string, any[]]>;
+} & {
+  [K in typeof methods.customizers[number]]: (
+    ...args: Parameters<Express.Response[K]>
+  ) => ResponseType;
+} & {
+  [K in typeof methods.senders[number]]: (
+    ...args: Parameters<Express.Response[K]>
+  ) => void;
+};
+
+export const res = {
+  steps: []
+} as ResponseType
+
+const methods = {
+  customizers: [
+    'status',
+    'links',
+    'type',
+    'contentType',
+    'format',
+    'attachment',
+    'set',
+    'header',
+    'vary',
+    'append',
+  ],
+  senders: [
+    'send',
+    'json',
+    'jsonp',
+    'sendFile',
+    'download',
+    'location',
+    'redirect',
+    'render',
+    'cookie',
+    'clearCookie',
+    'message',
+    'api'
+  ],
+};
+
+methods.customizers.forEach(methodName => {
+  res[methodName] = function(...args: any[]) {
+    this.steps.push([methodName, args])
+    return this;
+  }
+});
+
+methods.senders.forEach(methodName => {
+  res[methodName] = function(...args: any[]) {
+    this.steps.push([methodName, args])
+    const responseData = new ResponseData(this.steps);
+    this.steps = [];
+    throw responseData;
+  }
+});
+

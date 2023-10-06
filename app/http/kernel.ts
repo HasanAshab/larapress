@@ -28,6 +28,7 @@ export const middlewareAliases = {
  * the order of registration.
 */
 export const globalMiddlewares: MiddlewareKeyWithOptions[] = [
+  "helpers.inject",
   "maintenance.check",
   "limit:1000,5"
 ];

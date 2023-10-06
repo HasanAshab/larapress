@@ -9,7 +9,7 @@ import URL from "URL";
 
 const app: Application = express();
 
-// Securing Application From Potential Attacks
+// Securing App
 app.use(cors({
 // Domains that can only access the API
   origin: [URL.client()] 
@@ -24,24 +24,8 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(multipartParser());
 
+// Bootstrap the App
 Setup.bootstrap(app);
-
-// Registering mongoose global plugins
-Setup.mongooseGlobalPlugins();
-
-// Registering global middlewares
-app.use(middleware("helpers.inject"));
-
-Setup.globalMiddlewares(app);
-
-// Registering all group routes 
-Setup.routes(app);
-
-// Serving public folder
-app.use("/api/files", express.static(__dirname + "/../storage/public"));
- 
-// Global error handling middleware
-app.use(middleware("global.responser", "error.handle"));
 
 export default app;
 
