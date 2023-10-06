@@ -9,10 +9,8 @@ export interface AuthenticatableDocument extends Document {
 }
 
 export default (schema: Schema) => {
-  const bcryptRounds = config.get<number>("bcrypt.rounds");
-
   schema.methods.setPassword = async function (password: string) {
-    this.password = await bcrypt.hash(password, bcryptRounds);
+    this.password = await bcrypt.hash(password, config.get("bcrypt.rounds"));
   }
   
   schema.methods.attempt = function (password: string) {

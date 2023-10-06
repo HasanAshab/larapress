@@ -5,12 +5,13 @@ const Storage = require("Storage").default;
 const Mail = require("Mail").default;
 const User = require("~/app/models/User").default;
 const OTP = require("~/app/models/OTP").default;
+const AuthService = require("~/app/services/AuthService").default;
 const { OAuth2Client } = require("google-auth-library");
 
 describe("Auth", () => {
   let user;
   let token;
-  
+  let authService = new AuthService();
   beforeAll(async () => {
     await DB.connect();
   });
@@ -76,7 +77,7 @@ describe("Auth", () => {
     expect(response.body).not.toHaveProperty("data");
   });
 
-  it.only("should login a user", async () => {
+  it("should login a user", async () => {
     const user = await User.factory().hasSettings().create();
     const response = await request.post("/auth/login").send({
       email: user.email,
@@ -159,7 +160,7 @@ describe("Auth", () => {
   
   it("should login a user with valid recovery code", async () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();
-    const [ code ] = await user.generateRecoveryCodes(1);
+    const [ code ] = await authService.generateRecoveryCodes(user, 1);
     const response = await request.post("/auth/login/recovery-code").send({
       email: user.email,
       code
@@ -170,7 +171,7 @@ describe("Auth", () => {
   
   it("shouldn't login a user with same recovery code multiple times", async () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();
-    const [ code ] = await user.generateRecoveryCodes(1);
+    const [ code ] = await authService.generateRecoveryCodes(user, 1);
     const response1 = await request.post("/auth/login/recovery-code").send({ email: user.email, code });
     const response2 = await request.post("/auth/login/recovery-code").send({ email: user.email, code });
     expect(response1.statusCode).toBe(200);
@@ -181,7 +182,7 @@ describe("Auth", () => {
   
   it("shouldn't login a user with invalid recovery code", async () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();
-    await user.generateRecoveryCodes(1);
+    await authService.generateRecoveryCodes(user, 1);
     const response = await request.post("/auth/login/recovery-code").send({
       email: user.email,
       code: "foo-bar"
@@ -191,9 +192,9 @@ describe("Auth", () => {
     expect(response.body).not.toHaveProperty("data");
   });
   
-  it("should generate new recovery codes", { user: true }, async () => {
+  it.only("should generate new recovery codes", { user: true }, async () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();
-    const oldCodes = await user.generateRecoveryCodes();
+    const oldCodes = await authService.generateRecoveryCodes(user);
     const response = await request.post("/auth/generate-recovery-codes").actingAs(user.createToken());
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toHaveLength(10);
@@ -202,9 +203,7 @@ describe("Auth", () => {
 
   it("Should send otp", async () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();
-    const response = await request.post("/auth/send-otp").send({
-      userId: user._id.toString()
-    });
+    const response = await request.post("/auth/send-otp/" + user._id);
     await sleep(2000)
     const otp = await OTP.findOne({ userId: user._id });
     
@@ -214,7 +213,7 @@ describe("Auth", () => {
   
   it("should verify email", async () => {
     let user = await User.factory().unverified().create();
-    const verificationLink = await user.sendVerificationEmail();
+    const verificationLink = await authService.sendVerificationLink(user);
     const response = await fetch(verificationLink);
     user = await User.findById(user._id);
     expect(response.status).toBe(200);
@@ -244,24 +243,24 @@ describe("Auth", () => {
     Mail.assertSentTo(user.email, "VerificationMail");
   });
 
-  it("should change password", { user: true }, async () => {
+  it.only("should change password", { user: true }, async () => {
     const data = {
       oldPassword: "password",
-      password: "Password@1234",
+      newPassword: "Password@1234",
     };
     const response = await request.put("/auth/password/change").actingAs(token).send(data);
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
-    expect(await user.attempt(data.password)).toBe(true);
+    expect(await user.attempt(data.newPassword)).toBe(true);
   });
 
-  it("shouldn't change password of OAuth account", async () => {
+  it.only("shouldn't change password of OAuth account", async () => {
     const user = await User.factory().oauth().create();
     const response = await request.put("/auth/password/change").actingAs(user.createToken()).send({
       oldPassword: "password",
-      password: "Password@1234"
+      newPassword: "Password@1234"
     });
-    expect(response.statusCode).toBe(400);
+    expect(response.statusCode).toBe(403);
     Mail.assertNothingSent();
   });
 
@@ -283,7 +282,7 @@ describe("Auth", () => {
   });
 
   it("should reset password", { user: true }, async () => {
-    const token = await user.sendResetPasswordEmail();
+    const token = await authService.sendResetPasswordLink(user);
     const password = "Password@1234";
     const response = await request.put("/auth/password/reset").send({
       id: user._id.toString(),

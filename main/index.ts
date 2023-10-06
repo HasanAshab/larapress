@@ -52,4 +52,6 @@ else {
   });
 }
 
+app.emit("Registered", {})
+app.emit("foo", "djdj")
 export default server;

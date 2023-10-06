@@ -7,7 +7,9 @@ export default class EventServiceProvider extends ServiceProvider {
       "SendEmailVerificationNotification",
       "SendNewUserJoinedNotificationToAdmins"
     ],
-    foo: ["fooL"]
+    foo: [
+      "Test"
+    ]
   }
   
   boot() {

@@ -45,6 +45,7 @@ export default class Setup {
       const plugin = require("~/" + globalPluginsBaseDir + "/" + globalPluginName.split(".")[0]).default;
       mongoose.plugin(plugin);
     }
+    //mongoose.set('validateBeforeSave', false);
   }
   
   static bootstrap(app: Application) {

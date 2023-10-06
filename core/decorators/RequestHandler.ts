@@ -8,7 +8,8 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
   const paramNames = getParams(handler);
   const paramTypes = Reflect.getMetadata("design:paramtypes", target, propertyKey);
   let rules = null;
-  descriptor.value = async (req, res, next) => {
+
+  descriptor.value = async function(req, res, next){
     try {
       req.files = req.files ?? {};
       const args = [];
@@ -33,6 +34,7 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
         else args.push(container.resolve(paramType));
       }
       const result = await handler.apply(target, args);
+
       if(result && !res.headersSent) {
         typeof result === "string"
           ? res.message(result)
@@ -42,7 +44,7 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
     catch(err) {
       if(err instanceof Validator.ValidationError)
         return res.status(400).message(err.details[0].message);
-     next(err)
+      next(err);
     }
   }
 };

@@ -17,6 +17,7 @@ import OTP from "~/app/models/OTP";
 import LoginAttemptLimitExceededException from "~/app/exceptions/LoginAttemptLimitExceededException";
 import InvalidOtpException from "~/app/exceptions/InvalidOtpException";
 import OtpRequiredException from "~/app/exceptions/OtpRequiredException";
+import PhoneNumberRequiredException from "~/app/exceptions/PhoneNumberRequiredException";
 import PasswordChangeNotAllowedException from "~/app/exceptions/PasswordChangeNotAllowedException";
 import InvalidPasswordException from "~/app/exceptions/InvalidPasswordException";
 import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
@@ -85,7 +86,7 @@ export default class AuthService {
   
   async resetPassword(user: UserDocument, token: string, password: string) {
     await Token.assertValid(user._id, "resetPassword", token);
-    await user.setPassword(newPassword);
+    await user.setPassword(password);
     user.tokenVersion++;
     await user.save();
     Mail.to(user.email).send(new PasswordChangedMail()).catch(log);
@@ -109,7 +110,7 @@ export default class AuthService {
     //TODO wrap this block in async
       const code = crypto.randomBytes(16).toString('hex');
       rawCodes.push(code);
-      hashPromises.push(bcrypt.hash(code, bcryptRounds));
+      hashPromises.push(bcrypt.hash(code, config.get("bcrypt.rounds")));
     }
     user.recoveryCodes = await Promise.all(hashPromises);
     await user.save();
@@ -130,9 +131,9 @@ export default class AuthService {
 
   async enableTwoFactorAuth(user, method) {
     if (!user.phoneNumber && method !== "app")
-      throw new Error("User phone number is required for sms or call method (2FA)");
+      throw new PhoneNumberRequiredException();
     const data = { 
-      recoveryCodes: await user.generateRecoveryCodes()
+      recoveryCodes: await this.generateRecoveryCodes(user)
     };
     const twoFactorAuth = { enabled: true, method };
     if(method === "app") {
@@ -151,7 +152,8 @@ export default class AuthService {
   
   async disableTwoFactorAuth(user) {
     const { modifiedCount } = await Settings.updateOne({ userId: user._id }, { "twoFactorAuth.enabled": false });
-    return modifiedCount === 1;
+    if(modifiedCount !== 1)
+      throw new Error("Failed to disable two factor auth for user: " + user);
   }
   
   async sendOtp(user: UserDocument, method?: "sms" | "call") {
