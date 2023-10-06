@@ -1,6 +1,4 @@
 import { model, Schema } from "mongoose";
-import { log } from "~/core/utils";
-
 
 export interface CascadeOption {
   ref: string,

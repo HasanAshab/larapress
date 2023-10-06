@@ -1,6 +1,5 @@
 import { model, Schema, Model, Document } from "mongoose";
 import crypto from "crypto";
-import { log } from "~/core/utils";
 import InvalidTokenException from "~/app/exceptions/InvalidTokenException";
 
 const TokenSchema = new Schema({

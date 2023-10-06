@@ -1,9 +1,8 @@
 import { Schema, Document } from "mongoose";
 import { UploadedFile } from "express-fileupload";
-import Storage from "Storage"
-import URL from "URL"
-import { promises as fs } from "fs"
-import { log } from "~/core/utils";
+import Storage from "Storage";
+import URL from "URL";
+import { promises as fs } from "fs";
 
 export interface FileMeta {
   name: string;

@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import Exception from "~/core/abstract/Exception";
-import { log } from "~/core/utils";
 import mongoose from "mongoose";
 
 export default class ErrorHandler {

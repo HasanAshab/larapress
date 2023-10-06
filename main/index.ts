@@ -11,13 +11,13 @@ process.env.NODE_ENV === "loadTest" && (Mail as any).mock();
 import https from "https";
 import fs from "fs";
 
-const log = process.env.NODE_ENV === "development";
+const shouldLog = process.env.NODE_ENV === "development";
 
 // Connect to database
-if (config.get("db.connect")) {
-  log && console.log("Connecting to database...");
+if (false && config.get("db.connect")) {
+  shouldLog && console.log("Connecting to database...");
   DB.connect().then(async () => {
-    log && console.log("DB connected!");
+    shouldLog && console.log("DB connected!");
     Setup.mongooseModels();
   });
 }
@@ -35,7 +35,7 @@ if(loadBalancerConfig.enabled) {
       console.log(`[http://127.0.0.1:${port}]`);
     }).on("connection", (socket) => {
       const time = new Date().toLocaleTimeString("en-US", { hour12: true });
-      log && console.log(`*New connection on port ${port} [${time}]`);
+      shouldLog && console.log(`*New connection on port ${port} [${time}]`);
     });
   }
 }
@@ -46,12 +46,10 @@ else {
     process.env.NODE_ENV !== "test" && console.log(`Server running on [http://127.0.0.1:${port}] ...`);
   });
   
-  log && server.on("connection", (socket) => {
+  shouldLog && server.on("connection", (socket) => {
     const time = new Date().toLocaleTimeString("en-US", { hour12: true });
     console.log(`*New connection: [${time}]`);
   });
 }
 
-app.emit("Registered", {})
-app.emit("foo", "djdj")
 export default server;

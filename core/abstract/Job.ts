@@ -1,4 +1,3 @@
-import { log } from "~/core/utils";
 import queue from "~/core/clients/queue";
 
 export default abstract class Job {

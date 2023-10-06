@@ -1,7 +1,6 @@
 import _ from "lodash";
 import RequestHandler from "~/core/decorators/RequestHandler";
 import { AuthenticRequest } from "~/core/express";
-import { deepMerge } from "~/core/utils";
 import config from "config";
 import Cache from "Cache";
 import Settings from "~/app/models/Settings";

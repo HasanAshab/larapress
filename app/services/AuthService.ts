@@ -1,5 +1,4 @@
 import app from "~/main/app";
-import { log } from "helpers";
 import config from "config";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";

@@ -1,7 +1,6 @@
 import RequestHandler from "~/core/decorators/RequestHandler";
 import { AuthenticRequest, Response } from "~/core/express";
 import User from "~/app/models/User";
-import { log } from "~/core/utils";
 import UpdateProfileRequest from "~/app/http/v1/requests/UpdateProfileRequest";
 
 export default class UserController {

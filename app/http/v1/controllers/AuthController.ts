@@ -9,7 +9,6 @@ import ResetPasswordRequest from "~/app/http/v1/requests/ResetPasswordRequest";
 import ChangePasswordRequest from "~/app/http/v1/requests/ChangePasswordRequest";
 import ChangePhoneNumberRequest from "~/app/http/v1/requests/ChangePhoneNumberRequest";
 import AuthService from "~/app/services/AuthService";
-import { log } from "~/core/utils";
 import config from "config"
 import URL from "URL";
 import Mail from "Mail";
