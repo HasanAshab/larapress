@@ -6,7 +6,7 @@ export default class ResendEmailVerificationRequest extends Request {
     email: string;
   };
   
-  protected rules() {
+  static rules() {
     return {
       email: Validator.string().email().required()
     }

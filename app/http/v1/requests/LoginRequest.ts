@@ -8,7 +8,7 @@ export default class LoginRequest extends Request {
     otp?: number;
   };
   
-  protected rules() {
+  static rules() {
     return {
       email: Validator.string().email().required(),
       password: Validator.string().required(),

@@ -17,7 +17,7 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
         if(paramType === Request || paramType === AuthenticRequest)
           args.push(req);
         else if(paramType.prototype instanceof Request) {
-          rules = rules ?? Validator.object(new paramType().rules());
+          rules = rules ?? Validator.object(paramType.rules());
           const data = req.method === "GET"
             ? req.query
             : Object.assign({}, req.body, req.files);

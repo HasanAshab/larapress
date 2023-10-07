@@ -6,7 +6,7 @@ export default class UpdateContactStatusRequest extends AuthenticRequest {
     status: "opened" | "closed";
   };
   
-  protected rules() {
+  static rules() {
     return {
       status: Validator.string().valid("opened", "closed").required(),
     }

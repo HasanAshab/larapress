@@ -7,7 +7,7 @@ export default class ChangePasswordRequest extends AuthenticRequest {
     newPassword: string;
   };
   
-  protected rules() {
+  static rules() {
     return {
       oldPassword: Validator.string().required(),
       newPassword: Validator.string()

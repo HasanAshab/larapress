@@ -9,7 +9,7 @@ export default class SetupTwoFactorAuthRequest extends AuthenticRequest {
     method?: ISettings["twoFactorAuth"]["method"];
   };
   
-  protected rules() {
+  static rules() {
     return {
       enable: Validator.boolean().default(true),
       method: Validator.string().valid(...config.get("twoFactorAuth.methods"))

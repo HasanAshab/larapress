@@ -36,7 +36,9 @@ export abstract class Request<
   api!: (response: RawResponse) => ApiResponse;
   message!: (text?: string) => void;
   
-  protected abstract rules(): object;
+  static rules() {
+    throw new Error("rules() method is required in " + this.name)
+  };
 
   get!: {
     (name: 'set-cookie'): string[] | undefined;

@@ -13,7 +13,7 @@ export default class RegisterRequest extends Request {
     logo?: UploadedFile
   }
   
-  protected rules() {
+  static rules() {
     return {
       username: Validator.string().alphanum().min(3).max(12).external(unique("User", "username")).required(),
       email: Validator.string().email().external(unique("User", "email")).required(),

@@ -12,7 +12,7 @@ export default class UpdateCategoryRequest extends AuthenticRequest {
     icon?: UploadedFile
   }
 
-  protected rules() {
+  static rules() {
     return {
       name: Validator.string(),
       slug: Validator.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).external(unique("Category", "slug")),

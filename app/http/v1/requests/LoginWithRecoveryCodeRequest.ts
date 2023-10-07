@@ -7,7 +7,7 @@ export default class LoginWithRecoveryCodeRequest extends Request {
     code: string;
   };
   
-  protected rules() {
+  static rules() {
     return {
       email: Validator.string().email().required(),
       code: Validator.string().required()

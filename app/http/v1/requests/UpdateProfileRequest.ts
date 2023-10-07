@@ -12,7 +12,7 @@ export default class UpdateProfileRequest extends AuthenticRequest {
     logo?: UploadedFile
   }
 
-  protected rules() {
+  static rules() {
     return {
       username: Validator.string().alphanum().min(3).max(12).unique("User", "username"),
       email: Validator.string().email().unique("User", "email"),

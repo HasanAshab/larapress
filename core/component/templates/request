@@ -6,7 +6,7 @@ export default class LoginRequest extends Request {
     //
   };
   
-  protected rules() {
+  static rules() {
     //
   }
 }

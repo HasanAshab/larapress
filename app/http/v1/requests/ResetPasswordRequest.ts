@@ -8,7 +8,7 @@ export default class ResetPasswordRequest extends Request {
     password: string;
   };
   
-  protected rules() {
+  static rules() {
     return {
       id: Validator.string().required(),
       token: Validator.string().required(),

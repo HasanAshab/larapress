@@ -8,7 +8,7 @@ export default class ChangePhoneNumberRequest extends AuthenticRequest {
   };
   
 
-  protected rules() {
+  static rules() {
     return {
       phoneNumber: Validator.string().required(),
       otp: Validator.number()

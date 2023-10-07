@@ -10,7 +10,7 @@ export default class SearchContactRequest extends AuthenticRequest {
     cursor?: string;
   };
   
-  protected rules() {
+  static rules() {
     return {
       q: Validator.string().required(),
       status: Validator.string().valid("opened", "closed"),
