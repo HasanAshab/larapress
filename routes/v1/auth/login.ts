@@ -3,7 +3,7 @@ import express, { Router } from "express";
 import AuthController from "~/app/http/v1/controllers/AuthController";
 
 const router: Router = express.Router();
-const authController = new AuthController();
+const authController = AuthController.handlers();
 
 // Endpoints to login user
 

@@ -19,14 +19,7 @@ import { OAuth2Client } from 'google-auth-library';
 
 @autoInjectable()
 export default class AuthController {
-
   constructor(private readonly authService: AuthService) {}
-  
- @RequestHandler
-  async test() {
-    console.log(this)
-    return "haii"
-  }
   
   @RequestHandler
   async register(req: RegisterRequest, res: Response){
@@ -39,9 +32,9 @@ export default class AuthController {
   };
   
   @RequestHandler
-  async login(req: LoginRequest, res: Response, authService: AuthService) {
+  async login(req: LoginRequest, res: Response) {
     const { email, password, otp } = req.body;
-    const token = await authService.login(email, password, otp);
+    const token = await this.authService.login(email, password, otp);
     return token
       ? {
         token,
@@ -51,10 +44,10 @@ export default class AuthController {
   }
 
   @RequestHandler
-  async loginWithRecoveryCode(req: LoginWithRecoveryCodeRequest, res: Response, authService: AuthService) {
+  async loginWithRecoveryCode(req: LoginWithRecoveryCodeRequest, res: Response) {
     const { email, code } = req.body;
     const user = await User.findOneOrFail({ email });
-    return await authService.verifyRecoveryCode(user, code)
+    return await this.authService.verifyRecoveryCode(user, code)
       ? {
         token: user.createToken(),
         message: "Logged in successfully!",
@@ -119,47 +112,47 @@ export default class AuthController {
   };
 
   @RequestHandler
-  async resendEmailVerification(req: ResendEmailVerificationRequest, authService: AuthService){
+  async resendEmailVerification(req: ResendEmailVerificationRequest){
     User.findOne(req.body).then(async user => {
-      user && await authService.sendVerificationLink(user);
+      user && await this.authService.sendVerificationLink(user);
     }).catch(log);
     return "Verification link sent to email!";
   };
   
   @RequestHandler
-  async sendResetPasswordEmail(req: SendResetPasswordEmailRequest, authService: AuthService){
+  async sendResetPasswordEmail(req: SendResetPasswordEmailRequest){
     User.findOne(req.body).then(async user => {
-      user && await authService.sendResetPasswordLink(user);
+      user && await this.authService.sendResetPasswordLink(user);
     }).catch(log);
     return "Password reset link sent to email!";
   };
 
   @RequestHandler
-  async resetPassword(req: ResetPasswordRequest, authService: AuthService){
+  async resetPassword(req: ResetPasswordRequest){
     const { id, password, token } = req.body;
     const user = await User.findByIdOrFail(id);
-    await authService.resetPassword(user, token, password)
+    await this.authService.resetPassword(user, token, password)
     return "Password changed successfully!";
   };
 
   @RequestHandler
-  async changePassword(req: ChangePasswordRequest, authService: AuthService) {
+  async changePassword(req: ChangePasswordRequest) {
     const { oldPassword, newPassword } = req.body;
-    await authService.changePassword(req.user, oldPassword, newPassword);
+    await this.authService.changePassword(req.user, oldPassword, newPassword);
     return "Password changed!";
   };
  
   @RequestHandler
-  async changePhoneNumber(req: ChangePhoneNumberRequest, authService: AuthService) {
+  async changePhoneNumber(req: ChangePhoneNumberRequest) {
     const { phoneNumber, otp } = req.body;
     if(req.user.phoneNumber && req.user.phoneNumber === phoneNumber)
       return res.status(400).message("Phone number is same as old one!");
     req.user.phoneNumber = phoneNumber;
     if(!otp) {
-      await authService.sendOtp(req.user, "sms");
+      await this.authService.sendOtp(req.user, "sms");
       return "6 digit OTP code sent to phone number!";
     }
-    const isValid = await authService.verifyOtp(req.user, "sms", parseInt(otp));
+    const isValid = await this.authService.verifyOtp(req.user, "sms", parseInt(otp));
     if(!isValid)
       return res.status(401).message("Invalid OTP. Please  again!");
     await req.user.save();
@@ -167,15 +160,15 @@ export default class AuthController {
   }
   
   @RequestHandler
-  async sendOtp(authService: AuthService, id: string){
+  async sendOtp(this.authService: AuthService, id: string){
     const user = await User.findByIdOrFail(id);
-    authService.sendOtp(user).catch(log);
+    this.authService.sendOtp(user).catch(log);
     return "6 digit OTP code sent to phone number!";
   }
   
   @RequestHandler
-  async generateRecoveryCodes({ user }: AuthenticRequest, authService: AuthService) {
-    return await authService.generateRecoveryCodes(user);
+  async generateRecoveryCodes({ user }: AuthenticRequest) {
+    return await this.authService.generateRecoveryCodes(user);
   }
   
   static handlers(...args: any[]) {

@@ -8,10 +8,7 @@ export default class RouteServiceProvider extends ServiceProvider {
   boot() {
     this.registerGlobalMiddlewares();
     this.serveStaticFolder();
-    //this.discoverRoutes();
-    this.app.use("/api/v1/auth", authRouter)
-    
-    
+    this.discoverRoutes();
     this.registerErrorHandlers();
   }
   
