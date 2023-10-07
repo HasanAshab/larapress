@@ -19,20 +19,19 @@ import { OAuth2Client } from 'google-auth-library';
 
 
 export default class AuthController {
-  /*
+ /*
   private readonly authService: AuthService;
   
   constructor() {
     this.foo = "bar"
     this.authService = container.resolve(AuthService);
   }
-  
- @RequestHandler()
-  async test() {
-    console.log(this)
-    return this;
-  }
   */
+ @RequestHandler
+  async test() {
+
+  }
+  
   @RequestHandler
   async register(req: RegisterRequest, res: Response){
     const { email, username, password } = req.body;
@@ -72,9 +71,9 @@ export default class AuthController {
   async loginWithGoogle(req: Request, res: Response) {
     try {
       const { clientId, clientSecret, redirectUrl } = config.get<any>("socialite.google");
-
+      const client = new OAuth2Client(clientId, clientSecret);
       const { tokens } = await client.getToken({ 
-        code,
+        code: req.query.code,
         redirect_uri: redirectUrl 
       })!;
       

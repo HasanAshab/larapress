@@ -17,12 +17,14 @@ export default (schema: Schema) => {
 
   schema.methods.createToken = function (): string {
     return jwt.sign(
-      {
-        userId: this._id,
-        version: this.tokenVersion,
-      },
-      config.get<any>("app.key"),
-      { expiresIn: 2592000 }
+      { version: this.tokenVersion },
+      config.get("app.key"),
+      { 
+        expiresIn: 2592000,
+        subject: this._id.toString(),
+        issuer: config.get("app.name"),
+        audience: config.get("app.name")
+      }
     );
   };
 };

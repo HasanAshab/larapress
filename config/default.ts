@@ -4,7 +4,7 @@ module.exports = {
     protocol: "http",
     domain: "127.0.0.1",
     port: 8000,//env("PORT", 8000),
-    key: null,//env("APP_KEY", null),
+    key: "foo bar",//env("APP_KEY", null),
     state: "up"
   },
   loadBalancer: {
@@ -24,7 +24,7 @@ module.exports = {
     privateKey: "6zO25rDm7gh3EOiaGiiQ-yA_KXxhGGu1jN5QF-90MfI"
   },
   db: {
-    connect: false,
+    connect: true,
     url: "mongodb+srv://haoronaldo18:Haomao.18205@cluster0.jqufz1a.mongodb.net/?retryWrites=true&w=majority",
     options: {
       maxPoolSize: 1,

@@ -4,10 +4,9 @@ import "dotenv/config";
 if(process.env.NODE_ENV === "production" || process.env.NODE_ENV === "loadTest") {
   require('module-alias/register');
 }
-
 import "~/vendor/autoload";
 
-import config from 'config';
+import config from "config"
 import app from "~/main/app";
 import Setup from "~/main/Setup";
 import DB from "DB";
@@ -15,6 +14,7 @@ import Mail from "Mail";
 process.env.NODE_ENV === "loadTest" && (Mail as any).mock();
 import https from "https";
 import fs from "fs";
+
 
 const shouldLog = process.env.NODE_ENV === "development";
 
@@ -47,28 +47,5 @@ else {
     console.log(`*New connection: [${time}]`);
   });
 }
-/*
-import Dec from "~/core/decorators/RequestHandler";
 
-
-class Foo {
-  a = 84
-  
-  @Dec
-  bar() {
-    console.log(this)
-  }
-  
-  @Dec
-  baz() {
-    return "worthless"
-  }
-}
-
-const f = new Foo()
-
-f.bar()
-f.baz()
-
-*/
 export default server;

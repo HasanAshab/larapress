@@ -6,7 +6,7 @@ const router = express.Router();
 const authController = new AuthController();
 
 // Endpoints to authenticate users
-//router.post("/", authController.test);
+router.post("/", authController.test);
 router.post("/register", middleware("limit:60000,1", "recaptcha"), authController.register);
 router.get("/callback/google", authController.loginWithGoogle);
 router.post("/send-otp/:id", middleware("limit:60000,3"), authController.sendOtp);
