@@ -5,6 +5,9 @@
   "_moduleDirectories": [
     "./dist/core/utils"
   ],
+  "autoload": [
+    "~/core/helpers"
+  ],
   "name": "larapress",
   "version": "1.0.4",
   "description": "This is a Feature-Rich boilerplate of Express inspired by Laravel. it is more optimal for big projects. it has own CLI (Artisan) with builtin commands",
@@ -20,6 +23,7 @@
   "author": "Hasan Ashab (CO Founder of Samer Agency)",
   "license": "ISC",
   "dependencies": {
+    "@adonisjs/config": "^3.0.9",
     "async-mutex": "^0.4.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",

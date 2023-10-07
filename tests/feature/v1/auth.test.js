@@ -25,7 +25,7 @@ describe("Auth", () => {
     }
   });
 
-  it("should register a user", async () => {
+  it.only("should register a user", async () => {
     const data = {
       username: "foobar123",
       email: "foo@gmail.com",
@@ -192,7 +192,7 @@ describe("Auth", () => {
     expect(response.body).not.toHaveProperty("data");
   });
   
-  it.only("should generate new recovery codes", { user: true }, async () => {
+  it("should generate new recovery codes", { user: true }, async () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();
     const oldCodes = await authService.generateRecoveryCodes(user);
     const response = await request.post("/auth/generate-recovery-codes").actingAs(user.createToken());
@@ -243,7 +243,7 @@ describe("Auth", () => {
     Mail.assertSentTo(user.email, "VerificationMail");
   });
 
-  it.only("should change password", { user: true }, async () => {
+  it("should change password", { user: true }, async () => {
     const data = {
       oldPassword: "password",
       newPassword: "Password@1234",
@@ -254,7 +254,7 @@ describe("Auth", () => {
     expect(await user.attempt(data.newPassword)).toBe(true);
   });
 
-  it.only("shouldn't change password of OAuth account", async () => {
+  it("shouldn't change password of OAuth account", async () => {
     const user = await User.factory().oauth().create();
     const response = await request.put("/auth/password/change").actingAs(user.createToken()).send({
       oldPassword: "password",

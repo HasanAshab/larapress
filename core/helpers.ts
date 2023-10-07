@@ -31,14 +31,22 @@ export async function log(data: any) {
 }
 
 /**
- * Returns environment variables, if envValues is provided else it updates environment
+ * Get env var.
 */
-export function env(envValues?: Record<string, string>) {
+export function env(key: string, fallback: string) {
+  return process.env[key] ?? fallback;
+}
+
+/**
+ * Updates environment process and file.
+ * Returns updated env.
+*/
+export function putEnv(data: Record<string, string>) {
   const envConfig = dotenv.parse(fs.readFileSync(".env"));
-  if(!envValues) return envConfig;
-  for (const key in envValues) {
-    process.env[key] = envValues[key];
-    envConfig[key] = envValues[key];
+  if(!data) return envConfig;
+  for (const key in data) {
+    process.env[key] = data[key];
+    envConfig[key] = data[key];
   }
   try {
     fs.writeFileSync(".env", Object.entries(envConfig).map(([k, v]) => `${k}=${v}`).join("\n"));

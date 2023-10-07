@@ -3,8 +3,8 @@ module.exports = {
     name: "Samer",
     protocol: "http",
     domain: "127.0.0.1",
-    port: process.env.PORT,
-    key: "621f6b72ebfdfdb50d3f20c97515e9454043b9789550b4e913e3847d4fcc5eec",
+    port: 8000,//env("PORT", 8000),
+    key: null,//env("APP_KEY", null),
     state: "up"
   },
   loadBalancer: {
@@ -24,7 +24,7 @@ module.exports = {
     privateKey: "6zO25rDm7gh3EOiaGiiQ-yA_KXxhGGu1jN5QF-90MfI"
   },
   db: {
-    connect: true,
+    connect: false,
     url: "mongodb+srv://haoronaldo18:Haomao.18205@cluster0.jqufz1a.mongodb.net/?retryWrites=true&w=majority",
     options: {
       maxPoolSize: 1,

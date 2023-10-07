@@ -1,5 +1,6 @@
 import RequestHandler from "~/core/decorators/RequestHandler";
 import { Request, AuthenticRequest, Response } from "~/core/express";
+import { container } from "tsyringe";
 import LoginRequest from "~/app/http/v1/requests/LoginRequest";
 import RegisterRequest from "~/app/http/v1/requests/RegisterRequest";
 import LoginWithRecoveryCodeRequest from "~/app/http/v1/requests/LoginWithRecoveryCodeRequest";
@@ -16,11 +17,26 @@ import User from "~/app/models/User";
 import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
 import { OAuth2Client } from 'google-auth-library';
 
+
 export default class AuthController {
+  /*
+  private readonly authService: AuthService;
+  
+  constructor() {
+    this.foo = "bar"
+    this.authService = container.resolve(AuthService);
+  }
+  
+ @RequestHandler()
+  async test() {
+    console.log(this)
+    return this;
+  }
+  */
   @RequestHandler
-  async register(req: RegisterRequest, res: Response, authService: AuthService){
+  async register(req: RegisterRequest, res: Response){
     const { email, username, password } = req.body;
-    const token = await authService.register(email, username, password, req.files.logo);
+    const token = await this.authService.register(email, username, password, req.files.logo);
     res.status(201).api({
       token,
       message: "Verification email sent!",

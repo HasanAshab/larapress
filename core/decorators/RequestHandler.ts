@@ -7,7 +7,6 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
   const paramNames = getParams(handler);
   const paramTypes = Reflect.getMetadata("design:paramtypes", target, propertyKey);
   let rules = null;
-
   descriptor.value = async function(req, res, next){
     try {
       req.files = req.files ?? {};
@@ -32,7 +31,7 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
           args.push(req.params[paramName]);
         else args.push(container.resolve(paramType));
       }
-      const result = await handler.apply(target, args);
+      const result = await handler.apply(this, args);
 
       if(result && !res.headersSent) {
         typeof result === "string"
