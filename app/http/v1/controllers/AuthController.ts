@@ -1,6 +1,6 @@
 import RequestHandler from "~/core/decorators/RequestHandler";
 import { Request, AuthenticRequest, Response } from "~/core/express";
-import { container } from "tsyringe";
+import { autoInjectable } from "tsyringe";
 import LoginRequest from "~/app/http/v1/requests/LoginRequest";
 import RegisterRequest from "~/app/http/v1/requests/RegisterRequest";
 import LoginWithRecoveryCodeRequest from "~/app/http/v1/requests/LoginWithRecoveryCodeRequest";
@@ -17,19 +17,15 @@ import User from "~/app/models/User";
 import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
 import { OAuth2Client } from 'google-auth-library';
 
-
+@autoInjectable()
 export default class AuthController {
- /*
-  private readonly authService: AuthService;
+
+  constructor(private readonly authService: AuthService) {}
   
-  constructor() {
-    this.foo = "bar"
-    this.authService = container.resolve(AuthService);
-  }
-  */
  @RequestHandler
   async test() {
-
+    console.log(this)
+    return "haii"
   }
   
   @RequestHandler
@@ -180,5 +176,16 @@ export default class AuthController {
   @RequestHandler
   async generateRecoveryCodes({ user }: AuthenticRequest, authService: AuthService) {
     return await authService.generateRecoveryCodes(user);
+  }
+  
+  static handlers(...args: any[]) {
+    const reqHandlers = {};
+    const controller = new this(...args);
+    const handlersName = Reflect.getMetadata("handlersName", controller) ?? [];
+    for(const name of handlersName) {
+      if(name !== "constructor" && name !== "handlers")
+        reqHandlers[name] = controller[name].bind(controller);
+    }
+    return reqHandlers;
   }
 }

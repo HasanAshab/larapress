@@ -3,7 +3,8 @@ import express from "express";
 import AuthController from "~/app/http/v1/controllers/AuthController";
 
 const router = express.Router();
-const authController = new AuthController();
+const authController = AuthController.handlers();
+console.log(authController)
 
 // Endpoints to authenticate users
 router.post("/", authController.test);

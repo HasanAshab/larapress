@@ -2,12 +2,16 @@ import ServiceProvider from "~/core/abstract/ServiceProvider";
 import express from "express";
 import { middleware, generateEndpoints } from "~/core/utils";
 import { globalMiddlewares } from "~/app/http/kernel"
+import authRouter from "~/routes/v1/auth";
 
 export default class RouteServiceProvider extends ServiceProvider {
   boot() {
     this.registerGlobalMiddlewares();
     this.serveStaticFolder();
-    this.discoverRoutes();
+    //this.discoverRoutes();
+    this.app.use("/api/v1/auth", authRouter)
+    
+    
     this.registerErrorHandlers();
   }
   
