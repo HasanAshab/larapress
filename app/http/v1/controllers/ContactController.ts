@@ -1,3 +1,4 @@
+import Controller from "~/core/abstract/Controller";
 import RequestHandler from "~/core/decorators/RequestHandler";
 import { AuthenticRequest } from "~/core/express";
 import CreateContactRequest from "~/app/http/v1/requests/CreateContactRequest";
@@ -6,7 +7,7 @@ import UpdateContactStatusRequest from "~/app/http/v1/requests/UpdateContactStat
 import Contact from "~/app/models/Contact";
 import Cache from "Cache";
 
-export default class ContactController {
+export default class ContactController extends Controller {
   @RequestHandler
   async index(req: AuthenticRequest) {
     return await Contact.find().paginateReq(req);

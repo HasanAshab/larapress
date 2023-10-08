@@ -1,3 +1,4 @@
+import Controller from "~/core/abstract/Controller";
 import _ from "lodash";
 import RequestHandler from "~/core/decorators/RequestHandler";
 import { AuthenticRequest } from "~/core/express";
@@ -9,7 +10,7 @@ import UpdateNotificationSettingsRequest from "~/app/http/v1/requests/UpdateNoti
 import SetupTwoFactorAuthRequest from "~/app/http/v1/requests/SetupTwoFactorAuthRequest";
 import UpdateAppSettingsRequest from "~/app/http/v1/requests/UpdateAppSettingsRequest";
 
-export default class SettingsController {
+export default class SettingsController extends Controller {
   @RequestHandler
   async index(req: AuthenticRequest) {
     return await req.user.settings;

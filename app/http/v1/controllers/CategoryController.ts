@@ -1,10 +1,11 @@
+import Controller from "~/core/abstract/Controller";
 import RequestHandler from "~/core/decorators/RequestHandler";
 import { Request, AuthenticRequest } from "~/core/express";
 import Category from "~/app/models/Category";
 import CreateCategoryRequest from "~/app/http/v1/requests/CreateCategoryRequest";
 import UpdateCategoryRequest from "~/app/http/v1/requests/UpdateCategoryRequest";
 
-export default class CategoryController {
+export default class CategoryController extends Controller {
   @RequestHandler
   async index(req: AuthenticRequest) {
     return await Category.find().paginateReq(req);

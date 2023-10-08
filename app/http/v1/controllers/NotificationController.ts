@@ -1,7 +1,8 @@
+import Controller from "~/core/abstract/Controller";
 import RequestHandler from "~/core/decorators/RequestHandler";
 import { AuthenticRequest } from "~/core/express";
 
-export default class NotificationController {
+export default class NotificationController extends Controller {
   @RequestHandler
   async index(req: AuthenticRequest) {
     return await req.user.notifications.paginateReq(req);

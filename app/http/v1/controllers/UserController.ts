@@ -1,9 +1,10 @@
+import Controller from "~/core/abstract/Controller";
 import RequestHandler from "~/core/decorators/RequestHandler";
 import { AuthenticRequest, Response } from "~/core/express";
 import User from "~/app/models/User";
 import UpdateProfileRequest from "~/app/http/v1/requests/UpdateProfileRequest";
 
-export default class UserController {
+export default class UserController extends Controller {
   @RequestHandler
   async index(req: AuthenticRequest, res: Response) {
     res.api(await User.find({ role: "novice" }).paginateReq(req));

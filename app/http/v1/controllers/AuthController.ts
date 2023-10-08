@@ -1,3 +1,4 @@
+import Controller from "~/core/abstract/Controller";
 import RequestHandler from "~/core/decorators/RequestHandler";
 import { Request, AuthenticRequest, Response } from "~/core/express";
 import { autoInjectable } from "tsyringe";
@@ -18,8 +19,10 @@ import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
 import { OAuth2Client } from 'google-auth-library';
 
 @autoInjectable()
-export default class AuthController {
-  constructor(private readonly authService: AuthService) {}
+export default class AuthController extends Controller {
+  constructor(private readonly authService: AuthService) {
+    super();
+  }
   
   @RequestHandler
   async register(req: RegisterRequest, res: Response){
@@ -169,16 +172,5 @@ export default class AuthController {
   @RequestHandler
   async generateRecoveryCodes({ user }: AuthenticRequest) {
     return await this.authService.generateRecoveryCodes(user);
-  }
-  
-  static handlers(...args: any[]) {
-    const reqHandlers = {};
-    const controller = new this(...args);
-    const handlersName = Reflect.getMetadata("handlersName", controller) ?? [];
-    for(const name of handlersName) {
-      if(name !== "constructor" && name !== "handlers")
-        reqHandlers[name] = controller[name].bind(controller);
-    }
-    return reqHandlers;
   }
 }
