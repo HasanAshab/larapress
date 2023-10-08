@@ -160,7 +160,7 @@ export default class AuthController {
   }
   
   @RequestHandler
-  async sendOtp(this.authService: AuthService, id: string){
+  async sendOtp(id: string){
     const user = await User.findByIdOrFail(id);
     this.authService.sendOtp(user).catch(log);
     return "6 digit OTP code sent to phone number!";

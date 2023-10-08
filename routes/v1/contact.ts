@@ -3,7 +3,7 @@ import express, { Router } from "express";
 import ContactController from "~/app/http/v1/controllers/ContactController";
 
 const router: Router = express.Router();
-const contactController = new ContactController();
+const contactController = ContactController.handlers();
 
 // Endpoints for contact
 

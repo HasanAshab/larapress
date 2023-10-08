@@ -3,7 +3,7 @@ import express, { Router } from "express";
 import UserController from "~/app/http/v1/controllers/UserController";
 
 const router: Router = express.Router();
-const userController = new UserController();
+const userController = UserController.handlers();
 
 // Endpoints for user management
 

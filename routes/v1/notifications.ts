@@ -3,7 +3,7 @@ import express, { Router } from "express";
 import NotificationController from "~/app/http/v1/controllers/NotificationController";
 
 const router: Router = express.Router();
-const notificationController = new NotificationController();
+const notificationController = NotificationController.handlers();
 
 // Endpoints for notification
 

@@ -3,19 +3,18 @@ import express, { Router } from "express";
 import SettingsController from "~/app/http/v1/controllers/SettingsController";
 
 const router: Router = express.Router();
-const settingsController = new SettingsController();
+const settingsController = SettingsController.handlers();
 
-// Endpoints for settings
-
+// User settings managenent
 router.get("/", middleware("auth", "verified"), settingsController.index);
 router.post("/setup-2fa", middleware("auth", "verified"), settingsController.setupTwoFactorAuth);
-
 router.put("/notification", middleware("auth", "verified"), settingsController.notification);
 
+// App settings managenent
 router.route("/app")
-  //.get(middleware("auth", "roles:admin"), settingsController.getAppSettings)
-  //.put(middleware("auth", "roles:admin"), settingsController.updateAppSettings)
-  .get(settingsController.getAppSettings)
-  .put(settingsController.updateAppSettings);
+  .get(middleware("auth", "roles:admin"), settingsController.getAppSettings)
+  .put(middleware("auth", "roles:admin"), settingsController.updateAppSettings)
+  //.get(settingsController.getAppSettings)
+  //.put(settingsController.updateAppSettings);
  
 export default router;

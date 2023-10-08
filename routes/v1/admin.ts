@@ -3,17 +3,21 @@ import express, { Router } from "express";
 import CategoryController from "~/app/http/v1/controllers/CategoryController";
 
 const router: Router = express.Router();
-const categoryController = new CategoryController();
+const dashboardController = DashboardController.handlers();
+const categoryController = CategoryController.handlers();
 
-// Endpoints for category management
 
-//router.use(middleware("auth", "roles:admin"));
+router.use(middleware("auth", "roles:admin"));
 
-router.route("/")
+// Admin dashboard
+router.get("/dashboard", dashboardController.admin);
+
+// Category management
+router.route("/categories")
   .get(categoryController.index)
   .post(categoryController.create);
-
-router.route("/:id")
+  
+router.route("/categories/:id")
   .get(categoryController.find)
   .put(categoryController.update)
   .delete(categoryController.delete);
