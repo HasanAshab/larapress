@@ -42,9 +42,9 @@ module.exports = {
   },
   socialite: {
     google: {
-      clientID: "574177695590-6ta430f91sjtfmepvjskhvrf81ncbo0c.apps.googleusercontent.com",
+      clientId: "574177695590-6ta430f91sjtfmepvjskhvrf81ncbo0c.apps.googleusercontent.com",
       clientSecret: "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",
-      callbackURL: "http://localhost:8000/api/v1/auth/callback/google"
+      redirect: "http://localhost:8000/api/v1/auth/callback/google"
     }
   },
   recaptcha: {

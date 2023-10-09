@@ -33,6 +33,7 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 import { OAuth2Strategy } from 'passport-google-oauth';
 import User from "~/app/models/User";
 
+
 app.use(passport.initialize());
 
 const jwtOptions = {
@@ -56,7 +57,7 @@ passport.use(new Strategy(jwtOptions, async function(payload, next){
     next();
   }
 }));
-
+/*
 passport.use(new OAuth2Strategy(config.get("socialite.google"), async function (request, accessToken, refreshToken, profile, done) {
   const { sub, email, picture } = profile._json;
   const user = await User.findOneAndUpdate(
@@ -70,6 +71,6 @@ passport.use(new OAuth2Strategy(config.get("socialite.google"), async function (
   );
   return done(null, user);
 }));
-
+*/
 export default app;
 

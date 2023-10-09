@@ -17,6 +17,7 @@ import Mail from "Mail";
 import User from "~/app/models/User";
 import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
 import { OAuth2Client } from 'google-auth-library';
+import axios from 'axios';
 
 @autoInjectable()
 export default class AuthController extends Controller {
@@ -61,26 +62,51 @@ export default class AuthController extends Controller {
 //TODO
   @RequestHandler
   async loginWithGoogle(req: AuthenticRequest, res: Response) {
-    const url = URL.client("oauth/success?token=" + req.user.createToken());
-    res.redirect(url);
+    const { code } = req.query;
+    const { clientId, clientSecret, redirect } = config.get("socialite.google");
+    const query = new URLSearchParams({
+      code,
+      client_id: clientId,
+      client_secret: clientSecret,
+      redirect_uri: redirect,
+      grant_type: 'authorization_code',
+    });
+    try {
+      const tokenResponse = await axios.post('https://accounts.google.com/o/oauth2/token', query.toString(), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
+  
+      const { access_token } = tokenResponse.data;
+  
+      const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: {
+          'Authorization': `Bearer ${access_token}`,
+        },
+      });
+  
+      const userInfo = userInfoResponse.data;
+      console.log(userInfo);
+  
+      res.send('Logged in with Google');
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).send('Error while logging in with Google');
+    }
   }
   
 //TODO
   @RequestHandler
   async redirectToGoogle(req: Request, res: Response) {
-    try {
-      const { clientId, clientSecret, redirectUrl } = config.get<any>("socialite.google");
-      const client = new OAuth2Client(clientId, clientSecret);
-      const authUrl = client.generateAuthUrl({
-        scope: ['profile', 'email'],
-        redirect_uri: redirectUrl
-      });
-      res.redirect(authUrl);
-    }
-    catch (err: any) {
-      log(err);
-      res.redirect(URL.client("oauth/error"));
-    }
+    const { clientId, redirect } = config.get("socialite.google");
+    const authUrl = `https://accounts.google.com/o/oauth2/auth?` +
+    `client_id=${clientId}&` +
+    `redirect_uri=${redirect}&` +
+    `scope=openid%20profile&` +
+    `response_type=code`;
+
+    res.redirect(authUrl);
   }
   
   @RequestHandler
