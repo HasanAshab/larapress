@@ -62,11 +62,21 @@ export default class AuthController extends Controller {
 //TODO
   @RequestHandler
   async loginWithGoogle(req: AuthenticRequest, res: Response) {
-    const { code } = req.query;
-    const { clientId, clientSecret, redirect } = config.get("socialite.google");
-    const userInfo = await Socialite.driver("google").user(code);
-    console.log(userInfo);
-    res.send('Logged in with Google');
+    const { sub, name, email, picture } = await Socialite.driver("google").user(req.query.code);
+    const username = await User.generateUniqueUsername(name);
+    const user = await User.findOneAndUpdate(
+    { "externalId.google": sub },
+    { 
+      email,
+      username,
+      verified: true,
+      "logo.url": picture
+    },
+    { upsert: true, new: true }
+  );
+    console.log(user);
+    const frontendClientUrl = URL.client("oauth/success?token=" + user.createToken());
+    res.redirect(frontendClientUrl)
   }
   
 //TODO

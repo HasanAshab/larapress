@@ -50,6 +50,14 @@ UserSchema.methods.safeDetails = function(this: any) {
   return this;
 }
 
+UserSchema.statics.generateUniqueUsername = async function(name: string) {
+  name = name.substring(0, 12);
+  const regex = new RegExp(`^${name}\\d.`);
+  const prefixMatchedUsers = await this.find({ username: { $regex: regex } });
+  console.log(prefixMatchedUsers);
+  return name;
+}
+
 UserSchema.plugin(Authenticatable);
 UserSchema.plugin(HasFactory);
 UserSchema.plugin(HasApiTokens);

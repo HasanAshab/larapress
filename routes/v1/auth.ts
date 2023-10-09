@@ -1,7 +1,6 @@
 import { middleware } from "~/core/utils";
 import express from "express";
 import AuthController from "~/app/http/v1/controllers/AuthController";
-import passport from 'passport';
 
 const router = express.Router();
 const authController = AuthController.handlers();
@@ -13,7 +12,6 @@ const authController = AuthController.handlers();
 // Login with various methods
 router.post("/login", middleware("limit:2000,2", "recaptcha"), authController.login);
 router.post("/login/recovery-code", middleware("limit:2000,1", "recaptcha"), authController.loginWithRecoveryCode);
-//router.get("/login/google", passport.authenticate('google', { session: false, scope: ['openid', 'profile', 'email'] }));
 router.get("/login/google", authController.redirectToGoogle);
 
 // User password management
@@ -26,7 +24,6 @@ router.post("/verify/resend", middleware("limit:60000,1"), authController.resend
 router.get("/verify/:id", middleware("signed"), authController.verifyEmail);
 
 router.post("/register", middleware("limit:60000,1", "recaptcha"), authController.register);
-//router.get("/callback/google", passport.authenticate('google', { session: false }), authController.loginWithGoogle);
 router.get("/callback/google", authController.loginWithGoogle);
 router.post("/send-otp/:id", middleware("limit:60000,3"), authController.sendOtp);
 router.put("/change-phone-number", middleware("auth", "verified"), authController.changePhoneNumber);
