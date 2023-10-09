@@ -1,8 +1,7 @@
 const Cache = require("Cache").default;
-const config = require("config").default;
 
 describe("Cache", () => {
-  const drivers = config.get("cache.drivers");
+  const drivers = ["redis", "memory"];
   
   beforeEach(async () => {
     for(const driver of drivers){

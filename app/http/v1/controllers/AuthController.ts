@@ -60,36 +60,11 @@ export default class AuthController extends Controller {
 
 //TODO
   @RequestHandler
-  async loginWithGoogle(req: Request, res: Response) {
-    try {
-      const { clientId, clientSecret, redirectUrl } = config.get<any>("socialite.google");
-      const client = new OAuth2Client(clientId, clientSecret);
-      const { tokens } = await client.getToken({ 
-        code: req.query.code,
-        redirect_uri: redirectUrl 
-      })!;
-      
-      const ticket = await client.verifyIdToken({
-        idToken: tokens.id_token!,
-        audience: clientId,
-      });
-      const { email, picture } = ticket.getPayload()!;
-      const user = await User.findOneAndUpdate(
-        { email },
-        { "logo.url": picture, verified: true },
-        { upsert: true, new: true }
-      );
-      const frontendClientUrl = user.username
-        ? URL.client("oauth/success?token=" + user.createToken())
-        : URL.client("oauth/set-username?token=" + user.createToken());
- 
-      res.redirect(frontendClientUrl);
-    }
-    catch (err: any) {
-      log(err);
-      res.redirect(URL.client("oauth/error"));
-    }
+  async loginWithGoogle(req: AuthenticRequest, res: Response) {
+    const url = URL.client("oauth/success?token=" + req.user.createToken());
+    res.redirect(url);
   }
+  
 //TODO
   @RequestHandler
   async redirectToGoogle(req: Request, res: Response) {

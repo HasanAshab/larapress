@@ -3,7 +3,7 @@ import express, { Application } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import bodyParser from "body-parser";
-import multipartParser from "express-fileupload";
+import formDataParser from "express-fileupload";
 import Setup from "~/main/Setup";
 import URL from "URL";
 
@@ -16,13 +16,13 @@ app.use(cors({
 }));
 app.use(helmet());
 
-// Middlewares for request parsing 
+// Middlewares for request payload parsing 
 app.use(bodyParser.json({ limit: "1mb" }));
 app.use(bodyParser.urlencoded({
   extended: false,
   limit: "1mb"
 }));
-app.use(multipartParser());
+app.use(formDataParser());
 
 // Bootstrap the App
 Setup.bootstrap(app);
@@ -30,7 +30,9 @@ Setup.bootstrap(app);
 import config from "config";
 import passport from 'passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
+import { OAuth2Strategy } from 'passport-google-oauth';
 import User from "~/app/models/User";
+
 app.use(passport.initialize());
 
 const jwtOptions = {
@@ -41,7 +43,7 @@ const jwtOptions = {
 };
 
 
-passport.use(new Strategy(jwtOptions, async (payload, next) => {
+passport.use(new Strategy(jwtOptions, async function(payload, next){
   try {
     const user = await User.findById(payload.sub);
     if (user && user.tokenVersion === payload.version) {
@@ -51,9 +53,23 @@ passport.use(new Strategy(jwtOptions, async (payload, next) => {
   }
   catch(err) {
     log(err)
+    next();
   }
 }));
 
+passport.use(new OAuth2Strategy(config.get("socialite.google"), async function (request, accessToken, refreshToken, profile, done) {
+  const { sub, email, picture } = profile._json;
+  const user = await User.findOneAndUpdate(
+    { "externalId.google": sub },
+    { 
+      email,
+      verified: true,
+      "logo.url": picture
+    },
+    { upsert: true, new: true }
+  );
+  return done(null, user);
+}));
 
 export default app;
 

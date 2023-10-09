@@ -12,7 +12,7 @@ import Cascade from "~/app/plugins/Cascade";
 const UserSchema = new Schema({
   username: {
     type: String,
-    unique: true,
+    unique: true
   },
   email: {
     required: true,
@@ -33,7 +33,8 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  recoveryCodes: [String]
+  recoveryCodes: [String],
+  externalId: Object
 }, 
 { timestamps: true }
 );

@@ -24,7 +24,7 @@ module.exports = {
     privateKey: "6zO25rDm7gh3EOiaGiiQ-yA_KXxhGGu1jN5QF-90MfI"
   },
   db: {
-    connect: false,
+    connect: true,
     url: "mongodb+srv://haoronaldo18:Haomao.18205@cluster0.jqufz1a.mongodb.net/?retryWrites=true&w=majority",
     options: {
       maxPoolSize: 1,
@@ -42,9 +42,9 @@ module.exports = {
   },
   socialite: {
     google: {
-      clientId: "574177695590-6ta430f91sjtfmepvjskhvrf81ncbo0c.apps.googleusercontent.com",
+      clientID: "574177695590-6ta430f91sjtfmepvjskhvrf81ncbo0c.apps.googleusercontent.com",
       clientSecret: "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",
-      redirectUrl: "http://localhost:8000/api/v1/auth/callback/google"
+      callbackURL: "http://localhost:8000/api/v1/auth/callback/google"
     }
   },
   recaptcha: {
@@ -69,10 +69,7 @@ module.exports = {
     authToken: "3a915d718cb1ecd3f25112dd3ac38e1b",
     phoneNumber: "+15005550006"
   },
-  cache: {
-    default: "memory",
-    drivers: ["memory", "redis"]
-  },
+  cache: "memory",
   log: "console",
   errorMessages: {
     404: "Not Found",

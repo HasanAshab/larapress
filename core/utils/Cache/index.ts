@@ -1,27 +1,22 @@
 import _ from "lodash";
 import config from "config";
 import { Config } from "types";
-import Driver from "~/core/utils/Cache/Driver";
+import Driver from "./Driver";
+import Memory from "./drivers/Memory";
+import Redis from "./drivers/Redis";
 import { util } from "~/core/decorators/class";
-import fs from "fs";
 
 export type CacheDataArg = string | number | boolean | object | unknown[] | Buffer;
-type DriverName = Config["cache"]["drivers"][number];
+type DriverName = keyof typeof Cache.driverInstances;
 
-const driverInstances = {} as {
-  [Name in DriverName]: Driver
-};
-
-function initializeDrivers() {
-  for (const driverName of config.get<DriverName[]>("cache.drivers")) {
-    const DriverClass = require(`./drivers/${_.capitalize(driverName)}`).default as any;
-    driverInstances[driverName] = new DriverClass();
-  }
-}
 
 @util("~/core/utils/Cache/Mockable")
 export default class Cache {
-  static driverName = config.get<DriverName>("cache.default");
+  static driverName = config.get<DriverName>("cache");
+  static driverInstances = {
+    memory: new Memory(),
+    redis: new Redis()
+  }
 
   static driver(name: DriverName) {
     this.driverName = name;
@@ -29,8 +24,8 @@ export default class Cache {
   }
 
   private static getDriver(): Driver {
-    const driver = driverInstances[this.driverName];
-    this.driverName = config.get<DriverName>("cache.default");
+    const driver = this.driverInstances[this.driverName];
+    this.driverName = config.get<DriverName>("cache");
     return driver;
   }
 
@@ -49,5 +44,3 @@ export default class Cache {
     return driver.clear(key);
   }
 }
-
-initializeDrivers();
