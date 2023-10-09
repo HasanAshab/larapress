@@ -25,6 +25,7 @@ router.get("/verify/:id", middleware("signed"), authController.verifyEmail);
 
 router.post("/register", middleware("limit:60000,1", "recaptcha"), authController.register);
 router.get("/callback/google", authController.loginWithGoogle);
+router.post("/set-username", authController.setUsernameByToken);
 router.post("/send-otp/:id", middleware("limit:60000,3"), authController.sendOtp);
 router.put("/change-phone-number", middleware("auth", "verified"), authController.changePhoneNumber);
 router.post("/generate-recovery-codes", middleware("limit:60000,3", "auth", "verified"), authController.generateRecoveryCodes);

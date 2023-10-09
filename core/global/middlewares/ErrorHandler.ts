@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import Exception from "~/core/abstract/Exception";
 import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
 
 export default class ErrorHandler {
   async handle(err: any, req: Request, res: Response, next: NextFunction) {
@@ -9,7 +10,9 @@ export default class ErrorHandler {
 
     if(err.kind === "ObjectId")
       return res.status(404).message();
-    
+    if(err instanceof jwt.JsonWebTokenError)
+      return res.status(401).message("Invalid or expired token!");
+      
     log(`${new Date().toLocaleString()}\n${req.originalUrl} - ${req.method} - ${req.ip}\nStack: ${err.stack}`);
     return process.env.NODE_ENV === "production"
       ? res.status(500).message()

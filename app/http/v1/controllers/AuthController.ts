@@ -5,6 +5,7 @@ import { autoInjectable } from "tsyringe";
 import LoginRequest from "~/app/http/v1/requests/LoginRequest";
 import RegisterRequest from "~/app/http/v1/requests/RegisterRequest";
 import LoginWithRecoveryCodeRequest from "~/app/http/v1/requests/LoginWithRecoveryCodeRequest";
+import SetUsernameRequest from "~/app/http/v1/requests/SetUsernameRequest";
 import ResendEmailVerificationRequest from "~/app/http/v1/requests/ResendEmailVerificationRequest";
 import SendResetPasswordEmailRequest from "~/app/http/v1/requests/SendResetPasswordEmailRequest";
 import ResetPasswordRequest from "~/app/http/v1/requests/ResetPasswordRequest";
@@ -16,8 +17,9 @@ import URL from "URL";
 import Mail from "Mail";
 import User from "~/app/models/User";
 import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
-import { OAuth2Client } from 'google-auth-library';
 import Socialite from "Socialite";
+import jwt from "jsonwebtoken";
+
 
 @autoInjectable()
 export default class AuthController extends Controller {
@@ -65,18 +67,38 @@ export default class AuthController extends Controller {
     const { sub, name, email, picture } = await Socialite.driver("google").user(req.query.code);
     const username = await User.generateUniqueUsername(name);
     const user = await User.findOneAndUpdate(
-    { "externalId.google": sub },
-    { 
-      email,
-      username,
-      verified: true,
-      "logo.url": picture
-    },
-    { upsert: true, new: true }
-  );
-    console.log(user);
-    const frontendClientUrl = URL.client("oauth/success?token=" + user.createToken());
-    res.redirect(frontendClientUrl)
+      { "externalId.google": sub },
+      { 
+        email,
+        verified: true,
+        "logo.url": picture
+      },
+      { upsert: true, new: true }
+    );
+    if(user.username) {
+      const url = URL.client("oauth/success?token=" + user.createToken())
+      return res.redirect(url)
+    }
+    const token = jwt.sign({}, { 
+      expiresIn: 2592000,
+      subject: user._id.toString(),
+      issuer: config.get("app.name"),
+      audience: "set-username"
+    });
+    const url = URL.client("oauth/choose-username/?token=" + token);
+    res.redirect(url);
+  }
+  
+  @RequestHandler
+  async setUsernameByToken(req: SetUsernameRequest, res: Response) {
+    const { token, username } = req.body;
+    const { sub, iss, aud } = jwt.verify(token, config.get<any>("app.key"))!;
+    if(iss !== config.get("app.name") || aud !== "choose-username")
+      return res.status(401).message("Invalid token");
+    const { updatedCount } = await User.updateOne({ _id: sub }, { username });
+    return updateOne === 1  
+      ? "Username setted successfully!"
+      : res.status(500).message();
   }
   
 //TODO

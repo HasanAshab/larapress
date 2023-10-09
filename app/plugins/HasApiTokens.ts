@@ -23,7 +23,7 @@ export default (schema: Schema) => {
         expiresIn: 2592000,
         subject: this._id.toString(),
         issuer: config.get("app.name"),
-        audience: config.get("app.name")
+        audience: "auth"
       }
     );
   };

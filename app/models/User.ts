@@ -12,7 +12,7 @@ import Cascade from "~/app/plugins/Cascade";
 const UserSchema = new Schema({
   username: {
     type: String,
-    unique: true
+    index: true
   },
   email: {
     required: true,
