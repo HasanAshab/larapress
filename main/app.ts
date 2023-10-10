@@ -1,13 +1,12 @@
+import App from "~/core/Application";
 import { middleware } from "~/core/utils";
-import express, { Application } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import bodyParser from "body-parser";
 import formDataParser from "express-fileupload";
-import Setup from "~/main/Setup";
 import URL from "URL";
 
-const app: Application = express();
+const app = new App();
 
 // Securing App
 app.use(cors({
@@ -25,7 +24,7 @@ app.use(bodyParser.urlencoded({
 app.use(formDataParser());
 
 // Bootstrap the App
-Setup.bootstrap(app);
+app.bootstrap();
 
 export default app;
 

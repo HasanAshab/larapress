@@ -1,8 +1,4 @@
-import { Application } from "express";
 import fs from "fs";
-import nodeCron from "node-cron";
-import Artisan from "Artisan";
-import crons from "~/register/cron";
 import config from "config";
 import DatabaseServiceProvider from "~/app/providers/DatabaseServiceProvider";
 
