@@ -18,8 +18,14 @@ import fs from "fs";
 
 const shouldLog = process.env.NODE_ENV === "development";
 
-// Registering Cron Jobs
-Setup.cronJobs();
+// Connecting to database
+if(config.get("db.connect")) {
+  DB.connect().then(() => {
+    shouldLog && console.log("Connected to Database!");
+  }).catch(err => {
+    console.error("Couldn't connect to Database. reason: " + err);
+  });
+}
 
 let server;
 const loadBalancerConfig = config.get<any>("loadBalancer");
@@ -39,13 +45,12 @@ if(loadBalancerConfig.enabled) {
 else {
   const port = config.get<number>("app.port");
   server = app.listen(port, () => {
-    process.env.NODE_ENV !== "test" && console.log(`Server running on [http://127.0.0.1:${port}] ...`);
+    shouldLog && console.log(`Server running on [http://127.0.0.1:${port}] ...`);
   });
-  
   shouldLog && server.on("connection", (socket) => {
     const time = new Date().toLocaleTimeString("en-US", { hour12: true });
     console.log(`*New connection: [${time}]`);
   });
 }
-
+  
 export default server;

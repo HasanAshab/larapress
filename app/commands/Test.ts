@@ -6,6 +6,6 @@ export default class Test extends Command {
   signature = "test";
   
   async handle(){
-    console.log(this.options)
+    console.log(this.params)
   }
 }

@@ -12,9 +12,11 @@ describe("Auth", () => {
   let user;
   let token;
   let authService = new AuthService();
+  
   beforeAll(async () => {
     await DB.connect();
   });
+    
 
   beforeEach(async config => {
     await DB.reset(["User", "OTP"]);
@@ -201,13 +203,13 @@ describe("Auth", () => {
     expect(response.body.data).not.toEqual(oldCodes);
   });
 
-  it("Should set username", async () => {
-    let user = await User.factory().create({ username: null });
+  it.only("Should set username", async () => {
+    const user = await User.factory().create({ username: null });
     const response = await request.post("/auth/set-username").send({
       token: user.createTemporaryToken("set-username"),
       username: "FooBar123"
     });
-    user = await User.findById(user._id);
+    await user.refresh();
     expect(response.statusCode).toBe(200);
     expect(user.username).toBe("FooBar123");
   });

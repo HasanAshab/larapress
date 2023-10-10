@@ -6,6 +6,7 @@ import SearchContactRequest from "~/app/http/v1/requests/SearchContactRequest";
 import UpdateContactStatusRequest from "~/app/http/v1/requests/UpdateContactStatusRequest";
 import Contact from "~/app/models/Contact";
 import Cache from "Cache";
+import User from "~/app/models/User";
 
 export default class ContactController extends Controller {
   @RequestHandler
@@ -14,7 +15,9 @@ export default class ContactController extends Controller {
   }
   
   @RequestHandler
-  async create(req: CreateContactRequest) {
+  async create(req: AuthenticRequest) {
+    console.log(User.findOneOrFail)
+    console.log(await User.findOne())
     await Contact.create(req.body);
     res.status(201).message("Thanks for contacting us!");
   }

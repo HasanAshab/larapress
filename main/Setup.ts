@@ -1,28 +1,13 @@
 import { Application } from "express";
 import fs from "fs";
-import mongoose from "mongoose";
-import { container } from "tsyringe";
-import { middleware, generateEndpoints } from "~/core/utils";
-import { globalMiddlewares } from "~/app/http/kernel"
 import nodeCron from "node-cron";
 import Artisan from "Artisan";
 import crons from "~/register/cron";
+import config from "config";
+import DatabaseServiceProvider from "~/app/providers/DatabaseServiceProvider";
 
 export default class Setup {
-  static cronJobs() {
-    for (const [schedule, commands] of Object.entries(crons)) {
-      if (Array.isArray(commands)) {
-        for (const command of commands) {
-          const [commandName, ...args] = command.split(" ")
-          nodeCron.schedule(schedule, (async () => await Artisan.call(commandName as any, args, false)) as ((now: Date | "init" | "manual") => void));
-        }
-      } else {
-        const [commandName, ...args] = commands.split(" ")
-        nodeCron.schedule(schedule, (async () => await Artisan.call(commandName as any, args, false)) as ((now: Date | "init" | "manual") => void));
-      }
-    }
-  };
-
+/*
   static bootstrap(app: Application) {
     const providersBaseDir = "app/providers";
     const providersFullName = fs.readdirSync(providersBaseDir);
@@ -33,4 +18,16 @@ export default class Setup {
       provider.boot?.();
     }
   }
+  */
+  static bootstrap(app: Application) {
+    const bootMethods = [];
+    for(const path of config.get("app.providers")){
+      const Provider = require(path).default;
+      const provider = new Provider(app);
+      provider.register?.();
+      provider.boot && bootMethods.push(provider.boot.bind(provider));
+    }
+    bootMethods.forEach(bootMethod => bootMethod());
+  }
+
 }

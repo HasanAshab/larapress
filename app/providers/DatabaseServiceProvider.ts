@@ -1,16 +1,12 @@
 import ServiceProvider from "~/core/abstract/ServiceProvider";
 import config from 'config';
-import DB from "DB";
 import mongoose from "mongoose";
 import fs from "fs";
 
 export default class DatabaseServiceProvider extends ServiceProvider {
-  async boot() {
-    if(!config.get("db.connect"))
-      return;
-    await DB.connect();
-    this.registerModels();
+  boot() {
     this.useGlobalPlugins();
+    this.registerModels();
   }
   
   private registerModels() {

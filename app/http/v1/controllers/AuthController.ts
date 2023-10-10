@@ -13,10 +13,7 @@ import ChangePasswordRequest from "~/app/http/v1/requests/ChangePasswordRequest"
 import ChangePhoneNumberRequest from "~/app/http/v1/requests/ChangePhoneNumberRequest";
 import AuthService from "~/app/services/AuthService";
 import config from "config"
-import URL from "URL";
-import Mail from "Mail";
 import User from "~/app/models/User";
-import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
 import Socialite from "Socialite";
 import jwt from "jsonwebtoken";
 

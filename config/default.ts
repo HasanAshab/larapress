@@ -5,7 +5,14 @@ module.exports = {
     domain: "127.0.0.1",
     port: 8000,//env("PORT", 8000),
     key: "foo bar",//env("APP_KEY", null),
-    state: "up"
+    state: "up",
+    providers: [
+      "~/app/providers/DatabaseServiceProvider",
+      "~/app/providers/EventServiceProvider",
+      "~/app/providers/RouteServiceProvider",
+      "~/app/providers/AppServiceProvider",
+      "~/app/providers/CronJobServiceProvider"
+    ]
   },
   loadBalancer: {
     enabled: false,
