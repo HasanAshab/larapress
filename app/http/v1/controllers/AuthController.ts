@@ -20,7 +20,6 @@ import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
 import Socialite from "Socialite";
 import jwt from "jsonwebtoken";
 
-
 @autoInjectable()
 export default class AuthController extends Controller {
   constructor(private readonly authService: AuthService) {
@@ -61,31 +60,9 @@ export default class AuthController extends Controller {
       : res.status(401).message("Invalid recovery code!");
   }
 
-//TODO
   @RequestHandler
   async loginWithGoogle(req: AuthenticRequest, res: Response) {
-    const { sub, name, email, picture } = await Socialite.driver("google").user(req.query.code);
-    const username = await User.generateUniqueUsername(name);
-    const user = await User.findOneAndUpdate(
-      { "externalId.google": sub },
-      { 
-        email,
-        verified: true,
-        "logo.url": picture
-      },
-      { upsert: true, new: true }
-    );
-    if(user.username) {
-      const url = URL.client("oauth/success?token=" + user.createToken())
-      return res.redirect(url)
-    }
-    const token = jwt.sign({}, { 
-      expiresIn: 2592000,
-      subject: user._id.toString(),
-      issuer: config.get("app.name"),
-      audience: "set-username"
-    });
-    const url = URL.client("oauth/choose-username/?token=" + token);
+    const url = await this.authService.loginWithGoogle(req.query.code);
     res.redirect(url);
   }
   
@@ -93,15 +70,14 @@ export default class AuthController extends Controller {
   async setUsernameByToken(req: SetUsernameRequest, res: Response) {
     const { token, username } = req.body;
     const { sub, iss, aud } = jwt.verify(token, config.get<any>("app.key"))!;
-    if(iss !== config.get("app.name") || aud !== "choose-username")
+    if(iss !== config.get("app.name") || aud !== "set-username")
       return res.status(401).message("Invalid token");
-    const { updatedCount } = await User.updateOne({ _id: sub }, { username });
-    return updateOne === 1  
+    const { modifiedCount } = await User.updateOne({ _id: sub }, { username });
+    return modifiedCount === 1  
       ? "Username setted successfully!"
       : res.status(500).message();
   }
   
-//TODO
   @RequestHandler
   async redirectToGoogle(req: Request, res: Response) {
     const { clientId, redirect } = config.get("socialite.google");

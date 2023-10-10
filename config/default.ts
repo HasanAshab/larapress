@@ -45,6 +45,11 @@ module.exports = {
       clientId: "574177695590-6ta430f91sjtfmepvjskhvrf81ncbo0c.apps.googleusercontent.com",
       clientSecret: "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",
       redirect: "http://localhost:8000/api/v1/auth/callback/google"
+    },
+    facebook: {
+      clientId: "342613888161486",
+      clientSecret :"34077908d0d60cddb7658a8a5e7a55bf",
+      redirect: ""
     }
   },
   recaptcha: {

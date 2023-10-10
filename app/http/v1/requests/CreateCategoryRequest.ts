@@ -15,7 +15,7 @@ export default class CreateCategoryRequest extends AuthenticRequest {
   static rules() {
     return {
       name: Validator.string().required(),
-      slug: Validator.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).external(unique("Category", "slug")).required(),
+      slug: Validator.string().slug().external(unique("Category", "slug")).required(),
       icon: Validator.file().parts(1).max(1000*1000).mimetypes(["image/jpeg", "image/png"]),
     }
   }

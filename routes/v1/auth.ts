@@ -9,6 +9,8 @@ const authController = AuthController.handlers();
  * Endpoints to authenticate users
 */
 
+//Router.get("/login", [AuthController, "login"]).middleware("limit:2000,2", "recaptcha").name("login");
+
 // Login with various methods
 router.post("/login", middleware("limit:2000,2", "recaptcha"), authController.login);
 router.post("/login/recovery-code", middleware("limit:2000,1", "recaptcha"), authController.loginWithRecoveryCode);

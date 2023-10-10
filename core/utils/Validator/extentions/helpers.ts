@@ -6,7 +6,8 @@ export default function(joi) {
     medium: /(?=.*[a-zA-Z])(?=.*[0-9])(?=.{6,})/,
     weak: /(?=.{6,})/,
   };
-
+  const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+  
   return {
     type: "string",
     base: joi.string(),
@@ -33,6 +34,13 @@ export default function(joi) {
             : helpers.error("string.password." + strength);
         },
       },
+      slug: {
+        validate(value, helpers, { strength }) {
+          return slugPattern.test(value)
+            ? value
+            : helpers.error("string.slug");
+        },
+      },
       sanitize: {
         validate(value, helpers) {
           return sanitizeHtml(value, {
@@ -40,7 +48,7 @@ export default function(joi) {
             allowedAttributes: {}
           });
         }
-      }
+      },
     }
   }
 }

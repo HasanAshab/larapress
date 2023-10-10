@@ -25,7 +25,7 @@ describe("Auth", () => {
     }
   });
 
-  it.only("should register a user", async () => {
+  it("should register a user", async () => {
     const data = {
       username: "foobar123",
       email: "foo@gmail.com",
@@ -200,6 +200,29 @@ describe("Auth", () => {
     expect(response.body.data).toHaveLength(10);
     expect(response.body.data).not.toEqual(oldCodes);
   });
+
+  it("Should set username", async () => {
+    let user = await User.factory().create({ username: null });
+    const response = await request.post("/auth/set-username").send({
+      token: user.createTemporaryToken("set-username"),
+      username: "FooBar123"
+    });
+    user = await User.findById(user._id);
+    expect(response.statusCode).toBe(200);
+    expect(user.username).toBe("FooBar123");
+  });
+  
+  it("Shouldn't set username with invalid token", async () => {
+    let user = await User.factory().create({ username: null });
+    const response = await request.post("/auth/set-username").send({
+      token: "invalid-token",
+      username: "FooBar123"
+    });
+    user = await User.findById(user._id);
+    expect(response.statusCode).toBe(401);
+    expect(user.username).not.toBe("FooBar123");
+  })
+  
 
   it("Should send otp", async () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();

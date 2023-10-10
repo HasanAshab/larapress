@@ -18,4 +18,8 @@ export default (schema: Schema) => {
     assertExists(doc);
     return doc;
   }
+  
+  schema.methods.refresh = async function() {
+    //
+  }
 }

@@ -9,7 +9,7 @@ abstract class Provider {
 
 class GoogleProvider extends Provider {
   redirect(res: Response) {
-    const url = `https://accounts.google.com/o/oauth2/auth?client_id=${this.config.clientId}&redirect_uri=${this.config.redirect}&scope=openid%20profile&response_type=code`;
+    const url = `https://accounts.google.com/o/oauth2/auth?client_id=${this.config.clientId}&redirect_uri=${this.config.redirect}&scope=openid%20profile%20email&response_type=code`;
     res.redirect(url);
   }
   async user(code: string) {
@@ -31,6 +31,7 @@ class GoogleProvider extends Provider {
         'Authorization': `Bearer ${access_token}`,
       },
     });
+    console.log(data)
     return data;
   }
 }

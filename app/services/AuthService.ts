@@ -8,6 +8,7 @@ import Mail from "Mail";
 import speakeasy from "speakeasy";
 import { singleton } from "tsyringe";
 import { Mutex } from 'async-mutex';
+import Socialite from "Socialite";
 import { sendMessage, sendCall } from "~/core/clients/twilio";
 import User, { UserDocument } from "~/app/models/User";
 import Settings, { ISettings } from "~/app/models/Settings";
@@ -61,6 +62,23 @@ export default class AuthService {
       mutex.release();
     }
     return null;
+  }
+  
+  async loginWithGoogle(code: string) {
+    const { sub, name, email, picture } = await Socialite.driver("google").user(code);
+    const user = await User.findOneAndUpdate(
+      { "externalId.google": sub },
+      { 
+        email,
+        verified: true,
+        "logo.url": picture
+      },
+      { upsert: true, new: true }
+    );
+    if(user.username)
+      return  URL.client("oauth/success?token=" + user.createToken());
+    const token = user.createTemporaryToken("set-username");
+    return URL.client("oauth/choose-username/?token=" + token);
   }
   
   async sendVerificationLink(user: UserDocument) {
