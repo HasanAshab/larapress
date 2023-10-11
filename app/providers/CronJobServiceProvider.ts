@@ -6,11 +6,18 @@ export default class CronJobServiceProvider extends ServiceProvider {
   private jobSchedule: [string, string | Function][] = [];
 
   private schedule() {
+    /*
     this.call("test:hf name=jd").cron("* * * * * *");
     this.call("test:hf name=hasan").cron("* * * * * *");
     this.call(() => {
       console.log("custom")
-    }).cron("* * * * * *");
+    }).cron("* * * * * *");*/
+  }
+  
+  
+  boot() {
+    this.schedule();
+    this.registerCronJobs();
   }
   
   private call(command: string | Function) {
@@ -19,13 +26,8 @@ export default class CronJobServiceProvider extends ServiceProvider {
     }
     return { cron };
   }
-  
-  boot() {
-    this.schedule();
-    this.registerCronJobs();
-  }
-  
-  registerCronJobs() {
+
+  private registerCronJobs() {
     for(const [cron, command] of this.jobSchedule) {
       if(typeof command === "string") {
         const [commandName, ...args] = command.split(" ");

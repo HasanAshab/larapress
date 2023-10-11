@@ -6,13 +6,6 @@ module.exports = {
     port: 8000,//env("PORT", 8000),
     key: "foo bar",//env("APP_KEY", null),
     state: "up",
-    providers: [
-      "~/app/providers/DatabaseServiceProvider",
-      "~/app/providers/EventServiceProvider",
-      "~/app/providers/RouteServiceProvider",
-      "~/app/providers/AppServiceProvider",
-      "~/app/providers/CronJobServiceProvider"
-    ]
   },
   loadBalancer: {
     enabled: false,
@@ -56,7 +49,7 @@ module.exports = {
     facebook: {
       clientId: "342613888161486",
       clientSecret :"34077908d0d60cddb7658a8a5e7a55bf",
-      redirect: ""
+      redirect: "http://localhost:8000/api/v1/auth/callback/facebook"
     }
   },
   recaptcha: {
