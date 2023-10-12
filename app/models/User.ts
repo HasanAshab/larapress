@@ -10,9 +10,10 @@ import Settings, { ISettings } from "~/app/models/Settings";
 import Cascade from "~/app/plugins/Cascade";
 
 const UserSchema = new Schema({
+ // name
   username: {
     type: String,
-    index: true
+    unique: true
   },
   email: {
     required: true,

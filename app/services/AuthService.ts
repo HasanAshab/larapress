@@ -64,10 +64,10 @@ export default class AuthService {
     return null;
   }
   
-  async loginWithGoogle(code: string) {
-    const { sub, name, email, picture } = await Socialite.driver("google").user(code);
+  async loginOAuth(provider: string, code: string) {
+    const { id, name, email, picture } = await Socialite.driver(provider).user(code);
     const user = await User.findOneAndUpdate(
-      { "externalId.google": sub },
+      { [`externalId.${provider}`]: id },
       { 
         email,
         verified: true,

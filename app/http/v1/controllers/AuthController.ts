@@ -58,8 +58,8 @@ export default class AuthController extends Controller {
   }
 
   @RequestHandler
-  async loginWithGoogle(req: AuthenticRequest, res: Response) {
-    const url = await this.authService.loginWithGoogle(req.query.code);
+  async loginOAuth(req: Request, res: Response, provider: string) {
+    const url = await this.authService.loginOAuth(provider, req.query.code);
     res.redirect(url);
   }
   
@@ -76,9 +76,8 @@ export default class AuthController extends Controller {
   }
   
   @RequestHandler
-  async redirectToGoogle(req: Request, res: Response) {
-    const { clientId, redirect } = config.get("socialite.google");
-    Socialite.driver("google").redirect(res);
+  async redirectToOAuthProvider(req: Request, res: Response, provider: string) {
+    Socialite.driver(provider).redirect(res);
   }
   
   @RequestHandler

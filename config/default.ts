@@ -47,8 +47,8 @@ module.exports = {
       redirect: "http://localhost:8000/api/v1/auth/callback/google"
     },
     facebook: {
-      clientId: "342613888161486",
-      clientSecret :"34077908d0d60cddb7658a8a5e7a55bf",
+      clientId: "209741338669982",
+      clientSecret :"e568d01f9cf1f3d41cec797ce20c8f5f",
       redirect: "http://localhost:8000/api/v1/auth/callback/facebook"
     }
   },
