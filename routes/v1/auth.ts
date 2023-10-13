@@ -14,7 +14,11 @@ const authController = AuthController.handlers();
 // Login with various methods
 router.post("/login", middleware("limit:2000,2", "recaptcha"), authController.login);
 router.post("/login/recovery-code", middleware("limit:2000,1", "recaptcha"), authController.loginWithRecoveryCode);
-router.get("/login/oauth/:provider(google|facebook)", authController.redirectToOAuthProvider);
+
+// External login provided by Google, Facebook OAuth
+router.get("/login/external/:provider(google|facebook)", authController.redirectToExternalLoginProvider);
+router.get("/callback/:provider(google|facebook)", authController.loginWithExternalProvider);
+router.post("/login/external/:provider(google|facebook)/final-step", authController.externalLoginFinalStep);
 
 // User password management
 router.post("/password/reset/send-email", middleware("recaptcha", "limit:10000,2"), authController.sendResetPasswordEmail);
@@ -26,8 +30,6 @@ router.post("/verify/resend", middleware("limit:60000,1"), authController.resend
 router.get("/verify/:id", middleware("signed"), authController.verifyEmail);
 
 router.post("/register", middleware("limit:60000,1", "recaptcha"), authController.register);
-router.get("/callback/:provider(google|facebook)", authController.loginOAuth);
-router.post("/set-username", authController.setUsernameByToken);
 router.post("/send-otp/:id", middleware("limit:60000,3"), authController.sendOtp);
 router.put("/change-phone-number", middleware("auth", "verified"), authController.changePhoneNumber);
 router.post("/generate-recovery-codes", middleware("limit:60000,3", "auth", "verified"), authController.generateRecoveryCodes);

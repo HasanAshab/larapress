@@ -189,7 +189,6 @@ describe("Auth", () => {
       email: user.email,
       code: "foo-bar"
     });
-    console.log(response.body)
     expect(response.statusCode).toBe(401);
     expect(response.body).not.toHaveProperty("data");
   });
@@ -203,26 +202,47 @@ describe("Auth", () => {
     expect(response.body.data).not.toEqual(oldCodes);
   });
 
-  it.only("Should set username", async () => {
-    const user = await User.factory().create({ username: null });
-    const response = await request.post("/auth/set-username").send({
-      token: user.createTemporaryToken("set-username"),
-      username: "FooBar123"
-    });
-    await user.refresh();
-    expect(response.statusCode).toBe(200);
-    expect(user.username).toBe("FooBar123");
+  it("Should complete external login with username", async () => {
+    const username = "FooBar123";
+    const externalUser = {
+      id: "10000",
+      name: "Foo Bar",
+      email: "foo@bar.com",
+      picture: "www.foo.com"
+    };
+    const token = authService.createExternalLoginFinalStepToken(externalUser);
+    const response = await request.post("/auth/login/external/google/final-step").send({ token, username });
+    const user = await User.findOne({ username });
+    expect(response.statusCode).toBe(201);
+    expect(user).not.toBeNull();
   });
   
-  it("Shouldn't set username with invalid token", async () => {
-    let user = await User.factory().create({ username: null });
-    const response = await request.post("/auth/set-username").send({
-      token: "invalid-token",
-      username: "FooBar123"
+  it("Should complete external login with email and username", async () => {
+    const data = {
+      username: "FooBar123",
+      email: "foo@bar.com"
+    }
+    const externalUser = {
+      id: "10000",
+      name: "Foo Bar",
+      picture: "www.foo.com"
+    };
+    const token = authService.createExternalLoginFinalStepToken(externalUser);
+    const response = await request.post("/auth/login/external/google/final-step").send({ token, ...data });
+    const user = await User.findOne(data);
+    expect(response.statusCode).toBe(201);
+    expect(user).not.toBeNull();
+  });
+
+  it.only("Shouldn't complete external login with invalid token", async () => {
+    const username = "FooBar123";
+    const response = await request.post("/auth/login/external/google/final-step").send({
+      username,
+      token: "invalid-token"
     });
-    user = await User.findById(user._id);
+    const user = await User.findOne({ username });
     expect(response.statusCode).toBe(401);
-    expect(user.username).not.toBe("FooBar123");
+    expect(user).toBeNull();
   })
   
 
@@ -237,21 +257,21 @@ describe("Auth", () => {
   });
   
   it("should verify email", async () => {
-    let user = await User.factory().unverified().create();
+    const user = await User.factory().unverified().create();
     const verificationLink = await authService.sendVerificationLink(user);
     const response = await fetch(verificationLink);
-    user = await User.findById(user._id);
+    await user.refresh;
     expect(response.status).toBe(200);
     expect(user.verified).toBe(true);
   });
 
   it("shouldn't verify email without signature", async () => {
-    let user = await User.factory().unverified().create();
+    const user = await User.factory().unverified().create();
     const verificationLink = URL.route("email.verify", {
       id: user._id,
     });
     const response = await fetch(verificationLink);
-    user = await User.findById(user._id);
+    await user.refresh;
     expect(response.status).toBe(401);
     expect(user.verified).toBe(false);
   });
@@ -274,7 +294,7 @@ describe("Auth", () => {
       newPassword: "Password@1234",
     };
     const response = await request.put("/auth/password/change").actingAs(token).send(data);
-    user = await User.findById(user._id);
+    await user.refresh;
     expect(response.statusCode).toBe(200);
     expect(await user.attempt(data.newPassword)).toBe(true);
   });
@@ -315,7 +335,7 @@ describe("Auth", () => {
       token
     });
 
-    user = await User.findById(user._id);
+    await user.refresh;
     expect(response.statusCode).toBe(200);
     expect(await user.attempt(password)).toBe(true);
   });
@@ -327,18 +347,18 @@ describe("Auth", () => {
       token: "foo",
       password
     });
-    user = await User.findById(user._id);
+    await user.refresh;
     expect(response.statusCode).toBe(401);
     expect(await user.attempt(password)).toBe(false);
     Mail.assertNothingSent();
   });
 
   it("Should update phone number with valid otp", async () => {
-    let user = await User.factory().hasSettings().create();
+    const user = await User.factory().hasSettings().create();
     const phoneNumber = "+14155552671";
     const { code: otp } = await OTP.create({ userId: user._id });
     const response = await request.put("/auth/change-phone-number").actingAs(user.createToken()).send({ phoneNumber, otp });
-    user = await User.findById(user._id);
+    await user.refresh;
     expect(response.statusCode).toBe(200);
     expect(user.phoneNumber).toBe(phoneNumber);
   });
@@ -346,7 +366,7 @@ describe("Auth", () => {
   it("Shouldn't update phone number with invalid otp", { user: true }, async () => {
     const phoneNumber = "+14155552671";
     const response = await request.put("/auth/change-phone-number").actingAs(token).send({ phoneNumber, otp: 123456 });
-    user = await User.findById(user._id);
+    await user.refresh;
     expect(response.statusCode).toBe(401);
     expect(user.phoneNumber).not.toBe(phoneNumber);
   });
@@ -355,7 +375,7 @@ describe("Auth", () => {
     const phoneNumber = "+14155552671";
     const response = await request.put("/auth/change-phone-number").actingAs(token).send({ phoneNumber });
     const otp = await OTP.findOne({ userId: user._id });
-    user = await User.findById(user._id);
+    await user.refresh;
     expect(response.statusCode).toBe(200);
     expect(user.phoneNumber).not.toBe(phoneNumber);
     expect(otp).not.toBeNull();

@@ -5,7 +5,7 @@ import { autoInjectable } from "tsyringe";
 import LoginRequest from "~/app/http/v1/requests/LoginRequest";
 import RegisterRequest from "~/app/http/v1/requests/RegisterRequest";
 import LoginWithRecoveryCodeRequest from "~/app/http/v1/requests/LoginWithRecoveryCodeRequest";
-import SetUsernameRequest from "~/app/http/v1/requests/SetUsernameRequest";
+import ExternalLoginFinalStepRequest from "~/app/http/v1/requests/ExternalLoginFinalStepRequest";
 import ResendEmailVerificationRequest from "~/app/http/v1/requests/ResendEmailVerificationRequest";
 import SendResetPasswordEmailRequest from "~/app/http/v1/requests/SendResetPasswordEmailRequest";
 import ResetPasswordRequest from "~/app/http/v1/requests/ResetPasswordRequest";
@@ -56,28 +56,26 @@ export default class AuthController extends Controller {
       }
       : res.status(401).message("Invalid recovery code!");
   }
-
+  
   @RequestHandler
-  async loginOAuth(req: Request, res: Response, provider: string) {
-    const url = await this.authService.loginOAuth(provider, req.query.code);
+  async redirectToExternalLoginProvider(req: Request, res: Response, provider: string) {
+    Socialite.driver(provider).redirect(res);
+  }
+  
+  @RequestHandler
+  async loginWithExternalProvider(req: Request, res: Response, provider: string) {
+    const url = await this.authService.loginWithExternalProvider(provider, req.query.code);
     res.redirect(url);
   }
   
   @RequestHandler
-  async setUsernameByToken(req: SetUsernameRequest, res: Response) {
-    const { token, username } = req.body;
-    const { sub, iss, aud } = jwt.verify(token, config.get<any>("app.key"))!;
-    if(iss !== config.get("app.name") || aud !== "set-username")
-      return res.status(401).message("Invalid token");
-    const { modifiedCount } = await User.updateOne({ _id: sub }, { username });
-    return modifiedCount === 1  
-      ? "Username setted successfully!"
-      : res.status(500).message();
-  }
-  
-  @RequestHandler
-  async redirectToOAuthProvider(req: Request, res: Response, provider: string) {
-    Socialite.driver(provider).redirect(res);
+  async externalLoginFinalStep(req: ExternalLoginFinalStepRequest, res: Response, provider: string) {
+    const { token, username, email } = req.body;
+    const authToken = await this.authService.externalLoginFinalStep(provider, token, username, email);
+    res.status(201).api({
+      token: authToken,
+      message: "Account created!"
+    });
   }
   
   @RequestHandler

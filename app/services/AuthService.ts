@@ -8,6 +8,7 @@ import Mail from "Mail";
 import speakeasy from "speakeasy";
 import { singleton } from "tsyringe";
 import { Mutex } from 'async-mutex';
+import jwt from "jsonwebtoken";
 import Socialite from "Socialite";
 import { sendMessage, sendCall } from "~/core/clients/twilio";
 import User, { UserDocument } from "~/app/models/User";
@@ -16,6 +17,7 @@ import Token from "~/app/models/Token";
 import OTP from "~/app/models/OTP";
 import LoginAttemptLimitExceededException from "~/app/exceptions/LoginAttemptLimitExceededException";
 import InvalidOtpException from "~/app/exceptions/InvalidOtpException";
+import InvalidTokenException from "~/app/exceptions/InvalidTokenException";
 import OtpRequiredException from "~/app/exceptions/OtpRequiredException";
 import PhoneNumberRequiredException from "~/app/exceptions/PhoneNumberRequiredException";
 import PasswordChangeNotAllowedException from "~/app/exceptions/PasswordChangeNotAllowedException";
@@ -64,21 +66,47 @@ export default class AuthService {
     return null;
   }
   
-  async loginOAuth(provider: string, code: string) {
-    const { id, name, email, picture } = await Socialite.driver(provider).user(code);
+  async loginWithExternalProvider(provider: string, code: string) {
+    const externalUser = await Socialite.driver(provider).user(code);
     const user = await User.findOneAndUpdate(
-      { [`externalId.${provider}`]: id },
+      { [`externalId.${provider}`]: externalUser.id },
       { 
-        email,
+        email: externalUser.email,
         verified: true,
-        "logo.url": picture
+        "logo.url": externalUser.picture
       },
-      { upsert: true, new: true }
+      { new: true }
     );
-    if(user.username)
-      return  URL.client("oauth/success?token=" + user.createToken());
-    const token = user.createTemporaryToken("set-username");
-    return URL.client("oauth/choose-username/?token=" + token);
+    if(user) {
+      return URL.client("oauth/success?token=" + user.createToken());
+    }
+    const fields = externalUser.email 
+      ? "username"
+      : "email,username";
+      
+    const token = this.createExternalLoginFinalStepToken(externalUser);
+    return URL.client(`oauth/final-step?fields=${fields}&token=${token}`);
+  }
+  
+  createExternalLoginFinalStepToken(externalUser) {
+    return jwt.sign({ externalUser }, config.get("app.key"), { 
+      audience: "oauth-final-step",
+      issuer: config.get("app.name"),
+    });
+  }
+  
+  async externalLoginFinalStep(provider: string, token: string, username: string, email?: string) {
+    const { aud, iss, externalUser } = jwt.verify(token, config.get<any>("app.key"))!;
+    if(iss !== config.get("app.name") || aud !== "oauth-final-step")
+      throw new InvalidTokenException();
+    const user = await User.create({
+      [`externalId.${provider}`]: externalUser.id,
+      email: externalUser.email ?? email,
+      username,
+      verified: true,
+      "logo.url": externalUser.picture
+    });
+    return user.createToken();
   }
   
   async sendVerificationLink(user: UserDocument) {
