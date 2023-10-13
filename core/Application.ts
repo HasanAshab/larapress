@@ -11,8 +11,10 @@ export default class Application {
   private bootingCallbacks = [];
   
   constructor() {
-    if(this.runningInWeb())
+    if(this.runningInWeb()) {
       this.http = express();
+      this.addCustomHttpHelpers();
+    }
   }
   
   private bootProviders() {
@@ -32,6 +34,34 @@ export default class Application {
       const Provider = require("~/" + providersBaseDir + "/" + providerFullName.split(".")[0]).default;
       this.register(Provider);
     }
+  }
+  
+  private addCustomHttpHelpers() {
+    const responseHelpers = {
+      message(text?: string) {
+        this.json({
+          success: this.statusCode >= 200 && this.statusCode < 300,
+          message: text ?? messages[this.statusCode]
+        });
+      },
+      api(response: RawResponse) {
+        const success = this.statusCode >= 200 && this.statusCode < 300;
+        (response as any).message = (response as any).message ?? messages[this.statusCode];
+        
+        if((response as any).data) {
+          (response as any).success = (response as any).success ?? success;
+          this.json(response);
+          return response as ApiResponse;
+        }
+        
+        const apiResponse: ApiResponse = { success };
+        apiResponse.message = (response as any).message
+        delete (response as any).message;
+        apiResponse.data = response;
+        this.json(apiResponse);
+      }
+    }
+    Object.assign(this.http.response, responseHelpers);
   }
   
   runningInConsole(): asserts this is this & { http: undefined } {

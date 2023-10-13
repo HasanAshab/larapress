@@ -14,12 +14,9 @@ export const middlewareAliases = {
   "maintenance.check": "<global>/CheckForMaintenanceMode",
   "limit": "<global>/LimitRequestRate",
   "signed": "<global>/ValidateSignature",
-  "sanitize": "<global>/SanitizeRequest",
-  "validate": "<global>/ValidateRequest",
   "response.cache": "<global>/CacheResponse",
   "global.responser": "<global>/GlobalResponser",
-  "error.handle": "<global>/ErrorHandler",
-  "helpers.inject": "<global>/InjectHelpers",
+  "error.handle": "<global>/ErrorHandler"
 };
 
 /**
@@ -28,7 +25,6 @@ export const middlewareAliases = {
  * the order of registration.
 */
 export const globalMiddlewares: MiddlewareKeyWithOptions[] = [
-  "helpers.inject",
   "maintenance.check",
   "limit:1000,5"
 ];
