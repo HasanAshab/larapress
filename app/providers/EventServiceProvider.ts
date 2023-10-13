@@ -12,7 +12,8 @@ export default class EventServiceProvider extends ServiceProvider {
   }
   
   boot() {
-    this.subscribeListeners();
+    if(this.app.runningInWeb())
+      this.subscribeListeners();
   }
   
   private subscribeListeners() {
@@ -20,7 +21,7 @@ export default class EventServiceProvider extends ServiceProvider {
       for (const listenerName of listenerNames) {
         const Listener = require(`~/app/listeners/${listenerName}`).default;
         const listenerInstance = new Listener();
-        this.app.on(event, listenerInstance.dispatch.bind(listenerInstance));
+        this.app.http.on(event, listenerInstance.dispatch.bind(listenerInstance));
       }
     }
   }

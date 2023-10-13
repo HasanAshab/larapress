@@ -5,7 +5,8 @@ import Cache from "Cache";
 
 export default class AppServiceProvider extends ServiceProvider {
   boot() {
-    this.useCachedConfig();
+    if(this.app.runningInWeb())
+      this.useCachedConfig();
   }
 
   private async useCachedConfig() {

@@ -33,7 +33,7 @@ if(loadBalancerConfig.enabled) {
   console.log(`load Balancer: [http://127.0.0.1:${config.get("app.port")}]\n`)
   console.log("Server Instances:")
   for (const port of loadBalancerConfig.ports) {
-    app.listen(port, () => {
+    app.http.listen(port, () => {
       console.log(`[http://127.0.0.1:${port}]`);
     }).on("connection", (socket) => {
       const time = new Date().toLocaleTimeString("en-US", { hour12: true });
@@ -44,7 +44,7 @@ if(loadBalancerConfig.enabled) {
 
 else {
   const port = config.get<number>("app.port");
-  server = app.listen(port, () => {
+  server = app.http.listen(port, () => {
     shouldLog && console.log(`Server running on [http://127.0.0.1:${port}] ...`);
   });
   shouldLog && server.on("connection", (socket) => {

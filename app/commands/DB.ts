@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import fs from "fs";
 import Database from "DB";
 import DatabaseSeeder from "~/database/seeders/DatabaseSeeder";
-import Setup from "~/main/Setup";
 
 export default class DB extends Command {
   total = 0;
@@ -11,7 +10,6 @@ export default class DB extends Command {
   async wipe(){
     const { model } = this.params;
     await Database.connect();
-    Setup.mongooseModels();
     if(model) {
       this.info(`Clearing Model ${model}...`)
       const Model = mongoose.model(model);
@@ -23,7 +21,6 @@ export default class DB extends Command {
 
   async count() {
     await Database.connect();
-    Setup.mongooseModels()
     const modelsName = mongoose.modelNames();
     this.info("Counting documents...\n");
     const countPromises: any = [];

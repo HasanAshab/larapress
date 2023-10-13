@@ -1,20 +1,18 @@
-import express from "express";
+import express, { Application as ExpressApplication } from "express";
 import fs from "fs";
 import config from "config";
 import DatabaseServiceProvider from "~/app/providers/DatabaseServiceProvider";
 import EventServiceProvider from "~/app/providers/EventServiceProvider";
 import RouteServiceProvider from "~/app/providers/RouteServiceProvider";
 
-/*
 export default class Application {
+  http?: ExpressApplication;
   private registeredProviders = [];
   private bootingCallbacks = [];
   
   constructor() {
-    const app = express();
-      console.log(this)
-    Object.assign(app, this);
-    return app
+    if(this.runningInWeb())
+      this.http = express();
   }
   
   private bootProviders() {
@@ -36,10 +34,17 @@ export default class Application {
     }
   }
   
+  runningInConsole(): asserts this is this & { http: undefined } {
+    return env("NODE_ENV") === "shell";
+  }
+  
+  runningInWeb(): asserts this is this & { http: ExpressApplication } {
+    return !this.runningInConsole();
+  }
+  
   register(Provider) {
     if(this.registeredProviders.includes(Provider))
       return;
-    console.log(Provider)
     const provider = new Provider(this);
     provider.register?.();
     if (provider.boot) {
@@ -55,8 +60,8 @@ export default class Application {
     this.bootProviders();
   }
 }
-*/
 
+/*
 export default function Application() {
   const app = express();
 
@@ -101,3 +106,4 @@ export default function Application() {
 
   return app;
 }
+*/

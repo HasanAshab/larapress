@@ -16,8 +16,10 @@ export default class CronJobServiceProvider extends ServiceProvider {
   
   
   boot() {
-    this.schedule();
-    this.registerCronJobs();
+    if(this.app.runningInWeb()) {
+      this.schedule();
+      this.registerCronJobs();
+    }
   }
   
   private call(command: string | Function) {
