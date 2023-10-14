@@ -6,65 +6,56 @@ import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 import { middlewareAliases } from "~/app/http/kernel";
-import { container } from "tsyringe";
 
 
 /**
  * Generates middlewares stack based on keys. Options are injected to the middleware class.
- * You can pass only keys
- * or strings that are devided by ':' first part is the key and second is options separated by ','
- * or an array of first element as key and second element as config obj. This may be used when you need complex config
+ * You can pass only keys or strings that are devided by ':' first part is the 
+ * key and second is options separated by ','
  *
  * Examples:
  * 
  * middleware("foo")
  * middleware("foo", "bar")
  * middleware("foo:opt1", "bar:opt1,opt2")
- * middleware(["foo", config], ["bar", config])
 */
-export function middleware(...keysWithOptions: MiddlewareKeyWithOptions[]): RequestHandler[] {
-  //helper function to auto pass errors of middleware to next() closure
-  function wrapMiddleware(context: object, handler: Function, options: string[] = []) {
-    return async (req: Request, res: Response, next: NextFunction) => {
-      try {
-        return await handler.apply(context, [req, res, next, ...options]);
-      }
-      catch (err: any) {
-        next(err);
-      }
-    }
+export function middleware(...args: [string, MiddlewareKeyWithOptions[]] | MiddlewareKeyWithOptions[]): RequestHandler[] {
+  const parseArgs = () => {
+    return Array.isArray(args[1])
+      ? [args[0], args[1]]
+      : [getVersion(), args];
   }
-  /**
-   * Helper function to import middleware class by using middlewareAliases. Injects config and options to the middleware class.
-   * Returns actual middleware function.
-  */
-  function getMiddleware(middlewareKey: string, options: string[] = [], config = {}): RequestHandler {
-    const middlewarePath = middlewareAliases[middlewareKey as keyof typeof middlewareAliases];
-      const fullPath = middlewarePath.startsWith("<global>")
-        ? middlewarePath.replace("<global>", "~/core/global/middlewares")
-        : `~/app/http/${getVersion()}/middlewares/${middlewarePath}`;
-      const MiddlewareClass = require(fullPath).default;
-      const middlewareInstance = new MiddlewareClass(config);
-      const handler = middlewareInstance.handle.length === 4 
-        ? middlewareInstance.handle.bind(middlewareInstance)
-        : wrapMiddleware(middlewareInstance, middlewareInstance.handle, options);
-      return handler;
-  }
-  let middlewares: RequestHandler[] = [];
-  for (const keysWithOption of keysWithOptions) {
-    if(typeof keysWithOption === "string") {
-      const [key, options] = keysWithOption.split(":");
-      middlewares.push(getMiddleware(key, options?.split(",")));
+  const [version, keysWithOptions] = parseArgs();
+  const handlers = [];
+  keysWithOptions.forEach(keyWithOptions => {
+    const [key, options = []] = keyWithOptions.split(":");
+    const middlewarePath = middlewareAliases[key].replace("<version>", version);
+    const MiddlewareClass = require(middlewarePath).default;
+    const middleware = new MiddlewareClass();
+    let handler: RequestHandler;
+    if(middleware.errorHandler) {
+      handler = function(err: any, req: Request, res: Response, next: NextFunction) {
+        return middleware.handle(err, req, res, next, ...options);
+      }
     }
     else {
-      middlewares.push(getMiddleware(keysWithOption[0], undefined, keysWithOption[1]));
+      handler = async function(req: Request, res: Request, next: NextFunction) {
+        try {
+          return await middleware.handle(req, res, next, ...options);
+        }
+        catch(err) {
+          next(err)
+        }
+      }
     }
-  }
-  return middlewares;
+    handlers.push(handler);
+  });
+  return handlers;
 }
 
+
 /**
- * Get version from call location or provide a path to get its version
+ * Get version from call location or provide a path explicitly to get its version
 */ 
 export function getVersion(path?: string): string {
   let target: string;
@@ -79,6 +70,8 @@ export function getVersion(path?: string): string {
   if (!match) throw new Error('Not a nested versional path!\n Call Stack or Path:\n' + target);
   return match[1];
 }
+
+export const getVersions =  () => fs.readdirSync("routes");
 
 /**
  * Generates endpoints of a directory.

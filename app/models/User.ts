@@ -10,7 +10,7 @@ import Settings, { ISettings } from "~/app/models/Settings";
 import Cascade from "~/app/plugins/Cascade";
 
 const UserSchema = new Schema({
- // name
+  name: String,
   username: {
     type: String,
     unique: true
@@ -78,7 +78,8 @@ UserSchema.plugin(Cascade, [
 ]);
 
 export interface IUser {
-  username: string | null;
+  name: string;
+  username: string;
   email: string;
   phoneNumber: string | null;
   password: string | null;

@@ -71,6 +71,7 @@ export default class AuthService {
     const user = await User.findOneAndUpdate(
       { [`externalId.${provider}`]: externalUser.id },
       { 
+        name: externalUser.name,
         email: externalUser.email,
         verified: true,
         "logo.url": externalUser.picture
@@ -101,6 +102,7 @@ export default class AuthService {
       throw new InvalidTokenException();
     const user = await User.create({
       [`externalId.${provider}`]: externalUser.id,
+      name: externalUser.name,
       email: externalUser.email ?? email,
       username,
       verified: true,

@@ -7,7 +7,6 @@ import Artisan from 'Artisan';
 
 const app = new Application();
 
-app.bootstrap();
 
 const [baseInput, ...args] = process.argv.splice(2);
 Artisan.call(baseInput, args).then(() => {

@@ -31,7 +31,7 @@ export default class AuthController extends Controller {
       token,
       message: "Verification email sent!",
     });
-  };
+  }
   
   @RequestHandler
   async login(req: LoginRequest, res: Response) {

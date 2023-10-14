@@ -1,22 +1,19 @@
 import { MiddlewareKeyWithOptions } from "types"; 
 
 /**
- * Define middlewares with a short name.
- * It searches on app/http/{version}/middlewares folder.
- * <global> maps to core/global/middlewares folder, use that for 
- * version independent middleware.
+ * Define middlewares path with a short name.
 */
 export const middlewareAliases = {
-  "auth": "Authenticate",
-  "verified": "<global>/EnsureEmailIsVerified",
-  "roles": "<global>/CheckRole",
-  "recaptcha": "<global>/VerifyRecaptcha",
-  "maintenance.check": "<global>/CheckForMaintenanceMode",
-  "limit": "<global>/LimitRequestRate",
-  "signed": "<global>/ValidateSignature",
-  "response.cache": "<global>/CacheResponse",
-  "global.responser": "<global>/GlobalResponser",
-  "error.handle": "<global>/ErrorHandler"
+  "auth": "~/app/http/<version>/middlewares/Authenticate",
+  "verified": "~/app/http/<version>/middlewares/EnsureEmailIsVerified",
+  "roles": "~/app/http/<version>/middlewares/CheckRole",
+  "recaptcha": "~/app/http/<version>/middlewares/VerifyRecaptcha",
+  "maintenance.check": "~/app/http/<version>/middlewares/CheckForMaintenanceMode",
+  "limit": "~/app/http/<version>/middlewares/LimitRequestRate",
+  "signed": "~/app/http/<version>/middlewares/ValidateSignature",
+  "response.cache": "~/app/http/<version>/middlewares/CacheResponse",
+  "global.responser": "~/app/http/<version>/middlewares/GlobalResponser",
+  "error.handle": "~/app/http/<version>/middlewares/ErrorHandler"
 };
 
 /**

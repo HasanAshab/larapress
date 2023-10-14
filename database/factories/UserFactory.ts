@@ -6,6 +6,7 @@ import Settings from "~/app/models/Settings";
 export default class UserFactory extends Factory {
   definition() {
     return {
+      name: faker.person.firstName(),
       username: faker.person.firstName(),
       email: faker.internet.email(),
       password: "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi", // "password"

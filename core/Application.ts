@@ -4,17 +4,23 @@ import config from "config";
 import DatabaseServiceProvider from "~/app/providers/DatabaseServiceProvider";
 import EventServiceProvider from "~/app/providers/EventServiceProvider";
 import RouteServiceProvider from "~/app/providers/RouteServiceProvider";
+import EventEmitter from "events";
 
-export default class Application {
+export default class Application extends EventEmitter {
   http?: ExpressApplication;
   private registeredProviders = [];
   private bootingCallbacks = [];
   
   constructor() {
+    super();
     if(this.runningInWeb()) {
       this.http = express();
       this.addCustomHttpHelpers();
     }
+    this.registerBaseServiceProviders();
+    this.discoverExternalServiceProviders();
+    this.bootProviders();
+    this.emit("booted");
   }
   
   private bootProviders() {
@@ -37,6 +43,7 @@ export default class Application {
   }
   
   private addCustomHttpHelpers() {
+    const messages = config.get("errorMessages");
     const responseHelpers = {
       message(text?: string) {
         this.json({
@@ -81,13 +88,6 @@ export default class Application {
       this.bootingCallbacks.push(provider.boot.bind(provider));
     }
     this.registeredProviders.push(Provider);
-  }
-
-
-  bootstrap() {
-    this.registerBaseServiceProviders();
-    this.discoverExternalServiceProviders();
-    this.bootProviders();
   }
 }
 

@@ -17,15 +17,19 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
       for(let i = 0; i < paramNames.length; i++) {
         const paramType = paramTypes[i];
         const paramName = paramNames[i];
-        if(paramType === Request || paramType === AuthenticRequest)
-          args.push(req);
-        else if(paramType.prototype instanceof Request) {
-          rules = rules ?? Validator.object(paramType.rules());
-          const data = req.method === "GET"
-            ? req.query
-            : Object.assign({}, req.body, req.files);
-          const validated = await rules.validateAsync(data);
-          req[req.method === "GET" ? "query" : "body"] = validated;
+        if(paramType === Request || paramType.prototype instanceof Request) {
+          if(paramType.authorize) {
+            await paramType.authorize(req, res);
+            if(res.headersSent) return;
+          }
+          if(paramType.rules) {
+            rules = rules ?? Validator.object(paramType.rules());
+            const data = req.method === "GET"
+              ? req.query
+              : Object.assign({}, req.body, req.files);
+            const validated = await rules.validateAsync(data);
+            req[req.method === "GET" ? "query" : "body"] = validated;
+          }
           args.push(req);
         }
         else if(paramType === Response)

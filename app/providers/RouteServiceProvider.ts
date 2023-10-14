@@ -1,6 +1,6 @@
 import ServiceProvider from "~/core/abstract/ServiceProvider";
 import express from "express";
-import { middleware, generateEndpoints } from "~/core/utils";
+import { middleware, getVersions, generateEndpoints } from "~/core/utils";
 import { globalMiddlewares } from "~/app/http/kernel"
 import cors from "cors";
 import helmet from "helmet";
@@ -11,12 +11,14 @@ import URL from "URL";
 export default class RouteServiceProvider extends ServiceProvider {
   boot() {
     if(this.app.runningInWeb()) {
-      console.log("yeeh")
       this.registerSecurityMiddlewares();
       this.registerRequestPayloadParsers();
       this.registerGlobalMiddlewares();
       this.discoverRoutes();
       this.serveStaticFolder();
+      this.app.once("booted", () => {
+        this.registerErrorHandlers();
+      });
     }
   }
   
@@ -34,15 +36,24 @@ export default class RouteServiceProvider extends ServiceProvider {
       limit: "1mb"
     }));
     this.app.http.use(formDataParser());
-
   }
   
   private registerGlobalMiddlewares() {
-    this.app.http.use(middleware(...globalMiddlewares));
+    getVersions().forEach(version => {
+      const middlewares = middleware(version, globalMiddlewares);
+      this.app.http.use(`/api/${version}/*`, ...middlewares);
+    });
   }
   
   private serveStaticFolder() {
     this.app.http.use("/api/files", express.static(__dirname + "/../storage/public"));
+  }
+  
+  private registerErrorHandlers() {
+    getVersions().forEach(version => {
+      const middlewares = middleware(version, ["global.responser", "error.handle"]);
+      this.app.http.use(`/api/${version}/*`, ...middlewares);
+    });
   }
   
   private discoverRoutes() {

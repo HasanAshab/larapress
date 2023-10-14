@@ -1,9 +1,11 @@
 import * as http from 'http';
-import { UserDocument } from "~/app/models/User";
+import User, { UserDocument } from "~/app/models/User";
 import Express from 'express';
 import { SendFileOptions, DownloadOptions } from "express-serve-static-core";
 import { RawResponse, ApiResponse } from "types";
 import { UploadedFile } from "express-fileupload";
+import config from "config";
+import jwt from "jsonwebtoken";
 
 type Send<ResBody, T> = (body?: ResBody) => T;
 
@@ -36,10 +38,6 @@ export abstract class Request<
   api!: (response: RawResponse) => ApiResponse;
   message!: (text?: string) => void;
   
-  static rules() {
-    throw new Error("rules() method is required in " + this.name)
-  };
-
   get!: {
     (name: 'set-cookie'): string[] | undefined;
     (name: string): string | undefined;
@@ -91,6 +89,28 @@ export abstract class Request<
 
 export class AuthenticRequest extends Request {
   user!: UserDocument;
+}
+
+export function authenticRequest(roles?: string[], verified = true) {
+  return class extends Request {
+    user!: UserDocument
+    validRoles = roles;
+    shouldVerified = verified;
+    static async authorize(req: Request, res: Response) {
+      const token = req.headers.authorization?.split(" ")[1];
+      if(!token)
+        return res.status(401).message();
+      const { sub, version, iss, aud } = jwt.verify(token, config.get("app.key"))!;
+      const user = await User.findById(sub);
+      if(!user || version !== user.tokenVersion || iss !== config.get("app.name") || aud !== "auth")
+        return res.status(401).message();
+      if (Array.isArray(roles) && !roles.includes(user.role))
+        return res.status(403).message();
+      if(verified && !user.verified)
+        return res.status(403).message("Your have to verify your email to perfom this action!");
+      req.user = user;
+    }
+  }
 }
 
 export class Response<

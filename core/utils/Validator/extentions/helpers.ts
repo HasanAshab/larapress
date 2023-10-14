@@ -35,7 +35,7 @@ export default function(joi) {
         },
       },
       slug: {
-        validate(value, helpers, { strength }) {
+        validate(value, helpers) {
           return slugPattern.test(value)
             ? value
             : helpers.error("string.slug");

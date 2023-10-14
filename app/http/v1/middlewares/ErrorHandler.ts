@@ -4,10 +4,11 @@ import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 
 export default class ErrorHandler {
+  errorHandler = true;
+  
   async handle(err: any, req: Request, res: Response, next: NextFunction) {
     if(err instanceof Exception)
       return err.render(req, res);
-
     if(err.kind === "ObjectId")
       return res.status(404).message();
     if(err instanceof jwt.JsonWebTokenError)

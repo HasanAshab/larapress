@@ -8,7 +8,7 @@ const dashboardController = DashboardController.handlers();
 const categoryController = CategoryController.handlers();
 
 
-router.use(middleware("auth", "roles:admin"));
+//router.use(middleware("auth", "roles:admin"));
 
 // Admin dashboard
 router.get("/dashboard", dashboardController.admin);

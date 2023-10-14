@@ -28,7 +28,8 @@ export default class UserController extends Controller {
       await user.attach("logo", logo);
     }
     await user.save();
-    if(!req.body.email) return res.message("Profile updated!");
+    if(!req.body.email) 
+      return res.message("Profile updated!");
     user.sendVerificationEmail().catch(log);
     res.message("Verification email sent to your new email!");
   };
