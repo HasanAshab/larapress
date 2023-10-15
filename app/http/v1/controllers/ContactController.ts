@@ -15,8 +15,7 @@ export default class ContactController extends Controller {
   }
   
   @RequestHandler
-  async create(req: AuthenticRequest, res: Response) {
-    console.log(res.api)
+  async create(req: CreateContactRequest, res: Response) {
     await Contact.create(req.body);
     res.status(201).message("Thanks for contacting us!");
   }
@@ -45,7 +44,7 @@ export default class ContactController extends Controller {
   }
   
   @RequestHandler
-  async delete(id: string) {
+  async delete(res: Response, id: string) {
     const { deletedCount } = await Contact.deleteOne({ _id: id });
     res.status(deletedCount === 1 ? 204 : 404).message();
   }

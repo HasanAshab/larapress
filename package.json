@@ -57,6 +57,7 @@
     "querystring": "^0.2.1",
     "reflect-metadata": "^0.1.13",
     "sanitize-html": "^2.11.0",
+    "signed": "^2.0.3",
     "speakeasy": "^2.0.0",
     "stripe": "^12.10.0",
     "tsyringe": "^4.8.0",

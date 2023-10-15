@@ -90,13 +90,14 @@ export abstract class Request<
 export class AuthenticRequest extends Request {
   user!: UserDocument;
 }
-
-export function authenticRequest(roles?: string[], verified = true) {
+/*
+export function AuthenticRequest(roles?: string | string[], verified = true) {
   return class extends Request {
     user!: UserDocument
     validRoles = roles;
     shouldVerified = verified;
     static async authorize(req: Request, res: Response) {
+      if(req.user) return;
       const token = req.headers.authorization?.split(" ")[1];
       if(!token)
         return res.status(401).message();
@@ -104,7 +105,7 @@ export function authenticRequest(roles?: string[], verified = true) {
       const user = await User.findById(sub);
       if(!user || version !== user.tokenVersion || iss !== config.get("app.name") || aud !== "auth")
         return res.status(401).message();
-      if (Array.isArray(roles) && !roles.includes(user.role))
+      if ((typeof roles === "string" && user.role !== roles) || (Array.isArray(roles) && !roles.includes(user.role)))
         return res.status(403).message();
       if(verified && !user.verified)
         return res.status(403).message("Your have to verify your email to perfom this action!");
@@ -112,6 +113,7 @@ export function authenticRequest(roles?: string[], verified = true) {
     }
   }
 }
+*/
 
 export class Response<
   ResBody = any,

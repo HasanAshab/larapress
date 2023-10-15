@@ -22,11 +22,9 @@ export default class NotificationController extends Controller {
   }
   
   @RequestHandler
-  async delete(req: AuthenticRequest, id: string) {
+  async delete(req: AuthenticRequest, res: Response, id: string) {
     const { deletedCount } = await req.user.notifications.where("_id").equals(id).deleteOne();
-    return deletedCount === 1
-      ? res.status(204).message()
-      : res.status(404).message();
+    res.status(deletedCount === 1 ? 204 : 404).message()
   }
 }
 

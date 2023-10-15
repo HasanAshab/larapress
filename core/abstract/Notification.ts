@@ -25,14 +25,14 @@ export default abstract class Notification {
   
   async sendEmail(notifiable: IUser) {
     this.assertProviderExist(this, "toEmail");
-    await Mail.to(notifiable.email).send(this.toEmail!(notifiable));
+    await Mail.to(notifiable.email).send(await this.toEmail!(notifiable));
   }
 
   async sendSite(notifiable: IUser) {
     this.assertProviderExist(this, "toSite");
     await NotificationModel.create({
       userId: notifiable._id,
-      data: this.toSite!(notifiable)
+      data: await this.toSite!(notifiable)
     });
   }
   

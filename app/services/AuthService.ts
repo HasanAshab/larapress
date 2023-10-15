@@ -23,8 +23,8 @@ import PhoneNumberRequiredException from "~/app/exceptions/PhoneNumberRequiredEx
 import PasswordChangeNotAllowedException from "~/app/exceptions/PasswordChangeNotAllowedException";
 import InvalidPasswordException from "~/app/exceptions/InvalidPasswordException";
 import PasswordChangedMail from "~/app/mails/PasswordChangedMail";
-import VerificationMail from "~/app/mails/VerificationMail";
-import ForgotPasswordMail from "~/app/mails/ForgotPasswordMail";
+
+const mutex = new Mutex();
 
 @singleton()
 export default class AuthService {
@@ -38,32 +38,49 @@ export default class AuthService {
   }
   
   async login(email: string, password: string, otp?: number) {
-    const failedAttemptCacheKey = `$_LOGIN_FAILED_ATTEMPTS(${email})`;
-    const mutex = new Mutex();
+    await this.assertFailedAttemptLimitNotExceed(email);
+    const user = await User.findOne({ email, password: { $ne: null }});
+    if(!user?.password)
+      return null;
+    if (await user.attempt(password)) {
+      await this.incrementFailedAttempt(email);
+      return null;
+    }
+    const { twoFactorAuth } = await user.settings;
+    if(twoFactorAuth.enabled){
+      if(!otp)
+        throw new OtpRequiredException();
+      const isValid = await this.verifyOtp(user, twoFactorAuth.method, otp);
+      if (!isValid) {
+        await this.incrementFailedAttempt(email);
+        throw new InvalidOtpException();
+      }
+    }
+    await this.resetFailedAttempts(email);
+    return user.createToken();
+  }
+  private getFailedAttemptCacheKey(email: string) {
+    return `$_LOGIN_FAILED_ATTEMPTS(${email})`;
+  }
+  
+  private async assertFailedAttemptLimitNotExceed(email: string) {
+    const key = this.getFailedAttemptCacheKey(email);
     await mutex.acquire();
-    let failedAttemptsCount = parseInt(await Cache.get(failedAttemptCacheKey) ?? 0);
+    let failedAttemptsCount = parseInt(await Cache.get(key) ?? 0);
     mutex.release();
     if(failedAttemptsCount > 3)
       throw new LoginAttemptLimitExceededException();
-    const user = await User.findOne({ email, password: { $ne: null }});
-    if(user && user.password) {
-      if (await user.attempt(password)) {
-        const { twoFactorAuth } = await user.settings;
-        if(twoFactorAuth.enabled){
-          if(!otp)
-            throw new OtpRequiredException();
-          const isValid = await this.verifyOtp(user, twoFactorAuth.method, otp);
-          if (!isValid)
-            throw new InvalidOtpException();
-        }
-        await Cache.clear(failedAttemptCacheKey);
-        return user.createToken();
-      }
-      await mutex.acquire();
-      await Cache.put(failedAttemptCacheKey, String(failedAttemptsCount + 1), 60 * 60);
-      mutex.release();
-    }
-    return null;
+  }
+  
+  private async incrementFailedAttempt(email: string) {
+    const key = this.getFailedAttemptCacheKey(email);
+    await mutex.acquire();
+    await Cache.incr(key);
+    mutex.release();
+  }
+  private async resetFailedAttempts(email: string) {
+    const key = this.getFailedAttemptCacheKey(email);
+    await Cache.clear(key);
   }
   
   async loginWithExternalProvider(provider: string, code: string) {
@@ -79,27 +96,25 @@ export default class AuthService {
       { new: true }
     );
     if(user) {
-      return URL.client("oauth/success?token=" + user.createToken());
+      return URL.client(`/login/social/${provider}/success/${user.createToken()}`);
     }
-    const fields = externalUser.email 
-      ? "username"
-      : "email,username";
-      
-    const token = this.createExternalLoginFinalStepToken(externalUser);
-    return URL.client(`oauth/final-step?fields=${fields}&token=${token}`);
+    const fields = externalUser.email ? "username" : "email,username";
+    const token = await this.createExternalLoginFinalStepToken(provider, externalUser);
+    return URL.client(`/login/social/${provider}/final-step/${externalUser.id}/${token}?fields=${fields}`);
   }
   
-  createExternalLoginFinalStepToken(externalUser) {
-    return jwt.sign({ externalUser }, config.get("app.key"), { 
-      audience: "oauth-final-step",
-      issuer: config.get("app.name"),
+  async createExternalLoginFinalStepToken(provider: string, externalUser) {
+    const { secret } = await Token.create({
+      key: externalUser.id,
+      type: provider + "Login",
+      data: externalUser,
+      expiresAt: Date.now() + 25920000
     });
+    return secret;
   }
   
-  async externalLoginFinalStep(provider: string, token: string, username: string, email?: string) {
-    const { aud, iss, externalUser } = jwt.verify(token, config.get<any>("app.key"))!;
-    if(iss !== config.get("app.name") || aud !== "oauth-final-step")
-      throw new InvalidTokenException();
+  async externalLoginFinalStep(provider: string, externalId: string, token: string, username: string, email?: string) {
+    const externalUser = await Token.verify(externalId, provider + "Login", token);
     const user = await User.create({
       [`externalId.${provider}`]: externalUser.id,
       name: externalUser.name,
@@ -111,28 +126,8 @@ export default class AuthService {
     return user.createToken();
   }
   
-  async sendVerificationLink(user: UserDocument) {
-    if (user.verified)
-      return null;
-    const link = await URL.signedRoute("email.verify", { id: user._id }, 259200);
-    Mail.to(user.email).send(new VerificationMail({ link })).catch(log);
-    return link;
-  }
-  
-  async sendResetPasswordLink(user: UserDocument) {
-    if(!user.password) return null;
-    const { secret } = await Token.create({
-      type: "resetPassword",
-      key: user._id,
-      expiresAt: Date.now() + 259200
-    });
-    const link = URL.client(`/password/reset/${user._id}?token=${secret}`);
-    Mail.to(user.email).send(new ForgotPasswordMail({ link })).catch(log);
-    return secret;
-  }
-  
   async resetPassword(user: UserDocument, token: string, password: string) {
-    await Token.assertValid(user._id, "resetPassword", token);
+    await Token.verify(user._id, "resetPassword", token);
     await user.setPassword(password);
     user.tokenVersion++;
     await user.save();
@@ -150,32 +145,6 @@ export default class AuthService {
     Mail.to(user.email).send(new PasswordChangedMail()).catch(log);
   }
   
-  async generateRecoveryCodes(user: UserDocument, count = 10) {
-    const rawCodes = [];
-    const hashPromises = [];
-    for (let i = 0; i < count; i++) {
-    //TODO wrap this block in async
-      const code = crypto.randomBytes(16).toString('hex');
-      rawCodes.push(code);
-      hashPromises.push(bcrypt.hash(code, config.get("bcrypt.rounds")));
-    }
-    user.recoveryCodes = await Promise.all(hashPromises);
-    await user.save();
-    return rawCodes;
-  }
-  
-  async verifyRecoveryCode(user: UserDocument, code: string) {
-    for (let i = 0; i < user.recoveryCodes.length; i++) {
-      const hashedCode = user.recoveryCodes[i];
-      if (await bcrypt.compare(code, hashedCode)) {
-        user.recoveryCodes.splice(i, 1);
-        await user.save();
-        return true;
-      }
-    }
-    return false;
-  };
-
   async enableTwoFactorAuth(user, method) {
     if (!user.phoneNumber && method !== "app")
       throw new PhoneNumberRequiredException();

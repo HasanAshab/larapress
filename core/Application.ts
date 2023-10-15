@@ -1,10 +1,11 @@
 import express, { Application as ExpressApplication } from "express";
+import EventEmitter from "events";
 import fs from "fs";
 import config from "config";
+import URL from "URL";
 import DatabaseServiceProvider from "~/app/providers/DatabaseServiceProvider";
 import EventServiceProvider from "~/app/providers/EventServiceProvider";
 import RouteServiceProvider from "~/app/providers/RouteServiceProvider";
-import EventEmitter from "events";
 
 export default class Application extends EventEmitter {
   http?: ExpressApplication;
@@ -66,6 +67,9 @@ export default class Application extends EventEmitter {
         delete (response as any).message;
         apiResponse.data = response;
         this.json(apiResponse);
+      },
+      redirectToClient(path = "/") {
+        return this.redirect(URL.client(path));
       }
     }
     Object.assign(this.http.response, responseHelpers);

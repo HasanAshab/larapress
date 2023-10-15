@@ -1,17 +1,18 @@
 const DB = require("DB").default;
-const URL = require("URL").default;
 const Cache = require("Cache").default;
 const Storage = require("Storage").default;
 const Mail = require("Mail").default;
 const User = require("~/app/models/User").default;
 const OTP = require("~/app/models/OTP").default;
+const EmailVerificationNotification = require("~/app/notifications/EmailVerificationNotification").default;
+const ForgotPasswordNotification = require("~/app/notifications/ForgotPasswordNotification").default;
 const AuthService = require("~/app/services/AuthService").default;
 const { OAuth2Client } = require("google-auth-library");
 
 describe("Auth", () => {
   let user;
   let token;
-  let authService = new AuthService();
+  const authService = new AuthService();
   
   beforeAll(async () => {
     await DB.connect();
@@ -162,7 +163,7 @@ describe("Auth", () => {
   
   it("should login a user with valid recovery code", async () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();
-    const [ code ] = await authService.generateRecoveryCodes(user, 1);
+    const [ code ] = await user.generateRecoveryCodes(1);
     const response = await request.post("/auth/login/recovery-code").send({
       email: user.email,
       code
@@ -173,7 +174,7 @@ describe("Auth", () => {
   
   it("shouldn't login a user with same recovery code multiple times", async () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();
-    const [ code ] = await authService.generateRecoveryCodes(user, 1);
+    const [ code ] = await user.generateRecoveryCodes(1);
     const response1 = await request.post("/auth/login/recovery-code").send({ email: user.email, code });
     const response2 = await request.post("/auth/login/recovery-code").send({ email: user.email, code });
     expect(response1.statusCode).toBe(200);
@@ -184,7 +185,7 @@ describe("Auth", () => {
   
   it("shouldn't login a user with invalid recovery code", async () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();
-    await authService.generateRecoveryCodes(user, 1);
+    await user.generateRecoveryCodes(1);
     const response = await request.post("/auth/login/recovery-code").send({
       email: user.email,
       code: "foo-bar"
@@ -195,7 +196,7 @@ describe("Auth", () => {
   
   it("should generate new recovery codes", { user: true }, async () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();
-    const oldCodes = await authService.generateRecoveryCodes(user);
+    const oldCodes = await user.generateRecoveryCodes();
     const response = await request.post("/auth/generate-recovery-codes").actingAs(user.createToken());
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toHaveLength(10);
@@ -210,8 +211,12 @@ describe("Auth", () => {
       email: "foo@bar.com",
       picture: "www.foo.com"
     };
-    const token = authService.createExternalLoginFinalStepToken(externalUser);
-    const response = await request.post("/auth/login/external/google/final-step").send({ token, username });
+    const token = await authService.createExternalLoginFinalStepToken("google", externalUser);
+    const response = await request.post("/auth/login/external/google/final-step").send({ 
+      token,
+      username,
+      externalId: externalUser.id
+    });
     const user = await User.findOne({ username });
     expect(response.statusCode).toBe(201);
     expect(user).not.toBeNull();
@@ -227,24 +232,49 @@ describe("Auth", () => {
       name: "Foo Bar",
       picture: "www.foo.com"
     };
-    const token = authService.createExternalLoginFinalStepToken(externalUser);
-    const response = await request.post("/auth/login/external/google/final-step").send({ token, ...data });
+    const token = await authService.createExternalLoginFinalStepToken("google", externalUser);
+    const response = await request.post("/auth/login/external/google/final-step").send({ 
+      token,
+      externalId: externalUser.id,
+      ...data
+    });
     const user = await User.findOne(data);
     expect(response.statusCode).toBe(201);
     expect(user).not.toBeNull();
   });
 
-  it.only("Shouldn't complete external login with invalid token", async () => {
+  it("Shouldn't complete external login with invalid token", async () => {
     const username = "FooBar123";
     const response = await request.post("/auth/login/external/google/final-step").send({
       username,
-      token: "invalid-token"
+      token: "invalid-token",
+      externalId: "1000"
     });
     const user = await User.findOne({ username });
     expect(response.statusCode).toBe(401);
     expect(user).toBeNull();
   })
   
+  it("Shouldn't complete external login with same token multiple times", async () => {
+    const externalUser = {
+      id: "10000",
+      name: "Foo Bar",
+      email: "foo@bar.com",
+      picture: "www.foo.com"
+    };
+    const token = await authService.createExternalLoginFinalStepToken("google", externalUser);
+    await request.post("/auth/login/external/google/final-step").send({ 
+      token,
+      username: "foo12",
+      externalId: externalUser.id
+    });
+    const response = await request.post("/auth/login/external/google/final-step").send({ 
+      token,
+      username: "foo95",
+      externalId: externalUser.id
+    });
+    expect(response.statusCode).toBe(401);
+  });
 
   it("Should send otp", async () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();
@@ -258,20 +288,17 @@ describe("Auth", () => {
   
   it("should verify email", async () => {
     const user = await User.factory().unverified().create();
-    const verificationLink = await authService.sendVerificationLink(user);
-    const response = await fetch(verificationLink);
-    await user.refresh;
+    const token = await (new EmailVerificationNotification).createVerificationToken(user);
+    const response = await request.get(`/auth/verify/${user._id}/${token}`);
+    await user.refresh();
     expect(response.status).toBe(200);
     expect(user.verified).toBe(true);
   });
 
-  it("shouldn't verify email without signature", async () => {
+  it("shouldn't verify email with invalid token", async () => {
     const user = await User.factory().unverified().create();
-    const verificationLink = URL.route("email.verify", {
-      id: user._id,
-    });
-    const response = await fetch(verificationLink);
-    await user.refresh;
+    const response = await request.get(`/auth/verify/${user._id}/invalid-token`);
+    await user.refresh();
     expect(response.status).toBe(401);
     expect(user.verified).toBe(false);
   });
@@ -285,7 +312,7 @@ describe("Auth", () => {
     expect(response.statusCode).toBe(200);
     await sleep(2000);
     Mail.assertCount(1);
-    Mail.assertSentTo(user.email, "VerificationMail");
+    Mail.assertSentTo(user.email, "EmailVerificationMail");
   });
 
   it("should change password", { user: true }, async () => {
@@ -294,7 +321,7 @@ describe("Auth", () => {
       newPassword: "Password@1234",
     };
     const response = await request.put("/auth/password/change").actingAs(token).send(data);
-    await user.refresh;
+    await user.refresh();
     expect(response.statusCode).toBe(200);
     expect(await user.attempt(data.newPassword)).toBe(true);
   });
@@ -310,7 +337,7 @@ describe("Auth", () => {
   });
 
   it("Should send reset email", { user: true }, async () => {
-    const response = await request.post("/auth/password/reset/send-email").send({ email: user.email });
+    const response = await request.post("/auth/password/forgot").send({ email: user.email });
     expect(response.statusCode).toBe(200);
     await sleep(2000);
     Mail.assertCount(1);
@@ -319,7 +346,7 @@ describe("Auth", () => {
 
   it("Shouldn't send reset email of OAuth account", async () => {
     const user = await User.factory().oauth().create();
-    const response = await request.post("/auth/password/reset/send-email").send({
+    const response = await request.post("/auth/password/forgot").send({
       email: user.email
     });
     await sleep(3000);
@@ -327,15 +354,14 @@ describe("Auth", () => {
   });
 
   it("should reset password", { user: true }, async () => {
-    const token = await authService.sendResetPasswordLink(user);
+    const token = await (new ForgotPasswordNotification).createForgotPasswordToken(user);
     const password = "Password@1234";
     const response = await request.put("/auth/password/reset").send({
       id: user._id.toString(),
       password,
       token
     });
-
-    await user.refresh;
+    await user.refresh();
     expect(response.statusCode).toBe(200);
     expect(await user.attempt(password)).toBe(true);
   });
@@ -347,7 +373,7 @@ describe("Auth", () => {
       token: "foo",
       password
     });
-    await user.refresh;
+    await user.refresh();
     expect(response.statusCode).toBe(401);
     expect(await user.attempt(password)).toBe(false);
     Mail.assertNothingSent();
@@ -358,7 +384,7 @@ describe("Auth", () => {
     const phoneNumber = "+14155552671";
     const { code: otp } = await OTP.create({ userId: user._id });
     const response = await request.put("/auth/change-phone-number").actingAs(user.createToken()).send({ phoneNumber, otp });
-    await user.refresh;
+    await user.refresh();
     expect(response.statusCode).toBe(200);
     expect(user.phoneNumber).toBe(phoneNumber);
   });
@@ -366,7 +392,7 @@ describe("Auth", () => {
   it("Shouldn't update phone number with invalid otp", { user: true }, async () => {
     const phoneNumber = "+14155552671";
     const response = await request.put("/auth/change-phone-number").actingAs(token).send({ phoneNumber, otp: 123456 });
-    await user.refresh;
+    await user.refresh();
     expect(response.statusCode).toBe(401);
     expect(user.phoneNumber).not.toBe(phoneNumber);
   });
@@ -375,7 +401,7 @@ describe("Auth", () => {
     const phoneNumber = "+14155552671";
     const response = await request.put("/auth/change-phone-number").actingAs(token).send({ phoneNumber });
     const otp = await OTP.findOne({ userId: user._id });
-    await user.refresh;
+    await user.refresh();
     expect(response.statusCode).toBe(200);
     expect(user.phoneNumber).not.toBe(phoneNumber);
     expect(otp).not.toBeNull();

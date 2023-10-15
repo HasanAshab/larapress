@@ -6,10 +6,10 @@ import fs from "fs";
 export default class DatabaseServiceProvider extends ServiceProvider {
   boot() {
     this.useGlobalPlugins();
-    this.registerModels();
+    this.discoverModels();
   }
   
-  private registerModels() {
+  private discoverModels() {
     const modelsBaseDir = "app/models";
     fs.readdirSync(modelsBaseDir).forEach(modelFullName => {
       require("~/" + modelsBaseDir + "/" + modelFullName.split(".")[0]);

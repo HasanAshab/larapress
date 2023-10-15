@@ -18,7 +18,6 @@ export default class CategoryController extends Controller {
   
   @RequestHandler
   async create(req: CreateCategoryRequest, res: Response) {
-    console.log(req.user)
     const icon = req.files.icon;
     const category = new Category(req.body);
     icon && await category.attach("icon", icon);
@@ -44,7 +43,7 @@ export default class CategoryController extends Controller {
   }
   
   @RequestHandler
-  async delete(id: string) {
+  async delete(res: Response, id: string) {
     const { deletedCount } = await Category.deleteOne({ _id: id });
     res.status(deletedCount === 1 ? 204 : 404).message();
   }

@@ -6,17 +6,17 @@ import UpdateProfileRequest from "~/app/http/v1/requests/UpdateProfileRequest";
 
 export default class UserController extends Controller {
   @RequestHandler
-  async index(req: AuthenticRequest, res: Response) {
-    res.api(await User.find({ role: "novice" }).paginateReq(req));
+  async index(req: AuthenticRequest) {
+    return await User.find({ role: "novice" }).paginateReq(req);
   }
   
   @RequestHandler
-  async profile(req: AuthenticRequest, res: Response) {
-    res.api(req.user);
+  async profile(req: AuthenticRequest) {
+    return req.user;
   };
   
   @RequestHandler
-  async updateProfile(req: UpdateProfileRequest, res: Response) {
+  async updateProfile(req: UpdateProfileRequest) {
     const logo = req.files.logo;
     const user = req.user;
     Object.assign(user, req.body);
@@ -29,9 +29,9 @@ export default class UserController extends Controller {
     }
     await user.save();
     if(!req.body.email) 
-      return res.message("Profile updated!");
+      return "Profile updated!";
     user.sendVerificationEmail().catch(log);
-    res.message("Verification email sent to your new email!");
+    return "Verification email sent to your new email!";
   };
   
   @RequestHandler
@@ -41,20 +41,18 @@ export default class UserController extends Controller {
   }
   
   @RequestHandler
-  async find(res: Response, username: string) {
-    const user = await User.findOne({ username });
-    if(!user) return res.status(404).message();
-    res.api(user.safeDetails());
+  async find(username: string) {
+    const user = await User.findOneOrFail({ username });
+    return user.safeDetails();
   }
   
   @RequestHandler
-  async delete(res: Response, username: string) {
-    const user = await User.findOne({ username });
-    if(!user) return res.status(404).message();
+  async delete(req: AuthenticRequest, res: Response, username: string) {
+    const user = await User.findOneOrFail({ username });
     if(!req.user.can("delete", user))
       return res.status(403).message();
-    const { deletedCount } = await User.deleteOne({ username });
-    res.status(deletedCount === 1 ? 204 : 500).message();
+    await User.deleteOne({ username });
+    res.status(204).message();
   }
   
   @RequestHandler

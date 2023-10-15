@@ -2,7 +2,7 @@ import { IUser } from "~/app/models/User";
 import Notification from "~/core/abstract/Notification";
 import NewUserJoinedMail from "~/app/mails/NewUserJoinedMail";
 
-export default class NewUserJoined extends Notification {
+export default class NewUserJoinedNotification extends Notification {
   shouldQueue = true;
 
   via(notifiable: IUser){

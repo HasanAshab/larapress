@@ -14,6 +14,7 @@ import ChangePhoneNumberRequest from "~/app/http/v1/requests/ChangePhoneNumberRe
 import AuthService from "~/app/services/AuthService";
 import config from "config"
 import User from "~/app/models/User";
+import Token from "~/app/models/Token";
 import Socialite from "Socialite";
 import jwt from "jsonwebtoken";
 
@@ -49,7 +50,7 @@ export default class AuthController extends Controller {
   async loginWithRecoveryCode(req: LoginWithRecoveryCodeRequest, res: Response) {
     const { email, code } = req.body;
     const user = await User.findOneOrFail({ email });
-    return await this.authService.verifyRecoveryCode(user, code)
+    return await user.verifyRecoveryCode(code)
       ? {
         token: user.createToken(),
         message: "Logged in successfully!",
@@ -64,14 +65,17 @@ export default class AuthController extends Controller {
   
   @RequestHandler
   async loginWithExternalProvider(req: Request, res: Response, provider: string) {
-    const url = await this.authService.loginWithExternalProvider(provider, req.query.code);
+    const { code } = req.query;
+    if(!code)
+      return res.redirectToClient("/login/social/error");
+    const url = await this.authService.loginWithExternalProvider(provider, code);
     res.redirect(url);
   }
   
   @RequestHandler
   async externalLoginFinalStep(req: ExternalLoginFinalStepRequest, res: Response, provider: string) {
-    const { token, username, email } = req.body;
-    const authToken = await this.authService.externalLoginFinalStep(provider, token, username, email);
+    const { externalId, token, username, email } = req.body;
+    const authToken = await this.authService.externalLoginFinalStep(provider, externalId, token, username, email);
     res.status(201).api({
       token: authToken,
       message: "Account created!"
@@ -79,7 +83,8 @@ export default class AuthController extends Controller {
   }
   
   @RequestHandler
-  async verifyEmail(id: string) {
+  async verifyEmail(id: string, token: string) {
+    await Token.verify(id, "verifyEmail", token);
     await User.updateOne({ _id: id }, { verified: true });
     return "Email verified!";
   };
@@ -87,16 +92,19 @@ export default class AuthController extends Controller {
   @RequestHandler
   async resendEmailVerification(req: ResendEmailVerificationRequest){
     User.findOne(req.body).then(async user => {
-      user && await this.authService.sendVerificationLink(user);
+      if(user && !user.verified)
+        await user.sendVerificationNotification();
     }).catch(log);
     return "Verification link sent to email!";
   };
   
   @RequestHandler
   async sendResetPasswordEmail(req: SendResetPasswordEmailRequest){
-    User.findOne(req.body).then(async user => {
-      user && await this.authService.sendResetPasswordLink(user);
-    }).catch(log);
+    (async () => {
+      const user = await User.findOne(req.body);
+      user?.password && await user.sendResetPasswordNotification();
+    })().catch(log);
+    
     return "Password reset link sent to email!";
   };
 
@@ -141,6 +149,6 @@ export default class AuthController extends Controller {
   
   @RequestHandler
   async generateRecoveryCodes({ user }: AuthenticRequest) {
-    return await this.authService.generateRecoveryCodes(user);
+    return await user.generateRecoveryCodes();
   }
 }

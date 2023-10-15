@@ -53,8 +53,8 @@ module.exports = {
     }
   },
   recaptcha: {
-    siteKey: "6LcCwIknAAAAANu-Lsiie8YIRWVLzTRXV9n0Qu-l",
-    secretKey: "6LcCwIknAAAAAJ4bLQ5z-56oXcmtK6GQGvhL3r9J"
+    siteKey: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
+    secretKey: "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
   },
   mail: {
     host: "sandbox.smtp.mailtrap.io",
@@ -82,9 +82,8 @@ module.exports = {
     401: "Unauthorized"
   },
   urls: {
-    "email.verify": "api/v1/auth/verify/:id",
+    "email.verify": "api/v1/auth/verify/:id/:token",
     "file.serve": "api/files/:path",
-    "client.password.reset": "/password/reset/:id"
   },
   twoFactorAuth: {
     methods: ["app", "sms", "call"] 

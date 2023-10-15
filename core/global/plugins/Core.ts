@@ -3,8 +3,9 @@ import DocumentNotFoundException from "~/app/exceptions/DocumentNotFoundExceptio
 
 export default (schema: Schema) => {
   function assertExists(doc: unknown) {
-    if(!doc)
+    if(!doc) {
       throw new DocumentNotFoundException();
+    }
   }
   
   schema.statics.findOneOrFail = async function(...args: Parameters<Model<Document>["findOne"]>) {

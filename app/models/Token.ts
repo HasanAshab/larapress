@@ -7,6 +7,10 @@ const TokenSchema = new Schema({
     required: true,
     type: String
   },
+  type: {
+    required: true,
+    type: String
+  },
   data: {
     type: Object,
     default: null
@@ -15,10 +19,6 @@ const TokenSchema = new Schema({
     type: String,
     default: () => crypto.randomBytes(32).toString('hex')
   },
-  type: {
-    required: true,
-    type: String
-  },
   expiresAt: {
     type: Date,
     expires: 0,
@@ -26,17 +26,11 @@ const TokenSchema = new Schema({
   }
 });
 
-TokenSchema.statics.isValid = async function(this: TokenModel, key: string, type: string, secret: string) {
-  const token = await this.findOne({ key, type, secret });
-  if(!token) return false;
-  token.expiresAt && this.deleteOne({ _id: token._id }).catch(log);
-  return true;
-}
-
-TokenSchema.statics.assertValid = async function(this: TokenModel, key: string, type: string, secret: string) {
-  const isValid = await this.isValid(key, type, secret);
-  if(!isValid)
+TokenSchema.statics.verify = async function(this: TokenModel, key: string, type: string, secret: string) {
+  const token = await this.findOneAndDelete({ key, type, secret });
+  if(!token)
     throw new InvalidTokenException();
+  return token.data;
 }
 
 export interface IToken {

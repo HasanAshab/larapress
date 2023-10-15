@@ -21,13 +21,13 @@ router.get("/callback/:provider(google|facebook)", authController.loginWithExter
 router.post("/login/external/:provider(google|facebook)/final-step", authController.externalLoginFinalStep);
 
 // User password management
-router.post("/password/reset/send-email", middleware("recaptcha", "limit:10000,2"), authController.sendResetPasswordEmail);
+router.post("/password/forgot", middleware("recaptcha", "limit:10000,2"), authController.sendResetPasswordEmail);
 router.put("/password/reset", authController.resetPassword);
 router.put("/password/change", middleware("auth", "verified"), authController.changePassword);
 
 // Verify user
 router.post("/verify/resend", middleware("limit:60000,1"), authController.resendEmailVerification);
-router.get("/verify/:id", middleware("signed"), authController.verifyEmail);
+router.get("/verify/:id/:token", authController.verifyEmail);
 
 router.post("/register", middleware("limit:60000,1", "recaptcha"), authController.register);
 router.post("/send-otp/:id", middleware("limit:60000,3"), authController.sendOtp);
