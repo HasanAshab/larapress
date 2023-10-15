@@ -39,8 +39,15 @@ export default class Cache {
     return driver.put(key, data, expiry);
   }
 
-  static clear(key?: string) {
-    const driver = this.getDriver();
-    return driver.clear(key);
+  static delete(key: string) {
+    return this.getDriver().delete(key);
+  }
+  
+  static increment(key: string, value = 1) {
+    return this.getDriver().increment(key, value);
+  }
+  
+  static flush() {
+    return this.getDriver().flush();
   }
 }

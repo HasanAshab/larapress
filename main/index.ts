@@ -52,5 +52,5 @@ else {
     console.log(`*New connection: [${time}]`);
   });
 }
-  
+
 export default server;

@@ -42,7 +42,7 @@ export default class AuthService {
     const user = await User.findOne({ email, password: { $ne: null }});
     if(!user?.password)
       return null;
-    if (await user.attempt(password)) {
+    if (!await user.attempt(password)) {
       await this.incrementFailedAttempt(email);
       return null;
     }
@@ -59,6 +59,7 @@ export default class AuthService {
     await this.resetFailedAttempts(email);
     return user.createToken();
   }
+  
   private getFailedAttemptCacheKey(email: string) {
     return `$_LOGIN_FAILED_ATTEMPTS(${email})`;
   }
@@ -75,12 +76,12 @@ export default class AuthService {
   private async incrementFailedAttempt(email: string) {
     const key = this.getFailedAttemptCacheKey(email);
     await mutex.acquire();
-    await Cache.incr(key);
+    await Cache.increment(key);
     mutex.release();
   }
   private async resetFailedAttempts(email: string) {
     const key = this.getFailedAttemptCacheKey(email);
-    await Cache.clear(key);
+    await Cache.delete(key);
   }
   
   async loginWithExternalProvider(provider: string, code: string) {

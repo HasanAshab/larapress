@@ -2,7 +2,7 @@ import Driver from "~/core/utils/Cache/Driver";
 import { CacheDataArg } from "Cache";
 import client from "~/core/clients/redis";
 
-export default class Redis extends Driver {
+export default class Redis implements Driver {
   async get(key: string) {
     return await client.get(key);
   }
@@ -17,10 +17,17 @@ export default class Redis extends Driver {
     else 
       await client.set(key, data);
   }
+  
+  async delete(key: string) {
+    await client.del(key)
+  }
+  
+  async increment(key: string, value = 1) {
+    await client.incr(key, value);
+  }
 
-  async clear(key?: string) {
-    if(typeof key === "undefined") await client.flushall();
-    else await client.del(key)
+  async flush() {
+    await client.flushall();
   }
 }
 

@@ -148,7 +148,6 @@ describe("Auth", () => {
       email: user.email,
       password: "wrong-pass"
     };
-    Cache.mock();
     const responses = [];
     for (let i = 0; i < 5; i++) {
       const response = await request.post("/auth/login").send(payload);

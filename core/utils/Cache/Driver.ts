@@ -1,7 +1,9 @@
 import { CacheDataArg } from "Cache";
 
-export default abstract class Driver {
-  abstract get(key: string): Promise<string | null>;
-  abstract put(key: string, data: CacheDataArg, expiry?: number): Promise<void>;
-  abstract clear(key?: string): Promise<void>;
+export default interface Driver {
+  get(key: string): Promise<string | null>;
+  put(key: string, data: CacheDataArg, expiry?: number): Promise<void>;
+  delete(key: string): Promise<void>;
+  increment(key: string, value?: number): Promise<number>;
+  flush(): Promise<void>;
 }
