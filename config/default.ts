@@ -31,13 +31,6 @@ module.exports = {
       maxPoolSize: 1,
     }
   },
-  redis: {
-    url: "redis://raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1@redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com:12100",
-    host: "redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com",
-    port: 12100,
-    password: "raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1",
-    maxRetriesPerRequest: null
-  },
   bcrypt: {
     rounds: 10,
   },
@@ -75,7 +68,18 @@ module.exports = {
     authToken: "3a915d718cb1ecd3f25112dd3ac38e1b",
     phoneNumber: "+15005550006"
   },
-  cache: "memory",
+  cache: {
+    default: "memory",
+    stores: {
+      redis: {
+        url: "redis://raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1@redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com:12100",
+        host: "redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com",
+        port: 12100,
+        password: "raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1",
+        maxRetriesPerRequest: null
+      },
+    }
+  },
   log: "console",
   errorMessages: {
     404: "Not Found",

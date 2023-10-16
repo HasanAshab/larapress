@@ -2,7 +2,7 @@ import Queue from 'bull';
 import fs from "fs";
 import config from "config";
 
-const queue = new Queue("default", config.get("redis.url"), {
+const queue = new Queue("default", config.get("cache.stores.redis.url"), {
   defaultJobOptions: { removeOnComplete: true }
 });
 

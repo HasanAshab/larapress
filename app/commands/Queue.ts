@@ -1,9 +1,11 @@
 import Command from "~/core/abstract/Command";
 import queue from "~/core/clients/queue";
 import fs from "fs";
+import DB from "DB";
 
 export default class Queue extends Command {
   async work(){
+    await DB.connect();
     this.setupJobs()
     this.info("listening for jobs...")
   }

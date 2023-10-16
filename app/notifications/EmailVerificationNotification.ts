@@ -1,6 +1,7 @@
 import { IUser } from "~/app/models/User";
 import Notification from "~/core/abstract/Notification";
 import Token from "~/app/models/Token";
+import EmailVerificationMail from "~/app/mails/EmailVerificationMail";
 import URL from "URL";
 
 export default class EmailVerificationNotification extends Notification {

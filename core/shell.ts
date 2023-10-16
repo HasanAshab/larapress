@@ -5,10 +5,13 @@ import "~/vendor/autoload";
 import Application from "~/core/Application";
 import Artisan from 'Artisan';
 
+
 const app = new Application();
 
 
 const [baseInput, ...args] = process.argv.splice(2);
-Artisan.call(baseInput, args).then(() => {
+Artisan.call(baseInput, args)
+
+process.on("taskDone", () => {
   process.exit(0);
 });

@@ -21,9 +21,9 @@ const shouldLog = process.env.NODE_ENV === "development";
 // Connecting to database
 if(config.get("db.connect")) {
   DB.connect().then(() => {
-    shouldLog && console.tracelessLog("Connected to Database!");
+    shouldLog && console.log("Connected to Database!");
   }).catch(err => {
-    console.tracelessLog("Couldn't connect to Database. reason: " + err);
+    console.log("Couldn't connect to Database. reason: " + err);
   });
 }
 
@@ -45,12 +45,28 @@ if(loadBalancerConfig.enabled) {
 else {
   const port = config.get<number>("app.port");
   server = app.http.listen(port, () => {
-    shouldLog && console.tracelessLog(`Server running on [http://127.0.0.1:${port}] ...`);
+    shouldLog && console.log(`Server running on [http://127.0.0.1:${port}] ...`);
   });
   shouldLog && server.on("connection", (socket) => {
     const time = new Date().toLocaleTimeString("en-US", { hour12: true });
     console.log(`*New connection: [${time}]`);
   });
 }
+
+
+import Mail from "Mail";
+import EmailVerificationMail from "~/app/mails/EmailVerificationMail";
+
+(async _ => {
+    console.time()
+const link = "foo.com"
+
+await Mail.to("foo@gmail.com").send(new EmailVerificationMail({ link }));
+await Mail.to("foo@gmail.com").send(new EmailVerificationMail);
+await Mail.to("foo@gmail.com").send(new EmailVerificationMail);
+  console.timeEnd()
+})()
+
+
 
 export default server;

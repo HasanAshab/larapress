@@ -12,7 +12,7 @@ type DriverName = keyof typeof Cache.driverInstances;
 
 @util("~/core/utils/Cache/Mockable")
 export default class Cache {
-  static driverName = config.get<DriverName>("cache");
+  static driverName = config.get<DriverName>("cache.default");
   static driverInstances = {
     memory: new Memory(),
     redis: new Redis()

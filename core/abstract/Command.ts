@@ -34,14 +34,14 @@ export default abstract class Command {
   protected success(text = "") {
     if (this.fromShell) {
       console.log("\x1b[32m", "\n", text, "\n", "\x1b[0m");
-      process.exit(0);
+      process.emit("taskDone");
     }
   }
 
   protected error(text = "") {
     if (this.fromShell) {
       console.log("\x1b[31m", "\n", text, "\n", "\x1b[0m");
-      process.exit(1);
+      process.emit("taskDone");
     }
   }
 }
