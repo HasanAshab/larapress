@@ -6,6 +6,7 @@ module.exports = {
     port: 8000,//env("PORT", 8000),
     key: "foo bar",//env("APP_KEY", null),
     state: "up",
+    debug: true
   },
   loadBalancer: {
     enabled: false,

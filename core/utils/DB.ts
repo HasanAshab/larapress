@@ -1,6 +1,5 @@
 import mongoose, { ConnectOptions } from "mongoose";
 import config from "config";
-import Setup from "~/main/Setup";
 import fs from "fs";
 
 export default class DB {

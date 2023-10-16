@@ -21,9 +21,9 @@ const shouldLog = process.env.NODE_ENV === "development";
 // Connecting to database
 if(config.get("db.connect")) {
   DB.connect().then(() => {
-    shouldLog && console.log("Connected to Database!");
+    shouldLog && console.tracelessLog("Connected to Database!");
   }).catch(err => {
-    console.error("Couldn't connect to Database. reason: " + err);
+    console.tracelessLog("Couldn't connect to Database. reason: " + err);
   });
 }
 
@@ -45,7 +45,7 @@ if(loadBalancerConfig.enabled) {
 else {
   const port = config.get<number>("app.port");
   server = app.http.listen(port, () => {
-    shouldLog && console.log(`Server running on [http://127.0.0.1:${port}] ...`);
+    shouldLog && console.tracelessLog(`Server running on [http://127.0.0.1:${port}] ...`);
   });
   shouldLog && server.on("connection", (socket) => {
     const time = new Date().toLocaleTimeString("en-US", { hour12: true });

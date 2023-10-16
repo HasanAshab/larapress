@@ -1,4 +1,7 @@
 module.exports = {
+  app: {
+    debug: false
+  }
   loadBalancer: {
     enabled: true,
   },

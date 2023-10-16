@@ -35,18 +35,22 @@ export default class AuthService {
       await this.incrementFailedAttempt(email);
       return null;
     }
-    const { twoFactorAuth } = await user.settings;
-    if(twoFactorAuth.enabled){
-      if(!otp)
-        throw new OtpRequiredException();
-      const isValid = await this.twoFactorAuthService.verifyOtp(user, twoFactorAuth.method, otp);
-      if (!isValid) {
-        await this.incrementFailedAttempt(email);
-        throw new InvalidOtpException();
-      }
-    }
+    await this.checkTwoFactorAuth(user, otp);
     await this.resetFailedAttempts(email);
     return user.createToken();
+  }
+  
+  private async checkTwoFactorAuth(user: UserDocument, otp?: number) {
+    const { twoFactorAuth } = await user.settings;
+    if(!twoFactorAuth.enabled)
+      return true;
+    if(!otp)
+      throw new OtpRequiredException();
+    const isValid = await this.twoFactorAuthService.verifyOtp(user, twoFactorAuth.method, otp);
+    if (isValid)
+      return true;
+    await this.incrementFailedAttempt(email);
+    throw new InvalidOtpException();
   }
   
   private getFailedAttemptCacheKey(email: string) {

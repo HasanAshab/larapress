@@ -14,6 +14,10 @@ export default class Application extends EventEmitter {
   
   constructor() {
     super();
+    this.overrideDefaults();
+    if(config.get("app.debug")) {
+      this.addTracyLogger()
+    }
     if(this.runningInWeb()) {
       this.http = express();
       this.addCustomHttpHelpers();
@@ -22,6 +26,18 @@ export default class Application extends EventEmitter {
     this.discoverExternalServiceProviders();
     this.bootProviders();
     this.emit("booted");
+  }
+  
+  private overrideDefaults() {
+    console.tracelessLog = console.log;
+  }
+  
+  private addTracyLogger() {
+    console.log = function customLog(message: string, trace = false) {
+      const stack = new Error().stack.split('\n');
+      const caller = stack[2].trim();
+      console.tracelessLog(message, '\n\t', '\x1b[90m', caller, '\x1b[0m', '\n');
+    }
   }
   
   private bootProviders() {

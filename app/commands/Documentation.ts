@@ -1,7 +1,7 @@
 import Command from "~/core/abstract/Command";
 import URL from "URL"
 import { exec } from "child_process";
-import app from "~/main/app";
+//import app from "~/main/app";
 import fs from "fs";
 import swaggerUi from "swagger-ui-express";
 import { generateEndpoints } from "~/core/utils";
