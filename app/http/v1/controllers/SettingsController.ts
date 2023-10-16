@@ -5,7 +5,7 @@ import { AuthenticRequest } from "~/core/express";
 import config from "config";
 import Cache from "Cache";
 import Settings from "~/app/models/Settings";
-import AuthService from "~/app/services/AuthService";
+import TwoFactorAuthService from "~/app/services/auth/TwoFactorAuthService";
 import UpdateNotificationSettingsRequest from "~/app/http/v1/requests/UpdateNotificationSettingsRequest";
 import SetupTwoFactorAuthRequest from "~/app/http/v1/requests/SetupTwoFactorAuthRequest";
 import UpdateAppSettingsRequest from "~/app/http/v1/requests/UpdateAppSettingsRequest";
@@ -23,15 +23,15 @@ export default class SettingsController extends Controller {
   }
   
   @RequestHandler
-  async setupTwoFactorAuth(req: SetupTwoFactorAuthRequest, authService: AuthService){
+  async setupTwoFactorAuth(req: SetupTwoFactorAuthRequest, twoFactorAuthService: TwoFactorAuthService){
     const { enable, method } = req.body;
     if(!enable) {
-      await authService.disableTwoFactorAuth(req.user);
+      await twoFactorAuthService.disable(req.user);
       return "Two Factor Auth disabled!";
     }
     return {
       message: "Two Factor Auth enabled!",
-      data: await authService.enableTwoFactorAuth(req.user, method)
+      data: await twoFactorAuthService.enable(req.user, method)
     };
   }
   

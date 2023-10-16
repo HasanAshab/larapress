@@ -11,7 +11,9 @@ import SendResetPasswordEmailRequest from "~/app/http/v1/requests/SendResetPassw
 import ResetPasswordRequest from "~/app/http/v1/requests/ResetPasswordRequest";
 import ChangePasswordRequest from "~/app/http/v1/requests/ChangePasswordRequest";
 import ChangePhoneNumberRequest from "~/app/http/v1/requests/ChangePhoneNumberRequest";
-import AuthService from "~/app/services/AuthService";
+import AuthService from "~/app/services/auth/AuthService";
+import TwoFactorAuthService from "~/app/services/auth/TwoFactorAuthService";
+import PasswordService from "~/app/services/auth/PasswordService";
 import config from "config"
 import User from "~/app/models/User";
 import Token from "~/app/models/Token";
@@ -28,6 +30,7 @@ export default class AuthController extends Controller {
   async register(req: RegisterRequest, res: Response){
     const { email, username, password } = req.body;
     const token = await this.authService.register(email, username, password, req.files.logo);
+    req.app.emit("Registered", user);
     res.status(201).api({
       token,
       message: "Verification email sent!",
@@ -100,6 +103,8 @@ export default class AuthController extends Controller {
   
   @RequestHandler
   async sendResetPasswordEmail(req: SendResetPasswordEmailRequest){
+      log(this)
+
     (async () => {
       const user = await User.findOne(req.body);
       user?.password && await user.sendResetPasswordNotification();
@@ -109,31 +114,31 @@ export default class AuthController extends Controller {
   };
 
   @RequestHandler
-  async resetPassword(req: ResetPasswordRequest){
+  async resetPassword(req: ResetPasswordRequest, passwordService: PasswordService){
     const { id, password, token } = req.body;
     const user = await User.findByIdOrFail(id);
-    await this.authService.resetPassword(user, token, password)
+    await passwordService.reset(user, token, password);
     return "Password changed successfully!";
   };
 
   @RequestHandler
-  async changePassword(req: ChangePasswordRequest) {
+  async changePassword(req: ChangePasswordRequest, passwordService: PasswordService) {
     const { oldPassword, newPassword } = req.body;
-    await this.authService.changePassword(req.user, oldPassword, newPassword);
+    await passwordService.change(req.user, oldPassword, newPassword);
     return "Password changed!";
   };
  
   @RequestHandler
-  async changePhoneNumber(req: ChangePhoneNumberRequest) {
+  async changePhoneNumber(req: ChangePhoneNumberRequest, twoFactorAuthService: TwoFactorAuthService) {
     const { phoneNumber, otp } = req.body;
     if(req.user.phoneNumber && req.user.phoneNumber === phoneNumber)
       return res.status(400).message("Phone number is same as old one!");
     req.user.phoneNumber = phoneNumber;
     if(!otp) {
-      await this.authService.sendOtp(req.user, "sms");
+      await twoFactorAuthService.sendOtp(req.user, "sms");
       return "6 digit OTP code sent to phone number!";
     }
-    const isValid = await this.authService.verifyOtp(req.user, "sms", parseInt(otp));
+    const isValid = await twoFactorAuthService.verifyOtp(req.user, "sms", parseInt(otp));
     if(!isValid)
       return res.status(401).message("Invalid OTP. Please  again!");
     await req.user.save();
@@ -141,9 +146,9 @@ export default class AuthController extends Controller {
   }
   
   @RequestHandler
-  async sendOtp(id: string){
+  async sendOtp(id: string, twoFactorAuthService: TwoFactorAuthService){
     const user = await User.findByIdOrFail(id);
-    this.authService.sendOtp(user).catch(log);
+    twoFactorAuthService.sendOtp(user).catch(log);
     return "6 digit OTP code sent to phone number!";
   }
   
