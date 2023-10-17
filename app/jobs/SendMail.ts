@@ -1,12 +1,17 @@
 import Job from "~/core/abstract/Job";
-import { transporter, generateRecipient } from "~/core/clients/nodemailer";
+import MailService from "~/app/services/MailService";
+import { singleton } from "tsyringe";
 
+@singleton()
 export default class SendMail extends Job {
   concurrency = 20;
   tries = 3;
+
+  constructor(private readonly mailService: MailService) {
+    super();
+  }
   
   async handle({ mailable, email }){
-    const recipient = generateRecipient(mailable, email);
-    await transporter.sendMail(recipient);
+    await this.mailService.send(mailable, email);
   }
 }

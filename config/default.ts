@@ -57,11 +57,17 @@ module.exports = {
     password: "f1f4faf0316dd7",
     fromName: "Samer",
     fromAddress: "noreply@Samer.com",
-    encryption: "tls"
+    encryption: "tls",
+    template: {
+      viewEngine: {
+        layoutsDir: "views/layouts",
+        partialsDir: "views/partials",
+      },
+      viewPath: "views/emails"
+    }
   },
   queue: {
     removeOnComplete: true,
-    prefix: ''
   },
   notification: {
     channels: ["site", "email"],
@@ -75,6 +81,7 @@ module.exports = {
   cache: {
     default: "memory",
     stores: {
+      memory: {},
       redis: {
         url: "redis://raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1@redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com:12100",
         host: "redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com",

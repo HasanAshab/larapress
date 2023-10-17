@@ -6,11 +6,7 @@ import IORedis from "ioredis";
 
 export default class QueueServiceProvider extends ServiceProvider {
   register() {
-    const queue = new Queue("default", {
-      createClient: type => container.resolve(IORedis),
-      ...config.get("queue")
-    });
-
+    const queue = new Queue("default", config.get("cache.stores.redis.url"), config.get("queue"));
     container.register(Queue, { useValue: queue });
   }
 }

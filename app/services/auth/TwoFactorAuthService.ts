@@ -2,13 +2,15 @@ import { singleton } from "tsyringe";
 import { UserDocument } from "~/app/models/User";
 import Settings from "~/app/models/Settings";
 import OTP from "~/app/models/OTP";
-import { sendMessage, sendCall } from "~/core/clients/twilio";
+import TwilioService from "~/app/services/TwilioService";
 import config from "config";
 import speakeasy from "speakeasy";
 import PhoneNumberRequiredException from "~/app/exceptions/PhoneNumberRequiredException";
 
 @singleton()
 export default class TwoFactorAuthService {
+  constructor(private readonly twilioService: TwilioService) {}
+  
   async enable(user, method) {
     if (!user.phoneNumber && method !== "app")
       throw new PhoneNumberRequiredException();
@@ -45,9 +47,9 @@ export default class TwoFactorAuthService {
     }
     const { code } = await OTP.create({ userId: user._id });
     if(method === "sms")
-      await sendMessage(user.phoneNumber, "Your verification code is: " + code);
+      await this.twilioService.sendMessage(user.phoneNumber, "Your verification code is: " + code);
     else if(method === "call")
-      await sendCall(user.phoneNumber, `<Response><Say>Your verification code is ${code}</Say></Response>`);
+      await this.twilioService.makeCall(user.phoneNumber, `<Response><Say>Your verification code is ${code}</Say></Response>`);
     return code;
   }
   

@@ -53,7 +53,8 @@ else {
   });
 }
 
-/*
+
+
 import Mail from "Mail";
 import EmailVerificationMail from "~/app/mails/EmailVerificationMail";
 
@@ -62,11 +63,10 @@ import EmailVerificationMail from "~/app/mails/EmailVerificationMail";
 const link = "foo.com"
 
 await Mail.to("foo@gmail.com").send(new EmailVerificationMail({ link }));
-await Mail.to("foo@gmail.com").send(new EmailVerificationMail);
-await Mail.to("foo@gmail.com").send(new EmailVerificationMail);
+//await Mail.to("foo@gmail.com").send(new EmailVerificationMail());
+//await Mail.to("foo@gmail.com").send(new EmailVerificationMail);
   console.timeEnd()
 })()
-*/
 
 
 export default server;

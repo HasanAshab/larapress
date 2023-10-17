@@ -8,13 +8,12 @@ import EventServiceProvider from "~/app/providers/EventServiceProvider";
 import RouteServiceProvider from "~/app/providers/RouteServiceProvider";
 
 export default class Application extends EventEmitter {
-  http?: ExpressApplication;
+  readonly http?: ExpressApplication;
   private registeredProviders = [];
   private bootingCallbacks = [];
   
   constructor() {
     super();
-    this.addTracyLogger();
     if(this.runningInWeb()) {
       this.http = express();
       this.addCustomHttpHelpers();
@@ -23,15 +22,6 @@ export default class Application extends EventEmitter {
     this.discoverExternalServiceProviders();
     this.bootProviders();
     this.emit("booted");
-  }
-  
-
-  private addTracyLogger() {
-    console.tracyLog = function (message: string, trace = false) {
-      const stack = new Error().stack.split('\n');
-      const caller = stack[2].trim();
-      console.log(message, '\n\t', '\x1b[90m', caller, '\x1b[0m', '\n');
-    }
   }
   
   private bootProviders() {

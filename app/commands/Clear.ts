@@ -21,14 +21,14 @@ export default class Clear extends Command {
   }
   
   async cache() {
-    const { key, driver } = this.params;
+    const { driver } = this.params;
     if(driver){
-      await Cache.driver(driver).clear(key);
+      await Cache.driver(driver).flush();
     }
     else {
       const tasks: any = [];
-      for(const driverName of config.get("cache.drivers")) {
-        const task = Cache.driver(driverName).clear(key);
+      for(const driverName of Object.keys(config.get("cache.stores"))) {
+        const task = Cache.driver(driverName).flush();
         tasks.push(task);
       }
       await Promise.all(tasks);

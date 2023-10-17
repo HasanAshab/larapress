@@ -31,6 +31,17 @@ export async function log(data: any) {
 }
 
 /**
+ * Logs messages with a beautified call stack.
+ * Inspired by Jest
+*/
+export function trace(message: string, logFullTrace = false) {
+  const caller = logFullTrace
+    ? new Error().stack.split('\n').splice(1).join('\n')
+    : new Error().stack.split('\n')[2].trim();
+  console.log(message, '\n\t', '\x1b[90m', caller, '\x1b[0m', '\n');
+}
+
+/**
  * Get env var.
 */
 export function env(key: string, fallback: string) {
@@ -75,6 +86,13 @@ export function getParams(func: Function) {
         params.push(element);
   });
   return params;
+}
+
+/**
+ * Resolve class or string to instance
+*/ 
+export function resolve(dependency: string | Function) {
+  return container.resolve(dependency);
 }
 
 /**

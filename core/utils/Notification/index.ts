@@ -1,5 +1,5 @@
 import _ from "lodash";
-import queue from "~/core/clients/queue";
+import Queue from "bull";
 import NotificationClass from "~/core/abstract/Notification";
 import { util } from "~/core/decorators/class";
 import { IUser } from "~/app/models/User";
@@ -17,7 +17,7 @@ export default class Notification {
         const handlerName = "send" + _.capitalize(channel) as keyof typeof notification;
         if (typeof notification[handlerName] === "function") {
           if (notification.shouldQueue) {
-            queue.add("SendNotification", {
+            resolve(Queue).add("SendNotification", {
               notifiable,
               notification: {
                 name: notification.constructor.name,
