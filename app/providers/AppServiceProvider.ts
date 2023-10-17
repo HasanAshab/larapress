@@ -6,11 +6,11 @@ import Cache from "Cache";
 export default class AppServiceProvider extends ServiceProvider {
   boot() {
     if(this.app.runningInWeb())
-      this.useCachedConfig();
+      this.app.on("booted", this.useCachedConfig);
   }
 
   private async useCachedConfig() {
-    const cachedConfig = await Cache.driver("redis").get("config");
+    const cachedConfig = await Cache.get("config");
     cachedConfig && _.merge(config, cachedConfig)
   }
 }

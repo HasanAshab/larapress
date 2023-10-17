@@ -59,6 +59,10 @@ module.exports = {
     fromAddress: "noreply@Samer.com",
     encryption: "tls"
   },
+  queue: {
+    removeOnComplete: true,
+    prefix: ''
+  },
   notification: {
     channels: ["site", "email"],
     types: ["announcement", "feature", "others"]
@@ -76,7 +80,8 @@ module.exports = {
         host: "redis-12100.c305.ap-south-1-1.ec2.cloud.redislabs.com",
         port: 12100,
         password: "raAjgzb9ceMv8MVUFzSl7cY6DFJC3MR1",
-        maxRetriesPerRequest: null
+        maxRetriesPerRequest: null,
+        enableReadyCheck: false
       },
     }
   },

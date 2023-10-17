@@ -7,6 +7,6 @@ export default class SendMail extends Job {
   
   async handle({ mailable, email }){
     const recipient = generateRecipient(mailable, email);
-    transporter.sendMail(recipient);
+    await transporter.sendMail(recipient);
   }
 }

@@ -2,22 +2,21 @@ import _ from "lodash";
 import config from "config";
 import { Config } from "types";
 import Driver from "./Driver";
-import Memory from "./drivers/Memory";
-import Redis from "./drivers/Redis";
-import { util } from "~/core/decorators/class";
+//import { util } from "~/core/decorators/class";
 
 export type CacheDataArg = string | number | boolean | object | unknown[] | Buffer;
-type DriverName = keyof typeof Cache.driverInstances;
+type DriverName = "memory" | "redis";
 
 
-@util("~/core/utils/Cache/Mockable")
+//@util("~/core/utils/Cache/Mockable")
 export default class Cache {
   static driverName = config.get<DriverName>("cache.default");
-  static driverInstances = {
-    memory: new Memory(),
-    redis: new Redis()
+  static driverInstances = {};
+  
+  static repository(name: string, instance: Driver) {
+    this.driverInstances[name] = instance;
   }
-
+  
   static driver(name: DriverName) {
     this.driverName = name;
     return this;
@@ -25,6 +24,7 @@ export default class Cache {
 
   private static getDriver(): Driver {
     const driver = this.driverInstances[this.driverName];
+    console.log(this.driverInstances)
     this.driverName = config.get<DriverName>("cache");
     return driver;
   }

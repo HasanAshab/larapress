@@ -1,8 +1,8 @@
 import Cache from "Cache";
 import URL from "URL";
-import TwoFactorAuthService from "~/app/services/auth/TwoFactorAuthService";
 import { singleton } from "tsyringe";
 import { Mutex } from 'async-mutex';
+import TwoFactorAuthService from "~/app/services/auth/TwoFactorAuthService";
 import Socialite from "Socialite";
 import User, { UserDocument } from "~/app/models/User";
 import Token from "~/app/models/Token";
@@ -12,11 +12,7 @@ import OtpRequiredException from "~/app/exceptions/OtpRequiredException";
 
 @singleton()
 export default class AuthService {
-  private readonly mutex: Mutex;
-  
-  constructor(private readonly twoFactorAuthService: TwoFactorAuthService) {
-    this.mutex = new Mutex();
-  }
+  constructor(private readonly twoFactorAuthService: TwoFactorAuthService, private readonly mutex: Mutex) {}
   
   async register(email: string, username: string, password: string, logo?){
     const user = new User({ email, username });

@@ -1,16 +1,18 @@
 import { ArrayToParamsObj } from "types";
 
 export default abstract class Command {
-  constructor(
-    public subCommand?: string,
-    public fromShell: boolean = true,
-    public flags: string[] = [],
-    public params: Record<string, string> = {}
-  ) {
-    this.subCommand = subCommand;
-    this.fromShell = fromShell;
-    this.flags = flags;
-    this.params = params;
+  public subCommand?: string;
+  public fromShell = true;
+  public flags: string[] = [];
+  public params: Record<string, string> = {};
+  
+  static setup(subCommand?: string, fromShell = true, flags: string[] = [], params: Record<string, string> = {}) {
+    const instance = new this();
+    instance.subCommand = subCommand;
+    instance.fromShell = fromShell;
+    instance.flags = flags;
+    instance.params = params;
+    return instance;
   }
 
   protected subCommandRequired(): asserts this is this & { subCommand: string } {

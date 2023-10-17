@@ -1,10 +1,14 @@
 import Driver from "~/core/utils/Cache/Driver";
 import { CacheDataArg } from "Cache";
-import client from "~/core/clients/redis";
+import { autoInjectable } from "tsyringe";
+import IORedis from "ioredis";
 
+@autoInjectable()
 export default class Redis implements Driver {
+  constructor(private readonly client: IORedis) {}
+  
   async get(key: string) {
-    return await client.get(key);
+    return await this.client.get(key);
   }
 
   async put(key: string, data: CacheDataArg, expiry?: number) {
@@ -13,22 +17,20 @@ export default class Redis implements Driver {
       : JSON.stringify(data);
 
     if (expiry) 
-      await client.set(key, data, "EX", expiry);
+      await this.client.set(key, data, "EX", expiry);
     else 
-      await client.set(key, data);
+      await this.client.set(key, data);
   }
   
   async delete(key: string) {
-    await client.del(key)
+    await this.client.del(key)
   }
   
   async increment(key: string, value = 1) {
-    await client.incr(key, value);
+    await this.client.incr(key, value);
   }
 
   async flush() {
-    await client.flushall();
+    await this.client.flushall();
   }
 }
-
-export { client };

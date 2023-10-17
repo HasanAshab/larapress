@@ -1,9 +1,15 @@
 import Command from "~/core/abstract/Command";
-import queue from "~/core/clients/queue";
+import { autoInjectable } from "tsyringe";
+import Queue from "bull";
 import fs from "fs";
 import DB from "DB";
 
-export default class Queue extends Command {
+@autoInjectable()
+export default class QueueManager extends Command {
+  constructor(private readonly queue: Queue) {
+    super()
+  }
+  
   async work(){
     await DB.connect();
     this.setupJobs()
@@ -16,9 +22,9 @@ export default class Queue extends Command {
       const Job = require("~/app/jobs/" + jobName).default;
       const job = new Job();
       const processor = (task: Queue.Job) => job.handle(task.data);
-      queue.process(jobName, job.concurrency, processor);
+      this.queue.process(jobName, job.concurrency, processor);
     });
     
-    queue.on('failed', (job, err) => log(`Job ${job.name} failed for: ${err.stack}\n\n`))
+    this.queue.on('failed', (job, err) => log(`Job ${job.name} failed for: ${err.stack}\n\n`))
   }
 }
