@@ -68,7 +68,9 @@ export function putEnv(data: Record<string, string>) {
   return envConfig;
 }
 
-
+export function base(...basePaths: string[]) {
+  return path.join(__dirname, "..", ...basePaths);
+}
 export function getParams(func: Function) {
   let str = func.toString();
   str = str.replace(/\/\*[\s\S]*?\*\//g, '')

@@ -5,7 +5,7 @@ import Cache from "Cache";
 
 export default class AppServiceProvider extends ServiceProvider {
   boot() {
-    if(this.app.runningInWeb())
+    if(env("NODE_ENV") === "production")
       this.app.on("booted", this.useCachedConfig);
   }
 

@@ -8,8 +8,9 @@ import Redis from "~/core/utils/Cache/drivers/Redis";
 
 export default class CacheServiceProvider extends ServiceProvider {
   register() {
+    const redis = new IORedis(config.get("cache.stores.redis"));
     container.register(IORedis, {
-      useValue: new IORedis(config.get("cache.stores.redis"))
+      useValue: redis
     });
   }
   

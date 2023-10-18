@@ -1,5 +1,6 @@
 import express, { Application as ExpressApplication } from "express";
 import EventEmitter from "events";
+import ServiceProvider from "~/core/abstract/ServiceProvider";
 import fs from "fs";
 import config from "config";
 import URL from "URL";
@@ -39,7 +40,8 @@ export default class Application extends EventEmitter {
     const providersFullName = fs.readdirSync(providersBaseDir);
     for(const providerFullName of providersFullName){
       const Provider = require("~/" + providersBaseDir + "/" + providerFullName.split(".")[0]).default;
-      this.register(Provider);
+      if(Provider.prototype instanceof ServiceProvider)
+        this.register(Provider);
     }
   }
   
@@ -75,7 +77,7 @@ export default class Application extends EventEmitter {
     Object.assign(this.http.response, responseHelpers);
   }
   
-  runningInConsole(): asserts this is this & { http: undefined } {
+  runningInConsole(): asserts this is Omit<this, "http"> {
     return env("NODE_ENV") === "shell";
   }
   
@@ -94,50 +96,3 @@ export default class Application extends EventEmitter {
     this.registeredProviders.push(Provider);
   }
 }
-
-/*
-export default function Application() {
-  const app = express();
-
-  app.registeredProviders = [];
-  app.bootingCallbacks = [];
-  
-  app.bootProviders = function() {
-    this.bootingCallbacks.forEach(cb => cb());
-  }
-  
-  app.registerBaseServiceProviders = function() {
-    this.register(DatabaseServiceProvider);
-    this.register(EventServiceProvider);
-    this.register(RouteServiceProvider);
-  }
-  
-  app.discoverExternalServiceProviders = function() {
-    const providersBaseDir = "app/providers";
-    const providersFullName = fs.readdirSync(providersBaseDir);
-    for(const providerFullName of providersFullName){
-      const Provider = require("~/" + providersBaseDir + "/" + providerFullName.split(".")[0]).default;
-      this.register(Provider);
-    }
-  }
-
-  app.register = function(Provider) {
-    if(this.registeredProviders.includes(Provider))
-      return;
-    const provider = new Provider(this);
-    provider.register?.();
-    if (provider.boot) {
-      this.bootingCallbacks.push(provider.boot.bind(provider));
-    }
-    this.registeredProviders.push(Provider);
-  }
-  
-  app.bootstrap = function() {
-    this.registerBaseServiceProviders();
-    this.discoverExternalServiceProviders();
-    this.bootProviders();
-  }
-
-  return app;
-}
-*/

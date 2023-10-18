@@ -4,7 +4,7 @@ import Artisan from "Artisan";
 
 export default class CronJobServiceProvider extends ServiceProvider {
   /**
-   * Schedule cron jobs
+   * Schedule cron jobs of the application
   */ 
   private schedule() {
     /*

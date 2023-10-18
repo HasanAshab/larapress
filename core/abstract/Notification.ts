@@ -11,7 +11,7 @@ type NotificationChannel = Config["notification"]["channels"][number];
 export default abstract class Notification {
   shouldQueue = false;
 
-  constructor(public data: Record<string, unknown>) {
+  constructor(public data: Record<string, unknown> = {}) {
     this.data = data;
   }
 
