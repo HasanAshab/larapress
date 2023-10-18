@@ -7,8 +7,10 @@ import URL from "URL";
 export default class EmailVerificationNotification extends Notification {
   shouldQueue = true;
 
-  via(notifiable: IUser){
-    return ["email"];
+  async via(notifiable: IUser){
+    await sleep(1000);
+   // return ["email"];
+    return ["email", "site"];
   }
   
   async toEmail(notifiable: IUser) {
@@ -16,6 +18,14 @@ export default class EmailVerificationNotification extends Notification {
     const link = this.verificationUrl(notifiable, token);
     return new EmailVerificationMail({ link })
   }
+  
+  //TODO remove it
+  async toSite(notifiable) {
+    return {
+      name: notifiable.name
+    }
+  }
+  
   
   verificationUrl(notifiable: IUser, token: string) {
     return URL.client(`/password/reset/${notifiable._id}/${token}`);

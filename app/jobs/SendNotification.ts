@@ -1,6 +1,8 @@
 import Job from "~/core/abstract/Job";
-import { IUser } from "~/app/models/User";
+import User, { IUser } from "~/app/models/User";
+import Notification from "Notification";
 
+/*
 interface SendNotificationData {
   notifiable: IUser;
   notification: {
@@ -9,14 +11,14 @@ interface SendNotificationData {
     method: string;
   }
 }
-
+*/
 export default class SendNotification extends Job {
   concurrency = 10;
   tries = 3;
   
-  async handle({ notifiable, notification }: SendNotificationData){
-    const Notification = require("~/app/notifications/" + notification.name).default;
-    const notificationInstance = new Notification(notification.data);
-    await notificationInstance[notification.method](notifiable);
+  async handle({ notifiablesId, notificationMetadata }: SendNotificationData){
+    const NotificationClass = require("~/app/notifications/" + notificationMetadata.name).default;
+    const notifiables = await User.find({ _id: { $in: notifiablesId } });
+    await Notification.withoutQueue().send(notifiables, new NotificationClass(notificationMetadata.data));
   }
 }

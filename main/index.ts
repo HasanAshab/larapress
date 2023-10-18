@@ -53,20 +53,25 @@ else {
   });
 }
 
-
-
+/*
+//import Benchmark from "Benchmark";
 import Mail from "Mail";
-import EmailVerificationMail from "~/app/mails/EmailVerificationMail";
+import Notification from "Notification";
+import EmailVerificationNotification from "~/app/notifications/EmailVerificationNotification";
+import User from "~/app/models/User";
+import NotificationModel from "~/app/models/Notification";
 
-(async _ => {
-    console.time()
-const link = "foo.com"
-
-await Mail.to("foo@gmail.com").send(new EmailVerificationMail({ link }));
-//await Mail.to("foo@gmail.com").send(new EmailVerificationMail());
-//await Mail.to("foo@gmail.com").send(new EmailVerificationMail);
-  console.timeEnd()
+(async () => {
+//  await DB.reset(["Notification"]);
+const users = await User.find();
+//console.log(users)
+//Mail.mock()
+console.time()
+await Notification.send(users, new EmailVerificationNotification);
+console.timeEnd()
+//console.log(Mail.mocked)
+//console.log(await NotificationModel.find())
 })()
-
+*/
 
 export default server;

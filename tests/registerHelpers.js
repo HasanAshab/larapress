@@ -28,10 +28,6 @@ for(const method of methods) {
 
 global.request = request;
 
-global.sleep = function(miliseconds) {
-  return new Promise(r => setTimeout(r, miliseconds));
-}
-
 global.fakeFile = (name) => {
   return {
     _type: "file",

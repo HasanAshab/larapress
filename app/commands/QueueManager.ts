@@ -12,11 +12,14 @@ export default class QueueManager extends Command {
   
   async work(){
     await DB.connect();
-
     this.setupJobs();
     this.queue.on('failed', (job, err) => console.log(`Job ${job.name} failed for: ${err.stack}\n\n`))
-
-    this.info("listening for jobs...")
+    this.queue.on('completed', (job) => this.info(`[${this.formatedDate()}] Processed: ${job.name} \n`));
+    this.info("listening for jobs...\n\n");
+  }
+  
+  private formatedDate() {
+    return new Date().toLocaleTimeString("en-US", { hour12: true });
   }
   
   private setupJobs() {

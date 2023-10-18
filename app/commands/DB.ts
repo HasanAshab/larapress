@@ -43,6 +43,15 @@ export default class DB extends Command {
     this.success("Seeded successfully!");
   }
   
+  async seedRandom() {
+    await Database.connect();
+    const { model, count } = this.params;
+    const Model = mongoose.model(model);
+    await Model.factory().count(count).create()
+    this.success("Seeded successfully!");
+  }
+  
+  
   private async countSingeModel(modelName: string) {
     const Model = mongoose.model(modelName);
     const documentCount = await Model.count();

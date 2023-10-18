@@ -26,7 +26,7 @@ export function util(mockClassPath: string) {
       method !== 'name' &&
       method !== 'prototype'
     );
-    staticMethods.forEach((method) => {
+    staticMethods.forEach(method => {
       if(method.endsWith("Logger")){
         const targetMethodName = method.replace("Logger", "");
         const targetMethod = targetClass[targetMethodName];

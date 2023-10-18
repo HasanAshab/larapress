@@ -8,8 +8,7 @@ export type MailMockedData = {
 
 export default class Mockable {
   static isMocked = false;
-  static email: string;
-  
+
   static mocked: MailMockedData = {
     total: 0,
     recipients: {}
@@ -23,24 +22,27 @@ export default class Mockable {
     }
   }
   
-  static async send(mailable: Mailable) {
-    const mocked = this.mocked;
-    mocked.total++;
-    if (!mocked.recipients[this.email]) {
-      mocked.recipients[this.email] = {}
-      mocked.recipients[this.email][mailable.constructor.name] = {
-        mailable: mailable,
-        count: 1
-      };
-    } else {
-      if (!mocked.recipients[this.email][mailable.constructor.name]) {
-        mocked.recipients[this.email][mailable.constructor.name] = {
+  static to(email: string) {
+    const send = async (mailable: Mailable) => {
+      const mocked = this.mocked;
+      mocked.total++;
+      if (!mocked.recipients[email]) {
+        mocked.recipients[email] = {}
+        mocked.recipients[email][mailable.constructor.name] = {
           mailable: mailable,
           count: 1
-        }
-      } else mocked.recipients[this.email][mailable.constructor.name].count++;
-    }
-    this.mocked = mocked;
+        };
+      } else {
+        if (!mocked.recipients[email][mailable.constructor.name]) {
+          mocked.recipients[email][mailable.constructor.name] = {
+            mailable: mailable,
+            count: 1
+          }
+        } else mocked.recipients[email][mailable.constructor.name].count++;
+      }
+      this.mocked = mocked;
+      }
+    return { send }
   }
   
   static assertNothingSent(){

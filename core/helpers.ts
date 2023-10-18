@@ -88,6 +88,11 @@ export function getParams(func: Function) {
   return params;
 }
 
+export function sleep(ms: number) {
+  return new Promise(r => setTimeout(r, ms));
+}
+
+
 /**
  * Resolve class or string to instance
 */ 
