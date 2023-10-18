@@ -2,7 +2,6 @@ import { Schema, Document } from "mongoose";
 import config from "config";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
-import Mail from "Mail";
 import Token from "~/app/models/Token";
 import EmailVerificationNotification from "~/app/notifications/EmailVerificationNotification";
 import ForgotPasswordNotification from "~/app/notifications/ForgotPasswordNotification";

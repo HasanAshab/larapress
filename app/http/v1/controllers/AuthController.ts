@@ -94,19 +94,17 @@ export default class AuthController extends Controller {
 
   @RequestHandler
   async resendEmailVerification(req: ResendEmailVerificationRequest){
-    User.findOne(req.body).then(async user => {
-      if(user && !user.verified)
-        await user.sendVerificationNotification();
-    }).catch(log);
+    const user = await User.findOne(req.body);
+    if(user && !user.verified)
+      await user.sendVerificationNotification();
     return "Verification link sent to email!";
   };
   
   @RequestHandler
   async sendResetPasswordEmail(req: SendResetPasswordEmailRequest){
-    (async () => {
-      const user = await User.findOne(req.body);
-      user?.password && await user.sendResetPasswordNotification();
-    })().catch(log);
+    const user = await User.findOne(req.body);
+    if(user?.password)
+      await user.sendResetPasswordNotification();
     return "Password reset link sent to email!";
   };
 

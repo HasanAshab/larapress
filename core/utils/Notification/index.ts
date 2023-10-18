@@ -13,6 +13,7 @@ export default class Notification {
     this.shouldQueue = false;
     return this;
   }
+  
   static prepareJobData(notifiables: IUser | IUser[], notification: NotificationClass) {
     const notifiablesId = Array.isArray(notifiables)
       ? notifiables.map(notifiable => notifiable._id.toString())

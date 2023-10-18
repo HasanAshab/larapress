@@ -14,7 +14,7 @@ export default class PasswordService {
     await user.setPassword(password);
     user.tokenVersion++;
     await user.save();
-    Mail.to(user.email).send(new PasswordChangedMail()).catch(log);
+    await Mail.to(user.email).send(new PasswordChangedMail()).catch(log);
   }
   
   async change(user: UserDocument, oldPassword: string, newPassword: string) {
@@ -25,7 +25,7 @@ export default class PasswordService {
     await user.setPassword(newPassword);
     user.tokenVersion++;
     await user.save();
-    Mail.to(user.email).send(new PasswordChangedMail()).catch(log);
+    await Mail.to(user.email).send(new PasswordChangedMail()).catch(log);
   }
 }
  
