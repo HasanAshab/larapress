@@ -8,6 +8,7 @@ module.exports = {
   },
   testMatch: ["<rootDir>/tests/{feature,unit}/**/*.test.js"],
   testTimeout: 10000000,
+  //globalSetup: "./tests/setup.js",
   setupFilesAfterEnv: [
     "./tests/registerHelpers.js",
     "./tests/overrideHooks.js",

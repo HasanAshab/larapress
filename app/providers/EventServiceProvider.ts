@@ -11,7 +11,7 @@ export default class EventServiceProvider extends ServiceProvider {
     //foo2: ["Test2"]
   }
   
-  boot() {
+  async boot() {
     if(this.app.runningInWeb())
       this.subscribeListeners();
   }

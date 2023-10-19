@@ -30,7 +30,7 @@ const notificationQuery = {
   async markAsRead(){
     const { modifiedCount } = await this.updateOne(this.getFilter(), {readAt: new Date()});
     return modifiedCount === 1;
-  }
+  },
   async markAsReadOrFail(){
     if(!await this.markAsRead())
       throw new DocumentNotFoundException();

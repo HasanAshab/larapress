@@ -4,8 +4,9 @@ import Artisan from "Artisan";
 //import Test from "~/app/commands/Test";
 
 export default class ConsoleServiceProvider extends ServiceProvider {
-  boot() {
+  async boot() {
     //Artisan.add(Test);
     Artisan.load("app/commands");
+    Artisan.load("core/component/commands");
   }
 }

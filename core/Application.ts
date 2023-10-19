@@ -11,23 +11,25 @@ import RouteServiceProvider from "~/app/providers/RouteServiceProvider";
 
 export default class Application extends EventEmitter {
   readonly http?: ExpressApplication;
+  readonly providersBaseDir = "app/providers";
   private registeredProviders = [];
   private bootingCallbacks = [];
 
-  constructor() {
-    super();
+  async bootstrap() {
     if(this.runningInWeb()) {
       this.http = express();
       this.addCustomHttpHelpers();
     }
     this.registerBaseServiceProviders();
-    this.discoverExternalServiceProviders();
-    this.bootProviders();
+    await this.discoverExternalServiceProviders();
+    await this.bootProviders();
+    this.flush();
+    this.booted = true;
     this.emit("booted");
   }
   
-  private bootProviders() {
-    this.bootingCallbacks.forEach(cb => cb());
+  private async bootProviders() {
+    return Promise.all(this.bootingCallbacks.map(cb => cb()));
   }
   
   private registerBaseServiceProviders() {
@@ -36,45 +38,46 @@ export default class Application extends EventEmitter {
     this.register(RouteServiceProvider);
   }
   
-  private discoverExternalServiceProviders() {
-    const providersBaseDir = "app/providers";
-    const providersFullName = fs.readdirSync(providersBaseDir);
-    for(const providerFullName of providersFullName){
-      const Provider = require("~/" + providersBaseDir + "/" + providerFullName.split(".")[0]).default;
-      if(Provider.prototype instanceof ServiceProvider)
-        this.register(Provider);
-    }
+  private async discoverExternalServiceProviders() {
+    const providerFilesName = await fs.promises.readdir(this.providersBaseDir)
+    const registerPromises = providerFilesName.map(fileName => this.foo(fileName));
+    await Promise.all(registerPromises);
+  }
+  private async foo(fileName: string) {
+    const { default: Provider } = await import("~/" + this.providersBaseDir + "/" + fileName);
+    if(Provider.prototype instanceof ServiceProvider)
+      this.register(Provider);
   }
   
   private addCustomHttpHelpers() {
-    const responseHelpers = {
-      message(text?: string) {
-        this.json({
-          success: this.statusCode >= 200 && this.statusCode < 300,
-          message: text ?? getStatusText(this.statusCode)
-        });
-      },
-      api(response: RawResponse) {
-        const success = this.statusCode >= 200 && this.statusCode < 300;
-        (response as any).message = (response as any).message ?? getStatusText(this.statusCode);
-        
-        if((response as any).data) {
-          (response as any).success = (response as any).success ?? success;
-          this.json(response);
-          return response as ApiResponse;
-        }
-        
-        const apiResponse: ApiResponse = { success };
-        apiResponse.message = (response as any).message
-        delete (response as any).message;
-        apiResponse.data = response;
-        this.json(apiResponse);
-      },
-      redirectToClient(path = "/") {
-        return this.redirect(URL.client(path));
+      if (this.http) {
+        this.http.response.message = function (text?: string) {
+          this.json({
+            success: this.statusCode >= 200 && this.statusCode < 300,
+            message: text || getStatusText(this.statusCode),
+          });
+        };
+  
+        this.http.response.api = function (response) {
+          const success = this.statusCode >= 200 && this.statusCode < 300;
+          const apiResponse = {
+            success,
+            message: response.message || getStatusText(this.statusCode),
+            data: response.data || response,
+          };
+          this.json(apiResponse);
+          return apiResponse;
+        };
+  
+        this.http.response.redirectToClient = function (path = '/') {
+          return this.redirect(URL.client(path));
+        };
       }
-    }
-    Object.assign(this.http.response, responseHelpers);
+    }  
+  
+  private flush() {
+    this.registeredProviders = [];
+    this.bootingCallbacks = [];
   }
   
   runningInConsole(): asserts this is Omit<this, "http"> {
@@ -85,13 +88,15 @@ export default class Application extends EventEmitter {
     return !this.runningInConsole();
   }
   
-  register(Provider) {
+  private register(Provider) {
     if(this.registeredProviders.includes(Provider))
       return;
     const provider = new Provider(this);
     provider.register?.();
     if (provider.boot) {
-      this.bootingCallbacks.push(provider.boot.bind(provider));
+      const cb = provider.boot.bind(provider);
+      cb.namee = Provider.name
+      this.bootingCallbacks.push(cb);
     }
     this.registeredProviders.push(Provider);
   }

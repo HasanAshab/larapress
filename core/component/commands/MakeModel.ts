@@ -7,10 +7,12 @@ import path from "path";
 
 export default class Make extends Command {
   signature = "make:model {name}";
+
+  protected makes = "model";
   
   handle() {
-    const componentName = "model"
-    
+    this.component("model").replacers(this.arguments()).create();
+    /*
     const fullPath = this.arguments("name").split("/");
     let content = "";
     const name = fullPath.pop() as string;
@@ -47,6 +49,7 @@ export default class Make extends Command {
       this.error("Component already exist!");
     }
     this.success(`File created successfully: [${filepath}]`);
+  */
   }
 
 }

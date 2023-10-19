@@ -2,25 +2,18 @@ import ServiceProvider from "~/core/abstract/ServiceProvider";
 import config from 'config';
 import mongoose from "mongoose";
 import fs from "fs";
+import Core from "~/core/plugins/Core";
+import Paginate from "~/core/plugins/Paginate";
+import Policy from "~/core/plugins/Policy";
 
 export default class DatabaseServiceProvider extends ServiceProvider {
-  boot() {
+  async boot() {
     this.useGlobalPlugins();
-    this.discoverModels();
-  }
-  
-  private discoverModels() {
-    const modelsBaseDir = "app/models";
-    fs.readdirSync(modelsBaseDir).forEach(modelFullName => {
-      require("~/" + modelsBaseDir + "/" + modelFullName.split(".")[0]);
-    });
   }
   
   private useGlobalPlugins() {
-    const globalPluginsBaseDir = "core/global/plugins";
-    fs.readdirSync(globalPluginsBaseDir).forEach(globalPluginName => {
-      const plugin = require("~/" + globalPluginsBaseDir + "/" + globalPluginName.split(".")[0]).default;
-      mongoose.plugin(plugin);
-    });
+    mongoose.plugin(Core);
+    mongoose.plugin(Paginate);
+    mongoose.plugin(Policy);
   }
 }

@@ -9,7 +9,7 @@ import formDataParser from "express-fileupload";
 import URL from "URL";
 
 export default class RouteServiceProvider extends ServiceProvider {
-  boot() {
+  async boot() {
     if(this.app.runningInConsole())
       return;
     
@@ -23,9 +23,7 @@ export default class RouteServiceProvider extends ServiceProvider {
     this.registerGlobalMiddlewares();
     this.discoverRoutes();
     this.serveStaticFolder();
-    this.app.once("booted", () => {
-      this.registerErrorHandlers();
-    });
+    this.registerErrorHandlers();
   }
   
   private registerSecurityMiddlewares() {

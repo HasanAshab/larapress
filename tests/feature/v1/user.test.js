@@ -36,7 +36,8 @@ describe("user", () => {
     expect(response.body).not.toHaveProperty("data");
   });
   
-  it("should get profile", async () => {
+  it.only("should get profile", async () => {
+    console.log(User.findOneOrFail)
     const response = await request.get("/users/me").actingAs(token);
     expect(response.statusCode).toBe(200);
     delete user.password;
