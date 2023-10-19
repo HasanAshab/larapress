@@ -10,16 +10,22 @@ import URL from "URL";
 
 export default class RouteServiceProvider extends ServiceProvider {
   boot() {
-    if(this.app.runningInWeb()) {
-      this.registerSecurityMiddlewares();
-      this.registerRequestPayloadParsers();
-      this.registerGlobalMiddlewares();
-      this.discoverRoutes();
-      this.serveStaticFolder();
-      this.app.once("booted", () => {
-        this.registerErrorHandlers();
-      });
-    }
+    if(this.app.runningInConsole())
+      return;
+    
+    URL.register({
+      "email.verify": "api/v1/auth/verify/:id/:token",
+      "file.serve": "api/files/:path",
+    });
+    
+    this.registerSecurityMiddlewares();
+    this.registerRequestPayloadParsers();
+    this.registerGlobalMiddlewares();
+    this.discoverRoutes();
+    this.serveStaticFolder();
+    this.app.once("booted", () => {
+      this.registerErrorHandlers();
+    });
   }
   
   private registerSecurityMiddlewares() {

@@ -93,10 +93,6 @@ module.exports = {
     }
   },
   log: "console",
-  urls: {
-    "email.verify": "api/v1/auth/verify/:id/:token",
-    "file.serve": "api/files/:path",
-  },
   twoFactorAuth: {
     methods: ["app", "sms", "call"] 
   }

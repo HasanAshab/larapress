@@ -1,12 +1,19 @@
 import config from 'config';
-import { Config } from "types";
 import Token, { IToken } from "~/app/models/Token";
 import path from "path";
 import crypto from "crypto";
 
 
 export default class URL {
-  static urls = config.get<Config["urls"]>("urls");
+  static _urlsMap = {};
+  
+  static add(name: string, urlPattern: string) {
+    this._urlsMap[name] = urlPattern;
+  }
+  
+  static register(nameWithUrlPattern: Record<string, string>) {
+    Object.assign(this._urlsMap, nameWithUrlPattern);
+  }
   
   static resolve(url_path = ""): string {
     const { domain, port, protocol } = config.get<any>("app");
@@ -18,8 +25,10 @@ export default class URL {
     return `${protocol}://${path.join(`${domain}:${port}`, url_path)}`;
   }
 
-  static route(name: keyof Config["urls"], data?: Record < string, string | number >): string {
-    let endpoint = this.urls[name];
+  static route(name: string, data?: Record < string, string | number >): string {
+    let endpoint = this._urlsMap[name];
+    if(!endpoint) 
+      throw new Error(`No url registered with name "${name}"`);
     if (data) {
       const regex = /:(\w+)/g;
       const params = endpoint.match(regex);
