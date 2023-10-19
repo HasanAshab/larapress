@@ -4,23 +4,15 @@ import fs from "fs";
 import path from "path";
 
 export default class Search extends Command {
-  public exclude = ["package.json", "package-lock.json", "node_modules", ".git", ".gitignore", ".env", "tsconfig.json", "artisan", "artisan.ts", "dist", "artisan", "backup", "docs", "storage"];
+  signature = "search {query} {replace?} {--D|dir=.}"
+  protected exclude = ["package.json", "package-lock.json", "node_modules", ".git", ".gitignore", ".env", "tsconfig.json", "artisan", "artisan.ts", "dist", "artisan", "backup", "docs", "storage"];
 
   async handle() {
-    this.requiredParams(["query"]);
-    const {
-      query,
-      replace = undefined,
-      dir = "."
-    } = this.params;
-    if(typeof replace !== "undefined") this.info("\nReplacing started...\n");
+    const { query, replace } = this.arguments();
+    if(replace) this.info("\nReplacing started...\n");
     else this.info("\nSearching started...\n");
-
-    this.searchFiles(dir, query, replace).then(() => {
-      this.success("done!");
-    }).catch((error: any) => {
-      throw error
-    });
+    await this.searchFiles(this.option("dir"), query, replace);
+    this.success("done!");
   }
 
   private async searchFiles(currentDir: string, query: string, replace?: string) {
@@ -38,7 +30,7 @@ export default class Search extends Command {
       } else if (stat.isFile()) {
         const fileContent = fs.readFileSync(filePath, "utf-8");
         if(Wildcard.match(fileContent, query)){
-          if(typeof replace !== "undefined"){
+          if(replace){
             const replacedContent = Wildcard.replace(fileContent, query, replace);
             const promise = fs.promises.writeFile(filePath, replacedContent);
             promises.push(promise);

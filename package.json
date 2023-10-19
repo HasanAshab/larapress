@@ -39,6 +39,7 @@
     "express-rate-limit": "^6.7.0",
     "google-auth-library": "^9.0.0",
     "helmet": "^7.0.0",
+    "http-status-codes": "^2.3.0",
     "ioredis": "^5.3.2",
     "joi": "^17.9.1",
     "jsonwebtoken": "^9.0.0",

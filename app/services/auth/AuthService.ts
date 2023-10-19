@@ -13,7 +13,6 @@ import OtpRequiredException from "~/app/exceptions/OtpRequiredException";
 @singleton()
 export default class AuthService {
   constructor(private readonly twoFactorAuthService: TwoFactorAuthService, private readonly mutex: Mutex) {}
-  
   async register(email: string, username: string, password: string, logo?){
     const user = new User({ email, username });
     await user.setPassword(password);

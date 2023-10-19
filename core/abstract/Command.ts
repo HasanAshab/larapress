@@ -16,7 +16,7 @@ export default abstract class Command {
   
   protected argument(key: string) {
     const arg = this.args[key];
-    if(!arg)
+    if(typeof arg === "undefined")
       throw new Error(`Argument "${key}" is not registered on signature.`);
     return arg;
   }

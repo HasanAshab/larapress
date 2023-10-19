@@ -39,6 +39,7 @@ export default class AuthController extends Controller {
   
   @RequestHandler
   async login(req: LoginRequest, res: Response) {
+    return res.status(403).message();
     const { email, password, otp } = req.body;
     const token = await this.authService.login(email, password, otp);
     return token

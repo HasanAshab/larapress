@@ -1,7 +1,9 @@
 import Command from "~/core/abstract/Command";
 
 export default class {{name}} extends Command {
+  signature = "{{name}}";
+  
   async handle(){
-    //
+    this.success("{{name}} command works!");
   }
 }

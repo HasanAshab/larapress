@@ -74,4 +74,6 @@ console.timeEnd()
 })()
 */
 
+//User.findOne().then(console.log)
+
 export default server;

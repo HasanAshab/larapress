@@ -15,7 +15,7 @@ export default class TwoFactorAuthService {
     if (!user.phoneNumber && method !== "app")
       throw new PhoneNumberRequiredException();
     const data = { 
-      recoveryCodes: await this.generateRecoveryCodes(user)
+      recoveryCodes: await user.generateRecoveryCodes()
     };
     const twoFactorAuth = { enabled: true, method };
     if(method === "app") {

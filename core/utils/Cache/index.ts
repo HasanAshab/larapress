@@ -24,7 +24,7 @@ export default class Cache {
 
   private static getDriver(): Driver {
     const driver = this.driverInstances[this.driverName];
-    this.driverName = config.get<DriverName>("cache");
+    this.driverName = config.get<DriverName>("cache.default");
     return driver;
   }
 

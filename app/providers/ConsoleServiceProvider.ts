@@ -8,5 +8,4 @@ export default class ConsoleServiceProvider extends ServiceProvider {
     //Artisan.add(Test);
     Artisan.load("app/commands");
   }
-
 }

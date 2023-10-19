@@ -28,7 +28,8 @@ export function middleware(...args: [string, MiddlewareKeyWithOptions[]] | Middl
   const [version, keysWithOptions] = parseArgs();
   const handlers = [];
   keysWithOptions.forEach(keyWithOptions => {
-    const [key, options = []] = keyWithOptions.split(":");
+    const [key, optionString] = keyWithOptions.split(":");
+    const options = optionString ? optionString.split(",") : [];
     const middlewarePath = middlewareAliases[key].replace("<version>", version);
     const MiddlewareClass = require(middlewarePath).default;
     const middleware = new MiddlewareClass();

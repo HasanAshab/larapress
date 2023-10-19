@@ -93,11 +93,6 @@ module.exports = {
     }
   },
   log: "console",
-  errorMessages: {
-    404: "Not Found",
-    403: "Forbidden",
-    401: "Unauthorized"
-  },
   urls: {
     "email.verify": "api/v1/auth/verify/:id/:token",
     "file.serve": "api/files/:path",

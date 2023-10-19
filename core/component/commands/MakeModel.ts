@@ -6,30 +6,26 @@ import path from "path";
 
 
 export default class Make extends Command {
-  signature = "fooo {ifidfi}";
+  signature = "make:model {name}";
   
   handle() {
-    this.subCommandRequired();
-    this.requiredParams(["name"]);
-    const fullPath = this.params.name.split("/");
+    const componentName = "model"
+    
+    const fullPath = this.arguments("name").split("/");
     let content = "";
     const name = fullPath.pop() as string;
     const parentPath = fullPath.join("/");
-    let templatePath = `core/component/templates/${this.subCommand}`;
-    const templateDistination = componentsPath[this.subCommand];
+
+    let templatePath = `core/component/templates/${componentName}`;
+    const templateDistination = componentsPath[componentName];
     if (typeof templateDistination === "object" && fs.statSync(templatePath).isDirectory()){
       templatePath += (typeof this.flags[0] !== "undefined")
         ?'/' + this.flags[0]
         :'/' + templateDistination.default;
     }
-    try {
-      content = fs.readFileSync(templatePath, "utf-8").replace(/{{name}}/g, name);
-    }
-    catch {
-      this.error("Component not available!");
-    }
-    
-    let pathSchema = componentsPath[this.subCommand];
+    const content = fs.readFileSync(templatePath, "utf-8").replace(/{{name}}/g, name);
+
+    let pathSchema = componentsPath[componentName];
     if(typeof pathSchema === "object"){
       pathSchema = pathSchema[this.flags[0] || pathSchema.default];
     }
@@ -43,7 +39,6 @@ export default class Make extends Command {
     });
     this.requiredParams(requiredParamNames);
     execSync("mkdir -p " + path.dirname(filepath));
-
     try {
       fs.writeFileSync(filepath, content, {
         flag: "wx"

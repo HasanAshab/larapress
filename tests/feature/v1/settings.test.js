@@ -17,7 +17,6 @@ describe("Settings", () => {
       factory = User.factory().withRole(config.role ?? "novice");
       if(config.settings !== false)
         factory.hasSettings(config.mfa);
-      
       if(config.phone)
         factory.withPhoneNumber();
       

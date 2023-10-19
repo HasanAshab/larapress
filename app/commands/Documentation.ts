@@ -7,6 +7,8 @@ import swaggerUi from "swagger-ui-express";
 import { generateEndpoints } from "~/core/utils";
 
 export default class Documentation extends Command {
+  signature = "doc:generate";
+  
   private outputDir = "docs/public";
   private baseUrl = URL.resolve("docs");
   private docs: Record<string, Record<string, any>>;

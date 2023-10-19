@@ -5,12 +5,14 @@ import fs from "fs";
 import DB from "DB";
 
 @autoInjectable()
-export default class QueueManager extends Command {
+export default class QueueWorker extends Command {
+  signature = "queue:work";
+  
   constructor(private readonly queue: Queue) {
     super();
   }
   
-  async work(){
+  async handle(){
     await DB.connect();
     this.setupJobs();
     this.queue.on('failed', (job, err) => console.log(`Job ${job.name} failed for: ${err.stack}\n\n`))

@@ -4,6 +4,7 @@ import ServiceProvider from "~/core/abstract/ServiceProvider";
 import fs from "fs";
 import config from "config";
 import URL from "URL";
+import { getStatusText } from "http-status-codes";
 import DatabaseServiceProvider from "~/app/providers/DatabaseServiceProvider";
 import EventServiceProvider from "~/app/providers/EventServiceProvider";
 import RouteServiceProvider from "~/app/providers/RouteServiceProvider";
@@ -46,17 +47,16 @@ export default class Application extends EventEmitter {
   }
   
   private addCustomHttpHelpers() {
-    const messages = config.get("errorMessages");
     const responseHelpers = {
       message(text?: string) {
         this.json({
           success: this.statusCode >= 200 && this.statusCode < 300,
-          message: text ?? messages[this.statusCode]
+          message: text ?? getStatusText(this.statusCode)
         });
       },
       api(response: RawResponse) {
         const success = this.statusCode >= 200 && this.statusCode < 300;
-        (response as any).message = (response as any).message ?? messages[this.statusCode];
+        (response as any).message = (response as any).message ?? getStatusText(this.statusCode);
         
         if((response as any).data) {
           (response as any).success = (response as any).success ?? success;

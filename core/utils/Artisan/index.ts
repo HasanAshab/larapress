@@ -15,7 +15,7 @@ export default class Artisan {
     return [base, pattern];
   }
 
-  static add(Command) {
+  static add(Command: BaseCommand) {
     const command = new Command();
     const [ base, pattern ] = this.parseSignature(command.signature);
     this._map[base] = [command, pattern];
@@ -30,10 +30,23 @@ export default class Artisan {
   }
   
   static async call(base: string, input: string[]) {
-    console.log(this._map)
-    const [ command, pattern ] = this._map[base];
+    if(base === "list") {
+      this.showCommandList();
+      process.exit(0);
+    }
+    const commandMeta = this._map[base];
+    if(!commandMeta)
+      throw new Error(`Command "${base}" not registered.`);
+    const [ command, pattern ] = commandMeta;
     const { args, opts } = ArgumentParser(pattern, input);
     command.setup(args, opts, env("NODE_ENV") === "shell");
     await command.handle();
+  }
+
+  static showCommandList() {
+    console.log("Available Commands: \n\n")
+    for(const key in this._map) {
+      console.log(key, "\t\t", this._map[key][0].description)
+    }
   }
 }
