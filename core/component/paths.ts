@@ -1,7 +1,6 @@
 export default {
   "model": "app/models/{name}.ts",
   "plugin": {
-    "default": "l",
     "l": "app/plugins/{name}.ts",
     "g": "core/global/plugins/{name}.ts"
   },
@@ -17,15 +16,13 @@ export default {
   "controller": "app/http/{v}/controllers/{name}Controller.ts",
   "request": "app/http/{v}/requests/{name}Request.ts",
   "middleware": {
-    "default": "l",
     "l": "app/http/{v}/middlewares/{name}.ts",
     "g": "core/global/middlewares/{name}.ts"
   },
   "command": "app/commands/{name}.ts",
   "test": {
-    "default": "f",
     "f": "tests/feature/{name}.test.js",
     "u": "tests/unit/{name}.test.js"
   },
   "router": "routes/{name}.ts"
-} as Record<string, string | Record<string, string>>;
+} as const;
