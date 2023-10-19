@@ -13,7 +13,7 @@ export default class Application extends EventEmitter {
   readonly http?: ExpressApplication;
   private registeredProviders = [];
   private bootingCallbacks = [];
-  
+
   constructor() {
     super();
     if(this.runningInWeb()) {

@@ -1,13 +1,13 @@
 import { AuthenticRequest } from "~/core/express";
-import Validator from "Validator";
+import Validator, { unique } from "Validator";
 import { UploadedFile } from "express-fileupload";
 
 export default class UpdateProfileRequest extends AuthenticRequest {
-  body!: Partial<{ 
-    name: string;
-    username: string;
-    email: string;
-  }>;
+  body!: { 
+    name?: string;
+    username?: string;
+    email?: string;
+  };
   
   files!: {
     logo?: UploadedFile

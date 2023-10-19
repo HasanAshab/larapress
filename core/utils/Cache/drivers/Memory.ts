@@ -1,8 +1,10 @@
-import Driver from "~/core/utils/Cache/Driver";
+import CacheStore from "~/core/utils/Cache/CacheStore";
 import memoryCache from "memory-cache";
 import { CacheDataArg } from "Cache";
 
-export default class Memory implements Driver {
+export default class Memory implements CacheStore {
+  store = "memory";
+  
   async get(key: string) {
     return memoryCache.get(key);
   }
@@ -21,6 +23,13 @@ export default class Memory implements Driver {
   async increment(key: string, value = 1) {
     const currentValue = memoryCache.get(key);
     let newValue = (parseInt(currentValue) || 0) + value;
+    memoryCache.put(key, newValue.toString());
+    return newValue;
+  }
+  
+  async decrement(key: string, value = 1) {
+    const currentValue = memoryCache.get(key);
+    let newValue = (parseInt(currentValue) || 0) - value;
     memoryCache.put(key, newValue.toString());
     return newValue;
   }

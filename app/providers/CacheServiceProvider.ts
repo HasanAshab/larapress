@@ -15,7 +15,7 @@ export default class CacheServiceProvider extends ServiceProvider {
   }
   
   boot() {
-    Cache.repository("memory", new Memory());
-    Cache.repository("redis", new Redis());
+    Cache.repository(new Memory());
+    Cache.repository(new Redis());
   }
 }

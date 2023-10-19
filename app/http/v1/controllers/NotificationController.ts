@@ -1,6 +1,6 @@
 import Controller from "~/core/abstract/Controller";
 import RequestHandler from "~/core/decorators/RequestHandler";
-import { AuthenticRequest } from "~/core/express";
+import { AuthenticRequest, Response } from "~/core/express";
 
 export default class NotificationController extends Controller {
   @RequestHandler
@@ -10,7 +10,7 @@ export default class NotificationController extends Controller {
   
   @RequestHandler
   async markAsRead(req: AuthenticRequest, id: string) {
-    await req.user.unreadNotifications.findOneOrFail({ _id: id }).markAsRead()
+    await req.user.unreadNotifications.where("_id").equals(id).markAsReadOrFail();
     return 'Notification marked as read';
   }
   

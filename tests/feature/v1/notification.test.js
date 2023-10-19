@@ -1,7 +1,6 @@
 const DB = require("DB").default;
 const User = require("~/app/models/User").default;
 const Notification = require("~/app/models/Notification").default;
-const NewUserJoined = require("~/app/notifications/NewUserJoined").default;
 
 describe("Notification", () => {
   let user;

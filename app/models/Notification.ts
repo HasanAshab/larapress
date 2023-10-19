@@ -2,6 +2,7 @@ import { model, QueryWithHelpers, HydratedDocument, Schema, Model, Document } fr
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import HumanReadableTime from "~/app/plugins/HumanReadableTime";
 import { IUser } from "~/app/models/User";
+import DocumentNotFoundException from "~/app/exceptions/DocumentNotFoundException";
 
 const NotificationSchema = new Schema({
   userId: {
@@ -29,6 +30,10 @@ const notificationQuery = {
   async markAsRead(){
     const { modifiedCount } = await this.updateOne(this.getFilter(), {readAt: new Date()});
     return modifiedCount === 1;
+  }
+  async markAsReadOrFail(){
+    if(!await this.markAsRead())
+      throw new DocumentNotFoundException();
   }
 };
 

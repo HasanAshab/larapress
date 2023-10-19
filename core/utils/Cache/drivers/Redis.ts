@@ -1,12 +1,14 @@
-import Driver from "~/core/utils/Cache/Driver";
+import CacheStore from "~/core/utils/Cache/CacheStore";
 import { CacheDataArg } from "Cache";
 import { autoInjectable } from "tsyringe";
 import IORedis from "ioredis";
 
 @autoInjectable()
-export default class Redis implements Driver {
+export default class Redis implements CacheStore {
+  store = "redis";
+
   constructor(private readonly client: IORedis) {}
-  
+
   async get(key: string) {
     return await this.client.get(key);
   }
@@ -28,6 +30,10 @@ export default class Redis implements Driver {
   
   async increment(key: string, value = 1) {
     await this.client.incr(key, value);
+  }
+  
+  async decrement(key: string, value = 1) {
+    await this.client.decr(key, value);
   }
 
   async flush() {

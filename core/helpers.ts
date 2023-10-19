@@ -119,7 +119,7 @@ type ResponseType = {
   ) => void;
 };
 
-export const res = {
+export const response = {
   steps: []
 } as ResponseType
 
@@ -153,14 +153,14 @@ const methods = {
 };
 
 methods.customizers.forEach(methodName => {
-  res[methodName] = function(...args: any[]) {
+  response[methodName] = function(...args: any[]) {
     this.steps.push([methodName, args])
     return this;
   }
 });
 
 methods.senders.forEach(methodName => {
-  res[methodName] = function(...args: any[]) {
+  response[methodName] = function(...args: any[]) {
     this.steps.push([methodName, args])
     const responseData = new ResponseData(this.steps);
     this.steps = [];

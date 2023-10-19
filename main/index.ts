@@ -8,12 +8,8 @@ import "~/vendor/autoload";
 
 import config from "config"
 import app from "~/main/app";
-import Setup from "~/main/Setup";
 import DB from "DB";
-import Mail from "Mail";
-process.env.NODE_ENV === "loadTest" && (Mail as any).mock();
 import https from "https";
-import fs from "fs";
 
 
 const shouldLog = process.env.NODE_ENV === "development";
