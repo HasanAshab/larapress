@@ -10,4 +10,8 @@ export default class MakeCommand extends ComponentGenerator {
   protected dist() {
     return `app/commands/${this.argument(`name`)}.ts`;
   }
+  
+  protected afterCreating() {
+    this.call("cache");
+  }
 }

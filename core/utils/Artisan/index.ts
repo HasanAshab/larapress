@@ -45,6 +45,7 @@ export default class Artisan {
     const { args, opts } = ArgumentParser(pattern, input);
     const Command = require(path).default;
     const command = new Command();
+    command.call = this.call;
     command.setup(args, opts, env("NODE_ENV") === "shell");
     await command.handle();
   }
@@ -69,7 +70,6 @@ export default class Artisan {
         }
       });
     });
-
     fs.writeFileSync(this.$cacheDist, JSON.stringify(map));
   }
   

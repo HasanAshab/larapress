@@ -32,6 +32,11 @@ export default abstract class Command {
     return option;
   }
   
+  protected call(base: string) {
+    
+  }
+
+  
   protected info(text: string) {
     if (this.fromShell) console.log("\x1b[33m", text, "\x1b[0m");
   }
