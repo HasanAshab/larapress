@@ -1,9 +1,4 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
-import { execSync } from "child_process";
-import componentsPath from "~/core/component/paths";
-import fs from "fs";
-import path from "path";
-
 
 export default class MakeModel extends ComponentGenerator {
   signature = "make:model {name}";
@@ -12,7 +7,7 @@ export default class MakeModel extends ComponentGenerator {
     return "model";
   }
   
-  protected path() {
-    return "model";
+  protected dist() {
+    return `app/models/${this.argument(`name`)}.ts`;
   }
 }

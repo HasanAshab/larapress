@@ -62,14 +62,14 @@ export default class Artisan {
       fs.readdirSync(base(dir)).forEach(fileName => {
         const fullPath = base(dir, fileName);
         const Command = require(fullPath).default;
-        if(Command.prototype instanceof BaseCommand) {
+        if(typeof Command === "function" && Command.prototype instanceof BaseCommand) {
           const command = new Command();
           const [ base, pattern ] = this.parseSignature(command.signature);
           map[base] = [fullPath, pattern];
         }
       });
+    });
 
-    })
     fs.writeFileSync(this.$cacheDist, JSON.stringify(map));
   }
   
