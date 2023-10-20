@@ -11,7 +11,8 @@ export default class Search extends Command {
     const { query, replace } = this.arguments();
     if(replace) this.info("\nReplacing started...\n");
     else this.info("\nSearching started...\n");
-    await this.searchFiles(this.option("dir"), query, replace);
+    //await this.searchFiles(this.option("dir"), query, replace);
+    await this.searchFiles('.', query, replace);
     this.success("done!");
   }
 

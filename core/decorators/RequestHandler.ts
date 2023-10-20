@@ -18,10 +18,6 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
         const paramType = paramTypes[i];
         const paramName = paramNames[i];
         if(paramType === Request || paramType.prototype instanceof Request) {
-          if(paramType.authorize) {
-            await paramType.authorize(req, res);
-            if(res.headersSent) return;
-          }
           if(paramType.rules) {
             rules = rules ?? Validator.object(paramType.rules());
             const data = req.method === "GET"

@@ -4,7 +4,8 @@ export default abstract class Command {
   abstract public signature: string;
   abstract public handle(): void | Promise<void>;
 
-  setup(args = {}, opts = {}, fromShell = true) {
+  setup(caller: Function, args = {}, opts = {}, fromShell = true) {
+    this.call = caller;
     this.args = args;
     this.opts = opts;
     this.fromShell = fromShell;
@@ -31,11 +32,6 @@ export default abstract class Command {
       throw new Error(`Option "${key}" is not registered on signature.`);
     return option;
   }
-  
-  protected call(base: string) {
-    
-  }
-
   
   protected info(text: string) {
     if (this.fromShell) console.log("\x1b[33m", text, "\x1b[0m");

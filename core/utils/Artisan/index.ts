@@ -28,7 +28,7 @@ export default class Artisan {
     });*/
   }
   
-  static async call(base: string, input: string[]) {
+  static async call(base: string, input: string[] = []) {
     if(base === "list") {
       this.showCommandList();
       process.exit(0);
@@ -45,8 +45,7 @@ export default class Artisan {
     const { args, opts } = ArgumentParser(pattern, input);
     const Command = require(path).default;
     const command = new Command();
-    command.call = this.call;
-    command.setup(args, opts, env("NODE_ENV") === "shell");
+    command.setup(this.call, args, opts, env("NODE_ENV") === "shell");
     await command.handle();
   }
 
