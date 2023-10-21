@@ -8,9 +8,7 @@ export default class EmailVerificationNotification extends Notification {
   shouldQueue = true;
 
   async via(notifiable: IUser){
-    await sleep(1000);
-   // return ["email"];
-    return ["email", "site"];
+    return ["email"];
   }
   
   async toEmail(notifiable: IUser) {
@@ -19,16 +17,8 @@ export default class EmailVerificationNotification extends Notification {
     return new EmailVerificationMail({ link })
   }
   
-  //TODO remove it
-  async toSite(notifiable) {
-    return {
-      name: notifiable.name
-    }
-  }
-  
-  
   verificationUrl(notifiable: IUser, token: string) {
-    return URL.client(`/password/reset/${notifiable._id}/${token}`);
+    return URL.route("verify", { id: notifiable._id, token });
   }
   
   async createVerificationToken(notifiable: IUser) {

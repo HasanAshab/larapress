@@ -36,7 +36,7 @@ describe("user", () => {
     expect(response.body).not.toHaveProperty("data");
   });
   
-  it.only("should get profile", async () => {
+  it("should get profile", async () => {
     console.log(User.findOneOrFail)
     const response = await request.get("/users/me").actingAs(token);
     expect(response.statusCode).toBe(200);
@@ -103,7 +103,7 @@ describe("user", () => {
   });
 
   it("Should delete own account", async () => {
-    const response = await request.delete("/users/me").actingAs(token);
+    const response = await request.delete("/users/" + user.username).actingAs(token);
     expect(response.statusCode).toBe(204);
     expect(await User.findById(user._id)).toBeNull();
   });

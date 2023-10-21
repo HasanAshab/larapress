@@ -2,19 +2,14 @@ import config from 'config';
 import Token, { IToken } from "~/app/models/Token";
 import path from "path";
 import crypto from "crypto";
-
+import Router from "Router";
 
 export default class URL {
-  static _urlsMap = {};
-  
+
   static add(name: string, urlPattern: string) {
-    this._urlsMap[name] = urlPattern;
+    Router.$namedUrls[name] = urlPattern;
   }
-  
-  static register(nameWithUrlPattern: Record<string, string>) {
-    Object.assign(this._urlsMap, nameWithUrlPattern);
-  }
-  
+
   static resolve(url_path = ""): string {
     const { domain, port, protocol } = config.get<any>("app");
     return `${protocol}://${path.join(`${domain}:${port}/`, url_path)}`;
@@ -26,7 +21,7 @@ export default class URL {
   }
 
   static route(name: string, data?: Record < string, string | number >): string {
-    let endpoint = this._urlsMap[name];
+    let endpoint = Router.$namedUrls[name];
     if(!endpoint) 
       throw new Error(`No url registered with name "${name}"`);
     if (data) {

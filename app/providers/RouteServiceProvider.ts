@@ -46,6 +46,7 @@ export default class RouteServiceProvider extends ServiceProvider {
   
   private serveStaticFolder() {
     this.app.http.use("/api/files", express.static(__dirname + "/../storage/public"));
+    URL.add("file.serve", "api/files/:path");
   }
   
   private registerErrorHandlers() {
