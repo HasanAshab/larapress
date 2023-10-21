@@ -7,17 +7,12 @@ import helmet from "helmet";
 import bodyParser from "body-parser";
 import formDataParser from "express-fileupload";
 import URL from "URL";
+import Router from "Router";
 
 export default class RouteServiceProvider extends ServiceProvider {
   async boot() {
     if(this.app.runningInConsole())
       return;
-    
-    URL.register({
-      "email.verify": "api/v1/auth/verify/:id/:token",
-      "file.serve": "api/files/:path",
-    });
-    
     this.registerSecurityMiddlewares();
     this.registerRequestPayloadParsers();
     this.registerGlobalMiddlewares();
@@ -63,9 +58,8 @@ export default class RouteServiceProvider extends ServiceProvider {
   private discoverRoutes() {
     const routesEndpointPaths = generateEndpoints("routes");
     for(const [endpoint, path] of Object.entries(routesEndpointPaths)) {
-      Router.$config.prefix = endpoint;
-      require(path).default;
-      //this.app.http.use(, require(path).default);
+      Router.setup(endpoint.split("/")[1], endpoint);
+      require(path);
     }
     this.app.http.use("/api", Router.build());
   }

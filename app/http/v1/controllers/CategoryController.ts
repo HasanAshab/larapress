@@ -12,7 +12,7 @@ export default class CategoryController extends Controller {
   }
   
   @RequestHandler
-  async find(id: string) {
+  async show(id: string) {
     return await Category.findByIdOrFail(id);
   }
   

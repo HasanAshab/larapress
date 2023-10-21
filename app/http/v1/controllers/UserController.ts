@@ -41,7 +41,7 @@ export default class UserController extends Controller {
   }
   
   @RequestHandler
-  async find(username: string) {
+  async show(username: string) {
     const user = await User.findOneOrFail({ username });
     return user.safeDetails();
   }

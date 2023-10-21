@@ -11,7 +11,7 @@ router.post("/", contactController.create);
 router.get("/inquiries", middleware("auth", "roles:admin"), contactController.index);
 router.get("/inquiries/search", middleware("auth", "roles:admin"), contactController.search);
 router.route("/inquiries/:id")
-  .get(middleware("auth", "roles:admin"), contactController.find)
+  .get(middleware("auth", "roles:admin"), contactController.show)
   .delete(middleware("auth", "roles:admin"), contactController.delete);
 router.put("/inquiries/:id/status", middleware("auth", "roles:admin"), contactController.updateStatus);
 
