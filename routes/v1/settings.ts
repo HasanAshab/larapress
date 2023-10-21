@@ -1,20 +1,18 @@
-import { middleware } from "~/core/utils";
-import express, { Router } from "express";
+import Router from "Router";
 import SettingsController from "~/app/http/v1/controllers/SettingsController";
 
-const router: Router = express.Router();
-const settingsController = SettingsController.handlers();
 
-// User settings managenent
-router.get("/", middleware("auth", "verified"), settingsController.index);
-router.post("/setup-2fa", middleware("auth", "verified"), settingsController.setupTwoFactorAuth);
-router.put("/notification", middleware("auth", "verified"), settingsController.notification);
+Router.controller(SettingsController).group(() => {
+  // User settings managenent
+  Router.middleware(["auth", "verified"]).group(() => {
+    Router.get("/", "index");
+    Router.post("/setup-2fa", "setupTwoFactorAuth");
+    Router.put("/notification", "notification");
+  });
 
-// App settings managenent
-router.route("/app")
-  .get(middleware("auth", "roles:admin"), settingsController.getAppSettings)
-  .put(middleware("auth", "roles:admin"), settingsController.updateAppSettings)
-  //.get(settingsController.getAppSettings)
-  //.put(settingsController.updateAppSettings);
- 
-export default router;
+  // App settings managenent
+  Router.middleware(["auth", "roles:admin"]).group(() => {
+    Router.get("/app", "getAppSettings");
+    Router.put("/app", "updateAppSettings");
+  });
+});

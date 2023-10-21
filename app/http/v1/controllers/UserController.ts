@@ -35,12 +35,6 @@ export default class UserController extends Controller {
   };
   
   @RequestHandler
-  async deleteAccount(req: AuthenticRequest, res: Response) {
-    const { deletedCount } = await User.deleteOne({ _id: req.user._id });
-    res.status(deletedCount === 1 ? 204 : 404).message();
-  }
-  
-  @RequestHandler
   async show(username: string) {
     const user = await User.findOneOrFail({ username });
     return user.safeDetails();
