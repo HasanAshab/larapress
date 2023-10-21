@@ -1,15 +1,19 @@
 import { middleware } from "~/core/utils";
-import express from "express";
+import Router from "Router";
 import AuthController from "~/app/http/v1/controllers/AuthController";
-
-const router = express.Router();
-const authController = AuthController.handlers();
 
 /**
  * Endpoints to authenticate users
 */
 
-//Router.get("/login", [AuthController, "login"]).middleware("limit:2000,2", "recaptcha").name("login");
+Router.get("/register", [AuthController, "register"]).middleware("recaptcha").name("register");
+Router.get("/login", [AuthController, "login"]).middleware("limit:2000,2", "recaptcha").name("login");
+
+/*
+
+const router = express.Router();
+const authController = AuthController.handlers();
+
 
 // Login with various methods
 router.post("/login", middleware("limit:2000,2", "recaptcha"), authController.login);
@@ -35,3 +39,4 @@ router.put("/change-phone-number", middleware("auth", "verified"), authControlle
 router.post("/generate-recovery-codes", middleware("limit:60000,3", "auth", "verified"), authController.generateRecoveryCodes);
 
 export default router;
+*/

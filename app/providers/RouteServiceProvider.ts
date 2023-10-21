@@ -63,7 +63,10 @@ export default class RouteServiceProvider extends ServiceProvider {
   private discoverRoutes() {
     const routesEndpointPaths = generateEndpoints("routes");
     for(const [endpoint, path] of Object.entries(routesEndpointPaths)) {
-      this.app.http.use("/api" + endpoint, require(path).default);
+      Router.$config.prefix = endpoint;
+      require(path).default;
+      //this.app.http.use(, require(path).default);
     }
+    this.app.http.use("/api", Router.build());
   }
 }
