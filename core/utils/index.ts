@@ -72,7 +72,7 @@ export function getVersion(path?: string): string {
   return match[1];
 }
 
-export const getVersions =  () => fs.readdirSync("routes");
+export const getVersions =  () => fs.readdirSync("routes/api");
 
 /**
  * Generates endpoints of a directory.

@@ -50,29 +50,34 @@ export default class Application extends EventEmitter {
   }
   
   private addCustomHttpHelpers() {
-    if (this.http) {
-      this.http.response.message = function (text?: string) {
-        this.json({
-          success: this.statusCode >= 200 && this.statusCode < 300,
-          message: text || getStatusText(this.statusCode),
-        });
-      };
+    if (!this.http)
+      throw new Error("Http (express) is not created.");
+      
+    this.http.request.fullUrl = function() {
+      return this.protocol + '://' + this.get('host') + this.originalUrl;
+    }
+    
+    this.http.response.message = function (text?: string) {
+      this.json({
+        success: this.statusCode >= 200 && this.statusCode < 300,
+        message: text || getStatusText(this.statusCode),
+      });
+    };
 
-      this.http.response.api = function (response) {
-        const success = this.statusCode >= 200 && this.statusCode < 300;
-        const apiResponse = {
-          success,
-          message: response.message || getStatusText(this.statusCode),
-          data: response.data || response,
-        };
-        this.json(apiResponse);
-        return apiResponse;
+    this.http.response.api = function (response) {
+      const success = this.statusCode >= 200 && this.statusCode < 300;
+      const apiResponse = {
+        success,
+        message: response.message || getStatusText(this.statusCode),
+        data: response.data || response,
       };
+      this.json(apiResponse);
+      return apiResponse;
+    };
 
-      this.http.response.redirectToClient = function (path = '/') {
+    this.http.response.redirectToClient = function (path = '/') {
         return this.redirect(URL.client(path));
       };
-    }
   }  
   
   private flush() {

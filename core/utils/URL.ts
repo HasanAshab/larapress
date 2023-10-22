@@ -1,5 +1,4 @@
 import config from 'config';
-import Token, { IToken } from "~/app/models/Token";
 import path from "path";
 import crypto from "crypto";
 import Router from "Router";
@@ -36,31 +35,48 @@ export default class URL {
     return this.resolve(endpoint);
   }
 
-  static async signedRoute(routeName: keyof Config["urls"], data?: Record < string, string | number >, expireAfter?: number) {
-    const fullUrl = this.route(routeName, data);
-    const path = fullUrl.replace(this.resolve(), "/");
-    const payload: Partial<IToken> = {
-      type: "urlSignature",
-      data: { fullUrl }
+  static signedRoute(routeName: string, data?: Record<string, string | number>) {
+    const url = this.route(routeName, data);
+    const signature = crypto.createHmac('sha256', config.get("app.key")).update(url).digest('hex');
+    return `${url}&signature=${signature}`;
+  }
+
+  static temporarySignedRoute(routeName: string, expireAt: number, data?: Record < string, string | number >) {
+    const url = this.route(routeName, data);
+    const signature = crypto.createHmac('sha256', config.get("app.key")).update(`${url}&exp=${expireAt}`).digest('hex');
+    return `${url}&exp=${expireAt}&signature=${signature}`;
+  }
+  
+  static hasValidSignature(url: string) {
+    const urlParts = url.split('&');
+    const signaturePart = urlParts.find((part) => part.startsWith('signature='));
+    const expPart = urlParts.find((part) => part.startsWith('exp='));
+    if (!signaturePart) 
+      return false;
+    const secretKey = config.get("app.key");
+    if (expPart) {
+      const signature = signaturePart.split('=')[1];
+      const expTimestamp = parseInt(expPart.split('=')[1]);
+      const nowTimestamp = Date.now(); // Current timestamp in milliseconds
+  
+      if (nowTimestamp > expTimestamp)
+        return false;
+  
+      const urlWithoutSignature = url.replace(`&${signaturePart}`, `&${expPart}`);
+      const computedSignature = crypto
+        .createHmac('sha256', secretKey)
+        .update(urlWithoutSignature)
+        .digest('hex');
+      return computedSignature === signature;
+    } 
+    else {
+      const signature = signaturePart.split('=')[1];
+      const urlWithoutSignature = url.replace(`&${signaturePart}`, '');
+      const computedSignature = crypto
+        .createHmac('sha256', secretKey)
+        .update(urlWithoutSignature)
+        .digest('hex');
+      return computedSignature === signature;
     }
-    if(!expireAfter) {
-      const token = await Token.findOne({
-        type: payload.type,
-        "data.fullUrl": payload.data.fullUrl
-      });
-      if(token) return token.data.originalUrl;
-    }
-    let [baseUrl, queryString] = fullUrl.split("?");
-    payload.secret = crypto.randomBytes(32).toString('hex');
-    if(queryString)
-      queryString += "&sign=" + payload.secret;
-    else queryString = "?sign=" + payload.secret;
-    payload.data.originalUrl = baseUrl + queryString;
-    payload.key = path + queryString;
-    if(expireAfter) {
-      payload.expiresAt = new Date(Date.now() + expireAfter);
-    }
-    await Token.create(payload);
-    return payload.data.originalUrl;
   }
 }

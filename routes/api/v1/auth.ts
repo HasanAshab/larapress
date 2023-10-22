@@ -26,7 +26,7 @@ Router.controller(AuthController).group(() => {
 
   // Verify user
   Router.prefix("/verify").group(() => {
-    Router.get("/:id/:token", "verifyEmail").name("verify");
+    Router.get("/:id/:token", "verifyEmail").name("verify").middleware("signed");
     Router.post("/resend", "resendEmailVerification").middleware("limit:60000,1");
   });
 

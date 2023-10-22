@@ -3,6 +3,23 @@ import { join } from "path";
 import { Router as ExpressRouter } from "express";
 import { middlewareAliases } from "~/app/http/kernel";
 
+class RouterOptions {
+  constructor(private readonly stackIndex: number) {
+    this.stackIndex = stackIndex;
+  }
+
+  middleware(...aliases: string[]) {
+    Router.$stack[this.stackIndex].middlewares.push(...aliases);
+    return this;
+  }
+  
+  name(routeName: string) {
+    Router.$namedUrls[Router.$config.as + routeName] = Router.$stack[this.stackIndex].path;
+    return this;
+  }
+}
+
+
 export default class Router {
   static $config = {
     version: null,
@@ -21,24 +38,13 @@ export default class Router {
         throw new Error(`Must pass a controller in "${endpoint}" route as no global controller exist`);
       metadata = [Router.$config.controller, metadata];
     }
-    const stackIndex = Router.$stack.length;
     Router.$stack.push({ 
       method,
       path,
       metadata,
       middlewares: [...Router.$config.middlewares]
     });
-    
-    const middleware = (...aliases: string[]) => {
-      Router.$stack[stackIndex].middlewares.push(...aliases);
-      return this;
-    }
-    const name = (routeName: string) => {
-      Router.$namedUrls[Router.$config.as + routeName] = Router.$stack[stackIndex].path;
-      return this;
-    }
-
-    return { name, middleware };
+    return new RouterOptions(Router.$stack.length - 1);
   }
   
   static get<T extends typeof Controller>(endpoint: string, metadata: [T, keyof T]) {
@@ -156,7 +162,6 @@ export default class Router {
   
   static build() {
     const router = ExpressRouter();
-    console.log(Router.$stack)
 
     for(const { method, path, metadata, middlewares } of Router.$stack) {
       const [Controller, handlerName] = metadata;

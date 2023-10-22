@@ -21,6 +21,7 @@ if(config.get("db.connect")) {
     console.log("Couldn't connect to Database. reason: " + err);
   });
 }
+  import URL from "URL";
 
 app.bootstrap().then(() => {
   const loadBalancerConfig = config.get<any>("loadBalancer");
@@ -46,6 +47,11 @@ app.bootstrap().then(() => {
       console.log(`*New connection: [${time}]`);
     });
   }
+  
+(async () => {
+  console.log(await URL.signedRoute("verify", {id: "9229", token: "dhdjdj"}));
+})()
+
 });
 
 /*
@@ -68,5 +74,6 @@ console.timeEnd()
 //console.log(await NotificationModel.find())
 })()
 */
+
 
 //User.findOne().then(console.log)

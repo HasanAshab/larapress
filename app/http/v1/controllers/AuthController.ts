@@ -86,10 +86,10 @@ export default class AuthController extends Controller {
   }
   
   @RequestHandler
-  async verifyEmail(id: string, token: string) {
+  async verifyEmail(res: Response, id: string, token: string) {
     await Token.verify(id, "verifyEmail", token);
     await User.updateOne({ _id: id }, { verified: true });
-    return "Email verified!";
+    res.redirectClient("/email/verify/success");
   };
 
   @RequestHandler
