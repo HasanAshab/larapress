@@ -10,7 +10,7 @@ import path from "path";
 import fs from "fs";
 
 export default class TestPerformance extends Command {
-  signature = "performance";
+  static signature = "performance";
   
   private benchmarkRootPath = "docs/parts";
  /* private serverProcess = spawn('npm', ['run', 'dev'], {

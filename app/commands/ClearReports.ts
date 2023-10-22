@@ -2,7 +2,7 @@ import Command from "~/core/abstract/Command";
 import { execSync } from "child_process";
 
 export default class ClearReports extends Command {
-  signature = "clear:reports {name}";
+  static signature = "clear:reports {name}";
   
   handle() {
     const name = this.argument("name");

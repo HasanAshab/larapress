@@ -4,7 +4,7 @@ import DB from "DB";
 import DatabaseSeeder from "~/database/seeders/DatabaseSeeder";
 
 export default class WipeDatabase extends Command {
-  signature = "db:wipe {--model=}";
+  static signature = "db:wipe {--model=}";
   
   async handle() {
     const model = this.option("model");

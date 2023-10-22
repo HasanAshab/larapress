@@ -1,7 +1,7 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
 
 export default class MakeException extends ComponentGenerator {
-  signature = "make:exception {name}";
+  static signature = "make:exception {name}";
   
   protected template() {
     return "exception";

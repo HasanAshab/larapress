@@ -2,7 +2,7 @@ import Command from "~/core/abstract/Command";
 import { execSync } from "child_process";
 
 export default class ClearUploads extends Command {
-  signature = "clear:uploads";
+  static signature = "clear:uploads";
   
   handle() {
     execSync("rm -r storage/public/uploads");

@@ -2,7 +2,7 @@ import Command from "~/core/abstract/Command";
 import crypto from "crypto";
 
 export default class GenerateKey extends Command {
-  signature = "key:generate";
+  static signature = "key:generate";
   
   async handle() {
     const secret = crypto.randomBytes(32).toString("hex");

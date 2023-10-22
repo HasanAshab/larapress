@@ -6,7 +6,7 @@ import DB from "DB";
 
 @autoInjectable()
 export default class QueueWorker extends Command {
-  signature = "queue:work";
+  static signature = "queue:work";
   
   constructor(private readonly queue: Queue) {
     super();

@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 
 export default class Search extends Command {
-  signature = "search {query} {replace?} {--D|dir=.}"
+  static signature = "search {query} {replace?} {--D|dir=.}"
   protected exclude = ["package.json", "package-lock.json", "node_modules", ".git", ".gitignore", ".env", "tsconfig.json", "artisan", "artisan.ts", "dist", "artisan", "backup", "docs", "storage"];
 
   async handle() {

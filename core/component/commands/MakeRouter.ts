@@ -1,7 +1,7 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
 
 export default class MakeRouter extends ComponentGenerator {
-  signature = "make:router {name}";
+  static signature = "make:router {name}";
   
   protected template() {
     return "router";

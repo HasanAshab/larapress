@@ -3,7 +3,8 @@ import queue from "~/core/clients/queue";
 import fs from "fs";
 
 export default class Test extends Command {
-  signature = "test {a} {--B|ball} {--cks}";
+  static signature = "test {a} {--B|ball} {--cks}";
+  static bootApp = true;
   
   async handle(){
     console.log(this.arguments())

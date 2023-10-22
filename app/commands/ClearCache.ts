@@ -4,8 +4,9 @@ import Cache from "Cache";
 import { execSync } from "child_process";
 
 export default class ClearCache extends Command {
-  signature = "clear:cache {--driver=}";
-
+  static signature = "clear:cache {--driver=}";
+  //static description = 
+  
   async handle() {
     const driver = this.option("driver");
     if(driver){

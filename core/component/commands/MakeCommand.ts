@@ -1,7 +1,7 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
 
 export default class MakeCommand extends ComponentGenerator {
-  signature = "make:command {name}";
+  static signature = "make:command {name}";
   
   protected template() {
     return "command";

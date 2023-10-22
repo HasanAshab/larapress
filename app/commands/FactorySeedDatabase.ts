@@ -4,7 +4,7 @@ import DB from "DB";
 import DatabaseSeeder from "~/database/seeders/DatabaseSeeder";
 
 export default class FactorySeedDatabase extends Command {
-  signature = "db:seedFactory {model} {count}";
+  static signature = "db:seedFactory {model} {count}";
   
   async handle() {
     await DB.connect();

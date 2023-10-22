@@ -1,7 +1,7 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
 
 export default class MakePlugin extends ComponentGenerator {
-  signature = "make:plugin {name}";
+  static signature = "make:plugin {name}";
   
   protected template() {
     return "plugin";

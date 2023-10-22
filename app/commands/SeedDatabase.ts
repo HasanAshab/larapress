@@ -4,7 +4,7 @@ import DB from "DB";
 import DatabaseSeeder from "~/database/seeders/DatabaseSeeder";
 
 export default class SeedDatabase extends Command {
-  signature = "db:seed {--seeder=}";
+  static signature = "db:seed {--seeder=}";
   
   async handle() {
     let seeder;

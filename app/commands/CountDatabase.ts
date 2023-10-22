@@ -4,7 +4,7 @@ import DB from "DB";
 import DatabaseSeeder from "~/database/seeders/DatabaseSeeder";
 
 export default class CountDatabase extends Command {
-  signature = "db:count {--model=}";
+  static signature = "db:count {--model=}";
   
   private total = 0;
   

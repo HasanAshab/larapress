@@ -37,7 +37,6 @@ describe("user", () => {
   });
   
   it("should get profile", async () => {
-    console.log(User.findOneOrFail)
     const response = await request.get("/users/me").actingAs(token);
     expect(response.statusCode).toBe(200);
     delete user.password;
@@ -67,11 +66,10 @@ describe("user", () => {
     Storage.assertNothingStored();
   });
 
-  it.only("Shouldn't update profile with existing username", async () => {
+  it("Shouldn't update profile with existing username", async () => {
     const existingUser = await User.factory().create();
     const usernameBefore = user.username;
     const response = await request.put("/users/me").actingAs(token).send({ username: existingUser.username });
-    console.log(response.body)
     await user.refresh();
     expect(response.statusCode).toBe(400);
     expect(user.username).toBe(usernameBefore);

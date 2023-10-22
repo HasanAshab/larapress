@@ -1,7 +1,7 @@
 import { ArrayToParamsObj } from "types";
 
 export default abstract class Command {
-  abstract public signature: string;
+  static description = "";
   abstract public handle(): void | Promise<void>;
 
   setup(caller: Function, args = {}, opts = {}, fromShell = true) {

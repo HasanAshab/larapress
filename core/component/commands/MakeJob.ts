@@ -1,7 +1,7 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
 
 export default class MakeJob extends ComponentGenerator {
-  signature = "make:job {name}";
+  static signature = "make:job {name}";
   
   protected template() {
     return "job";

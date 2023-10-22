@@ -1,7 +1,7 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
 
 export default class MakeFactory extends ComponentGenerator {
-  signature = "make:factory {name}";
+  static signature = "make:factory {name}";
   
   protected template() {
     return "factory";

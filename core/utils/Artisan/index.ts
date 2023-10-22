@@ -63,9 +63,10 @@ export default class Artisan {
         const fullPath = base(dir, fileName);
         const Command = require(fullPath).default;
         if(typeof Command === "function" && Command.prototype instanceof BaseCommand) {
-          const command = new Command();
-          const [ base, pattern ] = this.parseSignature(command.signature);
-          map[base] = [fullPath, pattern];
+          if(!Command.signature)
+            throw new Error(`Signature required in command: "${path.join(dir, fileName)}"`);
+          const [ base, pattern ] = this.parseSignature(Command.signature);
+          map[base] = [fullPath, pattern, Command.description];
         }
       });
     });

@@ -6,7 +6,7 @@ import componentsPath from "~/core/component/paths";
 
 
 export default class MakeAdmin extends Command {
-  signature = "create:admin {name?} {username} {email} {password}";
+  static signature = "create:admin {name?} {username} {email} {password}";
   
   async handle() {
     await DB.connect();

@@ -1,7 +1,7 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
 
 export default class MakeMail extends ComponentGenerator {
-  signature = "make:mail {name}";
+  static signature = "make:mail {name}";
   
   protected template() {
     return "mail";
