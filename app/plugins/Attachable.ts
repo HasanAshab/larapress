@@ -46,7 +46,7 @@ export default (schema: Schema, options: Record<string, FieldOptions>) => {
   schema.methods.attach = async function (field: string, file: UploadedFile) {
     const fileMeta: FileMeta = { name: '', url: '' };
     fileMeta.name = await Storage.putFile("public/uploads", file);
-    fileMeta.url = await URL.signedRoute("file.serve", { path: "uploads/" + fileMeta.name });
+    fileMeta.url = URL.route("file.serve", { path: "uploads/" + fileMeta.name });
     if(Array.isArray(this[field]!))
       this[field]!.push(fileMeta)
     else

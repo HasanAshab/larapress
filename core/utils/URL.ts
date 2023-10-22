@@ -24,15 +24,18 @@ export default class URL {
     if(!endpoint) 
       throw new Error(`No url registered with name "${name}"`);
     if (data) {
-      const regex = /:(\w+)/g;
-      const params = endpoint.match(regex);
-      if (params) {
-        for (const param of params) {
-          endpoint = endpoint.replace(param, data[param.slice(1)]?.toString())
-        }
-      }
+      this.resolveDynamicEndpoint(endpoint, data);
     }
     return this.resolve(endpoint);
+  }
+  
+  static resolveDynamicEndpoint(endpoint: string, data: Record < string, string | number >) {
+    const params = endpoint.match(/:(\w+)/g);
+    if (params) {
+      for (const param of params) {
+        endpoint = endpoint.replace(param, data[param.slice(1)]?.toString())
+      }
+    }
   }
 
   static signedRoute(routeName: string, data?: Record<string, string | number>) {
@@ -51,18 +54,17 @@ export default class URL {
     const urlParts = url.split('&');
     const signaturePart = urlParts.find((part) => part.startsWith('signature='));
     const expPart = urlParts.find((part) => part.startsWith('exp='));
-    if (!signaturePart) 
+    if (!signaturePart)
       return false;
     const secretKey = config.get("app.key");
     if (expPart) {
       const signature = signaturePart.split('=')[1];
       const expTimestamp = parseInt(expPart.split('=')[1]);
-      const nowTimestamp = Date.now(); // Current timestamp in milliseconds
-  
-      if (nowTimestamp > expTimestamp)
+
+      if (Date.now() > expTimestamp)
         return false;
-  
-      const urlWithoutSignature = url.replace(`&${signaturePart}`, `&${expPart}`);
+
+      const urlWithoutSignature = url.replace(`&${signaturePart}`, '');
       const computedSignature = crypto
         .createHmac('sha256', secretKey)
         .update(urlWithoutSignature)

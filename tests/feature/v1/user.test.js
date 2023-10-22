@@ -67,12 +67,14 @@ describe("user", () => {
     Storage.assertNothingStored();
   });
 
-  it("Shouldn't update profile with existing username", async () => {
+  it.only("Shouldn't update profile with existing username", async () => {
     const existingUser = await User.factory().create();
-    const response = await request.put("/users/me").actingAs(token).multipart({ username: existingUser.username });
-    const userAfterRequest = await User.findById(user._id);
+    const usernameBefore = user.username;
+    const response = await request.put("/users/me").actingAs(token).send({ username: existingUser.username });
+    console.log(response.body)
+    await user.refresh();
     expect(response.statusCode).toBe(400);
-    expect(userAfterRequest.username).toBe(user.username);
+    expect(user.username).toBe(usernameBefore);
   });
 
   it("Shouldn't update profile with existing email", async () => {

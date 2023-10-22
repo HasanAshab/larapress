@@ -6,7 +6,6 @@ global.beforeEach = function(cb) {
 }
 
 const realIt = global.it;
-const realBeforeAll = global.beforeAll;
 
 const runTest = function(method, summery, config, cb) {
   const wrappedCb = async () => {
@@ -33,20 +32,4 @@ global.it.skip = (...args) => {
 
 global.it.only = (...args) => {
   runTest("only", ...args);
-}
-
-global.beforeAll = function(setup) {
-  const wrapped = function() {
-    return new Promise(resolve => {
-      app.booted && setup.then(() => {
-        resolve()
-      });
-      app.on("booted", () => {
-        setup.then(() => {
-          resolve()
-        });
-      });
-    });
-  }
-   realBeforeAll(setup)
 }

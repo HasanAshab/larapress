@@ -15,38 +15,36 @@ export default class Application extends EventEmitter {
   private registeredProviders = [];
   private bootingCallbacks = [];
 
-  async bootstrap() {
+  constructor() {
+    super();
     if(this.runningInWeb()) {
       this.http = express();
       this.addCustomHttpHelpers();
     }
     this.registerBaseServiceProviders();
-    await this.discoverExternalServiceProviders();
-    await this.bootProviders();
-    this.flush();
-    this.booted = true;
+    this.discoverExternalServiceProviders();
+    this.bootProviders();
     this.emit("booted");
+    this.flush();
   }
   
-  private async bootProviders() {
-    return Promise.all(this.bootingCallbacks.map(cb => cb()));
+  private bootProviders() {
+    this.bootingCallbacks.forEach(cb => cb());
   }
-  
+    
   private registerBaseServiceProviders() {
     this.register(DatabaseServiceProvider);
     this.register(EventServiceProvider);
     this.register(RouteServiceProvider);
   }
   
-  private async discoverExternalServiceProviders() {
-    const providerFilesName = await fs.promises.readdir(this.providersBaseDir)
-    const registerPromises = providerFilesName.map(fileName => this.foo(fileName));
-    await Promise.all(registerPromises);
-  }
-  private async foo(fileName: string) {
-    const { default: Provider } = await import("~/" + this.providersBaseDir + "/" + fileName);
-    if(Provider.prototype instanceof ServiceProvider)
+  private discoverExternalServiceProviders() {
+    const providersBaseDir = "app/providers";
+    const providersFullName = fs.readdirSync(providersBaseDir);
+    for(const providerFullName of providersFullName){
+      const Provider = require("~/" + providersBaseDir + "/" + providerFullName.split(".")[0]).default;
       this.register(Provider);
+    }
   }
   
   private addCustomHttpHelpers() {
