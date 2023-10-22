@@ -4,7 +4,6 @@ import crypto from "crypto";
 import Router from "Router";
 
 export default class URL {
-
   static add(name: string, urlPattern: string) {
     Router.$namedUrls[name] = urlPattern;
   }

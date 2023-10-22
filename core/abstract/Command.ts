@@ -1,4 +1,4 @@
-import { ArrayToParamsObj } from "types";
+import chalk from 'chalk';
 
 export default abstract class Command {
   static description = "";
@@ -37,9 +37,9 @@ export default abstract class Command {
     if (this.fromShell) console.log("\x1b[33m", text, "\x1b[0m");
   }
 
-  protected success(text = "") {
+  protected success(text?: string) {
     if (this.fromShell) {
-      console.log("\x1b[32m", "\n", text, "\n", "\x1b[0m");
+      text && console.log("\n", chalk.green(text));
       process.exit(1);
     }
   }
