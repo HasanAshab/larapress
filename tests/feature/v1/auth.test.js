@@ -32,7 +32,7 @@ describe("Auth", () => {
       username: "foobar123",
       email: "foo@gmail.com",
       password: "Password@1234",
-      logo: fakeFile("image.png")
+      profile: fakeFile("image.png")
     };
     Storage.mock();
     const response = await request.post("/auth/register").multipart(data);
@@ -43,7 +43,7 @@ describe("Auth", () => {
     Storage.assertStored("image.png");
   });
 
-  it("should register a user without logo", async () => {
+  it("should register a user without profile", async () => {
     const data = {
       username: "foobar123",
       email: "foo@gmail.com",

@@ -10,7 +10,7 @@ export default class UpdateProfileRequest extends AuthenticRequest {
   };
   
   files!: {
-    logo?: UploadedFile
+    profile?: UploadedFile
   }
 
   static rules() {
@@ -18,7 +18,7 @@ export default class UpdateProfileRequest extends AuthenticRequest {
       name: Validator.string().min(3).max(25).sanitize(),
       username: Validator.string().alphanum().min(3).max(12).external(unique("User", "username")),
       email: Validator.string().email().external(unique("User", "email")),
-      logo: Validator.file().parts(1).max(1000*1000).mimetypes(["image/jpeg", "image/png"])
+      profile: Validator.file().parts(1).max(1000*1000).mimetypes(["image/jpeg", "image/png"])
     }
   }
 }

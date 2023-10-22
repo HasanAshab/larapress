@@ -13,10 +13,10 @@ import OtpRequiredException from "~/app/exceptions/OtpRequiredException";
 @singleton()
 export default class AuthService {
   constructor(private readonly twoFactorAuthService: TwoFactorAuthService, private readonly mutex: Mutex) {}
-  async register(email: string, username: string, password: string, logo?){
+  async register(email: string, username: string, password: string, profile?){
     const user = new User({ email, username });
     await user.setPassword(password);
-    logo && await user.attach("logo", logo);
+    profile && await user.attach("profile", profile);
     await user.save();
     return user;
   }
@@ -81,7 +81,7 @@ export default class AuthService {
         name: externalUser.name,
         email: externalUser.email,
         verified: true,
-        "logo.url": externalUser.picture
+        "profile.url": externalUser.picture
       },
       { new: true }
     );
@@ -111,7 +111,7 @@ export default class AuthService {
       email: externalUser.email ?? email,
       username,
       verified: true,
-      "logo.url": externalUser.picture
+      "profile.url": externalUser.picture
     });
     return user.createToken();
   }

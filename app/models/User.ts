@@ -63,7 +63,7 @@ UserSchema.plugin(Authenticatable);
 UserSchema.plugin(HasFactory);
 UserSchema.plugin(HasApiTokens);
 UserSchema.plugin(Notifiable);
-UserSchema.plugin(Attachable, { logo: {} });
+UserSchema.plugin(Attachable, { profile: {} });
 UserSchema.plugin(hidden(), { hidden: { _id: false } });
 //UserSchema.plugin(Billable);
 UserSchema.plugin(Cascade, [
@@ -85,7 +85,7 @@ export interface IUser {
   password: string | null;
   role: "admin" | "novice";
   verified: boolean;
-  logo: FileMeta | null;
+  profile: FileMeta | null;
   recoveryCodes: string[];
 }
 

@@ -10,7 +10,7 @@ export default class RegisterRequest extends Request {
   };
   
   files!: {
-    logo?: UploadedFile
+    profile?: UploadedFile
   }
   
   static rules() {
@@ -22,7 +22,7 @@ export default class RegisterRequest extends Request {
         .regex(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/)
         .message('{#label} must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, one digit, and one special character (@ $ ! % * ? &)')
         .required(),
-      logo: Validator.file().parts(1).max(1).mimetypes(["image/jpeg", "image/png"])
+      profile: Validator.file().parts(1).max(1).mimetypes(["image/jpeg", "image/png"])
     }
   }
 }

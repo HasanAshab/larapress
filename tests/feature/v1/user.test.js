@@ -47,7 +47,7 @@ describe("user", () => {
     Storage.mock();
     const response = await request.put("/users/me").actingAs(token).multipart({
       username: "newName",
-      logo: fakeFile("image.png")
+      profile: fakeFile("image.png")
     });
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
@@ -57,7 +57,7 @@ describe("user", () => {
     Storage.assertStored("image.png");
   });
 
-  it("Should update profile without logo", async () => {
+  it("Should update profile without profile", async () => {
     Storage.mock();
     const response = await request.put("/users/me").actingAs(token).multipart({ username: "newName" });
     user = await User.findById(user._id);
