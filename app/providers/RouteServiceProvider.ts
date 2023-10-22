@@ -10,7 +10,7 @@ import URL from "URL";
 import Router from "Router";
 
 export default class RouteServiceProvider extends ServiceProvider {
-  async boot() {
+  boot() {
     if(this.app.runningInConsole())
       return;
     this.registerSecurityMiddlewares();

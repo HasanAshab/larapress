@@ -7,7 +7,7 @@ import Paginate from "~/core/plugins/Paginate";
 import Policy from "~/core/plugins/Policy";
 
 export default class DatabaseServiceProvider extends ServiceProvider {
-  async boot() {
+  boot() {
     this.useGlobalPlugins();
   }
   

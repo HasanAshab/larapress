@@ -5,7 +5,7 @@ import config from "config";
 import IORedis from "ioredis";
 
 export default class QueueServiceProvider extends ServiceProvider {
-  async register() {
+  register() {
     const queue = new Queue("default", config.get("cache.stores.redis.url"), config.get("queue"));
     container.register(Queue, { useValue: queue });
   }

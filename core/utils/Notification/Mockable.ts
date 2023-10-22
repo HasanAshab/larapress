@@ -31,8 +31,9 @@ export default class Mockable {
     const notifiablesId = Array.isArray(notifiables) ? notifiables.map((notifiable) => notifiable._id).sort() : [notifiables._id];
     const sentNotifiablesId = this.mocked[notification].sort();
     expect(sentNotifiablesId).toHaveLength(notifiablesId.length);
-    for(let i = 0; i < notifiablesId.length; i++)
+    for(let i = 0; i < notifiablesId.length; i++) {
       expect(sentNotifiablesId[i].toString()).toBe(notifiablesId[i].toString());
+    }
   }
   
   static assertNothingSent(){

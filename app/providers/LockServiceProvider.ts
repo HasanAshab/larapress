@@ -3,9 +3,8 @@ import { container } from "tsyringe";
 import { Mutex } from 'async-mutex';
 
 export default class LockServiceProvider extends ServiceProvider {
-  async register() {
-    if(this.app.runningInWeb()) {
+  register() {
+    if(this.app.runningInWeb())
       container.register(Mutex, { useValue: new Mutex() });
-    }
   }
 }

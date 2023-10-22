@@ -7,12 +7,12 @@ import Memory from "~/core/utils/Cache/drivers/Memory";
 import Redis from "~/core/utils/Cache/drivers/Redis";
 
 export default class CacheServiceProvider extends ServiceProvider {
-  async register() {
+  register() {
     const redis = new IORedis(config.get("cache.stores.redis"));
     container.register(IORedis, { useValue: redis });
   }
   
-  async boot() {
+  boot() {
     Cache.repository(new Memory());
     Cache.repository(new Redis());
   }

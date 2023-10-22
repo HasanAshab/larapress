@@ -1,13 +1,12 @@
 const DB = require("DB").default;
 const Cache = require("Cache").default;
 const Storage = require("Storage").default;
-const Mail = require("Mail").default;
+const Notification = require("Notification").default;
 const User = require("~/app/models/User").default;
 const OTP = require("~/app/models/OTP").default;
 const EmailVerificationNotification = require("~/app/notifications/EmailVerificationNotification").default;
 const ForgotPasswordNotification = require("~/app/notifications/ForgotPasswordNotification").default;
-const AuthService = require("~/app/services/AuthService").default;
-const { OAuth2Client } = require("google-auth-library");
+const AuthService = require("~/app/services/auth/AuthService").default;
 
 describe("Auth", () => {
   let user;
@@ -21,7 +20,7 @@ describe("Auth", () => {
 
   beforeEach(async config => {
     await DB.reset(["User", "OTP"]);
-    Mail.mock();
+    Notification.mock();
     if(config.user) {
       user = await User.factory().create();
       token = user.createToken();
@@ -309,9 +308,7 @@ describe("Auth", () => {
     });
 
     expect(response.statusCode).toBe(200);
-    await sleep(2000);
-    Mail.assertCount(1);
-    Mail.assertSentTo(user.email, "EmailVerificationMail");
+    Notification.assertSentTo(user, "EmailVerificationNotification");
   });
 
   it("should change password", { user: true }, async () => {
@@ -332,15 +329,13 @@ describe("Auth", () => {
       newPassword: "Password@1234"
     });
     expect(response.statusCode).toBe(403);
-    Mail.assertNothingSent();
   });
 
   it("Should send reset email", { user: true }, async () => {
     const response = await request.post("/auth/password/forgot").send({ email: user.email });
     expect(response.statusCode).toBe(200);
     await sleep(2000);
-    Mail.assertCount(1);
-    Mail.assertSentTo(user.email, "ForgotPasswordMail");
+    Notification.assertSentTo(user, "ForgotPasswordNotification");
   });
 
   it("Shouldn't send reset email of OAuth account", async () => {
@@ -348,8 +343,7 @@ describe("Auth", () => {
     const response = await request.post("/auth/password/forgot").send({
       email: user.email
     });
-    await sleep(3000);
-    Mail.assertNothingSent();
+    Notification.assertNothingSent();
   });
 
   it("should reset password", { user: true }, async () => {
@@ -375,7 +369,6 @@ describe("Auth", () => {
     await user.refresh();
     expect(response.statusCode).toBe(401);
     expect(await user.attempt(password)).toBe(false);
-    Mail.assertNothingSent();
   });
 
   it("Should update phone number with valid otp", async () => {

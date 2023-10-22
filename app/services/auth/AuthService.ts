@@ -18,7 +18,7 @@ export default class AuthService {
     await user.setPassword(password);
     logo && await user.attach("logo", logo);
     await user.save();
-    return user.createToken();
+    return user;
   }
   
   async login(email: string, password: string, otp?: number) {
@@ -44,7 +44,7 @@ export default class AuthService {
     const isValid = await this.twoFactorAuthService.verifyOtp(user, twoFactorAuth.method, otp);
     if (isValid)
       return true;
-    await this.incrementFailedAttempt(email);
+    await this.incrementFailedAttempt(user.email);
     throw new InvalidOtpException();
   }
   

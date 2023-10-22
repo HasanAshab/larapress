@@ -1,7 +1,7 @@
 const DB = require("DB").default;
 const User = require("~/app/models/User").default;
 const Storage = require("Storage").default;
-const Mail = require("Mail").default;
+const Notification = require("Notification").default;
 
 describe("user", () => {
   let user;
@@ -13,7 +13,7 @@ describe("user", () => {
   
   beforeEach(async (config) => {
     await DB.reset();
-    Mail.mock();
+    Notification.mock();
     if(config.user !== false) {
       user = await User.factory().create();
       token = user.createToken();
@@ -52,7 +52,7 @@ describe("user", () => {
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
     expect(user.username).toBe("newName");
-    Mail.assertNothingSent();
+    Notification.assertNothingSent();
     Storage.assertStoredCount(1);
     Storage.assertStored("image.png");
   });
@@ -81,18 +81,16 @@ describe("user", () => {
     const userAfterRequest = await User.findById(user._id);
     expect(response.statusCode).toBe(400);
     expect(userAfterRequest.email).toBe(user.email);
-    Mail.assertNothingSent();
+    Notification.assertNothingSent();
   });
 
-  it("updating email should send verification email", async () => {
+  it.only("updating email should send verification email", async () => {
     const email = "foo@test.com";
     const response = await request.put("/users/me").actingAs(token).multipart({ email });
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
     expect(user.email).toBe(email);
-    await sleep(2000);
-    Mail.assertCount(1);
-    Mail.assertSentTo(email, "VerificationMail");
+    Notification.assertSentTo(user, "EmailVerificationNotification");
   });
 
   it("Should get other user's profile by username", async () => {

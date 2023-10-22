@@ -8,7 +8,7 @@ class RouterOptions {
     this.stackIndex = stackIndex;
   }
 
-  middleware(...aliases: string[]) {
+  middleware(...aliases: keyof typeof middlewareAliases[]) {
     Router.$stack[this.stackIndex].middlewares.push(...aliases);
     return this;
   }

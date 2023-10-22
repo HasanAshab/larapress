@@ -29,10 +29,10 @@ export default class AuthController extends Controller {
   @RequestHandler
   async register(req: RegisterRequest, res: Response){
     const { email, username, password } = req.body;
-    const token = await this.authService.register(email, username, password, req.files.logo);
+    const user = await this.authService.register(email, username, password, req.files.logo);
     req.app.emit("Registered", user);
     res.status(201).api({
-      token,
+      token: user.createToken(),
       message: "Verification email sent!",
     });
   }
@@ -124,7 +124,7 @@ export default class AuthController extends Controller {
   };
  
   @RequestHandler
-  async changePhoneNumber(req: ChangePhoneNumberRequest, twoFactorAuthService: TwoFactorAuthService) {
+  async changePhoneNumber(req: ChangePhoneNumberRequest, res: Response, twoFactorAuthService: TwoFactorAuthService) {
     const { phoneNumber, otp } = req.body;
     if(req.user.phoneNumber && req.user.phoneNumber === phoneNumber)
       return res.status(400).message("Phone number is same as old one!");
