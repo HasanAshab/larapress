@@ -1,9 +1,9 @@
 import Controller from "~/core/abstract/Controller";
 import RequestHandler from "~/core/decorators/RequestHandler";
 import { AuthenticRequest, Response } from "~/core/express";
-import CreateContactRequest from "~/app/http/v1/requests/CreateContactRequest";
-import SearchContactRequest from "~/app/http/v1/requests/SearchContactRequest";
-import UpdateContactStatusRequest from "~/app/http/v1/requests/UpdateContactStatusRequest";
+import CreateContactRequest from "~/app/http/requests/v1/CreateContactRequest";
+import SearchContactRequest from "~/app/http/requests/v1/SearchContactRequest";
+import UpdateContactStatusRequest from "~/app/http/requests/v1/UpdateContactStatusRequest";
 import Contact from "~/app/models/Contact";
 import Cache from "Cache";
 import User from "~/app/models/User";

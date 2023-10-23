@@ -2,7 +2,7 @@ import Controller from "~/core/abstract/Controller";
 import RequestHandler from "~/core/decorators/RequestHandler";
 import { AuthenticRequest, Response } from "~/core/express";
 import User from "~/app/models/User";
-import UpdateProfileRequest from "~/app/http/v1/requests/UpdateProfileRequest";
+import UpdateProfileRequest from "~/app/http/requests/v1/UpdateProfileRequest";
 
 export default class UserController extends Controller {
   @RequestHandler

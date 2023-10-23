@@ -6,9 +6,9 @@ import config from "config";
 import Cache from "Cache";
 import Settings from "~/app/models/Settings";
 import TwoFactorAuthService from "~/app/services/auth/TwoFactorAuthService";
-import UpdateNotificationSettingsRequest from "~/app/http/v1/requests/UpdateNotificationSettingsRequest";
-import SetupTwoFactorAuthRequest from "~/app/http/v1/requests/SetupTwoFactorAuthRequest";
-import UpdateAppSettingsRequest from "~/app/http/v1/requests/UpdateAppSettingsRequest";
+import UpdateNotificationSettingsRequest from "~/app/http/requests/v1/UpdateNotificationSettingsRequest";
+import SetupTwoFactorAuthRequest from "~/app/http/requests/v1/SetupTwoFactorAuthRequest";
+import UpdateAppSettingsRequest from "~/app/http/requests/v1/UpdateAppSettingsRequest";
 
 export default class SettingsController extends Controller {
   @RequestHandler

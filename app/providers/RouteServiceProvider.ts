@@ -38,8 +38,8 @@ export default class RouteServiceProvider extends ServiceProvider {
   }
   
   private registerGlobalMiddlewares() {
-    for(version in globalMiddlewares) {
-      const middlewares = middleware(globalMiddlewares[version]);
+    for(const version in globalMiddlewares) {
+      const middlewares = middleware(...globalMiddlewares[version]);
       this.app.http.use(`/api/${version}/*`, ...middlewares);
     }
   }
