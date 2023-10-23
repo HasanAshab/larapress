@@ -5,6 +5,7 @@ import { exec } from "child_process";
 import fs from "fs";
 import swaggerUi from "swagger-ui-express";
 import { generateEndpoints } from "~/core/utils";
+import Router from "Router";
 
 export default class Documentation extends Command {
   static signature = "doc:generate";
@@ -12,6 +13,11 @@ export default class Documentation extends Command {
   private outputDir = "docs/public";
   private baseUrl = URL.resolve("docs");
   private docs: Record<string, Record<string, any>>;
+
+  async handle() {
+    console.log(Router.$stack);
+    this.success()
+  }
 
   async generate() {
     this.docs = require("~/docs/parse");
