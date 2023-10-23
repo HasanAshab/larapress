@@ -11,6 +11,8 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
   const paramTypes = Reflect.getMetadata("design:paramtypes", target, propertyKey);
   let rules = null;
   descriptor.value = async function(req, res, next){
+    if(env("NODE_ENV") === "doc")
+      return paramTypes;
     try {
       req.files = req.files ?? {};
       const args = [];

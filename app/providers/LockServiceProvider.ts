@@ -4,7 +4,6 @@ import { Mutex } from 'async-mutex';
 
 export default class LockServiceProvider extends ServiceProvider {
   register() {
-    if(this.app.runningInWeb())
-      container.register(Mutex, { useValue: new Mutex() });
+    container.register(Mutex, { useValue: new Mutex() });
   }
 }

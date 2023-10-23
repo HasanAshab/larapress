@@ -1,6 +1,8 @@
 import ServiceProvider from "~/core/abstract/ServiceProvider";
 import express from "express";
-import { middleware, generateEndpoints } from "~/core/utils";
+import swaggerUi from "swagger-ui-express";
+import docData from "~/docs/data";
+import { middleware } from "~/core/utils";
 import { globalMiddlewares } from "~/app/http/kernel"
 import cors from "cors";
 import helmet from "helmet";
@@ -16,6 +18,7 @@ export default class RouteServiceProvider extends ServiceProvider {
     this.registerSecurityMiddlewares();
     this.registerRequestPayloadParsers();
     this.registerGlobalMiddlewares();
+    this.serveDocs();
     this.discoverRoutes();
     this.serveStaticFolder();
     this.registerErrorHandlers();
@@ -26,6 +29,10 @@ export default class RouteServiceProvider extends ServiceProvider {
       origin: [URL.client()] 
     }));
     this.app.http.use(helmet());
+  }
+  
+  private serveDocs() {
+    this.app.http.use("/docs", swaggerUi.serve, swaggerUi.setup(docData));
   }
   
   private registerRequestPayloadParsers() {
@@ -54,12 +61,8 @@ export default class RouteServiceProvider extends ServiceProvider {
     this.app.http.all(...middlewares);
   }
   
-  private discoverRoutes() {
-    const routesEndpointPaths = generateEndpoints("routes");
-    for(const [endpoint, path] of Object.entries(routesEndpointPaths)) {
-      Router.$reset();
-      Router.prefix(endpoint).group(() => require(path));
-    }
+  discoverRoutes() {
+    Router.discover();
     this.app.http.use("/", Router.build());
   }
 }

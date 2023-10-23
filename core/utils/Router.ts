@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { join } from "path";
 import { Router as ExpressRouter } from "express";
-import { middleware } from "~/core/utils";
+import { middleware, generateEndpoints } from "~/core/utils";
 
 class RouterOptions {
   constructor(private readonly stackIndex: number) {
@@ -128,6 +128,13 @@ export default class Router {
     return middleware(...args);
   }
   
+  static discover(base = "routes") {
+    const routesEndpointPaths = generateEndpoints(base);
+    for(const [endpoint, path] of Object.entries(routesEndpointPaths)) {
+      Router.$reset();
+      Router.prefix(endpoint).group(() => require(path));
+    }
+  }
   static build() {
     const router = ExpressRouter();
 

@@ -1,92 +1,60 @@
 import Command from "~/core/abstract/Command";
-import URL from "URL"
-import { exec } from "child_process";
-//import app from "~/main/app";
+import baseDoc from "~/docs/base";
 import fs from "fs";
-import swaggerUi from "swagger-ui-express";
-import { generateEndpoints } from "~/core/utils";
+import { Request, AuthenticRequest } from "~/core/express";
 import Router from "Router";
 
 export default class Documentation extends Command {
   static signature = "doc:generate";
   
-  private outputDir = "docs/public";
-  private baseUrl = URL.resolve("docs");
-  private docs: Record<string, Record<string, any>>;
-
+  // TODO Need Authentication (Bearer Token)
   async handle() {
-    console.log(Router.$stack);
-    this.success()
-  }
-
-  async generate() {
-    this.docs = require("~/docs/parse");
-    this.info("starting server...");
-    this.setupServer();
-    for (const version of Object.keys(this.docs)){
-      this.info(`******\t${version.toUpperCase()}\t******`);
-      await exec("mkdir -p " + "/docs/public/" + version)
-      this.info("fetching index.html...");
-      const response = await fetch(`${this.baseUrl}/${version}/docs`);
-      const html = await response.text();
-      fs.writeFileSync(`${this.outputDir}/${version}/index.html`, html);
-      const regex = /(?:href|src)="([^"]+\.(?:css|js|png|gif|jpg|jpeg|svg|ico))"/g;
-      const matches = [...html.matchAll(regex)];
-      this.info("fetching static files...");
-      const staticfileNames = matches.map((match) => match[1].replace("./", ""));
-      await this.fetchStaticFiles(version, staticfileNames);
-    }
-    this.success(`API Documentation generated on ${this.outputDir}`);
-  }
-  private async fetchStaticFiles(version: string, staticfileNames: string[]) {
-    for (const name of staticfileNames) {
-      this.info(`fetching ${name}...`);
-      const response = await fetch(`${this.baseUrl}/${version}/${name}`);
-      const html = await response.text();
-      await fs.promises.writeFile(`${this.outputDir}/${version}/${name}`, html);
-    }
-  }
-  private setupServer() {
-    for (const [version, doc] of Object.entries(this.docs)){
-      app.use(`/docs/${version}`, swaggerUi.serve, swaggerUi.setup(doc));
-    }
-    const server = app.listen(8000, () => {
-      this.info("server started...");
-    });
-  }
-  
-  async uncovered() {
-    const eps = this.getAllEndpoints();
-    const docsTree = generateEndpoints("docs/parts");
-    for(const [pathRegex, methods] of eps) {
-      for(const documentedPath in docsTree){
-        console.log(pathRegex.test(documentedPath))
-        pathRegex.test(documentedPath) && eps.delete()
-      }
-    }
-    console.log(eps)
+    process.env.NODE_ENV = "doc";
+    Router.discover();
+    const docData = await this.generateDocData();
+    await fs.promises.writeFile(base("docs/data.json"), JSON.stringify(docData));
     this.success()
   }
   
-  private getAllEndpoints() {
-    const endpoints = new Map();
-    const traverse = (layer, parentPath = '') => {
-      if (layer.route) {
-        const regex = new RegExp(parentPath + layer.route.path)
-        const methods = Object.keys(layer.route.methods);
-        endpoints.set(regex, methods);
-      }
-      else if (layer.name === 'router' && layer.handle.stack) {
-        layer.handle.stack.forEach((middleware) => {
-          traverse(middleware, parentPath + layer.regexp);
-        });
-      }
-    }
   
-    app._router.stack.forEach((middleware) => {
-      traverse(middleware);
-    });
-    return endpoints;
-  }
+  private async generateDocData() {
+    for(const stack of Router.$stack) {
+      const subDoc = { parameters: [] };
+      const [ Controller, action ] = stack.metadata;
+      const controller = new Controller();
+      const paramTypes = await controller[action]();
+      const CustomRequest = paramTypes.find(paramType => paramType.prototype instanceof Request)
+      if(stack.middlewares.includes("auth")) {
+        const parameter = {
+          required: true,
+          in: "header",
+          name: "Authorization",
+          type: "string",
+          format: "bearer",
+        };
+        const roles = stack.middlewares.find(alias => alias.startsWith("roles:"))?.split(":")[1];
+        if(roles) {
+          parameter.description = "Bearer token of role: " + roles;
+        }
+        subDoc.parameters.push(parameter);
+      }
+      if(CustomRequest?.rules) {
+        const rules = CustomRequest.rules();
+        for(const name in rules) {
+          subDoc.parameters.push({
+            name,
+            in: "body",
+            type: rules[name].type,
+            required: rules[name]._flags?.presence === "required",
+          });
+        }
+      }   
 
+      if(baseDoc.paths[stack.path])
+        baseDoc.paths[stack.path][stack.method] = subDoc;
+      else 
+        baseDoc.paths[stack.path] = { [stack.method]: subDoc };
+    }
+    return baseDoc;
+  }
 }
