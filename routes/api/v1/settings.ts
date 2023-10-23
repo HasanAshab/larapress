@@ -1,5 +1,5 @@
 import Router from "Router";
-import SettingsController from "~/app/http/v1/controllers/SettingsController";
+import SettingsController from "~/app/http/controllers/v1/SettingsController";
 
 
 Router.controller(SettingsController).group(() => {

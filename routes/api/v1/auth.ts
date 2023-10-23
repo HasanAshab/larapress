@@ -1,5 +1,5 @@
 import Router from "Router";
-import AuthController from "~/app/http/v1/controllers/AuthController";
+import AuthController from "~/app/http/controllers/v1/AuthController";
 
 /**
  * Endpoints to authenticate users

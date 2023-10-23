@@ -19,19 +19,12 @@ import { middlewareAliases } from "~/app/http/kernel";
  * middleware("foo", "bar")
  * middleware("foo:opt1", "bar:opt1,opt2")
 */
-export function middleware(...args: [string, MiddlewareKeyWithOptions[]] | MiddlewareKeyWithOptions[]): RequestHandler[] {
-  const parseArgs = () => {
-    return Array.isArray(args[1])
-      ? [args[0], args[1]]
-      : [getVersion(), args];
-  }
-  const [version, keysWithOptions] = parseArgs();
+export function middleware(...keysWithOptions: MiddlewareKeyWithOptions[]): RequestHandler[] {
   const handlers = [];
   keysWithOptions.forEach(keyWithOptions => {
     const [key, optionString] = keyWithOptions.split(":");
     const options = optionString ? optionString.split(",") : [];
-    const middlewarePath = middlewareAliases[key].replace("<version>", version);
-    const MiddlewareClass = require(middlewarePath).default;
+    const MiddlewareClass = require(middlewareAliases[key]).default;
     const middleware = new MiddlewareClass();
     let handler: RequestHandler;
     if(middleware.errorHandler) {
@@ -53,26 +46,6 @@ export function middleware(...args: [string, MiddlewareKeyWithOptions[]] | Middl
   });
   return handlers;
 }
-
-
-/**
- * Get version from call location or provide a path explicitly to get its version
-*/ 
-export function getVersion(path?: string): string {
-  let target: string;
-  if (typeof path === "undefined") {
-    const error = new Error();
-    const stackTrace = error.stack;
-    if (!stackTrace) throw new Error("Failed to auto infer version. try to pass path explicitly!");
-    target = stackTrace
-  } else target = path;
-  const regex = /\/(v\d+)\//;
-  const match = target.match(regex);
-  if (!match) throw new Error('Not a nested versional path!\n Call Stack or Path:\n' + target);
-  return match[1];
-}
-
-export const getVersions =  () => fs.readdirSync("routes/api");
 
 /**
  * Generates endpoints of a directory.

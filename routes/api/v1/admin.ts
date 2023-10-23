@@ -1,6 +1,6 @@
 import Router from "Router";
-import DashboardController from "~/app/http/v1/controllers/DashboardController";
-import CategoryController from "~/app/http/v1/controllers/CategoryController";
+import DashboardController from "~/app/http/controllers/v1/DashboardController";
+import CategoryController from "~/app/http/controllers/v1/CategoryController";
 
 
 Router.middleware(["auth", "roles:admin"]).group(() => {

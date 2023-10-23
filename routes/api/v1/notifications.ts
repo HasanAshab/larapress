@@ -1,5 +1,5 @@
 import Router from "Router";
-import NotificationController from "~/app/http/v1/controllers/NotificationController";
+import NotificationController from "~/app/http/controllers/v1/NotificationController";
 
 // Endpoints for notification
 

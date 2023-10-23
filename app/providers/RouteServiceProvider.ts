@@ -1,6 +1,6 @@
 import ServiceProvider from "~/core/abstract/ServiceProvider";
 import express from "express";
-import { middleware, getVersions, generateEndpoints } from "~/core/utils";
+import { middleware, generateEndpoints } from "~/core/utils";
 import { globalMiddlewares } from "~/app/http/kernel"
 import cors from "cors";
 import helmet from "helmet";
@@ -38,10 +38,10 @@ export default class RouteServiceProvider extends ServiceProvider {
   }
   
   private registerGlobalMiddlewares() {
-    getVersions().forEach(version => {
-      const middlewares = middleware(version, globalMiddlewares);
+    for(version in globalMiddlewares) {
+      const middlewares = middleware(globalMiddlewares[version]);
       this.app.http.use(`/api/${version}/*`, ...middlewares);
-    });
+    }
   }
   
   private serveStaticFolder() {
@@ -50,10 +50,8 @@ export default class RouteServiceProvider extends ServiceProvider {
   }
   
   private registerErrorHandlers() {
-    getVersions().forEach(version => {
-      const middlewares = middleware(version, ["global.responser", "error.handle"]);
-      this.app.http.use(`/api/${version}/*`, ...middlewares);
-    });
+    const middlewares = middleware("global.responser", "error.handle");
+    this.app.http.all(...middlewares);
   }
   
   private discoverRoutes() {
