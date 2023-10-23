@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { join } from "path";
 import { Router as ExpressRouter } from "express";
-import { middlewareAliases } from "~/app/http/kernel";
+import { middleware } from "~/core/utils";
 
 class RouterOptions {
   constructor(private readonly stackIndex: number) {
@@ -22,7 +22,6 @@ class RouterOptions {
 
 export default class Router {
   static $config = {
-    version: null,
     prefix: "/",
     as: "",
     controller: null,
@@ -30,6 +29,15 @@ export default class Router {
   }
   static $stack = [];
   static $namedUrls = {};
+  
+  static $reset() {
+    Router.$config = {
+      prefix: "/",
+      as: "",
+      controller: null,
+      middlewares: []
+    };
+  }
   
   static $add(method: string, endpoint: string, metadata) {
     const path = join(Router.$config.prefix, endpoint);
@@ -116,48 +124,8 @@ export default class Router {
     return { group };
   }
   
-  static setup(version: string, prefix: string) {
-    Router.$config = {
-      prefix,
-      as: "",
-      version,
-      controller: null,
-      middlewares: []
-    };
-  }
   static getMiddleware(...args) {
-    const parseArgs = () => {
-      return Array.isArray(args[1])
-        ? [args[0], args[1]]
-        : [Router.$config.version, args];
-    }
-    const [version, keysWithOptions] = parseArgs();
-    const handlers = [];
-    keysWithOptions.forEach(keyWithOptions => {
-      const [key, optionString] = keyWithOptions.split(":");
-      const options = optionString ? optionString.split(",") : [];
-      const middlewarePath = middlewareAliases[key].replace("<version>", version);
-      const MiddlewareClass = require(middlewarePath).default;
-      const middleware = new MiddlewareClass();
-      let handler: RequestHandler;
-      if(middleware.errorHandler) {
-        handler = function(err: any, req: Request, res: Response, next: NextFunction) {
-          return middleware.handle(err, req, res, next, ...options);
-        }
-      }
-      else {
-        handler = async function(req: Request, res: Request, next: NextFunction) {
-          try {
-            return await middleware.handle(req, res, next, ...options);
-          }
-          catch(err) {
-            next(err)
-          }
-        }
-      }
-      handlers.push(handler);
-    });
-    return handlers;
+    return middleware(...args);
   }
   
   static build() {
