@@ -1,28 +1,12 @@
-import ServiceProvider from "~/core/abstract/ServiceProvider";
+import ServiceProvider from "~/core/providers/EventServiceProvider";
 
 export default class EventServiceProvider extends ServiceProvider {
-  private eventsMap = {
+  private events = {
     Registered: [
-      "CreateUserDefaultSettings",
-      "SendEmailVerificationNotification",
-      "SendNewUserJoinedNotificationToAdmins"
+      "~/app/listeners/CreateUserDefaultSettings",
+      "~/app/listeners/SendEmailVerificationNotification",
+      "~/app/listeners/SendNewUserJoinedNotificationToAdmins"
     ],
-    foo: ["Test"],
-    //foo2: ["Test2"]
-  }
-  
-  boot() {
-    if(this.app.runningInWeb())
-      this.subscribeListeners();
-  }
-  
-  private subscribeListeners() {
-    for (const [event, listenerNames] of Object.entries(this.eventsMap)) {
-      for (const listenerName of listenerNames) {
-        const Listener = require(`~/app/listeners/${listenerName}`).default;
-        const listenerInstance = new Listener();
-        this.app.http.on(event, listenerInstance.dispatch.bind(listenerInstance));
-      }
-    }
+    foo: ["~/app/listeners/Test", "~/app/listeners/Test2"],
   }
 }

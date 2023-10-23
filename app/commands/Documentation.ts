@@ -7,9 +7,7 @@ import Router from "Router";
 export default class Documentation extends Command {
   static signature = "doc:generate";
   
-  // TODO Need Authentication (Bearer Token)
   async handle() {
-    process.env.NODE_ENV = "doc";
     Router.discover();
     const docData = await this.generateDocData();
     await fs.promises.writeFile(base("docs/data.json"), JSON.stringify(docData));
@@ -21,8 +19,7 @@ export default class Documentation extends Command {
     for(const stack of Router.$stack) {
       const subDoc = { parameters: [] };
       const [ Controller, action ] = stack.metadata;
-      const controller = new Controller();
-      const paramTypes = await controller[action]();
+      const paramTypes = Reflect.getMetadata("design:paramtypes", Controller.prototype, action);
       const CustomRequest = paramTypes.find(paramType => paramType.prototype instanceof Request)
       if(stack.middlewares.includes("auth")) {
         const parameter = {

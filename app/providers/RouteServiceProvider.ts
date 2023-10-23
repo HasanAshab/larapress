@@ -15,10 +15,10 @@ export default class RouteServiceProvider extends ServiceProvider {
   boot() {
     if(this.app.runningInConsole())
       return;
+    this.serveDocs();
     this.registerSecurityMiddlewares();
     this.registerRequestPayloadParsers();
     this.registerGlobalMiddlewares();
-    this.serveDocs();
     this.discoverRoutes();
     this.serveStaticFolder();
     this.registerErrorHandlers();
