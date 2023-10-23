@@ -20,12 +20,6 @@ export default class Artisan {
 
   static load(dir: string) {
     this.$loadFrom.push(dir);
-    /*
-    fs.readdirSync(dir).forEach(fileName => {
-      const Command = require(base(dir, fileName)).default;
-      if(Command.prototype instanceof BaseCommand)
-        this.add(Command);
-    });*/
   }
   
   static async call(base: string, input: string[] = []) {
