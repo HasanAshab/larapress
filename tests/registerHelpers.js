@@ -1,7 +1,8 @@
 process.env.NODE_ENV = "test";
+require("~/main");
 
-const server = require("~/main").default;
-const request = require("supertest")(server);
+const app = require("~/main/app").default
+const request = require("supertest")(app.server);
 
 const version = "v1";
 const methods = ["get", "post", "put", "delete"];

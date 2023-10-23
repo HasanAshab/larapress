@@ -32,7 +32,7 @@ Router.controller(AuthController).group(() => {
   
   Router.post("/register", "register").middleware("recaptcha");
   Router.get("/callback/:provider(google|facebook)", "loginWithExternalProvider");
-  Router.post("/send-otp/:id", "sendOtp").middleware("limit:60000,3");
+  Router.post("/send-otp/:user", "sendOtp").middleware("limit:60000,3");
   Router.put("/change-phone-number", "changePhoneNumber").middleware("auth", "verified");
   Router.post("/generate-recovery-codes", "generateRecoveryCodes").middleware("limit:60000,3", "auth", "verified");
 });

@@ -49,12 +49,11 @@ else {
 */
 
 const port = config.get<number>("app.port");
-const server = app.http.listen(port, () => {
+app.server.listen(port, () => {
   shouldLog && console.log(`Server running on [http://127.0.0.1:${port}] ...`);
 });
-shouldLog && server.on("connection", (socket) => {
+
+shouldLog && app.server.on("connection", (socket) => {
   const time = new Date().toLocaleTimeString("en-US", { hour12: true });
   console.log(`*New connection: [${time}]`);
 });
-
-export default server;

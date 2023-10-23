@@ -22,6 +22,8 @@ export default class RouteServiceProvider extends ServiceProvider {
     this.discoverRoutes();
     this.serveStaticFolder();
     this.registerErrorHandlers();
+    
+    Router.model("user", "~/app/models/User");
   }
   
   private registerSecurityMiddlewares() {
@@ -58,7 +60,7 @@ export default class RouteServiceProvider extends ServiceProvider {
   
   private registerErrorHandlers() {
     const middlewares = middleware("global.responser", "error.handle");
-    this.app.http.all(...middlewares);
+    this.app.http.use(...middlewares);
   }
   
   discoverRoutes() {

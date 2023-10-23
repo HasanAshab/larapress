@@ -1,6 +1,7 @@
 import { Request, AuthenticRequest, Response } from "~/core/express";
 import { container } from 'tsyringe';
 import Validator from "Validator";
+import Router from "Router";
 
 export default function RequestHandler(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
   const handlersName = Reflect.getMetadata("handlersName", target) ?? [];
@@ -30,8 +31,10 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
         }
         else if(paramType === Response)
           args.push(res)
-        else if(paramType.name === "String" || paramType.name === "Object")
-          args.push(req.params[paramName]);
+        else if(paramType.name === "String" || paramType.name === "Object") {
+          const value = await Router.resolve(req, paramName) ?? req.params[paramName];
+          args.push(value);
+        }
         else args.push(container.resolve(paramType));
       }
       const result = await handler.apply(this, args);

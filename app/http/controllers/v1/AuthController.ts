@@ -141,8 +141,7 @@ export default class AuthController extends Controller {
   }
   
   @RequestHandler
-  async sendOtp(id: string, twoFactorAuthService: TwoFactorAuthService){
-    const user = await User.findByIdOrFail(id);
+  async sendOtp(user: UserDocument, twoFactorAuthService: TwoFactorAuthService) {
     twoFactorAuthService.sendOtp(user).catch(log);
     return "6 digit OTP code sent to phone number!";
   }

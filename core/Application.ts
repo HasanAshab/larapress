@@ -1,3 +1,4 @@
+import { createServer } from "http"
 import express, { Application as ExpressApplication } from "express";
 import EventEmitter from "events";
 import ServiceProvider from "~/core/abstract/ServiceProvider";
@@ -11,6 +12,7 @@ import RouteServiceProvider from "~/app/providers/RouteServiceProvider";
 
 export default class Application extends EventEmitter {
   readonly http?: ExpressApplication;
+  readonly server?;
   readonly providersBaseDir = "app/providers";
   private registeredProviders = [];
   private bootingCallbacks = [];
@@ -19,6 +21,7 @@ export default class Application extends EventEmitter {
     super();
     if(this.runningInWeb()) {
       this.http = express();
+      this.server = createServer(this.http);
       this.addCustomHttpHelpers();
     }
     this.registerBaseServiceProviders();

@@ -29,6 +29,8 @@ export default class Router {
   }
   static $stack = [];
   static $namedUrls = {};
+  static $bindings = {};
+  
   
   static $reset() {
     Router.$config = {
@@ -85,6 +87,21 @@ export default class Router {
     });
   }
   
+  static bind(param: string, resolver) {
+    this.$bindings[param] = resolver;
+  }
+  
+  static model(param: string, Model: string | Model) {
+    if(typeof Model === "string") {
+      Model = require(Model).default;
+    }
+    this.bind(param, value => Model.findByIdOrFail(value));
+  }
+  
+  static resolve(req: Request, param: string) {
+    return this.$bindings[param]?.(req.params[param]);
+  }
+
   static group(config, cb) {
     const oldConfig = _.cloneDeep(Router.$config);
     if(config.prefix) {
