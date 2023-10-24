@@ -100,9 +100,7 @@ export default class Application extends EventEmitter {
     const provider = new Provider(this);
     provider.register?.();
     if (provider.boot) {
-      const cb = provider.boot.bind(provider);
-      cb.namee = Provider.name
-      this.bootingCallbacks.push(cb);
+      this.bootingCallbacks.push(provider.boot.bind(provider));
     }
     this.registeredProviders.push(Provider);
   }

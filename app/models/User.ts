@@ -35,7 +35,10 @@ const UserSchema = new Schema({
     default: false,
   },
   recoveryCodes: [String],
-  externalId: Object
+  externalId: {
+    type: Object,
+    index: true
+  }
 }, 
 { timestamps: true }
 );

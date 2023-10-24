@@ -82,7 +82,7 @@ export default class AuthService {
   }
 
   private createDefaultSettings(user: UserDocument) {
-    return await Settings.create({ userId: user._id });
+    return Settings.create({ userId: user._id });
   }
   
   private getFailedAttemptCacheKey(email: string) {

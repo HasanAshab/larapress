@@ -15,25 +15,28 @@ export default class UserFactory extends Factory {
   }
   
   unverified() {
-    return this.on("made", (user: IUser) => {
+    return this.state((user: IUser) => {
       user.verified = false;
+      return user;
     });
   }
   
   oauth() {
-    return this.on("made", (user: IUser) => {
+    return this.state((user: IUser) => {
       delete user.password;
+      return user;
     });
   }
   
   withRole(name: IUser["role"]) {
-    return this.on("made", (user: IUser) => {
+    return this.state((user: IUser) => {
       user.role = name;
+      return user;
     });
   }
   
   hasSettings(mfa = false) {
-    return this.on("created", async (users: IUser[]) => {
+    return this.external(async (users: IUser[]) => {
       const settingsData: any[] = [];
       for(const user of users){
         settingsData.push({
@@ -46,8 +49,9 @@ export default class UserFactory extends Factory {
   }
   
   withPhoneNumber(phoneNumber = "+15005550006") {
-    return this.on("made", (user: IUser) => {
+    return this.state((user: IUser) => {
       user.phoneNumber = phoneNumber;
+      return user;
     });
   }
 }

@@ -1,12 +1,11 @@
 import { Model } from "mongoose";
-import AwaitEventEmitter from "await-event-emitter"
- 
-export default abstract class Factory extends AwaitEventEmitter {
-  private total = 1;
-  private eventsEnabled = true;
 
+export default abstract class Factory {
+  private total = 1;
+  private stateCustomizers = [];
+  private externalCallbacks = [];
+  
   constructor(private Model: Model<any>, protected options: Record<string, unknown> = {}) {
-    super();
     this.Model = Model;
     this.options = options;
   }
@@ -18,15 +17,22 @@ export default abstract class Factory extends AwaitEventEmitter {
     return this;
   }
   
-  withoutEvents() {
-    this.eventsEnabled = false;
+  protected state(cb) {
+    this.stateCustomizers.push(cb);
     return this;
   }
+  
+  protected external(cb) {
+    this.externalCallbacks.push(cb);
+    return this;
+  }
+  
+
   
   async make(data?: object) {
     const generateStates = Array.from({ length: this.total }, () => this.generateState(data));
     const docsData = await Promise.all(generateStates);
-    return this.total === 1 
+    return this.total === 1
       ? docsData[0]
       : docsData;
   }
@@ -37,14 +43,14 @@ export default abstract class Factory extends AwaitEventEmitter {
       ? "create"
       : "insertMany";
     const docs = await (this.Model as any)[method](docsData);
-    this.eventsEnabled && await this.emit("created", Array.isArray(docs) ? docs : [docs]);
+    await this.runExternalCallbacks(Array.isArray(docs) ? docs : [docs]);
     return docs;
   }
   
   private async generateState(data?: Record<string, any>) {
-    const docData = this.definition();
+    const docData = this.customizeState(this.definition());
+    console.log(docData)
     data && this.overrideFields(docData, data);
-    this.eventsEnabled && await this.emit("made", docData);
     return docData;
   }
 
@@ -56,4 +62,15 @@ export default abstract class Factory extends AwaitEventEmitter {
     return docData;
   };
   
+  private customizeState(docData) {
+    this.stateCustomizers.forEach(customizer => {
+      docData = customizer(docData)
+    });
+    return docData;
+  }
+  
+  private runExternalCallbacks(docs) {
+    const promises = this.externalCallbacks.map(cb => cb(docs));
+    return Promise.all(promises);
+  }
 }
