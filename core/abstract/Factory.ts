@@ -49,7 +49,6 @@ export default abstract class Factory {
   
   private async generateState(data?: Record<string, any>) {
     const docData = this.customizeState(this.definition());
-    console.log(docData)
     data && this.overrideFields(docData, data);
     return docData;
   }

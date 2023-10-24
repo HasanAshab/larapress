@@ -1,3 +1,6 @@
+jest.unmock('Notification'); 
+jest.mock("Mail");
+
 const Notification = require("Notification").default;
 const Mail = require("Mail").default;
 const User = require("~/app/models/User").default;
@@ -13,16 +16,19 @@ class TestNotification extends BaseNotification {
 
 describe("notification", () => {
   beforeEach(() => {
-    Mail.mock();
+    Mail.mockClear();
   });
   
-  it("Should send notification via email", async () => {
-    const user = await User.factory().make();
+  it.only("Should send notification via email", async () => {
+    console.log(Notification.send)
     class Test extends TestNotification {
       via = () => ["email"];
     }
+    const user = await User.factory().make();
+    console.log(user)
     await Notification.send(user, new Test);
-    Mail.assertSentTo(user.email, "Test");
+    Mail.assertSentTo(user.email, Test);
+
   });
   
   it("Should send notification via site (database)", async () => {
@@ -43,7 +49,7 @@ describe("notification", () => {
     }
     await Notification.send(users, new Test);
     users.forEach(({ email }) => {
-      Mail.assertSentTo(email, "Test");
+      Mail.assertSentTo(email, Test);
     });
   });
   
@@ -55,7 +61,7 @@ describe("notification", () => {
       }
     }
     await Notification.send(user, new Test);
-    Mail.assertSentTo(user.email, "Test");
+    Mail.assertSentTo(user.email, Test);
   });
   
   it("Shouldn't send notification immedietly in queued Notification", async () => {

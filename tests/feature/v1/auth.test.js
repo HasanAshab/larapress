@@ -1,3 +1,4 @@
+jest.mock("Storage");
 jest.mock("Notification");
 
 const DB = require("DB").default;
@@ -22,6 +23,7 @@ describe("Auth", () => {
 
   beforeEach(async config => {
     await DB.reset(["User", "OTP"]);
+    Storage.mockClear();
     Notification.mockClear();
     if(config.user) {
       user = await User.factory().create();
@@ -36,7 +38,6 @@ describe("Auth", () => {
       password: "Password@1234",
       profile: fakeFile("image.png")
     };
-    Storage.mock();
     const response = await request.post("/auth/register").multipart(data);
     const user = await User.findOne({ email: data.email });
     
@@ -54,7 +55,6 @@ describe("Auth", () => {
       email: "foo@gmail.com",
       password: "Password@1234"
     };
-    Storage.mock();
     const response = await request.post("/auth/register").multipart(data);
     const user = await User.findOne({ email: data.email });
     expect(response.statusCode).toBe(201);

@@ -1,3 +1,5 @@
+jest.mock("Storage");
+
 const DB = require("DB").default;
 const User = require("~/app/models/User").default;
 const Category = require("~/app/models/Category").default;
@@ -12,6 +14,7 @@ describe("Category", () => {
   });
   
   beforeEach(async (config) => {
+    Storage.mockClear();
     await DB.reset(["User", "Category"]);
     if(config.user !== false) {
       admin = await User.factory().withRole("admin").create();
@@ -44,7 +47,6 @@ describe("Category", () => {
   });
   
   it("Should create category", async () => {
-    Storage.mock();
     const response = await request.post("/admin/categories").actingAs(token).multipart({
       name: "foo bar",
       slug: "foo-bar",
@@ -58,7 +60,6 @@ describe("Category", () => {
   });
   
   it("Should create category without icon", async () => {
-    Storage.mock();
     const response = await request.post("/admin/categories").actingAs(token).multipart({
       name: "foo bar",
       slug: "foo-bar"
@@ -99,7 +100,6 @@ describe("Category", () => {
   
   it("Should update category with icon", async () => {
     let category = await Category.factory().create();
-    Storage.mock();
     const response = await request.put("/admin/categories/" + category._id).actingAs(token).multipart({
       name: "foo bar",
       slug: "foo-bar",

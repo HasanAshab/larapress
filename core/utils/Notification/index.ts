@@ -1,10 +1,8 @@
 import NotificationClass from "~/core/abstract/Notification";
-import { util } from "~/core/decorators/class";
 import { IUser } from "~/app/models/User";
 import SendNotification from "~/app/jobs/SendNotification";
 import NotificationService from "~/app/services/NotificationService";
 
-@util("~/core/utils/Notification/Mockable")
 export default class Notification {
   static prepareJobData(notifiables: IUser | IUser[], notification: NotificationClass) {
     const notifiablesId = Array.isArray(notifiables)

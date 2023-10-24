@@ -1,10 +1,8 @@
 import { UploadedFile } from "express-fileupload";
 import { promises as fs } from "fs";
-import { util } from "~/core/decorators/class";
 import path from "path";
 import crypto from "crypto";
 
-@util("~/core/utils/Storage/Mockable")
 export default class Storage {
   static async putFile(disk: string, file: UploadedFile) {
     const name = `${Date.now()}_${file.name}`;

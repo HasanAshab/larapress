@@ -15,34 +15,3 @@ export function performance(constructor: Function) {
     }
   }
 }
-
-export function util(mockClassPath: string) {
-  const mockClass: any = require(mockClassPath).default;
-  return function(targetClass: any) {
-    const staticMethods = Object.getOwnPropertyNames(mockClass).filter(
-      (method) =>
-      method !== 'constructor' &&
-      method !== 'length' &&
-      method !== 'name' &&
-      method !== 'prototype'
-    );
-    staticMethods.forEach(method => {
-      if(method.endsWith("Logger")){
-        const targetMethodName = method.replace("Logger", "");
-        const targetMethod = targetClass[targetMethodName];
-        targetClass[targetMethodName] = function (...args: any[]) {
-          this.isMocked && mockClass[method].apply(this, args);
-          return targetMethod.apply(this, args);
-        }
-      }
-      else if (targetClass[method]) {
-        const realMethod = targetClass[method];
-        targetClass[method] = function (...args: any[]) {
-          return this.isMocked ? mockClass[method].apply(this, args) : realMethod.apply(this, args);
-        };
-      } else {
-        targetClass[method] = mockClass[method];
-      }
-    });
-  };
-}

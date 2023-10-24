@@ -1,7 +1,11 @@
+jest.mock("Storage");
+jest.mock("Notification");
+
 const DB = require("DB").default;
 const User = require("~/app/models/User").default;
 const Storage = require("Storage").default;
 const Notification = require("Notification").default;
+const EmailVerificationNotification = require("~/app/notifications/EmailVerificationNotification").default;
 
 describe("user", () => {
   let user;
@@ -13,7 +17,8 @@ describe("user", () => {
   
   beforeEach(async (config) => {
     await DB.reset();
-    Notification.mock();
+    Notification.mockClear();
+    Storage.mockClear();
     if(config.user !== false) {
       user = await User.factory().create();
       token = user.createToken();
@@ -44,7 +49,6 @@ describe("user", () => {
   });
 
   it("should update profile", async () => {
-    Storage.mock();
     const response = await request.put("/users/me").actingAs(token).multipart({
       username: "newName",
       profile: fakeFile("image.png")
@@ -58,7 +62,6 @@ describe("user", () => {
   });
 
   it("Should update profile without profile", async () => {
-    Storage.mock();
     const response = await request.put("/users/me").actingAs(token).multipart({ username: "newName" });
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
@@ -90,7 +93,7 @@ describe("user", () => {
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
     expect(user.email).toBe(email);
-    Notification.assertSentTo(user, "EmailVerificationNotification");
+    Notification.assertSentTo(user, EmailVerificationNotification);
   });
 
   it("Should get other user's profile by username", async () => {
