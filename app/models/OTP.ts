@@ -4,11 +4,13 @@ const OTPSchema = new Schema(
 {
   userId: {
     required: true,
-    type: Schema.Types.ObjectId
+    type: Schema.Types.ObjectId,
+    index: true
   },
   code: {
     type: Number,
-    default: () => Math.floor(100000 + Math.random() * 900000)
+    default: () => Math.floor(100000 + Math.random() * 900000),
+    index: true
   },
   expiresAt: {
     type: Date,

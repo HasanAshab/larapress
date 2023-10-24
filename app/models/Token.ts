@@ -4,10 +4,12 @@ import InvalidTokenException from "~/app/exceptions/InvalidTokenException";
 
 const TokenSchema = new Schema({
   key: {
+    index: true,
     required: true,
     type: String
   },
   type: {
+    index: true,
     required: true,
     type: String
   },

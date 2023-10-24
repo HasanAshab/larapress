@@ -7,7 +7,8 @@ import DocumentNotFoundException from "~/app/exceptions/DocumentNotFoundExceptio
 const NotificationSchema = new Schema({
   userId: {
     required: true,
-    type: Schema.Types.ObjectId
+    type: Schema.Types.ObjectId,
+    index: true
   },
   data: {
     required: true,
