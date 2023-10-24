@@ -1,18 +1,9 @@
 import Mailable from "~/core/abstract/Mailable";
-
-interface MailMockedData {
-  total: number;
-  recipients: Record<string, (typeof Mailable)[]>;
-}
+import MockDataContainer from "~/tests/MockDataContainer";
 
 export default class Mail {
-  static $data: MailMockedData = {
-    total: 0,
-    recipients: {}
-  }
-
   static mockClear() {
-    this.$data = {
+    MockDataContainer.Mail = {
       total: 0,
       recipients: {}
     }
@@ -20,24 +11,27 @@ export default class Mail {
   
   static to(email: string) {
     const send = async (mailable: Mailable) => {
-      this.$data.total++;
-      return this.$data.recipients[email]
-        ? this.$data.recipients[email].push(mailable.constructor)
-        : this.$data.recipients[email] = [mailable.constructor];
+      MockDataContainer.Mail.total++;
+      return MockDataContainer.Mail.recipients[email]
+        ? MockDataContainer.Mail.recipients[email].push(mailable.constructor)
+        : MockDataContainer.Mail.recipients[email] = [mailable.constructor];
     }
     return { send }
   }
   
   static assertNothingSent(){
-    expect(this.$data.total).toBe(0);
+    expect(MockDataContainer.Mail.total).toBe(0);
   }
   
   static assertSentTo(email: string, Mailable: typeof Mailable){
-    expect(this.$data.recipients[email]).not.toBe(undefined);
-    expect(this.$data.recipients[email]).toContain(Mailable);
+    console.log(MockDataContainer.Mail)
+    expect(MockDataContainer.Mail.recipients[email]).not.toBe(undefined);
+    expect(MockDataContainer.Mail.recipients[email]).toContain(Mailable);
   }
   
   static assertCount(expectedNumber: number){
-    expect(this.$data.total).toBe(expectedNumber);
+    expect(MockDataContainer.Mail.total).toBe(expectedNumber);
   }
 }
+
+Mail.mockClear();
