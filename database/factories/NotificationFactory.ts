@@ -13,14 +13,16 @@ export default class NotificationFactory extends Factory {
   };
   
   unread() {
-    return this.on("made", (notification: any) => {
+    return this.state((notification: any) => {
       notification.readAt = null;
+      return notification;
     });
   }
   
   belongsTo(user: IUser) {
-    return this.on("made", (notification: INotification) => {
+    return this.state((notification: INotification) => {
       notification.userId = user._id;
+      return notification;
     });
   }
 

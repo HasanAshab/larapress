@@ -12,8 +12,9 @@ export default class ContactFactory extends Factory {
   };
   
   closed() {
-    return this.on("made", (contact: IContact) => {
+    return this.state((contact: IContact) => {
       contact.status = "closed";
+      return contact;
     });
   }
 }

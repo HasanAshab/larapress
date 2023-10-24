@@ -33,7 +33,7 @@ export default class Mail {
   }
   
   static assertSentTo(email: string, Mailable: typeof Mailable){
-    expect(this.$data.recipients).toHaveProperty([email]);
+    expect(this.$data.recipients[email]).not.toBe(undefined);
     expect(this.$data.recipients[email]).toContain(Mailable);
   }
   

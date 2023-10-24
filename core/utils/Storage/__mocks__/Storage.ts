@@ -21,6 +21,6 @@ export default class Mockable {
   }
   
   static assertStored(filename: string){
-    expect(this.$data).toHaveProperty([filename]);
+    expect(this.$data[filename]).not.toBe(undefined);
   }
 }

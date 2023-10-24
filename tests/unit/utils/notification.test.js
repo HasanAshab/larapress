@@ -6,11 +6,13 @@ const Mail = require("Mail").default;
 const User = require("~/app/models/User").default;
 const BaseNotification = require("~/core/abstract/Notification").default;
 
+class TestMail {}
+
 class TestNotification extends BaseNotification {
   via = () => ["email", "site"];
   toSite = () => ({});
   toEmail() {
-    return { constructor: { name: "Test" } };
+    return new TestMail();
   }
 }
 
@@ -27,8 +29,7 @@ describe("notification", () => {
     const user = await User.factory().make();
     console.log(user)
     await Notification.send(user, new Test);
-    Mail.assertSentTo(user.email, Test);
-
+    Mail.assertSentTo(user.email, TestMail);
   });
   
   it("Should send notification via site (database)", async () => {
@@ -49,7 +50,7 @@ describe("notification", () => {
     }
     await Notification.send(users, new Test);
     users.forEach(({ email }) => {
-      Mail.assertSentTo(email, Test);
+      Mail.assertSentTo(email, TestMail);
     });
   });
   
@@ -61,7 +62,7 @@ describe("notification", () => {
       }
     }
     await Notification.send(user, new Test);
-    Mail.assertSentTo(user.email, Test);
+    Mail.assertSentTo(user.email, TestMail);
   });
   
   it("Shouldn't send notification immedietly in queued Notification", async () => {

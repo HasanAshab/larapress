@@ -20,7 +20,9 @@ export default abstract class Notification {
   abstract toSite?(notifiable: IUser): object;
   
   async sendEmail(notifiable: IUser) {
+    console.log(3)
     this.assertProviderExist(this, "toEmail");
+    console.log(4)
     await Mail.to(notifiable.email).send(await this.toEmail!(notifiable));
   }
 
