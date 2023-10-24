@@ -14,7 +14,8 @@ import ChangePhoneNumberRequest from "~/app/http/requests/v1/ChangePhoneNumberRe
 import AuthService from "~/app/services/auth/AuthService";
 import TwoFactorAuthService from "~/app/services/auth/TwoFactorAuthService";
 import PasswordService from "~/app/services/auth/PasswordService";
-import config from "config"
+import config from "config";
+import Event from "~/core/Event";
 import User from "~/app/models/User";
 import Token from "~/app/models/Token";
 import Socialite from "Socialite";
@@ -30,7 +31,7 @@ export default class AuthController extends Controller {
   async register(req: RegisterRequest, res: Response){
     const { email, username, password } = req.body;
     const user = await this.authService.register(email, username, password, req.files.profile);
-    req.app.emit("Registered", user);
+    Event.emit("Registered", user);
     res.status(201).api({
       token: user.createToken(),
       message: "Verification email sent!",

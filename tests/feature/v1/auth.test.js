@@ -36,9 +36,12 @@ describe("Auth", () => {
     };
     Storage.mock();
     const response = await request.post("/auth/register").multipart(data);
+    const user = await User.findOne({ email: data.email });
+    
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
-    expect(await User.findOne({ email: data.email })).not.toBeNull();
+    expect(user).not.toBeNull();
+    expect(await user.settings).not.toBeNull();
     Storage.assertStoredCount(1);
     Storage.assertStored("image.png");
   });
@@ -50,11 +53,12 @@ describe("Auth", () => {
       password: "Password@1234"
     };
     Storage.mock();
-    const response = await request.post("/auth/register").multipart(data)
-
+    const response = await request.post("/auth/register").multipart(data);
+    const user = await User.findOne({ email: data.email });
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
-    expect(await User.findOne({ email: data.email })).not.toBeNull();
+    expect(user).not.toBeNull();
+    expect(await user.settings).not.toBeNull();
     Storage.assertNothingStored();
   });
 

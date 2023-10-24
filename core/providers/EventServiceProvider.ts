@@ -1,4 +1,5 @@
 import ServiceProvider from "~/core/abstract/ServiceProvider";
+import Event from "~/core/Event";
 
 export default class EventServiceProvider extends ServiceProvider {
   private events = {}
@@ -14,7 +15,7 @@ export default class EventServiceProvider extends ServiceProvider {
       this.events[eventName].forEach(listenerPath => {
         const Listener = require(listenerPath).default;
         const listener = new Listener();
-        this.app.on(eventName, listener.dispatch.bind(listener));
+        Event.on(eventName, listener.dispatch.bind(listener));
       });
     }
   }

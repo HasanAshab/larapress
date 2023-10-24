@@ -5,6 +5,7 @@ import { Mutex } from 'async-mutex';
 import TwoFactorAuthService from "~/app/services/auth/TwoFactorAuthService";
 import Socialite from "Socialite";
 import User, { UserDocument } from "~/app/models/User";
+import Settings from "~/app/models/Settings";
 import Token from "~/app/models/Token";
 import LoginAttemptLimitExceededException from "~/app/exceptions/LoginAttemptLimitExceededException";
 import InvalidOtpException from "~/app/exceptions/InvalidOtpException";
@@ -13,11 +14,13 @@ import OtpRequiredException from "~/app/exceptions/OtpRequiredException";
 @singleton()
 export default class AuthService {
   constructor(private readonly twoFactorAuthService: TwoFactorAuthService, private readonly mutex: Mutex) {}
+  
   async register(email: string, username: string, password: string, profile?){
     const user = new User({ email, username });
     await user.setPassword(password);
     profile && await user.attach("profile", profile);
     await user.save();
+    await this.createDefaultSettings(user);
     return user;
   }
   
@@ -33,44 +36,6 @@ export default class AuthService {
     await this.checkTwoFactorAuth(user, otp);
     await this.resetFailedAttempts(email);
     return user.createToken();
-  }
-  
-  private async checkTwoFactorAuth(user: UserDocument, otp?: number) {
-    const { twoFactorAuth } = await user.settings;
-    if(!twoFactorAuth.enabled)
-      return true;
-    if(!otp)
-      throw new OtpRequiredException();
-    const isValid = await this.twoFactorAuthService.verifyOtp(user, twoFactorAuth.method, otp);
-    if (isValid)
-      return true;
-    await this.incrementFailedAttempt(user.email);
-    throw new InvalidOtpException();
-  }
-  
-  private getFailedAttemptCacheKey(email: string) {
-    return `$_LOGIN_FAILED_ATTEMPTS(${email})`;
-  }
-  
-  private async assertFailedAttemptLimitNotExceed(email: string) {
-    const key = this.getFailedAttemptCacheKey(email);
-    await this.mutex.acquire();
-    let failedAttemptsCount = parseInt(await Cache.get(key) ?? 0);
-    this.mutex.release();
-    if(failedAttemptsCount > 3)
-      throw new LoginAttemptLimitExceededException();
-  }
-  
-  private async incrementFailedAttempt(email: string) {
-    const key = this.getFailedAttemptCacheKey(email);
-    await this.mutex.acquire();
-    await Cache.increment(key);
-    this.mutex.release();
-  }
-
-  private async resetFailedAttempts(email: string) {
-    const key = this.getFailedAttemptCacheKey(email);
-    await Cache.delete(key);
   }
   
   async loginWithExternalProvider(provider: string, code: string) {
@@ -115,4 +80,47 @@ export default class AuthService {
     });
     return user.createToken();
   }
+
+  private createDefaultSettings(user: UserDocument) {
+    return await Settings.create({ userId: user._id });
+  }
+  
+  private getFailedAttemptCacheKey(email: string) {
+    return `$_LOGIN_FAILED_ATTEMPTS(${email})`;
+  }
+  
+  private async checkTwoFactorAuth(user: UserDocument, otp?: number) {
+    const { twoFactorAuth } = await user.settings;
+    if(!twoFactorAuth.enabled)
+      return true;
+    if(!otp)
+      throw new OtpRequiredException();
+    const isValid = await this.twoFactorAuthService.verifyOtp(user, twoFactorAuth.method, otp);
+    if (isValid)
+      return true;
+    await this.incrementFailedAttempt(user.email);
+    throw new InvalidOtpException();
+  }
+  
+  private async assertFailedAttemptLimitNotExceed(email: string) {
+    const key = this.getFailedAttemptCacheKey(email);
+    await this.mutex.acquire();
+    let failedAttemptsCount = parseInt(await Cache.get(key) ?? 0);
+    this.mutex.release();
+    if(failedAttemptsCount > 3)
+      throw new LoginAttemptLimitExceededException();
+  }
+  
+  private async incrementFailedAttempt(email: string) {
+    const key = this.getFailedAttemptCacheKey(email);
+    await this.mutex.acquire();
+    await Cache.increment(key);
+    this.mutex.release();
+  }
+
+  private async resetFailedAttempts(email: string) {
+    const key = this.getFailedAttemptCacheKey(email);
+    await Cache.delete(key);
+  }
+  
 }
