@@ -337,7 +337,6 @@ describe("Auth", () => {
   it("Should send reset email", { user: true }, async () => {
     const response = await request.post("/auth/password/forgot").send({ email: user.email });
     expect(response.statusCode).toBe(200);
-    await sleep(2000);
     Notification.assertSentTo(user, ForgotPasswordNotification);
   });
 
