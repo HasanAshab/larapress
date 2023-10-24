@@ -1,5 +1,4 @@
-jest.unmock('Notification'); 
-jest.mock("Mail");
+jest.unmock("Notification");
 
 const Notification = require("Notification").default;
 const Mail = require("Mail").default;
@@ -21,13 +20,11 @@ describe("notification", () => {
     Mail.mockClear();
   });
   
-  it.only("Should send notification via email", async () => {
-    console.log(Notification.send)
+  it("Should send notification via email", async () => {
     class Test extends TestNotification {
       via = () => ["email"];
     }
     const user = await User.factory().make();
-    console.log(user)
     await Notification.send(user, new Test);
     Mail.assertSentTo(user.email, TestMail);
   });

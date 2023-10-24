@@ -1,5 +1,3 @@
-jest.mock("Notification");
-
 const DB = require("DB").default;
 const Notification = require("Notification").default;
 const User = require("~/app/models/User").default;

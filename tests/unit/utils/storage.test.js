@@ -1,3 +1,5 @@
+jest.unmock("Storage");
+
 const Storage = require("Storage").default;
 const fs = require("fs");
 

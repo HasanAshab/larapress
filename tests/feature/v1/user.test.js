@@ -1,6 +1,3 @@
-jest.mock("Storage");
-jest.mock("Notification");
-
 const DB = require("DB").default;
 const User = require("~/app/models/User").default;
 const Storage = require("Storage").default;

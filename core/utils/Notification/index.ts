@@ -16,7 +16,6 @@ export default class Notification {
   }
 
   static async send(notifiables: IUser | IUser[], notification: NotificationClass) {
-    console.log(notifiables)
     if (notification.shouldQueue) {
       const data = this.prepareJobData(notifiables, notification);
       return await SendNotification.dispatch(data);

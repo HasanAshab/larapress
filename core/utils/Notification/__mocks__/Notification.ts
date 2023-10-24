@@ -1,11 +1,11 @@
 import { IUser } from "~/app/models/User";
 import NotificationClass from "~/core/abstract/Notification";
+import MockDataContainer from "~/tests/MockDataContainer";
+
 
 export default class Notification {
-  static $data = new Map();
-  
   static mockClear(){
-    this.$data.clear();
+    MockDataContainer.Notification = new Map();
   }
   
   static async send(notifiables: IUser | IUser[], notification: NotificationClass) {
@@ -13,19 +13,19 @@ export default class Notification {
     for (const notifiable of notifiables) {
       const channels = await notification.via(notifiable);
       const Notification = notification.constructor;
-      if(this.$data.has(Notification)) {
-        const notifiablesId = this.$data.get(Notification).push(notifiable._id);
-        this.$data.set(Notification, notifiablesId);
+      if(MockDataContainer.Notification.has(Notification)) {
+        const notifiablesId = MockDataContainer.Notification.get(Notification).push(notifiable._id);
+        MockDataContainer.Notification.set(Notification, notifiablesId);
       }
       else
-        this.$data.set(Notification, [notifiable._id]);
+        MockDataContainer.Notification.set(Notification, [notifiable._id]);
     }
   }
   
   static assertSentTo(notifiables: IUser | IUser[], Notification: typeof NotificationClass){
-    expect(this.$data.has(Notification)).toBe(true);
+    expect(MockDataContainer.Notification.has(Notification)).toBe(true);
     const notifiablesId = Array.isArray(notifiables) ? notifiables.map((notifiable) => notifiable._id).sort() : [notifiables._id];
-    const sentNotifiablesId = this.$data.get(Notification).sort();
+    const sentNotifiablesId = MockDataContainer.Notification.get(Notification).sort();
     expect(sentNotifiablesId).toHaveLength(notifiablesId.length);
     for(let i = 0; i < notifiablesId.length; i++) {
       expect(sentNotifiablesId[i].toString()).toBe(notifiablesId[i].toString());
@@ -33,10 +33,12 @@ export default class Notification {
   }
   
   static assertNothingSent(){
-    expect(this.$data.size()).toBe(0);
+    expect(MockDataContainer.Notification.size()).toBe(0);
   }
   
   static assertCount(expectedNumber: number){
-    expect(this.$data.size()).toBe(expectedNumber);
+    expect(MockDataContainer.Notification.size()).toBe(expectedNumber);
   }
 }
+
+Notification.mockClear();

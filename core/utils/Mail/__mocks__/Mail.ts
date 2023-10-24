@@ -24,7 +24,6 @@ export default class Mail {
   }
   
   static assertSentTo(email: string, Mailable: typeof Mailable){
-    console.log(MockDataContainer.Mail)
     expect(MockDataContainer.Mail.recipients[email]).not.toBe(undefined);
     expect(MockDataContainer.Mail.recipients[email]).toContain(Mailable);
   }

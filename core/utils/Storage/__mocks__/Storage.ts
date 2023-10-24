@@ -1,26 +1,27 @@
 import { UploadedFile } from "express-fileupload";
+import MockDataContainer from "~/tests/MockDataContainer";
 
-export default class Mockable {
-  static $data: Record<string, {file: UploadedFile, disk: string}> = {}
-  
+export default class Storage {
   static mockClear() {
-    this.$data = {};
+    MockDataContainer.Storage = {};
   }
   
   static async putFile(disk: string, file: UploadedFile) {
-    this.$data[file.name] = { file, disk };
+    MockDataContainer.Storage[file.name] = { file, disk };
     return "";
   }
   
   static assertNothingStored(){
-    expect(Object.keys(this.$data)).toHaveLength(0);
+    expect(Object.keys(MockDataContainer.Storage)).toHaveLength(0);
   }
   
   static assertStoredCount(expectedNumber: number){
-    expect(Object.keys(this.$data)).toHaveLength(expectedNumber);
+    expect(Object.keys(MockDataContainer.Storage)).toHaveLength(expectedNumber);
   }
   
   static assertStored(filename: string){
-    expect(this.$data[filename]).not.toBe(undefined);
+    expect(MockDataContainer.Storage[filename]).not.toBe(undefined);
   }
 }
+
+Storage.mockClear();

@@ -5,7 +5,6 @@ import config from 'config';
 @singleton()
 export default class NotificationService {
   async send(notifiables: IUser | IUser[], notification: NotificationClass) {
-    console.log("2")
     if(!Array.isArray(notifiables))
       return await this.sendOne(notifiables, notification);
     const sendPromises = notifiables.map(notifiable => this.sendOne(notifiable, notification));
@@ -20,7 +19,6 @@ export default class NotificationService {
 
   async sendOneVia(channel: NotificationChannel, notifiable: IUser, notification: NotificationClass) {
     const senderName = this.getSenderNameOf(channel);
-    console.log(senderName)
     await notification[senderName](notifiable);
   }
   

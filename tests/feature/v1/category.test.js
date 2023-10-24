@@ -1,5 +1,3 @@
-jest.mock("Storage");
-
 const DB = require("DB").default;
 const User = require("~/app/models/User").default;
 const Category = require("~/app/models/Category").default;
