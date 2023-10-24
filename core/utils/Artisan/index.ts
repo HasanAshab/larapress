@@ -4,10 +4,31 @@ import path from "path";
 import fs from "fs";
 import commandMap from "~/storage/cache/artisan";
 
-export default class Artisan {
-  static $loadFrom: string[] = [];
-  static $cacheDist = base("storage/cache/artisan.json");
 
+type ArtisanConfig = 
+| {
+  discover: true;
+  cacheDist: string;
+  load: string[];
+}
+| {
+  discover: false;
+  commands: string[];
+}
+
+export default class Artisan {
+  static $config: ArtisanConfig = {
+    discover: true,
+    cacheDist: "artisan.json",
+    load: []
+  };
+  
+  static $cacheDist = base("storage/cache/artisan.json");
+  
+  static config(config: ArtisanConfig) {
+    this.$config = config;
+  }
+  
   static parseSignature(signature: string) {
     const spaceIndex = signature.indexOf(' ');
     if (spaceIndex === -1)
@@ -19,7 +40,9 @@ export default class Artisan {
 
 
   static load(dir: string) {
-    this.$loadFrom.push(dir);
+    if(this.$config.discover) {
+      this.$config.load.push(dir);
+    }
   }
   
   static async call(base: string, input: string[] = []) {
@@ -52,7 +75,7 @@ export default class Artisan {
   
   static cacheCommandsMap() {
     const map = {};
-    this.$loadFrom.forEach(dir => {
+    this.$config.load.forEach(dir => {
       fs.readdirSync(base(dir)).forEach(fileName => {
         const fullPath = base(dir, fileName);
         const Command = require(fullPath).default;

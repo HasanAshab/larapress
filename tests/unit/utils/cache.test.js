@@ -3,12 +3,12 @@ const config = require("config");
 
 describe("Cache", () => {
   const stores = Object.keys(config.get("cache.stores"));
-  
   beforeEach(async () => {
     for(const storeName of stores){
       await Cache.store(storeName).delete("key");
     }
   });
+  
   
   it("Should cache with default store", async () => {
     await Cache.put("key", "data");

@@ -1,3 +1,5 @@
+jest.mock("Notification");
+
 const DB = require("DB").default;
 const Cache = require("Cache").default;
 const Storage = require("Storage").default;
@@ -20,7 +22,7 @@ describe("Auth", () => {
 
   beforeEach(async config => {
     await DB.reset(["User", "OTP"]);
-    Notification.mock();
+    Notification.mockClear();
     if(config.user) {
       user = await User.factory().create();
       token = user.createToken();
@@ -312,7 +314,7 @@ describe("Auth", () => {
     });
 
     expect(response.statusCode).toBe(200);
-    Notification.assertSentTo(user, "EmailVerificationNotification");
+    Notification.assertSentTo(user, EmailVerificationNotification);
   });
 
   it("should change password", { user: true }, async () => {
@@ -339,7 +341,7 @@ describe("Auth", () => {
     const response = await request.post("/auth/password/forgot").send({ email: user.email });
     expect(response.statusCode).toBe(200);
     await sleep(2000);
-    Notification.assertSentTo(user, "ForgotPasswordNotification");
+    Notification.assertSentTo(user, ForgotPasswordNotification);
   });
 
   it("Shouldn't send reset email of OAuth account", async () => {

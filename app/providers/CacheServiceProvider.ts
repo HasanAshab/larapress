@@ -3,8 +3,8 @@ import config from "config";
 import Cache from "Cache";
 import { container } from "tsyringe";
 import IORedis from "ioredis";
-import Memory from "~/core/utils/Cache/drivers/Memory";
-import Redis from "~/core/utils/Cache/drivers/Redis";
+import Memory from "~/core/utils/Cache/stores/Memory";
+import Redis from "~/core/utils/Cache/stores/Redis";
 
 export default class CacheServiceProvider extends ServiceProvider {
   register() {

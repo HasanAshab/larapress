@@ -6,21 +6,21 @@ import CacheStore from "./CacheStore";
 export type CacheDataArg = string | number | boolean | object | unknown[] | Buffer;
 
 export default class Cache {
-  static storeName = config.get("cache.default");
-  static _stores = {};
+  static $storeName = config.get("cache.default");
+  static $stores = {};
   
   static repository(instance: CacheStore) {
-    this._stores[instance.store] = instance;
+    this.$stores[instance.store] = instance;
   }
   
   static store(name: string) {
-    this.storeName = name;
+    this.$storeName = name;
     return this;
   }
 
   private static currentStore(): CacheStore {
-    const driver = this._stores[this.storeName];
-    this.storeName = config.get("cache.default");
+    const driver = this.$stores[this.$storeName];
+    this.$storeName = config.get("cache.default");
     return driver;
   }
 
