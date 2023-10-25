@@ -6,7 +6,11 @@ if(process.env.NODE_ENV === "production" || process.env.NODE_ENV === "loadTest")
 }
 import "~/vendor/autoload";
 
-import config from "config"
+import config from "config";
+import Config from "Config";
+
+
+
 import app from "~/main/app";
 import DB from "DB";
 import https from "https";
@@ -57,3 +61,6 @@ shouldLog && app.server.on("connection", (socket) => {
   const time = new Date().toLocaleTimeString("en-US", { hour12: true });
   console.log(`*New connection: [${time}]`);
 });
+
+
+console.log(Config.get())
