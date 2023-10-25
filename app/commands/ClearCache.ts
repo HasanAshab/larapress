@@ -1,12 +1,11 @@
 import Command from "~/core/abstract/Command";
-import config from "config";
+import Config from "Config";
 import Cache from "Cache";
 import { execSync } from "child_process";
 
 export default class ClearCache extends Command {
   static signature = "clear:cache {--driver=}";
-  //static description = 
-  
+
   async handle() {
     const driver = this.option("driver");
     if(driver){
@@ -14,7 +13,7 @@ export default class ClearCache extends Command {
     }
     else {
       const tasks: Promise<any>[] = [];
-      for(const driverName of Object.keys(config.get("cache.stores"))) {
+      for(const driverName of Object.keys(Config.get("cache.stores"))) {
         const task = Cache.driver(driverName).flush();
         tasks.push(task);
       }

@@ -6,8 +6,8 @@ import axios from "axios";
 export default class VerifyRecaptcha extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {
     const body = {
-      secret: Config.get("recaptcha.secretKey")
-      response: req.body.recaptchaResponse,
+      secret: Config.get("recaptcha.secretKey"),
+      response: req.body.recaptchaResponse
     }
     
     const { success } = await axios.post('https://www.google.com/recaptcha/api/siteverify', body, {
