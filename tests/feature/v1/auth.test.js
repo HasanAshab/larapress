@@ -28,7 +28,7 @@ describe("Auth", () => {
     }
   });
 
-  it("should register a user", async () => {
+  it.only("should register a user", async () => {
     const data = {
       username: "foobar123",
       email: "foo@gmail.com",

@@ -13,30 +13,27 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
   let rules = null;
   descriptor.value = async function(req, res, next){
     try {
-      req.files = req.files ?? {};
-      const args = [];
-      for(let i = 0; i < paramNames.length; i++) {
-        const paramType = paramTypes[i];
-        const paramName = paramNames[i];
-        if(paramType === Request || paramType.prototype instanceof Request) {
-          if(paramType.rules) {
-            rules = rules ?? Validator.object(paramType.rules());
-            const data = req.method === "GET"
-              ? req.query
-              : Object.assign({}, req.body, req.files);
-            const validated = await rules.validateAsync(data);
-            req[req.method === "GET" ? "query" : "body"] = validated;
+      const args = await Promise.all(
+        paramTypes.map(async (paramType, i) => {
+          if (paramType === Request || paramType.prototype instanceof Request) {
+            if(paramType.rules) {
+              rules = rules ?? Validator.object(paramType.rules());
+              const data = req.method === "GET"
+                ? req.query
+                : Object.assign({}, req.body, req.files);
+              const validated = await rules.validateAsync(data);
+              req[req.method === "GET" ? "query" : "body"] = validated;
+            }
+            return req;
           }
-          args.push(req);
-        }
-        else if(paramType === Response)
-          args.push(res)
-        else if(paramType.name === "String" || paramType.name === "Object") {
-          const value = await Router.resolve(req, paramName) ?? req.params[paramName];
-          args.push(value);
-        }
-        else args.push(container.resolve(paramType));
-      }
+          else if (paramType === Response)
+            return res;
+          else if (paramType.name === "String" || paramType.name === "Object") {
+            return await Router.resolve(req, paramNames[i]) ?? req.params[paramNames[i]];
+          } 
+          else return container.resolve(paramType);
+        })
+      );
       const result = await handler.apply(this, args);
 
       if(result && !res.headersSent) {

@@ -53,7 +53,9 @@ export default class Application extends EventEmitter {
   private addCustomHttpHelpers() {
     if (!this.http)
       throw new Error("Http (express) is not created.");
-      
+    
+    this.http.request.files = {};
+    
     this.http.request.fullUrl = function() {
       return this.protocol + '://' + this.get('host') + this.originalUrl;
     }
