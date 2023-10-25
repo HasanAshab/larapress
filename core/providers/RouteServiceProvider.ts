@@ -2,8 +2,6 @@ import ServiceProvider from "~/core/abstract/ServiceProvider";
 import express from "express";
 import swaggerUi from "swagger-ui-express";
 import docData from "~/docs/data";
-import { middleware } from "~/core/utils";
-import { globalMiddlewares } from "~/app/http/kernel"
 import cors from "cors";
 import helmet from "helmet";
 import bodyParser from "body-parser";
@@ -12,10 +10,21 @@ import URL from "URL";
 import Router from "Router";
 
 export default class RouteServiceProvider extends ServiceProvider {
+  protected middlewareAliases = {};
+  protected globalMiddlewares = {};
+
+  /**
+   * Whether API documentation should be served
+  */
+  protected serveApiDoc = env("NODE_ENV") === "development";
+  
   boot() {
     if(this.app.runningInConsole())
       return;
-    this.serveDocs();
+    if(this.serveApiDoc) {
+      this.serveDocs();
+    }
+    Router.registerMiddleware(this.middlewareAliases);
     this.registerSecurityMiddlewares();
     this.registerRequestPayloadParsers();
     this.registerGlobalMiddlewares();
@@ -45,8 +54,9 @@ export default class RouteServiceProvider extends ServiceProvider {
   }
   
   private registerGlobalMiddlewares() {
-    for(const version in globalMiddlewares) {
-      const middlewares = middleware(...globalMiddlewares[version]);
+    for(const version in this.globalMiddlewares) {
+      const middlewareKeysWithOptions = this.globalMiddlewares[version];
+      const middlewares = Router.resolveMiddleware(...middlewareKeysWithOptions);
       this.app.http.use(`/api/${version}/*`, ...middlewares);
     }
   }
@@ -57,7 +67,7 @@ export default class RouteServiceProvider extends ServiceProvider {
   }
   
   private registerErrorHandlers() {
-    const middlewares = middleware("global.responser", "error.handle");
+    const middlewares = Router.resolveMiddleware("global.responser", "error.handle");
     this.app.http.use(...middlewares);
   }
   

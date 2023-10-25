@@ -1,9 +1,9 @@
 import _ from "lodash";
+import fs from "fs";
 import { join } from "path";
-import { Router as ExpressRouter } from "express";
-import { middleware, generateEndpoints } from "~/core/utils";
+import { Router as ExpressRouter, NextFunction, RequestHandler, Request, Response } from "express";
 
-class RouterOptions {
+class EndpointOptions {
   constructor(private readonly stackIndex: number) {
     this.stackIndex = stackIndex;
   }
@@ -19,7 +19,6 @@ class RouterOptions {
   }
 }
 
-
 export default class Router {
   static $config = {
     prefix: "/",
@@ -28,10 +27,10 @@ export default class Router {
     middlewares: []
   }
   static $stack = [];
+  static $middlewareAliases = {};
   static $namedUrls = {};
   static $bindings = {};
-  
-  
+
   static $reset() {
     Router.$config = {
       prefix: "/",
@@ -54,7 +53,7 @@ export default class Router {
       metadata,
       middlewares: [...Router.$config.middlewares]
     });
-    return new RouterOptions(Router.$stack.length - 1);
+    return new EndpointOptions(Router.$stack.length - 1);
   }
   
   static get<T extends typeof Controller>(endpoint: string, metadata: [T, keyof T]) {
@@ -87,6 +86,10 @@ export default class Router {
     });
   }
   
+  static resolve(req: Request, param: string) {
+    return this.$bindings[param]?.(req.params[param]);
+  }
+
   static bind(param: string, resolver) {
     this.$bindings[param] = resolver;
   }
@@ -98,10 +101,53 @@ export default class Router {
     this.bind(param, value => Model.findByIdOrFail(value));
   }
   
-  static resolve(req: Request, param: string) {
-    return this.$bindings[param]?.(req.params[param]);
+  static registerMiddleware(aliases: Record<string, string>) {
+    this.$middlewareAliases = aliases;
   }
-
+  
+  static addMiddleware(alias: string, path: string) {
+    this.$middlewareAliases[alias] = path;
+  }
+  
+  /**
+    * Generates middlewares stack based on keys. Options are injected to the middleware class.
+    * You can pass only keys or strings that are devided by ':' first part is the 
+    * key and second is options separated by ','
+    *
+    * Examples:
+    * 
+    * this.resolve("foo")
+    * this.resolve("foo", "bar")
+    * this.resolve("foo:opt1", "bar:opt1,opt2")
+  */
+  static resolveMiddleware(...keysWithOptions): RequestHandler[] {
+    const handlers = [];
+    keysWithOptions.forEach(keyWithOptions => {
+      const [key, optionString] = keyWithOptions.split(":");
+      const options = optionString ? optionString.split(",") : [];
+      const MiddlewareClass = require(this.$middlewareAliases[key]).default;
+      const middleware = new MiddlewareClass();
+      let handler: RequestHandler;
+      if(middleware.errorHandler) {
+        handler = function(err: any, req: Request, res: Response, next: NextFunction) {
+          return middleware.handle(err, req, res, next, ...options);
+        }
+      }
+      else {
+        handler = async function(req: Request, res: Request, next: NextFunction) {
+          try {
+            return await middleware.handle(req, res, next, ...options);
+          }
+          catch(err) {
+            next(err)
+          }
+        }
+      }
+      handlers.push(handler);
+    });
+    return handlers;
+  }
+  
   static group(config, cb) {
     const oldConfig = _.cloneDeep(Router.$config);
     if(config.prefix) {
@@ -141,25 +187,43 @@ export default class Router {
     return { group };
   }
   
-  static getMiddleware(...args) {
-    return middleware(...args);
+  /**
+   * Discovers routes from a base directory and prefix its endpoints.
+   * Used for a simple File Based Routing.
+  */
+  static discover(base = "routes") {
+    const endpointPathPair: Record<string, string> = {}
+    const stack = [base];
+    while (stack.length > 0) {
+      const currentPath = stack.pop();
+      if (!currentPath) break;
+      const items = fs.readdirSync(currentPath);
+      for (const item of items) {
+        const itemPath = join(currentPath, item);
+        const status = fs.statSync(itemPath);
+        if (status.isFile()) {
+          const itemPathEndpoint = itemPath.replace(base, "").split(".")[0].toLowerCase().replace(/index$/, "");
+          Router.$reset();
+          Router.prefix(itemPathEndpoint).group(() => {
+            require("~/" + itemPath.split(".")[0])
+          });
+        }
+        else if (status.isDirectory()) {
+          stack.push(itemPath);
+        }
+      }
+    }
+    Router.$reset();
   }
   
-  static discover(base = "routes") {
-    const routesEndpointPaths = generateEndpoints(base);
-    for(const [endpoint, path] of Object.entries(routesEndpointPaths)) {
-      Router.$reset();
-      Router.prefix(endpoint).group(() => require(path));
-    }
-  }
+
   static build() {
     const router = ExpressRouter();
-
     for(const { method, path, metadata, middlewares } of Router.$stack) {
       const [Controller, handlerName] = metadata;
       const controller = new Controller();
       const handler = controller[handlerName].bind(controller);
-      router[method](path, this.getMiddleware(...middlewares), handler);
+      router[method](path, Router.resolveMiddleware(...middlewares), handler);
     }
     return router;
   }
