@@ -1,6 +1,6 @@
 import Middleware from "~/core/abstract/Middleware";
 import { Request, Response, NextFunction } from "express";
-import config from "config";
+import Config from "Config";
 
 export default class VerifyRecaptcha extends Middleware {
   async handle(req: Request, res: Response, next: NextFunction) {
@@ -10,7 +10,7 @@ export default class VerifyRecaptcha extends Middleware {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: `secret=${config.get<any>("recaptcha.secretKey")}&response=${recaptchaResponse}`,
+      body: `secret=${Config.get("recaptcha.secretKey")}&response=${recaptchaResponse}`,
     });
     const verificationResult: any = await verificationResponse.json();
     if (!verificationResult.success) {

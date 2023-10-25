@@ -1,6 +1,6 @@
 import Middleware from "~/core/abstract/Middleware";
 import { Request, Response, NextFunction } from "express";
-import config from "config";
+import Config from "Config";
 import jwt from "jsonwebtoken";
 import User from "~/app/models/User";
 
@@ -10,9 +10,9 @@ export default class Authenticate extends Middleware {
     if (authHeader) {
       const token = authHeader.split(" ")[1];
       if (token) {
-        const { sub, version, iss, aud } = jwt.verify(token, config.get<any>("app.key"))!;
+        const { sub, version, iss, aud } = jwt.verify(token, Config.get("app.key"))!;
         const user = await User.findById(sub);
-        if (user !== null && version === user.tokenVersion && iss === config.get("app.name") && aud === "auth") {
+        if (user !== null && version === user.tokenVersion && iss === Config.get("app.name") && aud === "auth") {
           req.user = user;
           return next();
         }

@@ -10,4 +10,4 @@ export default {
     privateKey: null
   },
   log: "console"
-},
+};

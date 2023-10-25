@@ -1,5 +1,5 @@
 import ServiceProvider from "~/core/abstract/ServiceProvider";
-import config from "config";
+import Config from "Config";
 import Cache from "Cache";
 import { container } from "tsyringe";
 import IORedis from "ioredis";
@@ -8,7 +8,7 @@ import Redis from "~/core/utils/Cache/stores/Redis";
 
 export default class CacheServiceProvider extends ServiceProvider {
   register() {
-    const redis = new IORedis(config.get("cache.stores.redis"));
+    const redis = new IORedis(Config.get("cache.stores.redis"));
     container.register(IORedis, { useValue: redis });
   }
   

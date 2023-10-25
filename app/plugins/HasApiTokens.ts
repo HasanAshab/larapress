@@ -1,5 +1,5 @@
 import { Schema, Document } from "mongoose";
-import config from "config";
+import Config from "Config";
 import jwt from "jsonwebtoken";
 
 export interface HasApiTokensDocument extends Document {
@@ -19,11 +19,11 @@ export default (schema: Schema) => {
   schema.methods.createToken = function () {
     return jwt.sign(
       { version: this.tokenVersion },
-      config.get("app.key"),
+      Config.get("app.key"),
       { 
         expiresIn: 2592000,
         subject: this._id.toString(),
-        issuer: config.get("app.name"),
+        issuer: Config.get("app.name"),
         audience: "auth"
       }
     );

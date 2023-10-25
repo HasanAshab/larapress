@@ -1,10 +1,10 @@
 import mongoose, { ConnectOptions } from "mongoose";
-import config from "config";
+import Config from "Config";
 import fs from "fs";
 
 export default class DB {
   static async connect() {
-    await mongoose.connect(config.get<string>("db.url"), config.get<ConnectOptions>("db.options"));
+    await mongoose.connect(Config.get("database.url"), Config.get("database.options"));
   }
   
   static async disconnect() {

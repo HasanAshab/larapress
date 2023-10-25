@@ -1,8 +1,7 @@
 import { model, Schema, Model, Document } from "mongoose";
-import config from "config";
-import { Config } from "types";
+import Config from "Config";
 
-const { channels, types } = config.get<Config["notification"]>("notification");
+const { channels, types } = Config.get<Config["notification"]>("notification");
 
 const notificationDefaults = channels.reduce((defaults, channel) => {
   defaults[channel] = {

@@ -1,12 +1,11 @@
 import _ from "lodash";
-import config from "config";
-import { Config } from "types";
+import Config from "Config";
 import CacheStore from "./CacheStore";
 
 export type CacheDataArg = string | number | boolean | object | unknown[] | Buffer;
 
 export default class Cache {
-  static $storeName = config.get("cache.default");
+  static $storeName = Config.get("cache.default");
   static $stores = {};
   
   static repository(instance: CacheStore) {
@@ -20,7 +19,7 @@ export default class Cache {
 
   private static currentStore(): CacheStore {
     const driver = this.$stores[this.$storeName];
-    this.$storeName = config.get("cache.default");
+    this.$storeName = Config.get("cache.default");
     return driver;
   }
 

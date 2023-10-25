@@ -4,17 +4,14 @@ export type ConfigValue = string | number | boolean | Record<string, ConfigValue
 
 export default class Config {
   static $data: Record<string, ConfigValue> = {};
-  static $loaded = false;
-  
+
   static load(dir = "config") {
-    console.log("jsjs")
     const configFiles = fs.readdirSync(dir);
     for(const configFile of configFiles) {
       const configFor = configFile.split(".")[0];
       this.$data[configFor] = require(`~/${dir}/${configFor}`).default;
     }
     this.$data = this.flattenObject(this.$data);
-    this.$loaded = true;
   }
 
   static get<T = ConfigValue>(key?: string): T {
@@ -47,8 +44,4 @@ export default class Config {
     return flatObject;
   }
   
-}
-
-if(!Config.$loaded) {
-  Config.load();
 }

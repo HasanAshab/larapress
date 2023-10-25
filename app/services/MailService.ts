@@ -1,5 +1,5 @@
 import { singleton } from "tsyringe";
-import config from 'config';
+import Config from 'Config';
 import { createTransport, Transporter } from "nodemailer";
 import nodemailerHbs from "nodemailer-express-handlebars";
 
@@ -13,18 +13,18 @@ export default class MailService {
   }
   
   private setupTransporter() {
-    const { host, port, username: user = "", password: pass = "" } = config.get("mail");
+    const { host, port, username: user = "", password: pass = "" } = Config.get("mail");
     this.transporter = createTransport({ host, port, auth: { user, pass } });
   }
 
   private setupViewEngine() {
-    const handlebars = nodemailerHbs(config.get("mail.template"));
+    const handlebars = nodemailerHbs(Config.get("mail.template"));
     this.transporter.use("compile", handlebars);
   }
 
   generateRecipient(mailable: Mailable, toEmail: string) {
     return {
-      from: `${config.get("mail.fromName")} <${config.get("mail.fromAddress")}>`,
+      from: `${Config.get("mail.fromName")} <${Config.get("mail.fromAddress")}>`,
       to: toEmail,
       subject: mailable.subject,
       template: mailable.view,

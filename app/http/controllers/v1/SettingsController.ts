@@ -2,7 +2,7 @@ import Controller from "~/core/abstract/Controller";
 import _ from "lodash";
 import RequestHandler from "~/core/decorators/RequestHandler";
 import { AuthenticRequest } from "~/core/express";
-import config from "config";
+import Config from "Config";
 import Cache from "Cache";
 import Settings from "~/app/models/Settings";
 import TwoFactorAuthService from "~/app/services/auth/TwoFactorAuthService";
@@ -37,13 +37,13 @@ export default class SettingsController extends Controller {
   
   @RequestHandler
   async getAppSettings() {
-    return config;
+    return Config.get();
   }
 
   @RequestHandler
   async updateAppSettings(req: UpdateAppSettingsRequest) {
-    _.merge(config, req.body);
-    Cache.put("config", req.body);
+    _.merge(Config, req.body);
+    Cache.put("Config", req.body);
     return "App Settings updated!";
   }
 }

@@ -1,8 +1,5 @@
-import config from "~/config/default";
 import { ObjectSchema } from "joi";
 import { middlewareAliases } from "~/app/http/kernel";
-
-export type Config = typeof config;
 
 export type RawResponse = ({
   success?: boolean, 

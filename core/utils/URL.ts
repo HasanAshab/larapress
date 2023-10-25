@@ -1,4 +1,4 @@
-import config from 'config';
+import Config from 'Config';
 import path from "path";
 import crypto from "crypto";
 import Router from "Router";
@@ -9,12 +9,12 @@ export default class URL {
   }
 
   static resolve(url_path = ""): string {
-    const { domain, port, protocol } = config.get<any>("app");
+    const { domain, port, protocol } = Config.get<any>("app");
     return `${protocol}://${path.join(`${domain}:${port}/`, url_path)}`;
   }
 
   static client(url_path: string = ""): string {
-    const { domain, port, protocol } = config.get<any>("client");
+    const { domain, port, protocol } = Config.get<any>("client");
     return `${protocol}://${path.join(`${domain}:${port}`, url_path)}`;
   }
 
@@ -39,13 +39,13 @@ export default class URL {
 
   static signedRoute(routeName: string, data?: Record<string, string | number>) {
     const url = this.route(routeName, data);
-    const signature = crypto.createHmac('sha256', config.get("app.key")).update(url).digest('hex');
+    const signature = crypto.createHmac('sha256', Config.get("app.key")).update(url).digest('hex');
     return `${url}&signature=${signature}`;
   }
 
   static temporarySignedRoute(routeName: string, expireAt: number, data?: Record < string, string | number >) {
     const url = this.route(routeName, data);
-    const signature = crypto.createHmac('sha256', config.get("app.key")).update(`${url}&exp=${expireAt}`).digest('hex');
+    const signature = crypto.createHmac('sha256', Config.get("app.key")).update(`${url}&exp=${expireAt}`).digest('hex');
     return `${url}&exp=${expireAt}&signature=${signature}`;
   }
   
@@ -55,7 +55,7 @@ export default class URL {
     const expPart = urlParts.find((part) => part.startsWith('exp='));
     if (!signaturePart)
       return false;
-    const secretKey = config.get("app.key");
+    const secretKey = Config.get("app.key");
     if (expPart) {
       const signature = signaturePart.split('=')[1];
       const expTimestamp = parseInt(expPart.split('=')[1]);

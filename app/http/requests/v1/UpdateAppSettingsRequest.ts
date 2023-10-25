@@ -1,13 +1,12 @@
 import { AuthenticRequest } from "~/core/express";
 import Validator from "Validator";
-import config from "config";
-import { Config } from "types";
+import Config from "Config";
 import { DeepPartial } from "utility-types";
 
 export default class UpdateAppSettingsRequest extends AuthenticRequest {
-  body!: DeepPartial<Config>;
+  body!;
   
-  protected rules(obj = config) {
+  protected rules(obj = Config.get()) {
     if(obj === null || typeof obj === "undefined")
       return null;
 

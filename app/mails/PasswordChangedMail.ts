@@ -1,8 +1,8 @@
 import Mailable from "~/core/abstract/Mailable";
-import config from "config";
+import Config from "Config";
 
 export default class PasswordChangedMail extends Mailable {
   shouldQueue = true;
   view = "passwordChanged";
-  subject = `Your ${config.get("app.name")} Password Has Been Updated`;
+  subject = `Your ${Config.get("app.name")} Password Has Been Updated`;
 }

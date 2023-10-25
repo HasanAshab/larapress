@@ -1,5 +1,5 @@
 import { singleton } from "tsyringe";
-import config from 'config';
+import Config from 'Config';
 import twilio, { TwilioClient } from "twilio";
 
 @singleton()
@@ -10,7 +10,7 @@ export default class TwilioService {
   }
   
   private setupClient() {
-    const { sid, authToken } = config.get("twilio");
+    const { sid, authToken } = Config.get("twilio");
     this.client = twilio(sid, authToken);
   }
   
@@ -18,7 +18,7 @@ export default class TwilioService {
     return this.client.messages.create({ 
       to,
       body,
-      from: config.get("twilio.phoneNumber"),
+      from: Config.get("twilio.from"),
     });
   }
 
@@ -26,7 +26,7 @@ export default class TwilioService {
     return this.client.calls.create({
       to, 
       twiml,
-      from: config.get("twilio.phoneNumber")
+      from: Config.get("twilio.from")
     });
   }
 }

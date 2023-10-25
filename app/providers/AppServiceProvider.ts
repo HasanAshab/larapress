@@ -1,12 +1,12 @@
 import _ from "lodash";
 import ServiceProvider from "~/core/abstract/ServiceProvider";
-import config from "config";
+//import config from "config";
 import Cache from "Cache";
 
 export default class AppServiceProvider extends ServiceProvider {
   boot() {
-    if(env("NODE_ENV") === "production")
-      this.app.once("booted", this.useCachedConfig);
+  //  if(env("NODE_ENV") === "production")
+    //  this.app.once("booted", this.useCachedConfig);
   }
 
   private async useCachedConfig() {

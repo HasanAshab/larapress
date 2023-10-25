@@ -3,7 +3,7 @@ import { UserDocument } from "~/app/models/User";
 import Settings from "~/app/models/Settings";
 import OTP from "~/app/models/OTP";
 import TwilioService from "~/app/services/TwilioService";
-import config from "config";
+import Config from "Config";
 import speakeasy from "speakeasy";
 import PhoneNumberRequiredException from "~/app/exceptions/PhoneNumberRequiredException";
 
@@ -21,7 +21,7 @@ export default class TwoFactorAuthService {
     if(method === "app") {
       const secret = speakeasy.generateSecret({ length: 20 });
       twoFactorAuth.secret = secret.ascii;
-      const appName = config.get<string>("app.name");
+      const appName = Config.get<string>("app.name");
       data.otpauthURL = speakeasy.otpauthURL({
         secret: secret.ascii,
         label: appName,

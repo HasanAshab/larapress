@@ -2,7 +2,7 @@ import { NextFunction, RequestHandler, Request, Response } from "express";
 import { ResponseData } from "~/core/express";
 import { MiddlewareKeyWithOptions } from "types"; 
 import { Model } from "mongoose";
-import config from "config";
+import Config from "Config";
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
@@ -14,7 +14,7 @@ import { container } from "tsyringe";
  * Logs data on different channels based on config
 */
 export async function log(data: any) {
-  const logChannel = config.get<string>("log");
+  const logChannel = Config.get<string>("app.log");
   if(logChannel === "file"){
     const path = "./storage/logs/error.log";
     if(data instanceof Error){

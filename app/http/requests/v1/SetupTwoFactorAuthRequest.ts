@@ -1,6 +1,6 @@
 import { AuthenticRequest } from "~/core/express";
 import Validator from "Validator";
-import config from "config";
+import Config from "Config";
 import { ISettings } from "~/app/models/Settings";
 
 export default class SetupTwoFactorAuthRequest extends AuthenticRequest {
@@ -12,7 +12,7 @@ export default class SetupTwoFactorAuthRequest extends AuthenticRequest {
   static rules() {
     return {
       enable: Validator.boolean().default(true),
-      method: Validator.string().valid(...config.get("twoFactorAuth.methods"))
+      method: Validator.string().valid(...Config.get("auth.twoFactorAuth.methods"))
     }
   }
 }
