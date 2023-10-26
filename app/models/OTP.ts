@@ -4,7 +4,9 @@ const OTPSchema = new Schema(
 {
   userId: {
     required: true,
+    ref: "User",
     type: Schema.Types.ObjectId,
+    cascade: true,
     index: true
   },
   code: {

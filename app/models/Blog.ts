@@ -34,7 +34,6 @@ const BlogSchema = new Schema(
 
 BlogSchema.plugin(HasFactory);
 BlogSchema.plugin(Commentable);
-BlogSchema.plugin(Polymorphable, "author");
 //BlogSchema.plugin(Voteable);
 
 export interface IBlog extends Document, InferSchemaType<typeof BlogSchema>, CommentableDocument {
