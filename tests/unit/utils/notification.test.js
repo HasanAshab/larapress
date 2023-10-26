@@ -1,7 +1,9 @@
+jest.mock("~/core/abstract/Job");
 jest.unmock("Notification");
 
 const Notification = require("Notification").default;
 const Mail = require("Mail").default;
+const SendNotification = require("~/app/jobs/SendNotification").default;
 const User = require("~/app/models/User").default;
 const BaseNotification = require("~/core/abstract/Notification").default;
 
@@ -71,7 +73,6 @@ describe("notification", () => {
     }
     await Notification.send(user, new Test);
     Mail.assertNothingSent();
-    //SendNotification.assertDispatched();
+    SendNotification.assertDispatched();
   });
-
 });

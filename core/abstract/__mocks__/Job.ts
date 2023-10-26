@@ -9,6 +9,10 @@ export default abstract class Job {
   public timeout = 10000;
   abstract handle(data: unknown): Promise<void>;
   
+  static mockClear() {
+    MockDataContainer.Job = [this.name]
+  }
+  
   static delay(ms: number) {
     this.dispatchAfter = ms;
     return this;
@@ -25,11 +29,13 @@ export default abstract class Job {
   }
   
   static async dispatch(data: unknown) {
-    MockDataContainer.Job = [this];
+    MockDataContainer.Job.push(this.name)
     this.resetOptions();
   }
   
-  static assertDispatched() {
-    expect(MockDataContainer.Job).toContain(this);
+  static assertDispatched(job: typeof Job = Job.name) {
+    expect(MockDataContainer.Job).toContain(job)
   }
 }
+
+Job.mockClear();
