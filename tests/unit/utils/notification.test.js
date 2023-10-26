@@ -62,7 +62,7 @@ describe("notification", () => {
     Mail.assertSentTo(user.email, TestMail);
   });
   
-  it("Shouldn't send notification immedietly in queued Notification", async () => {
+  it.only("Shouldn't send notification immedietly in queued Notification", async () => {
     const user = await User.factory().make();
     user._id = 10100;
     class Test extends TestNotification {

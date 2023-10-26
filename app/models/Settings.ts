@@ -16,8 +16,10 @@ const twoFactorAuthMethods = ["sms", "call", "app"];
 const SettingsSchema = new Schema({
   userId: {
     required: true,
+    ref: "User",
     type: Schema.Types.ObjectId,
-    unique: true,
+    cascade: true,
+    unique: true
   },
   twoFactorAuth: {
     enabled: {
