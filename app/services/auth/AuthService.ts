@@ -1,4 +1,3 @@
-import Cache from "Cache";
 import URL from "URL";
 import { singleton } from "tsyringe";
 import { Mutex } from 'async-mutex';
@@ -10,6 +9,8 @@ import Token from "~/app/models/Token";
 import LoginAttemptLimitExceededException from "~/app/exceptions/LoginAttemptLimitExceededException";
 import InvalidOtpException from "~/app/exceptions/InvalidOtpException";
 import OtpRequiredException from "~/app/exceptions/OtpRequiredException";
+
+const Cache = use("Cache");
 
 @singleton()
 export default class AuthService {

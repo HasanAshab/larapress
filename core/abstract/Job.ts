@@ -1,4 +1,4 @@
-import Queue from "bull";
+const Queue = use("Queue");
 
 export default abstract class Job {
   static shouldQueue = true;
@@ -27,13 +27,12 @@ export default abstract class Job {
   static async dispatch(data: unknown) {
     if(this.shouldQueue) {
       const job = new this();
-      const queue = resolve(Queue);
       const options = {
         delay: this.dispatchAfter,
         attempts: job.tries,
         timeout: job.timeout
       };
-      await queue.add(this.name, data, options);
+      await Queue.add(this.name, data, options);
     }
     else await resolve(this).handle(data);
     this.resetOptions();

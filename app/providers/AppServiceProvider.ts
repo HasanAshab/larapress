@@ -1,7 +1,6 @@
 import _ from "lodash";
 import ServiceProvider from "~/core/abstract/ServiceProvider";
 //import config from "config";
-import Cache from "Cache";
 
 export default class AppServiceProvider extends ServiceProvider {
   boot() {

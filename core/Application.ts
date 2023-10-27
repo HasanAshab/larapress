@@ -3,18 +3,15 @@ import express, { Application as ExpressApplication } from "express";
 import EventEmitter from "events";
 import ServiceProvider from "~/core/abstract/ServiceProvider";
 import fs from "fs";
-import config from "config";
+import Config from "Config";
 import URL from "URL";
 import { getStatusText } from "http-status-codes";
-import DatabaseServiceProvider from "~/app/providers/DatabaseServiceProvider";
-import EventServiceProvider from "~/app/providers/EventServiceProvider";
-import RouteServiceProvider from "~/app/providers/RouteServiceProvider";
 
 export default class Application extends EventEmitter {
   readonly http?: ExpressApplication;
   readonly server?;
   readonly providersBaseDir = "app/providers";
-  private registeredProviders = [];
+  //private registeredProviders = [];
   private bootingCallbacks = [];
 
   constructor() {
@@ -24,8 +21,7 @@ export default class Application extends EventEmitter {
       this.server = createServer(this.http);
       this.addCustomHttpHelpers();
     }
-    this.registerBaseServiceProviders();
-    this.discoverExternalServiceProviders();
+    this.registerServiceProviders();
     this.bootProviders();
     this.emit("booted");
     this.flush();
@@ -35,19 +31,10 @@ export default class Application extends EventEmitter {
     this.bootingCallbacks.forEach(cb => cb());
   }
     
-  private registerBaseServiceProviders() {
-    this.register(DatabaseServiceProvider);
-    this.register(EventServiceProvider);
-    this.register(RouteServiceProvider);
-  }
-  
-  private discoverExternalServiceProviders() {
-    const providersBaseDir = "app/providers";
-    const providersFullName = fs.readdirSync(providersBaseDir);
-    for(const providerFullName of providersFullName){
-      const Provider = require("~/" + providersBaseDir + "/" + providerFullName.split(".")[0]).default;
-      this.register(Provider);
-    }
+  private registerServiceProviders() {
+    Config.get("app.providers").forEach(path => {
+      this.register(require(path).default);
+    });
   }
   
   private addCustomHttpHelpers() {
@@ -84,7 +71,7 @@ export default class Application extends EventEmitter {
   }  
   
   private flush() {
-    this.registeredProviders = [];
+   // this.registeredProviders = [];
     this.bootingCallbacks = [];
   }
   
@@ -97,13 +84,13 @@ export default class Application extends EventEmitter {
   }
   
   private register(Provider) {
-    if(this.registeredProviders.includes(Provider))
-      return;
+    //if(this.registeredProviders.includes(Provider))
+     // return;
     const provider = new Provider(this);
     provider.register?.();
     if (provider.boot) {
       this.bootingCallbacks.push(provider.boot.bind(provider));
     }
-    this.registeredProviders.push(Provider);
+    //this.registeredProviders.push(Provider);
   }
 }

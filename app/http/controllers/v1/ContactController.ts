@@ -5,8 +5,9 @@ import CreateContactRequest from "~/app/http/requests/v1/CreateContactRequest";
 import SearchContactRequest from "~/app/http/requests/v1/SearchContactRequest";
 import UpdateContactStatusRequest from "~/app/http/requests/v1/UpdateContactStatusRequest";
 import Contact from "~/app/models/Contact";
-import Cache from "Cache";
 import User from "~/app/models/User";
+
+const Cache = use("Cache");
 
 export default class ContactController extends Controller {
   @RequestHandler

@@ -96,10 +96,10 @@ export function sleep(ms: number) {
 
 
 /**
- * Resolve class or string to instance
+ * Resolve namespace
 */ 
-export function resolve(dependency: string | Function) {
-  return container.resolve(dependency);
+export function use(namespace: string) {
+  return container.resolve(namespace);
 }
 
 /**

@@ -1,8 +1,8 @@
-const Cache = require("Cache").default;
-const config = require("config");
+const Cache = use("Cache");
+const Config = require("Config").default;
 
 describe("Cache", () => {
-  const stores = Object.keys(config.get("cache.stores"));
+  const stores = Object.keys(Config.get("cache.stores"));
   beforeEach(async () => {
     for(const storeName of stores){
       await Cache.store(storeName).delete("key");

@@ -18,4 +18,3 @@ export default class DB {
     await Promise.all(promises);
   }
 }
-

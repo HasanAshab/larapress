@@ -9,5 +9,17 @@ export default {
     publicKey: null,
     privateKey: null
   },
-  log: "console"
+  log: "console",
+  
+  providers: [
+    "~/app/providers/QueueServiceProvider",
+    "Cache/providers/CacheServiceProvider",
+    "DB/providers/DatabaseServiceProvider",
+    "~/app/providers/EventServiceProvider",
+    "~/app/providers/RouteServiceProvider",
+    "~/app/providers/ConsoleServiceProvider",
+    "~/app/providers/CronJobServiceProvider",
+    "~/app/providers/LockServiceProvider",
+    "~/app/providers/AppServiceProvider"
+  ]
 };
