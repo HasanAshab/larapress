@@ -1,4 +1,4 @@
-const Cache = use("Cache");
+const Cache = require("Cache").default;
 const Config = require("Config").default;
 
 describe("Cache", () => {

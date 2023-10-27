@@ -1,7 +1,7 @@
 import Manager from "~/core/abstract/Manager";
 import Config from "Config";
-import Memory from "./stores/Memory";
-import Redis from "./stores/Redis";
+import MemoryStore from "./stores/MemoryStore";
+import RedisStore from "./stores/RedisStore";
 
 export type CacheDataArg = string | number | boolean | object | unknown[] | Buffer;
 
@@ -11,11 +11,15 @@ export default class CacheManager extends Manager {
   }
   
   protected createMemoryDriver() {
-    return new Memory();
+    return new MemoryStore();
   }
   
   protected createRedisDriver() {
-    return new Redis();
+    return new RedisStore();
+  }
+  
+  store(name: string) {
+    return this.driver(name);
   }
 
   get(key: string) {

@@ -68,9 +68,18 @@ export function putEnv(data: Record<string, string>) {
   return envConfig;
 }
 
+/**
+ * Converts to absolute path
+*/
 export function base(...basePaths: string[]) {
   return path.join(__dirname, "..", ...basePaths);
 }
+
+/**
+ * Get parameter names of a function.
+ * It's not able to detect parameter names
+ * on edge cases
+*/
 export function getParams(func: Function) {
   let str = func.toString();
   str = str.replace(/\/\*[\s\S]*?\*\//g, '')
@@ -90,23 +99,26 @@ export function getParams(func: Function) {
   return params;
 }
 
+
+/**
+ * Stop execution for given time
+*/
 export function sleep(ms: number) {
   return new Promise(r => setTimeout(r, ms));
 }
 
 
 /**
- * Resolve namespace
+ * Resolve dependency
 */ 
-export function use(namespace: string) {
-  return container.resolve(namespace);
+export function resolve(dependency: string | Function) {
+  return container.resolve(dependency);
 }
 
 /**
  * Send response globally.
  * Avoid as much as possible. Use custom exception instead.
 */ 
-
 type ResponseType = {
   steps: Array<[string, any[]]>;
 } & {

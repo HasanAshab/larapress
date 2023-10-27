@@ -1,7 +1,6 @@
-import Middleware from "~/core/abstract/Middleware";
 import { Request, Response, NextFunction } from "express";
 
-export default class EnsureEmailIsVerified extends Middleware {
+export default class EnsureEmailIsVerified {
   async handle(req: Request, res: Response, next: NextFunction) {
     if(req.user?.verified)
       return next();

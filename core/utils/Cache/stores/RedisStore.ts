@@ -4,9 +4,7 @@ import { autoInjectable } from "tsyringe";
 import IORedis from "ioredis";
 
 @autoInjectable()
-export default class Redis implements CacheStore {
-  store = "redis";
-
+export default class RedisStore implements CacheStore {
   constructor(private readonly client: IORedis) {}
 
   async get(key: string) {

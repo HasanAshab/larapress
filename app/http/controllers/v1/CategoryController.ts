@@ -1,4 +1,4 @@
-import Controller from "~/core/abstract/Controller";
+import Controller from "~/app/http/controllers/Controller";
 import RequestHandler from "~/core/decorators/RequestHandler";
 import { Request, AuthenticRequest, Response } from "~/core/express";
 import Category from "~/app/models/Category";

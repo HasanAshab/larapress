@@ -15,7 +15,7 @@ export default abstract class Manager {
   protected createDriver(driver: string) {
     if (this.customCreators[driver])
       return this.customCreators[driver]();
-    const method = `create${_.uppercase(driver)}Driver`;
+    const method = `create${_.capitalize(driver)}Driver`;
     if (typeof this[method] === "function")
       return this[method]();
     throw new Error(`Driver ${driver} not supported.`);

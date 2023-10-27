@@ -2,9 +2,7 @@ import CacheStore from "~/core/utils/Cache/CacheStore";
 import memoryCache from "memory-cache";
 import { CacheDataArg } from "Cache";
 
-export default class Memory implements CacheStore {
-  store = "memory";
-  
+export default class MemoryStore implements CacheStore {
   async get(key: string) {
     return memoryCache.get(key);
   }

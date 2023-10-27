@@ -25,8 +25,8 @@ export default abstract class CronJobServiceProvider extends ServiceProvider {
     for(const [cron, command] of this.jobSchedule) {
       if(typeof command === "string") {
         const [commandName, ...args] = command.split(" ");
-        const job: any = async () => await Artisan.call(commandName as any, args, false);
-        nodeCron.schedule(cron, job);
+        const job = async () => await Artisan.call(commandName as any, args, false);
+        nodeCron.schedule(cron, job as any);
       }
       else 
         nodeCron.schedule(cron, command);

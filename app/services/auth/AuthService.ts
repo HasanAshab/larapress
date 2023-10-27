@@ -1,4 +1,5 @@
 import URL from "URL";
+import Cache from "Cache";
 import { singleton } from "tsyringe";
 import { Mutex } from 'async-mutex';
 import TwoFactorAuthService from "~/app/services/auth/TwoFactorAuthService";
@@ -10,7 +11,6 @@ import LoginAttemptLimitExceededException from "~/app/exceptions/LoginAttemptLim
 import InvalidOtpException from "~/app/exceptions/InvalidOtpException";
 import OtpRequiredException from "~/app/exceptions/OtpRequiredException";
 
-const Cache = use("Cache");
 
 @singleton()
 export default class AuthService {

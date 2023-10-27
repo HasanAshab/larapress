@@ -1,10 +1,9 @@
-import Middleware from "~/core/abstract/Middleware";
 import { Request, Response, NextFunction } from "express";
 import Config from "Config";
 import jwt from "jsonwebtoken";
 import User from "~/app/models/User";
 
-export default class Authenticate extends Middleware {
+export default class Authenticate {
   async handle(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
     if (authHeader) {

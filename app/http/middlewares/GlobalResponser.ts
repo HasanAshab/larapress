@@ -1,8 +1,7 @@
-import Middleware from "~/core/abstract/Middleware";
 import { Request, Response, NextFunction } from "express";
 import { ResponseData } from "~/core/express";
 
-export default class GlobalResponser extends Middleware {
+export default class GlobalResponser {
   errorHandler = true;
 
   async handle(err: any, req: Request, res: Response, next: NextFunction) {

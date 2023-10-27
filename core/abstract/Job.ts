@@ -1,38 +1,42 @@
-const Queue = use("Queue");
+import Queue from "Queue";
 
 export default abstract class Job {
-  static shouldQueue = true;
-  static dispatchAfter = 0;
-  
+  static $options = {
+    shouldQueue: true,
+    dispatchAfter: 0
+  }
+
+  public channel = "default";
   public concurrency = 1;
   public tries = 1;
   public timeout = 10000;
-  abstract handle(data: unknown): Promise<void>;
+  
+  abstract public handle(data: unknown): Promise<void>;
   
   static delay(ms: number) {
-    this.dispatchAfter = ms;
+    this.$options.dispatchAfter = ms;
     return this;
   }
   
   static withoutQueue() {
-    this.shouldQueue = false;
+    this.$options.shouldQueue = false;
     return this;
   }
   
   static resetOptions() {
-    this.shouldQueue = true;
-    this.dispatchAfter = 0;
+    this.$options.shouldQueue = true;
+    this.$options.dispatchAfter = 0;
   }
   
   static async dispatch(data: unknown) {
-    if(this.shouldQueue) {
+    if(this.$options.shouldQueue) {
       const job = new this();
       const options = {
-        delay: this.dispatchAfter,
+        delay: this.$options.dispatchAfter,
         attempts: job.tries,
         timeout: job.timeout
       };
-      await Queue.add(this.name, data, options);
+      await Queue.channel(job.channel).add(this.name, data, options);
     }
     else await resolve(this).handle(data);
     this.resetOptions();

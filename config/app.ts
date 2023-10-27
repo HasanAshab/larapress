@@ -10,16 +10,17 @@ export default {
     privateKey: null
   },
   log: "console",
-  
+
   providers: [
-    "~/app/providers/QueueServiceProvider",
-    "Cache/providers/CacheServiceProvider",
-    "DB/providers/DatabaseServiceProvider",
+    "Queue/QueueServiceProvider",
+    "Cache/CacheServiceProvider",
+    "DB/DatabaseServiceProvider",
     "~/app/providers/EventServiceProvider",
     "~/app/providers/RouteServiceProvider",
     "~/app/providers/ConsoleServiceProvider",
     "~/app/providers/CronJobServiceProvider",
     "~/app/providers/LockServiceProvider",
-    "~/app/providers/AppServiceProvider"
+    "~/app/providers/AppServiceProvider",
+    "Socialite/SocialiteServiceProvider",
   ]
 };

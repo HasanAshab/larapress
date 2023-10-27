@@ -6,7 +6,8 @@ import { singleton } from "tsyringe";
 export default class SendMail extends Job {
   concurrency = 20;
   tries = 3;
-
+  channel = "mail";
+  
   constructor(private readonly mailService: MailService) {
     super();
   }
