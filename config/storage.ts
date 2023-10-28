@@ -1,9 +1,8 @@
 export default {
   default: "local",
-  disks: {
+  drivers: {
     local: {
-      driver: "local",
       root: base("storage"),
-    },
+    }
   }
 }

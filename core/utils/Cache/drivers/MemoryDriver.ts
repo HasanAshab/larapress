@@ -1,8 +1,8 @@
-import CacheStore from "~/core/utils/Cache/CacheStore";
+import CacheDriver from "~/core/utils/Cache/CacheDriver";
 import memoryCache from "memory-cache";
 import { CacheDataArg } from "Cache";
 
-export default class MemoryStore implements CacheStore {
+export default class MemoryDriver implements CacheDriver {
   async get(key: string) {
     return memoryCache.get(key);
   }

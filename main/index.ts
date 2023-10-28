@@ -58,14 +58,3 @@ shouldLog && app.server.on("connection", (socket) => {
   console.log(`*New connection: [${time}]`);
 });
 
-import Storage from "Storage";
-
-(async () => {
-/*  await Storage.putFile("public", {
-    name: "foo",
-    data: "dhdjdjdjs"
-  });
-  */
-  
-  Storage.disk("local")
-})()

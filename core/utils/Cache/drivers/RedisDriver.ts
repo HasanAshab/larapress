@@ -1,10 +1,10 @@
-import CacheStore from "~/core/utils/Cache/CacheStore";
+import CacheDriver from "~/core/utils/Cache/CacheDriver";
 import { CacheDataArg } from "Cache";
 import { autoInjectable } from "tsyringe";
 import IORedis from "ioredis";
 
 @autoInjectable()
-export default class RedisStore implements CacheStore {
+export default class RedisDriver implements CacheDriver {
   constructor(private readonly client: IORedis) {}
 
   async get(key: string) {

@@ -1,33 +1,27 @@
 import Manager from "~/core/abstract/Manager";
 import Config from "Config";
-import CacheStore from "./CacheStore";
-import MemoryStore from "./stores/MemoryStore";
-import RedisStore from "./stores/RedisStore";
+import CacheDriver from "./CacheDriver";
+import MemoryDriver from "./drivers/MemoryDriver";
+import RedisDriver from "./drivers/RedisDriver";
 
-export type CacheDataArg = string | number | boolean | object | unknown[] | Buffer;
-
-export default class CacheManager extends Manager implements CacheStore {
+export default class CacheManager extends Manager implements CacheDriver {
   protected getDefaultDriver() {
     return Config.get("cache.default");
   }
   
   protected createMemoryDriver() {
-    return new MemoryStore();
+    return new MemoryDriver();
   }
   
   protected createRedisDriver() {
-    return new RedisStore();
+    return new RedisDriver();
   }
   
-  store(name: string) {
-    return this.driver(name);
-  }
-
   get(key: string) {
-    this.driver().get(key);
+    return this.driver().get(key);
   }
 
-  put(key: string, data: CacheDataArg, expiry?: number) {
+  put(key: string, data: CacheData, expiry?: number) {
     return this.driver().put(key, data, expiry);
   }
 
