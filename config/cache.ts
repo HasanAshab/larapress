@@ -1,7 +1,6 @@
 export default   {
   default: "memory",
-  stores: {
-    memory: {},
+  drivers: {
     redis: {
       url: env("REDIS_URL"),
       host: env("REDIS_HOST"),

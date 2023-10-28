@@ -7,18 +7,8 @@ export default class ClearCache extends Command {
   static signature = "clear:cache {--driver=}";
 
   async handle() {
-    const driver = this.option("driver");
-    if(driver){
-      await Cache.driver(driver).flush();
-    }
-    else {
-      const tasks: Promise<any>[] = [];
-      for(const driverName of Object.keys(Config.get("cache.stores"))) {
-        const task = Cache.driver(driverName).flush();
-        tasks.push(task);
-      }
-      await Promise.all(tasks);
-    }
+    const driver = "redis"//this.option("driver") ?? undefined;
+    await Cache.driver(driver).flush();
     this.success("Cache cleared successfully!");
   }
 }

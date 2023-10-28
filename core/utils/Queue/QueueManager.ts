@@ -8,7 +8,7 @@ export default class QueueManager {
     if(this.instances[name]) {
       return this.instances[name];
     }
-    return this.instances[name] = new BullQueue(name, Config.get("cache.stores.redis.url"), Config.get("queue"));
+    return this.instances[name] = new BullQueue(name, Config.get("cache.drivers.redis.url"), Config.get("queue"));
   }
   
   on(event: string, listener: Function) {
