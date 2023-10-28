@@ -20,9 +20,10 @@ export default abstract class CronJobServiceProvider extends ServiceProvider {
     return { cron };
   }
 
-  private registerCronJobs() {
+
+  private async registerCronJobs() {
     for(const [cron, command] of this.jobSchedule) {
-      CallConsoleCommand.repeat(cron).dispatch(command);
+      await CallConsoleCommand.repeat(cron).dispatch(command);
     }
   }
 }
