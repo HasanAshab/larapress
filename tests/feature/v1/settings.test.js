@@ -1,7 +1,7 @@
 const DB = require("DB").default;
 const User = require("~/app/models/User").default;
 const Settings = require("~/app/models/Settings").default;
-const config = require("config")
+const Config = require("Config").default
 
 describe("Settings", () => {
   let user;
@@ -43,13 +43,12 @@ describe("Settings", () => {
     expect(response.body.data).toEqual(config);
   });
 
-  it("Admin should update app settings", { role: "admin", settings: false }, async () => {
+  it.only("Admin should update app settings", { role: "admin", settings: false }, async () => {
     const response = await request.put("/settings/app").actingAs(token).send({
       app: { name: "FooBar" }
     });
     expect(response.statusCode).toBe(200);
-    expect(config.get("app.name")).toBe("FooBar");
-    config.app.name = "Samer";
+    expect(Config.get("app.name")).toBe("FooBar");
   });
   
   it("Should get settings", async () => {

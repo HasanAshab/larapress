@@ -1,9 +1,7 @@
 import Controller from "~/app/http/controllers/Controller";
-import _ from "lodash";
 import { RequestHandler } from "~/core/decorators";
 import { AuthenticRequest } from "~/core/express";
 import Config from "Config";
-import Cache from "Cache";
 import Settings from "~/app/models/Settings";
 import TwoFactorAuthService from "~/app/services/auth/TwoFactorAuthService";
 import UpdateNotificationSettingsRequest from "~/app/http/requests/v1/UpdateNotificationSettingsRequest";
@@ -42,8 +40,7 @@ export default class SettingsController extends Controller {
 
   @RequestHandler
   async updateAppSettings(req: UpdateAppSettingsRequest) {
-    _.merge(Config, req.body);
-    Cache.put("Config", req.body);
+    Config.set(req.body);
     return "App Settings updated!";
   }
 }

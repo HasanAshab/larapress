@@ -6,7 +6,7 @@ export default class GenerateKey extends Command {
   
   async handle() {
     const secret = crypto.randomBytes(32).toString("hex");
-    env({ APP_KEY: secret });
+    putEnv({ APP_KEY: secret });
     this.success(`Key generated: ${secret}`);
   }
 }

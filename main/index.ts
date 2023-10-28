@@ -57,10 +57,3 @@ shouldLog && app.server.on("connection", (socket) => {
   const time = new Date().toLocaleTimeString("en-US", { hour12: true });
   console.log(`*New connection: [${time}]`);
 });
-
-
-console.log(Config.get())
-Config.set()
-console.log(Config.get())
-
-

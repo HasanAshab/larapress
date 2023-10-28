@@ -1,4 +1,5 @@
 import fs from "fs";
+import _ from "lodash";
 
 export type ConfigValue = string | number | boolean | Record<string, ConfigValue>;
 
@@ -22,7 +23,7 @@ export default class Config {
   }
 
   static set(data: object) {
-    //this.flattenedData = this.flattenObject(Object.assign(this.$data, data));
+    _.merge(this.$data, this.flattenObject(data));
   }
 
   static flattenObject(obj, prefix = '') {
