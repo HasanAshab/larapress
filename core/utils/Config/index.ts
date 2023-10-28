@@ -20,11 +20,11 @@ export default class Config {
     if (!value) throw new Error(`Config not exist for key "${key}"`);
     return value;
   }
-/*
+
   static set(data: object) {
-    this.flattenedData = this.flattenObject(Object.assign(this.$data, data));
+    //this.flattenedData = this.flattenObject(Object.assign(this.$data, data));
   }
-*/
+
   static flattenObject(obj, prefix = '') {
     const flatObject = {};
   

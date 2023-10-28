@@ -58,9 +58,9 @@ shouldLog && app.server.on("connection", (socket) => {
   console.log(`*New connection: [${time}]`);
 });
 
-/*
+
 console.log(Config.get())
 Config.set()
 console.log(Config.get())
-*/
+
 
