@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-export function performance(constructor: Function) {
+export function Performance(constructor: Function) {
   const methodNames = Object.getOwnPropertyNames(constructor.prototype);
   for (const methodName of methodNames) {
     const method = constructor.prototype[methodName];
@@ -11,6 +11,18 @@ export function performance(constructor: Function) {
       console.time(`${constructor.name}.${methodName}`)
       const result = await method.apply(constructor, args);
       console.timeEnd(`${constructor.name}.${methodName}`)
+      return result;
+    }
+  }
+}
+
+export function performance() {
+  return function(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    const value = descriptor.value;
+    descriptor.value = async function(...args: any[]) {
+      console.time(propertyKey)
+      const result = await value.apply(this, args);
+      console.timeEnd(propertyKey)
       return result;
     }
   }

@@ -1,5 +1,5 @@
 import Controller from "~/app/http/controllers/Controller";
-import RequestHandler from "~/core/decorators/RequestHandler";
+import { RequestHandler } from "~/core/decorators";
 import { Request, AuthenticRequest, Response } from "~/core/express";
 import { autoInjectable } from "tsyringe";
 import LoginRequest from "~/app/http/requests/v1/LoginRequest";

@@ -57,3 +57,15 @@ shouldLog && app.server.on("connection", (socket) => {
   const time = new Date().toLocaleTimeString("en-US", { hour12: true });
   console.log(`*New connection: [${time}]`);
 });
+
+import Storage from "Storage";
+
+(async () => {
+/*  await Storage.putFile("public", {
+    name: "foo",
+    data: "dhdjdjdjs"
+  });
+  */
+  
+  Storage.disk("local")
+})()

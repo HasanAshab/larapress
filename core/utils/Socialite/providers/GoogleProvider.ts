@@ -1,7 +1,7 @@
 import axios from 'axios';
-import Provider from "../Provider";
+import SocialiteProvider from "../SocialiteProvider";
 
-export default class GoogleProvider extends Provider {
+export default class GoogleProvider extends SocialiteProvider {
   protected scopes = ["openid", "profile", "email"];
   
   private buildRedirectUrlFromBase(base: string) {

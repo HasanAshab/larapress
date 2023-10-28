@@ -12,6 +12,7 @@ export default {
   log: "console",
 
   providers: [
+    "Storage/StorageServiceProvider",
     "Queue/QueueServiceProvider",
     "Cache/CacheServiceProvider",
     "DB/DatabaseServiceProvider",

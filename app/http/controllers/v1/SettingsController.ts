@@ -1,6 +1,6 @@
 import Controller from "~/app/http/controllers/Controller";
 import _ from "lodash";
-import RequestHandler from "~/core/decorators/RequestHandler";
+import { RequestHandler } from "~/core/decorators";
 import { AuthenticRequest } from "~/core/express";
 import Config from "Config";
 import Cache from "Cache";

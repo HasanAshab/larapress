@@ -1,5 +1,5 @@
 import Controller from "~/app/http/controllers/Controller";
-import RequestHandler from "~/core/decorators/RequestHandler";
+import { RequestHandler } from "~/core/decorators";
 import { AuthenticRequest, Response } from "~/core/express";
 import CreateContactRequest from "~/app/http/requests/v1/CreateContactRequest";
 import SearchContactRequest from "~/app/http/requests/v1/SearchContactRequest";

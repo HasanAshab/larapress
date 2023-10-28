@@ -1,5 +1,5 @@
 import Controller from "~/app/http/controllers/Controller";
-import RequestHandler from "~/core/decorators/RequestHandler";
+import { RequestHandler } from "~/core/decorators";
 import { AuthenticRequest, Response } from "~/core/express";
 import User from "~/app/models/User";
 import UpdateProfileRequest from "~/app/http/requests/v1/UpdateProfileRequest";

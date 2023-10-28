@@ -1,11 +1,12 @@
 import Manager from "~/core/abstract/Manager";
 import Config from "Config";
+import CacheStore from "./CacheStore";
 import MemoryStore from "./stores/MemoryStore";
 import RedisStore from "./stores/RedisStore";
 
 export type CacheDataArg = string | number | boolean | object | unknown[] | Buffer;
 
-export default class CacheManager extends Manager {
+export default class CacheManager extends Manager implements CacheStore {
   protected getDefaultDriver() {
     return Config.get("cache.default");
   }

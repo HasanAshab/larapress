@@ -1,4 +1,4 @@
-export default abstract class Provider {
+export default abstract class SocialiteProvider {
   constructor(private config: object) {
     this.config = config
   }

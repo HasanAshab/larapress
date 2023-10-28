@@ -6,7 +6,7 @@ export default abstract class Manager {
   
   abstract public getDefaultDriver?(): string;
 
-  driver(name?: string = this.getDefaultDriver?.()) {
+  driver(name?: string = this.getDefaultDriver?.(), config?: obje) {
     if(!name)
       throw new Error("Failed to resolve driver for " + this.name);
     return this.drivers[name] = this.createDriver(name);

@@ -1,7 +1,7 @@
 import axios from 'axios';
-import Provider from "../Provider";
+import SocialiteProvider from "../SocialiteProvider";
 
-export default class FacebookProvider extends Provider {
+export default class FacebookProvider extends SocialiteProvider {
   private version = "v3.3";
   private scopes = ["email"];
   private fields = ["id", "email", "name", "picture"];
