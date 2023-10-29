@@ -1,8 +1,9 @@
 import ServiceProvider from "~/core/abstract/ServiceProvider";
-import CallConsoleCommand from "~/app/jobs/CallConsoleCommand";
+import Job from "~/core/abstract/Job";
+import nodeCron from "node-cron";
 
 export default abstract class CronJobServiceProvider extends ServiceProvider {
-  private jobSchedule: [string, Function][] = [];
+  private jobSchedule: [string, Job][] = [];
 
   abstract private schedule(): void;
   
@@ -13,17 +14,15 @@ export default abstract class CronJobServiceProvider extends ServiceProvider {
     }
   }
   
-  private call(command: string | Function) {
-    const cron = cronTime => {
-      this.jobSchedule.push([cronTime, command]);
-    }
+  private call(JobClass: Job) {
+    const cron = cronTime => this.jobSchedule.push([cronTime, JobClass]);
     return { cron };
   }
 
 
-  private async registerCronJobs() {
-    for(const [cron, command] of this.jobSchedule) {
-      await CallConsoleCommand.repeat(cron).dispatch(command);
+  private registerCronJobs() {
+    for(const [cron, Job] of this.jobSchedule) {
+      nodeCron.schedule(cron, () => Job.dispatch());
     }
   }
 }

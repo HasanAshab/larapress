@@ -7,18 +7,35 @@ import Config from "Config";
 import URL from "URL";
 import { getStatusText } from "http-status-codes";
 
+
+/**
+* The Core Application class.
+* It is the place where all providers are booted
+*/
 export default class Application extends EventEmitter {
+  /**
+  * The HTTP handler (express)
+  */
   readonly http?: ExpressApplication;
+  
+  /**
+   * The HTTP server
+  */
   readonly server?;
-  readonly providersBaseDir = "app/providers";
-  //private registeredProviders = [];
+  
+  /**
+  * Booting callback of all providers
+  */
   private bootingCallbacks = [];
 
+  /**
+   * Create a Application instance
+  */ 
   constructor() {
     super();
     if(this.runningInWeb()) {
-      this.http = express();
-      this.server = createServer(this.http);
+      // if app is running on web we need http support
+      this.createHttpServer();
       this.addCustomHttpHelpers();
     }
     this.registerServiceProviders();
@@ -27,19 +44,36 @@ export default class Application extends EventEmitter {
     this.flush();
   }
   
+  /**
+   * Run all booting callbacks
+  */
   private bootProviders() {
     this.bootingCallbacks.forEach(cb => cb());
   }
-    
+  
+  /**
+   * Register all service providers
+  */
   private registerServiceProviders() {
     Config.get("app.providers").forEach(path => {
       this.register(require(path).default);
     });
   }
   
+  /**
+   * Create http server (express)
+  */
+  private createHttpServer() {
+    this.http = express();
+    this.server = createServer(this.http);
+  }
+  
+  /**
+   * Customize the HTTP (Express)
+  */
   private addCustomHttpHelpers() {
     if (!this.http)
-      throw new Error("Http (express) is not created.");
+      throw new Error("Http server (express) was not created.");
     
     this.http.request.files = {};
     
@@ -70,27 +104,37 @@ export default class Application extends EventEmitter {
       };
   }  
   
+  /**
+   * Flush booting callbacks list
+  */
   private flush() {
-   // this.registeredProviders = [];
     this.bootingCallbacks = [];
   }
   
+  /**
+   * Wether the app is running in console
+  */
   runningInConsole(): asserts this is Omit<this, "http"> {
     return env("NODE_ENV") === "shell";
   }
   
+  /**
+   * Wether the app is running in web (HTTP)
+  */
   runningInWeb(): asserts this is this & { http: ExpressApplication } {
     return !this.runningInConsole();
   }
   
+  /**
+   * Register a provider
+  */
   private register(Provider) {
-    //if(this.registeredProviders.includes(Provider))
-     // return;
+    if(this.registeredProviders.includes(Provider))
+      return;
     const provider = new Provider(this);
     provider.register?.();
     if (provider.boot) {
       this.bootingCallbacks.push(provider.boot.bind(provider));
     }
-    //this.registeredProviders.push(Provider);
   }
 }

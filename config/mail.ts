@@ -8,9 +8,9 @@ export default {
   encryption: env("MAIL_ENCRYPTION"),
   template: {
     viewEngine: {
-      layoutsDir: "views/layouts",
-      partialsDir: "views/partials",
+      layoutsDir: base("views/layouts"),
+      partialsDir: base("views/partials"),
     },
-    viewPath: "views/emails"
+    viewPath: base("views/emails")
   }
 }
