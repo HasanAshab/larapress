@@ -7,12 +7,12 @@ Router.controller(SettingsController).group(() => {
   Router.middleware(["auth", "verified"]).group(() => {
     Router.get("/", "index");
     Router.post("/setup-2fa", "setupTwoFactorAuth");
-    Router.put("/notification", "notification");
+    Router.patch("/notification", "notification");
   });
 
   // App settings managenent
   Router.middleware(["auth", "roles:admin"]).group(() => {
     Router.get("/app", "getAppSettings");
-    Router.put("/app", "updateAppSettings");
+    Router.patch("/app", "updateAppSettings");
   });
 });

@@ -1,10 +1,10 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
 
 export default class MakeController extends ComponentGenerator {
-  static signature = "make:controller {name} {--v|version=v1}";
+  static signature = "make:controller {--v|version=v1} {--api} {name}";
   
   protected template() {
-    return "controller";
+    return "controller/" + (this.option("api") ? "api" : "general");
   }
   
   protected dist() {

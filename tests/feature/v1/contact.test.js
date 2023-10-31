@@ -52,7 +52,7 @@ describe("Contact", () => {
       request.get("/contact/inquiries"),
       request.get("/contact/inquiries/fooId"),
       request.delete("/contact/inquiries/fooId"),
-      request.put("/contact/inquiries/fooId/status"),
+      request.patch("/contact/inquiries/fooId/status"),
       request.get("/contact/inquiries/search"),
     ];
   
@@ -110,7 +110,7 @@ describe("Contact", () => {
   
   it("Should update contact status", async () => {
     let contact = await Contact.factory().create();
-    const response = await request.put(`/contact/inquiries/${contact._id}/status`).actingAs(token).send({ status: "closed" });
+    const response = await request.patch(`/contact/inquiries/${contact._id}/status`).actingAs(token).send({ status: "closed" });
     contact = await Contact.findById(contact._id);
     expect(response.statusCode).toBe(200);
     expect(contact.status).toBe("closed");

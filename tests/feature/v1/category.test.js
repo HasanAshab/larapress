@@ -27,7 +27,7 @@ describe("Category", () => {
       request.get("/admin/categories"),
       request.post("/admin/categories"),
       request.get("/admin/categories/foo-user-id"),
-      request.put("/admin/categories/foo-user-id"),
+      request.patch("/admin/categories/foo-user-id"),
       request.delete("/admin/categories/foo-user-id")
     ]
     const responses = await Promise.all(
@@ -86,7 +86,7 @@ describe("Category", () => {
   
   it("Should update category", async () => {
     let category = await Category.factory().create();
-    const response = await request.put("/admin/categories/" + category._id).actingAs(token).multipart({
+    const response = await request.patch("/admin/categories/" + category._id).actingAs(token).multipart({
       name: "foo bar",
       slug: "foo-bar"
     });
@@ -98,7 +98,7 @@ describe("Category", () => {
   
   it("Should update category with icon", async () => {
     let category = await Category.factory().create();
-    const response = await request.put("/admin/categories/" + category._id).actingAs(token).multipart({
+    const response = await request.patch("/admin/categories/" + category._id).actingAs(token).multipart({
       name: "foo bar",
       slug: "foo-bar",
       icon: fakeFile("image.png")
@@ -113,7 +113,7 @@ describe("Category", () => {
   
   it("Shouldn't update category with existing slug", async () => {
     let categories = await Category.factory().count(2).create();
-    const response = await request.put("/admin/categories/" + categories[0]._id).actingAs(token).multipart({
+    const response = await request.patch("/admin/categories/" + categories[0]._id).actingAs(token).multipart({
       name: "foo bar",
       slug: categories[1].slug,
     });

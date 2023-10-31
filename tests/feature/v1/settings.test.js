@@ -28,7 +28,7 @@ describe("Settings", () => {
   it("App settings shouldn't accessable by novice users", { settings: false }, async () => {
     const requests = [
       request.get("/settings/app"),
-      request.put("/settings/app"),
+      request.patch("/settings/app"),
     ];
     const responses = await Promise.all(
       requests.map((request) => request.actingAs(token))
@@ -43,8 +43,8 @@ describe("Settings", () => {
     expect(response.body.data).toEqual(config);
   });
 
-  it.only("Admin should update app settings", { role: "admin", settings: false }, async () => {
-    const response = await request.put("/settings/app").actingAs(token).send({
+  it("Admin should update app settings", { role: "admin", settings: false }, async () => {
+    const response = await request.patch("/settings/app").actingAs(token).send({
       app: { name: "FooBar" }
     });
     expect(response.statusCode).toBe(200);
@@ -100,7 +100,7 @@ describe("Settings", () => {
   });
 
 
-  it("Should update notification settings", async () => {
+  it.only("Should update notification settings", async () => {
     const data = {
       announcement: {
         email: false
@@ -113,8 +113,9 @@ describe("Settings", () => {
         site: false
       }
     };
-    const response = await request.put("/settings/notification").actingAs(token).send(data);
+    const response = await request.patch("/settings/notification").actingAs(token).send(data);
     const settings = await user.settings;
+    console.log(settings)
     expect(response.statusCode).toBe(200);
     for(key1 in data){
       for(key2 in data[key1]){

@@ -2,7 +2,7 @@ import Controller from "~/app/http/controllers/Controller";
 import { RequestHandler } from "~/core/decorators";
 import { Request, AuthenticRequest, Response } from "~/core/express";
 import Category from "~/app/models/Category";
-import CreateCategoryRequest from "~/app/http/requests/v1/CreateCategoryRequest";
+import CategoryRequest from "~/app/http/requests/v1/CategoryRequest";
 import UpdateCategoryRequest from "~/app/http/requests/v1/UpdateCategoryRequest";
 
 export default class CategoryController extends Controller {
@@ -17,7 +17,7 @@ export default class CategoryController extends Controller {
   }
   
   @RequestHandler
-  async create(req: CreateCategoryRequest, res: Response) {
+  async store(req: CategoryRequest, res: Response) {
     const icon = req.files.icon;
     const category = new Category(req.body);
     icon && await category.attach("icon", icon);

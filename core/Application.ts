@@ -10,7 +10,7 @@ import { getStatusText } from "http-status-codes";
 
 /**
 * The Core Application class.
-* It is the place where all providers are booted
+* It is the place where all the providers are booted
 */
 export default class Application extends EventEmitter {
   /**
@@ -129,8 +129,6 @@ export default class Application extends EventEmitter {
    * Register a provider
   */
   private register(Provider) {
-    if(this.registeredProviders.includes(Provider))
-      return;
     const provider = new Provider(this);
     provider.register?.();
     if (provider.boot) {

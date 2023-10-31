@@ -1,7 +1,7 @@
 import Controller from "~/app/http/controllers/Controller";
 import { RequestHandler } from "~/core/decorators";
 import { AuthenticRequest, Response } from "~/core/express";
-import CreateContactRequest from "~/app/http/requests/v1/CreateContactRequest";
+import ContactRequest from "~/app/http/requests/v1/ContactRequest";
 import SearchContactRequest from "~/app/http/requests/v1/SearchContactRequest";
 import UpdateContactStatusRequest from "~/app/http/requests/v1/UpdateContactStatusRequest";
 import Contact from "~/app/models/Contact";
@@ -15,7 +15,7 @@ export default class ContactController extends Controller {
   }
   
   @RequestHandler
-  async create(req: CreateContactRequest, res: Response) {
+  async store(req: ContactRequest, res: Response) {
     await Contact.create(req.body);
     res.status(201).message("Thanks for contacting us!");
   }

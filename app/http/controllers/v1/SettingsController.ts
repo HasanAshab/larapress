@@ -14,6 +14,7 @@ export default class SettingsController extends Controller {
     return await req.user.settings;
   }
   
+  //Problem here
   @RequestHandler
   async notification(req: UpdateNotificationSettingsRequest) {
     await Settings.updateOne({ userId: req.user._id }, { notification: req.body });

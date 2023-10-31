@@ -46,7 +46,7 @@ describe("user", () => {
   });
 
   it("should update profile", async () => {
-    const response = await request.put("/users/me").actingAs(token).multipart({
+    const response = await request.patch("/users/me").actingAs(token).multipart({
       username: "newName",
       profile: fakeFile("image.png")
     });
@@ -59,7 +59,7 @@ describe("user", () => {
   });
 
   it("Should update profile without profile", async () => {
-    const response = await request.put("/users/me").actingAs(token).multipart({ username: "newName" });
+    const response = await request.patch("/users/me").actingAs(token).multipart({ username: "newName" });
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
     expect(user.username).toBe("newName");
@@ -69,7 +69,7 @@ describe("user", () => {
   it("Shouldn't update profile with existing username", async () => {
     const existingUser = await User.factory().create();
     const usernameBefore = user.username;
-    const response = await request.put("/users/me").actingAs(token).send({ username: existingUser.username });
+    const response = await request.patch("/users/me").actingAs(token).send({ username: existingUser.username });
     await user.refresh();
     expect(response.statusCode).toBe(400);
     expect(user.username).toBe(usernameBefore);
@@ -77,7 +77,7 @@ describe("user", () => {
 
   it("Shouldn't update profile with existing email", async () => {
     const existingUser = await User.factory().create();
-    const response = await request.put("/users/me").actingAs(token).multipart({ email: existingUser.email });
+    const response = await request.patch("/users/me").actingAs(token).multipart({ email: existingUser.email });
     const userAfterRequest = await User.findById(user._id);
     expect(response.statusCode).toBe(400);
     expect(userAfterRequest.email).toBe(user.email);
@@ -86,7 +86,7 @@ describe("user", () => {
 
   it.only("updating email should send verification email", async () => {
     const email = "foo@test.com";
-    const response = await request.put("/users/me").actingAs(token).multipart({ email });
+    const response = await request.patch("/users/me").actingAs(token).multipart({ email });
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
     expect(user.email).toBe(email);
@@ -136,7 +136,7 @@ describe("user", () => {
     
   it("Should make admin", async () => {
     const admin = await User.factory().withRole("admin").create();
-    const response = await request.put(`/users/${user.username}/make-admin`).actingAs(admin.createToken());
+    const response = await request.patch(`/users/${user.username}/make-admin`).actingAs(admin.createToken());
     expect(response.statusCode).toBe(200);
     user = await User.findById(user._id);
     expect(user.role).toBe("admin");
@@ -144,7 +144,7 @@ describe("user", () => {
   
   it("General user Should't make admin", async () => {
     let anotherUser = await User.factory().create();
-    const response = await request.put(`/users/${anotherUser.username}/make-admin`).actingAs(token);
+    const response = await request.patch(`/users/${anotherUser.username}/make-admin`).actingAs(token);
     expect(response.statusCode).toBe(403);
     user = await User.findById(user._id);
     expect(anotherUser.role).toBe("novice");

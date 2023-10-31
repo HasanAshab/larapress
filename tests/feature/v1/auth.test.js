@@ -319,7 +319,7 @@ describe("Auth", () => {
       oldPassword: "password",
       newPassword: "Password@1234",
     };
-    const response = await request.put("/auth/password/change").actingAs(token).send(data);
+    const response = await request.patch("/auth/password/change").actingAs(token).send(data);
     await user.refresh();
     expect(response.statusCode).toBe(200);
     expect(await user.attempt(data.newPassword)).toBe(true);
@@ -327,7 +327,7 @@ describe("Auth", () => {
 
   it("shouldn't change password of OAuth account", async () => {
     const user = await User.factory().oauth().create();
-    const response = await request.put("/auth/password/change").actingAs(user.createToken()).send({
+    const response = await request.patch("/auth/password/change").actingAs(user.createToken()).send({
       oldPassword: "password",
       newPassword: "Password@1234"
     });
@@ -336,7 +336,7 @@ describe("Auth", () => {
 
   it("Should send reset email", { user: true }, async () => {
     const response = await request.post("/auth/password/forgot").send({ email: user.email });
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(202);
     Notification.assertSentTo(user, ForgotPasswordNotification);
   });
 
@@ -351,7 +351,7 @@ describe("Auth", () => {
   it("should reset password", { user: true }, async () => {
     const token = await (new ForgotPasswordNotification).createForgotPasswordToken(user);
     const password = "Password@1234";
-    const response = await request.put("/auth/password/reset").send({
+    const response = await request.patch("/auth/password/reset").send({
       id: user._id.toString(),
       password,
       token
@@ -363,7 +363,7 @@ describe("Auth", () => {
 
   it("shouldn't reset password with invalid token", { user: true }, async () => {
     const password = "Password@1234";
-    const response = await request.put("/auth/password/reset").send({
+    const response = await request.patch("/auth/password/reset").send({
       id: user._id.toString(),
       token: "foo",
       password
@@ -377,7 +377,7 @@ describe("Auth", () => {
     const user = await User.factory().hasSettings().create();
     const phoneNumber = "+14155552671";
     const { code: otp } = await OTP.create({ userId: user._id });
-    const response = await request.put("/auth/change-phone-number").actingAs(user.createToken()).send({ phoneNumber, otp });
+    const response = await request.patch("/auth/change-phone-number").actingAs(user.createToken()).send({ phoneNumber, otp });
     await user.refresh();
     expect(response.statusCode).toBe(200);
     expect(user.phoneNumber).toBe(phoneNumber);
@@ -385,7 +385,7 @@ describe("Auth", () => {
   
   it("Shouldn't update phone number with invalid otp", { user: true }, async () => {
     const phoneNumber = "+14155552671";
-    const response = await request.put("/auth/change-phone-number").actingAs(token).send({ phoneNumber, otp: 123456 });
+    const response = await request.patch("/auth/change-phone-number").actingAs(token).send({ phoneNumber, otp: 123456 });
     await user.refresh();
     expect(response.statusCode).toBe(401);
     expect(user.phoneNumber).not.toBe(phoneNumber);
@@ -393,7 +393,7 @@ describe("Auth", () => {
   
   it("Update phone number should send otp if otp code not provided", { user: true }, async () => {
     const phoneNumber = "+14155552671";
-    const response = await request.put("/auth/change-phone-number").actingAs(token).send({ phoneNumber });
+    const response = await request.patch("/auth/change-phone-number").actingAs(token).send({ phoneNumber });
     const otp = await OTP.findOne({ userId: user._id });
     await user.refresh();
     expect(response.statusCode).toBe(200);

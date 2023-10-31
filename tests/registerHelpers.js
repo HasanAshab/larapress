@@ -5,7 +5,7 @@ const app = require("~/main/app").default
 const request = require("supertest")(app.server);
 
 const version = "v1";
-const methods = ["get", "post", "put", "delete"];
+const methods = ["get", "post", "put", "patch", "delete"];
 for(const method of methods) {
   const realHandler = request[method];
   request[method] = function(subUrl) {

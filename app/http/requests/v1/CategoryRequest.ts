@@ -2,7 +2,7 @@ import { AuthenticRequest } from "~/core/express";
 import Validator, { unique } from "Validator";
 import { UploadedFile } from "express-fileupload";
 
-export default class CreateCategoryRequest extends AuthenticRequest {
+export default class CategoryRequest extends AuthenticRequest {
   body!: { 
     name: string;
     slug: string;

@@ -5,7 +5,7 @@ import { ISettings } from "~/app/models/Settings";
 import { DeepPartial } from "utility-types";
 
 export default class UpdateNotificationSettingsRequest extends AuthenticRequest {
-  body!: DeepPartial<ISettings["notification"]>;
+  body!: ISettings["notification"];
 
   static rules() {
     const { channels, types } = Config.get("notification");

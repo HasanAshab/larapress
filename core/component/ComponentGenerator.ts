@@ -31,7 +31,7 @@ export default abstract class ComponentGenerator extends Command {
   }
   
   private prepareParentFolders(filepath: string) {
-    execSync("mkdir -p " + path.dirname(filepath));
+    fs.mkdirSync(path.dirname(filepath), { recursive: true });
   }
   
   private generateComponent(dist: string, content: string) {

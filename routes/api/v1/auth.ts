@@ -20,8 +20,8 @@ Router.controller(AuthController).group(() => {
   // User password management
   Router.prefix("/password").group(() => {
     Router.post("/forgot", "sendResetPasswordEmail").middleware("recaptcha", "limit:10000,2");
-    Router.put("/reset", "resetPassword");
-    Router.put("/change", "changePassword").middleware("auth", "verified");
+    Router.patch("/reset", "resetPassword");
+    Router.patch("/change", "changePassword").middleware("auth", "verified");
   });
 
   // Verify user
@@ -33,6 +33,6 @@ Router.controller(AuthController).group(() => {
   Router.post("/register", "register").middleware("recaptcha");
   Router.get("/callback/:provider(google|facebook)", "loginWithExternalProvider");
   Router.post("/send-otp/:user", "sendOtp").middleware("limit:60000,3");
-  Router.put("/change-phone-number", "changePhoneNumber").middleware("auth", "verified");
+  Router.patch("/change-phone-number", "changePhoneNumber").middleware("auth", "verified");
   Router.post("/generate-recovery-codes", "generateRecoveryCodes").middleware("limit:60000,3", "auth", "verified");
 });

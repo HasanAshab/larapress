@@ -29,7 +29,7 @@ export default class Router {
   static $stack = [];
   static $middlewareAliases = {};
   static $namedUrls = {};
-  static $bindings = {};
+  static $resolvers = {};
 
   static $reset() {
     Router.$config = {
@@ -67,6 +67,10 @@ export default class Router {
   static put<T extends typeof Controller>(endpoint: string, metadata: [T, keyof T]) {
     return this.$add("put", endpoint, metadata);
   }
+
+  static patch<T extends typeof Controller>(endpoint: string, metadata: [T, keyof T]) {
+    return this.$add("patch", endpoint, metadata);
+  }
   
   static delete<T extends typeof Controller>(endpoint: string, metadata: [T, keyof T]) {
     return this.$add("delete", endpoint, metadata);
@@ -79,7 +83,7 @@ export default class Router {
       as: prefix + "."
     }, () => {
       this.get("/", "index").name("index");
-      this.post("/", "create").name("create");
+      this.post("/", "store").name("store");
       this.get("/:id", "show").name("show");
       this.put("/:id", "update").name("update");
       this.delete("/:id", "delete").name("delete");
@@ -87,11 +91,11 @@ export default class Router {
   }
   
   static resolve(req: Request, param: string) {
-    return this.$bindings[param]?.(req.params[param]);
+    return this.$resolvers[param]?.(req.params[param]);
   }
 
   static bind(param: string, resolver) {
-    this.$bindings[param] = resolver;
+    this.$resolvers[param] = resolver;
   }
   
   static model(param: string, Model: string | Model) {
@@ -111,14 +115,14 @@ export default class Router {
   
   /**
     * Generates middlewares stack based on keys. Options are injected to the middleware class.
-    * You can pass only keys or strings that are devided by ':' first part is the 
-    * key and second is options separated by ','
+    * You can pass only keys or strings that are devided by ':'. first part is the 
+    * key and second is options which is separated by ','
     *
     * Examples:
     * 
-    * this.resolve("foo")
-    * this.resolve("foo", "bar")
-    * this.resolve("foo:opt1", "bar:opt1,opt2")
+    * this.resolveMiddleware("foo")
+    * this.resolveMiddleware("foo", "bar")
+    * this.resolveMiddleware("foo:opt1", "bar:opt1,opt2")
   */
   static resolveMiddleware(...keysWithOptions): RequestHandler[] {
     const handlers = [];

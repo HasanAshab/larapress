@@ -1,7 +1,7 @@
 import { Request } from "~/core/express";
 import Validator from "Validator";
 
-export default class CreateContactRequest extends Request {
+export default class ContactRequest extends Request {
   body!: { 
     email: string;
     subject: string;

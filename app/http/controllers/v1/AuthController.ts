@@ -102,11 +102,11 @@ export default class AuthController extends Controller {
   };
   
   @RequestHandler
-  async sendResetPasswordEmail(req: SendResetPasswordEmailRequest){
+  async sendResetPasswordEmail(req: SendResetPasswordEmailRequest, res: Response){
     const user = await User.findOne(req.body);
     if(user?.password)
       await user.sendResetPasswordNotification();
-    return "Password reset link sent to email!";
+    res.status(202).message("Password reset link sent to email!");
   };
 
   @RequestHandler
