@@ -1,5 +1,6 @@
-const mongoose = require("mongoose");
-function matchDocumentWithResponse(received, doc) {
+import { Types, Document } from "mongoose";
+
+function matchDocumentWithResponse(received: Record<string, any>, doc: Document) {
   doc = doc.toJSON()
   const keys1 = Object.keys(received);
   const keys2 = Object.keys(doc);
@@ -10,7 +11,7 @@ function matchDocumentWithResponse(received, doc) {
     if(doc[key] instanceof Date) {
       doc[key] = doc[key].toISOString();
     }
-    if (doc[key] instanceof mongoose.Types.ObjectId){
+    if (doc[key] instanceof Types.ObjectId){
       doc[key] = doc[key].toString();
     }
     if (typeof doc[key] === "string" && received[key] !== doc[key]){
@@ -24,7 +25,7 @@ function matchDocumentWithResponse(received, doc) {
 
 
 expect.extend({
-  toEqualDocument(received, doc) {
+  toEqualDocument(received: Record<string, any>, doc: Document) {
     const docs = Array.isArray(doc) ? doc : [doc];
     const receivedDocs = Array.isArray(received) ? received : [received];
     const pass = docs.every((doc, i) => matchDocumentWithResponse(receivedDocs[i], doc));

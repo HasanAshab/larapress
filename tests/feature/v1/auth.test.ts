@@ -1,12 +1,12 @@
-const DB = require("DB").default;
-const Cache = require("Cache").default;
-const Storage = require("Storage").default;
-const Notification = require("Notification").default;
-const User = require("~/app/models/User").default;
-const OTP = require("~/app/models/OTP").default;
-const EmailVerificationNotification = require("~/app/notifications/EmailVerificationNotification").default;
-const ForgotPasswordNotification = require("~/app/notifications/ForgotPasswordNotification").default;
-const AuthService = require("~/app/services/auth/AuthService").default;
+import DB from "DB";
+import Cache from "Cache";
+import Storage from "Storage";
+import Notification from "Notification";
+import User from "~/app/models/User";
+import OTP from "~/app/models/OTP";
+import EmailVerificationNotification from "~/app/notifications/EmailVerificationNotification";
+import ForgotPasswordNotification from "~/app/notifications/ForgotPasswordNotification";
+import AuthService from "~/app/services/auth/AuthService";
 
 describe("Auth", () => {
   let user;

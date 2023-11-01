@@ -1,5 +1,5 @@
-const Cache = require("Cache").default;
-const Config = require("Config").default;
+import Cache from "Cache";
+import Config from "Config";
 
 describe("Cache", () => {
   const drivers = ["redis", "memory"];

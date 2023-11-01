@@ -1,11 +1,11 @@
-const DB = require("DB").default;
-const User = require("~/app/models/User").default;
-const Settings = require("~/app/models/Settings").default;
-const Config = require("Config").default
+import DB from "DB";
+import Config from "Config";
+import User, { UserDocument } from "~/app/models/User";
+import Settings from "~/app/models/Settings";
 
 describe("Settings", () => {
-  let user;
-  let token;
+  let user: UserDocument;
+  let token: string;
 
   beforeAll(async () => {
     await DB.connect();

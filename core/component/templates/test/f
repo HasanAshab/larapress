@@ -1,9 +1,9 @@
-const DB = require("~/core/utils/DB").default;
-//const User = require("~/app/models/User").default;
+import DB from "~/core/utils/DB";
+//import User, { UserDocument } from "~/app/models/User";
 
 describe("{{name}}", () => {
-  //let user;
-  //let token;
+  //let user: UserDocument;
+  //let token: string;
   
   beforeAll(async () => {
     //await DB.connect();

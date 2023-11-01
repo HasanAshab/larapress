@@ -9,7 +9,7 @@ export default class MakeTest extends ComponentGenerator {
 
   protected dist() {
     return this.option("unit")
-      ? `tests/unit/${this.argument("name")}.test.js`
-      : `tests/feature/${this.argument("name")}.test.js`;
+      ? `tests/unit/${this.argument("name")}.test.ts`
+      : `tests/feature/${this.argument("name")}.test.ts`;
   }
 }

@@ -1,6 +1,6 @@
-const DB = require("~/core/utils/DB").default;
-const Contact = require("~/app/models/Contact").default;
-const User = require("~/app/models/User").default;
+import DB from "~/core/utils/DB";
+import Contact from "~/app/models/Contact";
+import User from "~/app/models/User";
 
 
 describe("Contact", () => {

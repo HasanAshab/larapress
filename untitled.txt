@@ -1,2 +1,0 @@
-1. CI & CD
-2. mobile consumer

@@ -1,8 +1,8 @@
-const config = require("config");
+import Config from "Config";
 
 describe("App", () => {
   beforeAll(() => {
-    config.app.state = "down";
+    Config.set({ app: { state: "down" } });
   });
   
   it("shouldn't accessable when in maintenance mode", async () => {
@@ -16,7 +16,7 @@ describe("App", () => {
   });
   
   it("should accessable with valid bypass key when in maintenance mode", async () => {
-    const response = await request.get("/").query({ bypassKey: config.get("app.key") });
+    const response = await request.get("/").query({ bypassKey: Config.get("app.key") });
     expect(response.statusCode).toBe(404);
   });
 });

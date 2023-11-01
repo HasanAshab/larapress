@@ -1,11 +1,11 @@
 jest.mock("~/core/abstract/Job");
 jest.unmock("Notification");
 
-const Notification = require("Notification").default;
-const Mail = require("Mail").default;
-const SendNotification = require("~/app/jobs/SendNotification").default;
-const User = require("~/app/models/User").default;
-const BaseNotification = require("~/core/abstract/Notification").default;
+import Notification from "Notification";
+import Mail from "Mail";
+import SendNotification from "~/app/jobs/SendNotification";
+import User from "~/app/models/User";
+import BaseNotification from "~/core/abstract/Notification";
 
 class TestMail {}
 

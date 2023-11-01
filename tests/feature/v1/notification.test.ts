@@ -1,10 +1,10 @@
-const DB = require("DB").default;
-const User = require("~/app/models/User").default;
-const Notification = require("~/app/models/Notification").default;
+import DB from "DB";
+import User, { UserDocument } from "~/app/models/User";
+import Notification from "~/app/models/Notification";
 
 describe("Notification", () => {
-  let user;
-  let token;
+  let user: UserDocument;
+  let token: string;
 
   beforeAll(async () => {
     await DB.connect();

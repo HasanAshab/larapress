@@ -18,7 +18,7 @@ export default class RouteServiceProvider extends ServiceProvider {
   */
   protected serveApiDoc = env("NODE_ENV") === "development";
   
-  boot() {
+  register() {
     if(this.app.runningInConsole())
       return;
     if(this.serveApiDoc) {

@@ -30,8 +30,12 @@ export default class RouteServiceProvider extends ServiceProvider {
     ]
   }
   
-  boot() {
-    super.boot();
+  register() {
+    super.register();
     Router.model("user", "~/app/models/User");
+  }
+  
+  protected registerRoutes() {
+    
   }
 }

@@ -1,8 +1,8 @@
-const DB = require("DB").default;
-const User = require("~/app/models/User").default;
-const Storage = require("Storage").default;
-const Notification = require("Notification").default;
-const EmailVerificationNotification = require("~/app/notifications/EmailVerificationNotification").default;
+import DB from "DB";
+import User from "~/app/models/User";
+import Storage from "Storage";
+import Notification from "Notification";
+import EmailVerificationNotification from "~/app/notifications/EmailVerificationNotification";
 
 describe("user", () => {
   let user;

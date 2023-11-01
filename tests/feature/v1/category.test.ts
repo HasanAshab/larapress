@@ -1,7 +1,7 @@
-const DB = require("DB").default;
-const User = require("~/app/models/User").default;
-const Category = require("~/app/models/Category").default;
-const Storage = require("Storage").default;
+import DB = from "DB";
+import User from "~/app/models/User";
+import Category from "~/app/models/Category";
+import Storage from "Storage";
 
 describe("Category", () => {
   let admin;

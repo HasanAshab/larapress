@@ -1,7 +1,7 @@
 jest.unmock("Storage");
 
-const Storage = require("Storage").default;
-const fs = require("fs");
+import Storage from "Storage";
+import fs from "fs";
 
 describe("storage", () => {
   it("Should store file", async () => {

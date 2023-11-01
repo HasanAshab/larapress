@@ -1,5 +1,3 @@
-const app = require("~/main/app").default;
-
 let setup;
 global.beforeEach = function(cb) {
   setup = cb;

@@ -1,10 +1,10 @@
-const DB = require("DB").default;
-const Notification = require("Notification").default;
-const User = require("~/app/models/User").default;
-const SendEmailVerificationNotification = require("~/app/listeners/SendEmailVerificationNotification").default;
-const SendNewUserJoinedNotificationToAdmins = require("~/app/listeners/SendNewUserJoinedNotificationToAdmins").default;
-const NewUserJoinedNotification = require("~/app/notifications/NewUserJoinedNotification").default;
-const EmailVerificationNotification = require("~/app/notifications/EmailVerificationNotification").default;
+import DB from "DB";
+import Notification from "Notification";
+import User from "~/app/models/User";
+import SendEmailVerificationNotification from "~/app/listeners/SendEmailVerificationNotification";
+import SendNewUserJoinedNotificationToAdmins from "~/app/listeners/SendNewUserJoinedNotificationToAdmins";
+import NewUserJoinedNotification from "~/app/notifications/NewUserJoinedNotification";
+import EmailVerificationNotification from "~/app/notifications/EmailVerificationNotification";
 
 describe("Registered Event", () => {
   let user;
