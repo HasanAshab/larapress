@@ -33,7 +33,7 @@ export default (schema: Schema) => {
     const hashPromises = [];
     for (let i = 0; i < count; i++) {
     //TODO wrap this block in async
-      const code = crypto.randomBytes(16).toString('hex');
+      const code = crypto.randomBytes(8).toString('hex');
       rawCodes.push(code);
       hashPromises.push(bcrypt.hash(code, Config.get("bcrypt.rounds")));
     }

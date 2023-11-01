@@ -14,7 +14,7 @@ import https from "https";
 const shouldLog = process.env.NODE_ENV === "development";
 
 // Connecting to database
-if(false && Config.get("database.connect")) {
+if(Config.get("database.connect")) {
   DB.connect().then(() => {
     shouldLog && console.log("Connected to Database!");
   }).catch(err => {
