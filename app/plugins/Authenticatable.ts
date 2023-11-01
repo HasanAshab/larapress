@@ -30,14 +30,16 @@ export default (schema: Schema) => {
 
   schema.methods.generateRecoveryCodes = async function(count = 10) {
     const rawCodes = [];
-    const hashPromises = [];
+    const promises = [];
     for (let i = 0; i < count; i++) {
-    //TODO wrap this block in async
-      const code = crypto.randomBytes(8).toString('hex');
-      rawCodes.push(code);
-      hashPromises.push(bcrypt.hash(code, Config.get("bcrypt.rounds")));
+      const generateCode = async () => {
+        const code = crypto.randomBytes(8).toString('hex');
+        rawCodes.push(code);
+        this.recoveryCodes = await bcrypt.hash(code, Config.get("bcrypt.rounds"));
+      }
+      promises.push(generateCode())
     }
-    this.recoveryCodes = await Promise.all(hashPromises);
+    await Promise.all(promises);
     await this.save();
     return rawCodes;
   }
