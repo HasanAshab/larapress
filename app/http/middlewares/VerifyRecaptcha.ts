@@ -9,13 +9,12 @@ export default class VerifyRecaptcha {
       response: req.body.recaptchaResponse
     }
     
-    const { success } = await axios.post('https://www.google.com/recaptcha/api/siteverify', body, {
+    const { data } = await axios.post('https://www.google.com/recaptcha/api/siteverify', body, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
-    
-    if (success) {
+    if (data.success) {
       return next();
     }
     res.status(400).message('reCAPTCHA verification failed!')

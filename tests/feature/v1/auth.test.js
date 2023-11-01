@@ -37,7 +37,6 @@ describe("Auth", () => {
     };
     const response = await request.post("/auth/register").multipart(data);
     const user = await User.findOne({ email: data.email });
-    
     expect(response.statusCode).toBe(201);
     expect(response.body.data).toHaveProperty("token");
     expect(user).not.toBeNull();

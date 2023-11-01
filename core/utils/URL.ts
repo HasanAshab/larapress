@@ -22,9 +22,8 @@ export default class URL {
     let endpoint = Router.$namedUrls[name];
     if(!endpoint) 
       throw new Error(`No url registered with name "${name}"`);
-    if (data) {
-      this.resolveDynamicEndpoint(endpoint, data);
-    }
+    if (data)
+      endpoint = this.resolveDynamicEndpoint(endpoint, data);
     return this.resolve(endpoint);
   }
   
@@ -35,6 +34,7 @@ export default class URL {
         endpoint = endpoint.replace(param, data[param.slice(1)]?.toString())
       }
     }
+    return endpoint;
   }
 
   static signedRoute(routeName: string, data?: Record<string, string | number>) {

@@ -71,7 +71,7 @@ export default class AuthService {
   
   async externalLoginFinalStep(provider: string, externalId: string, token: string, username: string, email?: string) {
     const externalUser = await Token.verify(externalId, provider + "Login", token);
-    const user = await User.create({
+    return await User.create({
       [`externalId.${provider}`]: externalUser.id,
       name: externalUser.name,
       email: externalUser.email ?? email,
@@ -79,7 +79,6 @@ export default class AuthService {
       verified: true,
       "profile.url": externalUser.picture
     });
-    return user.createToken();
   }
 
   private createDefaultSettings(user: UserDocument) {

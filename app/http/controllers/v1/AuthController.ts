@@ -1,7 +1,7 @@
 import Controller from "~/app/http/controllers/Controller";
 import { RequestHandler } from "~/core/decorators";
 import { Request, AuthenticRequest, Response } from "~/core/express";
-import { autoInjectable } from "tsyringe";
+import { injectable } from "tsyringe";
 import LoginRequest from "~/app/http/requests/v1/LoginRequest";
 import RegisterRequest from "~/app/http/requests/v1/RegisterRequest";
 import LoginWithRecoveryCodeRequest from "~/app/http/requests/v1/LoginWithRecoveryCodeRequest";
@@ -19,9 +19,9 @@ import Event from "~/core/Event";
 import User from "~/app/models/User";
 import Token from "~/app/models/Token";
 import Socialite from "Socialite";
-import jwt from "jsonwebtoken";
+import URL from "URL";
 
-@autoInjectable()
+@injectable()
 export default class AuthController extends Controller {
   constructor(private readonly authService: AuthService) {
     super();
@@ -32,7 +32,8 @@ export default class AuthController extends Controller {
     const { email, username, password } = req.body;
     const user = await this.authService.register(email, username, password, req.files.profile);
     Event.emit("Registered", user);
-    res.status(201).api({
+    const profile = URL.route("users.show", { username: user.username });
+    res.header("Location", profile).status(201).api({
       token: user.createToken(),
       message: "Verification email sent!",
     });
@@ -79,9 +80,11 @@ export default class AuthController extends Controller {
   @RequestHandler
   async externalLoginFinalStep(req: ExternalLoginFinalStepRequest, res: Response, provider: string) {
     const { externalId, token, username, email } = req.body;
-    const authToken = await this.authService.externalLoginFinalStep(provider, externalId, token, username, email);
-    res.status(201).api({
-      token: authToken,
+    const user = await this.authService.externalLoginFinalStep(provider, externalId, token, username, email);
+    Event.emit("Registered", user);
+    const profile = URL.route("users.show", { username: user.username });
+    res.header("Location", profile).status(201).api({
+      token: user.createToken(),
       message: "Account created!"
     });
   }

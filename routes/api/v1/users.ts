@@ -7,7 +7,7 @@ Router.controller(UserController).group(() => {
   Router.middleware(["auth", "verified"]).group(() => {
     Router.get("/me", "profile");
     Router.patch("/me", "updateProfile");
-    Router.get("/:username", "show");
+    Router.get("/:username", "show").name("users.show");
     Router.delete("/:username", "delete");
   });
 

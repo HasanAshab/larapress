@@ -4,9 +4,6 @@ import Validator from "Validator";
 import Router from "Router";
 
 export default function RequestHandler(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-  const handlersName = Reflect.getMetadata("handlersName", target) ?? [];
-  handlersName.push(propertyKey);
-  Reflect.defineMetadata("handlersName", handlersName, target);
   const handler = descriptor.value;
   const paramNames = getParams(handler);
   const paramTypes = Reflect.getMetadata("design:paramtypes", target, propertyKey);

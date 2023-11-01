@@ -4,6 +4,7 @@ import { Request, AuthenticRequest, Response } from "~/core/express";
 import Category from "~/app/models/Category";
 import CategoryRequest from "~/app/http/requests/v1/CategoryRequest";
 import UpdateCategoryRequest from "~/app/http/requests/v1/UpdateCategoryRequest";
+import URL from "URL";
 
 export default class CategoryController extends Controller {
   @RequestHandler
@@ -21,8 +22,9 @@ export default class CategoryController extends Controller {
     const icon = req.files.icon;
     const category = new Category(req.body);
     icon && await category.attach("icon", icon);
-    await category.save();
-    res.status(201).message("Category successfully created!");
+    const { _id } = await category.save();
+    const categoryUrl = URL.route("categories.show", { id: _id });
+    res.header("Location", categoryUrl).status(201).message("Category successfully created!");
   }
   
   @RequestHandler

@@ -225,7 +225,7 @@ export default class Router {
     const router = ExpressRouter();
     for(const { method, path, metadata, middlewares } of Router.$stack) {
       const [Controller, handlerName] = metadata;
-      const controller = new Controller();
+      const controller = resolve(Controller);
       const handler = controller[handlerName].bind(controller);
       router[method](path, Router.resolveMiddleware(...middlewares), handler);
     }
