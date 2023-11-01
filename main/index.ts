@@ -9,9 +9,6 @@ import "Config/load";
 import Config from "Config";
 import app from "~/main/app";
 import DB from "DB";
-import https from "https";
-
-const shouldLog = process.env.NODE_ENV === "development";
 
 // Connecting to database
 if(Config.get("database.connect")) {
@@ -50,10 +47,10 @@ else {
 
 const port = Config.get<number>("app.port");
 app.server.listen(port, () => {
-  shouldLog && console.log(`Server running on [http://127.0.0.1:${port}] ...`);
+  console.log(`Server running on [http://127.0.0.1:${port}] ...`);
 });
 
-shouldLog && app.server.on("connection", (socket) => {
+app.server.on("connection", (socket) => {
   const time = new Date().toLocaleTimeString("en-US", { hour12: true });
   console.log(`*New connection: [${time}]`);
 });

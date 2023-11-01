@@ -1,6 +1,3 @@
-process.env.NODE_ENV = "test";
-
-import "~/main";
 import app from "~/main/app";
 import supertest from "supertest";
 

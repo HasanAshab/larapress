@@ -17,7 +17,8 @@ const config: Config.InitialOptions = {
   testMatch: ["<rootDir>/tests/{feature,unit}/**/*.test.ts"],
   testTimeout: 10000000,
   setupFilesAfterEnv: [
-    "./tests/registerHelpers.ts",
+    "./tests/setupServer.ts",
+    "./tests/registerTestHelpers.ts",
     "./tests/overrideHooks.ts",
     "./tests/customMatchers.ts"
   ],
