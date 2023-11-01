@@ -11,7 +11,7 @@ import Router from "Router";
 
 export default class RouteServiceProvider extends ServiceProvider {
   protected middlewareAliases = {};
-  protected globalMiddlewares = {};
+  protected globalMiddlewares = [];
 
   /**
    * Whether API documentation should be served
@@ -55,11 +55,8 @@ export default class RouteServiceProvider extends ServiceProvider {
   }
   
   private registerGlobalMiddlewares() {
-    for(const version in this.globalMiddlewares) {
-      const middlewareKeysWithOptions = this.globalMiddlewares[version];
-      const middlewares = Router.resolveMiddleware(...middlewareKeysWithOptions);
-      this.app.http.use(`/api/${version}/*`, ...middlewares);
-    }
+    const middlewares = Router.resolveMiddleware(...this.globalMiddlewares);
+    this.app.http.use(...middlewares);
   }
   
   private serveStaticFolder() {

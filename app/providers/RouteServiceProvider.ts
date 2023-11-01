@@ -23,12 +23,11 @@ export default class RouteServiceProvider extends ServiceProvider {
    * executed before every request of the app.
    * Execution order depends on the order of declaration.
   */
-  /*protected globalMiddlewares = [
+  protected globalMiddlewares = [
     "maintenance.check",
     "limit:1000,5"
-  ];*/
-  protected globalMiddlewares = {}
-  
+  ];
+
   boot() {
     super.boot();
     Router.model("user", "~/app/models/User");
