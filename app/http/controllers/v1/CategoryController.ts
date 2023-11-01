@@ -23,7 +23,7 @@ export default class CategoryController extends Controller {
     const category = new Category(req.body);
     icon && await category.attach("icon", icon);
     const { _id } = await category.save();
-    const categoryUrl = URL.route("categories.show", { id: _id });
+    const categoryUrl = URL.route("v1_categories.show", { id: _id });
     res.header("Location", categoryUrl).status(201).message("Category successfully created!");
   }
   

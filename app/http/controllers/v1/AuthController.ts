@@ -32,7 +32,7 @@ export default class AuthController extends Controller {
     const { email, username, password } = req.body;
     const user = await this.authService.register(email, username, password, req.files.profile);
     Event.emit("Registered", user);
-    const profile = URL.route("users.show", { username: user.username });
+    const profile = URL.route("v1_users.show", { username: user.username });
     res.header("Location", profile).status(201).api({
       token: user.createToken(),
       message: "Verification email sent!",
@@ -82,7 +82,7 @@ export default class AuthController extends Controller {
     const { externalId, token, username, email } = req.body;
     const user = await this.authService.externalLoginFinalStep(provider, externalId, token, username, email);
     Event.emit("Registered", user);
-    const profile = URL.route("users.show", { username: user.username });
+    const profile = URL.route("v1_users.show", { username: user.username });
     res.header("Location", profile).status(201).api({
       token: user.createToken(),
       message: "Account created!"

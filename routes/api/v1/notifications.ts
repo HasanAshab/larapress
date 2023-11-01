@@ -3,10 +3,7 @@ import NotificationController from "~/app/http/controllers/v1/NotificationContro
 
 // Endpoints for notification
 
-Router.group({
-  controller: NotificationController,
-  middleware: ["auth", "verified"]
-}, () => {
+Router.controller(NotificationController).group(() => {
   Router.get("/", "index");
   Router.get("/unread-count", "unreadCount");
   Router.post("/:id", "markAsRead");

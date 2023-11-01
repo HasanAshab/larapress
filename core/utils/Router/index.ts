@@ -25,7 +25,8 @@ export default class Router {
     as: "",
     controller: null,
     middlewares: []
-  }
+  };
+  
   static $stack = [];
   static $middlewareAliases = {};
   static $namedUrls = {};
@@ -44,7 +45,7 @@ export default class Router {
     const path = join(Router.$config.prefix, endpoint);
     if(typeof metadata === "string") {
       if(!Router.$config.controller)
-        throw new Error(`Must pass a controller in "${endpoint}" route as no global controller exist`);
+        throw new Error(`Must pass a controller in "${endpoint}" route as no global scope controller exist`);
       metadata = [Router.$config.controller, metadata];
     }
     Router.$stack.push({ 
@@ -80,7 +81,7 @@ export default class Router {
     this.group({
       prefix,
       controller,
-      as: prefix + "."
+      as: prefix.replace("/", "") + "."
     }, () => {
       this.get("/", "index").name("index");
       this.post("/", "store").name("store");
@@ -154,11 +155,13 @@ export default class Router {
   
   static group(config, cb) {
     const oldConfig = _.cloneDeep(Router.$config);
-    if(config.prefix) {
+    if(config.prefix)
       config.prefix = join(oldConfig.prefix, config.prefix);
-    }
+    if(config.as)
+      config.as = oldConfig.as + config.as;
+    
     Object.assign(Router.$config, config);
-    cb();
+    typeof cb === "string" ? require(cb) : cb();
     Router.$config = oldConfig;
   }
   
@@ -166,29 +169,44 @@ export default class Router {
     const group = (cb) => {
       this.group({ prefix: path }, cb);
     }
-    return { group };
+    const load = (routerPath) => {
+      this.group({ prefix: path }, routerPath);
+    }
+    return { group, load };
   }
   
   static name(as: string) {
     const group = (cb) => {
       this.group({ as }, cb);
     }
-    return { group };
+    
+    const load = (routerPath) => {
+      this.group({ as }, routerPath);
+    }
+    return { group, load };
   }
   
   static controller(ControllerClass: typeof Controller) {
     const group = (cb) => {
       this.group({ controller: ControllerClass }, cb);
     }
-    return { group };
+    
+    const load = (routerPath) => {
+      this.group({ controller: ControllerClass }, routerPath);
+    }
+    return { group, load };
   }
   
   static middleware(aliases: string | string[]) {
     aliases = typeof aliases === "string" ? [aliases] : aliases;
     const group = (cb) => {
-      this.group({ middlewares: aliases}, cb);
+      this.group({ middlewares: aliases }, cb);
     }
-    return { group };
+    
+    const load = (routerPath) => {
+      this.group({ middlewares: aliases }, routerPath);
+    }
+    return { group, load };
   }
   
   /**

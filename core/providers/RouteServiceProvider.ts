@@ -18,7 +18,7 @@ export default class RouteServiceProvider extends ServiceProvider {
   */
   protected serveApiDoc = env("NODE_ENV") === "development";
   
-  register() {
+  boot() {
     if(this.app.runningInConsole())
       return;
     if(this.serveApiDoc) {
@@ -28,7 +28,8 @@ export default class RouteServiceProvider extends ServiceProvider {
     this.registerSecurityMiddlewares();
     this.registerRequestPayloadParsers();
     this.registerGlobalMiddlewares();
-    this.discoverRoutes();
+    this.registerRoutes();
+    this.app.http.use("/", Router.build());
     this.serveStaticFolder();
     this.registerErrorHandlers();
   }
@@ -69,10 +70,5 @@ export default class RouteServiceProvider extends ServiceProvider {
   private registerErrorHandlers() {
     const middlewares = Router.resolveMiddleware("global.responser", "error.handle");
     this.app.http.use(...middlewares);
-  }
-  
-  private discoverRoutes() {
-    Router.discover();
-    this.app.http.use("/", Router.build());
   }
 }
