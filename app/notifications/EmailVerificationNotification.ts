@@ -18,7 +18,7 @@ export default class EmailVerificationNotification extends Notification {
   }
   
   verificationUrl(notifiable: IUser, token: string) {
-    return URL.route("verify", { id: notifiable._id, token });
+    return URL.route(this.data.version + "_verify", { id: notifiable._id, token });
   }
   
   async createVerificationToken(notifiable: IUser) {

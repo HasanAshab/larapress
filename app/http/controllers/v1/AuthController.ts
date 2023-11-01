@@ -31,7 +31,7 @@ export default class AuthController extends Controller {
   async register(req: RegisterRequest, res: Response){
     const { email, username, password } = req.body;
     const user = await this.authService.register(email, username, password, req.files.profile);
-    Event.emit("Registered", user);
+    Event.emit("Registered", user, "v1");
     const profile = URL.route("v1_users.show", { username: user.username });
     res.header("Location", profile).status(201).api({
       token: user.createToken(),
@@ -81,7 +81,7 @@ export default class AuthController extends Controller {
   async externalLoginFinalStep(req: ExternalLoginFinalStepRequest, res: Response, provider: string) {
     const { externalId, token, username, email } = req.body;
     const user = await this.authService.externalLoginFinalStep(provider, externalId, token, username, email);
-    Event.emit("Registered", user);
+    Event.emit("Registered", user, "v1");
     const profile = URL.route("v1_users.show", { username: user.username });
     res.header("Location", profile).status(201).api({
       token: user.createToken(),

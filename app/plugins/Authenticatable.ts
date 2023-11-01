@@ -20,8 +20,8 @@ export default (schema: Schema) => {
     this.password = await bcrypt.hash(password, Config.get("bcrypt.rounds"));
   }
   
-  schema.methods.sendVerificationNotification = async function() {
-    await this.notify(new EmailVerificationNotification);
+  schema.methods.sendVerificationNotification = async function(version: string) {
+    await this.notify(new EmailVerificationNotification({ version }));
   }
   
   schema.methods.sendResetPasswordNotification = async function() {
