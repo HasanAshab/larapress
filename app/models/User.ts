@@ -7,7 +7,6 @@ import Notifiable, { NotifiableDocument } from "~/app/plugins/Notifiable";
 import Attachable, { FileMeta, AttachableDocument } from "~/app/plugins/Attachable";
 //import Billable, { BillableDocument } from "~/app/plugins/Billable";
 import Settings, { ISettings } from "~/app/models/Settings";
-import Cascade from "~/app/plugins/Cascade";
 
 const UserSchema = new Schema({
   name: String,
@@ -69,16 +68,6 @@ UserSchema.plugin(Notifiable);
 UserSchema.plugin(Attachable, { profile: {} });
 UserSchema.plugin(hidden(), { hidden: { _id: false } });
 //UserSchema.plugin(Billable);
-UserSchema.plugin(Cascade, [
-  {
-    ref: "Notification",
-    foreignField: "userId"
-  },
-  {
-    ref: "Settings",
-    foreignField: "userId",
-  },
-]);
 
 export interface IUser {
   name: string;

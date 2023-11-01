@@ -37,7 +37,7 @@ export default (schema: Schema) => {
         rawCodes.push(code);
         this.recoveryCodes = await bcrypt.hash(code, Config.get("bcrypt.rounds"));
       }
-      promises.push(generateCode())
+      promises.push(generateCode());
     }
     await Promise.all(promises);
     await this.save();

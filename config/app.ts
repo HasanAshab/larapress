@@ -16,12 +16,12 @@ export default {
     "Queue/QueueServiceProvider",
     "Cache/CacheServiceProvider",
     "DB/DatabaseServiceProvider",
+    "Socialite/SocialiteServiceProvider",
     "~/app/providers/EventServiceProvider",
     "~/app/providers/RouteServiceProvider",
     "~/app/providers/ConsoleServiceProvider",
     "~/app/providers/CronJobServiceProvider",
     "~/app/providers/LockServiceProvider",
-    "~/app/providers/AppServiceProvider",
-    "Socialite/SocialiteServiceProvider",
+    "~/app/providers/AppServiceProvider"
   ]
 };

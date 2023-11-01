@@ -2,20 +2,21 @@ import Command from "~/core/abstract/Command";
 import baseDoc from "~/docs/base";
 import fs from "fs";
 import { Request, AuthenticRequest } from "~/core/express";
+import RouteServiceProvider from "~/app/providers/RouteServiceProvider";
 import Router from "Router";
 
 export default class Documentation extends Command {
   static signature = "doc:generate";
   
-  async handle() {
-    Router.discover();
-    const docData = await this.generateDocData();
-    await fs.promises.writeFile(base("docs/data.json"), JSON.stringify(docData));
+  handle() {
+    new RouteServiceProvider({} as any).registerRoutes();
+    const docData = this.generateDocData();
+    fs.writeFileSync(base("docs/data.json"), JSON.stringify(docData));
     this.success()
   }
   
   
-  private async generateDocData() {
+  private generateDocData() {
     for(const stack of Router.$stack) {
       const subDoc = { parameters: [] };
       const [ Controller, action ] = stack.metadata;
