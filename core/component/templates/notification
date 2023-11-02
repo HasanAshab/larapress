@@ -2,13 +2,17 @@ import { IUser } from "~/app/models/User";
 import Notification from "~/core/notifications/Notification";
 
 export default class {{name}} extends Notification {
-  //shouldQueue = true;
-  //type = "{{name}}";
-  
+  /**
+   * The channels via notification should be arrived.
+   * All available channels are listed in  config/notification.ts
+  */
   via(notifiable: IUser){
     return ["site"];
   }
   
+  /**
+   * Return notification data
+  */
   toSite(notifiable: IUser) {
     return {}
   }

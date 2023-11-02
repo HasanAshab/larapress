@@ -27,12 +27,18 @@ export default class RouteServiceProvider extends ServiceProvider {
     "maintenance.check",
     "limit:1000,5"
   ];
-
+  
+  /**
+  * Boot route services
+  */
   boot() {
     super.boot();
     Router.model("user", "~/app/models/User");
   }
   
+  /**
+   * Register all routers 
+  */
   registerRoutes() {
     Router.group({
       prefix: "api/v1",

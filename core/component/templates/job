@@ -1,9 +1,10 @@
 import Job from "~/core/abstract/Job";
 
 export default class {{name}} extends Job {
-  //concurrency = 1;
-  
-  async handle(data: object){
+  /**
+   * Handle the job
+  */
+  async handle(){
     //
   }
 }

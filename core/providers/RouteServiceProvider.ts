@@ -18,6 +18,9 @@ export default class RouteServiceProvider extends ServiceProvider {
   */
   protected serveApiDoc = env("NODE_ENV") === "development";
   
+  /**
+   * Boot route services
+  */
   boot() {
     if(this.app.runningInConsole())
       return;
@@ -34,6 +37,9 @@ export default class RouteServiceProvider extends ServiceProvider {
     this.registerErrorHandlers();
   }
   
+  /**
+   * Register middlewares to securing application
+  */
   private registerSecurityMiddlewares() {
     this.app.http.use(cors({
       origin: [URL.client()] 
@@ -41,10 +47,17 @@ export default class RouteServiceProvider extends ServiceProvider {
     this.app.http.use(helmet());
   }
   
+  /**
+   * Serve api documentation with swagger 
+  */
   private serveDocs() {
     this.app.http.use("/docs", swaggerUi.serve, swaggerUi.setup(docData));
   }
   
+  
+  /**
+   * Register middlewares for parsing incoming request payload
+  */
   private registerRequestPayloadParsers() {
     this.app.http.use(bodyParser.json({ limit: "1mb" }));
     this.app.http.use(bodyParser.urlencoded({
@@ -54,16 +67,25 @@ export default class RouteServiceProvider extends ServiceProvider {
     this.app.http.use(formDataParser());
   }
   
+  /**
+   * Register version specefic global middlewares.
+  */
   private registerGlobalMiddlewares() {
     const middlewares = Router.resolveMiddleware(...this.globalMiddlewares);
     this.app.http.use(...middlewares);
   }
   
+  /**
+   * Serve a folder publicly
+  */
   private serveStaticFolder() {
-    this.app.http.use("/api/files", express.static(__dirname + "/../storage/public"));
+    this.app.http.use("/api/files", express.static(base("storage/public")));
     URL.add("file.serve", "api/files/:path");
   }
   
+  /**
+   * Register http error handlers
+  */
   private registerErrorHandlers() {
     const middlewares = Router.resolveMiddleware("global.responser", "error.handle");
     this.app.http.use(...middlewares);

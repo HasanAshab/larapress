@@ -2,11 +2,24 @@ import { Request } from "~/core/express";
 import Validator from "Validator";
 
 export default class LoginRequest extends Request {
+  /**
+   * Skeleton of the request body
+  */
   body!: { 
     //
   };
   
-  static rules() {
+  /**
+   * Skeleton of the request files
+  */
+  files!: {
     //
+  };
+  
+  /**
+   * Return validation rules of the request body
+  */
+  static rules(): Record<string, Validator> {
+    return {}
   }
 }

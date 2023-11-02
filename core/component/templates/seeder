@@ -2,7 +2,10 @@ import Seeder from "~/core/abstract/Seeder";
 import {{name}} from "~/app/models/{{name}}";
 
 export default class {{name}}Seeder extends Seeder {
+  /**
+   * Seed {{name}} to database
+  */
   async run() {
-    //
+    //{{name}}.factory().count(10).create();
   }
 }

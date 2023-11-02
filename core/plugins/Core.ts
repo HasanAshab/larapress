@@ -1,6 +1,9 @@
 import { Schema, Model, Document } from "mongoose";
 import DocumentNotFoundException from "~/app/exceptions/DocumentNotFoundException";
 
+/**
+ * Core plugin to add base helpers
+*/
 export default (schema: Schema) => {
   function assertExists(doc: unknown) {
     if(!doc) {

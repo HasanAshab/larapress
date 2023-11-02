@@ -1,5 +1,8 @@
 import { Request } from "express";
 
+/**
+ * Plugin for pagination support 
+*/
 export default (schema: any) => {
   schema.query.paginate = async function (pageSize: number, cursor?: string) {
     if(cursor){

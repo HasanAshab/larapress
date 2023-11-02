@@ -4,12 +4,18 @@ import Event from "~/core/Event";
 export default class EventServiceProvider extends ServiceProvider {
   private events = {}
 
+  /**
+   * Boot event service
+  */
   boot() {
     if(this.app.runningInWeb()) {
       this.subscribeListeners();
     }
   }
   
+  /**
+   * Subscribe all events to global Event Emitter
+  */
   private subscribeListeners() {
     for(const eventName in this.events) {
       this.events[eventName].forEach(listenerPath => {

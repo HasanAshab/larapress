@@ -1,6 +1,13 @@
 import Mailable from "~/core/mails/Mailable";
 
 export default class {{name}}Mail extends Mailable {
+  /**
+   * The view template name of the mail
+  */
   view = "{{name}}";
+  
+  /**
+   * The subject of the mail
+  */
   subject = "{{name}}";
 }

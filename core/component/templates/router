@@ -1,12 +1,7 @@
-import { middleware } from "~/core/utils";
-import express, { Router } from "express";
-
-const router: Router = express.Router();
+import Router from "express";
 
 
-router.get("/", (req, res) => {
-  res.message("Hello from Larapress!");
+Router.get("/", () => {
+  return "Hello from Larapress!";
 });
 
-
-export default router;

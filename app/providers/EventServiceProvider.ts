@@ -1,7 +1,11 @@
 import ServiceProvider from "~/core/providers/EventServiceProvider";
 
 export default class EventServiceProvider extends ServiceProvider {
-  private events = {
+  /**
+  * Register Events and its listeners 
+  */
+
+  private events: Record<string, string | string[]> = {
     Registered: [
       "~/app/listeners/SendEmailVerificationNotification",
       "~/app/listeners/SendNewUserJoinedNotificationToAdmins"

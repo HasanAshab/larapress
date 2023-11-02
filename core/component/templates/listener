@@ -1,4 +1,7 @@
 export default class {{name}} {
+  /**
+   * Perform operations on the event
+  */
   async dispatch(){
     //
   }

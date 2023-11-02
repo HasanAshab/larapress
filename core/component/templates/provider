@@ -1,6 +1,9 @@
 import ServiceProvider from "~/core/abstract/ServiceProvider";
 
 export default class {{name}}ServiceProvider extends ServiceProvider {
+  /**
+   * Boot {{name}} services
+  */
   boot() {
     //
   }

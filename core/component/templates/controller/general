@@ -1,9 +1,13 @@
-import Controller from "~/core/decorators/controller";
-import { Request, Response } from "express";
+import Controller from "~/app/http/controller/Controller";
+import { RequestHandler } from "~/core/decorators";
+import { Request, Response } from "~/core/express";
 
-@Controller
-export default class {{name}}Controller {
-  async index(req: Request, res: Response) {
-    res.message("{{name}}Controller works!");
+export default class {{name}}Controller extends Controller {
+  /**
+   * Return appropiate response
+  */
+  @RequestHandler
+  async index() {
+    return "{{name}}Controller works!";
   }
 }

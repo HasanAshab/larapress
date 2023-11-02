@@ -1,6 +1,8 @@
 import { Schema, Document } from "mongoose";
 
-
+/**
+ * Plugin to add access controll to document
+*/
 export default (schema: Schema) => {
   let policy: any;
   function importPolicyOnce(modelName: string) {

@@ -2,6 +2,9 @@ import Factory from "~/core/abstract/Factory";
 import { faker } from "@faker-js/faker";
 
 export default class {{name}}Factory extends Factory {
+  /**
+   * Return initial state of the {{name}}
+  */
   definition() {
     return {
       //

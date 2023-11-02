@@ -1,0 +1,45 @@
+import Controller from "~/app/http/controller/Controller";
+import { RequestHandler } from "~/core/decorators";
+import { Request, Response } from "~/core/express";
+
+export default class {{name}}Controller extends Controller {
+  /**
+   * Display a listing of the resource
+  */
+  @RequestHandler
+  async index() {
+    //
+  }
+  
+  /**
+   * Store a newly created resource
+  */
+  @RequestHandler
+  async store(req: Request, res: Response) {
+    //
+  }
+  
+  /**
+   * Display a specified resource
+  */
+  @RequestHandler
+  async show(id: string) {
+    //
+  }
+  
+  /**
+   * Update a specified resource
+  */
+  @RequestHandler
+  async update(req: Request, id: string) {
+    //
+  }
+  
+  /**
+   * Delete a specified resource
+  */
+  @RequestHandler
+  async delete(res: Response, id: string) {
+    //
+  }
+}
