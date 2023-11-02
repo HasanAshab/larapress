@@ -1,136 +1,145 @@
-//helper function for finding the arg keys
-const findSignatureKeys = (str) => {
-  const obj = {};
-  let i = 0;
-  let currentKey = "";
-  let defaultValue = "";
-  while (i < str.length) {
-    if (str[i++] === "{") {
+class TooManyArguments {}
+class TooFewArguments {}
 
-      while (str[i] !== "}") {
-     
-      if (str[i] === "-") {
-         while (str[i] !== "}") i++ 
-         break
-        }
-      else if (str[i] === "?"){ 
-          defaultValue = null
-        }
+//helper function for parseing single signature
+const parseSingleSignature = (i, signature, args, opts) => {
+  let key = '';
+  const obj = {
+    value: '',
+    description: null,
+    isOptional: false,
+  };
+  // checking the current signeture is a flag or not
+  if (signature[i] === '-') {
+    obj.isFlag = true;
+    obj.isOptional = true;
+    obj.value = false;
+    i += 2;
+  }
+  const validKeys = /[a-zA-Z1-9]/;
 
-        else if (str[i] === "=") {
-         i++
-         while (str[i] !== "}") defaultValue += str[i++]
-          i--  
-        }
+  while (i < signature.length && signature[i] !== '}') {
+    if (validKeys.test(signature[i])) key += signature[i];
+    else if (signature[i] === '|') {
+      obj.shortKey = key;
+      key = '';
+    } else if (signature[i] === '=') {
+      let value = '';
+      while (signature[++i] !== '}' && signature[i] !== ' ')
+        value += signature[i];
+      obj.value = value === '' ? null : value;
+      i--;
+      if (obj.isFlag) obj.needsValue = true;
+      else obj.isOptional = true;
+    } else if (signature[i] === '?') {
+      obj.isOptional = true;
+      obj.value = null;
+    } else if (signature[i] === '*') {
+      obj.value = [];
+      obj.isArrayType = true;
+    } else if (signature[i] === ':') {
+      let desc = '';
+      while (signature[++i] !== '}') desc += signature[i];
 
-        else currentKey += str[i]
-        i++
-      }
-      if (currentKey.length > 0) {
+      obj.description = desc;
+      i--;
+    }
+    i++;
+  }
+  if (obj.isFlag) opts[key] = obj;
+  else args[key] = obj;
+  return i;
+};
 
-        obj[currentKey] = defaultValue
-        currentKey = ""
-        defaultValue = ""
-      }
+//helper function for parseing the signatures
+const parseSignature = (signature) => {
+  const res = {
+    args: {},
+    opts: {},
+  };
+  for (let i = 0; i < signature.length; i++) {
+    if (signature[i] === '{') {
+      i = parseSingleSignature(++i, signature, res.args, res.opts);
     }
   }
-  return obj
-}
 
-const findSignatureFlags = (signature)=>{
- const obj = {};
- 
- let currentFlag = ""
- let defaultValue = false
- for (let i = 0; i < signature.length;i++){
-   if (signature[i] === "-"){
-   
-    while ( signature[i] !== "}"){
+  return res;
+};
 
-    if (signature[i] === "=") {
-        currentFlag += "="
-      if (signature[++i] === "}"){
-        defaultValue = null
-      }else{
-        defaultValue = ""
-        while (signature[i] !== "}") defaultValue += signature[i++] 
+const addArgumentsValue = (obj, inputs) => {
+  for (const key in obj) {
+    if (obj[key].isArrayType) {
+      let i = 0;
+      while (i < inputs.length && inputs[i] !== key) i++;
+      if (i === inputs.length) throw new TooFewArguments();
 
+      obj[key].value = inputs.splice(i).slice(1);
+    } else {
+      if (inputs.length > 0) {
+        obj[key].value = inputs.shift();
+      } else if (!obj[key].isOptional) {
+        throw new TooFewArguments();
       }
-      break
-    } 
-    else currentFlag += signature[i++]
     }
-     
-       if (signature[i] !== "") {
-          obj[currentFlag] = defaultValue
-          currentFlag = ""
-          defaultValue = false
+
+    obj[key] = {
+      value: obj[key].value,
+      description: obj[key].description,
+    };
+  }
+
+  if (inputs.length > 0) throw new TooManyArguments();
+};
+
+const addOptionsValue = (obj, inputs) => {
+  for (const key in obj) {
+    for (let i = 0; i < inputs.length; i++) {
+      const valIndex = inputs[i].indexOf('=');
+      if (
+        inputs[i].slice(2, valIndex === -1 ? inputs[i].length : valIndex) ===
+        key
+      ) {
+        if (obj[key].needsValue) {
+          if (inputs[i][valIndex + 1] === undefined)
+            throw new TooFewArguments();
+          obj[key].value = inputs[i].slice(valIndex + 1);
+        } else {
+          obj[key].value = true;
         }
-   
-
-   }
-
- }
- 
- return obj
-}
-
-const addValueOfKeys = (list,obj)=>{
-     const Values = list.filter(item=> !item.startsWith("-"))
-  let i = 0;
-  for (const key in obj){
-    if (i < Values.length) {
-      obj[key] = Values[i++]
-    }else{
-      if (obj[key] === "" ){
-       throw new Error(`No argument passed for "${key}"`)
+        //removing the passed argument
+        inputs.splice(i, 1);
+        break;
+      } else if (inputs[i][1] === obj[key].shortKey) {
+        if (obj[key].needsValue) {
+          if (inputs[i].length < 3) throw new TooFewArguments();
+          obj[key].value = inputs[i].slice(2);
+        } else {
+          obj[key].value = true;
+        }
+        //removing the passed argument
+        inputs.splice(i, 1);
+        break;
       }
-   }
-   
-  }
-}
-
-const addValueOfFlags = (list,obj)=>{
-    const flags = list.filter(item=>item.startsWith("-"))
-  for (const key in obj){
-   const flagTypes = key.slice(2).split(/\W/)
-   let index = 0 
-   let current = (flags[index] !== undefined ? (flags[index].startsWith("--") ?  /\w+/.exec(flags[index])[0] : flags[index].slice(1,2)) : undefined)
-
-     while (!flagTypes.includes(current) && ++index < flags.length){    
-        current =  flags[index].startsWith("--") ?  /\w+/.exec(flags[index])[0] : flags[index].slice(1,2)
     }
-      
-  current = flags[index]  
-  const finalKey = flagTypes[flagTypes.length === 1 ? 0 : 2]    
- if (current === undefined){ 
-     obj[finalKey] = obj[key]
- }else{
-   if (key.includes("=") && (current.includes("=") || current.length > 2)){
-   obj[finalKey] = (current.startsWith("--") ? current.slice(current.indexOf("=") + 1) :    current.slice(2))
-  }else if (key.includes("=")){
-      //Error: value has not passed
-      throw new Error(`Value has not passed for the flag '${key.slice(0,key.length - 2)}' which is required`)
-  } else obj[finalKey] = true
+    obj[key] = {
+      value: obj[key].value,
+      description: obj[key].description,
+    };
   }
- 
-   delete obj[key]
- }
-}
 
+  if (inputs.length > 0) throw new TooManyArguments();
+};
 
+export default (signature, inputs) => {
+  const res = parseSignature(signature);
+  addArgumentsValue(
+    res.args,
+    inputs.filter((item) => !item.startsWith('-'))
+  );
+  addOptionsValue(
+    res.opts,
+    inputs.filter((item) => item.startsWith('-'))
+  );
 
-export default (signature, list) => {
-  signature = signature.split(" ").join("")
-    
- const args = findSignatureKeys(signature)
-  addValueOfKeys(list,args)
-
- const opts = findSignatureFlags(signature)
-  addValueOfFlags(list,opts)
-
-
-  return {
-    args,opts
-  }
-}
+  return res;
+};

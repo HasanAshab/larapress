@@ -6,7 +6,6 @@ import Config from "Config";
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
-import { middlewareAliases } from "~/app/http/kernel";
 import { container } from "tsyringe";
 
 
@@ -99,6 +98,20 @@ export function getParams(func: Function) {
   return params;
 }
 
+/**
+ * Generate random string
+*/
+export function randomStr(length: number) {
+  const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let randomString = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    randomString += charset[randomIndex];
+  }
+
+  return randomString;
+}
 
 /**
  * Stop execution for given time
