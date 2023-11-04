@@ -50,7 +50,25 @@ app.server.listen(port, () => {
   console.log(`Server running on [http://127.0.0.1:${port}] ...`);
 });
 
-app.server.on("connection", (socket) => {
+app.server.on("connection", () => {
   const time = new Date().toLocaleTimeString("en-US", { hour12: true });
   console.log(`*New connection: [${time}]`);
 });
+
+
+/*
+import swaggerJsdoc from 'swagger-jsdoc';
+
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Hello World',
+      version: '1.0.0',
+    },
+  },
+  apis: ['./src/routes*.js'], // files containing annotations as above
+};
+
+const openapiSpecification = swaggerJsdoc(options);
+*/

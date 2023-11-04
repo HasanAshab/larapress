@@ -28,6 +28,14 @@ export default class AuthController extends Controller {
   }
   
   @RequestHandler
+  /*
+  @ApiCreatedResponse({
+    message: "The user is successfully registered",
+    example: {
+      message: 
+      token: 
+    }
+  })*/
   async register(req: RegisterRequest, res: Response){
     const { email, username, password } = req.body;
     const user = await this.authService.register(email, username, password, req.files.profile);

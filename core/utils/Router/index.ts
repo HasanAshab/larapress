@@ -2,24 +2,48 @@ import _ from "lodash";
 import fs from "fs";
 import { join } from "path";
 import { Router as ExpressRouter, NextFunction, RequestHandler, Request, Response } from "express";
+import { aliases } from "~/config/middleware";
 
 class EndpointOptions {
   constructor(private readonly stackIndex: number) {
     this.stackIndex = stackIndex;
   }
-
-  middleware(...aliases: keyof typeof middlewareAliases[]) {
+  
+  /**
+   * Add middlewares to a endpoint
+  */
+  middleware(...aliases: keyof typeof aliases[]) {
     Router.$stack[this.stackIndex].middlewares.push(...aliases);
     return this;
   }
   
+  /**
+   * Name a endpoint
+  */
   name(routeName: string) {
     Router.$namedUrls[Router.$config.as + routeName] = Router.$stack[this.stackIndex].path;
     return this;
   }
 }
 
+type RequestMethod = "get" | "post" | "put" | "patch" | "delete";
+type BindingResolver = (value: string) => any | Promise<any>;
+interface Endpoint {
+  /**
+   * Request method of the endpoint
+  */
+  method: RequestMethod;
+  
+  path: string;
+  metadata: [Function, string];
+  middlewares: keyof typeof aliases[];
+}
+
+
 export default class Router {
+  /**
+   * Scope based configuration
+  */
   static $config = {
     prefix: "/",
     as: "",
@@ -27,11 +51,25 @@ export default class Router {
     middlewares: []
   };
   
-  static $stack = [];
-  static $middlewareAliases = {};
-  static $namedUrls = {};
-  static $resolvers = {};
+  /**
+   * Stack of all endpoints
+  */
+  static $stack: Endpoint[] = [];
+  
 
+  /**
+   * Registered named url patterns
+  */
+  static $namedUrls: Record<string, string> = {};
+  
+  /**
+   * Callbacks for resolve bindings 
+  */
+  static $resolvers: Record<string, BindingResolver> = {};
+  
+  /**
+   * Reset scope based configuration
+  */
   static $reset() {
     Router.$config = {
       prefix: "/",
@@ -41,14 +79,17 @@ export default class Router {
     };
   }
   
-  static $add(method: string, endpoint: string, metadata) {
+  /**
+   * Add a endpoint to stack
+  */
+  static $add<T extends Function>(method: RequestMethod, endpoint: string, metadata: string | [T, keyof InstanceType<T>]) {
     const path = join(Router.$config.prefix, endpoint);
     if(typeof metadata === "string") {
       if(!Router.$config.controller)
         throw new Error(`Must pass a controller in "${endpoint}" route as no global scope controller exist`);
       metadata = [Router.$config.controller, metadata];
     }
-    Router.$stack.push({ 
+    Router.$stack.push({
       method,
       path,
       metadata,
@@ -57,27 +98,30 @@ export default class Router {
     return new EndpointOptions(Router.$stack.length - 1);
   }
   
-  static get<T extends typeof Controller>(endpoint: string, metadata: [T, keyof T]) {
+  /**
+   * Add a endpoint of GET method to stack
+  */
+  static get<T extends Function>(endpoint: string, metadata: string | [T, keyof InstanceType<T>]) {
     return this.$add("get", endpoint, metadata);
   }
   
-  static post<T extends typeof Controller>(endpoint: string, metadata: [T, keyof T]) {
+  static post<T extends Function>(endpoint: string, metadata: string | [T, keyof InstanceType<T>]) {
     return this.$add("post", endpoint, metadata);
   }
   
-  static put<T extends typeof Controller>(endpoint: string, metadata: [T, keyof T]) {
+  static put<T extends Function>(endpoint: string, metadata: string | [T, keyof InstanceType<T>]) {
     return this.$add("put", endpoint, metadata);
   }
 
-  static patch<T extends typeof Controller>(endpoint: string, metadata: [T, keyof T]) {
+  static patch<T extends Function>(endpoint: string, metadata: string | [T, keyof InstanceType<T>]) {
     return this.$add("patch", endpoint, metadata);
   }
   
-  static delete<T extends typeof Controller>(endpoint: string, metadata: [T, keyof T]) {
+  static delete<T extends Function>(endpoint: string, metadata: string | [T, keyof InstanceType<T>]) {
     return this.$add("delete", endpoint, metadata);
   }
   
-  static apiResource(prefix: string, controller: typeof Controller) {
+  static apiResource(prefix: string, controller: Function) {
     this.group({
       prefix,
       controller,
@@ -95,25 +139,18 @@ export default class Router {
     return this.$resolvers[param]?.(req.params[param]);
   }
 
-  static bind(param: string, resolver) {
+  static bind(param: string, resolver: BindingResolver) {
     this.$resolvers[param] = resolver;
   }
   
-  static model(param: string, Model: string | Model) {
+  static model(param: string, Model: string | typeof Model) {
     if(typeof Model === "string") {
       Model = require(Model).default;
     }
     this.bind(param, value => Model.findByIdOrFail(value));
   }
   
-  static registerMiddleware(aliases: Record<string, string>) {
-    this.$middlewareAliases = aliases;
-  }
-  
-  static addMiddleware(alias: string, path: string) {
-    this.$middlewareAliases[alias] = path;
-  }
-  
+
   /**
     * Generates middlewares stack based on keys. Options are injected to the middleware class.
     * You can pass only keys or strings that are devided by ':'. first part is the 
@@ -130,7 +167,7 @@ export default class Router {
     keysWithOptions.forEach(keyWithOptions => {
       const [key, optionString] = keyWithOptions.split(":");
       const options = optionString ? optionString.split(",") : [];
-      const MiddlewareClass = require(this.$middlewareAliases[key]).default;
+      const MiddlewareClass = require(aliases[key]).default;
       const middleware = new MiddlewareClass();
       let handler: RequestHandler;
       if(middleware.errorHandler) {
@@ -186,7 +223,7 @@ export default class Router {
     return { group, load };
   }
   
-  static controller(ControllerClass: typeof Controller) {
+  static controller(ControllerClass: Function) {
     const group = (cb) => {
       this.group({ controller: ControllerClass }, cb);
     }
