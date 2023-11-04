@@ -13,7 +13,7 @@ import DB from "DB";
 // Connecting to database
 if(Config.get("database.connect")) {
   DB.connect().then(() => {
-    shouldLog && console.log("Connected to Database!");
+    console.log("Connected to Database!");
   }).catch(err => {
     console.log("Couldn't connect to Database. reason: " + err);
   });

@@ -18,5 +18,5 @@
     "skipLibCheck": true,
     "noUncheckedIndexedAccess": false
   },
-  "exclude": ["node_modules", "core/shell.ts", "tests"]
+  "exclude": ["node_modules", "tests"]
 }

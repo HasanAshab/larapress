@@ -1,4 +1,4 @@
-import Command from "~/core/abstract/Command";
+import { Command } from "samer-artisan";
 import baseDoc from "~/docs/base";
 import fs from "fs";
 import { Request, AuthenticRequest } from "~/core/express";
@@ -6,7 +6,7 @@ import RouteServiceProvider from "~/app/providers/RouteServiceProvider";
 import Router from "Router";
 
 export default class Documentation extends Command {
-  static signature = "doc:generate";
+  signature = "doc:generate";
   
   handle() {
     new RouteServiceProvider({} as any).registerRoutes();

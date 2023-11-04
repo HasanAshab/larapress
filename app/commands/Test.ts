@@ -1,9 +1,9 @@
-import Command from "~/core/abstract/Command";
+import { Command } from "samer-artisan";
 import queue from "~/core/clients/queue";
 import fs from "fs";
 
 export default class Test extends Command {
-  static signature = "test {a} {--B|ball} {--cks}";
+  signature = "test {a} {--B|ball} {--cks}";
 
   async handle(){
     console.log(this.arguments())

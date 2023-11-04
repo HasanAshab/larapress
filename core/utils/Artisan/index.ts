@@ -2,7 +2,7 @@ import BaseCommand from "~/core/abstract/Command";
 import ArgumentParser from "./ArgumentParser";
 import path from "path";
 import fs from "fs";
-import commandMap from "~/storage/cache/artisan";
+//import commandMap from "~/storage/cache/artisan";
 
 
 type ArtisanConfig = 
@@ -14,6 +14,10 @@ type ArtisanConfig =
 | {
   discover: false;
   commands: string[];
+}
+
+const commandMap = {
+  "search": [base("app/commands/Search"), "{query} {replace?} {--D|dir=.}"]
 }
 
 export default class Artisan {

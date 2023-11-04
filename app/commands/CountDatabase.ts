@@ -1,10 +1,10 @@
-import Command from "~/core/abstract/Command";
+import { Command } from "samer-artisan";
 import mongoose from "mongoose";
 import DB from "DB";
 import DatabaseSeeder from "~/database/seeders/DatabaseSeeder";
 
 export default class CountDatabase extends Command {
-  static signature = "db:count {--model=}";
+  signature = "db:count {--model=}";
   
   private total = 0;
   

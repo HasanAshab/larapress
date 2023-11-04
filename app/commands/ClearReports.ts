@@ -1,8 +1,8 @@
-import Command from "~/core/abstract/Command";
+import { Command } from "samer-artisan";
 import { execSync } from "child_process";
 
 export default class ClearReports extends Command {
-  static signature = "clear:reports {name}";
+  signature = "clear:reports {name}";
   
   handle() {
     const name = this.argument("name");

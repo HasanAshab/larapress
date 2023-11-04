@@ -1,10 +1,10 @@
-import Command from "~/core/abstract/Command";
+import { Command } from "samer-artisan";
 import DB from "DB";
 import { models } from "mongoose";
 
 export default class PruneDatabase extends Command {
-  static signature = "db:prune";
-  static description = "Prunes orphan documents";
+  signature = "db:prune";
+  description = "Prunes orphan documents";
 
   async handle(){
     await DB.connect();

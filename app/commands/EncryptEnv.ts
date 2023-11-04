@@ -1,10 +1,10 @@
-import Command from "~/core/abstract/Command";
+import { Command } from "samer-artisan";
 import { randomBytes, createCipheriv } from 'crypto';
 import fs from 'fs';
 
 export default class EncryptEnv extends Command {
-  static signature = "env:encrypt {--key=}";
-  static description = "Encrypt environment variables";
+  signature = "env:encrypt {--key=}";
+  description = "Encrypt environment variables";
 
   handle() {
     const key = this.option('key').value ?? randomBytes(16).toString("hex");

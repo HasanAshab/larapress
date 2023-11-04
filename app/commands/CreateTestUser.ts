@@ -1,10 +1,10 @@
-import Command from "~/core/abstract/Command";
+import { Command } from "samer-artisan";
 import DB from "DB";
 import User from "~/app/models/User";
 
 export default class CreateTestUser extends Command {
-  static signature = "create:user";
-  static description = "Creates a user for testing purpose";
+  signature = "create:user";
+  description = "Creates a user for testing purpose";
 
   async handle(){
     await DB.connect();

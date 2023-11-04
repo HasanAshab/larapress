@@ -1,4 +1,4 @@
-import Command from "~/core/abstract/Command";
+import { Command } from "samer-artisan";
 import { autoInjectable } from "tsyringe";
 import Queue from "Queue";
 import fs from "fs";
@@ -6,7 +6,7 @@ import DB from "DB";
 
 
 export default class QueueWorker extends Command {
-  static signature = "queue:work";
+  signature = "queue:work";
   
   async handle(){
     await DB.connect();

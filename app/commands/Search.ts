@@ -1,14 +1,16 @@
 import Wildcard from "Wildcard";
-import Command from "~/core/abstract/Command";
+import { Command } from "samer-artisan";
 import fs from "fs";
 import path from "path";
 
 export default class Search extends Command {
-  static signature = "search {query} {replace?} {--D|dir=.}"
+  signature = "search {query} {replace?} {--D|dir=.}"
   protected exclude = ["package.json", "package-lock.json", "node_modules", ".git", ".gitignore", ".env", "tsconfig.json", "artisan", "artisan.ts", "dist", "artisan", "backup", "docs", "storage"];
 
   async handle() {
-    const { query, replace } = this.arguments();
+    const query = this.argument("query").value;
+    const replace = this.argument("replace").value;
+    console.log(replace)
     if(replace) this.info("\nReplacing started...\n");
     else this.info("\nSearching started...\n");
     //await this.searchFiles(this.option("dir"), query, replace);

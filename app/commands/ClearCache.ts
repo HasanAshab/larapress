@@ -1,10 +1,10 @@
-import Command from "~/core/abstract/Command";
+import { Command } from "samer-artisan";
 import Config from "Config";
 import Cache from "Cache";
 import { execSync } from "child_process";
 
 export default class ClearCache extends Command {
-  static signature = "clear:cache {--driver=}";
+  signature = "clear:cache {--driver=}";
 
   async handle() {
     const driver = "redis"//this.option("driver") ?? undefined;

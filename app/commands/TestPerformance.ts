@@ -1,4 +1,4 @@
-import Command from "~/core/abstract/Command";
+import { Command } from "samer-artisan";
 import { exec, spawn } from "child_process";
 import autocannon, { Options } from "autocannon";
 import DB from "DB";
@@ -9,7 +9,7 @@ import path from "path";
 import fs from "fs";
 
 export default class TestPerformance extends Command {
-  static signature = "performance";
+  signature = "performance";
   
   private benchmarkRootPath = "docs/parts";
  /* private serverProcess = spawn('npm', ['run', 'dev'], {

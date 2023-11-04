@@ -1,8 +1,8 @@
-import Command from "~/core/abstract/Command";
+import { Command } from "samer-artisan";
 import { execSync } from "child_process";
 
 export default class ClearUploads extends Command {
-  static signature = "clear:uploads";
+  signature = "clear:uploads";
   
   handle() {
     execSync("rm -r storage/public/uploads");

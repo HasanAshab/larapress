@@ -1,10 +1,10 @@
-import Command from "~/core/abstract/Command";
+import { Command } from "samer-artisan";
 import { randomBytes, createDecipheriv } from 'crypto';
 import fs from 'fs';
 
 export default class DecryptEnv extends Command {
-  static signature = "env:decrypt {key} {--f|force}";
-  static description = "Decrypt environment variables";
+  signature = "env:decrypt {key} {--f|force}";
+  description = "Decrypt environment variables";
 
   async handle() {
     const key = this.argument('key').value;

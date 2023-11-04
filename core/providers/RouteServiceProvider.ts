@@ -1,7 +1,6 @@
 import ServiceProvider from "~/core/abstract/ServiceProvider";
 import express from "express";
 import swaggerUi from "swagger-ui-express";
-import docData from "~/docs/data";
 import cors from "cors";
 import helmet from "helmet";
 import bodyParser from "body-parser";
@@ -51,7 +50,7 @@ export default class RouteServiceProvider extends ServiceProvider {
    * Serve api documentation with swagger 
   */
   private serveDocs() {
-    this.app.http.use("/docs", swaggerUi.serve, swaggerUi.setup(docData));
+    this.app.http.use("/docs", swaggerUi.serve, swaggerUi.setup(require("~/docs/data")));
   }
   
   

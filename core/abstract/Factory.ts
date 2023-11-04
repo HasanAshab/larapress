@@ -60,7 +60,7 @@ export default abstract class Factory {
   */
   make(data?: object) {
     return this.total === 1
-      ? this.generateDocumentData(data);
+      ? this.generateDocumentData(data)
       : Array.from({ length: this.total }, () => this.generateDocumentData(data));
   }
   

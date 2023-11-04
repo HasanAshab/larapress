@@ -1,10 +1,10 @@
-import Command from "~/core/abstract/Command";
+import { Command } from "samer-artisan";
 import mongoose from "mongoose";
 import DB from "DB";
 import DatabaseSeeder from "~/database/seeders/DatabaseSeeder";
 
 export default class FactorySeedDatabase extends Command {
-  static signature = "db:seedFactory {model} {count}";
+  signature = "db:seedFactory {model} {count}";
   
   async handle() {
     await DB.connect();
