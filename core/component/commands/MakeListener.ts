@@ -1,7 +1,7 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
 
 export default class MakeListener extends ComponentGenerator {
-  static signature = "make:listener {name}";
+   signature = "make:listener {name}";
   
   protected template() {
     return "listener";

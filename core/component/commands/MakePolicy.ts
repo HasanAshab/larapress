@@ -1,7 +1,7 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
 
 export default class MakePolicy extends ComponentGenerator {
-  static signature = "make:policy {name}";
+   signature = "make:policy {name}";
   
   protected template() {
     return "policy";

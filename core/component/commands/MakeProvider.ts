@@ -1,7 +1,7 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
 
 export default class MakeProvider extends ComponentGenerator {
-  static signature = "make:provider {name}";
+   signature = "make:provider {name}";
   
   protected template() {
     return "provider";

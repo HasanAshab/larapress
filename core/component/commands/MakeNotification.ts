@@ -1,7 +1,7 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
 
 export default class MakeNotification extends ComponentGenerator {
-  static signature = "make:notification {name}";
+   signature = "make:notification {name}";
   
   protected template() {
     return "request";

@@ -1,1 +1,18 @@
-ts-node -r tsconfig-paths/register --transpile-only core/shell.ts "$@"
+//ts-node -r tsconfig-paths/register --transpile-only core/shell.ts "$@"
+require("reflect-metadata");
+require("dotenv/config");
+require("module-alias/register");
+
+process.env.NODE_ENV = "shell";
+
+require("~/vendor/autoload");
+require("Config/load");
+require("~/main/app");
+
+const { SamerArtisan } = require('samer-artisan');
+
+SamerArtisan
+  .cacheDist("storage/cache/artisan.json")
+  .load("dist/app/commands")
+  .load("dist/core/component/commands")
+  .parse();

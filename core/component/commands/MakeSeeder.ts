@@ -1,7 +1,7 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
 
 export default class MakeSeeder extends ComponentGenerator {
-  static signature = "make:seeder {name}";
+   signature = "make:seeder {name}";
   
   protected template() {
     return "seeder";

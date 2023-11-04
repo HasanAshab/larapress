@@ -1,4 +1,4 @@
-import Command from "~/core/abstract/Command";
+import { Command } from "samer-artisan";
 import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";

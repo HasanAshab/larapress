@@ -1,7 +1,7 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
 
 export default class MakeMiddleware extends ComponentGenerator {
-  static signature = "make:middleware {name} {--v|version=v1}";
+   signature = "make:middleware {name} {--v|version=v1}";
   
   protected template() {
     return "middleware";

@@ -1,7 +1,7 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
 
 export default class MakeRequest extends ComponentGenerator {
-  static signature = "make:request {name} {--v|version=v1}";
+   signature = "make:request {name} {--v|version=v1}";
   
   protected template() {
     return "request";

@@ -12,4 +12,5 @@ import { SamerArtisan } from 'samer-artisan';
 SamerArtisan
   .cacheDist("storage/cache/artisan.json")
   .load("dist/app/commands")
+  .load("dist/core/components/commands")
   .parse();

@@ -8,14 +8,10 @@ export default class Search extends Command {
   protected exclude = ["package.json", "package-lock.json", "node_modules", ".git", ".gitignore", ".env", "tsconfig.json", "artisan", "artisan.ts", "dist", "artisan", "backup", "docs", "storage"];
 
   async handle() {
-    const query = this.argument("query").value;
-    const replace = this.argument("replace").value;
-    console.log(replace)
+    const { query, replace } = this.arguments("query");
     if(replace) this.info("\nReplacing started...\n");
     else this.info("\nSearching started...\n");
-    //await this.searchFiles(this.option("dir"), query, replace);
-    await this.searchFiles('.', query, replace);
-    this.success("done!");
+    await this.searchFiles(this.option("dir"), query, replace);
   }
 
   private async searchFiles(currentDir: string, query: string, replace?: string) {
