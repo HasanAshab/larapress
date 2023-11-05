@@ -1,7 +1,7 @@
 declare global {
   function log(data: any): Promise<void>;
   function trace(message: string, logFullTrace = false): void;
-  function env(key: string, fallback: string): string;
+  function env(key: string, fallback?: string): string | undefined;
   function putEnv(data: Record<string, string>): Promise<void>;
   function base(...basePaths: string[]): string;
   function getParams(func: Function): string[];

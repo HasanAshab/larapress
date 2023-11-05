@@ -1,7 +1,7 @@
 import Application from "~/core/Application";
 
 // Create Application instance
-const app = new Application();
+const app: Application = new Application();
 
 export default app;
 

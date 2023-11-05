@@ -1,4 +1,4 @@
-import { Application } from "express";
+import Application from "~/core/Application";
 
 export default abstract class ServiceProvider {
   constructor(public app: Application) {

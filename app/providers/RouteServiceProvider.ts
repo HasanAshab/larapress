@@ -2,15 +2,6 @@ import ServiceProvider from "~/core/providers/RouteServiceProvider";
 import Router, { MiddlewareAliaseWithOrWithoutOptions } from "Router";
 
 export default class RouteServiceProvider extends ServiceProvider {
-  /**
-   * Register global middlewares by its alias with options 
-   * that will be executed before every request of the app.
-   * Execution order depends on the order of declaration.
-  */
-  protected globalMiddlewares: MiddlewareAliaseWithOrWithoutOptions[]  = [
-    "maintenance.check",
-    "limit:1000,5"
-  ];
   
   /**
   * Boot route services
@@ -21,7 +12,19 @@ export default class RouteServiceProvider extends ServiceProvider {
   }
   
   /**
-   * Register all routers 
+   * Return global middlewares by its alias with options 
+   * that will be executed before every request of the app.
+   * Execution order depends on the order of declaration.
+  */
+  protected globalMiddlewares(): MiddlewareAliaseWithOrWithoutOptions[] {
+    return [
+      "maintenance.check",
+      "limit:1000,5"
+    ];
+  }
+  
+  /**
+   * Register http routers 
   */
   registerRoutes() {
     Router.group({

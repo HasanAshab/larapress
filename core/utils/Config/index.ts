@@ -1,40 +1,39 @@
-import fs from "fs";
+import { readdirSync } from "fs";
 import _ from "lodash";
 
-export type ConfigValue = string | number | boolean | Record<string, ConfigValue>;
 
 export default class Config {
-  static $data: Record<string, ConfigValue> = {};
+  static $data: Record<string, any> = {};
 
   static load(dir = "config") {
-    const configFiles = fs.readdirSync(dir);
+    const configFiles = readdirSync(dir);
     for(const configFile of configFiles) {
       const configFor = configFile.split(".")[0];
       this.$data[configFor] = require(`~/${dir}/${configFor}`).default;
     }
-    this.$data = this.flattenObject(this.$data);
+    this.$data = this.flattenData(this.$data);
   }
 
-  static get<T = ConfigValue>(key?: string): T {
-    if (!key) return this.$data;
+  static get<T = unknown>(key?: string): T {
+    if (!key) return this.$data as T;
     const value = this.$data[key];
     if (!value) throw new Error(`Config not exist for key "${key}"`);
     return value;
   }
 
   static set(data: object) {
-    _.merge(this.$data, this.flattenObject(data));
+    _.merge(this.$data, this.flattenData(data));
   }
 
-  static flattenObject(obj, prefix = '') {
-    const flatObject = {};
+  static flattenData(obj: Record<string, any>, prefix = '') {
+    const flatObject: Record<string, any> = {};
   
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
         const value = obj[key];
         const newKey = prefix ? `${prefix}.${key}` : key;
         if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-          const nestedFlatObject = this.flattenObject(value, newKey);
+          const nestedFlatObject = this.flattenData(value, newKey);
           Object.assign(flatObject, nestedFlatObject);
           flatObject[newKey] = value;
         } else {

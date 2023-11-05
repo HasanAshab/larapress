@@ -1,13 +1,12 @@
-import CacheDriver from "~/core/utils/Cache/CacheDriver";
+import CacheDriver, { CacheData } from "~/core/utils/Cache/CacheDriver";
 import memoryCache from "memory-cache";
-import { CacheDataArg } from "Cache";
 
 export default class MemoryDriver implements CacheDriver {
   async get(key: string) {
     return memoryCache.get(key);
   }
   
-  async put(key: string, data: CacheDataArg, expiry?: number) {
+  async put(key: string, data: CacheData, expiry?: number) {
     data = typeof data === "string" 
       ? data
       : JSON.stringify(data);
@@ -18,16 +17,16 @@ export default class MemoryDriver implements CacheDriver {
     memoryCache.del(key);
   }
   
-  async increment(key: string, value = 1) {
+  async increment(key: string) {
     const currentValue = memoryCache.get(key);
-    let newValue = (parseInt(currentValue) || 0) + value;
+    const newValue = (parseInt(currentValue) || 0) + 1;
     memoryCache.put(key, newValue.toString());
     return newValue;
   }
   
-  async decrement(key: string, value = 1) {
+  async decrement(key: string) {
     const currentValue = memoryCache.get(key);
-    let newValue = (parseInt(currentValue) || 0) - value;
+    const newValue = (parseInt(currentValue) || 0) - 1;
     memoryCache.put(key, newValue.toString());
     return newValue;
   }

@@ -55,7 +55,7 @@ export default class URL {
     const expPart = urlParts.find((part) => part.startsWith('exp='));
     if (!signaturePart)
       return false;
-    const secretKey = Config.get("app.key");
+    const secretKey = Config.get<string>("app.key");
     if (expPart) {
       const signature = signaturePart.split('=')[1];
       const expTimestamp = parseInt(expPart.split('=')[1]);

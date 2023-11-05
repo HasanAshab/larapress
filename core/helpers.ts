@@ -39,7 +39,7 @@ export function trace(message: string, logFullTrace = false) {
 /**
  * Get env var.
 */
-export function env(key: string, fallback: string) {
+export function env(key: string, fallback?: string) {
   return process.env[key] ?? fallback;
 }
 

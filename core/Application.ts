@@ -1,4 +1,4 @@
-import { createServer } from "http"
+import { createServer, Server } from "http"
 import express, { Application as ExpressApplication } from "express";
 import EventEmitter from "events";
 import ServiceProvider from "~/core/abstract/ServiceProvider";
@@ -16,17 +16,17 @@ export default class Application extends EventEmitter {
   /**
   * The HTTP handler (express)
   */
-  readonly http?: ExpressApplication;
+  http?: ExpressApplication;
   
   /**
    * The HTTP server
   */
-  readonly server?;
+  server?: Server;
   
   /**
   * Booting callback of all providers
   */
-  private bootingCallbacks = [];
+  private bootingCallbacks: (() => void)[] = [];
 
   /**
    * Create a Application instance
@@ -55,7 +55,7 @@ export default class Application extends EventEmitter {
    * Register all service providers
   */
   private registerServiceProviders() {
-    Config.get("app.providers").forEach(path => {
+    Config.get<string[]>("app.providers").forEach(path => {
       this.register(require(path).default);
     });
   }
@@ -72,9 +72,7 @@ export default class Application extends EventEmitter {
    * Customize the HTTP (Express)
   */
   private addCustomHttpHelpers() {
-    if (!this.http)
-      throw new Error("Http server (express) was not created.");
-    
+    this.assertRunningInWeb();
     this.http.request.files = {};
     
     this.http.request.fullUrl = function() {
@@ -114,21 +112,37 @@ export default class Application extends EventEmitter {
   /**
    * Wether the app is running in console
   */
-  runningInConsole(): asserts this is Omit<this, "http"> {
+  runningInConsole(): this is Omit<this, "http" | "server"> {
     return env("NODE_ENV") === "shell";
   }
   
   /**
    * Wether the app is running in web (HTTP)
   */
-  runningInWeb(): asserts this is this & { http: ExpressApplication } {
+  runningInWeb(): this is this & { http: ExpressApplication, server: Server } {
     return !this.runningInConsole();
+  }
+  
+  /**
+   * asserts app is running in console
+  */
+  assertRunningInConsole(): asserts this is Omit<this, "http" | "server"> {
+    if(!this.runningInConsole())
+      throw new Error("Application is not running in console.");
+  } 
+  
+  /**
+   * asserts app is running in web (HTTP)
+  */
+  assertRunningInWeb(): asserts this is this & { http: ExpressApplication, server: Server } {
+    if(!this.runningInWeb())
+      throw new Error("Application is not running in web.");
   }
   
   /**
    * Register a provider
   */
-  private register(Provider) {
+  private register(Provider: typeof ServiceProvider) {
     const provider = new Provider(this);
     provider.register?.();
     if (provider.boot) {

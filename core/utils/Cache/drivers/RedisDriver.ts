@@ -1,9 +1,8 @@
-import CacheDriver from "~/core/utils/Cache/CacheDriver";
-import { CacheDataArg } from "Cache";
-import { autoInjectable } from "tsyringe";
+import CacheDriver, { CacheData } from "~/core/utils/Cache/CacheDriver";
+import { injectable } from "tsyringe";
 import IORedis from "ioredis";
 
-@autoInjectable()
+@injectable()
 export default class RedisDriver implements CacheDriver {
   constructor(private readonly client: IORedis) {}
 
@@ -11,7 +10,7 @@ export default class RedisDriver implements CacheDriver {
     return await this.client.get(key);
   }
 
-  async put(key: string, data: CacheDataArg, expiry?: number) {
+  async put(key: string, data: CacheData, expiry?: number) {
     data = typeof data === "string" 
       ? data 
       : JSON.stringify(data);
@@ -26,12 +25,12 @@ export default class RedisDriver implements CacheDriver {
     await this.client.del(key)
   }
   
-  async increment(key: string, value = 1) {
-    await this.client.incr(key, value);
+  async increment(key: string) {
+    return await this.client.incr(key);
   }
   
-  async decrement(key: string, value = 1) {
-    await this.client.decr(key, value);
+  async decrement(key: string) {
+    return await this.client.decr(key);
   }
 
   async flush() {
