@@ -2,7 +2,28 @@ import _ from "lodash";
 import fs from "fs";
 import { join } from "path";
 import { Router as ExpressRouter, NextFunction, RequestHandler, Request, Response } from "express";
-import { aliases } from "~/config/middleware";
+import middlewareConfig from "~/config/middleware";
+
+export type MiddlewareAliaseWithOptions = keyof typeof middlewareConfig["aliases"] | `${keyof typeof middlewareConfig["aliases"]}:${string}`;
+type RequestMethod = "get" | "post" | "put" | "patch" | "delete";
+type BindingResolver = (value: string) => any | Promise<any>;
+
+interface Endpoint {
+  /**
+   * Request method of the endpoint
+  */
+  method: RequestMethod;
+  path: string;
+  metadata: [Function, string];
+  middlewares: MiddlewareAliaseWithOptions[];
+}
+
+interface RouterConfig {
+  prefix: string;
+  as: string;
+  controller: Function | null;
+  middlewares: MiddlewareAliaseWithOptions[];
+}
 
 class EndpointOptions {
   constructor(private readonly stackIndex: number) {
@@ -12,8 +33,8 @@ class EndpointOptions {
   /**
    * Add middlewares to a endpoint
   */
-  middleware(...aliases: keyof typeof aliases[]) {
-    Router.$stack[this.stackIndex].middlewares.push(...aliases);
+  middleware(...aliases: MiddlewareAliaseWithOptions[]) {
+    Router.$stack[this.stackIndex].middlewares.push(...middlewareConfig.aliases);
     return this;
   }
   
@@ -26,25 +47,12 @@ class EndpointOptions {
   }
 }
 
-type RequestMethod = "get" | "post" | "put" | "patch" | "delete";
-type BindingResolver = (value: string) => any | Promise<any>;
-interface Endpoint {
-  /**
-   * Request method of the endpoint
-  */
-  method: RequestMethod;
-  
-  path: string;
-  metadata: [Function, string];
-  middlewares: keyof typeof aliases[];
-}
-
 
 export default class Router {
   /**
    * Scope based configuration
   */
-  static $config = {
+  static $config: RouterConfig = {
     prefix: "/",
     as: "",
     controller: null,
@@ -162,12 +170,12 @@ export default class Router {
     * this.resolveMiddleware("foo", "bar")
     * this.resolveMiddleware("foo:opt1", "bar:opt1,opt2")
   */
-  static resolveMiddleware(...keysWithOptions): RequestHandler[] {
-    const handlers = [];
+  static resolveMiddleware(...keysWithOptions: MiddlewareAliaseWithOptions[]): RequestHandler[] {
+    const handlers: RequestHandler[] = [];
     keysWithOptions.forEach(keyWithOptions => {
       const [key, optionString] = keyWithOptions.split(":");
       const options = optionString ? optionString.split(",") : [];
-      const MiddlewareClass = require(aliases[key]).default;
+      const MiddlewareClass = require(middlewareConfig.aliases[key]).default;
       const middleware = new MiddlewareClass();
       let handler: RequestHandler;
       if(middleware.errorHandler) {
@@ -190,7 +198,7 @@ export default class Router {
     return handlers;
   }
   
-  static group(config, cb) {
+  static group(config: Partial<RouterConfig>, cb: string | (() => void)) {
     const oldConfig = _.cloneDeep(Router.$config);
     if(config.prefix)
       config.prefix = join(oldConfig.prefix, config.prefix);
@@ -203,45 +211,45 @@ export default class Router {
   }
   
   static prefix(path: string) {
-    const group = (cb) => {
+    const group = (cb: () => void) => {
       this.group({ prefix: path }, cb);
     }
-    const load = (routerPath) => {
+    const load = (routerPath: string) => {
       this.group({ prefix: path }, routerPath);
     }
     return { group, load };
   }
   
-  static name(as: string) {
-    const group = (cb) => {
+  static prefixName(as: string) {
+    const group = (cb: () => void) => {
       this.group({ as }, cb);
     }
     
-    const load = (routerPath) => {
+    const load = (routerPath: string) => {
       this.group({ as }, routerPath);
     }
     return { group, load };
   }
   
   static controller(ControllerClass: Function) {
-    const group = (cb) => {
+    const group = (cb: () => void) => {
       this.group({ controller: ControllerClass }, cb);
     }
     
-    const load = (routerPath) => {
+    const load = (routerPath: string) => {
       this.group({ controller: ControllerClass }, routerPath);
     }
     return { group, load };
   }
   
-  static middleware(aliases: string | string[]) {
+  static middleware(aliases: MiddlewareAliaseWithOptions | MiddlewareAliaseWithOptions[]) {
     aliases = typeof aliases === "string" ? [aliases] : aliases;
-    const group = (cb) => {
-      this.group({ middlewares: aliases }, cb);
+    const group = (cb: () => void) => {
+      this.group({ middlewares: aliases as MiddlewareAliaseWithOptions[] }, cb);
     }
     
-    const load = (routerPath) => {
-      this.group({ middlewares: aliases }, routerPath);
+    const load = (routerPath: string) => {
+      this.group({ middlewares: aliases as MiddlewareAliaseWithOptions[] }, routerPath);
     }
     return { group, load };
   }
@@ -280,7 +288,7 @@ export default class Router {
     const router = ExpressRouter();
     for(const { method, path, metadata, middlewares } of Router.$stack) {
       const [Controller, handlerName] = metadata;
-      const controller = resolve(Controller);
+      const controller = resolve<any>(Controller);
       const handler = controller[handlerName].bind(controller);
       router[method](path, Router.resolveMiddleware(...middlewares), handler);
     }

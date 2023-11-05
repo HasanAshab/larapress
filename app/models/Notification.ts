@@ -1,4 +1,5 @@
-import { model, QueryWithHelpers, HydratedDocument, Schema, Model, Document } from "mongoose";
+import { model, QueryWithHelpers, HydratedDocument, Schema, Document } from "mongoose";
+import { Model } from "~/core/mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import HumanReadableTime from "~/app/plugins/HumanReadableTime";
 import { IUser } from "~/app/models/User";

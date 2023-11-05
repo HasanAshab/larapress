@@ -1,12 +1,21 @@
+import { Response } from "express";
+import ExternalUser from "./ExternalUser";
+
+export interface ProviderConfig {
+  clientId: string;
+  clientSecret: string;
+  redirect: string;
+}
+
 export default abstract class SocialiteProvider {
-  constructor(private config: object) {
+  constructor(protected readonly config: ProviderConfig) {
     this.config = config
   }
   
   abstract getRedirectUrl(): string;
-  abstract getAccessToken(code: string): Promise<string>;
-  abstract getUserInfo(token: string): Promise<object>;
-  abstract mapToExternalUser(userInfo: object): ExternalUser;
+  protected abstract getAccessToken(code: string): Promise<string>;
+  protected abstract getUserInfo(token: string): Promise<object>;
+  protected abstract mapToExternalUser(userInfo: Record<string, any>): ExternalUser;
 
   redirect(res: Response) {
     res.redirect(this.getRedirectUrl());

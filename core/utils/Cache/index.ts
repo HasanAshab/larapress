@@ -1,2 +1,4 @@
-export default resolve("Cache");
+import CacheManager from "./CacheManager";
+
 export type { default as CacheDriver } from "./CacheDriver";
+export default resolve<CacheManager>("Cache");

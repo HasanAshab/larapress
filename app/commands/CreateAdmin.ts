@@ -2,7 +2,6 @@ import { Command } from "samer-artisan";
 import DB from "DB";
 import User from "~/app/models/User";
 import Settings from "~/app/models/Settings";
-import componentsPath from "~/core/component/paths";
 
 
 export default class MakeAdmin extends Command {

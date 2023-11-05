@@ -9,7 +9,6 @@ import URL from "URL";
 import Router from "Router";
 
 export default class RouteServiceProvider extends ServiceProvider {
-  protected middlewareAliases = {};
   protected globalMiddlewares = [];
 
   /**
@@ -26,7 +25,6 @@ export default class RouteServiceProvider extends ServiceProvider {
     if(this.serveApiDoc) {
       this.serveDocs();
     }
-    Router.registerMiddleware(this.middlewareAliases);
     this.registerSecurityMiddlewares();
     this.registerRequestPayloadParsers();
     this.registerGlobalMiddlewares();

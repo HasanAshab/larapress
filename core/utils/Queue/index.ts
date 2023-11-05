@@ -1,1 +1,3 @@
-export default resolve("Queue");
+import QueueManager from "./QueueManager";
+
+export default resolve<QueueManager>("Queue");

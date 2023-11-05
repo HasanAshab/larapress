@@ -1,4 +1,5 @@
-import { model, Schema, Model, Document } from "mongoose";
+import { model, Schema, Document } from "mongoose";
+import { Model } from "~/core/mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 
 const ContactSchema = new Schema(

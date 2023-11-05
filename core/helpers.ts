@@ -4,7 +4,7 @@ import { MiddlewareKeyWithOptions } from "types";
 import { Model } from "mongoose";
 import Config from "Config";
 import dotenv from "dotenv";
-import fs from "fs";
+import fs from "fs/promises";
 import path from "path";
 import { container } from "tsyringe";
 
@@ -16,13 +16,9 @@ export async function log(data: any) {
   const logChannel = Config.get<string>("app.log");
   if(logChannel === "file"){
     const path = "./storage/logs/error.log";
-    if(data instanceof Error){
+    if(data instanceof Error)
       data = data.stack
-    }
-    fs.appendFile(path, `${new Date()}:\n${data.toString()}\n\n\n`, (err: any) => {
-      if (err)
-        throw err;
-    });
+    await fs.appendFile(path, `${new Date()}:\n${data.toString()}\n\n\n`);
   }
   else if(logChannel === "console"){
     console.log(data)
@@ -51,19 +47,14 @@ export function env(key: string, fallback: string) {
  * Updates environment process and file.
  * Returns updated env.
 */
-export function putEnv(data: Record<string, string>) {
-  const envConfig = dotenv.parse(fs.readFileSync(".env"));
+export async function putEnv(data: Record<string, string>) {
+  const envConfig = dotenv.parse(await fs.readFile(".env"));
   if(!data) return envConfig;
   for (const key in data) {
     process.env[key] = data[key];
     envConfig[key] = data[key];
   }
-  try {
-    fs.writeFileSync(".env", Object.entries(envConfig).map(([k, v]) => `${k}=${v}`).join("\n"));
-  }
-  catch(err: any) {
-    throw err;
-  }
+  await fs.writeFile(".env", Object.entries(envConfig).map(([k, v]) => `${k}=${v}`).join("\n"));
   return envConfig;
 }
 
@@ -124,72 +115,6 @@ export function sleep(ms: number) {
 /**
  * Resolve dependency
 */ 
-export function resolve(dependency: string | Function) {
+export function resolve<T = unknown>(dependency: string | Function): T {
   return container.resolve(dependency);
 }
-
-/**
- * Send response globally.
- * Avoid as much as possible. Use custom exception instead.
-*/ 
-type ResponseType = {
-  steps: Array<[string, any[]]>;
-} & {
-  [K in typeof methods.customizers[number]]: (
-    ...args: Parameters<Express.Response[K]>
-  ) => ResponseType;
-} & {
-  [K in typeof methods.senders[number]]: (
-    ...args: Parameters<Express.Response[K]>
-  ) => void;
-};
-
-export const response = {
-  steps: []
-} as ResponseType
-
-const methods = {
-  customizers: [
-    'status',
-    'links',
-    'type',
-    'contentType',
-    'format',
-    'attachment',
-    'set',
-    'header',
-    'vary',
-    'append',
-  ],
-  senders: [
-    'send',
-    'json',
-    'jsonp',
-    'sendFile',
-    'download',
-    'location',
-    'redirect',
-    'render',
-    'cookie',
-    'clearCookie',
-    'message',
-    'api'
-  ],
-};
-
-methods.customizers.forEach(methodName => {
-  response[methodName] = function(...args: any[]) {
-    this.steps.push([methodName, args])
-    return this;
-  }
-});
-
-methods.senders.forEach(methodName => {
-  response[methodName] = function(...args: any[]) {
-    this.steps.push([methodName, args])
-    const responseData = new ResponseData(this.steps);
-    this.steps = [];
-    throw responseData;
-  }
-});
-

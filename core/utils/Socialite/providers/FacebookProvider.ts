@@ -50,7 +50,7 @@ export default class FacebookProvider extends SocialiteProvider {
     return data;
   }
   
-  protected mapToExternalUser(userInfo) {
+  protected mapToExternalUser(userInfo: Record<string, any>) {
     return {
       id: userInfo.id,
       name: userInfo.name,

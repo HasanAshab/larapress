@@ -1,6 +1,6 @@
 import Factory from "~/core/abstract/Factory";
 import { faker } from "@faker-js/faker";
-import { IUser } from "~/app/models/User";
+import { IUser, UserDocument } from "~/app/models/User";
 import Settings from "~/app/models/Settings";
 
 export default class UserFactory extends Factory {
@@ -23,7 +23,7 @@ export default class UserFactory extends Factory {
   
   oauth() {
     return this.state((user: IUser) => {
-      delete user.password;
+      user.password = null;
       return user;
     });
   }
@@ -36,7 +36,7 @@ export default class UserFactory extends Factory {
   }
   
   hasSettings(mfa = false) {
-    return this.external(async (users: IUser[]) => {
+    return this.external(async (users: UserDocument[]) => {
       const settingsData: any[] = [];
       for(const user of users){
         settingsData.push({

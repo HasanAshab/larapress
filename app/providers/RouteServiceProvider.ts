@@ -1,29 +1,13 @@
 import ServiceProvider from "~/core/providers/RouteServiceProvider";
-import Router from "Router";
+import Router, { MiddlewareAliaseWithOptions } from "Router";
 
 export default class RouteServiceProvider extends ServiceProvider {
   /**
-   * Define middlewares path with a short name.
-  */
-  protected middlewareAliases = {
-    "auth": "~/app/http/middlewares/Authenticate",
-    "verified": "~/app/http/middlewares/EnsureEmailIsVerified",
-    "roles": "~/app/http/middlewares/CheckRole",
-    "recaptcha": "~/app/http/middlewares/VerifyRecaptcha",
-    "maintenance.check": "~/app/http/middlewares/CheckForMaintenanceMode",
-    "limit": "~/app/http/middlewares/LimitRequestRate",
-    "signed": "~/app/http/middlewares/ValidateSignature",
-    "response.cache": "~/app/http/middlewares/CacheResponse",
-    "global.responser": "~/app/http/middlewares/GlobalResponser",
-    "error.handle": "~/app/http/middlewares/ErrorHandler"
-  };
-  
-  /**
-   * Register global middlewares by its alias that will be
-   * executed before every request of the app.
+   * Register global middlewares by its alias with options 
+   * that will be executed before every request of the app.
    * Execution order depends on the order of declaration.
   */
-  protected globalMiddlewares = [
+  protected globalMiddlewares: MiddlewareAliaseWithOptions[]  = [
     "maintenance.check",
     "limit:1000,5"
   ];

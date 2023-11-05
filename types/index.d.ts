@@ -12,6 +12,3 @@ export type ApiResponse = {
   message?: string,
   data?: Record<string, any> | any[],
 } & Record<string, any>;
-
-
-export type MiddlewareKeyWithOptions = keyof typeof middlewareAliases | `${keyof typeof middlewareAliases}:${string}`;

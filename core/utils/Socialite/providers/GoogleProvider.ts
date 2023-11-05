@@ -44,7 +44,7 @@ export default class GoogleProvider extends SocialiteProvider {
     return data;
   }
   
-  protected mapToExternalUser(userInfo) {
+  protected mapToExternalUser(userInfo: Record<string, any>) {
     return {
       id: userInfo.sub,
       name: userInfo.name,

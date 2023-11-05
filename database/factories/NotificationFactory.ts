@@ -1,6 +1,6 @@
 import Factory from "~/core/abstract/Factory";
 import { faker } from "@faker-js/faker";
-import User, { IUser } from "~/app/models/User";
+import User, { UserDocument } from "~/app/models/User";
 import { INotification } from "~/app/models/Notification";
 
 export default class NotificationFactory extends Factory {
@@ -19,7 +19,7 @@ export default class NotificationFactory extends Factory {
     });
   }
   
-  belongsTo(user: IUser) {
+  belongsTo(user: UserDocument) {
     return this.state((notification: INotification) => {
       notification.userId = user._id;
       return notification;

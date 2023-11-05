@@ -14,5 +14,4 @@ export default {
     "global.responser": "~/app/http/middlewares/GlobalResponser",
     "error.handle": "~/app/http/middlewares/ErrorHandler"
   } as const
-  
 }

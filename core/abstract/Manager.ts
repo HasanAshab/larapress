@@ -4,7 +4,9 @@ export default abstract class Manager {
   private drivers = {};
   private customCreators = {};
   
-  abstract public getDefaultDriver?(): string;
+  getDefaultDriver(): string | null {
+    return null;
+  }
 
   driver(name?: string = this.getDefaultDriver?.(), config?: obje) {
     if(!name)

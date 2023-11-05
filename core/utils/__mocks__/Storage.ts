@@ -1,3 +1,4 @@
+import expect from "expect";
 import { UploadedFile } from "express-fileupload";
 import MockDataContainer from "~/tests/MockDataContainer";
 

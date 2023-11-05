@@ -1,3 +1,4 @@
+import expect from "expect";
 import Mailable from "~/core/abstract/Mailable";
 import MockDataContainer from "~/tests/MockDataContainer";
 
@@ -23,9 +24,9 @@ export default class Mail {
     expect(MockDataContainer.Mail.total).toBe(0);
   }
   
-  static assertSentTo(email: string, Mailable: typeof Mailable){
+  static assertSentTo(email: string, MailableClass: typeof Mailable){
     expect(MockDataContainer.Mail.recipients[email]).not.toBe(undefined);
-    expect(MockDataContainer.Mail.recipients[email]).toContain(Mailable);
+    expect(MockDataContainer.Mail.recipients[email]).toContain(MailableClass);
   }
   
   static assertCount(expectedNumber: number){
