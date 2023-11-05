@@ -1,10 +1,12 @@
 import NotificationClass from "~/core/abstract/Notification";
-import { IUser } from "~/app/models/User";
+import { UserDocument } from "~/app/models/User";
 import SendNotification from "~/app/jobs/SendNotification";
 import NotificationService from "~/app/services/NotificationService";
 
+const notificationService = resolve<NotificationService>(NotificationService);
+
 export default class Notification {
-  static prepareJobData(notifiables: IUser | IUser[], notification: NotificationClass) {
+  static prepareJobData(notifiables: UserDocument | UserDocument[], notification: NotificationClass) {
     const notifiablesId = Array.isArray(notifiables)
       ? notifiables.map(notifiable => notifiable._id.toString())
       : notifiables._id.toString();
@@ -15,12 +17,11 @@ export default class Notification {
     return { notifiablesId, notificationMetadata };
   }
 
-  static async send(notifiables: IUser | IUser[], notification: NotificationClass) {
+  static async send(notifiables: UserDocument | UserDocument[], notification: NotificationClass) {
     if (notification.shouldQueue) {
       const data = this.prepareJobData(notifiables, notification);
       return await SendNotification.dispatch(data);
     }
-    const notificationService = resolve(NotificationService);
     await notificationService.send(notifiables, notification);
   }
 }

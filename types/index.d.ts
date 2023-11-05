@@ -12,3 +12,5 @@ export type ApiResponse = {
   message?: string,
   data?: Record<string, any> | any[],
 } & Record<string, any>;
+
+export type Constructor<T = any> = new (...args:any[]) => T

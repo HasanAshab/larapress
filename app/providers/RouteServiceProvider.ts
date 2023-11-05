@@ -1,5 +1,5 @@
 import ServiceProvider from "~/core/providers/RouteServiceProvider";
-import Router, { MiddlewareAliaseWithOptions } from "Router";
+import Router, { MiddlewareAliaseWithOrWithoutOptions } from "Router";
 
 export default class RouteServiceProvider extends ServiceProvider {
   /**
@@ -7,7 +7,7 @@ export default class RouteServiceProvider extends ServiceProvider {
    * that will be executed before every request of the app.
    * Execution order depends on the order of declaration.
   */
-  protected globalMiddlewares: MiddlewareAliaseWithOptions[]  = [
+  protected globalMiddlewares: MiddlewareAliaseWithOrWithoutOptions[]  = [
     "maintenance.check",
     "limit:1000,5"
   ];

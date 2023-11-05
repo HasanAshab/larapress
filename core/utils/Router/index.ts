@@ -1,10 +1,15 @@
 import _ from "lodash";
+import { Constructor } from "types";
 import fs from "fs";
 import { join } from "path";
 import { Router as ExpressRouter, NextFunction, RequestHandler, Request, Response } from "express";
+import { Model } from "~/core/mongoose";
 import middlewareConfig from "~/config/middleware";
 
-export type MiddlewareAliaseWithOptions = keyof typeof middlewareConfig["aliases"] | `${keyof typeof middlewareConfig["aliases"]}:${string}`;
+export type MiddlewareAliase = keyof typeof middlewareConfig["aliases"];
+export type MiddlewareAliaseWithOptions = `${MiddlewareAliase}:${string}`;
+export type MiddlewareAliaseWithOrWithoutOptions = MiddlewareAliase | MiddlewareAliaseWithOptions;
+
 type RequestMethod = "get" | "post" | "put" | "patch" | "delete";
 type BindingResolver = (value: string) => any | Promise<any>;
 
@@ -14,15 +19,15 @@ interface Endpoint {
   */
   method: RequestMethod;
   path: string;
-  metadata: [Function, string];
-  middlewares: MiddlewareAliaseWithOptions[];
+  metadata: [Constructor, string];
+  middlewares: MiddlewareAliaseWithOrWithoutOptions[];
 }
 
 interface RouterConfig {
   prefix: string;
   as: string;
-  controller: Function | null;
-  middlewares: MiddlewareAliaseWithOptions[];
+  controller: Constructor | null;
+  middlewares: MiddlewareAliaseWithOrWithoutOptions[];
 }
 
 class EndpointOptions {
@@ -33,8 +38,8 @@ class EndpointOptions {
   /**
    * Add middlewares to a endpoint
   */
-  middleware(...aliases: MiddlewareAliaseWithOptions[]) {
-    Router.$stack[this.stackIndex].middlewares.push(...middlewareConfig.aliases);
+  middleware(...aliases: MiddlewareAliaseWithOrWithoutOptions[]) {
+    Router.$stack[this.stackIndex].middlewares.push(...aliases);
     return this;
   }
   
@@ -90,12 +95,12 @@ export default class Router {
   /**
    * Add a endpoint to stack
   */
-  static $add<T extends Function>(method: RequestMethod, endpoint: string, metadata: string | [T, keyof InstanceType<T>]) {
+  static $add<T extends Constructor>(method: RequestMethod, endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
     const path = join(Router.$config.prefix, endpoint);
     if(typeof metadata === "string") {
       if(!Router.$config.controller)
         throw new Error(`Must pass a controller in "${endpoint}" route as no global scope controller exist`);
-      metadata = [Router.$config.controller, metadata];
+      metadata = [Router.$config.controller as T, metadata];
     }
     Router.$stack.push({
       method,
@@ -109,27 +114,27 @@ export default class Router {
   /**
    * Add a endpoint of GET method to stack
   */
-  static get<T extends Function>(endpoint: string, metadata: string | [T, keyof InstanceType<T>]) {
+  static get<T extends Constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
     return this.$add("get", endpoint, metadata);
   }
   
-  static post<T extends Function>(endpoint: string, metadata: string | [T, keyof InstanceType<T>]) {
+  static post<T extends Constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
     return this.$add("post", endpoint, metadata);
   }
   
-  static put<T extends Function>(endpoint: string, metadata: string | [T, keyof InstanceType<T>]) {
+  static put<T extends Constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
     return this.$add("put", endpoint, metadata);
   }
 
-  static patch<T extends Function>(endpoint: string, metadata: string | [T, keyof InstanceType<T>]) {
+  static patch<T extends Constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
     return this.$add("patch", endpoint, metadata);
   }
   
-  static delete<T extends Function>(endpoint: string, metadata: string | [T, keyof InstanceType<T>]) {
+  static delete<T extends Constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
     return this.$add("delete", endpoint, metadata);
   }
   
-  static apiResource(prefix: string, controller: Function) {
+  static apiResource(prefix: string, controller: Constructor) {
     this.group({
       prefix,
       controller,
@@ -151,11 +156,11 @@ export default class Router {
     this.$resolvers[param] = resolver;
   }
   
-  static model(param: string, Model: string | typeof Model) {
-    if(typeof Model === "string") {
-      Model = require(Model).default;
+  static model(param: string, modelClassOrPath: string | Model<any>) {
+    if(typeof modelClassOrPath === "string") {
+      modelClassOrPath = require(modelClassOrPath).default;
     }
-    this.bind(param, value => Model.findByIdOrFail(value));
+    this.bind(param, value => (modelClassOrPath as Model<any>).findByIdOrFail(value));
   }
   
 
@@ -170,23 +175,23 @@ export default class Router {
     * this.resolveMiddleware("foo", "bar")
     * this.resolveMiddleware("foo:opt1", "bar:opt1,opt2")
   */
-  static resolveMiddleware(...keysWithOptions: MiddlewareAliaseWithOptions[]): RequestHandler[] {
+  static resolveMiddleware(...keysWithOptions: MiddlewareAliaseWithOrWithoutOptions[]): RequestHandler[] {
     const handlers: RequestHandler[] = [];
     keysWithOptions.forEach(keyWithOptions => {
       const [key, optionString] = keyWithOptions.split(":");
       const options = optionString ? optionString.split(",") : [];
-      const MiddlewareClass = require(middlewareConfig.aliases[key]).default;
+      const MiddlewareClass = require(middlewareConfig.aliases[key as MiddlewareAliase]).default;
       const middleware = new MiddlewareClass();
-      let handler: RequestHandler;
+      let handler: any;
       if(middleware.errorHandler) {
-        handler = function(err: any, req: Request, res: Response, next: NextFunction) {
-          return middleware.handle(err, req, res, next, ...options);
+        handler = async function(err: any, req: Request, res: Response, next: NextFunction) {
+          await middleware.handle(err, req, res, next, ...options);
         }
       }
       else {
         handler = async function(req: Request, res: Request, next: NextFunction) {
           try {
-            return await middleware.handle(req, res, next, ...options);
+            await middleware.handle(req, res, next, ...options);
           }
           catch(err) {
             next(err)
@@ -231,7 +236,7 @@ export default class Router {
     return { group, load };
   }
   
-  static controller(ControllerClass: Function) {
+  static controller(ControllerClass: Constructor) {
     const group = (cb: () => void) => {
       this.group({ controller: ControllerClass }, cb);
     }
@@ -242,14 +247,14 @@ export default class Router {
     return { group, load };
   }
   
-  static middleware(aliases: MiddlewareAliaseWithOptions | MiddlewareAliaseWithOptions[]) {
+  static middleware(aliases: MiddlewareAliaseWithOrWithoutOptions | MiddlewareAliaseWithOrWithoutOptions[]) {
     aliases = typeof aliases === "string" ? [aliases] : aliases;
     const group = (cb: () => void) => {
-      this.group({ middlewares: aliases as MiddlewareAliaseWithOptions[] }, cb);
+      this.group({ middlewares: aliases as MiddlewareAliaseWithOrWithoutOptions[] }, cb);
     }
     
     const load = (routerPath: string) => {
-      this.group({ middlewares: aliases as MiddlewareAliaseWithOptions[] }, routerPath);
+      this.group({ middlewares: aliases as MiddlewareAliaseWithOrWithoutOptions[] }, routerPath);
     }
     return { group, load };
   }

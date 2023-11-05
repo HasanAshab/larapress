@@ -6,10 +6,10 @@ import helmet from "helmet";
 import bodyParser from "body-parser";
 import formDataParser from "express-fileupload";
 import URL from "URL";
-import Router from "Router";
+import Router, { MiddlewareAliaseWithOrWithoutOptions } from "Router";
 
 export default class RouteServiceProvider extends ServiceProvider {
-  protected globalMiddlewares = [];
+  protected globalMiddlewares: MiddlewareAliaseWithOrWithoutOptions[] = [];
 
   /**
    * Whether API documentation should be served

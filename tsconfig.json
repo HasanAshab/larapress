@@ -8,7 +8,7 @@
     "paths": {
       "*": ["core/utils/*"],
       "~/*": ["*"],
-      "types/*": ["types/*"]
+      "types": ["types"]
     },
     "strict": true,
     "alwaysStrict": true,
