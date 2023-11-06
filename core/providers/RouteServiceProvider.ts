@@ -89,7 +89,6 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   */
   private registerErrorHandlers() {
     this.app.assertRunningInWeb();
-    const middlewares = Router.resolveMiddleware("global.responser", "error.handle");
-    this.app.http.use(...middlewares);
+    this.app.http.use(Router.resolveMiddleware("error.handle"));
   }
 }

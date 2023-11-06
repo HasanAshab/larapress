@@ -1,18 +1,19 @@
-import { Request, AuthenticRequest, Response } from "~/core/express";
-import { container } from 'tsyringe';
+import { constructor } from "types"; 
+import { Request, AuthenticRequest, Response, isRequest } from "~/core/express";
+import { NextFunction } from "express";
 import Validator from "Validator";
 import Router from "Router";
 
 export default function RequestHandler(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
   const handler = descriptor.value;
   const paramNames = getParams(handler);
-  const paramTypes = Reflect.getMetadata("design:paramtypes", target, propertyKey);
-  let rules = null;
-  descriptor.value = async function(req, res, next){
+  const paramTypes: (typeof Request | typeof Response | constructor)[] = Reflect.getMetadata("design:paramtypes", target, propertyKey);
+  let rules: ReturnType<typeof Validator["object"]>;
+  descriptor.value = async function(req: Request, res: Response, next: NextFunction){
     try {
       const args = await Promise.all(
         paramTypes.map(async (paramType, i) => {
-          if (paramType === Request || paramType.prototype instanceof Request) {
+          if (isRequest(paramType)) {
             if(paramType.rules) {
               rules = rules ?? Validator.object(paramType.rules());
               const data = req.method === "GET"
@@ -25,10 +26,10 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
           }
           else if (paramType === Response)
             return res;
-          else if (paramType.name === "String" || paramType.name === "Object") {
+          else if (paramType === String || paramType === Object) {
             return await Router.resolve(req, paramNames[i]) ?? req.params[paramNames[i]];
           } 
-          else return container.resolve(paramType);
+          else return resolve(paramType);
         })
       );
       const result = await handler.apply(this, args);
@@ -46,3 +47,5 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
     }
   }
 };
+
+

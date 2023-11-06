@@ -13,4 +13,7 @@ export type ApiResponse = {
   data?: Record<string, any> | any[],
 } & Record<string, any>;
 
-export type Constructor<T = any> = new (...args:any[]) => T
+/** Constructor type */
+export type constructor<T = any> = {
+    new (...args: any[]): T;
+};

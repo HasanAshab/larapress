@@ -1,11 +1,11 @@
-import { IUser } from "~/app/models/User";
+import { UserDocument } from "~/app/models/User";
 import Mail from "Mail";
 import NotificationModel from "~/app/models/Notification";
 import Mailable from "~/core/abstract/Mailable";
 import NotificationData from "~/core/abstract/Notification";
-import { Config } from "types";
+import notificationConfig from "~/config/notification";
 
-type NotificationChannel = Config["notification"]["channels"][number];
+type NotificationChannel = typeof notificationConfig["channels"][number];
 
 
 export default abstract class Notification {
@@ -24,22 +24,27 @@ export default abstract class Notification {
   /**
    * Channels via the notification should send
   */
-  abstract via(notifiable: IUser): Promise<typeof channels[]> | typeof channels[];
+  abstract via(notifiable: UserDocument): Promise< NotificationChannel[]> | NotificationChannel[];
   
   /**
    * Mailable that should be send on email channel
   */
-  abstract toEmail?(notifiable: IUser): Mailable;
+  protected toEmail(notifiable: UserDocument): Mailable {
+    return {} as Mailable;
+  }
   
   /**
-   * Data that should be stored in database on site channel
+   * Return notification data that should be 
+   * stored in database on site channel
   */
-  abstract toSite?(notifiable: IUser): object;
+  protected toSite(notifiable: UserDocument): object {
+    return {};
+  };
   
   /**
    * Sends notification via email
   */
-  async sendEmail(notifiable: IUser) {
+  async sendEmail(notifiable: UserDocument) {
     this.assertProviderExist(this, "toEmail");
     await Mail.to(notifiable.email).send(await this.toEmail!(notifiable));
   }
@@ -47,7 +52,7 @@ export default abstract class Notification {
   /**
    * Sends notification via site e.g Notification model
   */
-  async sendSite(notifiable: IUser) {
+  async sendSite(notifiable: UserDocument) {
     this.assertProviderExist(this, "toSite");
     await NotificationModel.create({
       userId: notifiable._id,
@@ -58,7 +63,7 @@ export default abstract class Notification {
   /**
    * Asserts if a given channel provider exists
   */
-  assertProviderExist(notification: Notification, methodName: string) {
+  private assertProviderExist(notification: Notification, methodName: string) {
     if(!this[methodName as keyof this])
       throw new Error(`${methodName}() is required in ${notification.constructor.name} notification!`);
   }

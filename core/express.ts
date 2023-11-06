@@ -1,10 +1,9 @@
 import * as http from 'http';
 import User, { UserDocument } from "~/app/models/User";
-import Express from 'express';
+import Express, { Response as ExpressResponse } from 'express';
 import { SendFileOptions, DownloadOptions } from "express-serve-static-core";
 import { RawResponse, ApiResponse } from "types";
 import { UploadedFile } from "express-fileupload";
-import config from "config";
 import jwt from "jsonwebtoken";
 
 type Send<ResBody, T> = (body?: ResBody) => T;
@@ -75,6 +74,9 @@ export abstract class Request<
     (lang: string[]): string | false;
     (...lang: any): any;
   };
+  
+  accepted!: Express.MediaType[];
+
 
   range!: (size: number, options?: any) => any;
 
@@ -85,35 +87,19 @@ export abstract class Request<
   is!: {
     (type: string | string[]): string | false | null;
   };
+  url!: string;
+  baseUrl!: string;
+  host!: string;
+  secure!: boolean;
+
+  static rules() {
+    throw new Error("rules() not implemented in request: " + this.name);
+  }
 }
 
 export class AuthenticRequest extends Request {
   user!: UserDocument;
 }
-/*
-export function AuthenticRequest(roles?: string | string[], verified = true) {
-  return class extends Request {
-    user!: UserDocument
-    validRoles = roles;
-    shouldVerified = verified;
-    static async authorize(req: Request, res: Response) {
-      if(req.user) return;
-      const token = req.headers.authorization?.split(" ")[1];
-      if(!token)
-        return res.status(401).message();
-      const { sub, version, iss, aud } = jwt.verify(token, config.get("app.key"))!;
-      const user = await User.findById(sub);
-      if(!user || version !== user.tokenVersion || iss !== config.get("app.name") || aud !== "auth")
-        return res.status(401).message();
-      if ((typeof roles === "string" && user.role !== roles) || (Array.isArray(roles) && !roles.includes(user.role)))
-        return res.status(403).message();
-      if(verified && !user.verified)
-        return res.status(403).message("Your have to verify your email to perfom this action!");
-      req.user = user;
-    }
-  }
-}
-*/
 
 export class Response<
   ResBody = any,
@@ -121,7 +107,7 @@ export class Response<
   StatusCode extends number = number
 > extends http.ServerResponse {
   app!: Express.Application;
-  locals: LocalsObj & Express.Locals = {};
+  locals!: LocalsObj & Express.Locals;
   status!: (code: StatusCode) => this;
   sendStatus!: (code: StatusCode) => this;
 
@@ -193,15 +179,15 @@ export class Response<
   vary!: (field: string) => this;
 
   append!: (field: string, value?: string[] | string) => this;
+
+  api!: (response: RawResponse) => void;
+  message!: (text?: string) => void;
 }
 
-export class ResponseData {
-  constructor(steps){
-    this.steps = steps;
-  }
-  send(res) {
-    for(const step of this.steps) {
-      res[step[0]](...step[1])
-    }
-  }
+/*
+class ResponseSkeleton {};
+export const Response = (ResponseSkeleton as unknown) as ExpressResponse*/
+
+export function isRequest(target: any): target is typeof Request {
+  return target === Request || target.prototype instanceof Request
 }

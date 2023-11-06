@@ -1,6 +1,5 @@
 import { NextFunction, RequestHandler, Request, Response } from "express";
-import { ResponseData } from "~/core/express";
-import { MiddlewareKeyWithOptions } from "types"; 
+import { constructor } from "types"; 
 import { Model } from "mongoose";
 import Config from "Config";
 import dotenv from "dotenv";
@@ -30,9 +29,12 @@ export async function log(data: any) {
  * Inspired by Jest
 */
 export function trace(message: string, logFullTrace = false) {
+  const { stack } = new Error();
+  if(!stack)
+    throw new Error("Failed to track caller.");
   const caller = logFullTrace
-    ? new Error().stack.split('\n').splice(1).join('\n')
-    : new Error().stack.split('\n')[2].trim();
+    ? stack.split('\n').splice(1).join('\n')
+    : stack.split('\n')[2].trim();
   console.log(message, '\n\t', '\x1b[90m', caller, '\x1b[0m', '\n');
 }
 
@@ -80,7 +82,7 @@ export function getParams(func: Function) {
   let start = str.indexOf("(") + 1;
   let end = str.length - 1;
   let result = str.substring(start, end).split(", ");
-  let params = [];
+  let params: string[] = [];
   result.forEach(element => {
     element = element.replace(/=[\s\S]*/g, '').trim();
       if (element.length > 0)
@@ -115,6 +117,6 @@ export function sleep(ms: number) {
 /**
  * Resolve dependency
 */ 
-export function resolve<T = unknown>(dependency: string | Function): T {
-  return container.resolve(dependency);
+export function resolve<T = unknown>(dependency: string | constructor<T>): T {
+  return container.resolve<T>(dependency);
 }

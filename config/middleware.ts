@@ -11,7 +11,6 @@ export default {
     "limit": "~/app/http/middlewares/LimitRequestRate",
     "signed": "~/app/http/middlewares/ValidateSignature",
     "response.cache": "~/app/http/middlewares/CacheResponse",
-    "global.responser": "~/app/http/middlewares/GlobalResponser",
     "error.handle": "~/app/http/middlewares/ErrorHandler"
   } as const
 }

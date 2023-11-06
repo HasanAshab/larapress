@@ -1,7 +1,14 @@
 import Queue from "Queue";
+import { JobOptions as BullJobOptions } from "bull";
+
+export interface JobOptions {
+  shouldQueue: boolean,
+  dispatchAfter: number,
+  cron: string | null
+}
 
 export default abstract class Job {
-  static $options = {
+  static $options: JobOptions = {
     shouldQueue: true,
     dispatchAfter: 0,
     cron: null
@@ -12,7 +19,7 @@ export default abstract class Job {
   public tries = 1;
   public timeout = 10000;
   
-  abstract public handle(data: unknown): Promise<void>;
+  public abstract handle(data: unknown): Promise<void>;
   
   static delay(ms: number) {
     this.$options.dispatchAfter = ms;
@@ -30,15 +37,19 @@ export default abstract class Job {
   }
 
   static resetOptions() {
-    this.$options.shouldQueue = true;
-    this.$options.dispatchAfter = 0;
-    this.$options.cron = null;
+    this.$options = {
+      shouldQueue: true,
+      dispatchAfter: 0,
+      cron: null
+    }
   }
   
-  static async dispatch(data: unknown) {
+  static async dispatch(data: unknown = {}) {
+    if(this === Job)
+      throw new Error("Can not dispatch abstract Job class.");
     if(this.$options.shouldQueue) {
-      const job = new this();
-      const options = {
+      const job = new (this as any)();
+      const options: BullJobOptions = {
         delay: this.$options.dispatchAfter,
         attempts: job.tries,
         timeout: job.timeout
@@ -48,7 +59,7 @@ export default abstract class Job {
       }
       await Queue.channel(job.channel).add(this.name, data, options);
     }
-    else await resolve(this).handle(data);
+    else await resolve<Job>(this).handle(data);
     this.resetOptions();
   }
 }

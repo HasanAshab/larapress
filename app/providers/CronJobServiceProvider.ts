@@ -5,7 +5,7 @@ export default class CronJobServiceProvider extends ServiceProvider {
   /**
    * Schedule cron jobs of the application
   */ 
-  private schedule() {
+  protected schedule() {
     //this.call(PruneDatabase).cron("0 0 1 * *");
   }
 }

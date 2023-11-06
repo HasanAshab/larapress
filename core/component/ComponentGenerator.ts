@@ -5,19 +5,19 @@ import path from "path";
 
 
 export default abstract class ComponentGenerator extends Command {
-  abstract protected template(): string;
-  abstract protected dist(): string;
+  protected abstract template(): string;
+  protected abstract dist(): string;
 
   handle() {
     const content = fs.readFileSync(this.getTemplatePath(), "utf-8").replace(/{{name}}/g, this.resolveName());
-    const filepath = this.getDistPath();
+    const filepath = base(this.getDistPath());
     this.prepareParentFolders(filepath);
-    this.generateComponent(base(filepath), content);
-    this.success(`File created successfully: [${filepath}]`);
+    this.generateComponent(filepath, content);
+    this.info(`File created successfully: [${filepath}]`);
   }
   
   private resolveName() {
-    return this.argument("name").split("/").pop();
+    return this.argument("name")!.split("/").pop()!;
   }
   
   private getTemplatePath() {

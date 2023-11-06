@@ -2,7 +2,6 @@ import { model, QueryWithHelpers, HydratedDocument, Schema, Document } from "mon
 import { Model } from "~/core/mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import HumanReadableTime from "~/app/plugins/HumanReadableTime";
-import { IUser } from "~/app/models/User";
 import DocumentNotFoundException from "~/app/exceptions/DocumentNotFoundException";
 
 const NotificationSchema = new Schema({

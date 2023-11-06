@@ -3,12 +3,12 @@ import Job from "~/core/abstract/Job";
 import nodeCron from "node-cron";
 
 export default abstract class CronJobServiceProvider extends ServiceProvider {
-  private jobSchedule: [string, Job][] = [];
+  private jobSchedule: [string, typeof Job][] = [];
 
   /**
    * Schedule jobs
   */
-  abstract private schedule(): void;
+  protected abstract schedule(): void;
   
   /**
    * Boot cron job service
@@ -23,8 +23,8 @@ export default abstract class CronJobServiceProvider extends ServiceProvider {
   /**
    * Schedule job with a cron expression
   */
-  private call(JobClass: Job) {
-    const cron = cronTime => this.jobSchedule.push([cronTime, JobClass]);
+  private call(JobClass: typeof Job) {
+    const cron = (cronTime: string) => this.jobSchedule.push([cronTime, JobClass]);
     return { cron };
   }
 

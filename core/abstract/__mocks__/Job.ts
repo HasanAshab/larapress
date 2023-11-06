@@ -1,4 +1,4 @@
-import Queue from "bull";
+import expect from "expect";
 import MockDataContainer from "~/tests/MockDataContainer";
 
 export default abstract class Job {
@@ -33,7 +33,7 @@ export default abstract class Job {
     this.resetOptions();
   }
   
-  static assertDispatched(job: typeof Job = Job.name) {
+  static assertDispatched(job = Job.name) {
     expect(MockDataContainer.Job).toContain(job)
   }
 }

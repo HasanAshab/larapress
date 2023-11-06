@@ -24,7 +24,7 @@ export default (schema: Schema) => {
   }
   
   schema.methods.refresh = async function() {
-    const latestData = await this.constructor.findById(this._id);
+    const latestData = await (this.constructor as typeof Model).findById(this._id);
     return Object.assign(this, latestData._doc);
   }
 }

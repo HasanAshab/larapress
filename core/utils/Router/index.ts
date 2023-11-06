@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Constructor } from "types";
+import { constructor } from "types";
 import fs from "fs";
 import { join } from "path";
 import { Router as ExpressRouter, NextFunction, RequestHandler, Request, Response } from "express";
@@ -19,14 +19,14 @@ interface Endpoint {
   */
   method: RequestMethod;
   path: string;
-  metadata: [Constructor, string];
+  metadata: [constructor, string];
   middlewares: MiddlewareAliaseWithOrWithoutOptions[];
 }
 
 interface RouterConfig {
   prefix: string;
   as: string;
-  controller: Constructor | null;
+  controller: constructor | null;
   middlewares: MiddlewareAliaseWithOrWithoutOptions[];
 }
 
@@ -95,7 +95,7 @@ export default class Router {
   /**
    * Add a endpoint to stack
   */
-  static $add<T extends Constructor>(method: RequestMethod, endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
+  static $add<T extends constructor>(method: RequestMethod, endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
     const path = join(Router.$config.prefix, endpoint);
     if(typeof metadata === "string") {
       if(!Router.$config.controller)
@@ -114,27 +114,27 @@ export default class Router {
   /**
    * Add a endpoint of GET method to stack
   */
-  static get<T extends Constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
+  static get<T extends constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
     return this.$add("get", endpoint, metadata);
   }
   
-  static post<T extends Constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
+  static post<T extends constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
     return this.$add("post", endpoint, metadata);
   }
   
-  static put<T extends Constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
+  static put<T extends constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
     return this.$add("put", endpoint, metadata);
   }
 
-  static patch<T extends Constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
+  static patch<T extends constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
     return this.$add("patch", endpoint, metadata);
   }
   
-  static delete<T extends Constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
+  static delete<T extends constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
     return this.$add("delete", endpoint, metadata);
   }
   
-  static apiResource(prefix: string, controller: Constructor) {
+  static apiResource(prefix: string, controller: constructor) {
     this.group({
       prefix,
       controller,
@@ -236,7 +236,7 @@ export default class Router {
     return { group, load };
   }
   
-  static controller(ControllerClass: Constructor) {
+  static controller(ControllerClass: constructor) {
     const group = (cb: () => void) => {
       this.group({ controller: ControllerClass }, cb);
     }
