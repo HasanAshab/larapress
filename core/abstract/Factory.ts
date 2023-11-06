@@ -1,9 +1,10 @@
 import { Model, Document } from "mongoose";
+import { merge } from "lodash";
 
 export type StateCustomizer<IDoc> = (docState: IDoc) => IDoc;
 export type ExternalCallback<DocType> = (docs: DocType[]) => Promise<void> | void;
 
-export default abstract class Factory<IDoc, DocType> {
+export default abstract class Factory<IDoc extends object, DocType extends Document> {
   /**
    * Number of documents to be generated
   */
@@ -45,7 +46,7 @@ export default abstract class Factory<IDoc, DocType> {
   /**
    * Adds state customizer
   */
-  protected state(cb: StateCustomizer) {
+  protected state(cb: StateCustomizer<IDoc>) {
     this.stateCustomizers.push(cb);
     return this;
   }
@@ -53,7 +54,7 @@ export default abstract class Factory<IDoc, DocType> {
   /**
    * Adds external operations callback
   */
-  protected external(cb: ExternalCallback) {
+  protected external(cb: ExternalCallback<DocType>) {
     this.externalCallbacks.push(cb);
     return this;
   }
@@ -71,7 +72,7 @@ export default abstract class Factory<IDoc, DocType> {
   /**
    * Inserts all generated documents into database
   */
-  async create(data: Partial<DocType>) {
+  async create(data: Partial<IDoc>) {
     const docsData = this.make(data);
     const method = this.total === 1 
       ? "create"
@@ -85,21 +86,12 @@ export default abstract class Factory<IDoc, DocType> {
    * Generates single document data 
   */
   private generateDocumentData(data?: Partial<IDoc>) {
-    const docData = this.customizeState(this.definition());
-    data && this.overrideFields(docData, data);
-    return docData;
-  }
-  
-  /**
-   * Overrides generated document with given data
-  */
-  private overrideFields(docData: IDoc, data: Partial<IDoc>) {
-    for (const field in data){
-      if(typeof data[field] !== "undefined")
-        docData[field] = data[field];
+    let docData = this.customizeState(this.definition());
+    if(data) {
+      docData = merge(docData, data);
     }
     return docData;
-  };
+  }
   
   /**
    * Runs all state customizers

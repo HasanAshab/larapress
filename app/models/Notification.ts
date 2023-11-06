@@ -34,6 +34,7 @@ const notificationQuery = {
     const { modifiedCount } = await this.updateOne(this.getFilter(), {readAt: new Date()});
     return modifiedCount === 1;
   },
+  
   async markAsReadOrFail(){
     if(!await this.markAsRead())
       throw new DocumentNotFoundException();
@@ -56,6 +57,6 @@ export interface NotificationDocument extends Document, INotification {
 }
 
 export type NotificationQuery = QueryWithHelpers<NotificationDocument[], NotificationDocument, typeof notificationQuery>;
-interface NotificationModel extends Model<INotification, typeof notificationQuery>, HasFactoryModel {}
+interface NotificationModel extends Model<NotificationDocument, typeof notificationQuery>, HasFactoryModel {}
 
 export default model<NotificationDocument, NotificationModel>("Notification", NotificationSchema);

@@ -1,3 +1,4 @@
+import { RawResponse } from "types";
 import { createServer, Server } from "http"
 import express, { Application as ExpressApplication } from "express";
 import EventEmitter from "events";
@@ -73,6 +74,7 @@ export default class Application extends EventEmitter {
   */
   private addCustomHttpHelpers() {
     this.assertRunningInWeb();
+    
     this.http.request.files = {};
     
     this.http.request.fullUrl = function() {
@@ -86,7 +88,7 @@ export default class Application extends EventEmitter {
       });
     };
 
-    this.http.response.api = function (response) {
+    this.http.response.api = function (response: RawResponse) {
       const success = this.statusCode >= 200 && this.statusCode < 300;
       const apiResponse = {
         success,
@@ -94,12 +96,11 @@ export default class Application extends EventEmitter {
         data: response.data || response,
       };
       this.json(apiResponse);
-      return apiResponse;
     };
 
     this.http.response.redirectToClient = function (path = '/') {
-        return this.redirect(URL.client(path));
-      };
+      this.redirect(URL.client(path));
+    };
   }  
   
   /**
@@ -143,7 +144,7 @@ export default class Application extends EventEmitter {
    * Register a provider
   */
   private register(Provider: typeof ServiceProvider) {
-    const provider = new Provider(this);
+    const provider = new (Provider as any)(this);
     provider.register?.();
     if (provider.boot) {
       this.bootingCallbacks.push(provider.boot.bind(provider));

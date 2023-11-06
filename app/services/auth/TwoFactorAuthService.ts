@@ -1,6 +1,6 @@
 import { singleton } from "tsyringe";
 import { UserDocument } from "~/app/models/User";
-import Settings from "~/app/models/Settings";
+import Settings, { ISettings } from "~/app/models/Settings";
 import OTP from "~/app/models/OTP";
 import TwilioService from "~/app/services/TwilioService";
 import Config from "Config";
@@ -11,13 +11,17 @@ import PhoneNumberRequiredException from "~/app/exceptions/PhoneNumberRequiredEx
 export default class TwoFactorAuthService {
   constructor(private readonly twilioService: TwilioService) {}
   
-  async enable(user, method) {
+  async enable(user: UserDocument, method: "sms" | "call" | "app") {
     if (!user.phoneNumber && method !== "app")
       throw new PhoneNumberRequiredException();
-    const data = { 
+    const data: { recoveryCodes: string[], otpauthURL?: string } = {
       recoveryCodes: await user.generateRecoveryCodes()
     };
-    const twoFactorAuth = { enabled: true, method };
+    const twoFactorAuth: ISettings["twoFactorAuth"] = { 
+      enabled: true,
+      secret: null,
+      method
+    };
     if(method === "app") {
       const secret = speakeasy.generateSecret({ length: 20 });
       twoFactorAuth.secret = secret.ascii;
@@ -32,7 +36,7 @@ export default class TwoFactorAuthService {
     return data;
   }
   
-  async disable(user) {
+  async disable(user: UserDocument) {
     const { modifiedCount } = await Settings.updateOne({ userId: user._id }, { "twoFactorAuth.enabled": false });
     if(modifiedCount !== 1)
       throw new Error("Failed to disable two factor auth for user: " + user);
@@ -53,10 +57,12 @@ export default class TwoFactorAuthService {
     return code;
   }
   
-  async verifyOtp(user, method, code: number) {
+  async verifyOtp(user: UserDocument, method: "sms" | "call" | "app", code: string) {
     if(method !== "app")
       return await OTP.findOneAndDelete({ userId: user._id, code }) !== null;
     const { twoFactorAuth } = await user.settings;
+    if(!twoFactorAuth.secret)
+      throw new Error("Trying to verify otp without generating secret of user: \n" + JSON.stringify(user, null, 2));
     return speakeasy.totp.verify({
       secret: twoFactorAuth.secret,
       encoding: 'ascii',

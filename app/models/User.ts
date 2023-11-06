@@ -7,7 +7,7 @@ import HasApiTokens, { HasApiTokensDocument } from "~/app/plugins/HasApiTokens";
 import Notifiable, { NotifiableDocument } from "~/app/plugins/Notifiable";
 import Attachable, { FileMeta, AttachableDocument } from "~/app/plugins/Attachable";
 //import Billable, { BillableDocument } from "~/app/plugins/Billable";
-import Settings, { ISettings } from "~/app/models/Settings";
+import Settings, { SettingsDocument } from "~/app/models/Settings";
 
 const UserSchema = new Schema({
   name: String,
@@ -74,11 +74,11 @@ export interface IUser {
   recoveryCodes: string[];
 }
 
-export interface UserDocument extends Document, IUser, AuthenticatableDocument, AttachableDocument, HasApiTokensDocument, NotifiableDocument, AttachableDocument {
-  settings: Promise<ISettings>;
-  safeDetails(): Omit<InferSchemaType<typeof UserSchema>, "email" | "phoneNumber">;
+export interface UserDocument extends Document, IUser, AuthenticatableDocument, AttachableDocument<IUser>, HasApiTokensDocument, NotifiableDocument, AttachableDocument {
+  settings: Promise<SettingsDocument>;
+  safeDetails(): Omit<UserDocument, "email" | "phoneNumber">;
 };
 
 interface UserModel extends Model<UserDocument>, HasFactoryModel {};
 
-export default model<IUser, UserModel>("User", UserSchema);
+export default model<UserDocument, UserModel>("User", UserSchema);

@@ -46,8 +46,8 @@ export interface IToken {
 
 export interface TokenDocument extends Document, IToken {};
 
-interface TokenModel extends Model<IToken> {
-  isValid(key: string, type: string, secret: string): boolean;
+interface TokenModel extends Model<TokenDocument> {
+  verify<T extends object = null>(key: string, type: string, secret: string): T;
 };
 
 

@@ -1,9 +1,9 @@
 import Factory from "~/core/abstract/Factory";
 import { faker } from "@faker-js/faker";
 import User, { UserDocument } from "~/app/models/User";
-import { INotification } from "~/app/models/Notification";
+import { INotification, NotificationDocument } from "~/app/models/Notification";
 
-export default class NotificationFactory extends Factory {
+export default class NotificationFactory extends Factory<INotification, NotificationDocument> {
   definition() {
     return {
       userId: new User()._id,

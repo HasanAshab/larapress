@@ -7,8 +7,12 @@ import EmailVerificationNotification from "~/app/notifications/EmailVerification
 import ForgotPasswordNotification from "~/app/notifications/ForgotPasswordNotification";
 
 export interface AuthenticatableDocument extends Document {
-  setPassword(password: string): Promise<void>;
   attempt(password: string): Promise<boolean>;
+  setPassword(password: string): Promise<void>;
+  sendVerificationNotification(version: string): Promise<void>;
+  sendResetPasswordNotification(): Promise<void>;
+  generateRecoveryCodes(count = 10): Promise<string[]>;
+  verifyRecoveryCode(code: string): Promise<boolean>;
 }
 
 export default (schema: Schema) => {
@@ -17,7 +21,7 @@ export default (schema: Schema) => {
   }
 
   schema.methods.setPassword = async function (password: string) {
-    this.password = await bcrypt.hash(password, Config.get("bcrypt.rounds"));
+    this.password = await bcrypt.hash(password, Config.get<number>("bcrypt.rounds"));
   }
   
   schema.methods.sendVerificationNotification = async function(version: string) {

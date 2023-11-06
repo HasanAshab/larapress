@@ -5,14 +5,14 @@ export default class LoginRequest extends Request {
   body!: { 
     email: string;
     password: string;
-    otp?: number;
+    otp?: string;
   };
   
   static rules() {
     return {
       email: Validator.string().email().required(),
       password: Validator.string().required(),
-      otp: Validator.number()
+      otp: Validator.string()
     }
   }
 }

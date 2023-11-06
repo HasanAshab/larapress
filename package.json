@@ -73,6 +73,7 @@
     "@types/nodemailer": "^6.4.7",
     "@types/nodemailer-express-handlebars": "^4.0.2",
     "@types/sanitize-html": "^2.9.0",
+    "@types/speakeasy": "^2.0.9",
     "@types/swagger-ui-express": "^4.1.3",
     "autocannon": "^7.12.0",
     "await-event-emitter": "^2.0.2",

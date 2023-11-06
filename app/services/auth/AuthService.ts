@@ -1,9 +1,10 @@
+import { UploadedFile } from "express-fileupload";
 import URL from "URL";
 import Cache from "Cache";
 import { singleton } from "tsyringe";
 import { Mutex } from 'async-mutex';
 import TwoFactorAuthService from "~/app/services/auth/TwoFactorAuthService";
-import Socialite from "Socialite";
+import Socialite, { ExternalUser } from "Socialite";
 import User, { UserDocument } from "~/app/models/User";
 import Settings from "~/app/models/Settings";
 import Token from "~/app/models/Token";
@@ -16,7 +17,7 @@ import OtpRequiredException from "~/app/exceptions/OtpRequiredException";
 export default class AuthService {
   constructor(private readonly twoFactorAuthService: TwoFactorAuthService, private readonly mutex: Mutex) {}
   
-  async register(email: string, username: string, password: string, profile?){
+  async register(email: string, username: string, password: string, profile?: UploadedFile){
     const user = new User({ email, username });
     await user.setPassword(password);
     profile && await user.attach("profile", profile);
@@ -25,7 +26,7 @@ export default class AuthService {
     return user;
   }
   
-  async login(email: string, password: string, otp?: number) {
+  async login(email: string, password: string, otp?: string) {
     await this.assertFailedAttemptLimitNotExceed(email);
     const user = await User.findOne({ email, password: { $ne: null }});
     if(!user?.password)
@@ -59,7 +60,7 @@ export default class AuthService {
     return URL.client(`/login/social/${provider}/final-step/${externalUser.id}/${token}?fields=${fields}`);
   }
   
-  async createExternalLoginFinalStepToken(provider: string, externalUser) {
+  async createExternalLoginFinalStepToken(provider: string, externalUser: ExternalUser) {
     const { secret } = await Token.create({
       key: externalUser.id,
       type: provider + "Login",
@@ -70,7 +71,7 @@ export default class AuthService {
   }
   
   async externalLoginFinalStep(provider: string, externalId: string, token: string, username: string, email?: string) {
-    const externalUser = await Token.verify(externalId, provider + "Login", token);
+    const externalUser = await Token.verify<ExternalUser>(externalId, provider + "Login", token);
     return await User.create({
       [`externalId.${provider}`]: externalUser.id,
       name: externalUser.name,
@@ -89,7 +90,7 @@ export default class AuthService {
     return `$_LOGIN_FAILED_ATTEMPTS(${email})`;
   }
   
-  private async checkTwoFactorAuth(user: UserDocument, otp?: number) {
+  private async checkTwoFactorAuth(user: UserDocument, otp?: string) {
     const { twoFactorAuth } = await user.settings;
     if(!twoFactorAuth.enabled)
       return true;

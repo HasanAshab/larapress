@@ -2,8 +2,8 @@ export default {
   name: "Samer",
   protocol: "http",
   domain: "127.0.0.1",
-  port: env("PORT", 8000),
-  key: env("APP_KEY", null),
+  port: env("PORT", "8000"),
+  key: env("APP_KEY"),
   state: "up",
   vapid: {
     publicKey: null,

@@ -1,19 +1,16 @@
 import { singleton } from "tsyringe";
 import Config from 'Config';
-import twilio, { TwilioClient } from "twilio";
+import { Twilio } from "twilio";
 
 @singleton()
 export default class TwilioService {
-  readonly client: TwilioClient;
+  readonly client: Twilio;
   constructor() {
-    this.setupClient();
+    const { sid, authToken } = Config.get<{ sid: string, authToken: string }>("twilio");
+    this.client = new Twilio(sid, authToken);
   }
   
-  private setupClient() {
-    const { sid, authToken } = Config.get("twilio");
-    this.client = twilio(sid, authToken);
-  }
-  
+
   sendMessage(to: string, body: string) {
     return this.client.messages.create({ 
       to,

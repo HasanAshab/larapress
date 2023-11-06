@@ -1,10 +1,10 @@
 import { model, Schema, Document } from "mongoose";
 import { Model } from "~/core/mongoose";
-import Config from "Config";
+import notificationConfig from "~/config/notification";
 
-const { channels, types } = Config.get<Config["notification"]>("notification");
+const { channels, types } = notificationConfig;
 
-const notificationDefaults = channels.reduce((defaults, channel) => {
+const notificationDefaults = channels.reduce((defaults: Record<string, any>, channel) => {
   defaults[channel] = {
     type: Boolean,
     default: true
@@ -12,7 +12,7 @@ const notificationDefaults = channels.reduce((defaults, channel) => {
   return defaults;
 }, {});
 
-const twoFactorAuthMethods = ["sms", "call", "app"];
+const twoFactorAuthMethods = ["sms", "call", "app"] as const;
 
 const SettingsSchema = new Schema({
   userId: {
@@ -37,7 +37,7 @@ const SettingsSchema = new Schema({
       default: null
     }
   },
-  notification: types.reduce((typeObj, notificationType) => {
+  notification: types.reduce((typeObj: Record<string, typeof notificationDefaults>, notificationType) => {
     typeObj[notificationType] = notificationDefaults;
     return typeObj;
   }, {})
@@ -58,6 +58,6 @@ export interface ISettings {
 };
 
 export interface SettingsDocument extends Document, ISettings {};
-interface SettingsModel extends Model<ISettings> {};
+interface SettingsModel extends Model<SettingsDocument> {};
 
 export default model<SettingsDocument, SettingsModel>("Settings", SettingsSchema);

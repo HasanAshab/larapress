@@ -11,7 +11,7 @@ const OTPSchema = new Schema(
     index: true
   },
   code: {
-    type: Number,
+    type: string,
     default: () => Math.floor(100000 + Math.random() * 900000),
     index: true
   },
@@ -28,7 +28,7 @@ const OTPSchema = new Schema(
 
 export interface IOTP {
   userId: string;
-  code: number;
+  code: string;
   expiresAt: Date;
 };
 
