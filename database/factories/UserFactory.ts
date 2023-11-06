@@ -3,14 +3,18 @@ import { faker } from "@faker-js/faker";
 import { IUser, UserDocument } from "~/app/models/User";
 import Settings from "~/app/models/Settings";
 
-export default class UserFactory extends Factory {
+export default class UserFactory extends Factory<IUser, UserDocument> {
   definition() {
     return {
       name: faker.person.firstName(),
       username: faker.person.firstName(),
       email: faker.internet.email(),
+      phoneNumber: null,
       password: "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi", // "password"
-      verified: true
+      verified: true,
+      role: "novice",
+      profile: null,
+      recoveryCodes: []
     };
   }
   

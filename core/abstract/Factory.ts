@@ -1,6 +1,9 @@
-import { Model } from "mongoose";
+import { Model, Document } from "mongoose";
 
-export default abstract class Factory {
+export type StateCustomizer<IDoc> = (docState: IDoc) => IDoc;
+export type ExternalCallback<DocType> = (docs: DocType[]) => Promise<void> | void;
+
+export default abstract class Factory<IDoc, DocType> {
   /**
    * Number of documents to be generated
   */
@@ -9,26 +12,27 @@ export default abstract class Factory {
   /**
    * Callbacks that customizes document's state
   */
-  private stateCustomizers = [];
+  private stateCustomizers: StateCustomizer<IDoc>[] = [];
  
   /**
    * Callbacks to perform external async operations
    * such as creating relational documents.
   */
-  private externalCallbacks = [];
+  private externalCallbacks: ExternalCallback<DocType>[] = [];
   
   /**
    * Create factory instance
   */
-  constructor(private Model: Model<any>, protected options: Record<string, unknown> = {}) {
+  constructor(private Model: Model<DocType>, protected options: Record<string, unknown> = {}) {
     this.Model = Model;
+    // this options will be available everywhere
     this.options = options;
   }
   
   /**
    * Return the initial state of documents
   */
-  abstract definition(): Record<string, any>;
+  abstract definition(): IDoc;
   
   /**
    * Specify the number of documents to be generated
@@ -41,7 +45,7 @@ export default abstract class Factory {
   /**
    * Adds state customizer
   */
-  protected state(cb) {
+  protected state(cb: StateCustomizer) {
     this.stateCustomizers.push(cb);
     return this;
   }
@@ -49,7 +53,7 @@ export default abstract class Factory {
   /**
    * Adds external operations callback
   */
-  protected external(cb) {
+  protected external(cb: ExternalCallback) {
     this.externalCallbacks.push(cb);
     return this;
   }
@@ -58,7 +62,7 @@ export default abstract class Factory {
   /**
    * Generates all documents raw data
   */
-  make(data?: object) {
+  make(data?: Partial<IDoc>) {
     return this.total === 1
       ? this.generateDocumentData(data)
       : Array.from({ length: this.total }, () => this.generateDocumentData(data));
@@ -67,8 +71,8 @@ export default abstract class Factory {
   /**
    * Inserts all generated documents into database
   */
-  async create(data: Record<string, any>) {
-    const docsData = await this.make(data);
+  async create(data: Partial<DocType>) {
+    const docsData = this.make(data);
     const method = this.total === 1 
       ? "create"
       : "insertMany";
@@ -80,16 +84,16 @@ export default abstract class Factory {
   /**
    * Generates single document data 
   */
-  private generateDocumentData(data?: Record<string, any>) {
+  private generateDocumentData(data?: Partial<IDoc>) {
     const docData = this.customizeState(this.definition());
     data && this.overrideFields(docData, data);
     return docData;
   }
   
   /**
-   * Overrides generated document data
+   * Overrides generated document with given data
   */
-  private overrideFields(docData: Record<string, any>, data: Record<string, any>) {
+  private overrideFields(docData: IDoc, data: Partial<IDoc>) {
     for (const field in data){
       if(typeof data[field] !== "undefined")
         docData[field] = data[field];
@@ -100,7 +104,7 @@ export default abstract class Factory {
   /**
    * Runs all state customizers
   */
-  private customizeState(docData) {
+  private customizeState(docData: IDoc) {
     this.stateCustomizers.forEach(customizer => {
       docData = customizer(docData)
     });
@@ -110,7 +114,7 @@ export default abstract class Factory {
   /**
    * Runs all external callbacks
   */
-  private runExternalCallbacks(docs) {
+  private runExternalCallbacks(docs: DocType[]) {
     const promises = this.externalCallbacks.map(cb => cb(docs));
     return Promise.all(promises);
   }
