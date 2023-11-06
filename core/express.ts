@@ -170,7 +170,8 @@ export class Response<
     (status: number, url: string): void;
     (url: string, status: number): void;
   };
-
+  redirectToClient!: (url?: string) => void;
+  
   render!: {
     (view: string, options?: object, callback?: (err: Error, html: string) => void): void;
     (view: string, callback?: (err: Error, html: string) => void): void;

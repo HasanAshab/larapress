@@ -1,13 +1,14 @@
 import ServiceProvider from "~/core/abstract/ServiceProvider";
-import config from "config";
-import Artisan from "Artisan";
+import { SamerArtisan } from 'samer-artisan';
 
 export default class ConsoleServiceProvider extends ServiceProvider {
   /**
   * Boot console services
   */
   boot() {
-    Artisan.load("app/commands");
-    Artisan.load("core/component/commands");
+    SamerArtisan.cacheDist("storage/cache/artisan.json").loadFrom([
+      "app/commands",
+      "core/component/commands"
+    ]);
   }
 }

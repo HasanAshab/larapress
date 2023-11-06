@@ -14,7 +14,7 @@ export default class Config {
     this.$data = this.flattenData(this.$data);
   }
 
-  static get<T = unknown>(key?: string): T {
+  static get<T = any>(key?: string): T {
     if (!key) return this.$data as T;
     const value = this.$data[key];
     if (!value) throw new Error(`Config not exist for key "${key}"`);

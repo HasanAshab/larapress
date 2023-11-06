@@ -11,7 +11,7 @@ export interface AuthenticatableDocument extends Document {
   setPassword(password: string): Promise<void>;
   sendVerificationNotification(version: string): Promise<void>;
   sendResetPasswordNotification(): Promise<void>;
-  generateRecoveryCodes(count = 10): Promise<string[]>;
+  generateRecoveryCodes(count?: number): Promise<string[]>;
   verifyRecoveryCode(code: string): Promise<boolean>;
 }
 
@@ -33,8 +33,8 @@ export default (schema: Schema) => {
   }
 
   schema.methods.generateRecoveryCodes = async function(count = 10) {
-    const rawCodes = [];
-    const promises = [];
+    const rawCodes: string[] = [];
+    const promises: Promise<void>[] = [];
     for (let i = 0; i < count; i++) {
       const generateCode = async () => {
         const code = crypto.randomBytes(8).toString('hex');

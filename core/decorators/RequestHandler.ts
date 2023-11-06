@@ -41,8 +41,6 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
       }
     }
     catch(err) {
-      if(err instanceof Validator.ValidationError)
-        return res.status(400).message(err.details[0].message);
       next(err);
     }
   }

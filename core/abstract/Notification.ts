@@ -24,20 +24,20 @@ export default abstract class Notification {
   /**
    * Channels via the notification should send
   */
-  abstract via(notifiable: UserDocument): Promise< NotificationChannel[]> | NotificationChannel[];
+  abstract via(notifiable: UserDocument): Promise<NotificationChannel[]> | NotificationChannel[];
   
   /**
    * Mailable that should be send on email channel
   */
-  protected toEmail(notifiable: UserDocument): Mailable {
-    return {} as Mailable;
+  protected toEmail(notifiable: UserDocument): Promise<Mailable> | Mailable  {
+    return {} as any;
   }
   
   /**
    * Return notification data that should be 
    * stored in database on site channel
   */
-  protected toSite(notifiable: UserDocument): object {
+  protected toSite(notifiable: UserDocument): Promise<object> | object {
     return {};
   };
   

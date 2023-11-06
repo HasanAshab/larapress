@@ -12,7 +12,7 @@ const notificationDefaults = channels.reduce((defaults: Record<string, any>, cha
   return defaults;
 }, {});
 
-const twoFactorAuthMethods = ["sms", "call", "app"] as const;
+export const twoFactorAuthMethods = ["sms", "call", "app"] as const;
 
 const SettingsSchema = new Schema({
   userId: {

@@ -14,9 +14,8 @@ import ChangePhoneNumberRequest from "~/app/http/requests/v1/ChangePhoneNumberRe
 import AuthService from "~/app/services/auth/AuthService";
 import TwoFactorAuthService from "~/app/services/auth/TwoFactorAuthService";
 import PasswordService from "~/app/services/auth/PasswordService";
-import config from "config";
 import Event from "~/core/Event";
-import User from "~/app/models/User";
+import User, { UserDocument } from "~/app/models/User";
 import Token from "~/app/models/Token";
 import Socialite from "Socialite";
 import URL from "URL";
@@ -101,14 +100,14 @@ export default class AuthController extends Controller {
   async verifyEmail(res: Response, id: string, token: string) {
     await Token.verify(id, "verifyEmail", token);
     await User.updateOne({ _id: id }, { verified: true });
-    res.redirectClient("/email/verify/success");
+    res.redirectToClient("/email/verify/success");
   };
 
   @RequestHandler
   async resendEmailVerification(req: ResendEmailVerificationRequest){
     const user = await User.findOne(req.body);
     if(user && !user.verified)
-      await user.sendVerificationNotification();
+      await user.sendVerificationNotification("v1");
     return "Verification link sent to email!";
   };
   
@@ -145,7 +144,7 @@ export default class AuthController extends Controller {
       await twoFactorAuthService.sendOtp(req.user, "sms");
       return "6 digit OTP code sent to phone number!";
     }
-    const isValid = await twoFactorAuthService.verifyOtp(req.user, "sms", parseInt(otp));
+    const isValid = await twoFactorAuthService.verifyOtp(req.user, "sms", otp);
     if(!isValid)
       return res.status(401).message("Invalid OTP. Please  again!");
     await req.user.save();

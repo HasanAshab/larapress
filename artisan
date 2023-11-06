@@ -10,8 +10,4 @@ require("~/main/app");
 
 const { SamerArtisan } = require('samer-artisan');
 
-SamerArtisan
-  .cacheDist("storage/cache/artisan.json")
-  .load("dist/app/commands")
-  .load("dist/core/component/commands")
-  .parse();
+SamerArtisan.parse();

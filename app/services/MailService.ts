@@ -1,3 +1,4 @@
+import Mailable from "~/core/abstract/Mailable";
 import { singleton } from "tsyringe";
 import Config from 'Config';
 import { createTransport, Transporter } from "nodemailer";
@@ -8,13 +9,20 @@ export default class MailService {
   readonly transporter: Transporter;
   
   constructor() {
-    this.setupTransporter();
+    this.transporter = createTransport(this.config);
     this.setupViewEngine();
   }
   
-  private setupTransporter() {
-    const { host, port, username: user = "", password: pass = "" } = Config.get("mail");
-    this.transporter = createTransport({ host, port, auth: { user, pass } });
+  get config() {
+    const mailConfig = Config.get("mail");
+    return { 
+      host: mailConfig.host, 
+      port: mailConfig.port, 
+      auth: { 
+        user: mailConfig.username,
+        pass: mailConfig.password
+      }
+    }
   }
 
   private setupViewEngine() {

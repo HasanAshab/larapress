@@ -29,11 +29,11 @@ const TokenSchema = new Schema({
   }
 });
 
-TokenSchema.statics.verify = async function(this: TokenModel, key: string, type: string, secret: string) {
-  const token = await this.findOneAndDelete({ key, type, secret });
+TokenSchema.statics.verify = async function<T extends object | null = null>(key: string, type: string, secret: string): Promise<T> {
+  const token = (await this.findOneAndDelete({ key, type, secret })) as TokenDocument | null;
   if(!token)
     throw new InvalidTokenException();
-  return token.data;
+  return token.data as T;
 }
 
 export interface IToken {
@@ -47,7 +47,7 @@ export interface IToken {
 export interface TokenDocument extends Document, IToken {};
 
 interface TokenModel extends Model<TokenDocument> {
-  verify<T extends object = null>(key: string, type: string, secret: string): T;
+  verify<T extends object | null = null>(key: string, type: string, secret: string): Promise<T>;
 };
 
 

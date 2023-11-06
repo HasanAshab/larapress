@@ -19,11 +19,11 @@ export default (schema: Schema) => {
   schema.methods.createToken = function () {
     return jwt.sign(
       { version: this.tokenVersion },
-      Config.get("app.key"),
+      Config.get<string>("app.key"),
       { 
         expiresIn: 2592000,
         subject: this._id.toString(),
-        issuer: Config.get("app.name"),
+        issuer: Config.get<string>("app.name"),
         audience: "auth"
       }
     );

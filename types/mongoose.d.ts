@@ -1,5 +1,5 @@
 import { Document, Query } from 'mongoose';
-import { Request } from 'express';
+import { Request } from '~/core/express';
 
 declare module 'mongoose' {
   interface Query<ResultType, DocType, THelpers = {}> {

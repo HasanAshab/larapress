@@ -28,16 +28,17 @@ export default class CategoryController extends Controller {
   }
   
   @RequestHandler
-  async update(req: UpdateCategoryRequest, id: string) {
+  async update(req: UpdateCategoryRequest, res: Response, id: string) {
     const icon = req.files.icon;
     if(!icon) {
-      const { modifiedCount } = await Category.updateOne({_id: id}, req.body);
+      const { modifiedCount } = await Category.updateOne({ _id: id }, req.body);
       return modifiedCount === 1
-        ? res.message("Category updated!")
+        ? "Category updated!"
         : res.status(404).message();
     }
     const category = await Category.findByIdOrFail(id);
     Object.assign(category, req.body);
+    //TODO improve it for robustness
     category.detach("icon");
     await category.attach("icon", icon);
     await category.save();

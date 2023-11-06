@@ -30,7 +30,7 @@ NotificationSchema.methods.markAsRead = async function(){
 }
 
 const notificationQuery = {
-  async markAsRead(){
+  async markAsRead(this: NotificationQuery){
     const { modifiedCount } = await this.updateOne(this.getFilter(), {readAt: new Date()});
     return modifiedCount === 1;
   },
@@ -56,6 +56,7 @@ export interface NotificationDocument extends Document, INotification {
   markAsRead(): Promise<void>;
 }
 
+//TODO fix Query Type
 export type NotificationQuery = QueryWithHelpers<NotificationDocument[], NotificationDocument, typeof notificationQuery>;
 interface NotificationModel extends Model<NotificationDocument, typeof notificationQuery>, HasFactoryModel {}
 

@@ -30,7 +30,7 @@ export default class UserController extends Controller {
     await user.save();
     if(!req.body.email) 
       return "Profile updated!";
-    await user.sendVerificationNotification();
+    await user.sendVerificationNotification("v1");
     return "Verification email sent to your new email!";
   };
   

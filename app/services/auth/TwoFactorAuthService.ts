@@ -11,13 +11,13 @@ import PhoneNumberRequiredException from "~/app/exceptions/PhoneNumberRequiredEx
 export default class TwoFactorAuthService {
   constructor(private readonly twilioService: TwilioService) {}
   
-  async enable(user: UserDocument, method: "sms" | "call" | "app") {
+  async enable(user: UserDocument, method?: ISettings["twoFactorAuth"]["method"]) {
     if (!user.phoneNumber && method !== "app")
       throw new PhoneNumberRequiredException();
     const data: { recoveryCodes: string[], otpauthURL?: string } = {
       recoveryCodes: await user.generateRecoveryCodes()
     };
-    const twoFactorAuth: ISettings["twoFactorAuth"] = { 
+    const twoFactorAuth: Partial<ISettings["twoFactorAuth"]> = { 
       enabled: true,
       secret: null,
       method

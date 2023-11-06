@@ -28,7 +28,7 @@ export interface ICategory {
   icon: FileMeta | null;
 }
 
-export interface CategoryDocument extends Document, ICategory, AttachableDocument {};
+export interface CategoryDocument extends Document, ICategory, AttachableDocument<ICategory> {};
 interface CategoryModel extends Model<CategoryDocument>, HasFactoryModel {};
 
 export default model<CategoryDocument, CategoryModel>("Category", CategorySchema);

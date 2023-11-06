@@ -1,4 +1,4 @@
-import { Request } from "express";
+import { Request } from '~/core/express';
 
 /**
  * Plugin for pagination support 

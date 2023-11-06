@@ -3,16 +3,15 @@ import { singleton } from "tsyringe";
 import User, { IUser } from "~/app/models/User";
 import NotificationService from "~/app/services/NotificationService";
 
-/*
+
 interface SendNotificationData {
-  notifiable: IUser;
-  notification: {
+  notifiablesId: string[];
+  notificationMetadata: {
     name: string; 
     data: object;
-    method: string;
   }
 }
-*/
+
 @singleton()
 export default class SendNotification extends Job {
   concurrency = 10;

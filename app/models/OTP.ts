@@ -11,7 +11,7 @@ const OTPSchema = new Schema(
     index: true
   },
   code: {
-    type: string,
+    type: String,
     default: () => Math.floor(100000 + Math.random() * 900000),
     index: true
   },
