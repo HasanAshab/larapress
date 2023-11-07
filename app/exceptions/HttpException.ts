@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 
 export default class HttpException extends Exception {
   constructor(private readonly message: string, private readonly status: number) {
+    super();
     this.message = message;
     this.status = status;
   }

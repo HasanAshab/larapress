@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Command } from "samer-artisan";
 import { exec, spawn } from "child_process";
 import autocannon, { Options } from "autocannon";

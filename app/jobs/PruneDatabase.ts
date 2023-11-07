@@ -1,5 +1,6 @@
 import Job from "~/core/abstract/Job";
 import { models } from "mongoose";
+import DB from "DB";
 
 export default class PruneDatabase extends Job {
   async handle() {
@@ -7,7 +8,7 @@ export default class PruneDatabase extends Job {
     await Promise.all(
       Object.entries(models).map(async ([name, Model]) => {
         for(const field in Model.schema.obj) {
-          const fieldData = Model.schema.obj[field];
+          const fieldData: any = Model.schema.obj[field];
           if(fieldData.cascade)
             await this.pruneModel(name, fieldData.ref, field);
         }

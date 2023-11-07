@@ -5,7 +5,7 @@ import LocalDriver from "./drivers/LocalDriver";
 import { UploadedFile } from "express-fileupload";
 
 export default class StorageManager extends Manager implements StorageDriver {
-  getDefaultDriver() {
+  get defaultDriver() {
     return Config.get<string>("storage.default");
   }
   

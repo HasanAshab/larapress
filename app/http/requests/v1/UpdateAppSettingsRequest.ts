@@ -4,7 +4,7 @@ import Config from "Config";
 import { DeepPartial } from "utility-types";
 
 export default class UpdateAppSettingsRequest extends AuthenticRequest {
-  body!;
+  body!: Record<string, unknown>;
   
   protected rules(obj = Config.get()) {
     if(obj === null || typeof obj === "undefined")

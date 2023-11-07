@@ -1,4 +1,5 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "~/core/express";
+import { NextFunction } from "express";
 import URL from "URL";
 
 export default class ValidateSignature {

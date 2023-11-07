@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
+import { AuthenticRequest } from "~/core/express";
 import Config from "Config";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import User from "~/app/models/User";
 
 export default class Authenticate {
@@ -9,10 +10,10 @@ export default class Authenticate {
     if (authHeader) {
       const token = authHeader.split(" ")[1];
       if (token) {
-        const { sub, version, iss, aud } = jwt.verify(token, Config.get("app.key"))!;
+        const { sub, version, iss, aud } = jwt.verify(token, Config.get("app.key")) as JwtPayload;
         const user = await User.findById(sub);
         if (user !== null && version === user.tokenVersion && iss === Config.get("app.name") && aud === "auth") {
-          req.user = user;
+          (req as AuthenticRequest).user = user;
           return next();
         }
       }

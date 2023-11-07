@@ -1,5 +1,5 @@
 import { Command } from "samer-artisan";
-import { autoInjectable } from "tsyringe";
+import Job from "~/core/abstract/Job";
 import Queue from "Queue";
 import fs from "fs";
 import DB from "DB";
@@ -23,10 +23,10 @@ export default class QueueWorker extends Command {
   private setupJobs() {
     fs.readdirSync("app/jobs").forEach(jobFileName => {
       const jobName = jobFileName.split(".")[0];
-      const Job = require("~/app/jobs/" + jobName).default;
-      const job = resolve(Job);
-      const processor = (task: Queue.Job) => job.handle(task.data);
-      Queue.channel(job.channel).process(Job.name, job.concurrency, processor);
+      const JobClass = require("~/app/jobs/" + jobName).default;
+      const job = resolve<Job>(JobClass);
+      const processor = (task: any) => job.handle(task.data);
+      Queue.channel(job.channel).process(JobClass.name, job.concurrency, processor);
     });
   }
 }

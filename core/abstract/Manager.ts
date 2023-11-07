@@ -6,11 +6,11 @@ export default abstract class Manager {
   private drivers: Record<string, object> = {};
   private customCreators: Record<string, CustomCreator> = {};
   
-  getDefaultDriver(): string | null {
+  get defaultDriver(): string | null {
     return null;
   }
-
-  driver(name = this.getDefaultDriver()) {
+  
+  driver(name = this.defaultDriver) {
     if(!name) {
       throw new Error("Failed to resolve driver for " + this.constructor.name);
     }

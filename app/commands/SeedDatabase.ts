@@ -15,7 +15,7 @@ export default class SeedDatabase extends Command {
     else seeder = new DatabaseSeeder();
     await DB.connect();
     await seeder.run();
-    this.success("Seeded successfully!");
+    this.info("Seeded successfully!");
   }
 }
  

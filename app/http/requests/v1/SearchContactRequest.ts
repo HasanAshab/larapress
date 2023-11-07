@@ -1,7 +1,7 @@
 import { AuthenticRequest } from "~/core/express";
 import Validator from "Validator";
-import config from "config";
 
+// TODO incapsulate pagination validation
 export default class SearchContactRequest extends AuthenticRequest {
   query!: { 
     q: string;
@@ -9,7 +9,7 @@ export default class SearchContactRequest extends AuthenticRequest {
     limit?: number;
     cursor?: string;
   };
-  
+
   static rules() {
     return {
       q: Validator.string().required(),

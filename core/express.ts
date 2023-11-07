@@ -89,6 +89,7 @@ export abstract class Request<
   };
   url!: string;
   baseUrl!: string;
+  fullUrl!: () => string;
   host!: string;
   secure!: boolean;
 

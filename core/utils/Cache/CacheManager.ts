@@ -5,7 +5,7 @@ import MemoryDriver from "./drivers/MemoryDriver";
 import RedisDriver from "./drivers/RedisDriver";
 
 export default class CacheManager extends Manager implements CacheDriver {
-  getDefaultDriver() {
+  get defaultDriver() {
     return Config.get<string>("cache.default");
   }
   
