@@ -1,13 +1,15 @@
 import Job from "~/core/abstract/Job";
 import { singleton } from "tsyringe";
-import User, { IUser } from "~/app/models/User";
+import { model } from "mongoose";
+import { NotifiableDocument } from "~/app/plugins/Notifiable";
 import NotificationService from "~/app/services/NotificationService";
 
 
 interface SendNotificationData {
+  notifiableModel: string;
   notifiablesId: string[];
   notificationMetadata: {
-    name: string; 
+    path: string; 
     data: object;
   }
 }
@@ -21,10 +23,10 @@ export default class SendNotification extends Job {
     super();
   }
   
-  async handle({ notifiablesId, notificationMetadata }: SendNotificationData){
-    const NotificationClass = require("~/app/notifications/" + notificationMetadata.name).default;
-    const notifiables = await User.find({ _id: { $in: notifiablesId } });
+  async handle({ notifiableModel, notifiablesId, notificationMetadata }: SendNotificationData){
+    const NotificationClass = require(notificationMetadata.path).default;
+    const notifiables = await model(notifiableModel).find({ _id: { $in: notifiablesId } });
     const notification = new NotificationClass(notificationMetadata.data);
-    await this.notificationService.send(notifiables, notification);
+    await this.notificationService.send(notifiables as NotifiableDocument[], notification);
   }
 }

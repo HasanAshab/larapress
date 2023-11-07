@@ -1,10 +1,9 @@
 import * as http from 'http';
-import User, { UserDocument } from "~/app/models/User";
-import Express, { Response as ExpressResponse } from 'express';
+import { UserDocument } from "~/app/models/User";
+import Express from 'express';
 import { SendFileOptions, DownloadOptions } from "express-serve-static-core";
 import { RawResponse, ApiResponse } from "types";
 import { UploadedFile } from "express-fileupload";
-import jwt from "jsonwebtoken";
 
 type Send<ResBody, T> = (body?: ResBody) => T;
 
@@ -185,10 +184,6 @@ export class Response<
   api!: (response: RawResponse) => void;
   message!: (text?: string) => void;
 }
-
-/*
-class ResponseSkeleton {};
-export const Response = (ResponseSkeleton as unknown) as ExpressResponse*/
 
 export function isRequest(target: any): target is typeof Request {
   return target === Request || target.prototype instanceof Request

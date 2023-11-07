@@ -15,7 +15,7 @@ export default class ErrorHandler {
     if(err instanceof jwt.JsonWebTokenError)
       return res.status(401).message("Invalid or expired token!");
     if(err instanceof Validator.ValidationError)
-      return res.status(422).message(err.details[0].message);
+      return res.status(422).json(err);
 
     log(`${new Date().toLocaleString()}\n${req.originalUrl} - ${req.method} - ${req.ip}\nStack: ${err.stack}`);
     return process.env.NODE_ENV === "production"

@@ -19,7 +19,7 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
               const data = req.method === "GET"
                 ? req.query
                 : Object.assign({}, req.body, req.files);
-              const validated = await rules.validateAsync(data);
+              const validated = await rules.validateAsync(data, { abortEarly: false });
               req[req.method === "GET" ? "query" : "body"] = validated;
             }
             return req;
