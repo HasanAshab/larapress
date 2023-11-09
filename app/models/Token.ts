@@ -30,10 +30,10 @@ const TokenSchema = new Schema({
 });
 
 TokenSchema.statics.verify = async function<T extends object | null = null>(key: string, type: string, secret: string): Promise<T> {
-  const token = (await this.findOneAndDelete({ key, type, secret })) as TokenDocument | null;
+  const token = await this.findOneAndDelete({ key, type, secret });
   if(!token)
     throw new InvalidTokenException();
-  return token.data as T;
+  return (token as TokenDocument).data as T;
 }
 
 export interface IToken {

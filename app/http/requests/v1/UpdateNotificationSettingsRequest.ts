@@ -9,9 +9,9 @@ export default class UpdateNotificationSettingsRequest extends AuthenticRequest 
 
   static rules() {
     const { channels, types } = Config.get("notification");
-    const channelsSchema: Record<string, unknown> = {}
-    const fields: Record<string, unknown> = {};
-    for(const channel of channels){
+    const channelsSchema: Record<string, any> = {}
+    const fields: Record<string, any> = {};
+    for(const channel of channels) {
       channelsSchema[channel] = Validator.boolean();
     }
     for(const notificationType of types){

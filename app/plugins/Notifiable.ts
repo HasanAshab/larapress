@@ -3,7 +3,7 @@ import NotificationClass from "~/core/abstract/Notification";
 import Notification from "Notification";
 import NotificationModel, { INotification, NotificationQuery } from "~/app/models/Notification";
 
-export interface NotifiableDocument<DocType = Document> extends Document {
+export interface NotifiableDocument<DocType extends NotifiableDocument<any> = any> extends Document {
   notifications: NotificationQuery;
   unreadNotifications: NotificationQuery;
   notify(notification: NotificationClass<DocType>): Promise<void>;

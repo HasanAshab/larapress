@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import { Request } from '~/core/express';
 
 declare module 'mongoose' {
   /*export interface Model<DocType, QueryHelpers = {}> {

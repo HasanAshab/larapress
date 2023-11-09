@@ -3,7 +3,7 @@ import { model } from "mongoose";
 import DB from "DB";
 import DatabaseSeeder from "~/database/seeders/DatabaseSeeder";
 
-export default class WipeDatabase extends Command<{ model: string | null }> {
+export default class WipeDatabase extends Command<{}, { model: string | null }> {
   signature = "db:wipe {--model=}";
   
   async handle() {

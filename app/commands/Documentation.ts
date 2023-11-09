@@ -53,7 +53,7 @@ export default class Documentation extends Command {
           subDoc.parameters.push({
             name,
             in: "body",
-            type: rules[name].type,
+            type: rules[name].type!,
             required: rules[name]._flags?.presence === "required",
           });
         }
