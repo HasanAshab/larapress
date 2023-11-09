@@ -1,6 +1,5 @@
 import { constructor } from "types"; 
-import { Request, AuthenticRequest, Response, isRequest } from "~/core/express";
-import { NextFunction } from "express";
+import { Request, AuthenticRequest, Response, NextFunction, isRequest } from "~/core/express";
 import Validator from "Validator";
 import Router from "Router";
 

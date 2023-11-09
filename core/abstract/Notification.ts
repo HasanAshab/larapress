@@ -47,7 +47,9 @@ export default abstract class Notification<DocType extends NotifiableDocument> {
    * Sends notification via email
   */
   async sendEmail(notifiable: DocType) {
-    await Mail.to(notifiable.email).send(await this.toEmail!(notifiable));
+    if("email" in notifiable && typeof notifiable.email === "string")
+      return await Mail.to(notifiable.email).send(await this.toEmail!(notifiable));
+    throw new Error("Can not send notification via email as notifiable has no email, notifiable: " + JSON.stringify(notifiable, null, 2));
   }
   
   /**

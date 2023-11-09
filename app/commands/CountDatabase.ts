@@ -4,7 +4,7 @@ import DB from "DB";
 import DatabaseSeeder from "~/database/seeders/DatabaseSeeder";
 
 export default class CountDatabase extends Command {
-  signature = "db:count {--model=}";
+  signature = "db:count";
   
   private total = 0;
   
@@ -14,7 +14,7 @@ export default class CountDatabase extends Command {
     this.info("Counting documents...\n");
     const countPromises = modelsName.map(name => this.countModel(name));
     await Promise.all(countPromises);
-    this.success(`Total: ${this.total}`);
+    this.info(`Total: ${this.total}`);
   }
   
   private async countModel(modelName: string) {

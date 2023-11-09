@@ -1,6 +1,6 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
 
-export default class MakeTest extends ComponentGenerator {
+export default class MakeTest extends ComponentGenerator<{ unit: boolean }>{
    signature = "make:test {name} {--u|unit}";
   
   protected template() {

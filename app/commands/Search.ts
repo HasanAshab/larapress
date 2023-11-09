@@ -3,7 +3,12 @@ import { Command } from "samer-artisan";
 import fs from "fs";
 import path from "path";
 
-export default class Search extends Command {
+interface Arguments {
+  query: string;
+  replace?: string;
+}
+
+export default class Search extends Command<Arguments, { dir: string }> {
   signature = "search {query} {replace?} {--D|dir=.}"
   protected exclude = ["package.json", "package-lock.json", "node_modules", ".git", ".gitignore", ".env", "tsconfig.json", "artisan", "artisan.ts", "dist", "artisan", "backup", "docs", "storage"];
 
@@ -11,7 +16,7 @@ export default class Search extends Command {
     const { query, replace } = this.arguments();
     if(replace) this.info("\nReplacing started...\n");
     else this.info("\nSearching started...\n");
-    await this.searchFiles(this.option<string>("dir"), query, replace);
+    await this.searchFiles(this.option("dir"), query, replace);
   }
 
   private async searchFiles(currentDir: string, query: string, replace?: string) {

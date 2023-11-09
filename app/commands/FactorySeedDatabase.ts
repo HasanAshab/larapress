@@ -4,19 +4,19 @@ import DB from "DB";
 import DatabaseSeeder from "~/database/seeders/DatabaseSeeder";
 import { HasFactoryModel } from "~/app/plugins/HasFactory";
 
-export default class FactorySeedDatabase extends Command {
-  signature = "db:seedFactory {model} {count}";
-  /*
-  args: {
-    model: string;
-    count: string;
-  }*/
-  
+interface Arguments {
+  modelName: string;
+  count: string;
+}
+
+export default class FactorySeedDatabase extends Command<Arguments> {
+  signature = "db:seedFactory {modelName} {count}";
+
   async handle() {
     await DB.connect();
-    const { model: modelName, count } = this.arguments();
-    const Model = model(modelName as string) as HasFactoryModel;
-    await Model.factory().count(parseInt(count as string)).create();
+    const { modelName, count } = this.arguments();
+    const Model = model(modelName) as HasFactoryModel;
+    await Model.factory().count(parseInt(count)).create();
     this.info("Seeded successfully!");
   }
 }

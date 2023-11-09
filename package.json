@@ -50,7 +50,7 @@
     "nodemailer": "^6.9.1",
     "nodemailer-express-handlebars": "^6.1.0",
     "reflect-metadata": "^0.1.13",
-    "samer-artisan": "^0.0.4",
+    "samer-artisan": "^0.0.5",
     "sanitize-html": "^2.11.0",
     "speakeasy": "^2.0.0",
     "stripe": "^12.10.0",

@@ -5,6 +5,15 @@ import { Request, AuthenticRequest } from "~/core/express";
 import RouteServiceProvider from "~/app/providers/RouteServiceProvider";
 import Router from "Router";
 
+interface DocEndpointParam {
+  required: boolean,
+  in: "header" | "body" | "param",
+  name: string;
+  type: string;
+  format?: string;
+  description?: string;
+}
+
 export default class Documentation extends Command {
   signature = "doc:generate";
   
@@ -12,23 +21,25 @@ export default class Documentation extends Command {
     new RouteServiceProvider({} as any).registerRoutes();
     const docData = this.generateDocData();
     fs.writeFileSync(base("docs/data.json"), JSON.stringify(docData));
-    this.success()
+    this.info("Documentation data generated!")
   }
   
   
   private generateDocData() {
     for(const stack of Router.$stack) {
-      const subDoc = { parameters: [] };
+      const subDoc: { parameters: DocEndpointParam[] } = { 
+        parameters: []
+      };
       const [ Controller, action ] = stack.metadata;
-      const paramTypes = Reflect.getMetadata("design:paramtypes", Controller.prototype, action);
+      const paramTypes: (typeof Request)[]  = Reflect.getMetadata("design:paramtypes", Controller.prototype, action);
       const CustomRequest = paramTypes.find(paramType => paramType.prototype instanceof Request)
       if(stack.middlewares.includes("auth")) {
-        const parameter = {
+        const parameter: DocEndpointParam = {
           required: true,
           in: "header",
           name: "Authorization",
           type: "string",
-          format: "bearer",
+          format: "bearer"
         };
         const roles = stack.middlewares.find(alias => alias.startsWith("roles:"))?.split(":")[1];
         if(roles) {

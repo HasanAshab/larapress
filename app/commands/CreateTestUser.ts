@@ -12,6 +12,6 @@ export default class CreateTestUser extends Command {
     const token = user.createToken();
     this.info("User data: ")
     console.log(user)
-    this.success("Token: " + token);
+    this.info("Token: " + token);
   }
 }

@@ -4,7 +4,7 @@ import Token from "~/app/models/Token";
 import EmailVerificationMail from "~/app/mails/EmailVerificationMail";
 import URL from "URL";
 
-export default class EmailVerificationNotification extends Notification {
+export default class EmailVerificationNotification extends Notification<UserDocument> {
   shouldQueue = true;
 
   async via(notifiable: UserDocument){

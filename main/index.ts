@@ -10,6 +10,7 @@ import Config from "Config";
 import app from "~/main/app";
 import DB from "DB";
 
+
 // Connecting to database
 if(Config.get("database.connect")) {
   DB.connect().then(() => {
@@ -33,19 +34,4 @@ app.server.on("connection", () => {
 });
 
 
-/*
-import swaggerJsdoc from 'swagger-jsdoc';
 
-const options = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Hello World',
-      version: '1.0.0',
-    },
-  },
-  apis: ['./src/routes*.js'], // files containing annotations as above
-};
-
-const openapiSpecification = swaggerJsdoc(options);
-*/

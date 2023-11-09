@@ -6,7 +6,7 @@ import NotificationService from "~/app/services/NotificationService";
 const notificationService = resolve<NotificationService>(NotificationService);
 
 export default class Notification {
-  static prepareJobData<DocType extends NotifiableDocument>(notifiables:  T |  T[], notification: NotificationClass<T>) {
+  static prepareJobData<DocType extends NotifiableDocument>(notifiables:  DocType | DocType[], notification: NotificationClass<DocType>) {
     const notifiablesId = Array.isArray(notifiables)
       ? notifiables.map(notifiable => notifiable._id.toString())
       : notifiables._id.toString();
@@ -17,7 +17,7 @@ export default class Notification {
     return { notifiablesId, notificationMetadata };
   }
 
-  static async send<DocType extends NotifiableDocument>(notifiables:  T |  T[], notification: NotificationClass<T>) {
+  static async send<DocType extends NotifiableDocument>(notifiables:  DocType | DocType[], notification: NotificationClass<DocType>) {
     if (notification.shouldQueue) {
       const data = this.prepareJobData(notifiables, notification);
       return await SendNotification.dispatch(data);

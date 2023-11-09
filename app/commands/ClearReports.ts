@@ -8,6 +8,6 @@ export default class ClearReports extends Command {
     const name = this.argument("name");
     execSync("rm -r storage/reports/" + name);
     execSync("mkdir  storage/reports/" + name);
-    this.success(name + " reports are clear now!");
+    this.info(name + " reports are clear now!");
   }
 }

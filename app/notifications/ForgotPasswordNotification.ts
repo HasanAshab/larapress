@@ -4,7 +4,7 @@ import ForgotPasswordMail from "~/app/mails/ForgotPasswordMail";
 import Token from "~/app/models/Token";
 import URL from "URL";
 
-export default class ForgotPasswordNotification extends Notification {
+export default class ForgotPasswordNotification extends Notification<UserDocument> {
   shouldQueue = true;
 
   via(notifiable: UserDocument){

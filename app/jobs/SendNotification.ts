@@ -4,14 +4,19 @@ import { model } from "mongoose";
 import { NotifiableDocument } from "~/app/plugins/Notifiable";
 import NotificationService from "~/app/services/NotificationService";
 
+interface NotifiableMetadata {
+  id: string;
+  modelName: string;
+}
+
+interface NotificationMetadata {
+  path: string; 
+  data: object;
+}
 
 interface SendNotificationData {
-  notifiableModel: string;
-  notifiablesId: string[];
-  notificationMetadata: {
-    path: string; 
-    data: object;
-  }
+  notifiables: NotifiableMetadata[];
+  notification: NotificationMetadata;
 }
 
 @singleton()

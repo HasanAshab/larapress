@@ -3,9 +3,9 @@ import Express from 'express';
 import { SendFileOptions, DownloadOptions } from "express-serve-static-core";
 import { RawResponse, ApiResponse } from "types";
 
+type Send<ResBody, T> = (body?: ResBody) => T;
+/*
 declare module "express" {
-  type Send<ResBody, T> = (body?: ResBody) => T;
-
   class Response<ResBody = any, LocalsObj extends Record<string, any> = Record<string, any>, StatusCode extends number = number> extends http.ServerResponse {
     app!: Express.Application;
     locals!: LocalsObj & Express.Locals;
@@ -85,4 +85,4 @@ declare module "express" {
     api!: (response: RawResponse) => void;
     message!: (text?: string) => void;
   }
-}
+}*/

@@ -1,6 +1,11 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
 
-export default class MakeController extends ComponentGenerator {
+interface Options {
+  version: string;
+  api: boolean;
+}
+
+export default class MakeController extends ComponentGenerator<Options> {
    signature = "make:controller {--v|version=v1} {--api} {name}";
   
   protected template() {
@@ -8,6 +13,6 @@ export default class MakeController extends ComponentGenerator {
   }
   
   protected dist() {
-    return `app/http/${this.argument("version")}/controllers/${this.argument("name")}Controller.ts`;
+    return `app/http/controllers/${this.argument("version")}/${this.argument("name")}Controller.ts`;
   }
 }

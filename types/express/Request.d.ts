@@ -2,7 +2,7 @@ import * as http from 'http';
 import { UserDocument } from "~/app/models/User";
 import Express from 'express';
 import { UploadedFile } from "express-fileupload";
-
+/*
 declare module "express" {
   class Request<P = any, ResBody = any, ReqBody = any, ReqQuery = any, LocalsObj extends Record<string, any> = Record<string, any>> extends http.IncomingMessage {
     app!: Express.Application;
@@ -93,4 +93,4 @@ declare module "express" {
   function isRequest(target: any): target is typeof Request {
     return target === Request || target.prototype instanceof Request
   }
-}
+}*/

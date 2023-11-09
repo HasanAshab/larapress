@@ -22,8 +22,6 @@ export default (schema: any) => {
   };
   
   schema.query.paginateReq = async function (req: Request) {
-    const a: Request = {}
-    req.headers
     const baseUrl = req.baseUrl;
     const originalUrl = req.originalUrl;
     const hasQuery = originalUrl.includes('?');

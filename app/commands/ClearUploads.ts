@@ -7,6 +7,6 @@ export default class ClearUploads extends Command {
   handle() {
     execSync("rm -r storage/public/uploads");
     execSync("mkdir  storage/public/uploads");
-    this.success("Uploads are cleared now!");
+    this.info("Uploads are cleared now!");
   }
 }

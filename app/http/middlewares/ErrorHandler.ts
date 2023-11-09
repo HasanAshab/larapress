@@ -14,8 +14,18 @@ export default class ErrorHandler {
       return res.status(404).message();
     if(err instanceof jwt.JsonWebTokenError)
       return res.status(401).message("Invalid or expired token!");
-    if(err instanceof Validator.ValidationError)
-      return res.status(422).json(err);
+    if(err instanceof Validator.ValidationError) {
+      const errors: Record<string, string> = {};
+      err.details.forEach((detail) => {
+        const field = detail.path[0];
+        errors[field] = detail.message;
+      });
+
+      return res.status(422).json({
+        success: false,
+        errors
+      });
+    }
 
     log(`${new Date().toLocaleString()}\n${req.originalUrl} - ${req.method} - ${req.ip}\nStack: ${err.stack}`);
     return process.env.NODE_ENV === "production"

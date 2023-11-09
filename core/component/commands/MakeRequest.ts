@@ -1,6 +1,7 @@
 import ComponentGenerator from "~/core/component/ComponentGenerator";
 
-export default class MakeRequest extends ComponentGenerator {
+
+export default class MakeRequest extends ComponentGenerator<{ version: string }> {
    signature = "make:request {name} {--v|version=v1}";
   
   protected template() {
@@ -8,6 +9,6 @@ export default class MakeRequest extends ComponentGenerator {
   }
   
   protected dist() {
-    return `app/http/${this.argument("version")}/requests/${this.argument("name")}Request.ts`;
+    return `app/http/requests/${this.argument("version")}/${this.argument("name")}Request.ts`;
   }
 }

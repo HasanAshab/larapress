@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 
 
-export default abstract class ComponentGenerator extends Command {
+export default abstract class ComponentGenerator<Options = {}> extends Command<{ name: string }, Options> {
   protected abstract template(): string;
   protected abstract dist(): string;
 
@@ -17,7 +17,7 @@ export default abstract class ComponentGenerator extends Command {
   }
   
   private resolveName() {
-    return this.argument("name")!.split("/").pop()!;
+    return this.argument("name").split("/").pop()!;
   }
   
   private getTemplatePath() {
