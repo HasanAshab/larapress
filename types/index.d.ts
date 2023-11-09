@@ -7,11 +7,6 @@ export type RawResponse = ({
   data?: any[] | Record<string, any>
 } & Record<string, any>) | any[];
 
-export type ApiResponse = {
-  success: boolean,
-  message?: string,
-  data?: Record<string, any> | any[],
-} & Record<string, any>;
 
 /** Constructor type */
 export type constructor<T = any> = {

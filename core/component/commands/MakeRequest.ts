@@ -9,6 +9,6 @@ export default class MakeRequest extends ComponentGenerator<{ version: string }>
   }
   
   protected dist() {
-    return `app/http/requests/${this.argument("version")}/${this.argument("name")}Request.ts`;
+    return `app/http/requests/${this.option("version")}/${this.argument("name")}Request.ts`;
   }
 }

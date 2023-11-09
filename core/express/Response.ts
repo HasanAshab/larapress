@@ -1,7 +1,7 @@
 import * as http from 'http';
 import Express from 'express';
 import { SendFileOptions, DownloadOptions } from "express-serve-static-core";
-import { RawResponse, ApiResponse } from "types";
+import { RawResponse } from "types";
 
 type Send<ResBody, T> = (body?: ResBody) => T;
 

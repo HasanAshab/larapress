@@ -27,6 +27,4 @@ import "~/main/app";
 
 import { SamerArtisan } from 'samer-artisan';
 
-SamerArtisan
-  .forceExit()
-  .parse();
+SamerArtisan.parse().then(() => process.exit(0));

@@ -1,5 +1,5 @@
 import { UploadedFile } from "express-fileupload";
-import { RawResponse, ApiResponse } from "types";
+import { RawResponse } from "types";
 
 declare module "express" {
   interface Request {
@@ -10,9 +10,10 @@ declare module "express" {
   interface Response {
     message(text?: string): void;
     api(response: RawResponse): void;
+    redirectToClient(path?: string): void;
   }
-  
-  interface Application {
+
+  interface Express {
     request: Request;
     response: Response;
   }

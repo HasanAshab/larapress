@@ -1,6 +1,6 @@
 import { RawResponse } from "types";
 import { createServer, Server } from "http"
-import express, { Application as ExpressApplication } from "express";
+import express, { Express } from "express";
 import EventEmitter from "events";
 import ServiceProvider from "~/core/abstract/ServiceProvider";
 import fs from "fs";
@@ -17,7 +17,7 @@ export default class Application extends EventEmitter {
   /**
   * The HTTP handler (express)
   */
-  http?: ExpressApplication;
+  http?: Express;
   
   /**
    * The HTTP server
@@ -92,8 +92,8 @@ export default class Application extends EventEmitter {
       const success = this.statusCode >= 200 && this.statusCode < 300;
       const apiResponse = {
         success,
-        message: response.message || getStatusText(this.statusCode),
-        data: response.data || response,
+        message: (response as any).message ?? getStatusText(this.statusCode),
+        data: (response as any).data ?? response,
       };
       this.json(apiResponse);
     };
@@ -120,7 +120,7 @@ export default class Application extends EventEmitter {
   /**
    * Wether the app is running in web (HTTP)
   */
-  runningInWeb(): this is this & { http: ExpressApplication, server: Server } {
+  runningInWeb(): this is this & { http: Express, server: Server } {
     return !this.runningInConsole();
   }
   
@@ -130,12 +130,12 @@ export default class Application extends EventEmitter {
   assertRunningInConsole(): asserts this is Omit<this, "http" | "server"> {
     if(!this.runningInConsole())
       throw new Error("Application is not running in console.");
-  } 
+  }
   
   /**
    * asserts app is running in web (HTTP)
   */
-  assertRunningInWeb(): asserts this is this & { http: ExpressApplication, server: Server } {
+  assertRunningInWeb(): asserts this is this & { http: Express, server: Server } {
     if(!this.runningInWeb())
       throw new Error("Application is not running in web.");
   }

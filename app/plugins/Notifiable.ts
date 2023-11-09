@@ -3,14 +3,13 @@ import NotificationClass from "~/core/abstract/Notification";
 import Notification from "Notification";
 import NotificationModel, { INotification, NotificationQuery } from "~/app/models/Notification";
 
-export interface NotifiableDocument extends Document {
+export interface NotifiableDocument<DocType = Document> extends Document {
   notifications: NotificationQuery;
   unreadNotifications: NotificationQuery;
-  notify(notification: NotificationClass): Promise<void>;
+  notify(notification: NotificationClass<DocType>): Promise<void>;
 }
 
 export default (schema: Schema) => {
-
   schema.virtual('notifications').get(function () {
     return NotificationModel.find({ userId: this._id });
   });
@@ -19,7 +18,7 @@ export default (schema: Schema) => {
     return this.notifications.where("readAt").equals(null);
   });
 
-  schema.methods.notify = function(notification: NotificationClass) {
-    return Notification.send(this as any, notification);
+  schema.methods.notify = function(notification: NotificationClass<NotifiableDocument>) {
+    return Notification.send(this as NotifiableDocument, notification);
   };
 }

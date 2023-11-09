@@ -74,7 +74,7 @@ export interface IUser {
   recoveryCodes: string[];
 }
 
-export interface UserDocument extends Document, IUser, AuthenticatableDocument, AttachableDocument<IUser>, HasApiTokensDocument, NotifiableDocument {
+export interface UserDocument extends Document, IUser, AuthenticatableDocument, AttachableDocument<IUser>, HasApiTokensDocument, NotifiableDocument<UserDocument> {
   settings: Promise<SettingsDocument>;
   safeDetails(): Omit<UserDocument, "email" | "phoneNumber">;
 };

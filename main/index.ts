@@ -32,6 +32,3 @@ app.server.on("connection", () => {
   const time = new Date().toLocaleTimeString("en-US", { hour12: true });
   console.log(`*New connection: [${time}]`);
 });
-
-
-

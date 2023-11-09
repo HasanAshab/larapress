@@ -13,6 +13,6 @@ export default class MakeController extends ComponentGenerator<Options> {
   }
   
   protected dist() {
-    return `app/http/controllers/${this.argument("version")}/${this.argument("name")}Controller.ts`;
+    return `app/http/controllers/${this.option("version")}/${this.argument("name")}Controller.ts`;
   }
 }

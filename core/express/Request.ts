@@ -81,7 +81,6 @@ export class Request<P = any, ResBody = any, ReqBody = any, ReqQuery = any, Loca
   secure!: boolean;
 
   static rules() {
-    throw new Error("rules() not implemented in request: " + this.name);
     return {};
   }
 }
