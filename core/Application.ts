@@ -17,12 +17,12 @@ export default class Application extends EventEmitter {
   /**
   * The HTTP handler (express)
   */
-  http?: Express;
+  readonly http?: Express;
   
   /**
    * The HTTP server
   */
-  server?: Server;
+  readonly server?: Server;
   
   /**
   * Booting callback of all providers
@@ -36,7 +36,8 @@ export default class Application extends EventEmitter {
     super();
     if(this.runningInWeb()) {
       // if app is running on web we need http support
-      this.createHttpServer();
+      this.http = express();
+      this.server = createServer(this.http);
       this.addCustomHttpHelpers();
     }
     this.registerServiceProviders();
@@ -59,14 +60,6 @@ export default class Application extends EventEmitter {
     Config.get<string[]>("app.providers").forEach(path => {
       this.register(require(path).default);
     });
-  }
-  
-  /**
-   * Create http server (express)
-  */
-  private createHttpServer() {
-    this.http = express();
-    this.server = createServer(this.http);
   }
   
   /**
