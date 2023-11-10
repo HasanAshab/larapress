@@ -6,7 +6,7 @@ export default class SearchContactRequest extends AuthenticRequest {
   query!: { 
     q: string;
     status?: "opened" | "closed";
-    limit?: number;
+    limit?: string;
     cursor?: string;
   };
 

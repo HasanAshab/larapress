@@ -78,7 +78,7 @@ export default class AuthController extends Controller {
   @RequestHandler
   async loginWithExternalProvider(req: Request, res: Response, provider: string) {
     const { code } = req.query;
-    if(!code)
+    if(typeof code !== "string")
       return res.redirectToClient("/login/social/error");
     const url = await this.authService.loginWithExternalProvider(provider, code);
     res.redirect(url);
