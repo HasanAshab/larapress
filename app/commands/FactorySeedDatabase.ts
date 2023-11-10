@@ -15,7 +15,7 @@ export default class FactorySeedDatabase extends Command<Arguments> {
   async handle() {
     await DB.connect();
     const { modelName, count } = this.arguments();
-    const Model = model(modelName) as HasFactoryModel;
+    const Model = model<any, HasFactoryModel>(modelName);
     await Model.factory().count(parseInt(count)).create();
     this.info("Seeded successfully!");
   }
