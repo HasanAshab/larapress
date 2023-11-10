@@ -1,11 +1,11 @@
-import { Schema, Document } from "mongoose";
+import { Schema, Document, QueryWithHelpers } from "mongoose";
 import NotificationClass from "~/core/abstract/Notification";
 import Notification from "Notification";
-import NotificationModel, { INotification, NotificationQuery } from "~/app/models/Notification";
+import NotificationModel, { NotificationDocument, NotificationQueryHelpers } from "~/app/models/Notification";
 
 export interface NotifiableDocument<DocType extends NotifiableDocument<any> = any> extends Document {
-  notifications: NotificationQuery;
-  unreadNotifications: NotificationQuery;
+  notifications: QueryWithHelpers<NotificationDocument[], NotificationDocument, NotificationQueryHelpers>;
+  unreadNotifications: QueryWithHelpers<NotificationDocument[], NotificationDocument, NotificationQueryHelpers>;
   notify(notification: NotificationClass<DocType>): Promise<void>;
 }
 
@@ -18,7 +18,7 @@ export default (schema: Schema) => {
     return this.notifications.where("readAt").equals(null);
   });
 
-  schema.methods.notify = function(notification: NotificationClass<NotifiableDocument>) {
-    return Notification.send(this as NotifiableDocument, notification);
+  schema.methods.notify = async function(notification: NotificationClass<NotifiableDocument>) {
+    await Notification.send(this as NotifiableDocument, notification);
   };
 }

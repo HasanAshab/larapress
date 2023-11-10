@@ -2,7 +2,7 @@ import { model, Schema, Document, Model } from "mongoose";
 import crypto from "crypto";
 import InvalidTokenException from "~/app/exceptions/InvalidTokenException";
 
-const TokenSchema = new Schema({
+const TokenSchema = new Schema<TokenDocument, TokenModel>({
   key: {
     index: true,
     required: true,
@@ -28,12 +28,12 @@ const TokenSchema = new Schema({
   }
 });
 
-TokenSchema.statics.verify = async function<T extends object | null = null>(this: Model<TokenDocument>, key: string, type: string, secret: string): Promise<T> {
+TokenSchema.static("verify", async function<T extends object | null = null>(this: TokenModel, key: string, type: string, secret: string): Promise<T> {
   const token = await this.findOneAndDelete({ key, type, secret });
   if(!token)
     throw new InvalidTokenException();
   return token.data as T;
-}
+});
 
 export interface IToken {
   key: string;
@@ -46,7 +46,7 @@ export interface IToken {
 export interface TokenDocument extends Document, IToken {};
 
 interface TokenModel extends Model<TokenDocument> {
-  verify<T extends object | null = null>(this: TokenModel, key: string, type: string, secret: string): Promise<T>;
+  verify<T extends object | null = null>(key: string, type: string, secret: string): Promise<T>;
 };
 
 

@@ -7,6 +7,7 @@ import bodyParser from "body-parser";
 import formDataParser from "express-fileupload";
 import URL from "URL";
 import Router, { MiddlewareAliaseWithOrWithoutOptions } from "Router";
+import ErrorHandler from "~/app/http/middlewares/ErrorHandler";
 
 export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
@@ -26,7 +27,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
       this.registerRoutes();
       this.app.http.use("/", Router.build());
       this.serveStaticFolder();
-      this.registerErrorHandlers();
+      this.registerErrorHandler();
     }
   }
   
@@ -87,8 +88,10 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
    * Register http error handlers
   */
-  private registerErrorHandlers() {
+  private registerErrorHandler() {
     this.app.assertRunningInWeb();
-    this.app.http.use(Router.resolveMiddleware("error.handle"));
+    const errorHandler = new ErrorHandler();
+    const handler = errorHandler.handle.bind(errorHandler);
+    this.app.http.use(handler);
   }
 }

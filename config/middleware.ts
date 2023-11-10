@@ -10,7 +10,6 @@ export default {
     "maintenance.check": "~/app/http/middlewares/CheckForMaintenanceMode",
     "limit": "~/app/http/middlewares/LimitRequestRate",
     "signed": "~/app/http/middlewares/ValidateSignature",
-    "response.cache": "~/app/http/middlewares/CacheResponse",
-    "error.handle": "~/app/http/middlewares/ErrorHandler"
+    "response.cache": "~/app/http/middlewares/CacheResponse"
   } as const
 }

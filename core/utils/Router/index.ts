@@ -3,7 +3,7 @@ import { constructor } from "types";
 import fs from "fs";
 import { join } from "path";
 import { Router as ExpressRouter, NextFunction, RequestHandler, Request, Response } from "express";
-import { Model } from "~/core/mongoose";
+import { Model } from "mongoose";
 import middlewareConfig from "~/config/middleware";
 
 export type MiddlewareAliase = keyof typeof middlewareConfig["aliases"];
@@ -171,9 +171,9 @@ export default class Router {
     *
     * Examples:
     * 
-    * this.resolveMiddleware("foo")
-    * this.resolveMiddleware("foo", "bar")
-    * this.resolveMiddleware("foo:opt1", "bar:opt1,opt2")
+    * Router.resolveMiddleware("foo")
+    * Router.resolveMiddleware("foo", "bar")
+    * Router.resolveMiddleware("foo:opt1", "bar:opt1,opt2")
   */
   static resolveMiddleware(...keysWithOptions: MiddlewareAliaseWithOrWithoutOptions[]): RequestHandler[] {
     const handlers: RequestHandler[] = [];
@@ -182,20 +182,12 @@ export default class Router {
       const options = optionString ? optionString.split(",") : [];
       const MiddlewareClass = require(middlewareConfig.aliases[key as MiddlewareAliase]).default;
       const middleware = new MiddlewareClass();
-      let handler: any;
-      if(middleware.errorHandler) {
-        handler = async function(err: any, req: Request, res: Response, next: NextFunction) {
-          await middleware.handle(err, req, res, next, ...options);
+      const handler = async function(req: Request, res: Response, next: NextFunction) {
+        try {
+          await middleware.handle(req, res, next, ...options);
         }
-      }
-      else {
-        handler = async function(req: Request, res: Request, next: NextFunction) {
-          try {
-            await middleware.handle(req, res, next, ...options);
-          }
-          catch(err) {
-            next(err)
-          }
+        catch(err) {
+          next(err)
         }
       }
       handlers.push(handler);

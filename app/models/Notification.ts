@@ -3,7 +3,7 @@ import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import HumanReadableTime from "~/app/plugins/HumanReadableTime";
 import DocumentNotFoundException from "~/app/exceptions/DocumentNotFoundException";
 
-const NotificationSchema = new Schema({
+const NotificationSchema = new Schema<any, any, {}, NotificationQueryHelpers>({
   userId: {
     required: true,
     ref: "User",
@@ -28,25 +28,21 @@ NotificationSchema.methods.markAsRead = async function(){
   await this.save();
 }
 
-const notificationQuery = {
-  async markAsRead(this: NotificationQuery){
-    const { modifiedCount } = await this.updateOne(this.getFilter(), {readAt: new Date()});
-    return modifiedCount === 1;
-  },
+NotificationSchema.query.markAsRead = async function(this: QueryWithHelpers<any, NotificationDocument, NotificationQueryHelpers>) {
+  const { modifiedCount } = await this.updateOne(this.getFilter(), {readAt: new Date()});
+  return modifiedCount === 1;
+},
   
-  async markAsReadOrFail(){
-    if(!await this.markAsRead())
-      throw new DocumentNotFoundException();
-  }
-};
-
-NotificationSchema.query = notificationQuery;
+NotificationSchema.query.markAsReadOrFail = async function() {
+  if(!await this.markAsRead())
+    throw new DocumentNotFoundException();
+}
 
 NotificationSchema.plugin(HasFactory);
 NotificationSchema.plugin(HumanReadableTime);
 
 export interface INotification {
-  userId: string;
+  userId: Schema.Types.ObjectId;
   data: object;
   readAt: object | null;
 }
@@ -55,8 +51,11 @@ export interface NotificationDocument extends Document, INotification {
   markAsRead(): Promise<void>;
 }
 
-//TODO fix Query Type
-export type NotificationQuery = QueryWithHelpers<NotificationDocument[], NotificationDocument, typeof notificationQuery>;
-interface NotificationModel extends Model<NotificationDocument, typeof notificationQuery>, HasFactoryModel {}
+export interface NotificationQueryHelpers {
+  markAsRead(): Promise<boolean>;
+  markAsReadOrFail(): Promise<void>;
+}
+
+interface NotificationModel extends Model<NotificationDocument, NotificationQueryHelpers>, HasFactoryModel {}
 
 export default model<NotificationDocument, NotificationModel>("Notification", NotificationSchema);
