@@ -3,7 +3,7 @@ import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import HumanReadableTime from "~/app/plugins/HumanReadableTime";
 import DocumentNotFoundException from "~/app/exceptions/DocumentNotFoundException";
 
-const NotificationSchema = new Schema<any, any, {}, NotificationQueryHelpers>({
+const NotificationSchema = new Schema<NotificationDocument, Model<NotificationDocument>, {}, NotificationQueryHelpers>({
   userId: {
     required: true,
     ref: "User",

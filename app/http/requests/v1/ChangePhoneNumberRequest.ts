@@ -1,13 +1,14 @@
 import { AuthenticRequest } from "~/core/express";
 import Validator from "Validator";
 
-export default class ChangePhoneNumberRequest extends AuthenticRequest {
-  body!: { 
+interface ChangePhoneNumberRequest {
+  body: { 
     phoneNumber: string;
     otp?: string;
-  };
-  
+  }
+}
 
+class ChangePhoneNumberRequest extends AuthenticRequest {
   static rules() {
     return {
       phoneNumber: Validator.string().required(),
@@ -15,3 +16,5 @@ export default class ChangePhoneNumberRequest extends AuthenticRequest {
     }
   }
 }
+
+export default ChangePhoneNumberRequest;

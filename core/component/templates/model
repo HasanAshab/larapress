@@ -1,7 +1,7 @@
-import { model, Schema, Model, Document, InferSchemaType } from "mongoose";
+import { model, Schema, Document, Model } from "mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 
-const {{name}}Schema = new Schema(
+const {{name}}Schema = new Schema<{{name}}Document>(
 {
   //
 },
@@ -11,6 +11,13 @@ const {{name}}Schema = new Schema(
 {{name}}Schema.plugin(HasFactory);
 
 
-export interface I{{name}} extends Document, InferSchemaType<typeof {{name}}Schema> {};
-interface {{name}}Model extends Model<I{{name}}>, HasFactoryModel {};
-export default model<I{{name}}, {{name}}Model>("{{name}}", {{name}}Schema);
+export interface I{{name}} {
+  //
+}
+
+
+export interface {{name}}Model extends Document, I{{name}} {};
+interface {{name}}Model extends Model<{{name}}Document> {};
+
+export default model<{{name}}Document, {{name}}Model>("{{name}}", {{name}}Schema);
+

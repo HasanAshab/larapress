@@ -1,6 +1,6 @@
 import { model, Schema, Document, Model } from "mongoose";
 
-const OTPSchema = new Schema(
+const OTPSchema = new Schema<OTPDocument>(
 {
   userId: {
     required: true,
@@ -11,7 +11,7 @@ const OTPSchema = new Schema(
   },
   code: {
     type: String,
-    default: () => Math.floor(100000 + Math.random() * 900000),
+    default: () => Math.floor(100000 + Math.random() * 900000).toString(),
     index: true
   },
   expiresAt: {

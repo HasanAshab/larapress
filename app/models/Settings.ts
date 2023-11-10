@@ -13,7 +13,7 @@ const notificationDefaults = channels.reduce((defaults: Record<string, any>, cha
 
 export const twoFactorAuthMethods = ["sms", "call", "app"] as const;
 
-const SettingsSchema = new Schema({
+const SettingsSchema = new Schema<SettingsDocument>({
   userId: {
     required: true,
     ref: "User",

@@ -8,7 +8,7 @@ import Attachable, { FileMeta, AttachableDocument } from "~/app/plugins/Attachab
 //import Billable, { BillableDocument } from "~/app/plugins/Billable";
 import Settings, { SettingsDocument } from "~/app/models/Settings";
 
-const UserSchema = new Schema({
+const UserSchema = new Schema<UserDocument>({
   name: String,
   username: {
     type: String,

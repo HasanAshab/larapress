@@ -1,16 +1,16 @@
 import { Request } from "~/core/express";
 import Validator, { unique } from "Validator";
-import { UploadedFile } from "express-fileupload";
 
-export default class ExternalLoginFinalStepRequest extends Request {
-  body!: { 
+interface ExternalLoginFinalStepRequest {
+  body: { 
     externalId: string;
     token: string;
     username: string;
     email?: string;
-  };
-  
+  }
+}
 
+class ExternalLoginFinalStepRequest extends Request {
   static rules() {
     return {
       externalId: Validator.string().required(),
@@ -20,3 +20,5 @@ export default class ExternalLoginFinalStepRequest extends Request {
     }
   }
 }
+
+export default ExternalLoginFinalStepRequest;

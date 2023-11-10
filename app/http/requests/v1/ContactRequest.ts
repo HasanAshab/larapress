@@ -1,13 +1,16 @@
 import { Request } from "~/core/express";
 import Validator from "Validator";
 
-export default class ContactRequest extends Request {
-  body!: { 
+
+interface ContactRequest {
+  body: { 
     email: string;
     subject: string;
     message: string;
   };
-  
+}
+
+class ContactRequest extends Request {
   static rules() {
     return {
       email: Validator.string().email().required(),
@@ -16,3 +19,5 @@ export default class ContactRequest extends Request {
     }
   }
 }
+
+export default ContactRequest;

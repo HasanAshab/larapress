@@ -2,7 +2,7 @@ import { model, Schema, Document, Model } from "mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import Attachable, { FileMeta, AttachableDocument } from "~/app/plugins/Attachable";
 
-const CategorySchema = new Schema(
+const CategorySchema = new Schema<CategoryDocument>(
 {
   name: {
     required: true,

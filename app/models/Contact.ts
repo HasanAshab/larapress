@@ -1,7 +1,7 @@
 import { model, Schema, Document, Model } from "mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 
-const ContactSchema = new Schema(
+const ContactSchema = new Schema<ContactDocument>(
   {
     email: {
       type: String,
