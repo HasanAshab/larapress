@@ -1,5 +1,4 @@
-import { model, QueryWithHelpers, HydratedDocument, Schema, Document } from "mongoose";
-import { Model } from "~/core/mongoose";
+import { model, Model, QueryWithHelpers, HydratedDocument, Schema, Document } from "mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import HumanReadableTime from "~/app/plugins/HumanReadableTime";
 import DocumentNotFoundException from "~/app/exceptions/DocumentNotFoundException";

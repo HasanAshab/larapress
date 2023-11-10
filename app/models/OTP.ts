@@ -1,5 +1,4 @@
-import { model, Schema, Document } from "mongoose";
-import { Model } from "~/core/mongoose";
+import { model, Schema, Document, Model } from "mongoose";
 
 const OTPSchema = new Schema(
 {

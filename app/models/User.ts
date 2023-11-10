@@ -1,5 +1,4 @@
-import { model, Schema, Document } from "mongoose";
-import { Model } from "~/core/mongoose";
+import { model, Schema, Document, Model } from "mongoose";
 import hidden from "mongoose-hidden";
 import Authenticatable, { AuthenticatableDocument } from "~/app/plugins/Authenticatable";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
