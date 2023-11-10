@@ -1,17 +1,17 @@
 import { Request } from '~/core/express';
 
 declare module 'mongoose' {
-  /*export interface Model<DocType, QueryHelpers = {}> {
-    findOneOrFail(...args: Parameters<MongooseModel<DocType>['findOne']>): DocType;
-    findByIdOrFail(id: string): DocType;
+  interface Model<TRawDocType> {
+    findOneOrFail(...args: Parameters<Model<TRawDocType>['findOne']>): TRawDocType;
+    findByIdOrFail(id: string): TRawDocType;
   }
-  */
-  export interface Query<ResultType, DocType, THelpers = {}> {
+  
+  interface Query<ResultType, DocType, THelpers = {}> {
     paginate(pageSize: number, cursor?: string): Query<{ data: ResultType[]; next: string | null }, DocType, THelpers>;
     paginateReq(req: Request): Query<{ data: ResultType[]; next: string | null }, DocType, THelpers>;
   }
   
-  export interface Document {
+  interface Document {
     can(action: string, target: Document): Promise<boolean>;
   }
 }
