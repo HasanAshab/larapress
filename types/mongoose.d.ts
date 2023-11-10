@@ -12,6 +12,7 @@ declare module 'mongoose' {
   }
   
   interface Document {
+    constructor: Model<Document>;
     can(action: string, target: Document): Promise<boolean>;
   }
 }

@@ -26,7 +26,7 @@ const OTPSchema = new Schema(
 );
 
 export interface IOTP {
-  userId: string;
+  userId: Schema.Types.ObjectId;
   code: string;
   expiresAt: Date;
 };

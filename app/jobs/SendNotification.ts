@@ -4,19 +4,13 @@ import { model } from "mongoose";
 import { NotifiableDocument } from "~/app/plugins/Notifiable";
 import NotificationService from "~/app/services/NotificationService";
 
-interface NotifiableMetadata {
-  id: string;
-  modelName: string;
-}
-
-interface NotificationMetadata {
-  path: string; 
-  data: object;
-}
 
 interface SendNotificationData {
-  notifiables: NotifiableMetadata[];
-  notification: NotificationMetadata;
+  notifiables: Record<string, string[]>;
+  notification: {
+    path: string; 
+    data: object;
+  };
 }
 
 @singleton()
@@ -28,10 +22,22 @@ export default class SendNotification extends Job {
     super();
   }
   
-  async handle({ notifiableModel, notifiablesId, notificationMetadata }: SendNotificationData){
-    const NotificationClass = require(notificationMetadata.path).default;
-    const notifiables = await model(notifiableModel).find({ _id: { $in: notifiablesId } });
-    const notification = new NotificationClass(notificationMetadata.data);
-    await this.notificationService.send(notifiables as NotifiableDocument[], notification);
+  async handle({ notifiables, notification }: SendNotificationData){
+    const NotificationClass = require(notification.path).default;
+    const notificationInstance = new NotificationClass(notification.data);
+    const notifiableDocuments = await this.fetchNotifiableDocuments(notifiables);
+    await this.notificationService.send(notifiableDocuments, notificationInstance);
+  }
+  
+  private async fetchNotifiableDocuments(notifiables: Record<string, string[]>) {
+    const fetchPromises: Promise<NotifiableDocument[]>[] = [];
+    for(const modelName in notifiables) {
+      const promise = model(modelName).find({
+        _id: { $in: notifiables[modelName] }
+      }).exec();
+      fetchPromises.push(promise);
+    }
+    const notifiableDocuments = await Promise.all(fetchPromises);
+    return notifiableDocuments.flat();
   }
 }

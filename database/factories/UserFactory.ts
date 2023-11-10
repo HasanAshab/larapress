@@ -14,7 +14,8 @@ export default class UserFactory extends Factory<IUser, UserDocument> {
       verified: true,
       role: "novice" as const,
       profile: null,
-      recoveryCodes: []
+      recoveryCodes: [],
+      externalId: {}
     };
   }
   

@@ -71,6 +71,7 @@ export interface IUser {
   verified: boolean;
   profile: FileMeta | null;
   recoveryCodes: string[];
+  externalId: Record<string, string>;
 }
 
 export interface UserDocument extends Document, IUser, AuthenticatableDocument, AttachableDocument<IUser>, HasApiTokensDocument, NotifiableDocument<UserDocument> {
