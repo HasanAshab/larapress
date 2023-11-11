@@ -2,17 +2,19 @@ import { AuthenticRequest } from "~/core/express";
 import Validator, { unique } from "Validator";
 import { UploadedFile } from "express-fileupload";
 
-export default class UpdateProfileRequest extends AuthenticRequest {
-  body!: { 
+interface UpdateProfileRequest {
+  body: { 
     name?: string;
     username?: string;
     email?: string;
   };
   
-  files!: {
+  files: {
     profile?: UploadedFile
   }
+}
 
+class UpdateProfileRequest extends AuthenticRequest {
   static rules() {
     return {
       name: Validator.string().min(3).max(25).sanitize(),
@@ -22,3 +24,5 @@ export default class UpdateProfileRequest extends AuthenticRequest {
     }
   }
 }
+
+export default UpdateProfileRequest;

@@ -1,12 +1,14 @@
 import { Request } from "~/core/express";
 import Validator from "Validator";
 
-export default class LoginWithRecoveryCodeRequest extends Request {
-  body!: { 
+interface LoginWithRecoveryCodeRequest {
+  body: { 
     email: string;
     code: string;
   };
-  
+}
+
+class LoginWithRecoveryCodeRequest extends Request {
   static rules() {
     return {
       email: Validator.string().email().required(),
@@ -14,3 +16,5 @@ export default class LoginWithRecoveryCodeRequest extends Request {
     }
   }
 }
+
+export default LoginWithRecoveryCodeRequest;

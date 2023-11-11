@@ -7,7 +7,7 @@ export interface JobOptions {
   cron: string | null
 }
 
-export default abstract class Job {
+abstract class Job<JobData = object> {
   static $options: JobOptions = {
     shouldQueue: true,
     dispatchAfter: 0,
@@ -19,7 +19,7 @@ export default abstract class Job {
   public tries = 1;
   public timeout = 10000;
   
-  public abstract handle(data: unknown): Promise<void>;
+  public abstract handle(data: JobData): Promise<void>;
   
   static delay(ms: number) {
     this.$options.dispatchAfter = ms;
@@ -44,7 +44,7 @@ export default abstract class Job {
     }
   }
   
-  static async dispatch(data: unknown = {}) {
+  static async dispatch(data: JobData = {}) {
     if(this === Job)
       throw new Error("Can not dispatch abstract Job class.");
     if(this.$options.shouldQueue) {

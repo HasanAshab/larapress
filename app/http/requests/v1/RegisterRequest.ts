@@ -2,17 +2,19 @@ import { Request } from "~/core/express";
 import Validator, { unique } from "Validator";
 import { UploadedFile } from "express-fileupload";
 
-export default class RegisterRequest extends Request {
-  body!: { 
+interface RegisterRequest {
+  body: { 
     username: string;
     email: string;
     password: string;
-  };
-  
-  files!: {
-    profile?: UploadedFile
   }
   
+  files: {
+    profile?: UploadedFile;
+  }
+}
+
+class RegisterRequest extends Request {
   static rules() {
     return {
       username: Validator.string().alphanum().min(3).max(12).external(unique("User", "username")).required(),
@@ -22,3 +24,5 @@ export default class RegisterRequest extends Request {
     }
   }
 }
+
+export default RegisterRequest;

@@ -1,13 +1,14 @@
 import { Request } from "~/core/express";
 import Validator from "Validator";
 
-export default class ResetPasswordRequest extends Request {
-  body!: { 
+interface ResetPasswordRequest {
+  body: { 
     id: string;
     token: string;
     password: string;
-  };
-  
+  }
+}
+class ResetPasswordRequest extends Request {
   static rules() {
     return {
       id: Validator.string().required(),
@@ -20,3 +21,5 @@ export default class ResetPasswordRequest extends Request {
     }
   }
 }
+
+export default ResetPasswordRequest;

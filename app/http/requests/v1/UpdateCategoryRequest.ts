@@ -2,16 +2,18 @@ import { AuthenticRequest } from "~/core/express";
 import Validator, { unique } from "Validator";
 import { UploadedFile } from "express-fileupload";
 
-export default class UpdateCategoryRequest extends AuthenticRequest {
-  body!: { 
+interface UpdateCategoryRequest {
+  body: { 
     name?: string;
     slug?: string;
-  };
-  
-  files!: {
-    icon?: UploadedFile
   }
+  
+  files: {
+    icon: UploadedFile
+  }
+}
 
+class UpdateCategoryRequest extends AuthenticRequest {
   static rules() {
     return {
       name: Validator.string(),
@@ -20,3 +22,5 @@ export default class UpdateCategoryRequest extends AuthenticRequest {
     }
   }
 }
+
+export default UpdateCategoryRequest;

@@ -2,13 +2,14 @@ import { Request } from "~/core/express";
 import Validator, { unique } from "Validator";
 import { UploadedFile } from "express-fileupload";
 
-export default class SetUsernameRequest extends Request {
-  body!: { 
+interface SetUsernameRequest {
+  body: { 
     token: string;
     username: string;
-  };
-  
+  }
+}
 
+class SetUsernameRequest extends Request {
   static rules() {
     return {
       token: Validator.string().required(),
@@ -16,3 +17,5 @@ export default class SetUsernameRequest extends Request {
     }
   }
 }
+
+export default SetUsernameRequest;

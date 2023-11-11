@@ -3,12 +3,14 @@ import Validator from "Validator";
 import Config from "Config";
 import { ISettings, twoFactorAuthMethods } from "~/app/models/Settings";
 
-export default class SetupTwoFactorAuthRequest extends AuthenticRequest {
-  body!: { 
+interface SetupTwoFactorAuthRequest {
+  body: { 
     enable: boolean;
     method?: ISettings["twoFactorAuth"]["method"];
-  };
-  
+  }
+}
+
+class SetupTwoFactorAuthRequest extends AuthenticRequest {
   static rules() {
     return {
       enable: Validator.boolean().default(true),
@@ -16,3 +18,5 @@ export default class SetupTwoFactorAuthRequest extends AuthenticRequest {
     }
   }
 }
+
+export default SetupTwoFactorAuthRequest;

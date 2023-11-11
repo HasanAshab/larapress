@@ -3,10 +3,12 @@ import Validator from "Validator";
 import Config from "Config";
 import { DeepPartial } from "utility-types";
 
-export default class UpdateAppSettingsRequest extends AuthenticRequest {
-  body!: Record<string, unknown>;
-  
-  protected rules(obj = Config.get()) {
+interface UpdateAppSettingsRequest {
+  body: Record<string, unknown>;
+}
+
+class UpdateAppSettingsRequest extends AuthenticRequest {
+  static rules(obj = Config.get()) {
     if(obj === null || typeof obj === "undefined")
       return null;
 
@@ -21,3 +23,5 @@ export default class UpdateAppSettingsRequest extends AuthenticRequest {
     return fields;
   }
 }
+
+export default UpdateAppSettingsRequest;

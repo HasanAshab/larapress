@@ -1,13 +1,15 @@
 import { Request } from "~/core/express";
 import Validator from "Validator";
 
-export default class LoginRequest extends Request {
-  body!: { 
+interface LoginRequest {
+  body: { 
     email: string;
     password: string;
     otp?: string;
-  };
-  
+  }
+}
+
+class LoginRequest extends Request {
   static rules() {
     return {
       email: Validator.string().email().required(),
@@ -16,3 +18,5 @@ export default class LoginRequest extends Request {
     }
   }
 }
+
+export default LoginRequest;

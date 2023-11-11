@@ -1,15 +1,16 @@
 import { AuthenticRequest } from "~/core/express";
 import Validator from "Validator";
 
-// TODO incapsulate pagination validation
-export default class SearchContactRequest extends AuthenticRequest {
-  query!: { 
+interface SearchContactRequest {
+  query: { 
     q: string;
     status?: "opened" | "closed";
     limit?: string;
     cursor?: string;
-  };
+  }
+}
 
+class SearchContactRequest extends AuthenticRequest {
   static rules() {
     return {
       q: Validator.string().required(),
@@ -19,3 +20,5 @@ export default class SearchContactRequest extends AuthenticRequest {
     }
   }
 }
+
+export default SearchContactRequest;
