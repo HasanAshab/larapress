@@ -19,6 +19,10 @@ const UserSchema = new Schema<UserDocument>({
     type: String,
     unique: true
   },
+/*  profile: {
+    type: Schema.Types.FileMetadata,
+    default: null
+  },*/
   phoneNumber: String,
   password: {
     type: String,
@@ -57,7 +61,7 @@ UserSchema.plugin(Authenticatable);
 UserSchema.plugin(HasFactory);
 UserSchema.plugin(HasApiTokens);
 UserSchema.plugin(Notifiable);
-UserSchema.plugin(Attachable, { profile: {} });
+UserSchema.plugin(Attachable, {});
 UserSchema.plugin(hidden(), { hidden: { _id: false } });
 //UserSchema.plugin(Billable);
 

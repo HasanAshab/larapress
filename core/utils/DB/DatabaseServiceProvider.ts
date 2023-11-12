@@ -1,16 +1,21 @@
 import ServiceProvider from "~/core/abstract/ServiceProvider";
-import mongoose from "mongoose";
 import fs from "fs";
-import Core from "~/core/plugins/Core";
-import Paginate from "~/core/plugins/Paginate";
-import Policy from "~/core/plugins/Policy";
+import mongoose from "mongoose";
+import Core from "./plugins/Core";
+import Paginate from "./plugins/Paginate";
+import Policy from "./plugins/Policy";
+import FileMetadata from "./types/FileMetadata";
 
 export default class DatabaseServiceProvider extends ServiceProvider {
   register() {
+    this.registerGlobalPlugins();
+    this.discoverModels();
+  }
+  
+  private registerGlobalPlugins() {
     mongoose.plugin(Core);
     mongoose.plugin(Paginate);
     mongoose.plugin(Policy);
-    this.discoverModels();
   }
   
   private discoverModels() {

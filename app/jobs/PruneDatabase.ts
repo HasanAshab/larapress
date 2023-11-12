@@ -2,7 +2,8 @@ import Job from "~/core/abstract/Job";
 import { models } from "mongoose";
 import DB from "DB";
 
-export default class PruneDatabase extends Job {
+
+class PruneDatabase extends Job {
   async handle() {
     await DB.connect();
     await Promise.all(
@@ -23,3 +24,5 @@ export default class PruneDatabase extends Job {
     const { deletedCount } = await Model.deleteMany({ [localField]: { $nin: parentIds } }).exec();
   }
 }
+
+export default new PruneDatabase;

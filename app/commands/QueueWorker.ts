@@ -8,12 +8,14 @@ import DB from "DB";
 export default class QueueWorker extends Command {
   signature = "queue:work";
   
-  async handle(){
-    await DB.connect();
-    this.setupJobs();
-    Queue.on('failed', (job, err) => console.log(`Job ${job.name} failed for: ${err.stack}\n\n`))
-    Queue.on('completed', (job) => this.info(`[${this.formatedDate()}] Processed: ${job.name} \n`));
-    this.info("listening for jobs...\n\n");
+  handle(){
+    return new Promise(async (r) => {
+      await DB.connect();
+      this.setupJobs();
+      Queue.on('failed', (job, err) => console.log(`Job ${job.name} failed for: ${err.stack}\n\n`))
+      Queue.on('completed', (job) => this.info(`[${this.formatedDate()}] Processed: ${job.name} \n`));
+      this.info("listening for jobs...\n\n");
+    })
   }
   
   private formatedDate() {
@@ -23,10 +25,9 @@ export default class QueueWorker extends Command {
   private setupJobs() {
     fs.readdirSync("app/jobs").forEach(jobFileName => {
       const jobName = jobFileName.split(".")[0];
-      const JobClass = require("~/app/jobs/" + jobName).default;
-      const job = resolve<Job>(JobClass);
+      const job: Job = require("~/app/jobs/" + jobName).default;
       const processor = (task: any) => job.handle(task.data);
-      Queue.channel(job.channel).process(JobClass.name, job.concurrency, processor);
+      Queue.channel(job.channel).process(job.constructor.name, job.concurrency, processor);
     });
   }
 }

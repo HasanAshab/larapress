@@ -3,13 +3,13 @@ import Mailable from "~/core/abstract/Mailable";
 import MailService from "~/app/services/MailService";
 import { singleton } from "tsyringe";
 
-interface SendMailData {
+interface Data {
   email: string;
   mailable: Mailable;
 }
 
 @singleton()
-export default class SendMail extends Job {
+class SendMail extends Job<Data> {
   concurrency = 20;
   tries = 3;
   channel = "mail";
@@ -18,7 +18,9 @@ export default class SendMail extends Job {
     super();
   }
   
-  async handle({ mailable, email }: SendMailData){
+  async handle({ mailable, email }: Data){
     await this.mailService.send(mailable, email);
   }
 }
+
+export default resolve<SendMail>(SendMail);

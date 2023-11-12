@@ -5,7 +5,7 @@ import { NotifiableDocument } from "~/app/plugins/Notifiable";
 import NotificationService from "~/app/services/NotificationService";
 
 
-interface SendNotificationData {
+interface Data {
   notifiables: Record<string, string[]>;
   notification: {
     path: string; 
@@ -14,7 +14,7 @@ interface SendNotificationData {
 }
 
 @singleton()
-export default class SendNotification extends Job {
+class SendNotification extends Job<Data> {
   concurrency = 10;
   tries = 3;
   
@@ -22,7 +22,8 @@ export default class SendNotification extends Job {
     super();
   }
   
-  async handle({ notifiables, notification }: SendNotificationData){
+  async handle({ notifiables, notification }: Data){
+    return console.log(notification, notifiables)
     const NotificationClass = require(notification.path).default;
     const notificationInstance = new NotificationClass(notification.data);
     const notifiableDocuments = await this.fetchNotifiableDocuments(notifiables);
@@ -41,3 +42,5 @@ export default class SendNotification extends Job {
     return notifiableDocuments.flat();
   }
 }
+
+export default resolve<SendNotification>(SendNotification);
