@@ -32,3 +32,24 @@ app.server.on("connection", () => {
   const time = new Date().toLocaleTimeString("en-US", { hour12: true });
   console.log(`*New connection: [${time}]`);
 });
+
+
+import User from "~/app/models/User";
+import Media from "~/app/models/Media";
+
+(async () => {
+  return await Media.deleteMany()
+  
+  const user = await User.findOne()
+  const file = {
+    name: "test.png",
+    data: "jsejdjejdjdjdbdudh"
+  }
+  console.log(
+    //await user.media(),
+    await user.media().withTag("profile").first(),
+    //await user.media().withTag("profile").attach(file, "profiles"),
+    //await user.media().withTag("profile").attach(file, "profiles").asPrivate(),
+    //await user.media().withTag("profile").detach()
+  )
+})()

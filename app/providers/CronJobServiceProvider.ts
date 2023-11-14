@@ -6,6 +6,6 @@ export default class CronJobServiceProvider extends ServiceProvider {
    * Schedule cron jobs of the application
   */ 
   boot() {
-    PruneDatabase.repeat("* * * * * *").dispatch({});
+    PruneDatabase.repeat("* * 1 * *").dispatch({});
   }
 }

@@ -4,7 +4,7 @@ import Authenticatable, { AuthenticatableDocument } from "~/app/plugins/Authenti
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import HasApiTokens, { HasApiTokensDocument } from "~/app/plugins/HasApiTokens";
 import Notifiable, { NotifiableDocument } from "~/app/plugins/Notifiable";
-import Attachable, { FileMeta, AttachableDocument } from "~/app/plugins/Attachable";
+import Attachable, { AttachableDocument } from "~/app/plugins/Attachable";
 //import Billable, { BillableDocument } from "~/app/plugins/Billable";
 import Settings, { SettingsDocument } from "~/app/models/Settings";
 
@@ -19,10 +19,6 @@ const UserSchema = new Schema<UserDocument>({
     type: String,
     unique: true
   },
-/*  profile: {
-    type: Schema.Types.FileMetadata,
-    default: null
-  },*/
   phoneNumber: String,
   password: {
     type: String,
@@ -61,7 +57,7 @@ UserSchema.plugin(Authenticatable);
 UserSchema.plugin(HasFactory);
 UserSchema.plugin(HasApiTokens);
 UserSchema.plugin(Notifiable);
-UserSchema.plugin(Attachable, {});
+UserSchema.plugin(Attachable);
 UserSchema.plugin(hidden(), { hidden: { _id: false } });
 //UserSchema.plugin(Billable);
 
@@ -73,12 +69,11 @@ export interface IUser {
   password: string | null;
   role: "admin" | "novice";
   verified: boolean;
-  profile: FileMeta | null;
   recoveryCodes: string[];
   externalId: Record<string, string>;
 }
 
-export interface UserDocument extends Document, IUser, AuthenticatableDocument, AttachableDocument<IUser>, HasApiTokensDocument, NotifiableDocument<UserDocument> {
+export interface UserDocument extends Document, IUser, AuthenticatableDocument, AttachableDocument, HasApiTokensDocument, NotifiableDocument<UserDocument> {
   settings: Promise<SettingsDocument>;
   safeDetails(): Omit<UserDocument, "email" | "phoneNumber">;
 };

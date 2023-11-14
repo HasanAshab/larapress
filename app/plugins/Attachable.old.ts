@@ -4,7 +4,12 @@ import Storage from "Storage";
 import URL from "URL";
 import { promises as fs } from "fs";
 
-export interface FileMeta {
+export interface IFileMetadata {
+  name: string;
+  url: string;
+}
+
+export const FileMetadata = new Schema<IFileMetadata> {
   name: string;
   url: string;
 }
@@ -14,10 +19,6 @@ export interface AttachableDocument<T extends object> extends Document {
   detach(field: keyof T): void;
 }
 
-
-export interface FieldOptions {
-  multiple?: boolean
-}
 
 export default (schema: Schema, options: Record<string, FieldOptions>) => {
   const attachableFieldsName = Object.keys(options);

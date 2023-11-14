@@ -21,6 +21,9 @@ export default class AuthService {
     const user = new User({ email, username });
     await user.setPassword(password);
     profile && await user.attach("profile", profile);
+  //  if(profile) {
+    //  user.profile = await Storage.putFile("profiles", profile);
+    //}
     await user.save();
     await this.createDefaultSettings(user);
     return user;
