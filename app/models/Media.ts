@@ -1,6 +1,5 @@
 import { model, Schema, Document, Model } from "mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
-import Storage from "Storage";
 
 const MediaSchema = new Schema<MediaDocument>(
 {
@@ -26,14 +25,8 @@ const MediaSchema = new Schema<MediaDocument>(
     default: "public"
   }
 },
-{ timestamps: true }
+{ timestamps: false }
 );
-
-
-MediaSchema.post(["deleteOne", "deleteMany"], async function(next) {
-  console.log(this)
-  //Storage.delete()
-});
 
 
 MediaSchema.plugin(HasFactory);
@@ -47,7 +40,7 @@ export interface IMedia {
   visibility: "public" | "private";
 }
 
-export interface MediaModel extends Document, IMedia {};
+export interface MediaDocument extends Document, IMedia {};
 interface MediaModel extends Model<MediaDocument> {};
 
 export default model<MediaDocument, MediaModel>("Media", MediaSchema);

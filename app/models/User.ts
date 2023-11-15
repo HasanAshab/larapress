@@ -4,7 +4,7 @@ import Authenticatable, { AuthenticatableDocument } from "~/app/plugins/Authenti
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import HasApiTokens, { HasApiTokensDocument } from "~/app/plugins/HasApiTokens";
 import Notifiable, { NotifiableDocument } from "~/app/plugins/Notifiable";
-import Attachable, { AttachableDocument } from "~/app/plugins/Attachable";
+import Mediable, { MediableDocument } from "~/app/plugins/Mediable";
 //import Billable, { BillableDocument } from "~/app/plugins/Billable";
 import Settings, { SettingsDocument } from "~/app/models/Settings";
 
@@ -57,7 +57,7 @@ UserSchema.plugin(Authenticatable);
 UserSchema.plugin(HasFactory);
 UserSchema.plugin(HasApiTokens);
 UserSchema.plugin(Notifiable);
-UserSchema.plugin(Attachable);
+UserSchema.plugin(Mediable);
 UserSchema.plugin(hidden(), { hidden: { _id: false } });
 //UserSchema.plugin(Billable);
 
@@ -73,7 +73,7 @@ export interface IUser {
   externalId: Record<string, string>;
 }
 
-export interface UserDocument extends Document, IUser, AuthenticatableDocument, AttachableDocument, HasApiTokensDocument, NotifiableDocument<UserDocument> {
+export interface UserDocument extends Document, IUser, AuthenticatableDocument, MediableDocument, HasApiTokensDocument, NotifiableDocument<UserDocument> {
   settings: Promise<SettingsDocument>;
   safeDetails(): Omit<UserDocument, "email" | "phoneNumber">;
 };

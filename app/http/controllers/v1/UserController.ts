@@ -24,8 +24,8 @@ export default class UserController extends Controller {
       user.verified = false;
     }
     if (profile) {
-      user.detach("profile");
-      await user.attach("profile", profile);
+      await user.media().withTag("profile").detach();
+      await user.media().withTag("profile").attach("profiles", profile);
     }
     await user.save();
     if(!req.body.email) 

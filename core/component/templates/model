@@ -16,7 +16,7 @@ export interface I{{name}} {
 }
 
 
-export interface {{name}}Model extends Document, I{{name}} {};
+export interface {{name}}Document extends Document, I{{name}} {};
 interface {{name}}Model extends Model<{{name}}Document> {};
 
 export default model<{{name}}Document, {{name}}Model>("{{name}}", {{name}}Schema);

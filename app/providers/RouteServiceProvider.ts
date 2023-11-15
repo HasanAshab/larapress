@@ -9,6 +9,7 @@ export default class RouteServiceProvider extends ServiceProvider {
   boot() {
     super.boot();
     Router.model("user", "~/app/models/User");
+    Router.model("media", "~/app/models/Media");
   }
   
   /**
@@ -31,6 +32,7 @@ export default class RouteServiceProvider extends ServiceProvider {
       prefix: "api/v1",
       as: "v1_"
     }, () => {
+      Router.prefix("/").load("~/routes/api/v1");
       Router.prefix("auth").load("~/routes/api/v1/auth");
       Router.prefix("users").load("~/routes/api/v1/users");
       Router.prefix("contact").load("~/routes/api/v1/contact");

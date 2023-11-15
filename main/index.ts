@@ -34,22 +34,23 @@ app.server.on("connection", () => {
 });
 
 
-import User from "~/app/models/User";
+import User, { UserDocument } from "~/app/models/User";
 import Media from "~/app/models/Media";
+import URL from "URL";
 
 (async () => {
-  return await Media.deleteMany()
-  
-  const user = await User.findOne()
+  URL.
+  const user = await User.findOne() as UserDocument
   const file = {
     name: "test.png",
     data: "jsejdjejdjdjdbdudh"
   }
   console.log(
-    //await user.media(),
-    await user.media().withTag("profile").first(),
-    //await user.media().withTag("profile").attach(file, "profiles"),
-    //await user.media().withTag("profile").attach(file, "profiles").asPrivate(),
-    //await user.media().withTag("profile").detach()
+    await user.media(),
+   // await user.media().withTag("profile").first(),
+  // await user.media().withTag("profile").attach(file, "profiles"),
+    await user.media().withTag("profile").attach(file, "profiles").asPrivate(),
+   // await user.media().withTag("profile").detach()
+    //await user.media().withTag("profile").replaceBy(file)
   )
 })()

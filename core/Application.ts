@@ -21,7 +21,7 @@ export default class Application extends EventEmitter {
   
   /**
    * The HTTP server
-  */
+   */
   readonly server?: Server;
   
   /**
@@ -68,20 +68,30 @@ export default class Application extends EventEmitter {
   private addCustomHttpHelpers() {
     this.assertRunningInWeb();
     
-    this.http.request.files = {};
+    const { request, response } = this.http;
     
-    this.http.request.fullUrl = function() {
-      return this.protocol + '://' + this.get('host') + this.originalUrl;
-    }
+    request.files = {};
+
+    Object.defineProperty(request, 'fullUrl', {
+      get: function() {
+        return this.protocol + '://' + this.get('host') + this.originalUrl;
+      }
+    });
+  
+    Object.defineProperty(request, 'hasValidSignature', {
+      get: function() {
+        return URL.hasValidSignature(this.fullUrl);
+      }
+    });
     
-    this.http.response.message = function (text?: string) {
+    response.message = function(text?: string) {
       this.json({
         success: this.statusCode >= 200 && this.statusCode < 300,
         message: text || getStatusText(this.statusCode),
       });
     };
-
-    this.http.response.api = function (response: RawResponse) {
+  
+    response.api = function(response: RawResponse) {
       const success = this.statusCode >= 200 && this.statusCode < 300;
       const apiResponse = {
         success,
@@ -90,11 +100,15 @@ export default class Application extends EventEmitter {
       };
       this.json(apiResponse);
     };
-
-    this.http.response.redirectToClient = function (path = '/') {
+  
+    response.redirectToClient = function(path = '/') {
       this.redirect(URL.client(path));
     };
-  }  
+  
+    response.sendFileFromStorage = function(storagePath: string) {
+      this.sendFile(base("storage", storagePath));
+    };
+  }
   
   /**
    * Flush booting callbacks list

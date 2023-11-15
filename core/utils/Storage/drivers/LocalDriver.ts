@@ -1,5 +1,6 @@
 import { Readable } from 'stream';
 import fs from 'fs/promises';
+import { createWriteStream } from 'fs';
 import { join } from 'path';
 import { UploadedFile } from "express-fileupload";
 import StorageDriver from '../StorageDriver';
@@ -11,7 +12,7 @@ export default class LocalDriver implements StorageDriver {
     try {
       await fs.access(join(this.config.root, path));
       return true;
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === 'ENOENT') {
         return false;
       }
@@ -29,7 +30,7 @@ export default class LocalDriver implements StorageDriver {
 
     if (contents instanceof Readable) {
       // If contents is a readable stream, write it to the file
-      const writeStream = fs.createWriteStream(filePath);
+      const writeStream = createWriteStream(filePath);
       contents.pipe(writeStream);
       return new Promise<void>((resolve, reject) => {
         writeStream.on('finish', resolve);
@@ -91,10 +92,10 @@ export default class LocalDriver implements StorageDriver {
     await fs.rm(dirPath, { recursive: true, force: true });
   }
   
-  async putFile(path: string, file: UploadedFile) {
+  async putFile(directory: string, file: UploadedFile) {
     const name = `${Date.now()}_${file.name}`;
-    const filePath = join(this.config.root, path, name);
+    const filePath = join(this.config.root, directory, name);
     await fs.writeFile(filePath, file.data);
-    return name;
+    return join(directory, name);
   }
 }
