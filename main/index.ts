@@ -39,7 +39,8 @@ import Media from "~/app/models/Media";
 import URL from "URL";
 
 (async () => {
-  URL.
+ // URL.
+ return;
   const user = await User.findOne() as UserDocument
   const file = {
     name: "test.png",

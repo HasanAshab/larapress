@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { cloneDeep } from "lodash";
 import { constructor } from "types";
 import fs from "fs";
 import { join } from "path";
@@ -95,12 +95,15 @@ export default class Router {
   /**
    * Add a endpoint to stack
   */
-  static $add<T extends constructor>(method: RequestMethod, endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
+  static $add<T extends constructor>(method: RequestMethod, endpoint: string, metadata: string | T | [T, keyof InstanceType<T> & string]) {
     const path = join(Router.$config.prefix, endpoint);
     if(typeof metadata === "string") {
       if(!Router.$config.controller)
         throw new Error(`Must pass a controller in "${endpoint}" route as no global scope controller exist`);
       metadata = [Router.$config.controller as T, metadata];
+    }
+    else if (typeof metadata === "function") {
+      metadata = [metadata, "__invoke"];
     }
     Router.$stack.push({
       method,
@@ -196,7 +199,7 @@ export default class Router {
   }
   
   static group(config: Partial<RouterConfig>, cb: string | (() => void)) {
-    const oldConfig = _.cloneDeep(Router.$config);
+    const oldConfig = cloneDeep(Router.$config);
     if(config.prefix)
       config.prefix = join(oldConfig.prefix, config.prefix);
     if(config.as)
