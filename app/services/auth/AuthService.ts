@@ -20,10 +20,10 @@ export default class AuthService {
   async register(email: string, username: string, password: string, profile?: UploadedFile){
     const user = new User({ email, username });
     await user.setPassword(password);
-    await user.save();
     if(profile) {
-      await user.media().withTag("profile").attach("profiles", profile);
+      await user.media().withTag("profile").attach(profile).storeRef();
     }
+    await user.save();
     await this.createDefaultSettings(user);
     return user;
   }

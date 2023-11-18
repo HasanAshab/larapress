@@ -14,7 +14,7 @@ export interface MediableDocument extends Document {
     withTag(tag: string): {
       then(onFulfill?: ((value: MediaDocument[]) => void) | undefined, onReject?: ((reason: any) => void) | undefined): Promise<MediaDocument[]>;
       first(onFulfill?: ((value: MediaDocument | null) => void) | undefined, onReject?: ((reason: any) => void) | undefined): Promise<MediaDocument | null>;
-      attach(file: UploadedFile, storagePath: string): {
+      attach(file: UploadedFile, storagePath?: string): {
         then(onFulfill?: ((value: MediaDocument) => void) | undefined, onReject?: ((reason: any) => void) | undefined);
         asPrivate(): Promise<MediaDocument>;
       };
@@ -40,30 +40,38 @@ export default (schema: Schema) => {
       
       const first = () => Media.findOne(filter);
 
-      const attach = (file: UploadedFile, storagePath: string) => {
+      const attach = (file: UploadedFile, storagePath = "uploads") => {
         let visibility = "public";
-
+        let storeRefIn = null;
+        
         const attachMedia = (onFulfill, onReject) => {
-          Storage.putFile(storagePath, file).then((path) => {
-            Media.create({ path, visibility, ...filter }).then(onFulfill, onReject);
+          Storage.putFile(storagePath, file).then(path => {
+            Media.create({ path, visibility, ...filter }).catch(onReject).then(media => {
+              if(storeRefIn) {
+                this[storeRefIn] = media._id;
+              }
+              onFulfill(media);
+            });
           });
         };
 
-        const asPrivate = () => {
-          return new Promise<MediableDocument>((resolve, reject) => {
-            visibility = "private";
-            attachMedia(resolve, reject);
-          });
+        function asPrivate() {
+          visibility = "private";
+          return this;
         };
-        return { then: attachMedia, asPrivate };
+        
+        function storeRef(field = tag) {
+          storeRefIn = field;
+          return this;
+        };
+        
+        return { then: attachMedia, asPrivate, storeRef };
       };
       
       const replaceBy = async (file: UploadedFile) => {
         const media = await Media.findOne(metadata);
-        await Storage.put(media.path, file.data);
-        
+        media && await Storage.put(media.path, file.data);
       };
-
 
       const detach = async () => {
         const media = await Media.find(filter);
@@ -72,7 +80,7 @@ export default (schema: Schema) => {
         return Media.deleteMany(filter);
       };
 
-      return { then: getMediaByTag, first, attach, detach };
+      return { then: getMediaByTag, first, attach, replaceBy, detach };
     };
 
     return { then: getMedia, withTag };

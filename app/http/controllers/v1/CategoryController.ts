@@ -19,9 +19,10 @@ export default class CategoryController extends Controller {
   
   @RequestHandler
   async store(req: CategoryRequest, res: Response) {
-    const icon = req.files.icon;
     const category = new Category(req.body);
-    icon && await category.attach("icon", icon);
+    if(req.files.icon) {
+      await category.media().attach(req.files.icon).saveRef();
+    }
     const { _id } = await category.save();
     const categoryUrl = URL.route("v1_categories.show", { id: _id });
     res.header("Location", categoryUrl).status(201).message("Category successfully created!");
@@ -38,9 +39,8 @@ export default class CategoryController extends Controller {
     }
     const category = await Category.findByIdOrFail(id);
     Object.assign(category, req.body);
-    //TODO improve it for robustness
-    category.detach("icon");
-    await category.attach("icon", icon);
+    // TODO reduce query
+    await category.media().replaceBy(icon);
     await category.save();
     return "Category updated!";
   }

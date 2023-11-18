@@ -17,15 +17,13 @@ export default class UserController extends Controller {
   
   @RequestHandler
   async updateProfile(req: UpdateProfileRequest) {
-    const profile = req.files.profile;
     const user = req.user;
     Object.assign(user, req.body);
     if(req.body.email){
       user.verified = false;
     }
-    if (profile) {
-      await user.media().withTag("profile").detach();
-      await user.media().withTag("profile").attach("profiles", profile);
+    if (req.files.profile) {
+      await user.media().withTag("profile").replaceBy(req.files.profile);
     }
     await user.save();
     if(!req.body.email) 

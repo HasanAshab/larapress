@@ -28,8 +28,6 @@ export default (schema: any) => {
     const limit = typeof req.query.limit === "string" ? parseInt(req.query.limit) : 20;
     const querySeparator = hasQuery ? '&' : '?';
     const paginatedData = await this.paginate(limit, req.query.cursor);
-        console.log(paginatedData)
-
     paginatedData.nextCursor = paginatedData.next;
     paginatedData.next = paginatedData.next ? `${baseUrl}${originalUrl}${querySeparator}limit=${limit}&cursor=${paginatedData.next}` : null;
     return paginatedData;

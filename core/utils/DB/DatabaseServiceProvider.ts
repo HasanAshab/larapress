@@ -8,10 +8,9 @@ import FileMetadata from "./types/FileMetadata";
 
 export default class DatabaseServiceProvider extends ServiceProvider {
   register() {
+    mongoose.set('strictQuery', true);
     this.registerGlobalPlugins();
     this.discoverModels();
-    mongoose.set('toJSON', { virtuals: true });
-    mongoose.set('toObject', { virtuals: true });
   }
   
   private registerGlobalPlugins() {

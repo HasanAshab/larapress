@@ -19,6 +19,7 @@ const UserSchema = new Schema<UserDocument>({
     type: String,
     unique: true
   },
+  profile: Schema.Types.ObjectId,
   phoneNumber: String,
   password: {
     type: String,
@@ -39,26 +40,13 @@ const UserSchema = new Schema<UserDocument>({
     index: true
   }
 }, 
-{ 
-  timestamps: true,
-  //toJSON: { virtuals: true },
- // toObject: { virtuals: true }
-}
+{ timestamps: true }
 );
 
 
 UserSchema.virtual("settings").get(function() {
   return Settings.findOne({ userId: this._id });
 });
-
-UserSchema.virtual('profile', {
-  ref: 'Media',
-  localField: '_id',
-  foreignField: 'mediableId',
-  match: { mediableType: "User" },
-  justOne: true
-});
-
 
 UserSchema.methods.safeDetails = function(this: any) {
   delete this.email;
@@ -78,6 +66,7 @@ export interface IUser {
   name: string;
   username: string;
   email: string;
+  profile: Schema.Types.ObjectId | null;
   phoneNumber: string | null;
   password: string | null;
   role: "admin" | "novice";
