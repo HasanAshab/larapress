@@ -15,7 +15,6 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
         if (isRequest(paramType)) {
           if(paramType.rules) {
             const rules = Validator.object(paramType.rules());
-            console.log(req.files)
             const data = req.method === "GET"
               ? req.query
               : Object.assign({}, req.body, req.files);

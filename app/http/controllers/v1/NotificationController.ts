@@ -17,7 +17,7 @@ export default class NotificationController extends Controller {
   @RequestHandler
   async unreadCount(req: AuthenticRequest) {
     return {
-      count: await req.user.unreadNotifications.count()
+      count: await req.user.unreadNotifications.lean().count()
     };
   }
   

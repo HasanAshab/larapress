@@ -1,9 +1,9 @@
 import { Request } from '~/core/express';
 
 declare module 'mongoose' {
-  interface Model<TRawDocType> {
-    findOneOrFail(...args: Parameters<Model<TRawDocType>['findOne']>): TRawDocType;
-    findByIdOrFail(id: string): TRawDocType;
+  interface Model<TRawDocType, QueryHelpers = {}> {
+    findOneOrFail(...args: Parameters<Model<TRawDocType>['findOne']>): Query<TRawDocType, TRawDocType, TQueryHelpers>;
+    findByIdOrFail(id: string): Query<TRawDocType, TRawDocType, TQueryHelpers>;
   }
   
   interface Query<ResultType, DocType, THelpers = {}> {

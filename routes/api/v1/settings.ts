@@ -7,7 +7,7 @@ Router.controller(SettingsController).group(() => {
   Router.middleware(["auth", "verified"]).group(() => {
     Router.get("/", "index");
     Router.post("/setup-2fa", "setupTwoFactorAuth");
-    Router.patch("/notification", "notification");
+    Router.patch("/notification", "setupNotificationPreference");
   });
 
   // App settings managenent

@@ -9,7 +9,7 @@ export default (schema: any) => {
       this.where('_id').gt(cursor);
     } 
     const sortOpts = this.options.sort ?? { _id: 1 };
-    let docs = await this.sort(sortOpts).limit(pageSize+1);
+    let docs = await this.sort(sortOpts).limit(pageSize+1).lean();
     let next = null;
     if (docs.length > pageSize) {
       next = docs[pageSize - 1]._id;

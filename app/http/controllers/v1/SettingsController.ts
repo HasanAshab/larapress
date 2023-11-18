@@ -15,7 +15,7 @@ export default class SettingsController extends Controller {
   }
   
   @RequestHandler
-  async notification(req: UpdateNotificationSettingsRequest) {
+  async setupNotificationPreference(req: UpdateNotificationSettingsRequest) {
     await Settings.updateOne({ userId: req.user._id }, { notification: req.body });
     return "Settings saved!";
   }
