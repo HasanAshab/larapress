@@ -3,13 +3,20 @@ import ComponentGenerator from "~/core/component/ComponentGenerator";
 interface Options {
   version: string;
   api: boolean;
+  invokable: boolean;
 }
 
 export default class MakeController extends ComponentGenerator<Options> {
-   signature = "make:controller {--v|version=v1} {--api} {name}";
+   signature = "make:controller {--v|version=v1} {--api} {--invokable} {name}";
   
   protected template() {
-    return "controller/" + (this.option("api") ? "api" : "general");
+    let type = "general";
+    if(this.option("api"))
+      type = "api";
+    else if(this.option("invokable"))
+      type = "invokable";
+      
+    return "controller/" + type;
   }
   
   protected dist() {

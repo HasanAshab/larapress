@@ -39,13 +39,26 @@ const UserSchema = new Schema<UserDocument>({
     index: true
   }
 }, 
-{ timestamps: true }
+{ 
+  timestamps: true,
+  //toJSON: { virtuals: true },
+ // toObject: { virtuals: true }
+}
 );
 
 
 UserSchema.virtual("settings").get(function() {
   return Settings.findOne({ userId: this._id });
 });
+
+UserSchema.virtual('profile', {
+  ref: 'Media',
+  localField: '_id',
+  foreignField: 'mediableId',
+  match: { mediableType: "User" },
+  justOne: true
+});
+
 
 UserSchema.methods.safeDetails = function(this: any) {
   delete this.email;

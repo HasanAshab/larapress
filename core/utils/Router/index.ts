@@ -12,6 +12,7 @@ export type MiddlewareAliaseWithOrWithoutOptions = MiddlewareAliase | Middleware
 
 type RequestMethod = "get" | "post" | "put" | "patch" | "delete";
 type BindingResolver = (value: string) => any | Promise<any>;
+type InvokableController = constructor<{ __invoke(...args: any[]): any | Promise<any> }>;
 
 interface Endpoint {
   /**
@@ -19,7 +20,7 @@ interface Endpoint {
   */
   method: RequestMethod;
   path: string;
-  metadata: [constructor, string];
+  metadata: [constructor | InvokableController, string];
   middlewares: MiddlewareAliaseWithOrWithoutOptions[];
 }
 
@@ -95,7 +96,7 @@ export default class Router {
   /**
    * Add a endpoint to stack
   */
-  static $add<T extends constructor>(method: RequestMethod, endpoint: string, metadata: string | T | [T, keyof InstanceType<T> & string]) {
+  static $add<T extends constructor>(method: RequestMethod, endpoint: string, metadata: string | InvokableController | [T, keyof InstanceType<T> & string]) {
     const path = join(Router.$config.prefix, endpoint);
     if(typeof metadata === "string") {
       if(!Router.$config.controller)
@@ -117,23 +118,23 @@ export default class Router {
   /**
    * Add a endpoint of GET method to stack
   */
-  static get<T extends constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
+  static get<T extends constructor>(endpoint: string, metadata: string | InvokableController | [T, keyof InstanceType<T> & string]) {
     return this.$add("get", endpoint, metadata);
   }
   
-  static post<T extends constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
+  static post<T extends constructor>(endpoint: string, metadata: string | InvokableController | [T, keyof InstanceType<T> & string]) {
     return this.$add("post", endpoint, metadata);
   }
   
-  static put<T extends constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
+  static put<T extends constructor>(endpoint: string, metadata: string | InvokableController | [T, keyof InstanceType<T> & string]) {
     return this.$add("put", endpoint, metadata);
   }
 
-  static patch<T extends constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
+  static patch<T extends constructor>(endpoint: string, metadata: string | InvokableController | [T, keyof InstanceType<T> & string]) {
     return this.$add("patch", endpoint, metadata);
   }
   
-  static delete<T extends constructor>(endpoint: string, metadata: string | [T, keyof InstanceType<T> & string]) {
+  static delete<T extends constructor>(endpoint: string, metadata: string | InvokableController | [T, keyof InstanceType<T> & string]) {
     return this.$add("delete", endpoint, metadata);
   }
   

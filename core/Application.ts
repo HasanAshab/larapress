@@ -92,13 +92,11 @@ export default class Application extends EventEmitter {
     };
   
     response.api = function(response: RawResponse) {
-      const success = this.statusCode >= 200 && this.statusCode < 300;
-      const apiResponse = {
-        success,
-        message: (response as any).message ?? getStatusText(this.statusCode),
-        data: (response as any).data ?? response,
-      };
-      this.json(apiResponse);
+      response.success = this.statusCode >= 200 && this.statusCode < 300
+      response.message = response.message ?? getStatusText(this.statusCode);
+      response.data = response.data ?? response;
+      
+      this.json(response);
     };
   
     response.redirectToClient = function(path = '/') {

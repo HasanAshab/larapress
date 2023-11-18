@@ -6,9 +6,9 @@ export default class ConsoleServiceProvider extends ServiceProvider {
   * Boot console services
   */
   boot() {
-    SamerArtisan.cacheDist("storage/cache/artisan.json").loadFrom([
-      "app/commands",
-      "core/component/commands"
+    SamerArtisan.load([
+      "dist/app/commands",
+      "dist/core/component/commands"
     ]);
   }
 }

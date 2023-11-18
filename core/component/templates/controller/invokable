@@ -4,10 +4,10 @@ import { Request, Response } from "~/core/express";
 
 export default class {{name}}Controller extends Controller {
   /**
-   * Show a list of resource
+   * Perform a task
   */
   @RequestHandler
-  async index() {
+  async __invoke() {
     return "{{name}}Controller works!";
   }
 }

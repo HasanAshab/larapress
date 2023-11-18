@@ -11,7 +11,8 @@ Router.controller(UserController).group(() => {
     Router.delete("/:username", "delete");
   });
 
-  Router.middleware(["auth", "roles:admin"]).group(() => {
+ // Router.middleware(["auth", "roles:admin"]).group(() => {
+  Router.middleware([]).group(() => {
     Router.get("/", "index");
     Router.patch("/:username/make-admin", "makeAdmin");
   });
