@@ -14,7 +14,7 @@ export default class CategoryController extends Controller {
   
   @RequestHandler
   async show(id: string) {
-    return await Category.findByIdOrFail(id);
+    return await Category.findByIdOrFail(id).lean();
   }
   
   @RequestHandler

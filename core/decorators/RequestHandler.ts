@@ -10,6 +10,7 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
   const paramTypes: (typeof Request | typeof Response | constructor)[] = Reflect.getMetadata("design:paramtypes", target, propertyKey);
   descriptor.value = async function(req: Request, res: Response, next: NextFunction){
     try {
+      req.files = req.files ?? {};
       const resolveParamPromises = paramTypes.map(async (paramType, i) => {
         if (isRequest(paramType)) {
           if(paramType.rules) {

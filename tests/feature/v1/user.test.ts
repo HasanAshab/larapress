@@ -59,7 +59,7 @@ describe("user", () => {
   });
 
   it("Should update profile without profile", async () => {
-    const response = await request.patch("/users/me").actingAs(token).multipart({ username: "newName" });
+    const response = await request.patch("/users/me").actingAs(token).send({ username: "newName" });
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
     expect(user.username).toBe("newName");
@@ -77,7 +77,7 @@ describe("user", () => {
 
   it("Shouldn't update profile with existing email", async () => {
     const existingUser = await User.factory().create();
-    const response = await request.patch("/users/me").actingAs(token).multipart({ email: existingUser.email });
+    const response = await request.patch("/users/me").actingAs(token).send({ email: existingUser.email });
     const userAfterRequest = await User.findById(user._id);
     expect(response.statusCode).toBe(400);
     expect(userAfterRequest.email).toBe(user.email);
@@ -86,7 +86,7 @@ describe("user", () => {
 
   it.only("updating email should send verification email", async () => {
     const email = "foo@test.com";
-    const response = await request.patch("/api/v1/users/me").actingAs(token).multipart({ email });
+    const response = await request.patch("/api/v1/users/me").send({ email });
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
     expect(user.email).toBe(email);

@@ -40,7 +40,7 @@ export default class ContactController extends Controller {
   
   @RequestHandler
   async show(id: string) {
-    return await Contact.findByIdOrFail(id);
+    return await Contact.findByIdOrFail(id).lean();
   }
   
   @RequestHandler

@@ -8,7 +8,6 @@ import DocumentNotFoundException from "~/app/exceptions/DocumentNotFoundExceptio
 export default class UserController extends Controller {
   @RequestHandler
   async index(req: AuthenticRequest) {
-    console.log(req.files)
     return await User.find({ role: "novice" }).paginateReq(req);
   }
   
@@ -18,9 +17,7 @@ export default class UserController extends Controller {
   };
   
   @RequestHandler
-  async updateProfile(req: AuthenticRequest) {
-    console.log(req.files)
-    return {};
+  async updateProfile(req: UpdateProfileRequest) {
     const user = req.user;
     Object.assign(user, req.body);
     if(req.body.email){
