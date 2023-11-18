@@ -27,7 +27,7 @@ describe("user", () => {
       User.factory().withRole("admin").create(),
       User.factory().count(2).create()
     ]);
-    const response = await request.get("/users").actingAs(admin.createToken());
+    const response = await request.get("/api/v1/users").actingAs(admin.createToken());
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(users);
   });
@@ -86,7 +86,7 @@ describe("user", () => {
 
   it.only("updating email should send verification email", async () => {
     const email = "foo@test.com";
-    const response = await request.patch("/users/me").actingAs(token).multipart({ email });
+    const response = await request.patch("/api/v1/users/me").actingAs(token).multipart({ email });
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
     expect(user.email).toBe(email);

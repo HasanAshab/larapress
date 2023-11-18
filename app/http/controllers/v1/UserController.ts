@@ -3,10 +3,12 @@ import { RequestHandler } from "~/core/decorators";
 import { AuthenticRequest, Response } from "~/core/express";
 import User from "~/app/models/User";
 import UpdateProfileRequest from "~/app/http/requests/v1/UpdateProfileRequest";
+import DocumentNotFoundException from "~/app/exceptions/DocumentNotFoundException";
 
 export default class UserController extends Controller {
   @RequestHandler
   async index(req: AuthenticRequest) {
+    console.log(req.files)
     return await User.find({ role: "novice" }).paginateReq(req);
   }
   
@@ -16,7 +18,9 @@ export default class UserController extends Controller {
   };
   
   @RequestHandler
-  async updateProfile(req: UpdateProfileRequest) {
+  async updateProfile(req: AuthenticRequest) {
+    console.log(req.files)
+    return {};
     const user = req.user;
     Object.assign(user, req.body);
     if(req.body.email){
@@ -34,8 +38,7 @@ export default class UserController extends Controller {
   
   @RequestHandler
   async show(username: string) {
-    const user = await User.findOneOrFail({ username });
-    return user.safeDetails();
+    return await User.findOneOrFail({ username }).select("-email -phoneNumber").lean();
   }
   
   @RequestHandler

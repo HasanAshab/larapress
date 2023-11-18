@@ -48,11 +48,6 @@ UserSchema.virtual("settings").get(function() {
   return Settings.findOne({ userId: this._id });
 });
 
-UserSchema.methods.safeDetails = function(this: any) {
-  delete this.email;
-  delete this.phoneNumber;
-  return this;
-}
 
 UserSchema.plugin(Authenticatable);
 UserSchema.plugin(HasFactory);
@@ -77,7 +72,6 @@ export interface IUser {
 
 export interface UserDocument extends Document, IUser, AuthenticatableDocument, MediableDocument, HasApiTokensDocument, NotifiableDocument<UserDocument> {
   settings: Promise<SettingsDocument>;
-  safeDetails(): Omit<UserDocument, "email" | "phoneNumber">;
 };
 
 interface UserModel extends Model<UserDocument>, HasFactoryModel {};

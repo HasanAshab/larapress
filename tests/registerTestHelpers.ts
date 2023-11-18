@@ -2,13 +2,12 @@ import app from "~/main/app";
 import supertest from "supertest";
 
 const request = supertest(app.server);
-// TODO rm it
-const version = "v1";
+
 const methods = ["get", "post", "put", "patch", "delete"];
 for(const method of methods) {
   const realHandler = request[method];
   request[method] = function(subUrl: string) {
-    const obj = realHandler.call(request, "/api/" + version + subUrl);
+    const obj = realHandler.call(request, subUrl);
     obj.actingAs = function(token: string) {
       return obj.set("Authorization", `Bearer ${token}`)
     }

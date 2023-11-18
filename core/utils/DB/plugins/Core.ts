@@ -5,22 +5,35 @@ import DocumentNotFoundException from "~/app/exceptions/DocumentNotFoundExceptio
  * Core plugin to add base helpers
 */
 export default (schema: Schema) => {
-  function assertExists(doc: unknown) {
-    if(!doc) {
-      throw new DocumentNotFoundException();
+
+  schema.statics.findOneOrFail = function(...args: Parameters<Model<Document>["findOne"]>) {
+    const query = this.findOne(...args);
+    
+    query.then = function(onFullFill, onReject) {
+      this.exec().catch(onReject).then(doc => {
+        if(doc) {
+          onFullFill(doc);
+        }
+        onReject(new DocumentNotFoundException());
+      });
     }
-  }
-  
-  schema.statics.findOneOrFail = async function(...args: Parameters<Model<Document>["findOne"]>) {
-    const doc = await this.findOne(...args) 
-    assertExists(doc);
-    return doc;
+
+    return query;
   }
   
   schema.statics.findByIdOrFail = async function(id: string) {
-    const doc = await this.findById(id)
-    assertExists(doc);
-    return doc;
+    const query = this.findById(id)
+        
+    query.then = function(onFullFill, onReject) {
+      this.exec().catch(onReject).then(doc => {
+        if(doc) {
+          onFullFill(doc);
+        }
+        onReject(new DocumentNotFoundException());
+      });
+    }
+
+    return query;
   }
   
   schema.methods.refresh = async function() {

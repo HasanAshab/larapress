@@ -94,7 +94,7 @@ export default class Application extends EventEmitter {
     response.api = function(response: RawResponse) {
       response.success = this.statusCode >= 200 && this.statusCode < 300
       response.message = response.message ?? getStatusText(this.statusCode);
-      response.data = response.data ?? response;
+      response.data = response.data ?? {...response};
       
       this.json(response);
     };
