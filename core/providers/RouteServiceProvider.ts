@@ -31,7 +31,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
     }
   }
   
-  protected abstract globalMiddlewares(): MiddlewareAliaseWithOrWithoutOptions[];
+  protected abstract globalMiddlewares: MiddlewareAliaseWithOrWithoutOptions[];
   protected abstract registerRoutes(): void;
   
   /**
@@ -72,7 +72,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   */
   private registerGlobalMiddlewares() {
     this.app.assertRunningInWeb();
-    const middlewares = Router.resolveMiddleware(...this.globalMiddlewares());
+    const middlewares = Router.resolveMiddleware(...this.globalMiddlewares);
     this.app.http.use(...middlewares);
   }
   

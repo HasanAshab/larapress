@@ -1,2 +1,3 @@
-import EventEmitter from "events";
-export default new EventEmitter;
+import Emittery from 'emittery';
+
+export default new Emittery<EventsList>;

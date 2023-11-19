@@ -4,35 +4,36 @@ import DocumentNotFoundException from "~/app/exceptions/DocumentNotFoundExceptio
 /**
  * Core plugin to add base helpers
 */
-export default (schema: Schema) => {
-
+export default function Core(schema: Schema) {
   schema.statics.findOneOrFail = function(...args: Parameters<Model<Document>["findOne"]>) {
     const query = this.findOne(...args);
-    
-    query.then = (onFullFill, onReject) => {
-      query.exec().catch(onReject).then(doc => {
+    const fetchDocument = query.exec.bind(query);
+
+    query.exec = op => new Promise((resolve, reject) => {
+      fetchDocument(op).catch(reject).then(doc => {
         if(doc) {
-          onFullFill(doc);
+          resolve(doc);
         }
-        onReject(new DocumentNotFoundException(this.modelName));
-      });
-    }
+        reject(new DocumentNotFoundException(this.modelName));
+      })
+    });
 
     return query;
   }
   
-  schema.statics.findByIdOrFail = async function(id: string) {
+  schema.statics.findByIdOrFail = function(id: string) {
     const query = this.findById(id)
-        
-    query.then = (onFullFill, onReject) => {
-      query.exec().catch(onReject).then(doc => {
+    const fetchDocument = query.exec.bind(query);
+    
+    query.exec = op => new Promise((resolve, reject) => {
+      fetchDocument(op).catch(reject).then(doc => {
         if(doc) {
-          onFullFill(doc);
+          resolve(doc);
         }
-        onReject(new DocumentNotFoundException(this.modelName));
-      });
-    }
-
+        reject(new DocumentNotFoundException(this.modelName));
+      })
+    });
+      
     return query;
   }
   

@@ -33,7 +33,19 @@ app.server.on("connection", () => {
   console.log(`*New connection: [${time}]`);
 });
 
+import Event from "~/core/Event";
 
+declare global {
+  interface EventsList {
+    foo: string;
+  }
+}
+
+Event.on("foo", console.log)
+
+Event.emit("foo", "yeeh")
+
+/*
 import User, { UserDocument } from "~/app/models/User";
 import Media from "~/app/models/Media";
 import URL from "URL";
@@ -55,3 +67,4 @@ import URL from "URL";
   )
  // console.log(user)
 })()
+*/

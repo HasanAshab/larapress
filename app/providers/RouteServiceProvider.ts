@@ -1,29 +1,30 @@
 import ServiceProvider from "~/core/providers/RouteServiceProvider";
-import Router, { MiddlewareAliaseWithOrWithoutOptions } from "Router";
+import Router from "Router";
+import User from "~/app/models/User";
+import Media from "~/app/models/Media";
 
 export default class RouteServiceProvider extends ServiceProvider {
-  
   /**
   * Boot route services
   */
   boot() {
     super.boot();
-    Router.model("user", "~/app/models/User");
-    Router.model("media", "~/app/models/Media");
+    Router.model("user", User);
+    Router.model("media", Media);
+    
+    Router.bind("rawUser", id => User.findByIdOrFail(id).lean().exec());
   }
   
   /**
-   * Return global middlewares by its alias with options 
+   * Global middlewares by its alias with options 
    * that will be executed before every request of the app.
    * Execution order depends on the order of declaration.
   */
-  protected globalMiddlewares(): MiddlewareAliaseWithOrWithoutOptions[] {
-    return [
-      "maintenance.check",
-      "limit:1000,5"
-    ];
-  }
-  
+  protected globalMiddlewares = [
+    "maintenance.check",
+    "limit:1000,5"
+  ];
+
   /**
    * Register http routers 
   */
