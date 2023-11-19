@@ -3,7 +3,6 @@ import { RequestHandler } from "~/core/decorators";
 import { AuthenticRequest, Response } from "~/core/express";
 import User from "~/app/models/User";
 import UpdateProfileRequest from "~/app/http/requests/v1/UpdateProfileRequest";
-import DocumentNotFoundException from "~/app/exceptions/DocumentNotFoundException";
 
 export default class UserController extends Controller {
   @RequestHandler

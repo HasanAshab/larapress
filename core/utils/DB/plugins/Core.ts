@@ -9,12 +9,12 @@ export default (schema: Schema) => {
   schema.statics.findOneOrFail = function(...args: Parameters<Model<Document>["findOne"]>) {
     const query = this.findOne(...args);
     
-    query.then = function(onFullFill, onReject) {
-      this.exec().catch(onReject).then(doc => {
+    query.then = (onFullFill, onReject) => {
+      query.exec().catch(onReject).then(doc => {
         if(doc) {
           onFullFill(doc);
         }
-        onReject(new DocumentNotFoundException());
+        onReject(new DocumentNotFoundException(this.modelName));
       });
     }
 
@@ -24,12 +24,12 @@ export default (schema: Schema) => {
   schema.statics.findByIdOrFail = async function(id: string) {
     const query = this.findById(id)
         
-    query.then = function(onFullFill, onReject) {
-      this.exec().catch(onReject).then(doc => {
+    query.then = (onFullFill, onReject) => {
+      query.exec().catch(onReject).then(doc => {
         if(doc) {
           onFullFill(doc);
         }
-        onReject(new DocumentNotFoundException());
+        onReject(new DocumentNotFoundException(this.modelName));
       });
     }
 
