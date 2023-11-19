@@ -96,7 +96,7 @@ export default class Router {
   /**
    * Add a endpoint to stack
   */
-  static $add<T extends constructor | InvokableController>(method: RequestMethod, endpoint: string, metadata: string | InvokableController | [T, keyof InstanceType<T> & string]) {
+  static $add<T extends constructor>(method: RequestMethod, endpoint: string, metadata: string | InvokableController | [T, keyof InstanceType<T> & string]) {
     const path = join(Router.$config.prefix, endpoint);
     if(typeof metadata === "string") {
       if(!Router.$config.controller)
@@ -104,7 +104,7 @@ export default class Router {
       metadata = [Router.$config.controller as T, metadata];
     }
     else if (typeof metadata === "function") {
-      metadata = [metadata, "__invoke"];
+      metadata = [metadata as T, "__invoke"];
     }
     Router.$stack.push({
       method,
