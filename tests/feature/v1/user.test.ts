@@ -27,26 +27,26 @@ describe("user", () => {
       User.factory().withRole("admin").create(),
       User.factory().count(2).create()
     ]);
-    const response = await request.get("/api/v1/users").actingAs(admin.createToken());
+    const response = await request.get("/api/v1/api/v1/users").actingAs(admin.createToken());
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(users);
   });
   
   it("Novice user shouldn't get all users", async () => {
-    const response = await request.get("/users").actingAs(token);
+    const response = await request.get("/api/v1/users").actingAs(token);
     expect(response.statusCode).toBe(403);
     expect(response.body).not.toHaveProperty("data");
   });
   
   it("should get profile", async () => {
-    const response = await request.get("/users/me").actingAs(token);
+    const response = await request.get("/api/v1/users/me").actingAs(token);
     expect(response.statusCode).toBe(200);
     delete user.password;
     expect(response.body.data).toEqualDocument(user);
   });
 
   it("should update profile", async () => {
-    const response = await request.patch("/users/me").actingAs(token).multipart({
+    const response = await request.patch("/api/v1/users/me").actingAs(token).multipart({
       username: "newName",
       profile: fakeFile("image.png")
     });
@@ -59,7 +59,7 @@ describe("user", () => {
   });
 
   it("Should update profile without profile", async () => {
-    const response = await request.patch("/users/me").actingAs(token).send({ username: "newName" });
+    const response = await request.patch("/api/v1/users/me").actingAs(token).send({ username: "newName" });
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
     expect(user.username).toBe("newName");
@@ -69,7 +69,7 @@ describe("user", () => {
   it("Shouldn't update profile with existing username", async () => {
     const existingUser = await User.factory().create();
     const usernameBefore = user.username;
-    const response = await request.patch("/users/me").actingAs(token).send({ username: existingUser.username });
+    const response = await request.patch("/api/v1/users/me").actingAs(token).send({ username: existingUser.username });
     await user.refresh();
     expect(response.statusCode).toBe(400);
     expect(user.username).toBe(usernameBefore);
@@ -77,7 +77,7 @@ describe("user", () => {
 
   it("Shouldn't update profile with existing email", async () => {
     const existingUser = await User.factory().create();
-    const response = await request.patch("/users/me").actingAs(token).send({ email: existingUser.email });
+    const response = await request.patch("/api/v1/users/me").actingAs(token).send({ email: existingUser.email });
     const userAfterRequest = await User.findById(user._id);
     expect(response.statusCode).toBe(400);
     expect(userAfterRequest.email).toBe(user.email);
@@ -86,7 +86,7 @@ describe("user", () => {
 
   it.only("updating email should send verification email", async () => {
     const email = "foo@test.com";
-    const response = await request.patch("/api/v1/users/me").send({ email });
+    const response = await request.patch("/api/v1/api/v1/users/me").send({ email });
     user = await User.findById(user._id);
     expect(response.statusCode).toBe(200);
     expect(user.email).toBe(email);
@@ -95,41 +95,41 @@ describe("user", () => {
 
   it("Should get other user's profile by username", async () => {
     const otherUser = await User.factory().create();
-    const response = await request.get("/users/" + otherUser.username).actingAs(token);
+    const response = await request.get("/api/v1/users/" + otherUser.username).actingAs(token);
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(otherUser.safeDetails());
   });
 
   it("Should delete own account", async () => {
-    const response = await request.delete("/users/" + user.username).actingAs(token);
+    const response = await request.delete("/api/v1/users/" + user.username).actingAs(token);
     expect(response.statusCode).toBe(204);
     expect(await User.findById(user._id)).toBeNull();
   });
   
   it("Admin should delete user", async () => {
     const admin = await User.factory().withRole("admin").create();
-    const response = await request.delete("/users/" + user.username).actingAs(admin.createToken());
+    const response = await request.delete("/api/v1/users/" + user.username).actingAs(admin.createToken());
     expect(response.statusCode).toBe(204);
     expect(await User.findById(user._id)).toBeNull();
   });
 
   it("Shouldn't delete admin user", async () => {
     const admin = await User.factory().withRole("admin").create();
-    const response = await request.delete("/users/" + admin.username).actingAs(token);
+    const response = await request.delete("/api/v1/users/" + admin.username).actingAs(token);
     expect(response.statusCode).toBe(403);
     expect(await User.findById(admin._id)).not.toBeNull();
   });
   
   it("Admin shouldn't delete other admin user", { user: false }, async () => {
     const admins = await User.factory().count(2).withRole("admin").create();
-    const response = await request.delete("/users/" + admins[0].username).actingAs(admins[1].createToken());
+    const response = await request.delete("/api/v1/users/" + admins[0].username).actingAs(admins[1].createToken());
     expect(response.statusCode).toBe(403);
     expect(await User.findById(admins[0]._id)).not.toBeNull();
   });
   
   it("Novice user shouldn't delete other user", async () => {
     const anotherUser = await User.factory().create();
-    const response = await request.delete("/users/" + anotherUser.username).actingAs(token);
+    const response = await request.delete("/api/v1/users/" + anotherUser.username).actingAs(token);
     expect(response.statusCode).toBe(403);
     expect(await User.findById(anotherUser._id)).not.toBeNull();
   });

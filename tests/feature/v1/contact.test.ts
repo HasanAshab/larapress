@@ -22,7 +22,7 @@ describe("Contact", () => {
 
   it("Should post contact", { user: false }, async () => {
     const data = await Contact.factory().make();
-    const response = await request.post("/contact").send(data);
+    const response = await request.post("/api/v1/contact").send(data);
 
     expect(response.statusCode).toBe(201);
     expect(await Contact.findOne(data)).not.toBeNull();
@@ -35,7 +35,7 @@ describe("Contact", () => {
       message: "just a test, btw do u know i have a little experience of hacking??"
     };
     const script = "<script>alert('hacked')</script>";
-    const response = await request.post("/contact").send({
+    const response = await request.post("/api/v1/contact").send({
       email: data.email,
       subject: data.subject + script,
       message: data.message + script
@@ -66,28 +66,28 @@ describe("Contact", () => {
   
   it("Should get all contacts", async () => {
     const contacts = await Contact.factory().count(2).create();
-    const response = await request.get("/contact/inquiries").actingAs(token);
+    const response = await request.get("/api/v1/contact/inquiries").actingAs(token);
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(contacts);
   });
   
   it("Should get contact by id", async () => {
     const contact = await Contact.factory().create();
-    const response = await request.get("/contact/inquiries/" + contact._id).actingAs(token);
+    const response = await request.get("/api/v1/contact/inquiries/" + contact._id).actingAs(token);
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(contact);
   });
   
   it("Should delete contact by id", async () => {
     const contact = await Contact.factory().create();
-    const response = await request.delete("/contact/inquiries/" + contact._id).actingAs(token);
+    const response = await request.delete("/api/v1/contact/inquiries/" + contact._id).actingAs(token);
     expect(response.statusCode).toBe(204);
     expect(await Contact.findById(contact._id)).toBeNull();
   });
 
   it("Should search contacts", async () => {
     const contact = await Contact.factory().create({ message });
-    const response = await request.get("/contact/inquiries/search").actingAs(token).query({
+    const response = await request.get("/api/v1/contact/inquiries/search").actingAs(token).query({
       q: "website bug",
     });
     console.log(response.body)
@@ -100,7 +100,7 @@ describe("Contact", () => {
       Contact.factory().create({ message }),
       Contact.factory().closed().create({ message })
     ]);
-    const response = await request.get("/contact/inquiries/search").actingAs(token).query({
+    const response = await request.get("/api/v1/contact/inquiries/search").actingAs(token).query({
       q: "website bug",
       status: "opened"
     });

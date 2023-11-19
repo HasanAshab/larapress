@@ -39,13 +39,13 @@ describe("Category", () => {
   
   it("Should get all categories", async () => {
     const categories = await Category.factory().count(3).create();
-    const response = await request.get("/admin/categories").actingAs(token);
+    const response = await request.get("/api/v1/admin/categories").actingAs(token);
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(categories);
   });
   
   it("Should create category", async () => {
-    const response = await request.post("/admin/categories").actingAs(token).multipart({
+    const response = await request.post("/api/v1/admin/categories").actingAs(token).multipart({
       name: "foo bar",
       slug: "foo-bar",
       icon: fakeFile("image.png")
@@ -58,7 +58,7 @@ describe("Category", () => {
   });
   
   it("Should create category without icon", async () => {
-    const response = await request.post("/admin/categories").actingAs(token).multipart({
+    const response = await request.post("/api/v1/admin/categories").actingAs(token).multipart({
       name: "foo bar",
       slug: "foo-bar"
     });
@@ -70,7 +70,7 @@ describe("Category", () => {
 
   it("Shouldn't create category with existing slug", async () => {
     const category = await Category.factory().create();
-    const response = await request.post("/admin/categories").actingAs(token).multipart({
+    const response = await request.post("/api/v1/admin/categories").actingAs(token).multipart({
       name: "foo bar",
       slug: category.slug,
     });
@@ -79,14 +79,14 @@ describe("Category", () => {
 
   it("Should get category by id", async () => {
     const category = await Category.factory().create();
-    const response = await request.get("/admin/categories/" + category._id).actingAs(token)
+    const response = await request.get("/api/v1/admin/categories/" + category._id).actingAs(token)
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(category);
   });
   
   it("Should update category", async () => {
     let category = await Category.factory().create();
-    const response = await request.patch("/admin/categories/" + category._id).actingAs(token).multipart({
+    const response = await request.patch("/api/v1/admin/categories/" + category._id).actingAs(token).multipart({
       name: "foo bar",
       slug: "foo-bar"
     });
@@ -98,7 +98,7 @@ describe("Category", () => {
   
   it("Should update category with icon", async () => {
     let category = await Category.factory().create();
-    const response = await request.patch("/admin/categories/" + category._id).actingAs(token).multipart({
+    const response = await request.patch("/api/v1/admin/categories/" + category._id).actingAs(token).multipart({
       name: "foo bar",
       slug: "foo-bar",
       icon: fakeFile("image.png")
@@ -113,7 +113,7 @@ describe("Category", () => {
   
   it("Shouldn't update category with existing slug", async () => {
     let categories = await Category.factory().count(2).create();
-    const response = await request.patch("/admin/categories/" + categories[0]._id).actingAs(token).multipart({
+    const response = await request.patch("/api/v1/admin/categories/" + categories[0]._id).actingAs(token).multipart({
       name: "foo bar",
       slug: categories[1].slug,
     });
@@ -122,7 +122,7 @@ describe("Category", () => {
 
   it("Should delete category", async () => {
     const category = await Category.factory().create();
-    const response = await request.delete("/admin/categories/" + category._id).actingAs(token);
+    const response = await request.delete("/api/v1/admin/categories/" + category._id).actingAs(token);
     expect(response.statusCode).toBe(204);
     expect(await Category.findById(category._id)).toBeNull();
   });

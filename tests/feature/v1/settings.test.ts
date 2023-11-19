@@ -38,13 +38,13 @@ describe("Settings", () => {
   });
   
   it("Admin should get app settings", { role: "admin", settings: false }, async () => {
-    const response = await request.get("/settings/app").actingAs(token);
+    const response = await request.get("/api/v1/settings/app").actingAs(token);
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqual(config);
   });
 
   it("Admin should update app settings", { role: "admin", settings: false }, async () => {
-    const response = await request.patch("/settings/app").actingAs(token).send({
+    const response = await request.patch("/api/v1/settings/app").actingAs(token).send({
       app: { name: "FooBar" }
     });
     expect(response.statusCode).toBe(200);
@@ -52,13 +52,13 @@ describe("Settings", () => {
   });
   
   it("Should get settings", async () => {
-    const response = await request.get("/settings").actingAs(token);
+    const response = await request.get("/api/v1/settings").actingAs(token);
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(await user.settings);
   });
   
   it("Should enable Two Factor Authorization", { phone: true }, async () => {
-    const response = await request.post("/settings/setup-2fa").actingAs(token).send({ enable: true });
+    const response = await request.post("/api/v1/settings/setup-2fa").actingAs(token).send({ enable: true });
     const settings = await user.settings;
     expect(response.statusCode).toBe(200);
     expect(response.body.data.recoveryCodes).toHaveLength(10);
@@ -67,14 +67,14 @@ describe("Settings", () => {
   });
   
   it("Should disable Two Factor Authorization", { mfa: true, phone: true }, async () => {
-    const response = await request.post("/settings/setup-2fa").actingAs(token).send({ enable: false });
+    const response = await request.post("/api/v1/settings/setup-2fa").actingAs(token).send({ enable: false });
     const settings = await user.settings;
     expect(response.statusCode).toBe(200);
     expect(settings.twoFactorAuth.enabled).toBe(false);
   });
   
   it("Two Factor Authorization should flag for phone number if not setted", async () => {
-    const response = await request.post("/settings/setup-2fa").actingAs(token).send({ enable: true });
+    const response = await request.post("/api/v1/settings/setup-2fa").actingAs(token).send({ enable: true });
     const settings = await user.settings;
     expect(response.statusCode).toBe(400);
     expect(response.body.data.phoneNumberRequired).toBe(true);
@@ -82,7 +82,7 @@ describe("Settings", () => {
   });
   
   it("Two Factor Authorization app method sends OTP Auth URL", async () => {
-    const response = await request.post("/settings/setup-2fa").actingAs(token).send({ enable: true, method: "app" });
+    const response = await request.post("/api/v1/settings/setup-2fa").actingAs(token).send({ enable: true, method: "app" });
     const settings = await user.settings;
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toHaveProperty("otpauthURL");
@@ -92,7 +92,7 @@ describe("Settings", () => {
 
   
   it("Should change Two Factor Authorization method", { mfa: true, phone: true }, async () => {
-    const response = await request.post("/settings/setup-2fa").actingAs(token).send({ method: "call" });
+    const response = await request.post("/api/v1/settings/setup-2fa").actingAs(token).send({ method: "call" });
     const settings = await user.settings;
     expect(response.statusCode).toBe(200);
     expect(response.body.data.recoveryCodes).toHaveLength(10);
@@ -113,7 +113,7 @@ describe("Settings", () => {
         site: false
       }
     };
-    const response = await request.patch("/settings/notification").actingAs(token).send(data);
+    const response = await request.patch("/api/v1/settings/notification").actingAs(token).send(data);
     const settings = await user.settings;
     console.log(settings)
     expect(response.statusCode).toBe(200);

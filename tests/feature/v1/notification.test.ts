@@ -18,14 +18,14 @@ describe("Notification", () => {
 
   it("Should get notifications", async () => {
     const notifications = await Notification.factory().count(2).belongsTo(user).create();
-    const response = await request.get("/notifications").actingAs(token);
+    const response = await request.get("/api/v1/notifications").actingAs(token);
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(notifications);
   });
   
   it("Should mark notification as read", async () => {
     let notification = await Notification.factory().unread().belongsTo(user).create();
-    const response = await request.post("/notifications/" + notification._id).actingAs(token);
+    const response = await request.post("/api/v1/notifications/" + notification._id).actingAs(token);
     expect(response.statusCode).toBe(200);
     notification = await Notification.findById(notification._id);
     expect(notification.readAt).not.toBeNull();
@@ -33,7 +33,7 @@ describe("Notification", () => {
   
   it("Shouldn't mark others notification as read", async () => {
     let notification = await Notification.factory().unread().create();
-    const response = await request.post("/notifications/"+ notification._id).actingAs(token);
+    const response = await request.post("/api/v1/notifications/"+ notification._id).actingAs(token);
     expect(response.statusCode).toBe(404);
     notification = await Notification.findById(notification._id)
     expect(notification.readAt).toBeNull();
@@ -44,7 +44,7 @@ describe("Notification", () => {
       Notification.factory().count(2).belongsTo(user).create(),
       Notification.factory().create()
     ]);
-    const response = await request.get("/notifications").actingAs(token);
+    const response = await request.get("/api/v1/notifications").actingAs(token);
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(notifications);
   });
@@ -54,7 +54,7 @@ describe("Notification", () => {
       Notification.factory().count(2).unread().belongsTo(user).create(),
       Notification.factory().create({userId: user._id})
     ]);
-    const response = await request.get("/notifications/unread-count").actingAs(token);
+    const response = await request.get("/api/v1/notifications/unread-count").actingAs(token);
     expect(response.statusCode).toBe(200);
     expect(response.body.data.count).toBe(2);
   });
