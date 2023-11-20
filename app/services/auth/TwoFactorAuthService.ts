@@ -1,11 +1,12 @@
 import { singleton } from "tsyringe";
 import { UserDocument } from "~/app/models/User";
 import Settings, { ISettings } from "~/app/models/Settings";
-import OTP from "~/app/models/OTP";
+import Token from "~/app/models/Token";
 import TwilioService from "~/app/services/TwilioService";
 import Config from "Config";
 import speakeasy from "speakeasy";
 import PhoneNumberRequiredException from "~/app/exceptions/PhoneNumberRequiredException";
+import InvalidOtpException from "~/app/exceptions/InvalidOtpException";
 
 @singleton()
 export default class TwoFactorAuthService {
@@ -49,7 +50,7 @@ export default class TwoFactorAuthService {
       if(twoFactorAuth.method === "app") return null;
       method = twoFactorAuth.method;
     }
-    const { code } = await OTP.create({ userId: user._id });
+      const code = await this.createToken(user);
     if(method === "sms")
       await this.twilioService.sendMessage(user.phoneNumber, "Your verification code is: " + code);
     else if(method === "call")
@@ -58,16 +59,39 @@ export default class TwoFactorAuthService {
   }
   
   async verifyOtp(user: UserDocument, method: "sms" | "call" | "app", code: string) {
-    if(method !== "app")
-      return await OTP.findOneAndDelete({ userId: user._id, code }) !== null;
-    const { twoFactorAuth } = await user.settings;
-    if(!twoFactorAuth.secret)
-      throw new Error("Trying to verify otp without generating secret of user: \n" + JSON.stringify(user, null, 2));
-    return speakeasy.totp.verify({
-      secret: twoFactorAuth.secret,
-      encoding: 'ascii',
-      token: code,
-      window: 2,
+    let isValid = false;
+    
+    if(method === "app") {
+      const { twoFactorAuth } = await user.settings;
+      if(!twoFactorAuth.secret)
+        throw new Error("Trying to verify otp without generating secret of user: \n" + JSON.stringify(user, null, 2));
+      isValid = speakeasy.totp.verify({
+        secret: twoFactorAuth.secret,
+        encoding: 'ascii',
+        token: code,
+        window: 2,
+      });
+    }
+    else {
+      isValid = await Token.isValid(user._id, "2fa", code);
+    }
+    
+    if(!isValid)
+      throw new InvalidOtpException();
+  }
+  
+  generateOTPCode() {
+    return Math.floor(100000 + Math.random() * 900000);
+  }
+  
+  async createToken(user: UserDocument) {
+    const code = this.generateOTPCode().toString();
+    await Token.create({
+      key: user._id,
+      type: "2fa",
+      secret: code,
+      expiresAt: Date.now() + 25920000
     });
+    return code;
   }
 }

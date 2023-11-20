@@ -90,15 +90,11 @@ export default class AuthService {
   
   private async checkTwoFactorAuth(user: UserDocument, otp?: string) {
     const { twoFactorAuth } = await user.settings;
-    if(!twoFactorAuth.enabled)
-      return true;
+    if(!twoFactorAuth.enabled) return;
     if(!otp)
       throw new OtpRequiredException();
-    const isValid = await this.twoFactorAuthService.verifyOtp(user, twoFactorAuth.method, otp);
-    if (isValid)
-      return true;
+    await this.twoFactorAuthService.verifyOtp(user, twoFactorAuth.method, otp);
     await this.incrementFailedAttempt(user.email);
-    throw new InvalidOtpException();
   }
   
   private async assertFailedAttemptLimitNotExceed(email: string) {

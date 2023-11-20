@@ -144,9 +144,7 @@ export default class AuthController extends Controller {
       await twoFactorAuthService.sendOtp(req.user, "sms");
       return "6 digit OTP code sent to phone number!";
     }
-    const isValid = await twoFactorAuthService.verifyOtp(req.user, "sms", otp);
-    if(!isValid)
-      return res.status(401).message("Invalid OTP. Please  again!");
+    await twoFactorAuthService.verifyOtp(req.user, "sms", otp);
     await req.user.save();
     return "Phone number updated!";
   }

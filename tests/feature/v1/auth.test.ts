@@ -3,15 +3,17 @@ import Cache from "Cache";
 import Storage from "Storage";
 import Notification from "Notification";
 import User from "~/app/models/User";
-import OTP from "~/app/models/OTP";
+import Token from "~/app/models/Token";
 import EmailVerificationNotification from "~/app/notifications/EmailVerificationNotification";
 import ForgotPasswordNotification from "~/app/notifications/ForgotPasswordNotification";
 import AuthService from "~/app/services/auth/AuthService";
+import twoFactorAuthService from "~/app/services/auth/TwoFactorAuthService";
 
 describe("Auth", () => {
   let user;
   let token;
   const authService = new AuthService();
+  const twoFactorAuthService = new TwoFactorAuthService();
   
   beforeAll(async () => {
     await DB.connect();
@@ -19,7 +21,7 @@ describe("Auth", () => {
     
 
   beforeEach(async config => {
-    await DB.reset(["User", "OTP"]);
+    await DB.reset(["User", "Token"]);
     Storage.mockClear();
     Notification.mockClear();
     if(config.user) {
@@ -123,7 +125,7 @@ describe("Auth", () => {
 
   it("should login a user with valid otp (2FA)", async () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();
-    const { code: otp } = await OTP.create({ userId: user._id });
+    const otp = await twoFactorAuthService.createToken(user);
     const response = await request.post("/api/v1/auth/login").send({
       otp,
       email: user.email,
@@ -280,7 +282,7 @@ describe("Auth", () => {
     const user = await User.factory().withPhoneNumber().hasSettings(true).create();
     const response = await request.post("/api/v1/auth/send-otp/" + user._id);
     await sleep(2000)
-    const otp = await OTP.findOne({ userId: user._id });
+    const token = await Token.findOne({ key: user._id, type: "2fa" });
     
     expect(response.statusCode).toBe(200);
     expect(otp).not.toBeNull();
@@ -375,7 +377,7 @@ describe("Auth", () => {
   it("Should update phone number with valid otp", async () => {
     const user = await User.factory().hasSettings().create();
     const phoneNumber = "+14155552671";
-    const { code: otp } = await OTP.create({ userId: user._id });
+    const otp = await twoFactorAuthService.createToken(user);
     const response = await request.patch("/api/v1/auth/change-phone-number").actingAs(user.createToken()).send({ phoneNumber, otp });
     await user.refresh();
     expect(response.statusCode).toBe(200);
@@ -393,7 +395,7 @@ describe("Auth", () => {
   it("Update phone number should send otp if otp code not provided", { user: true }, async () => {
     const phoneNumber = "+14155552671";
     const response = await request.patch("/api/v1/auth/change-phone-number").actingAs(token).send({ phoneNumber });
-    const otp = await OTP.findOne({ userId: user._id });
+    const otp = await Token.findOne({ key: user._id, type: "2fa" });
     await user.refresh();
     expect(response.statusCode).toBe(200);
     expect(user.phoneNumber).not.toBe(phoneNumber);

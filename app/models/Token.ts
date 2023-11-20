@@ -28,6 +28,11 @@ const TokenSchema = new Schema<TokenDocument, TokenModel>({
   }
 });
 
+TokenSchema.static("isValid", async function(this: TokenModel, key: string, type: string, secret: string): Promise<boolean> {
+  const token = await this.findOneAndDelete({ key, type, secret });
+  return !!token;
+});
+
 TokenSchema.static("verify", async function<T extends object | null = null>(this: TokenModel, key: string, type: string, secret: string): Promise<T> {
   const token = await this.findOneAndDelete({ key, type, secret });
   if(!token)
@@ -46,6 +51,7 @@ export interface IToken {
 export interface TokenDocument extends Document, IToken {};
 
 interface TokenModel extends Model<TokenDocument> {
+  isValid(key: string, type: string, secret: string): Promise<boolean>;
   verify<T extends object | null = null>(key: string, type: string, secret: string): Promise<T>;
 };
 
