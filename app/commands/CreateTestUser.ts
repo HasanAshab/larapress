@@ -9,6 +9,8 @@ export default class CreateTestUser extends Command {
   async handle(){
     await DB.connect();
     const user = await User.factory().create();
+    await user.createDefaultSettings();
+    
     const token = user.createToken();
     this.info("User data: ")
     console.log(user)

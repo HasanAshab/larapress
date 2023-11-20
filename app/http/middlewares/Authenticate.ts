@@ -12,7 +12,7 @@ export default class Authenticate {
       if (token) {
         const { sub, version, iss, aud } = jwt.verify(token, Config.get("app.key")) as JwtPayload;
         const user = await User.findById(sub);
-        if (user !== null && version === user.tokenVersion && iss === Config.get("app.name") && aud === "auth") {
+        if (user && version === user.tokenVersion && iss === Config.get("app.name") && aud === "auth") {
           (req as AuthenticRequest).user = user;
           return next();
         }

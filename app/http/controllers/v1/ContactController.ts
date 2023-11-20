@@ -4,7 +4,7 @@ import { AuthenticRequest, Response } from "~/core/express";
 import ContactRequest from "~/app/http/requests/v1/ContactRequest";
 import SearchContactRequest from "~/app/http/requests/v1/SearchContactRequest";
 import UpdateContactStatusRequest from "~/app/http/requests/v1/UpdateContactStatusRequest";
-import Contact from "~/app/models/Contact";
+import Contact, { IContact } from "~/app/models/Contact";
 import User from "~/app/models/User";
 import Cache from "Cache";
 
@@ -39,8 +39,8 @@ export default class ContactController extends Controller {
   }
   
   @RequestHandler
-  async show(id: string) {
-    return await Contact.findByIdOrFail(id).lean();
+  async show(rawContact: IContact) {
+    return rawContact;
   }
   
   @RequestHandler

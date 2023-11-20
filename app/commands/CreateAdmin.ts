@@ -14,7 +14,7 @@ export default class MakeAdmin extends Command {
       role: "admin",
       verified: true,
     });
-    await Settings.create({ userId: admin._id })
+    await admin.createDefaultSettings();
     this.info("Admin account created successfully!");
   }
 }

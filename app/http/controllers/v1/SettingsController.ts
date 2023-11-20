@@ -11,7 +11,7 @@ import UpdateAppSettingsRequest from "~/app/http/requests/v1/UpdateAppSettingsRe
 export default class SettingsController extends Controller {
   @RequestHandler
   async index(req: AuthenticRequest) {
-    return await req.user.settings;
+    return await req.user.settings.lean();
   }
   
   @RequestHandler

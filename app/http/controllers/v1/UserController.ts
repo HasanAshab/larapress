@@ -34,7 +34,7 @@ export default class UserController extends Controller {
   
   @RequestHandler
   async show(username: string) {
-    return await User.findOneOrFail({ username }).select("-email -phoneNumber").lean();
+    return await User.findOneOrFail({ username }).select("-email -phoneNumber -recoveryCodes").lean();
   }
   
   @RequestHandler

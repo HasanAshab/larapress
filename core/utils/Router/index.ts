@@ -1,9 +1,10 @@
-import { cloneDeep } from "lodash";
+import { cloneDeep, capitalize } from "lodash";
 import { constructor } from "types";
 import fs from "fs";
 import { join } from "path";
 import { Router as ExpressRouter, NextFunction, RequestHandler, Request, Response } from "express";
 import { Model } from "mongoose";
+import { singular } from "pluralize";
 import middlewareConfig from "~/config/middleware";
 
 export type MiddlewareAliase = keyof typeof middlewareConfig["aliases"];
@@ -138,15 +139,15 @@ export default class Router {
     return this.$add("delete", endpoint, metadata);
   }
   
-  static apiResource(prefix: string, controller: constructor) {
+  static apiResource(name: string, controller: APIResourceController) {
     this.group({
-      prefix,
+      prefix: name,
       controller,
-      as: prefix.replace("/", "") + "."
+      as: name + "."
     }, () => {
       this.get("/", "index").name("index");
       this.post("/", "store").name("store");
-      this.get("/:id", "show").name("show");
+      this.get("/:raw" + capitalize(singular(name)), "show").name("show");
       this.put("/:id", "update").name("update");
       this.delete("/:id", "delete").name("delete");
     });

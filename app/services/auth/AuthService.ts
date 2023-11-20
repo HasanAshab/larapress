@@ -24,7 +24,7 @@ export default class AuthService {
       await user.media().withTag("profile").attach(profile).storeRef();
     }
     await user.save();
-    await this.createDefaultSettings(user);
+    await user.createDefaultSettings();
     return user;
   }
   
@@ -84,10 +84,6 @@ export default class AuthService {
     });
   }
 
-  private createDefaultSettings(user: UserDocument) {
-    return Settings.create({ userId: user._id });
-  }
-  
   private getFailedAttemptCacheKey(email: string) {
     return `$_LOGIN_FAILED_ATTEMPTS(${email})`;
   }

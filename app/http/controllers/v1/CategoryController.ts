@@ -1,7 +1,7 @@
 import Controller from "~/app/http/controllers/Controller";
 import { RequestHandler } from "~/core/decorators";
 import { Request, AuthenticRequest, Response } from "~/core/express";
-import Category from "~/app/models/Category";
+import Category, { ICategory } from "~/app/models/Category";
 import CategoryRequest from "~/app/http/requests/v1/CategoryRequest";
 import UpdateCategoryRequest from "~/app/http/requests/v1/UpdateCategoryRequest";
 import URL from "URL";
@@ -13,8 +13,8 @@ export default class CategoryController extends Controller {
   }
   
   @RequestHandler
-  async show(id: string) {
-    return await Category.findByIdOrFail(id).lean();
+  async show(rawCategory: ICategory) {
+    return rawCategory;
   }
   
   @RequestHandler

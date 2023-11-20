@@ -1,4 +1,4 @@
-import DB = from "DB";
+import DB from "DB";
 import User from "~/app/models/User";
 import Category from "~/app/models/Category";
 import Storage from "Storage";
@@ -77,9 +77,9 @@ describe("Category", () => {
     expect(response.statusCode).toBe(400);
   });
 
-  it("Should get category by id", async () => {
+  it.only("Should get category by id", async () => {
     const category = await Category.factory().create();
-    const response = await request.get("/api/v1/admin/categories/" + category._id).actingAs(token)
+    const response = await request.get("/api/v1/admin/categories/" + category._id).actingAs(token);
     expect(response.statusCode).toBe(200);
     expect(response.body.data).toEqualDocument(category);
   });

@@ -48,6 +48,10 @@ UserSchema.virtual("settings").get(function() {
   return Settings.findOne({ userId: this._id });
 });
 
+UserSchema.method("createDefaultSettings", function() {
+  return Settings.create({ userId: this._id });
+});
+
 
 UserSchema.plugin(Authenticatable);
 UserSchema.plugin(HasFactory);
@@ -72,6 +76,7 @@ export interface IUser {
 
 export interface UserDocument extends Document, IUser, AuthenticatableDocument, MediableDocument, HasApiTokensDocument, NotifiableDocument<UserDocument> {
   settings: Promise<SettingsDocument>;
+  createDefaultSettings(): Promise<SettingsDocument>;
 };
 
 interface UserModel extends Model<UserDocument>, HasFactoryModel {};
