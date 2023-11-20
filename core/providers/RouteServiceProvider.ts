@@ -3,6 +3,8 @@ import express from "express";
 import swaggerUi from "swagger-ui-express";
 import cors from "cors";
 import helmet from "helmet";
+import { modelNames } from "mongoose";
+import { lowerFirst } from "lodash";
 import bodyParser from "body-parser";
 import formDataParser from "express-fileupload";
 import URL from "URL";
@@ -14,21 +16,26 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
    * Whether API documentation should be served
   */
   protected serveApiDoc = env("NODE_ENV") === "development";
+ 
+ /**
+  * Whether mongoose Models should be implicitly binded to Router
+  */
+  protected bindModelsImplicitly = true;
   
   /**
    * Boot route services
   */
   boot() {
-    if(this.app.runningInWeb()) {
-      this.serveApiDoc && this.serveDocs();
-      this.registerSecurityMiddlewares();
-      this.registerRequestPayloadParsers();
-      this.registerGlobalMiddlewares();
-      this.registerRoutes();
-      this.app.http.use("/", Router.build());
-      this.serveStaticFolder();
-      this.registerErrorHandler();
-    }
+    if(!this.app.runningInWeb()) return;
+    this.serveApiDoc && this.serveDocs();
+    this.registerSecurityMiddlewares();
+    this.registerRequestPayloadParsers();
+    this.registerGlobalMiddlewares();
+    this.bindModelsImplicitly && this.bindModels();
+    this.registerRoutes();
+    this.app.http.use("/", Router.build());
+    this.serveStaticFolder();
+    this.registerErrorHandler();
   }
   
   protected abstract globalMiddlewares: MiddlewareAliaseWithOrWithoutOptions[];
@@ -74,6 +81,13 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
     this.app.assertRunningInWeb();
     const middlewares = Router.resolveMiddleware(...this.globalMiddlewares);
     this.app.http.use(...middlewares);
+  }
+  
+  private bindModels() {
+    modelNames().forEach(modelName => {
+      Router.model(lowerFirst(modelName), modelName);
+      Router.model("raw" + modelName, modelName, query => query.lean());
+    });
   }
   
   /**

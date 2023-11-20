@@ -1,9 +1,5 @@
 import ServiceProvider from "~/core/providers/RouteServiceProvider";
 import Router from "Router";
-import User from "~/app/models/User";
-import Category from "~/app/models/Category";
-import Contact from "~/app/models/Contact";
-import Media from "~/app/models/Media";
 
 export default class RouteServiceProvider extends ServiceProvider {
   /**
@@ -11,17 +7,11 @@ export default class RouteServiceProvider extends ServiceProvider {
   */
   boot() {
     super.boot();
-    Router.model("user", User);
-
-    //Router.bind("rawUser", id => User.findByIdOrFail(id).lean().exec());
-    Router.bind("rawCategory", id => Category.findByIdOrFail(id).lean().exec());
-    Router.bind("rawContact", id => Contact.findByIdOrFail(id).lean().exec());
-    Router.bind("rawMedia", id => Media.findByIdOrFail(id).lean().exec());
   }
   
   /**
-   * Global middlewares by its alias with options 
-   * that will be executed before every request of the app.
+   * Global middlewares alias with options that
+   * will be executed before every request of the app.
    * Execution order depends on the order of declaration.
   */
   protected globalMiddlewares = [

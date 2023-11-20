@@ -3,7 +3,7 @@ import { constructor } from "types";
 import fs from "fs";
 import { join } from "path";
 import { Router as ExpressRouter, NextFunction, RequestHandler, Request, Response } from "express";
-import { Model } from "mongoose";
+import { model } from "mongoose";
 import { singular } from "pluralize";
 import middlewareConfig from "~/config/middleware";
 
@@ -13,7 +13,16 @@ export type MiddlewareAliaseWithOrWithoutOptions = MiddlewareAliase | Middleware
 
 type RequestMethod = "get" | "post" | "put" | "patch" | "delete";
 type BindingResolver = (value: string) => any | Promise<any>;
+
 type InvokableController = constructor<{ __invoke(...args: any[]): any | Promise<any> }>;
+type APIResourceController = constructor<{
+  index(...args: any[]): any | Promise<any>;
+  store(...args: any[]): any | Promise<any>;
+  show(...args: any[]): any | Promise<any>;
+  put(...args: any[]): any | Promise<any>;
+  delete(...args: any[]): any | Promise<any>;
+}>;
+
 
 interface Endpoint {
   /**
@@ -153,19 +162,32 @@ export default class Router {
     });
   }
   
-  static resolve(req: Request, param: string) {
-    return this.$resolvers[param]?.(req.params[param]);
+  static async resolve({ params }: Request, name: string) {
+    let reqParamName = Object.keys(params).find(key => key === name || key.startsWith(name + "_"));
+    const value = this.$resolvers[reqParamName]?.(params[reqParamName]);
+    return value;
   }
+  
 
   static bind(param: string, resolver: BindingResolver) {
     this.$resolvers[param] = resolver;
   }
   
-  static model(param: string, modelClassOrPath: string | Model<any>) {
-    if(typeof modelClassOrPath === "string") {
-      modelClassOrPath = require(modelClassOrPath).default;
+  static model(param: string, modelName: string, queryCustomizer?: Function) {
+    const Model = model(modelName);
+    
+    const bindField = (field: string, suffix = "") => {
+      this.bind(param + suffix, value => {
+        let query = Model.findOneOrFail({ [field]: value });
+        if(queryCustomizer) {
+          query = queryCustomizer(query);
+        }
+        return query.exec();
+      });
     }
-    this.bind(param, value => (modelClassOrPath as Model<any>).findByIdOrFail(value));
+    
+    Object.keys(Model.schema.paths).forEach(field => bindField(field, "_" + field));
+    bindField("_id");
   }
   
 
@@ -291,8 +313,10 @@ export default class Router {
     for(const { method, path, metadata, middlewares } of Router.$stack) {
       const [Controller, handlerName] = metadata;
       const controller = resolve<any>(Controller);
-      const handler = controller[handlerName].bind(controller);
-      router[method](path, Router.resolveMiddleware(...middlewares), handler);
+      const handler = controller[handlerName]
+      if(typeof handler !== "function")
+        throw new Error(`${handlerName} handler doesn't exist on ${Controller.name}`);
+      router[method](path, Router.resolveMiddleware(...middlewares), handler.bind(controller));
     }
     return router;
   }

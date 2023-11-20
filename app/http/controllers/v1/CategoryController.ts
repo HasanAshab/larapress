@@ -11,7 +11,7 @@ export default class CategoryController extends Controller {
   async index(req: AuthenticRequest) {
     return await Category.find().paginateReq(req);
   }
-  
+
   @RequestHandler
   async show(rawCategory: ICategory) {
     return rawCategory;
