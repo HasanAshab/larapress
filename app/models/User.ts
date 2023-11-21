@@ -33,7 +33,10 @@ const UserSchema = new Schema<UserDocument>({
     type: Boolean,
     default: false,
   },
-  recoveryCodes: [String],
+  recoveryCodes: {
+    type: [String],
+    hide: true
+  }
   externalId: {
     type: Object,
     index: true
