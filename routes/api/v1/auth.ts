@@ -10,10 +10,10 @@ Router.controller(AuthController).group(() => {
   Router.prefix("/login").group(() => {
     Router.post("/", "login").middleware("limit:2000,2", "recaptcha");
     Router.post("/recovery-code", "loginWithRecoveryCode").middleware("limit:2000,1", "recaptcha");
-    // External login provided by Google, Facebook OAuth
-    Router.prefix("/external/:provider(google|facebook)").group(() => {
-      Router.get("/", "redirectToExternalLoginProvider");
-      Router.post("/final-step", "externalLoginFinalStep");
+    // Social login provided by Google, Facebook OAuth
+    Router.prefix("/social/:provider(google|facebook)").group(() => {
+      Router.get("/", "redirectToSocialLoginProvider");
+      Router.post("/final-step", "socialLoginFinalStep");
     });
   });
   
@@ -31,7 +31,7 @@ Router.controller(AuthController).group(() => {
   });
   
   Router.post("/register", "register").middleware("recaptcha");
-  Router.get("/callback/:provider(google|facebook)", "loginWithExternalProvider");
+  Router.get("social/callback/:provider(google|facebook)", "loginWithExternalProvider");
   Router.post("/send-otp/:user", "sendOtp").middleware("limit:60000,3");
   Router.patch("/change-phone-number", "changePhoneNumber").middleware("auth", "verified");
   Router.post("/generate-recovery-codes", "generateRecoveryCodes").middleware("limit:60000,3", "auth", "verified");

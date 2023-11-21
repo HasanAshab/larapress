@@ -1,8 +1,10 @@
+import type EventsList from "~/app/contracts/events";
+
 export default class {{name}} {
   /**
-   * Perform operations on the event
+   * Perform action on the event
   */
-  async dispatch(){
+  async dispatch(event: EventsList[""]){
     //
   }
 }

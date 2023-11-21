@@ -75,12 +75,12 @@ export default class AuthController extends Controller {
   }
   
   @RequestHandler
-  async redirectToExternalLoginProvider(req: Request, res: Response, provider: string) {
+  async redirectToSocialLoginProvider(req: Request, res: Response, provider: string) {
     Socialite.driver(provider).redirect(res);
   }
   
   @RequestHandler
-  async loginWithExternalProvider(req: Request, res: Response, provider: string) {
+  async loginWithSocialProvider(req: Request, res: Response, provider: string) {
     const { code } = req.query;
     if(typeof code !== "string")
       return res.redirectToClient("/login/social/error");
@@ -89,7 +89,7 @@ export default class AuthController extends Controller {
   }
   
   @RequestHandler
-  async externalLoginFinalStep(req: ExternalLoginFinalStepRequest, res: Response, provider: string) {
+  async socialLoginFinalStep(req: ExternalLoginFinalStepRequest, res: Response, provider: string) {
     const { externalId, token, username, email } = req.body;
     const user = await this.authService.externalLoginFinalStep(provider, externalId, token, username, email);
     Event.emit("Registered", { 

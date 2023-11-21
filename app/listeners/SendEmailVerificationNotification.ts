@@ -1,15 +1,9 @@
-import { UserDocument } from "~/app/models/User";
-
-interface Registered {
-  user: UserDocument;
-  version: string;
-  method: "internal" | "social";
-}
+import type EventsList from "~/app/contracts/events";
 
 export default class SendEmailVerificationNotification {
-  async dispatch({ user, version, method}: Registered) {
-    if(method === "internal") {
-      await user.sendVerificationNotification(version);
+  async dispatch(event: EventsList["Registered"]) {
+    if(event.method === "internal") {
+      await event.user.sendVerificationNotification(event.version);
     }
   }
 }

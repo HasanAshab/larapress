@@ -1,6 +1,4 @@
 declare global {
-  interface EventsList {};
-  
   function log(data: any): Promise<void>;
   function trace(message: string, logFullTrace = false): void;
   function env(key: string, fallback?: string): string | undefined;
