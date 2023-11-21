@@ -13,7 +13,7 @@ export default class ErrorHandler {
       return err.render(req, res);
     
     if(err.kind === "ObjectId")
-      return res.status(404).message();
+      return res.status(404).message("Resource Not Found");
     
     if(err instanceof jwt.JsonWebTokenError)
       return res.status(401).message("Invalid or expired token!");

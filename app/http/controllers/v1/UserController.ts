@@ -34,7 +34,9 @@ export default class UserController extends Controller {
   
   @RequestHandler
   async show(res: Response, username: string) {
-    res.json(await User.findOne({ username }).select("-email -phoneNumber"));
+    const user = await User.findOne({ username }).select("-email -password -phoneNumber -recoveryCodes");
+    console.log(user.constructor)
+    res.json();
    // return await User.findOneOrFail({ username }).select("-email -phoneNumber -recoveryCodes").lean();
   }
   

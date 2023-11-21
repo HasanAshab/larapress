@@ -162,10 +162,15 @@ export default class Router {
     });
   }
   
+
   static async resolve({ params }: Request, name: string) {
-    let reqParamName = Object.keys(params).find(key => key === name || key.startsWith(name + "_"));
-    const value = this.$resolvers[reqParamName]?.(params[reqParamName]);
-    return value;
+    let reqParamName: string;
+    for(const key in params) {
+      if(key === name || key.startsWith(name + "_")) {
+        reqParamName = key;
+      }
+    }
+    return reqParamName && this.$resolvers[reqParamName]?.(params[reqParamName]);
   }
   
 

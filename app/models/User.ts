@@ -36,17 +36,13 @@ const UserSchema = new Schema<UserDocument>({
   recoveryCodes: {
     type: [String],
     hide: true
-  }
+  },
   externalId: {
     type: Object,
     index: true
   }
 }, 
-{ 
-  timestamps: true,
-  //toJSON: { getters: true },
-  //toObject: { getters: true }
-}
+{ timestamps: true }
 );
 
   
@@ -82,7 +78,7 @@ export interface IUser {
 }
 
 export interface UserDocument extends Document, IUser, AuthenticatableDocument, MediableDocument, HasApiTokensDocument, NotifiableDocument<UserDocument> {
-  settings: Promise<SettingsDocument>;
+  settings: Query<SettingsDocument, SettingsDocument>;
   createDefaultSettings(): Promise<SettingsDocument>;
 };
 

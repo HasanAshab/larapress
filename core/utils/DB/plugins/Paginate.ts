@@ -3,7 +3,7 @@ import { Request } from '~/core/express';
 /**
  * Plugin for pagination support 
 */
-export default (schema: any) => {
+export default function Paginate(schema: any) {
   schema.query.paginate = async function (pageSize: number, cursor?: string) {
     if(cursor){
       this.where('_id').gt(cursor);

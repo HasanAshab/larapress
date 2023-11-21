@@ -9,7 +9,6 @@ export default function Hidden(schema: Schema) {
   schema.set('toJSON', {
     versionKey:false,
     transform: (doc, ret) => {
-      console.log(doc, ret)
       ret.id = ret._id.toHexString();
       delete ret._id;
       hiddenFields.forEach(field => {
