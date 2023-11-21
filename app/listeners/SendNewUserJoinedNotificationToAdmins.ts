@@ -3,7 +3,7 @@ import NewUserJoinedNotification from "~/app/notifications/NewUserJoinedNotifica
 import Notification from "Notification";
 
 export default class SendNewUserJoinedNotificationToAdmins {
-  async dispatch(user: IUser){
+  async dispatch({ user }: Registered){
     const admins = await User.find({ role: "admin" });
     await Notification.send(admins, new NewUserJoinedNotification({ user }));
   }

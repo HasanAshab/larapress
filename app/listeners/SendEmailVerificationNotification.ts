@@ -1,9 +1,15 @@
 import { UserDocument } from "~/app/models/User";
-import { autoInjectable } from "tsyringe";
 
-@autoInjectable()
+interface Registered {
+  user: UserDocument;
+  version: string;
+  method: "internal" | "social";
+}
+
 export default class SendEmailVerificationNotification {
-  async dispatch(user: UserDocument, version: string) {
-    await user.sendVerificationNotification(version);
+  async dispatch({ user, version, method}: Registered) {
+    if(method === "internal") {
+      await user.sendVerificationNotification(version);
+    }
   }
 }
