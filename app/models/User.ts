@@ -1,5 +1,4 @@
 import { model, Schema, Document, Model } from "mongoose";
-import hidden from "mongoose-hidden";
 import Authenticatable, { AuthenticatableDocument } from "~/app/plugins/Authenticatable";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import HasApiTokens, { HasApiTokensDocument } from "~/app/plugins/HasApiTokens";
@@ -40,13 +39,18 @@ const UserSchema = new Schema<UserDocument>({
     index: true
   }
 }, 
-{ timestamps: true }
+{ 
+  timestamps: true,
+  //toJSON: { getters: true },
+  //toObject: { getters: true }
+}
 );
 
-
+  
 UserSchema.virtual("settings").get(function() {
   return Settings.findOne({ userId: this._id });
 });
+
 
 UserSchema.method("createDefaultSettings", function() {
   return Settings.create({ userId: this._id });
@@ -58,8 +62,8 @@ UserSchema.plugin(HasFactory);
 UserSchema.plugin(HasApiTokens);
 UserSchema.plugin(Notifiable);
 UserSchema.plugin(Mediable);
-UserSchema.plugin(hidden(), { hidden: { _id: false } });
 //UserSchema.plugin(Billable);
+
 
 export interface IUser {
   name: string;

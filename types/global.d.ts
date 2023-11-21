@@ -8,6 +8,7 @@ declare global {
   function base(...basePaths: string[]): string;
   function getParams(func: Function): string[];
   function randomStr(length: number): string;
+  function isPureObject(target: any): target is object;
   function sleep(ms: number): Promise<void>;
   function resolve<T = unknown>(dependency: string | Function): T;
 }

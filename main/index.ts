@@ -32,18 +32,14 @@ app.server.on("connection", () => {
   const time = new Date().toLocaleTimeString("en-US", { hour12: true });
   console.log(`*New connection: [${time}]`);
 });
+/*
+import User from "~/app/models/User";
 
-import Event from "~/core/Event";
+(async () => {
 
-declare global {
-  interface EventsList {
-    foo: string;
-  }
-}
+console.log((await User.findOne()).toObject())
+})()*/
 
-Event.on("foo", console.log)
-
-Event.emit("foo", "yeeh")
 
 /*
 import User, { UserDocument } from "~/app/models/User";

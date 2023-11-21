@@ -2,9 +2,9 @@ import ServiceProvider from "~/core/abstract/ServiceProvider";
 import fs from "fs";
 import mongoose from "mongoose";
 import Core from "./plugins/Core";
+import Hidden from "./plugins/Hidden";
 import Paginate from "./plugins/Paginate";
 import Policy from "./plugins/Policy";
-import FileMetadata from "./types/FileMetadata";
 
 export default class DatabaseServiceProvider extends ServiceProvider {
   register() {
@@ -15,6 +15,7 @@ export default class DatabaseServiceProvider extends ServiceProvider {
   
   private registerGlobalPlugins() {
     mongoose.plugin(Core);
+    mongoose.plugin(Hidden);
     mongoose.plugin(Paginate);
     mongoose.plugin(Policy);
   }

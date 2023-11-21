@@ -107,6 +107,13 @@ export function randomStr(length: number) {
 }
 
 /**
+ * Wether a value is pure Object or not
+*/
+export function isPureObject(target: any): target is object {
+  return typeof target === "object" && !Array.isArray(target);
+}
+
+/**
  * Stop execution for given time
 */
 export function sleep(ms: number) {
