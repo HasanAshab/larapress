@@ -318,10 +318,26 @@ export default class Router {
     for(const { method, path, metadata, middlewares } of Router.$stack) {
       const [Controller, handlerName] = metadata;
       const controller = resolve<any>(Controller);
-      const handler = controller[handlerName]
-      if(typeof handler !== "function")
+      
+      if(typeof controller[handlerName] !== "function")
         throw new Error(`${handlerName} handler doesn't exist on ${Controller.name}`);
-      router[method](path, Router.resolveMiddleware(...middlewares), handler.bind(controller));
+      
+      const requestHandler = async function(req: Request, res: Response, next: NextFunction) {
+        try {
+          req.files = req.files ?? {};
+          const result = await controller[handlerName](req, res, next);
+          if(result && !res.headersSent) {
+            typeof result === "string"
+              ? res.message(result)
+              : res.api(result);
+          }
+        }
+        catch(err) {
+          next(err);
+        }
+      }
+      
+      router[method](path, Router.resolveMiddleware(...middlewares), requestHandler);
     }
     return router;
   }
