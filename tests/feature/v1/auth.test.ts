@@ -8,6 +8,7 @@ import EmailVerificationNotification from "~/app/notifications/EmailVerification
 import ForgotPasswordNotification from "~/app/notifications/ForgotPasswordNotification";
 import AuthService from "~/app/services/auth/AuthService";
 import twoFactorAuthService from "~/app/services/auth/TwoFactorAuthService";
+import Event from "~/core/Event";
 
 describe("Auth", () => {
   let user;
@@ -24,6 +25,7 @@ describe("Auth", () => {
     await DB.reset(["User", "Token"]);
     Storage.mockClear();
     Notification.mockClear();
+    Event.mockClear();
     if(config.user) {
       user = await User.factory().create();
       token = user.createToken();
@@ -43,6 +45,11 @@ describe("Auth", () => {
     expect(response.body.data).toHaveProperty("token");
     expect(user).not.toBeNull();
     expect(await user.settings).not.toBeNull();
+    Event.assertEmitted("Registered", {
+      user,
+      version: "v1",
+      method: "internal"
+    });
     Storage.assertStoredCount(1);
     Storage.assertStored("image.png");
   });
@@ -59,6 +66,11 @@ describe("Auth", () => {
     expect(response.body.data).toHaveProperty("token");
     expect(user).not.toBeNull();
     expect(await user.settings).not.toBeNull();
+    Event.assertEmitted("Registered", {
+      user,
+      version: "v1",
+      method: "internal"
+    });
     Storage.assertNothingStored();
   });
 
@@ -205,7 +217,7 @@ describe("Auth", () => {
     expect(response.body.data).not.toEqual(oldCodes);
   });
 
-  it("Should complete external login with username", async () => {
+  it("Should complete social login with username", async () => {
     const username = "FooBar123";
     const externalUser = {
       id: "10000",
@@ -222,9 +234,15 @@ describe("Auth", () => {
     const user = await User.findOne({ username });
     expect(response.statusCode).toBe(201);
     expect(user).not.toBeNull();
+    expect(await user.settings).not.toBeNull();
+    Event.assertEmitted("Registered", {
+      user,
+      version: "v1",
+      method: "social"
+    });
   });
   
-  it("Should complete external login with email and username", async () => {
+  it("Should complete social login with email and username", async () => {
     const data = {
       username: "FooBar123",
       email: "foo@bar.com"
@@ -243,9 +261,15 @@ describe("Auth", () => {
     const user = await User.findOne(data);
     expect(response.statusCode).toBe(201);
     expect(user).not.toBeNull();
+    expect(await user.settings).not.toBeNull();
+    Event.assertEmitted("Registered", {
+      user,
+      version: "v1",
+      method: "social"
+    });
   });
 
-  it("Shouldn't complete external login with invalid token", async () => {
+  it("Shouldn't complete social login with invalid token", async () => {
     const username = "FooBar123";
     const response = await request.post("/api/v1/auth/login/external/google/final-step").send({
       username,
@@ -257,7 +281,7 @@ describe("Auth", () => {
     expect(user).toBeNull();
   })
   
-  it("Shouldn't complete external login with same token multiple times", async () => {
+  it("Shouldn't complete social login with same token multiple times", async () => {
     const externalUser = {
       id: "10000",
       name: "Foo Bar",
