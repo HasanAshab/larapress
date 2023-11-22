@@ -36,14 +36,15 @@ app.server.on("connection", () => {
   const time = new Date().toLocaleTimeString("en-US", { hour12: true });
   console.log(`*New connection: [${time}]`);
 });
+
 /*
 import User from "~/app/models/User";
 
 (async () => {
-
-console.log((await User.findOne()).toObject())
-})()*/
-
+const user = await User.findOne().select("-email -phoneNumber password");
+    console.log(user)
+})()
+*/
 
 /*
 import User, { UserDocument } from "~/app/models/User";

@@ -31,7 +31,7 @@ Router.controller(AuthController).group(() => {
   });
   
   Router.post("/register", "register").middleware("recaptcha");
-  Router.get("social/callback/:provider(google|facebook)", "loginWithExternalProvider");
+  Router.get("social/callback/:provider(google|facebook)", "loginWithSocialProvider");
   Router.post("/send-otp/:user", "sendOtp").middleware("limit:60000,3");
   Router.patch("/change-phone-number", "changePhoneNumber").middleware("auth", "verified");
   Router.post("/generate-recovery-codes", "generateRecoveryCodes").middleware("limit:60000,3", "auth", "verified");

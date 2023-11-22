@@ -16,7 +16,7 @@ describe("Registered Event", () => {
   });
 
   it("should send verification email", async () => {
-    await new SendEmailVerificationNotification().dispatch(user);
+    await new SendEmailVerificationNotification().dispatch({user});
     Notification.assertCount(1);
     Notification.assertSentTo(user, EmailVerificationNotification);
   });

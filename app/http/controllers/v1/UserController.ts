@@ -3,6 +3,7 @@ import { RequestHandler } from "~/core/decorators";
 import { AuthenticRequest, Response } from "~/core/express";
 import User from "~/app/models/User";
 import UpdateProfileRequest from "~/app/http/requests/v1/UpdateProfileRequest";
+import { Document } from "mongoose";
 
 export default class UserController extends Controller {
   @RequestHandler
@@ -34,9 +35,14 @@ export default class UserController extends Controller {
   
   @RequestHandler
   async show(res: Response, username: string) {
-    const user = await User.findOne({ username }).select("-email -password -phoneNumber -recoveryCodes");
-    console.log(user.constructor)
-    res.json();
+    const user = await User.findOne({ username }).select("-email -phoneNumber");
+    const r = JSON.stringify(user, (key, value) => {
+      console.log(value instanceof Document)
+      return value;
+    })
+    
+    
+    res.send(r);
    // return await User.findOneOrFail({ username }).select("-email -phoneNumber -recoveryCodes").lean();
   }
   

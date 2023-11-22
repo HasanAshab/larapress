@@ -1,11 +1,19 @@
-import { Schema, Document } from "mongoose";
+import { Schema } from "mongoose";
 
 /**
- * Plugin to hide fields from document
-*/
+ * Plugin to exclude (deselect) hidden fields from query
+ */
 export default function Hidden(schema: Schema) {
-  const hiddenFields = searchHiddenFields();
-
+  const hiddenFields = searchHiddenFields(schema).reduce((acc: object, field) => {
+    acc[field] = 0;
+    return acc;
+  }, {});
+  
+  schema.pre(["find", "findOne"], function() {
+    this.select(hiddenFields);
+  });
+  
+  /*
   schema.set('toJSON', {
     versionKey:false,
     transform: (doc, ret) => {
@@ -16,15 +24,20 @@ export default function Hidden(schema: Schema) {
       });
     }
   });
-  
-  function searchHiddenFields() {
-    const hiddenFields: string[] = [];
-    for(const field in schema.obj) {
-      const fieldData = schema.obj[field];
-      if(isPureObject(fieldData) && fieldData.hide) {
-        hiddenFields.push(field);
-      }
+  */
+
+}
+
+/**
+ * Search fields that have a options `{ hide: true }` in the schema
+ */
+function searchHiddenFields(schema: Schema) {
+  const hiddenFields: string[] = [];
+  for(const field in schema.obj) {
+    const fieldData = schema.obj[field];
+    if(isPureObject(fieldData) && fieldData.hide) {
+      hiddenFields.push(field);
     }
-    return hiddenFields;
   }
+  return hiddenFields;
 }
