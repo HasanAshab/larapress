@@ -42,8 +42,8 @@ import User from "~/app/models/User";
 
 
 (async () => {
-const user = await User.findOneAndUpdate({}, {name: "kangal"}).select("-email -phoneNumber");
-    console.log(user)
+const user = await User.findOne();
+    console.log(user.remove)
 })()
 
 
