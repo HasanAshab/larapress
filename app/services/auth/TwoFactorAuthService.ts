@@ -64,7 +64,7 @@ export default class TwoFactorAuthService {
     if(method === "app") {
       const { twoFactorAuth } = await user.settings;
       if(!twoFactorAuth.secret)
-        throw new Error("Trying to verify otp without generating secret of user: \n" + JSON.stringify(user, null, 2));
+        throw new Error("Trying to verify otp through 'app' method without generating secret of user: \n" + JSON.stringify(user, null, 2));
       isValid = speakeasy.totp.verify({
         secret: twoFactorAuth.secret,
         encoding: 'ascii',

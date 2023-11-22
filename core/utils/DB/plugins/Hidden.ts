@@ -9,7 +9,17 @@ export default function Hidden(schema: Schema) {
     return acc;
   }, {});
   
-  schema.pre(["find", "findOne"], function() {
+  schema.pre([
+    "find", 
+    "findOne", 
+    "findOneAndUpdate", 
+    "findOneAndReplace", 
+    "findOneAndDelete", 
+    "findById", 
+    "findByIdAndUpdate", 
+    "findByIdAndRemove", 
+    "findByIdAndDelete"
+  ], function() {
     this.select(hiddenFields);
   });
   

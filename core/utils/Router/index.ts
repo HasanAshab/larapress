@@ -19,7 +19,7 @@ type APIResourceController = constructor<{
   index(...args: any[]): any | Promise<any>;
   store(...args: any[]): any | Promise<any>;
   show(...args: any[]): any | Promise<any>;
-  put(...args: any[]): any | Promise<any>;
+  update(...args: any[]): any | Promise<any>;
   delete(...args: any[]): any | Promise<any>;
 }>;
 

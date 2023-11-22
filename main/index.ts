@@ -37,14 +37,15 @@ app.server.on("connection", () => {
   console.log(`*New connection: [${time}]`);
 });
 
-/*
+
 import User from "~/app/models/User";
 
+
 (async () => {
-const user = await User.findOne().select("-email -phoneNumber password");
+const user = await User.findOneAndUpdate({}, {name: "kangal"}).select("-email -phoneNumber");
     console.log(user)
 })()
-*/
+
 
 /*
 import User, { UserDocument } from "~/app/models/User";

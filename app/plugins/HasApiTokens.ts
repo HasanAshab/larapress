@@ -21,9 +21,9 @@ export default (schema: Schema) => {
       { version: this.tokenVersion },
       Config.get<string>("app.key"),
       { 
-        expiresIn: 2592000,
+        expiresIn: Config.get("jwt.expiration"),
         subject: this._id.toString(),
-        issuer: Config.get<string>("app.name"),
+        issuer: Config.get("app.name"),
         audience: "auth"
       }
     );
