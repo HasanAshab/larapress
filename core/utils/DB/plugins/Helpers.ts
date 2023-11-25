@@ -39,9 +39,9 @@ function assertExistsOnExecution(query: Query<Document, Document>) {
 }
 
 /**
- * Core plugin to add base helpers
+ * Plugin to add base helpers
  */
-export default function Core(schema: Schema) {
+export default function Helpers(schema: Schema) {
   schema.statics.updateOneById = async function(id: string, data: object) {
     const { modifiedCount } = await this.constructor.updateOne({ _id: id }, data);
     return modifiedCount === 1;

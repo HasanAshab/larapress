@@ -11,13 +11,17 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
   descriptor.value = async function(req: Request, res: Response, next: NextFunction){
     const resolveParamPromises = paramTypes.map(async (paramType, i) => {
       if (isRequest(paramType)) {
-        if(paramType.rules) {
-          const rules = Validator.object(paramType.rules());
+        const rules = paramType.rules();
+        if(rules) {
+          const schema = Validator.object(rules);
           const data = req.method === "GET"
             ? req.query
             : Object.assign({}, req.body, req.files);
-          const validated = await rules.validateAsync(data, { abortEarly: false });
-          req[req.method === "GET" ? "query" : "body"] = validated;
+          const validated = await schema.validateAsync(data, { abortEarly: false });
+          if(req.method === "GET")
+            req.query = validated;
+          else
+            req.body = validated;
         }
         return req;
       }

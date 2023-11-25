@@ -12,7 +12,7 @@ export default class ErrorHandler {
     if(err instanceof Exception)
       return err.render(req, res);
     
-    if(err.kind === "ObjectId")
+    if(err.kind === "ObjectId" && err.path === "_id")
       return res.status(404).message("Resource Not Found");
     
     if(err instanceof jwt.JsonWebTokenError)

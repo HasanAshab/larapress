@@ -8,10 +8,10 @@ Router.controller(ContactController).group(() => {
   
   Router.group({
     prefix: "/inquiries",
-    middlewares: ["auth", "roles:admin"]
+   // middlewares: ["auth", "roles:admin"]
   }, () => {
     Router.get("/", "index");
-    Router.get("/:id", "show");
+    Router.get("/:rawContact", "show");
     Router.delete("/:id", "delete");
     Router.patch("/:id/status", "updateStatus");
     Router.get("/search", "search");

@@ -1,7 +1,7 @@
 import { Request } from "~/core/express";
 import Validator, { unique } from "Validator";
 
-interface ExternalLoginFinalStepRequest {
+interface SocialLoginFinalStepRequest {
   body: { 
     externalId: string;
     token: string;
@@ -10,7 +10,7 @@ interface ExternalLoginFinalStepRequest {
   }
 }
 
-class ExternalLoginFinalStepRequest extends Request {
+class SocialLoginFinalStepRequest extends Request {
   static rules() {
     return {
       externalId: Validator.string().required(),
@@ -21,4 +21,4 @@ class ExternalLoginFinalStepRequest extends Request {
   }
 }
 
-export default ExternalLoginFinalStepRequest;
+export default SocialLoginFinalStepRequest;

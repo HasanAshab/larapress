@@ -39,7 +39,8 @@ const UserSchema = new Schema<UserDocument>({
   },
   externalId: {
     type: Object,
-    index: true
+    index: true,
+    hide: true
   }
 }, 
 { timestamps: true }

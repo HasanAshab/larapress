@@ -3,9 +3,10 @@ import { Request } from 'express';
 import Joi from "joi";
 
 interface RequestClass extends Request {}
+
 class RequestClass {
   static rules() {
-    return {} as Record<string, Joi.AnySchema>;
+    return null as Record<string, Joi.AnySchema>;
   }
 }
 

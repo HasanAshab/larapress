@@ -42,15 +42,16 @@ export default class AuthService {
     return user.createToken();
   }
   
-  async loginWithExternalProvider(provider: string, code: string) {
+  async loginWithSocialProvider(provider: string, code: string) {
     const externalUser = await Socialite.driver(provider).user(code);
+    console.log(externalUser)
     const user = await User.findOneAndUpdate(
       { [`externalId.${provider}`]: externalUser.id },
       { 
         name: externalUser.name,
         email: externalUser.email,
         verified: true,
-        "profile.url": externalUser.picture
+        //"profile.url": externalUser.picture
       },
       { new: true }
     );
@@ -58,11 +59,11 @@ export default class AuthService {
       return URL.client(`/login/social/${provider}/success/${user.createToken()}`);
     }
     const fields = externalUser.email ? "username" : "email,username";
-    const token = await this.createExternalLoginFinalStepToken(provider, externalUser);
+    const token = await this.createSocialLoginFinalStepToken(provider, externalUser);
     return URL.client(`/login/social/${provider}/final-step/${externalUser.id}/${token}?fields=${fields}`);
   }
   
-  async createExternalLoginFinalStepToken(provider: string, externalUser: ExternalUser) {
+  async createSocialLoginFinalStepToken(provider: string, externalUser: ExternalUser) {
     const { secret } = await Token.create({
       key: externalUser.id,
       type: provider + "Login",
@@ -117,5 +118,4 @@ export default class AuthService {
     const key = this.getFailedAttemptCacheKey(email);
     await Cache.delete(key);
   }
-  
 }

@@ -6,7 +6,6 @@ import ServiceProvider from "~/core/abstract/ServiceProvider";
 import fs from "fs";
 import Config from "Config";
 import URL from "URL";
-import { getStatusText } from "http-status-codes";
 
 /**
 * The Core Application class.

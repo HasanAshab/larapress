@@ -3,7 +3,7 @@ import { RequestHandler } from "~/core/decorators";
 import { AuthenticRequest, Response } from "~/core/express";
 import User from "~/app/models/User";
 import UpdateProfileRequest from "~/app/http/requests/v1/UpdateProfileRequest";
-import UserResource from "~/app/http/resources/UserResource";
+import ShowUserResource from "~/app/http/resources/v1/ShowUserResource";
 
 export default class UserController extends Controller {
   @RequestHandler
@@ -44,11 +44,9 @@ export default class UserController extends Controller {
   };
   
   @RequestHandler
-  async show(req: AuthenticRequest, res: Response, username: string) {
-    const user = await User.find().select("-email -phoneNumber").lean();
-   // return UserResource.make(user);
-    return UserResource.collection(user);
-   // return await User.findOneOrFail({ username }).select("-email -phoneNumber -recoveryCodes").lean();
+  async show(username: string) {
+    const user = await User.findOneOrFail({ username }).select("-email -phoneNumber").lean();
+    return ShowUserResource.make(user);
   }
   
   @RequestHandler
@@ -56,8 +54,8 @@ export default class UserController extends Controller {
     const user = await User.findOneOrFail({ username });
     if(!req.user.can("delete", user))
       return res.status(403).message();
-    await User.deleteOne({ username });
-    res.status(204).message();
+    await user.delete();
+    res.sendStatus(204);
   }
   
   @RequestHandler

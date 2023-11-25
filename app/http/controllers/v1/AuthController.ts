@@ -5,7 +5,7 @@ import { injectable } from "tsyringe";
 import LoginRequest from "~/app/http/requests/v1/LoginRequest";
 import RegisterRequest from "~/app/http/requests/v1/RegisterRequest";
 import LoginWithRecoveryCodeRequest from "~/app/http/requests/v1/LoginWithRecoveryCodeRequest";
-import ExternalLoginFinalStepRequest from "~/app/http/requests/v1/ExternalLoginFinalStepRequest";
+import SocialLoginFinalStepRequest from "~/app/http/requests/v1/SocialLoginFinalStepRequest";
 import ResendEmailVerificationRequest from "~/app/http/requests/v1/ResendEmailVerificationRequest";
 import SendResetPasswordEmailRequest from "~/app/http/requests/v1/SendResetPasswordEmailRequest";
 import ResetPasswordRequest from "~/app/http/requests/v1/ResetPasswordRequest";
@@ -86,12 +86,12 @@ export default class AuthController extends Controller {
     const { code } = req.query;
     if(typeof code !== "string")
       return res.redirectToClient("/login/social/error");
-    const url = await this.authService.loginWithExternalProvider(provider, code);
+    const url = await this.authService.loginWithSocialProvider(provider, code);
     res.redirect(url);
   }
   
   @RequestHandler
-  async socialLoginFinalStep(req: ExternalLoginFinalStepRequest, res: Response, provider: string) {
+  async socialLoginFinalStep(req: SocialLoginFinalStepRequest, res: Response, provider: string) {
     const { externalId, token, username, email } = req.body;
     const user = await this.authService.externalLoginFinalStep(provider, externalId, token, username, email);
     Event.emit("Registered", { 
