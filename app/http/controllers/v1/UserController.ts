@@ -3,7 +3,7 @@ import { RequestHandler } from "~/core/decorators";
 import { AuthenticRequest, Response } from "~/core/express";
 import User from "~/app/models/User";
 import UpdateProfileRequest from "~/app/http/requests/v1/UpdateProfileRequest";
-import { Document } from "mongoose";
+import UserResource from "~/app/http/resources/UserResource";
 
 export default class UserController extends Controller {
   @RequestHandler
@@ -19,14 +19,24 @@ export default class UserController extends Controller {
   @RequestHandler
   async updateProfile(req: UpdateProfileRequest) {
     const user = req.user;
+    const profile = req.files.profile;
+
     Object.assign(user, req.body);
-    if(req.body.email){
+    if(req.body.email) {
       user.verified = false;
     }
-    if (req.files.profile) {
-      await user.media().withTag("profile").replaceBy(req.files.profile);
+    
+    if (profile) {
+      if(user.profile) {
+        await user.media().withTag("profile").replaceBy(profile);
+      }
+      else {
+        await user.media().withTag("profile").attach(profile).storeRef();
+      }
     }
+    
     await user.save();
+    
     if(!req.body.email) 
       return "Profile updated!";
     await user.sendVerificationNotification("v1");
@@ -34,15 +44,10 @@ export default class UserController extends Controller {
   };
   
   @RequestHandler
-  async show(res: Response, username: string) {
-    const user = await User.findOne({ username }).select("-email -phoneNumber");
-    const r = JSON.stringify(user, (key, value) => {
-      console.log(value instanceof Document)
-      return value;
-    })
-    
-    
-    res.send(r);
+  async show(req: AuthenticRequest, res: Response, username: string) {
+    const user = await User.find().select("-email -phoneNumber").lean();
+   // return UserResource.make(user);
+    return UserResource.collection(user);
    // return await User.findOneOrFail({ username }).select("-email -phoneNumber -recoveryCodes").lean();
   }
   

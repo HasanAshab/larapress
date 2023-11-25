@@ -6,6 +6,7 @@ import Hidden from "./plugins/Hidden";
 import Paginate from "./plugins/Paginate";
 import Policy from "./plugins/Policy";
 
+
 export default class DatabaseServiceProvider extends ServiceProvider {
   register() {
     mongoose.set('strictQuery', true);

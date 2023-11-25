@@ -8,7 +8,6 @@ import Config from "Config";
 import URL from "URL";
 import { getStatusText } from "http-status-codes";
 
-
 /**
 * The Core Application class.
 * It is the place where all the providers are booted
@@ -38,7 +37,6 @@ export default class Application extends EventEmitter {
       // if app is running on web we need http support
       this.http = express();
       this.server = createServer(this.http);
-      this.addCustomHttpHelpers();
     }
     this.registerServiceProviders();
     this.bootProviders();
@@ -60,52 +58,6 @@ export default class Application extends EventEmitter {
     Config.get<string[]>("app.providers").forEach(path => {
       this.register(require(path).default);
     });
-  }
-  
-  /**
-   * Customize the HTTP (Express)
-  */
-  private addCustomHttpHelpers() {
-    this.assertRunningInWeb();
-    
-    const { request, response } = this.http;
-    
-    request.files = {};
-
-    Object.defineProperty(request, 'fullUrl', {
-      get: function() {
-        return this.protocol + '://' + this.get('host') + this.originalUrl;
-      }
-    });
-  
-    Object.defineProperty(request, 'hasValidSignature', {
-      get: function() {
-        return URL.hasValidSignature(this.fullUrl);
-      }
-    });
-    
-    response.message = function(text?: string) {
-      this.json({
-        success: this.statusCode >= 200 && this.statusCode < 300,
-        message: text || getStatusText(this.statusCode),
-      });
-    };
-  
-    response.api = function(response: RawResponse) {
-      response.success = this.statusCode >= 200 && this.statusCode < 300
-      response.message = response.message ?? getStatusText(this.statusCode);
-      response.data = response.data ?? {...response};
-      
-      this.json(response);
-    };
-  
-    response.redirectToClient = function(path = '/') {
-      this.redirect(URL.client(path));
-    };
-  
-    response.sendFileFromStorage = function(storagePath: string) {
-      this.sendFile(base("storage", storagePath));
-    };
   }
   
   /**

@@ -40,19 +40,21 @@ app.server.on("connection", () => {
 
 import User from "~/app/models/User";
 
-
+/*
 (async () => {
-const user = await User.findOne();
-    console.log(user.remove)
-})()
+const user = await User.find();
+//await user.update({name: "binod2"})
+ // console.log(await user.delete())
+  //await user.refresh()
+  console.log(user)
 
+})()
+*/
 
 /*
 import User, { UserDocument } from "~/app/models/User";
 import Media from "~/app/models/Media";
 import URL from "URL";
-
-
 (async () => {
   const user = await User.findOne() as UserDocument
   const file = {
@@ -64,9 +66,10 @@ import URL from "URL";
 
    //await user.media().withTag("profile").attach(file),
   //await user.media().withTag("profile").attach(file, "profiles").asPrivate().storeRef(),
- // await user.media().withTag("profile").replaceBy(file),
-    //await user.media()
+ await user.media().withTag("profile").replaceBy(file),
+    await user.media()
   )
  // console.log(user)
 })()
+
 */

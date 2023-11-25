@@ -20,9 +20,7 @@ export default class CategoryController extends Controller {
   @RequestHandler
   async store(req: CategoryRequest, res: Response) {
     const category = new Category(req.body);
-    if(req.files.icon) {
-      await category.media().attach(req.files.icon).saveRef();
-    }
+    await category.media().attach(req.files.icon).saveRef();
     const { _id } = await category.save();
     const categoryUrl = URL.route("v1_categories.show", { id: _id });
     res.header("Location", categoryUrl).status(201).message("Category successfully created!");
@@ -30,25 +28,17 @@ export default class CategoryController extends Controller {
   
   @RequestHandler
   async update(req: UpdateCategoryRequest, res: Response, id: string) {
-    const icon = req.files.icon;
-    if(!icon) {
-      const { modifiedCount } = await Category.updateOne({ _id: id }, req.body);
-      return modifiedCount === 1
-        ? "Category updated!"
-        : res.status(404).message();
+    const category = await Category.findByIdAndUpdateOrFail(id, req.body);
+    if(req.files.icon) {
+      await category.media().replaceBy(req.files.icon);
     }
-    const category = await Category.findByIdOrFail(id);
-    Object.assign(category, req.body);
-    // TODO reduce query
-    await category.media().replaceBy(icon);
-    await category.save();
     return "Category updated!";
   }
   
   @RequestHandler
   async delete(res: Response, id: string) {
-    const { deletedCount } = await Category.deleteOne({ _id: id });
-    res.status(deletedCount === 1 ? 204 : 404).message();
+    await Category.deleteOneByIdOrFail(id);
+    res.sendStatus(204);
   }
 }
 

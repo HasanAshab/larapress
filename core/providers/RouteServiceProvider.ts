@@ -10,6 +10,7 @@ import formDataParser from "express-fileupload";
 import URL from "URL";
 import Router, { MiddlewareAliaseWithOrWithoutOptions } from "Router";
 import ErrorHandler from "~/app/http/middlewares/ErrorHandler";
+import JsonResource from "~/core/http/resources/JsonResource";
 
 export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
@@ -30,6 +31,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
     this.serveApiDoc && this.serveDocs();
     this.registerSecurityMiddlewares();
     this.registerRequestPayloadParsers();
+    this.appendHelpers();
     this.registerGlobalMiddlewares();
     this.bindModelsImplicitly && this.bindModels();
     this.registerRoutes();
@@ -72,6 +74,60 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
       limit: "1mb"
     }));
     this.app.http.use(formDataParser());
+  }
+  
+  private appendHelpers() {
+    this.app.http.use((req, res, next) => {
+      req.files = {};
+  
+      Object.defineProperty(req, 'fullUrl', {
+        get: function() {
+          return this.protocol + '://' + this.get('host') + this.originalUrl;
+        }
+      });
+    
+      Object.defineProperty(req, 'hasValidSignature', {
+        get: function() {
+          return URL.hasValidSignature(this.fullUrl);
+        }
+      });
+
+      res.json = function(obj: object) {
+        const data = JSON.stringify(obj, (key, value) => {
+          if(value instanceof JsonResource) {
+            return { [value.wrap]: value.toObject(req) };
+          }
+          return value
+        });
+
+        
+        this.send(data); 
+      }
+ 
+      res.message = function(text?: string) {
+        this.json({
+          success: this.statusCode >= 200 && this.statusCode < 300,
+          message: text || getStatusText(this.statusCode),
+        });
+      };
+    
+      res.api = function(response: RawResponse) {
+        response.success = this.statusCode >= 200 && this.statusCode < 300
+        response.message = response.message ?? getStatusText(this.statusCode);
+        response.data = response.data ?? {...response};
+        
+        this.json(response);
+      };
+    
+      res.redirectToClient = function(path = '/') {
+        this.redirect(URL.client(path));
+      };
+    
+      res.sendFileFromStorage = function(storagePath: string) {
+        this.sendFile(base("storage", storagePath));
+      };
+      next();
+    });
   }
   
   /**

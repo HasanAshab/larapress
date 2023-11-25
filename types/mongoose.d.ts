@@ -1,6 +1,7 @@
 import { Request } from '~/core/express';
 
 declare module 'mongoose' {
+  /*
   interface Model<TRawDocType, QueryHelpers = {}> {
     findOneOrFail(...args: Parameters<Model<TRawDocType>['findOne']>): Query<TRawDocType, TRawDocType, TQueryHelpers>;
     findByIdOrFail(id: string): Query<TRawDocType, TRawDocType, TQueryHelpers>;
@@ -14,5 +15,18 @@ declare module 'mongoose' {
   interface Document {
     constructor: Model<Document>;
     can(action: string, target: Document): Promise<boolean>;
+  }*/
+  
+  interface Query {
+    mongooseCollection: {
+      modelName: string;
+    };
+  }
+  
+  interface Document {
+    constructor: Model<Document>;
+  }
+  interface Schema {
+    methods: Record<string, (this: Document, ...args: any[]) => any | Promise<any>>;
   }
 }

@@ -30,7 +30,11 @@ interface Endpoint {
   */
   method: RequestMethod;
   path: string;
-  metadata: [constructor | InvokableController, string];
+  metadata: {
+    name?: string;
+    action: string;
+    controller: constructor | InvokableController;
+  }
   middlewares: MiddlewareAliaseWithOrWithoutOptions[];
 }
 
@@ -58,7 +62,9 @@ class EndpointOptions {
    * Name a endpoint
   */
   name(routeName: string) {
-    Router.$namedUrls[Router.$config.as + routeName] = Router.$stack[this.stackIndex].path;
+    const name = Router.$config.as + routeName;
+    Router.$namedUrls[name] = Router.$stack[this.stackIndex].path;
+    Router.$stack[this.stackIndex].metadata.name = name;
     return this;
   }
 }
@@ -106,22 +112,36 @@ export default class Router {
   /**
    * Add a endpoint to stack
   */
-  static $add<T extends constructor>(method: RequestMethod, endpoint: string, metadata: string | InvokableController | [T, keyof InstanceType<T> & string]) {
-    const path = join(Router.$config.prefix, endpoint);
-    if(typeof metadata === "string") {
-      if(!Router.$config.controller)
-        throw new Error(`Must pass a controller in "${endpoint}" route as no global scope controller exist`);
-      metadata = [Router.$config.controller as T, metadata];
-    }
-    else if (typeof metadata === "function") {
-      metadata = [metadata as T, "__invoke"];
-    }
-    Router.$stack.push({
+  static $add<T extends constructor>(method: RequestMethod, path: string, foo: string | InvokableController | [T, keyof InstanceType<T> & string]) {
+    const endpoint: Endpoint = {
       method,
-      path,
-      metadata,
-      middlewares: [...Router.$config.middlewares]
-    });
+      path: join(Router.$config.prefix, path),
+      middlewares: [...Router.$config.middlewares],
+    }
+    
+    if(Array.isArray(foo)) {
+      endpoint.metadata = {
+        controller: foo[0],
+        action: foo[1]
+      };
+    }
+    else if(typeof foo === "string") {
+      if(!Router.$config.controller)
+        throw new Error(`Must pass a controller in "${path}" route as no global scope controller exist`);
+      endpoint.metadata = {
+        controller: Router.$config.controller,
+        action: foo
+      };
+    }
+    
+    else if (typeof foo === "function") {
+      endpoint.metadata = {
+        controller: foo,
+        action: "__invoke"
+      };
+    }
+    
+    Router.$stack.push(endpoint);
     return new EndpointOptions(Router.$stack.length - 1);
   }
   
@@ -164,7 +184,7 @@ export default class Router {
   
 
   static async resolve({ params }: Request, name: string) {
-    let reqParamName: string;
+    let reqParamName: string | null = null;
     for(const key in params) {
       if(key === name || key.startsWith(name + "_")) {
         reqParamName = key;
@@ -313,30 +333,44 @@ export default class Router {
   }
   
 
-  static build() {
-    const router = ExpressRouter();
+  static build(router = ExpressRouter()) {
     for(const { method, path, metadata, middlewares } of Router.$stack) {
-      const [Controller, handlerName] = metadata;
-      const controller = resolve<any>(Controller);
+      const { controller, action, name } = metadata;
+      const controllerInstance = resolve<any>(controller);
       
-      if(typeof controller[handlerName] !== "function")
-        throw new Error(`${handlerName} handler doesn't exist on ${Controller.name}`);
+      if(typeof controllerInstance[action] !== "function")
+        throw new Error(`${action} handler doesn't exist on ${Controller.name}`);
+      
+      const appendRequestHelpers = req => {
+        req.routeName = name;
+        
+        req.routeIs = function(name: string | RegExp) {
+          return (typeof name === "string" && name === this.routeName)
+            || (name instanceof RegExp && name.test(this.routeName));
+        }
+        return req;
+      }
       
       const requestHandler = async function(req: Request, res: Response, next: NextFunction) {
         try {
-          req.files = req.files ?? {};
-          const result = await controller[handlerName](req, res, next);
-          if(result && !res.headersSent) {
-            typeof result === "string"
-              ? res.message(result)
-              : res.api(result);
+          req = appendRequestHelpers(req);
+          const result = await controllerInstance[action](req, res, next);
+          if(!res.headersSent) {
+            if(!result) {
+              res.end();
+            }
+            else if(typeof result === "string") {
+              res.message(result)
+            }
+            else {
+              res.json(result);
+            }
           }
         }
         catch(err) {
           next(err);
         }
       }
-      
       router[method](path, Router.resolveMiddleware(...middlewares), requestHandler);
     }
     return router;
