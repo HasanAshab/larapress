@@ -25,6 +25,12 @@ export default function Hidden(schema: Schema) {
   }, {});
   
   schema.pre(/find/, function() {
-    this.select(excludeHiddenFieldsQuery);
+    if(!this._mongooseOptions.includeHiddenFields)
+      this.select(excludeHiddenFieldsQuery);
   });
+  
+  schema.query.includeHiddenFields = function() {
+    this._mongooseOptions.includeHiddenFields = true;
+    return this;
+  }
 }

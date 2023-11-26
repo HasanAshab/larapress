@@ -3,7 +3,8 @@ import { RequestHandler } from "~/core/decorators";
 import { AuthenticRequest, Response } from "~/core/express";
 import User from "~/app/models/User";
 import UpdateProfileRequest from "~/app/http/requests/v1/UpdateProfileRequest";
-import ShowUserResource from "~/app/http/resources/v1/ShowUserResource";
+import UserProfileResource from "~/app/http/resources/v1/user/UserProfileResource";
+import ShowUserResource from "~/app/http/resources/v1/user/ShowUserResource";
 
 export default class UserController extends Controller {
   @RequestHandler
@@ -13,8 +14,8 @@ export default class UserController extends Controller {
   
   @RequestHandler
   async profile(req: AuthenticRequest) {
-    return req.user;
-  };
+    return UserProfileResource.make(req.user);
+  }
   
   @RequestHandler
   async updateProfile(req: UpdateProfileRequest) {
@@ -22,10 +23,9 @@ export default class UserController extends Controller {
     const profile = req.files.profile;
 
     Object.assign(user, req.body);
-    if(req.body.email) {
+    if(req.body.email)
       user.verified = false;
-    }
-    
+
     if (profile) {
       if(user.profile) {
         await user.media().withTag("profile").replaceBy(profile);
@@ -46,7 +46,9 @@ export default class UserController extends Controller {
   @RequestHandler
   async show(username: string) {
     const user = await User.findOneOrFail({ username }).select("-email -phoneNumber").lean();
-    return ShowUserResource.make(user);
+    return {
+      data: ShowUserResource.make(user)
+      };
   }
   
   @RequestHandler

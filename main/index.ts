@@ -37,12 +37,12 @@ app.server.on("connection", () => {
   console.log(`*New connection: [${time}]`);
 });
 
-
+/*
 import User from "~/app/models/User";
 
-/*
+
 (async () => {
-const user = await User.find();
+const user = await User.findOne().includeHiddenFields();
 //await user.update({name: "binod2"})
  // console.log(await user.delete())
   //await user.refresh()

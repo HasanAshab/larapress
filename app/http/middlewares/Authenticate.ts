@@ -6,17 +6,14 @@ import User from "~/app/models/User";
 
 export default class Authenticate {
   async handle(req: Request, res: Response, next: NextFunction) {
-    const authHeader = req.headers.authorization;
-    if (authHeader) {
-      const token = authHeader.split(" ")[1];
-      if (token) {
-        const { sub, version, iss, aud } = jwt.verify(token, Config.get("app.key")) as JwtPayload;
-        const user = await User.findById(sub);
-        if (user && version === user.tokenVersion && iss === Config.get("app.name") && aud === "auth") {
-          (req as AuthenticRequest).user = user;
-          return next();
-        }
-      }
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token)
+      return res.status(401).message(); 
+    const { sub, version, iss, aud } = jwt.verify(token, Config.get("app.key")) as JwtPayload;
+    const user = await User.findById(sub).includeHiddenFields();
+    if (user && version === user.tokenVersion && iss === Config.get("app.name") && aud === "auth") {
+      (req as AuthenticRequest).user = user;
+      return next();
     }
     res.status(401).message(); 
   }

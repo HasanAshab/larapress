@@ -24,6 +24,9 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   */
   protected bindModelsImplicitly = true;
   
+  protected abstract globalMiddlewares: MiddlewareAliaseWithOrWithoutOptions[];
+  protected abstract registerRoutes(): void;
+  
   /**
    * Boot route services
   */
@@ -40,9 +43,6 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
     this.serveStaticFolder();
     this.registerErrorHandler();
   }
-  
-  protected abstract globalMiddlewares: MiddlewareAliaseWithOrWithoutOptions[];
-  protected abstract registerRoutes(): void;
   
   /**
    * Register middlewares to securing application
@@ -96,7 +96,10 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
       res.json = function(obj: object) {
         const data = JSON.stringify(obj, (key, value) => {
           if(value instanceof JsonResource) {
-            return { [value.wrap]: value.toObject(req) };
+            const resource = value.toObject(req);
+            return key
+              ? resource
+              : { [value.wrap]: resource };
           }
           return value
         });
