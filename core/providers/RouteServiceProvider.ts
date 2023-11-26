@@ -15,6 +15,17 @@ import JsonResource from "~/core/http/resources/JsonResource";
 
 export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
+   * Whether to discover routes or not
+  */
+  protected discoverRoutes = true;
+  
+  /**
+   * From where routes should be discovered
+  */
+  protected discoverRouteFrom = "routes";
+  
+  
+  /**
    * Whether API documentation should be served
   */
   protected serveApiDoc = env("NODE_ENV") === "development";
@@ -25,7 +36,6 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   protected bindModelsImplicitly = true;
   
   protected abstract globalMiddlewares: MiddlewareAliaseWithOrWithoutOptions[];
-  protected abstract registerRoutes(): void;
   
   /**
    * Boot route services
@@ -38,8 +48,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
     this.appendHelpers();
     this.registerGlobalMiddlewares();
     this.bindModelsImplicitly && this.bindModels();
-    this.registerRoutes();
-    this.app.http.use("/", Router.build());
+    this.setupRoutes();
     this.serveStaticFolder();
     this.registerErrorHandler();
   }
@@ -47,7 +56,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
    * Register middlewares to securing application
   */
-  private registerSecurityMiddlewares() {
+  protected registerSecurityMiddlewares() {
     this.app.assertRunningInWeb();
     this.app.http.use(cors({
       origin: [URL.client()] 
@@ -58,7 +67,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
    * Serve api documentation with swagger 
   */
-  private serveDocs() {
+  protected serveDocs() {
     this.app.assertRunningInWeb();
     this.app.http.use("/docs", swaggerUi.serve, swaggerUi.setup(require("~/docs/data")));
   }
@@ -67,7 +76,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
    * Register middlewares for parsing incoming request payload
   */
-  private registerRequestPayloadParsers() {
+  protected registerRequestPayloadParsers() {
     this.app.assertRunningInWeb();
     this.app.http.use(bodyParser.json({ limit: "1mb" }));
     this.app.http.use(bodyParser.urlencoded({
@@ -77,7 +86,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
     this.app.http.use(formDataParser());
   }
   
-  private appendHelpers() {
+  protected appendHelpers() {
     this.app.http.use((req, res, next) => {
       req.files = {};
   
@@ -137,23 +146,37 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
    * Register version specefic global middlewares.
   */
-  private registerGlobalMiddlewares() {
+  protected registerGlobalMiddlewares() {
     this.app.assertRunningInWeb();
     const middlewares = Router.resolveMiddleware(...this.globalMiddlewares);
     this.app.http.use(...middlewares);
   }
   
-  private bindModels() {
+  protected bindModels() {
     modelNames().forEach(modelName => {
       Router.model(lowerFirst(modelName), modelName);
       Router.model("raw" + modelName, modelName, query => query.lean());
     });
   }
   
+  protected registerRoutes() {
+    //
+  }
+
+  /**
+   * Register routes to express
+   */
+  protected setupRoutes() {
+    this.discoverRoutes
+      ? Router.discover(this.discoverRoutesFrom)
+      : this.registerRoutes();
+    this.app.http.use("/", Router.build());
+  }
+  
   /**
    * Serve a folder publicly
   */
-  private serveStaticFolder() {
+  protected serveStaticFolder() {
     this.app.assertRunningInWeb();
     this.app.http.use("/api/files", express.static(base("storage/public")));
     URL.add("file.serve", "api/files/:path");
@@ -162,7 +185,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
    * Register http error handlers
   */
-  private registerErrorHandler() {
+  protected registerErrorHandler() {
     this.app.assertRunningInWeb();
     const errorHandler = new ErrorHandler();
     const handler = errorHandler.handle.bind(errorHandler);
