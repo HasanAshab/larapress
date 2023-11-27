@@ -1,7 +1,5 @@
-import Router from "express";
+import Router from "~/core/http/routing/Router";
 
 
-Router.get("/", () => {
-  return "Hello from Larapress!";
-});
+//Router.get("/", [Controller, "index"]);
 

@@ -9,13 +9,12 @@ import bodyParser from "body-parser";
 import formDataParser from "express-fileupload";
 import URL from "URL";
 import Router, { MiddlewareAliaseWithOrWithoutOptions } from "Router";
-import { getStatusText } from "http-status-codes";
 import ErrorHandler from "~/app/http/middlewares/ErrorHandler";
 import JsonResource from "~/core/http/resources/JsonResource";
 
 export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
-   * Whether to discover routes or not
+   * Whether to discover routes
   */
   protected discoverRoutes = true;
   
@@ -45,7 +44,6 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
     this.serveApiDoc && this.serveDocs();
     this.registerSecurityMiddlewares();
     this.registerRequestPayloadParsers();
-    this.appendHelpers();
     this.registerGlobalMiddlewares();
     this.bindModelsImplicitly && this.bindModels();
     this.setupRoutes();
@@ -86,63 +84,6 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
     this.app.http.use(formDataParser());
   }
   
-  protected appendHelpers() {
-    this.app.http.use((req, res, next) => {
-      req.files = {};
-  
-      Object.defineProperty(req, 'fullUrl', {
-        get: function() {
-          return this.protocol + '://' + this.get('host') + this.originalUrl;
-        }
-      });
-    
-      Object.defineProperty(req, 'hasValidSignature', {
-        get: function() {
-          return URL.hasValidSignature(this.fullUrl);
-        }
-      });
-
-      res.json = function(obj: object) {
-        const data = JSON.stringify(obj, (key, value) => {
-          if(value instanceof JsonResource) {
-            const resource = value.toObject(req);
-            return key
-              ? resource
-              : { [value.wrap]: resource };
-          }
-          return value
-        });
-
-        
-        this.send(data); 
-      }
- 
-      res.message = function(text?: string) {
-        this.json({
-          success: this.statusCode >= 200 && this.statusCode < 300,
-          message: text || getStatusText(this.statusCode),
-        });
-      };
-    
-      res.api = function(response: RawResponse) {
-        response.success = this.statusCode >= 200 && this.statusCode < 300
-        response.message = response.message ?? getStatusText(this.statusCode);
-        response.data = response.data ?? {...response};
-        
-        this.json(response);
-      };
-    
-      res.redirectToClient = function(path = '/') {
-        this.redirect(URL.client(path));
-      };
-    
-      res.sendFileFromStorage = function(storagePath: string) {
-        this.sendFile(base("storage", storagePath));
-      };
-      next();
-    });
-  }
-  
   /**
    * Register version specefic global middlewares.
   */
@@ -151,6 +92,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
     const middlewares = Router.resolveMiddleware(...this.globalMiddlewares);
     this.app.http.use(...middlewares);
   }
+  
   
   protected bindModels() {
     modelNames().forEach(modelName => {

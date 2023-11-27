@@ -46,9 +46,7 @@ export default class UserController extends Controller {
   @RequestHandler
   async show(username: string) {
     const user = await User.findOneOrFail({ username }).select("-email -phoneNumber").lean();
-    return {
-      data: ShowUserResource.make(user)
-      };
+    return ShowUserResource.make(user);
   }
   
   @RequestHandler

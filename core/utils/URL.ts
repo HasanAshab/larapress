@@ -1,11 +1,15 @@
 import Config from 'Config';
 import path from "path";
 import crypto from "crypto";
-import Router from "Router";
 
 export default class URL {
+ /**
+  * Registered named url patterns
+  */
+  static data: Record<string, string> = {};
+  
   static add(name: string, urlPattern: string) {
-    Router.$namedUrls[name] = urlPattern;
+    URL.data[name] = urlPattern;
   }
 
   static resolve(url_path = ""): string {
@@ -19,7 +23,7 @@ export default class URL {
   }
 
   static route(name: string, data?: Record < string, string | number >): string {
-    let endpoint = Router.$namedUrls[name];
+    let endpoint = URL.data[name];
     if(!endpoint) 
       throw new Error(`No url registered with name "${name}"`);
     if (data)

@@ -8,7 +8,6 @@ export type RawResponse = ({
 } & Record<string, any>) | any[];
 
 
-/** Constructor type */
 export type constructor<T = any> = {
     new (...args: any[]): T;
 };
