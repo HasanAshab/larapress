@@ -9,7 +9,8 @@ import ShowUserResource from "~/app/http/resources/v1/user/ShowUserResource";
 export default class UserController extends Controller {
   @RequestHandler
   async index(req: AuthenticRequest) {
-    return await User.find({ role: "novice" }).paginateReq(req);
+    const d = await User.find({ role: "novice" }).select("name").paginateCursor(req);
+    return d
   }
   
   @RequestHandler

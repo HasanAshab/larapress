@@ -11,7 +11,6 @@ import URL from "URL";
 import Router from "./Router";
 import type { MiddlewareAliaseWithOrWithoutOptions } from "./middleware";
 import ErrorHandler from "~/app/http/middlewares/ErrorHandler";
-import JsonResource from "~/core/http/resources/JsonResource";
 
 export default abstract class RouteServiceProvider extends ServiceProvider {
   /**

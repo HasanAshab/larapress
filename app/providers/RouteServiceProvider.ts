@@ -2,6 +2,7 @@ import ServiceProvider from "~/core/http/routing/RouteServiceProvider";
 import Router from "~/core/http/routing/Router";
 import URL from "URL";
 import { getStatusText } from "http-status-codes";
+import JsonResource from "~/core/http/resources/JsonResource";
 
 export default class RouteServiceProvider extends ServiceProvider {
   /**
@@ -35,16 +36,14 @@ export default class RouteServiceProvider extends ServiceProvider {
       const data = JSON.stringify(obj, (key, value) => {
         if(value instanceof JsonResource) {
           const resource = value.toObject(req);
-          return key
-            ? resource
-            : { [value.wrap]: resource };
+          return key ? resource : { [value.wrap]: resource };
         }
-        return value
+        return value;
       });
       this.send(data);
     });
     
-    Router.response.add("json", function(text?: string) {
+    Router.response.add("message", function(text?: string) {
       this.json({
         success: this.statusCode >= 200 && this.statusCode < 300,
         message: text || getStatusText(this.statusCode),
