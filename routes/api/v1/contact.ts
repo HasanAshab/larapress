@@ -1,4 +1,4 @@
-import Router from "Router";
+import Router from "~/core/http/routing/Router";
 import ContactController from "~/app/http/controllers/v1/ContactController";
 
 // Endpoints for contact

@@ -3,7 +3,7 @@ import baseDoc from "~/docs/base";
 import fs from "fs";
 import { Request, AuthenticRequest } from "~/core/express";
 import RouteServiceProvider from "~/app/providers/RouteServiceProvider";
-import Router from "Router";
+import Router from "~/core/http/routing/Router";
 
 interface DocEndpointParam {
   required: boolean,
@@ -26,7 +26,7 @@ export default class Documentation extends Command {
   
   
   private generateDocData() {
-    for(const stack of Router.$stack) {
+    for(const stack of Router.stack) {
       const subDoc: { parameters: DocEndpointParam[] } = { 
         parameters: []
       };

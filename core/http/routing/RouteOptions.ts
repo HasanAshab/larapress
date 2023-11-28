@@ -4,16 +4,16 @@ import URL from "URL";
 import type { MiddlewareAliaseWithOrWithoutOptions } from "./middleware";
 
 export default class RouteOptions {
-  constructor(private route: Route, private config: RouterConfig) {
-    this.route = route;
+  constructor(private config: RouterConfig, private route: Route) {
     this.config = config;
+    this.route = route;
   }
   
   /**
    * Add middlewares to a route
   */
   middleware(...aliases: MiddlewareAliaseWithOrWithoutOptions[]) {
-    route.middlewares.push(...aliases);
+    this.route.middlewares.push(...aliases);
     return this;
   }
   
@@ -22,8 +22,8 @@ export default class RouteOptions {
   */
   name(routeName: string) {
     routeName = this.resolveRouteName(routeName);
-    URL.add(routeName, route.path);
-    route.metadata.name = routeName;
+    this.route.metadata.name = routeName;
+    URL.add(routeName, this.route.path);
     return this;
   }
   

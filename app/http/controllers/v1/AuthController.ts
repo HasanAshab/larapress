@@ -14,7 +14,7 @@ import ChangePhoneNumberRequest from "~/app/http/requests/v1/ChangePhoneNumberRe
 import AuthService from "~/app/services/auth/AuthService";
 import TwoFactorAuthService from "~/app/services/auth/TwoFactorAuthService";
 import PasswordService from "~/app/services/auth/PasswordService";
-import Event from "~/core/Event";
+import Event from "~/core/events/Event";
 import User, { UserDocument } from "~/app/models/User";
 import Token from "~/app/models/Token";
 import Socialite from "Socialite";

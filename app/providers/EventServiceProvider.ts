@@ -1,4 +1,4 @@
-import ServiceProvider from "~/core/providers/EventServiceProvider";
+import ServiceProvider from "~/core/events/EventServiceProvider";
 
 export default class EventServiceProvider extends ServiceProvider {
   /**

@@ -1,4 +1,4 @@
-import Router from "Router";
+import Router from "~/core/http/routing/Router";
 import AuthController from "~/app/http/controllers/v1/AuthController";
 
 /**

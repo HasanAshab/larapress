@@ -8,7 +8,7 @@ import EmailVerificationNotification from "~/app/notifications/EmailVerification
 import ForgotPasswordNotification from "~/app/notifications/ForgotPasswordNotification";
 import AuthService from "~/app/services/auth/AuthService";
 import twoFactorAuthService from "~/app/services/auth/TwoFactorAuthService";
-import Event from "~/core/Event";
+import Event from "~/core/events/Event";
 
 describe("Auth", () => {
   let user;

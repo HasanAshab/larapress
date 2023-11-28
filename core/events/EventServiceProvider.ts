@@ -1,5 +1,5 @@
 import ServiceProvider from "~/core/abstract/ServiceProvider";
-import Event from "~/core/Event";
+import Event from "./Event";
 
 export default abstract class EventServiceProvider extends ServiceProvider {
   protected abstract events: Record<string, string | string[]>;

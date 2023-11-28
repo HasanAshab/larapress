@@ -1,11 +1,11 @@
-import fs from "fs";
-import middlewareConfig from "~/config/middleware";
-import MethodInjector from "MethodInjector";
-import RouteOptions from "./RouteOptions";
 import type RouterConfig from "./RouterConfig";
 import type Route from "./Route";
 import type { Controller, InvokableController, APIResourceController } from "./controller";
 import type { MiddlewareAliaseWithOrWithoutOptions } from "./middleware";
+import fs from "fs";
+import middlewareConfig from "~/config/middleware";
+import MethodInjector from "MethodInjector";
+import RouteOptions from "./RouteOptions";
 import { join } from "path";
 import { model } from "mongoose";
 import { cloneDeep, capitalize } from "lodash";
@@ -37,12 +37,12 @@ class Router {
   /**
    * Callbacks for resolve bindings 
   */
-  static $resolvers: Record<string, BindingResolver> = {};
+  private resolvers: Record<string, BindingResolver> = {};
   
   /**
    * Reset scope based configuration
   */
-  static $reset() {
+  reset() {
     this.config = {
       prefix: "/",
       as: "",
@@ -52,8 +52,8 @@ class Router {
   }
 
   /**
-   * Add a endpoint to stack
-  */
+   * Add a route to stack
+   */
   private addRoute<T extends Controller>(method: string, path: string, action: string | InvokableController | [T, keyof InstanceType<T> & string]) {
     const route: Route = {
       method,
@@ -67,6 +67,7 @@ class Router {
         key: action[1]
       };
     }
+    
     else if(typeof action === "string") {
       if(!this.config.controller)
         throw new Error(`Must pass a controller in "${path}" route as no global scope controller exist`);
@@ -84,31 +85,31 @@ class Router {
     }
     
     this.stack.push(route);
-    return new RouteOptions(this, route);
+    return new RouteOptions(this.config, route);
   }
   
   
   /**
-   * Add a endpoint of GET method to stack
+   * Add a route of GET method to stack
   */
   get<T extends Controller>(path: string, action: string | InvokableController | [T, keyof InstanceType<T> & string]) {
-    return this.addRoute("get", endpoint, action);
+    return this.addRoute("get", path, action);
   }
   
   post<T extends Controller>(path: string, action: string | InvokableController | [T, keyof InstanceType<T> & string]) {
-    return this.addRoute("post", endpoint, action);
+    return this.addRoute("post", path, action);
   }
   
   put<T extends Controller>(path: string, action: string | InvokableController | [T, keyof InstanceType<T> & string]) {
-    return this.addRoute("put", endpoint, action);
+    return this.addRoute("put", path, action);
   }
 
   patch<T extends Controller>(path: string, action: string | InvokableController | [T, keyof InstanceType<T> & string]) {
-    return this.addRoute("patch", endpoint, action);
+    return this.addRoute("patch", path, action);
   }
   
   delete<T extends Controller>(path: string, action: string | InvokableController | [T, keyof InstanceType<T> & string]) {
-    return this.addRoute("delete", endpoint, action);
+    return this.addRoute("delete", path, action);
   }
   
   apiResource(name: string, controller: APIResourceController) {
@@ -133,15 +134,15 @@ class Router {
         reqParamName = key;
       }
     }
-    return reqParamName && this.$resolvers[reqParamName]?.(params[reqParamName]);
+    return reqParamName && this.resolvers[reqParamName]?.(params[reqParamName]);
   }
   
 
-  static bind(param: string, resolver: BindingResolver) {
-    this.$resolvers[param] = resolver;
+  bind(param: string, resolver: BindingResolver) {
+    this.resolvers[param] = resolver;
   }
   
-  static model(param: string, modelName: string, queryCustomizer?: Function) {
+  model(param: string, modelName: string, queryCustomizer?: Function) {
     const Model = model(modelName);
     
     const bindField = (field: string, suffix = "") => {
@@ -157,7 +158,6 @@ class Router {
     Object.keys(Model.schema.paths).forEach(field => bindField(field, "_" + field));
     bindField("_id");
   }
-  
 
   /**
     * Generates middlewares stack based on keys. Options are injected to the middleware class.
@@ -166,11 +166,11 @@ class Router {
     *
     * Examples:
     * 
-    * Router.resolveMiddleware("foo")
-    * Router.resolveMiddleware("foo", "bar")
-    * Router.resolveMiddleware("foo:opt1", "bar:opt1,opt2")
+    * this.resolveMiddleware("foo")
+    * this.resolveMiddleware("foo", "bar")
+    * this.resolveMiddleware("foo:opt1", "bar:opt1,opt2")
   */
-  static resolveMiddleware(...keysWithOptions: MiddlewareAliaseWithOrWithoutOptions[]): RequestHandler[] {
+  resolveMiddleware(...keysWithOptions: MiddlewareAliaseWithOrWithoutOptions[]): RequestHandler[] {
     const handlers: RequestHandler[] = [];
     keysWithOptions.forEach(keyWithOptions => {
       const [key, optionString] = keyWithOptions.split(":");
@@ -190,7 +190,7 @@ class Router {
     return handlers;
   }
   
-  static group(config: Partial<RouterConfig>, cb: string | (() => void)) {
+  group(config: Partial<RouterConfig>, cb: string | (() => void)) {
     const oldConfig = cloneDeep(this.config);
     if(config.prefix)
       config.prefix = join(oldConfig.prefix, config.prefix);
@@ -202,7 +202,7 @@ class Router {
     this.config = oldConfig;
   }
   
-  static prefix(path: string) {
+  prefix(path: string) {
     const group = (cb: () => void) => {
       this.group({ prefix: path }, cb);
     }
@@ -212,18 +212,18 @@ class Router {
     return { group, load };
   }
   
-  static prefixName(as: string) {
+  as(name: string) {
     const group = (cb: () => void) => {
-      this.group({ as }, cb);
+      this.group({ as: name }, cb);
     }
     
     const load = (routerPath: string) => {
-      this.group({ as }, routerPath);
+      this.group({ as: name }, routerPath);
     }
     return { group, load };
   }
   
-  static controller(ControllerClass: Controller) {
+  controller(ControllerClass: Controller) {
     const group = (cb: () => void) => {
       this.group({ controller: ControllerClass }, cb);
     }
@@ -234,7 +234,7 @@ class Router {
     return { group, load };
   }
   
-  static middleware(aliases: MiddlewareAliaseWithOrWithoutOptions | MiddlewareAliaseWithOrWithoutOptions[]) {
+  middleware(aliases: MiddlewareAliaseWithOrWithoutOptions | MiddlewareAliaseWithOrWithoutOptions[]) {
     aliases = typeof aliases === "string" ? [aliases] : aliases;
     const group = (cb: () => void) => {
       this.group({ middlewares: aliases as MiddlewareAliaseWithOrWithoutOptions[] }, cb);
@@ -247,11 +247,11 @@ class Router {
   }
   
   /**
-   * Discovers routes from a base directory and prefix its endpoints.
+   * Discovers routes from a base directory and prefix its paths.
    * Used for a simple File Based Routing.
   */
-  static discover(base = "routes") {
-    const endpointPathPair: Record<string, string> = {}
+  discover(base = "routes") {
+    const pathPathPair: Record<string, string> = {}
     const stack = [base];
     while (stack.length > 0) {
       const currentPath = stack.pop();
@@ -262,8 +262,8 @@ class Router {
         const status = fs.statSync(itemPath);
         if (status.isFile()) {
           const itemPathEndpoint = itemPath.replace(base, "").split(".")[0].toLowerCase().replace(/index$/, "");
-          Router.$reset();
-          Router.prefix(itemPathEndpoint).group(() => {
+          this.reset();
+          this.prefix(itemPathEndpoint).group(() => {
             require("~/" + itemPath.split(".")[0])
           });
         }
@@ -272,14 +272,14 @@ class Router {
         }
       }
     }
-    Router.$reset();
+    this.reset();
   }
   
 
-  static build(router = ExpressRouter()) {
+  build(router = ExpressRouter()) {
     router.use((req, res, next) => {
-      Router.request.inject(req);
-      Router.response.inject(res);
+      this.request.inject(req);
+      this.response.inject(res);
       next();
     });
     
@@ -320,7 +320,7 @@ class Router {
           next(err);
         }
       }
-      router[method](path, Router.resolveMiddleware(...middlewares), requestHandler);
+      router[method](path, this.resolveMiddleware(...middlewares), requestHandler);
     }
     return router;
   }

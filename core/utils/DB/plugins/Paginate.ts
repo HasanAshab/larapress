@@ -33,3 +33,13 @@ export default function Paginate(schema: any) {
     return paginatedData;
   }
 }
+
+
+            'data'          => $this->items->toArray(),
+            'path' => $this->path(),
+            'perPage' => $this->perPage(),
+            'nextCursor' => $this->nextCursor()?->encode(),
+            'nextPageUrl' => $this->nextPageUrl(),
+            'prevCursor' => $this->previousCursor()?->encode(),
+            'prevPageUrl' => $this->previousPageUrl(),
+   

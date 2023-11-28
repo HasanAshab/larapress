@@ -1,4 +1,4 @@
-import Router from "Router";
+import Router from "~/core/http/routing/Router";
 import UserController from "~/app/http/controllers/v1/UserController";
 
 // Endpoints for user management

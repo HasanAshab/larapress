@@ -1,4 +1,4 @@
-import Router from "Router";
+import Router from "~/core/http/routing/Router";
 import DashboardController from "~/app/http/controllers/v1/DashboardController";
 import CategoryController from "~/app/http/controllers/v1/CategoryController";
 

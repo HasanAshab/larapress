@@ -1,5 +1,5 @@
-import ServiceProvider from "~/core/providers/RouteServiceProvider";
-import Router from "Router";
+import ServiceProvider from "~/core/http/routing/RouteServiceProvider";
+import Router from "~/core/http/routing/Router";
 import URL from "URL";
 import { getStatusText } from "http-status-codes";
 

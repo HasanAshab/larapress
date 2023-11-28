@@ -2,7 +2,7 @@ import { constructor } from "types";
 import { NextFunction } from "express";
 import { Request, AuthenticRequest, Response, isRequest } from "~/core/express";
 import Validator from "Validator";
-import Router from "Router";
+import Router from "~/core/http/routing/Router";
 
 export default function RequestHandler(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
   const handler = descriptor.value;

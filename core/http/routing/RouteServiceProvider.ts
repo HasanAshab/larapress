@@ -8,7 +8,8 @@ import { lowerFirst } from "lodash";
 import bodyParser from "body-parser";
 import formDataParser from "express-fileupload";
 import URL from "URL";
-import Router, { MiddlewareAliaseWithOrWithoutOptions } from "Router";
+import Router from "./Router";
+import type { MiddlewareAliaseWithOrWithoutOptions } from "./middleware";
 import ErrorHandler from "~/app/http/middlewares/ErrorHandler";
 import JsonResource from "~/core/http/resources/JsonResource";
 
