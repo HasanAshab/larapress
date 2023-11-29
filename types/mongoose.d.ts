@@ -1,6 +1,10 @@
 import { Request } from '~/core/express';
 
 declare module 'mongoose' {
+  type LeanDocument<DocType = Document> = DocType & DocType extends { $locals: never }
+  ? DocType
+  : 'Please lean the document';
+  
   /*
   interface Model<TRawDocType, QueryHelpers = {}> {
     findOneOrFail(...args: Parameters<Model<TRawDocType>['findOne']>): Query<TRawDocType, TRawDocType, TQueryHelpers>;

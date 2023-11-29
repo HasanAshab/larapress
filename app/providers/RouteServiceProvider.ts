@@ -39,7 +39,7 @@ export default class RouteServiceProvider extends ServiceProvider {
     Router.response.add("json", function(obj: object) {
       const data = JSON.stringify(obj, (key, value) => {
         if(value instanceof JsonResource) {
-          const resource = value.toObject(req);
+          const resource = value.toObject(this.req);
           return key ? resource : { [value.wrap]: resource };
         }
         return value;
