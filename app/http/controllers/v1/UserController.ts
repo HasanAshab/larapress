@@ -5,12 +5,14 @@ import User from "~/app/models/User";
 import UpdateProfileRequest from "~/app/http/requests/v1/UpdateProfileRequest";
 import UserProfileResource from "~/app/http/resources/v1/user/UserProfileResource";
 import ShowUserResource from "~/app/http/resources/v1/user/ShowUserResource";
+import UserCollection from "~/app/http/resources/v1/user/UserCollection";
 
 export default class UserController extends Controller {
   @RequestHandler
   async index(req: AuthenticRequest) {
     const d = await User.find({ role: "novice" }).paginateCursor(req);
-    return d//UserProfileResource.collection(d);
+    //return UserProfileResource.collection(d);
+    return UserCollection.make(d);
   }
   
   @RequestHandler

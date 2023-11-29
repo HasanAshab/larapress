@@ -1,26 +1,28 @@
 import { Request } from "~/core/express";
 import { Document, LeanDocument } from "mongoose";
 import CursorPaginator from "DB/plugins/Paginate/CursorPaginator";
+import AnonymousResourceCollection from "./AnonymousResourceCollection";
 
 export default abstract class JsonResource<DocType extends Document> {
-  wrap = "data";
+  static wrap = "data";
   
-  constructor(protected readonly document: DocType | LeanDocument<DocType>) {
-    this.document = document;
+  constructor(protected readonly resource: DocType | LeanDocument<DocType>) {
+    this.resource = resource;
   }
   
-  static make(document: DocType | LeanDocument<DocType>) {
-    return new this(document);
+  static make(resource: DocType | LeanDocument<DocType>) {
+    return new this(resource);
   }
   
-  static collection(items: DocType[] | LeanDocument<DocType>[] | CursorPaginator<DocType>) {
-    if(items instanceof CursorPaginator) {
-      const paginated = items.toObject();
-      paginated.data = paginated.data.map(item => new this(item));
-      return paginated;
-    }
-    return items.map(item => new this(item));
+  static collection(resource: DocType[] | LeanDocument<DocType>[] | CursorPaginator<DocType>) {
+    return new AnonymousResourceCollection(resource, this);
   }
   
+  transform(req: Request, isRoot = true) {
+    return isRoot 
+      ? { [this.c.wrap]: this.toObject(req) }
+      : this.toObject(req);
+  }
+
   public abstract toObject(req: Request): object; 
 }

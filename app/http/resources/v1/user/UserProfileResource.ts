@@ -6,13 +6,13 @@ import URL from "URL";
 export default class UserProfileResource extends JsonResource<UserDocument> {
   toObject(req: Request) {
     return {
-      id: this.document._id,
-      name: this.document.name,
-      email: this.document.email,
-      username: this.document.username,
-      phoneNumber: this.document.phoneNumber,
-      profile: this.document.profile && URL.route("v1_media.serve", { id: this.document.profile }),
-      role: this.document.role
+      id: this.resource._id,
+      name: this.resource.name,
+      email: this.resource.email,
+      username: this.resource.username,
+      phoneNumber: this.resource.phoneNumber,
+      profile: this.resource.profile && URL.route("v1_media.serve", { id: this.resource.profile }),
+      role: this.resource.role
     }
   }
 }

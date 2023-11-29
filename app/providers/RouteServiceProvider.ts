@@ -3,6 +3,7 @@ import Router from "~/core/http/routing/Router";
 import URL from "URL";
 import { getStatusText } from "http-status-codes";
 import JsonResource from "~/core/http/resources/JsonResource";
+import ResourceCollection from "~/core/http/resources/ResourceCollection";
 
 export default class RouteServiceProvider extends ServiceProvider {
   /**
@@ -38,10 +39,8 @@ export default class RouteServiceProvider extends ServiceProvider {
     
     Router.response.add("json", function(obj: object) {
       const data = JSON.stringify(obj, (key, value) => {
-        if(value instanceof JsonResource) {
-          const resource = value.toObject(this.req);
-          return key ? resource : { [value.wrap]: resource };
-        }
+        if(value instanceof JsonResource || value instanceof ResourceCollection)
+          return value.transform(this.req);
         return value;
       });
       this.send(data);

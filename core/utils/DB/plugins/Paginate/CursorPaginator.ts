@@ -26,11 +26,15 @@ export default class CursorPaginator<DocType extends Document> {
 
   toObject() {
     return {
-      "data": this.items,
-      "path": this.req.fullPath,
-      "perPage": this.perPage,
-      "nextCursor": this.nextCursor,
-      "nextPageUrl": this.nextPageUrl
+      data: this.items,
+      links: {
+        nextPage: this.nextPageUrl
+      },
+      meta: {
+        path: this.req.fullPath,
+        perPage: this.perPage,
+        nextCursor: this.nextCursor
+      }
     }
   }
   
