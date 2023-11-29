@@ -27,6 +27,10 @@ export default class RouteServiceProvider extends ServiceProvider {
     Router.request.getter("fullUrl", function() {
       return this.protocol + '://' + this.get('host') + this.originalUrl;
     });
+    
+    Router.request.getter("fullPath", function() {
+      return this.protocol + '://' + this.get('host') + this.path;
+    });
    
     Router.request.getter("hasValidSignature", function() {
       return URL.hasValidSignature(this.fullUrl);

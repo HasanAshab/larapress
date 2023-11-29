@@ -10,20 +10,24 @@ class CursorPaginator {
     this.cursor = cursor;
   }
   
+  static getCursorOf(item: Document) {
+    return item._id.toHexString();
+  }
+  
   get nextCursor() {
-    return last(this.items)._id.toHexString();
+    return CursorPaginator.getCursorOf(last(this.items));
   }
   
   get nextPageUrl() {
-    const querySeparator = this.req.fullUrl.includes("?") ? "&" : "?";
-    const cursorQuery = this.cursor ? "&cursor=" + this.cursor : "";
-    return `${this.req.fullUrl}${querySeparator}limit=${this.perPage}${cursorQuery}`;
+    const separator = this.req.fullUrl.includes("?") ? "&" : "?";
+    const cursorQuery = this.cursor ? `${separator}cursor=${this.cursor}` : "";
+    return `${this.req.fullUrl}${cursorQuery}`;
   }
 
   toJSON() {
     return {
       "data": this.items,
-      "path": this.req.path,
+      "path": this.req.fullPath,
       "perPage": this.perPage,
       "nextCursor": this.nextCursor,
       "nextPageUrl": this.nextPageUrl
@@ -46,16 +50,4 @@ export default function Paginate(schema: any) {
 
     return new CursorPaginator(req, documents, limit, cursor);
   };
-  
-  schema.query.paginate = async function (req: Request) {
-    const baseUrl = req.baseUrl;
-    const originalUrl = req.originalUrl;
-    const hasQuery = originalUrl.includes("?");
-    const limit = typeof req.query.limit === "string" ? parseInt(req.query.limit) : 20;
-    const querySeparator = hasQuery ? "&" : "?";
-    const paginatedData = await this.paginate(limit, req.query.cursor);
-    paginatedData.nextCursor = paginatedData.next;
-    paginatedData.next = paginatedData.next ? `${baseUrl}${originalUrl}${querySeparator}limit=${limit}&cursor=${paginatedData.next}` : null;
-    return paginatedData;
-  }
 }
