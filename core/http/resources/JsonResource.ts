@@ -20,9 +20,18 @@ export default abstract class JsonResource<DocType extends Document> {
   
   transform(req: Request, isRoot = true) {
     return isRoot 
-      ? { [this.c.wrap]: this.toObject(req) }
+      ? { [this.constructor.wrap]: this.toObject(req) }
       : this.toObject(req);
   }
 
   public abstract toObject(req: Request): object; 
+
+  protected when(condition: boolean, value: unknown) {
+    if(!condition)
+      return undefined;
+    if(typeof value === "function") {
+      value = value();
+    }
+    return value;
+  }
 }

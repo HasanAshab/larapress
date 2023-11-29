@@ -4,14 +4,14 @@ import { AuthenticRequest, Response } from "~/core/express";
 import User from "~/app/models/User";
 import UpdateProfileRequest from "~/app/http/requests/v1/UpdateProfileRequest";
 import UserProfileResource from "~/app/http/resources/v1/user/UserProfileResource";
-import ShowUserResource from "~/app/http/resources/v1/user/ShowUserResource";
-import UserCollection from "~/app/http/resources/v1/user/UserCollection";
+import ListUserResource from "~/app/http/resources/v1/user/ListUserResource";
 
 export default class UserController extends Controller {
   @RequestHandler
   async index(req: AuthenticRequest) {
-    const d = await User.find({ role: "novice" }).lean().paginateCursor(req);
-    return UserCollection.make(d);
+    return ListUserResource.collection(
+      await User.find({ role: "novice" }).lean().paginateCursor(req)
+    );
   }
   
   @RequestHandler
@@ -48,7 +48,7 @@ export default class UserController extends Controller {
   @RequestHandler
   async show(username: string) {
     const user = await User.findOneOrFail({ username }).select("-email -phoneNumber").lean();
-    return ShowUserResource.make(user);
+    return UserProfileResource.make(user);
   }
   
   @RequestHandler
