@@ -5,7 +5,8 @@ import CursorPaginator from "./CursorPaginator";
 */
 export default function Paginate(schema: any) {
   schema.query.paginateCursor = async function (req: Request) {
-    const { cursor, limit } = req.query;
+    const cursor = req.query.cursor;
+    const limit = parseInt(req.query.limit || 20);
     if(cursor) {
       this.where("_id").gt(cursor);
     }

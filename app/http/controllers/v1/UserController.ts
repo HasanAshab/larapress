@@ -10,8 +10,7 @@ import UserCollection from "~/app/http/resources/v1/user/UserCollection";
 export default class UserController extends Controller {
   @RequestHandler
   async index(req: AuthenticRequest) {
-    const d = await User.find({ role: "novice" }).paginateCursor(req);
-    //return UserProfileResource.collection(d);
+    const d = await User.find({ role: "novice" }).lean().paginateCursor(req);
     return UserCollection.make(d);
   }
   

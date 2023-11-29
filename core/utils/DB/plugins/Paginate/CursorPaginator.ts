@@ -3,7 +3,7 @@ import { Document, LeanDocument } from "mongoose";
 import { last } from "lodash";
 
 export default class CursorPaginator<DocType extends Document> {
-  constructor(req: Request, items: DocType[] | LeanDocument<DocType>[], perPage: string, cursor?: string) {
+  constructor(protected req: Request, protected items: DocType[] | LeanDocument<DocType>[], protected perPage: number, protected cursor?: string) {
     this.req = req;
     this.items = items;
     this.perPage = perPage;
@@ -19,9 +19,9 @@ export default class CursorPaginator<DocType extends Document> {
   }
   
   get nextPageUrl() {
-    const separator = this.req.fullUrl.includes("?") ? "&" : "?";
-    const cursorQuery = this.cursor ? `${separator}cursor=${this.cursor}` : "";
-    return `${this.req.fullUrl}${cursorQuery}`;
+    const query = new URLSearchParams(this.req.query);
+    query.append("cursor", this.nextCursor);
+    return `${this.req.fullPath}?${query.toString()}`;
   }
 
   toObject() {
