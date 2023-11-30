@@ -1,3 +1,3 @@
 import QueueManager from "./QueueManager";
 
-export default resolve<QueueManager>("Queue");
+export default new QueueManager;

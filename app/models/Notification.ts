@@ -1,6 +1,5 @@
 import { model, Model, QueryWithHelpers, HydratedDocument, Schema, Document } from "mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
-import HumanReadableTime from "~/app/plugins/HumanReadableTime";
 import DocumentNotFoundException from "~/app/exceptions/DocumentNotFoundException";
 
 const NotificationSchema = new Schema<NotificationDocument, Model<NotificationDocument>, {}, NotificationQueryHelpers>({
@@ -43,7 +42,6 @@ NotificationSchema.query.markAsReadOrFail = async function() {
 }
 
 NotificationSchema.plugin(HasFactory);
-NotificationSchema.plugin(HumanReadableTime);
 
 export interface INotification {
   userId: Schema.Types.ObjectId;

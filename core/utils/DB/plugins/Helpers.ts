@@ -45,7 +45,7 @@ function assertExistsOnExecution(query: Query<Document, Document>) {
  * Plugin to add base helpers
  */
 export default function Helpers(schema: Schema) {
-  schema.statics.where = async function(field: string) {
+  schema.statics.where = function(field: string) {
     const equals = value => {
       return this.find({ [field]: value });
     }

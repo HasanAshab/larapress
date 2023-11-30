@@ -13,7 +13,6 @@ export default function Paginate(schema: any) {
     
     const sortOpts = this.options.sort ?? { _id: 1 };
     const documents = await this.sort(sortOpts).limit(limit).exec();
-
     return new CursorPaginator(req, documents, limit, cursor);
-  };
-}
+  }
+} 

@@ -12,11 +12,8 @@ export default {
   log: "console",
 
   providers: [
-    "Storage/StorageServiceProvider",
     "DB/DatabaseServiceProvider",
-    "Queue/QueueServiceProvider",
     "Cache/CacheServiceProvider",
-    "Socialite/SocialiteServiceProvider",
     "~/app/providers/EventServiceProvider",
     "~/app/providers/RouteServiceProvider",
     "~/app/providers/ConsoleServiceProvider",

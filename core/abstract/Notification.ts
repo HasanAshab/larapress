@@ -1,4 +1,4 @@
-import { NotifiableDocument } from "~/app/plugins/Notifiable";
+import type { NotifiableDocument } from "~/app/plugins/Notifiable";
 import Mail from "Mail";
 import NotificationModel from "~/app/models/Notification";
 import Mailable from "~/core/abstract/Mailable";

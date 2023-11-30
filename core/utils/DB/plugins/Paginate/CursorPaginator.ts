@@ -15,10 +15,14 @@ export default class CursorPaginator<DocType extends Document> {
   }
   
   get nextCursor() {
-    return CursorPaginator.getCursorOf(last(this.items));
+    return this.items.length 
+      ? CursorPaginator.getCursorOf(last(this.items))
+      : null;
   }
   
   get nextPageUrl() {
+    if(!this.nextCursor)
+      return null;
     const query = new URLSearchParams(this.req.query);
     query.append("cursor", this.nextCursor);
     return `${this.req.fullPath}?${query.toString()}`;

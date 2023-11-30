@@ -11,6 +11,8 @@ import app from "~/main/app";
 import DB from "DB";
 
 
+app.assertRunningInWeb();
+
 // Connecting to database
 if(Config.get("database.connect")) {
   DB.connect().then(() => {
@@ -20,13 +22,7 @@ if(Config.get("database.connect")) {
   });
 }
 
-
-
-
-
 const port = Config.get<number>("app.port");
-
-app.assertRunningInWeb();
 
 app.server.listen(port, () => {
   console.log(`Server running on [http://127.0.0.1:${port}] ...`);

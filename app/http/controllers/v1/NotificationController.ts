@@ -1,16 +1,16 @@
 import Controller from "~/app/http/controllers/Controller";
 import { RequestHandler } from "~/core/decorators";
 import { AuthenticRequest, Response } from "~/core/express";
-import { INotification } from "~/app/models/Notification";
+import type { INotification } from "~/app/models/Notification";
+import Notification from "~/app/models/Notification";
 import ListNotificationResource from "~/app/http/resources/v1/notification/ListNotificationResource";
 import ShowNotificationResource from "~/app/http/resources/v1/notification/ShowNotificationResource";
 
 export default class NotificationController extends Controller {
   @RequestHandler
   async index(req: AuthenticRequest) {
-    console.log(req.user.notifications)
     return ListNotificationResource.collection(
-      await (req.user.notifications.cursorPaginate(req))
+      await req.user.notifications.paginateCursor(req)
     );
   }
   
