@@ -14,17 +14,6 @@ import ErrorHandler from "~/app/http/middlewares/ErrorHandler";
 
 export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
-   * Whether to discover routes
-  */
-  protected discoverRoutes = true;
-  
-  /**
-   * From where routes should be discovered
-  */
-  protected discoverRouteFrom = "routes";
-  
-  
-  /**
    * Whether API documentation should be served
   */
   protected serveApiDoc = env("NODE_ENV") === "development";
@@ -101,19 +90,16 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
     });
   }
   
-  protected registerRoutes() {
-    //
-  }
-
+  /**
+   * Register routes to express
+   */
+  protected registerRoutes(): void;
+    
   /**
    * Register routes to express
    */
   protected setupRoutes() {
-   /* this.discoverRoutes
-      ? Router.discover(this.discoverRoutesFrom)
-      : this.registerRoutes();
-      */
-      Router.discover(this.discoverRoutesFrom + "/v1");
+    this.registerRoutes();
     this.app.http.use("/", Router.build());
   }
   

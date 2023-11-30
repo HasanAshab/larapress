@@ -250,7 +250,7 @@ export class Router {
    * Discovers routes from a base directory and prefix its paths.
    * Used for a simple File Based Routing.
   */
-  discover(base = "routes") {
+  discover(base: string) {
     const pathPathPair: Record<string, string> = {}
     const stack = [base];
     while (stack.length > 0) {
@@ -262,10 +262,7 @@ export class Router {
         const status = fs.statSync(itemPath);
         if (status.isFile()) {
           const itemPathEndpoint = itemPath.replace(base, "").split(".")[0].toLowerCase().replace(/index$/, "");
-          this.reset();
-          this.prefix(itemPathEndpoint).group(() => {
-            require("~/" + itemPath.split(".")[0])
-          });
+          this.prefix(itemPathEndpoint).group("~/" + itemPath.split(".")[0]);
         }
         else if (status.isDirectory()) {
           stack.push(itemPath);

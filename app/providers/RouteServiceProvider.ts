@@ -22,6 +22,16 @@ export default class RouteServiceProvider extends ServiceProvider {
     this.addHelpers();
   }
   
+  protected registerRoutes() {
+    Router.group({
+      prefix: "api/v1",
+      as: "v1_"
+    }, () => {
+      Router.discover("routes/api/v1");
+    });
+  }
+
+  
   addHelpers() {
     Router.request.add("files", {});
     
