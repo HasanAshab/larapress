@@ -23,10 +23,12 @@ export default class SettingsController extends Controller {
   @RequestHandler
   async setupTwoFactorAuth(req: SetupTwoFactorAuthRequest, twoFactorAuthService: TwoFactorAuthService){
     const { enable, method } = req.body;
+   
     if(!enable) {
       await twoFactorAuthService.disable(req.user);
       return "Two Factor Auth disabled!";
     }
+    
     return {
       message: "Two Factor Auth enabled!",
       data: await twoFactorAuthService.enable(req.user, method)
@@ -39,8 +41,8 @@ export default class SettingsController extends Controller {
   }
 
   @RequestHandler
-  async updateAppSettings(req: UpdateAppSettingsRequest) {
-    Config.set(req.body);
+  async updateAppSettings({ body }: UpdateAppSettingsRequest) {
+    Config.set(body);
     return "App Settings updated!";
   }
 }

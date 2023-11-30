@@ -4,13 +4,14 @@ import { AuthenticRequest, Response } from "~/core/express";
 import User from "~/app/models/User";
 import UpdateProfileRequest from "~/app/http/requests/v1/UpdateProfileRequest";
 import UserProfileResource from "~/app/http/resources/v1/user/UserProfileResource";
+import ShowUserResource from "~/app/http/resources/v1/user/ShowUserResource";
 import ListUserResource from "~/app/http/resources/v1/user/ListUserResource";
 
 export default class UserController extends Controller {
   @RequestHandler
   async index(req: AuthenticRequest) {
     return ListUserResource.collection(
-      await User.find({ role: "novice" }).lean().paginateCursor(req)
+      await User.where("role").equals("novice").lean().paginateCursor(req)
     );
   }
   
@@ -25,9 +26,11 @@ export default class UserController extends Controller {
     const profile = req.files.profile;
 
     Object.assign(user, req.body);
-    if(req.body.email)
+    
+    if(req.body.email) {
       user.verified = false;
-
+    }
+    
     if (profile) {
       if(user.profile) {
         await user.media().withTag("profile").replaceBy(profile);
@@ -41,14 +44,16 @@ export default class UserController extends Controller {
     
     if(!req.body.email) 
       return "Profile updated!";
+      
     await user.sendVerificationNotification("v1");
-    return "Verification email sent to your new email!";
+    return "Verification email sent to your new email address!";
   };
   
   @RequestHandler
   async show(username: string) {
-    const user = await User.findOneOrFail({ username }).select("-email -phoneNumber").lean();
-    return UserProfileResource.make(user);
+    return ShowUserResource.make(
+      await User.findOneOrFail({ username }).select("-email -phoneNumber").lean()
+    );
   }
   
   @RequestHandler

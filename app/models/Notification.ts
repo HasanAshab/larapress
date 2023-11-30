@@ -11,9 +11,13 @@ const NotificationSchema = new Schema<NotificationDocument, Model<NotificationDo
     cascade: true,
     index: true
   },
-  data: {
+  title: {
     required: true,
-    type: Object
+    type: String
+  },
+  message: {
+    required: true,
+    type: String
   },
   readAt: {
     type: Date,
@@ -43,8 +47,9 @@ NotificationSchema.plugin(HumanReadableTime);
 
 export interface INotification {
   userId: Schema.Types.ObjectId;
-  data: object;
-  readAt: object | null;
+  title: string;
+  message: string;
+  readAt: Date | null;
 }
 
 export interface NotificationDocument extends Document, INotification {

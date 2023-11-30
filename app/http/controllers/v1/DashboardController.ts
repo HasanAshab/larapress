@@ -9,11 +9,14 @@ export default class DashboardController extends Controller {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     
-    const [totalUsers, newUsersToday] = await Promise.all([
-      User.count({ role: "novice" }).lean(),
-      User.count({ role: "novice", createdAt: { $gte: today }}).lean()
+    const [ totalUsers, newUsersToday ] = await Promise.all([
+      User.count({ role: "novice" }),
+      User.count({ role: "novice", createdAt: { $gte: today }})
     ]);
-    return { totalUsers, newUsersToday };
+    
+    return { 
+      data: { totalUsers, newUsersToday }
+    };
   }
 }
 

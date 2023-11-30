@@ -5,6 +5,9 @@ interface AssertedQuery<TRawDocType, TQueryHelpers = {}> extends Query<TRawDocTy
 
 declare module 'mongoose' {
   interface Model<TRawDocType, TQueryHelpers = {}> {
+    where(field: string): {
+      equals(value: any): Query<TRawDocType[] | null, TRawDocType, TQueryHelpers>;
+    };
     updateOneById(id: string, data: object): Promise<boolean>;
     deleteOneById(id: string): Promise<boolean>;
     findOneOrFail(...args: Parameters<this['findOne']>): AssertedQuery<TRawDocType, TQueryHelpers>;
@@ -42,6 +45,15 @@ function assertExistsOnExecution(query: Query<Document, Document>) {
  * Plugin to add base helpers
  */
 export default function Helpers(schema: Schema) {
+  schema.statics.where = async function(field: string) {
+    const equals = value => {
+      return this.find({ [field]: value });
+    }
+    
+    return { equals };
+  }
+
+  
   schema.statics.updateOneById = async function(id: string, data: object) {
     const { modifiedCount } = await this.constructor.updateOne({ _id: id }, data);
     return modifiedCount === 1;

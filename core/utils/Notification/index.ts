@@ -1,5 +1,5 @@
 import NotificationClass from "~/core/abstract/Notification";
-import { NotifiableDocument } from "~/app/plugins/Notifiable";
+import type { NotifiableDocument } from "~/app/plugins/Notifiable";
 import SendNotification from "~/app/jobs/SendNotification";
 import NotificationService from "~/app/services/NotificationService";
 

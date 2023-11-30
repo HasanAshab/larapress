@@ -1,0 +1,12 @@
+import { Request } from "~/core/express";
+import JsonResource from "~/core/http/resources/JsonResource";
+import { UserDocument } from "~/app/models/User";
+
+export default class {{name}}Resource extends JsonResource<UserDocument> {
+ /**
+  * Transfrom the resource to plain object
+  */
+  toObject(req: Request) {
+    return this.resource;
+  }
+}

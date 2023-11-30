@@ -1,18 +1,15 @@
 import { Request } from "~/core/express";
-import JsonResource from "~/core/http/resources/JsonResource";
-import { UserDocument } from "~/app/models/User";
-import URL from "URL";
+import UserResource from "./UserResource";
 
-export default class UserProfileResource extends JsonResource<UserDocument> {
+export default class UserProfileResource extends UserResource {
   toObject(req: Request) {
-    const isAuthor = req.user?._id === this.resource._id;
     return {
       id: this.resource._id,
       name: this.resource.name,
-      email: this.when(isAuthor, this.resource.email),
-      phoneNumber: this.when(isAuthor, this.resource.phoneNumber),
+      email: this.resource.email,
+      phoneNumber: this.resource.phoneNumber,
       username: this.resource.username,
-      profile: this.resource.profile && URL.route("v1_media.serve", { id: this.resource.profile }),
+      profile: this.profileUrl,
       role: this.resource.role
     }
   }

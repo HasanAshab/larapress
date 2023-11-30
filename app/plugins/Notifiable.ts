@@ -1,7 +1,8 @@
 import { Schema, Document, QueryWithHelpers } from "mongoose";
 import NotificationClass from "~/core/abstract/Notification";
 import Notification from "Notification";
-import NotificationModel, { NotificationDocument, NotificationQueryHelpers } from "~/app/models/Notification";
+//import NotificationModel, { NotificationDocument, NotificationQueryHelpers } from "~/app/models/Notification";
+import { model } from "mongoose"
 
 export interface NotifiableDocument<DocType extends NotifiableDocument<any> = any> extends Document {
   notifications: QueryWithHelpers<NotificationDocument[], NotificationDocument, NotificationQueryHelpers>;
@@ -11,7 +12,7 @@ export interface NotifiableDocument<DocType extends NotifiableDocument<any> = an
 
 export default (schema: Schema) => {
   schema.virtual('notifications').get(function () {
-    return NotificationModel.find({ userId: this._id });
+    return model("Notification").find({ userId: this._id });
   });
 
   schema.virtual('unreadNotifications').get(function () {

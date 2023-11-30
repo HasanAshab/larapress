@@ -1,11 +1,22 @@
 import Controller from "~/app/http/controllers/Controller";
 import { RequestHandler } from "~/core/decorators";
 import { AuthenticRequest, Response } from "~/core/express";
+import { INotification } from "~/app/models/Notification";
+import ListNotificationResource from "~/app/http/resources/v1/notification/ListNotificationResource";
+import ShowNotificationResource from "~/app/http/resources/v1/notification/ShowNotificationResource";
 
 export default class NotificationController extends Controller {
   @RequestHandler
   async index(req: AuthenticRequest) {
-    return await req.user.notifications.paginateReq(req);
+    console.log(req.user.notifications)
+    return ListNotificationResource.collection(
+      await (req.user.notifications.cursorPaginate(req))
+    );
+  }
+  
+  @RequestHandler
+  async show(rawNotification: INotification) {
+    return rawNotification;
   }
   
   @RequestHandler
@@ -17,14 +28,14 @@ export default class NotificationController extends Controller {
   @RequestHandler
   async unreadCount(req: AuthenticRequest) {
     return {
-      count: await req.user.unreadNotifications.lean().count()
+      data: await req.user.unreadNotifications.count()
     };
   }
   
   @RequestHandler
   async delete(req: AuthenticRequest, res: Response, id: string) {
-    const { deletedCount } = await req.user.notifications.where("_id").equals(id).deleteOne();
-    res.status(deletedCount === 1 ? 204 : 404).message()
+    await req.user.notifications.where("_id").equals(id).deleteOneOrFail();
+    res.sendStatus(204);
   }
 }
 
