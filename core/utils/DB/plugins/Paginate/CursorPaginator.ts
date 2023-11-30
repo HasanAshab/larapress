@@ -36,7 +36,7 @@ export default class CursorPaginator<DocType extends Document> {
       },
       meta: {
         path: this.req.fullPath,
-        perPage: this.perPage,
+        perPage: this.items.length,
         nextCursor: this.nextCursor
       }
     }

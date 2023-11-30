@@ -10,13 +10,13 @@ const NotificationSchema = new Schema<NotificationDocument, Model<NotificationDo
     cascade: true,
     index: true
   },
-  title: {
+  type: {
     required: true,
     type: String
   },
-  message: {
+  data: {
     required: true,
-    type: String
+    type: Object
   },
   readAt: {
     type: Date,
@@ -27,12 +27,11 @@ const NotificationSchema = new Schema<NotificationDocument, Model<NotificationDo
 );
 
 NotificationSchema.methods.markAsRead = async function(){
-  this.readAt = new Date();
-  await this.save();
+  await this.update({ readAt: new Date() });
 }
 
 NotificationSchema.query.markAsRead = async function(this: QueryWithHelpers<any, NotificationDocument, NotificationQueryHelpers>) {
-  const { modifiedCount } = await this.updateOne(this.getFilter(), {readAt: new Date()});
+  const { modifiedCount } = await this.updateOne(this.getFilter(), { readAt: new Date() });
   return modifiedCount === 1;
 },
   

@@ -13,9 +13,9 @@ import { singular } from "pluralize";
 import { Router as ExpressRouter, NextFunction, RequestHandler, Request, Response } from "express";
 
 
-type BindingResolver = (value: string) => any | Promise<any>;
+export type BindingResolver = (value: string) => any | Promise<any>;
 
-class Router {
+export class Router {
   /**
    * Stack of route
    */
