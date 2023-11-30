@@ -109,9 +109,11 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
    * Register routes to express
    */
   protected setupRoutes() {
-    this.discoverRoutes
+   /* this.discoverRoutes
       ? Router.discover(this.discoverRoutesFrom)
       : this.registerRoutes();
+      */
+      Router.discover(this.discoverRoutesFrom + "/v1");
     this.app.http.use("/", Router.build());
   }
   
