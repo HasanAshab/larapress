@@ -37,7 +37,7 @@ export default class AuthController extends Controller {
   })*/
   async register(req: RegisterRequest, res: Response){
     const { email, username, password } = req.body;
-    const user = await this.authService.register(email, username, password, req.files.profile);
+    const user = await this.authService.register(email, username, password, req.file("profile"));
     Event.emit("Registered", { 
       user, 
       version: "v1",

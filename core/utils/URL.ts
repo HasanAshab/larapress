@@ -23,7 +23,6 @@ export default class URL {
   }
 
   static route(name: string, data?: Record < string, string | number >): string {
-    console.log(URL.data)
     let endpoint = URL.data[name];
     if(!endpoint) 
       throw new Error(`No url registered with name "${name}"`);

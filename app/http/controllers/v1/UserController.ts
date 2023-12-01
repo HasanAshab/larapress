@@ -23,7 +23,7 @@ export default class UserController extends Controller {
   @RequestHandler
   async updateProfile(req: UpdateProfileRequest) {
     const user = req.user;
-    const profile = req.files.profile;
+    const profile = req.file("profile");
 
     Object.assign(user, req.body);
     

@@ -33,7 +33,13 @@ export default class RouteServiceProvider extends ServiceProvider {
 
   
   addHelpers() {
-    Router.request.add("files", {});
+    Router.request.add("file", function(name: string) {
+      return this.files?.[name] ?? null;
+    });
+    
+    Router.request.add("hasFile", function(name: string) {
+      return !!this.file(name);
+    });
     
     Router.request.getter("fullUrl", function() {
       return this.protocol + '://' + this.get('host') + this.originalUrl;
@@ -54,6 +60,10 @@ export default class RouteServiceProvider extends ServiceProvider {
         return value;
       });
       this.send(data);
+    });
+    
+    Router.response.add("sendStatus", function(code: number) {
+      this.status(code).json();
     });
     
     Router.response.add("message", function(text?: string) {

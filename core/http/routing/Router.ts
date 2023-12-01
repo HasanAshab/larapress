@@ -39,6 +39,8 @@ export class Router {
   */
   private resolvers: Record<string, BindingResolver> = {};
   
+  private fallbackHandler: RequestHandler = (req: Request, res: Response) => res.status(404).json();
+  
   /**
    * Reset scope based configuration
   */
@@ -50,7 +52,11 @@ export class Router {
       middlewares: []
     };
   }
-
+  
+  fallback(handler: RequestHandler) {
+    this.fallbackHandler = handler;
+  }
+  
   /**
    * Add a route to stack
    */
@@ -287,7 +293,7 @@ export class Router {
       if(typeof controllerInstance[key] !== "function")
         throw new Error(`${key} handler doesn't exist on ${Controller.name}`);
       
-      const appendRequestHelpers = req => {
+      const appendRuntimeHelpers = req => {
         req.routeName = name;
         
         req.routeIs = function(name: string | RegExp) {
@@ -299,7 +305,7 @@ export class Router {
       
       const requestHandler = async function(req: Request, res: Response, next: NextFunction) {
         try {
-          req = appendRequestHelpers(req);
+          req = appendRuntimeHelpers(req);
           const result = await controllerInstance[key](req, res, next);
           if(!res.headersSent) {
             if(!result) {
@@ -319,6 +325,9 @@ export class Router {
       }
       router[method](path, this.resolveMiddleware(...middlewares), requestHandler);
     }
+    
+    router.all("*", this.fallbackHandler);
+    
     return router;
   }
 }

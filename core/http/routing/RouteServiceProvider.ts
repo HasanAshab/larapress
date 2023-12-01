@@ -6,7 +6,7 @@ import helmet from "helmet";
 import { modelNames } from "mongoose";
 import { lowerFirst } from "lodash";
 import bodyParser from "body-parser";
-//import formDataParser from "express-fileupload";
+import formDataParser from "express-fileupload";
 import URL from "URL";
 import Router from "./Router";
 import type { MiddlewareAliaseWithOrWithoutOptions } from "./middleware";
@@ -70,7 +70,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
       extended: false,
       limit: "1mb"
     }));
-    //this.app.http.use(formDataParser());
+    this.app.http.use(formDataParser());
   }
   
   /**
@@ -100,7 +100,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
    */
   protected setupRoutes() {
     this.registerRoutes();
-    this.app.http.use("/", Router.build());
+    Router.build(this.app.http)
   }
   
   /**
