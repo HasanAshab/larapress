@@ -32,7 +32,7 @@ export default class RouteServiceProvider extends ServiceProvider {
   }
 
   
-  addHelpers() {
+  private addHelpers() {
     Router.request.add("file", function(name: string) {
       return this.files?.[name] ?? null;
     });
@@ -52,7 +52,6 @@ export default class RouteServiceProvider extends ServiceProvider {
     Router.request.getter("hasValidSignature", function() {
       return URL.hasValidSignature(this.fullUrl);
     });
-    
     Router.response.add("json", function(obj: object) {
       const data = JSON.stringify(obj, (key, value) => {
         if(value instanceof JsonResource || value instanceof ResourceCollection) {
@@ -61,11 +60,14 @@ export default class RouteServiceProvider extends ServiceProvider {
         }
         return value;
       });
+      if (!this.get('Content-Type')) {
+        this.set('Content-Type', 'application/json');
+      }
       this.send(data);
     });
     
     Router.response.add("sendStatus", function(code: number) {
-      this.status(code).json();
+      this.status(code).json({});
     });
     
     Router.response.add("message", function(text?: string) {
