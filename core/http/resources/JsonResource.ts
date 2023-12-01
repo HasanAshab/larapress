@@ -1,4 +1,4 @@
-import { Request } from "~/core/express";
+import { Request, Response } from "~/core/express";
 import { Document, LeanDocument } from "mongoose";
 import CursorPaginator from "DB/plugins/Paginate/CursorPaginator";
 import AnonymousResourceCollection from "./AnonymousResourceCollection";
@@ -23,9 +23,12 @@ export default abstract class JsonResource<DocType extends Document> {
       ? { [this.constructor.wrap]: this.toObject(req) }
       : this.toObject(req);
   }
-
+  
   public abstract toObject(req: Request): object; 
+  
+  withResponse(req: Request, res: Response) {}
 
+  
   protected when(condition: boolean, value: unknown) {
     if(!condition)
       return undefined;

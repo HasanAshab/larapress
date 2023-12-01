@@ -1,4 +1,4 @@
-import { Request } from "~/core/express";
+import { Request, Response } from "~/core/express";
 import { Document, LeanDocument } from "mongoose";
 import JsonResource from "./JsonResource";
 import CursorPaginator from "DB/plugins/Paginate/CursorPaginator";
@@ -27,7 +27,10 @@ export default abstract class ResourceCollection<DocType extends Document> {
   
   toObject(req: Request) {
     return { [this.collects.wrap]: this.collection }
-  } 
+  }
+  
+  withResponse(req: Request, res: Response) {}
+
 
   private transformCollections(req: Request, collections: DocType[] | LeanDocument<DocType>[]) {
     return collections.map(resource => {

@@ -55,8 +55,10 @@ export default class RouteServiceProvider extends ServiceProvider {
     
     Router.response.add("json", function(obj: object) {
       const data = JSON.stringify(obj, (key, value) => {
-        if(value instanceof JsonResource || value instanceof ResourceCollection)
+        if(value instanceof JsonResource || value instanceof ResourceCollection) {
+          value.withResponse(this.req, this);
           return value.transform(this.req);
+        }
         return value;
       });
       this.send(data);
