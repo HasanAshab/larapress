@@ -1,7 +1,8 @@
+import JsonResource from "~/core/http/resources/JsonResource";
 import { Request } from "~/core/express";
-import UserResource from "./UserResource";
+import { UserDocument } from "~/app/models/User";
 
-export default class UserProfileResource extends UserResource {
+export default class UserProfileResource extends JsonResource<UserDocument> {
   toObject(req: Request) {
     return {
       data: { 

@@ -66,11 +66,9 @@ export default class UserController extends Controller {
   }
   
   @RequestHandler
-  async makeAdmin(res: Response, username: string) {
-    const { modifiedCount } = await User.updateOne({ username }, { role: "admin" });
-    modifiedCount === 1
-      ? res.message("Admin role granted!")
-      : res.status(404).message();
+  async makeAdmin(username: string) {
+    await User.updateOneOrFail({ username }, { role: "admin" });
+    return "Admin role granted!";
   }
 }
 

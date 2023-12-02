@@ -16,7 +16,7 @@ export default class NotificationController extends Controller {
   
   @RequestHandler
   async show(rawNotification: INotification) {
-    return rawNotification;
+    return ShowNotificationResource.make(rawNotification);
   }
   
   @RequestHandler

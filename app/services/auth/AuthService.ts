@@ -51,7 +51,7 @@ export default class AuthService {
         name: externalUser.name,
         email: externalUser.email,
         verified: true,
-        //"profile.url": externalUser.picture
+        profile: externalUser.picture
       },
       { new: true }
     );
@@ -81,7 +81,7 @@ export default class AuthService {
       email: externalUser.email ?? email,
       username,
       verified: true,
-      "profile.url": externalUser.picture
+      profile: externalUser.picture
     });
   }
 
