@@ -21,7 +21,7 @@ export default class AuthService {
     const user = new User({ email, username });
     await user.setPassword(password);
     if(profile) {
-      await user.media().withTag("profile").attach(profile).storeRef();
+      await user.media().withTag("profile").attach(profile).storeLink();
     }
     await user.save();
     await user.createDefaultSettings();

@@ -1,10 +1,11 @@
 import Config from 'Config';
 import path from "path";
-import crypto from "crypto";
+import { createHmac } from "crypto";
+import { URL as BaseURL } from "url";
 
-export default class URL {
+export default class URL extends BaseURL {
  /**
-  * Registered named url patterns
+  * Registered named routes url pattern
   */
   static data: Record<string, string> = {};
   
@@ -42,46 +43,34 @@ export default class URL {
   }
 
   static signedRoute(routeName: string, data?: Record<string, string | number>) {
-    const url = this.route(routeName, data);
-    const signature = crypto.createHmac('sha256', Config.get("app.key")).update(url).digest('hex');
-    return `${url}&signature=${signature}`;
+    const url = new this(this.route(routeName, data));
+    const signature = createHmac('sha256', Config.get("app.key")).update(url.href).digest('hex');
+    url.searchParams.set('signature', signature);
+    return url.href;
   }
 
   static temporarySignedRoute(routeName: string, expireAt: number, data?: Record < string, string | number >) {
-    const url = this.route(routeName, data);
-    const signature = crypto.createHmac('sha256', Config.get("app.key")).update(`${url}&exp=${expireAt}`).digest('hex');
-    return `${url}&exp=${expireAt}&signature=${signature}`;
+    const url = new this(this.route(routeName, data));
+    url.searchParams.set("exp", expireAt);
+    const signature = createHmac('sha256', Config.get("app.key")).update(url.href).digest('hex');
+    return url.href;
   }
   
-  static hasValidSignature(url: string) {
-    const urlParts = url.split('&');
-    const signaturePart = urlParts.find((part) => part.startsWith('signature='));
-    const expPart = urlParts.find((part) => part.startsWith('exp='));
-    if (!signaturePart)
-      return false;
-    const secretKey = Config.get<string>("app.key");
-    if (expPart) {
-      const signature = signaturePart.split('=')[1];
-      const expTimestamp = parseInt(expPart.split('=')[1]);
-
-      if (Date.now() > expTimestamp)
-        return false;
-
-      const urlWithoutSignature = url.replace(`&${signaturePart}`, '');
-      const computedSignature = crypto
-        .createHmac('sha256', secretKey)
-        .update(urlWithoutSignature)
-        .digest('hex');
-      return computedSignature === signature;
-    } 
-    else {
-      const signature = signaturePart.split('=')[1];
-      const urlWithoutSignature = url.replace(`&${signaturePart}`, '');
-      const computedSignature = crypto
-        .createHmac('sha256', secretKey)
-        .update(urlWithoutSignature)
-        .digest('hex');
-      return computedSignature === signature;
+  static hasValidSignature(url: string | BaseURL) {
+    if(typeof url === "string") {
+      url = new this(url);
     }
+    
+    const secretKey = Config.get<string>("app.key");
+    const signature = url.searchParams.get("signature");
+    const expireAt = url.searchParams.get("exp");
+
+    if (!signature || (expireAt && Date.now() > expireAt)) {
+      return false;
+    }
+    
+    url.searchParams.delete("signature");
+    const computedSignature = createHmac('sha256', secretKey).update(url.href).digest('hex');
+    return computedSignature === signature;
   }
 }

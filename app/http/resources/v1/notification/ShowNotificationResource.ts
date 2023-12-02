@@ -7,22 +7,12 @@ import URL from "URL";
 export default abstract class ShowNotificationResource extends JsonResource<NotificationDocument> {
   toObject(req: Request) {
     return {
-      data: {
-        id: this.resource._id,
-        title: this.resource.title,
-        message: this.resource.message,
-        unread: this.resource.readAt === null,
-        createdAt: formatDistanceToNow(this.resource.createdAt, { addSuffix: true }).replace("about ", "")
-      },
-      
-      links: {
-        markAsRead: URL.route("notification.markAsRead", { 
-          id: this.resource._id
-        }),
-        delete: URL.route("notification.delete", { 
-          id: this.resource._id
-        })
-      }    
+      id: this.resource._id,
+      type: this.resource.type,
+      data: this.resource.data,
+      unread: this.resource.readAt === null,
+      readAt: this.resource.readAt,
+      createdAt: formatDistanceToNow(this.resource.createdAt, { addSuffix: true }).replace("about ", "")
     }
   }
 }

@@ -10,6 +10,11 @@ type NotificationChannel = typeof notificationConfig["channels"][number];
 
 export default abstract class Notification<DocType extends NotifiableDocument> {
   /**
+   * type of the notification
+   */
+   type?: string;
+ 
+  /**
    * Whether the notification should be queued
   */
   shouldQueue = false;
@@ -58,6 +63,7 @@ export default abstract class Notification<DocType extends NotifiableDocument> {
   async sendSite(notifiable: DocType) {
     await NotificationModel.create({
       userId: notifiable._id,
+      type: this.type ?? this.constructor.name,
       data: await this.toSite(notifiable)
     });
   }

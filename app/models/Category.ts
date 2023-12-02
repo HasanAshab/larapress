@@ -13,7 +13,10 @@ const CategorySchema = new Schema<CategoryDocument>(
     required: true,
     unique: true
   },
-  icon: Schema.Types.ObjectId
+  icon: {
+    required: true,
+    type: String
+  }
 },
 { timestamps: true }
 );

@@ -18,7 +18,7 @@ const UserSchema = new Schema<UserDocument>({
     type: String,
     unique: true
   },
-  profile: Schema.Types.ObjectId,
+  profile: String,
   phoneNumber: String,
   password: {
     type: String,
@@ -69,7 +69,7 @@ export interface IUser {
   name: string;
   username: string;
   email: string;
-  profile: Schema.Types.ObjectId | null;
+  profile: string | null;
   phoneNumber: string | null;
   password: string | null;
   role: "admin" | "novice";

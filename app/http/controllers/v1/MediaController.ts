@@ -1,7 +1,7 @@
 import Controller from "~/app/http/controllers/Controller";
 import { RequestHandler } from "~/core/decorators";
 import { Request, Response } from "~/core/express";
-import Media, { IMedia } from "~/app/models/Media";
+import { IMedia } from "~/app/models/Media";
 
 export default class MediaController extends Controller {
   /**
@@ -9,8 +9,8 @@ export default class MediaController extends Controller {
   */
   @RequestHandler
   async __invoke(req: Request, res: Response, rawMedia: IMedia) {
-    if(media.visibility === "private" && !req.hasValidSignature)
+    if(rawMedia.visibility === "private" && !req.hasValidSignature)
       return res.status(401).message("Invalid signature!");
-    res.sendFileFromStorage(media.path);
+    res.sendFileFromStorage(rawMedia.path);
   }
 }

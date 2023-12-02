@@ -57,15 +57,15 @@ import URL from "URL";
     name: "test.txt",
     data: "Hehehe"
   }
-  console.log(
-    //await user.media().withTag("profile").detach(),
+      await user.media().withTag("profile").detach(),
 
-   //await user.media().withTag("profile").attach(file),
-  //await user.media().withTag("profile").attach(file, "profiles").asPrivate().storeRef(),
- await user.media().withTag("profile").replaceBy(file),
+  console.log(
+
+  // await user.media().withTag("profile").attach(file).storeLink(),
+  await user.media().withTag("profile").attach(file).asPrivate().storeLink(),
+ //await user.media().withTag("profile").replaceBy(file),
     await user.media()
   )
- // console.log(user)
+ console.log(user)
 })()
-
 */

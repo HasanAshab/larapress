@@ -36,7 +36,7 @@ export default class UserController extends Controller {
         await user.media().withTag("profile").replaceBy(profile);
       }
       else {
-        await user.media().withTag("profile").attach(profile).storeRef();
+        await user.media().withTag("profile").attach(profile).storeLink();
       }
     }
     

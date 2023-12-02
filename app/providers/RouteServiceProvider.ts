@@ -50,8 +50,12 @@ export default class RouteServiceProvider extends ServiceProvider {
     });
    
     Router.request.getter("hasValidSignature", function() {
-      return URL.hasValidSignature(this.fullUrl);
+      if(!this._hasValidSignature) {
+        this._hasValidSignature = URL.hasValidSignature(this.fullUrl);
+      }
+      return this._hasValidSignature;
     });
+    
     Router.response.add("json", function(obj: object) {
       const data = JSON.stringify(obj, (key, value) => {
         if(value instanceof JsonResource || value instanceof ResourceCollection) {

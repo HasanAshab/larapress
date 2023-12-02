@@ -4,6 +4,7 @@ import { Schema, Document } from "mongoose";
 import { UploadedFile } from "express-fileupload";
 import Storage from "Storage";
 import Media, { IMedia, MediaDocument } from "~/app/models/Media";
+import URL from "URL";
 
 export interface ReplaceOptions {
   storagePath?: string;
@@ -45,12 +46,22 @@ export default (schema: Schema) => {
       const attach = (file: UploadedFile, storagePath = "uploads") => {
         let visibility = "public";
         let storeRefIn = null;
+        let storeLinkIn = null;
         
         const attachMedia = (onFulfill, onReject) => {
+          console.log(storagePath)
           Storage.putFile(storagePath, file).then(path => {
             Media.create({ path, visibility, ...filter }).catch(onReject).then(media => {
               if(storeRefIn) {
                 this[storeRefIn] = media._id;
+              }
+              if(storeLinkIn) {
+                if (visibility === "private") {
+                  this[storeLinkIn] = URL.signedRoute("v1_media.serve", { rawMedia: media._id });
+                } 
+                else {
+                  this[storeLinkIn] = URL.route("v1_media.serve", { rawMedia: media._id });
+                }
               }
               onFulfill(media);
             });
@@ -67,7 +78,12 @@ export default (schema: Schema) => {
           return this;
         };
         
-        return { then: attachMedia, asPrivate, storeRef };
+        function storeLink(field = tag) {
+          storeLinkIn = field;
+          return this;
+        };
+        
+        return { then: attachMedia, asPrivate, storeRef, storeLink };
       };
       
       const replaceBy = async (file: UploadedFile) => {

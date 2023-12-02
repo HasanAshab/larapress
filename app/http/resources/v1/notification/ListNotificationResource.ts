@@ -7,8 +7,7 @@ export default abstract class ListNotificationResource extends JsonResource<Noti
   toObject(req: Request) {
     return {
       id: this.resource._id,
-      title: this.resource.title,
-      message: this.resource.message.substring(0, 15),
+      type: this.resource.type,
       unread: this.resource.readAt === null,
       createdAt: formatDistanceToNow(this.resource.createdAt, { addSuffix: true }).replace("about ", "")
     }

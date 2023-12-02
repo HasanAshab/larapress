@@ -11,8 +11,4 @@ export default class ShowUserResource extends UserResource {
       role: this.resource.role
     }
   }
-  
-  withResponse(req, res) {
-    res.set("Cache-control", `public, max-age=100`);
-  }
 }

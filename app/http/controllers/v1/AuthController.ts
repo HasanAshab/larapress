@@ -44,10 +44,10 @@ export default class AuthController extends Controller {
       method: "internal"
     });
     const profile = URL.route("v1_users.show", { username: user.username });
-    res.header("Location", profile).status(201).api({
+    res.header("Location", profile).status(201).json({
       token: user.createToken(),
       data: { user },
-      expiration: Date.now() + Config.get("jwt.expiration"),
+      //expiration: Date.now() + Config.get("jwt.expiration"),
       message: "Verification email sent!",
     });
   }

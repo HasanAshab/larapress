@@ -53,6 +53,13 @@ export default class UserFactory extends Factory<IUser, UserDocument> {
     });
   }
   
+  withProfile(url = "www.example.com/fake-url") {
+    return this.state((user: IUser) => {
+      user.profile = url;
+      return user;
+    });
+  }
+  
   withPhoneNumber(phoneNumber = "+15005550006") {
     return this.state((user: IUser) => {
       user.phoneNumber = phoneNumber;
