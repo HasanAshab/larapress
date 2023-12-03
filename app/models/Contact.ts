@@ -21,7 +21,9 @@ const ContactSchema = new Schema<ContactDocument>(
       default: "opened",
     }
   },
-  { timestamps: true }
+  { 
+    timestamps: { createdAt: true, updatedAt: false } 
+  }
 );
 
 ContactSchema.index({ subject: 'text', message: 'text' });
