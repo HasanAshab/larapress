@@ -14,8 +14,8 @@ export default class ContactController extends Controller {
   @RequestHandler
   async index(req: AuthenticRequest) {
     return ListContactResource.collection(
-     // await Contact.paginateCursor(req).lean()
-     await Contact.find().lean().paginateCursor(req)
+      await Contact.paginateCursor(req).lean()
+     //await Contact.find().lean().paginateCursor(req)
     );
   }
   

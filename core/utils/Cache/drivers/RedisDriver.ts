@@ -1,9 +1,9 @@
-import CacheDriver, { CacheData } from "~/core/utils/Cache/CacheDriver";
+import CacheDriver, { CacheData } from "../CacheDriver";
 import { injectable } from "tsyringe";
 import IORedis from "ioredis";
 
 @injectable()
-export default class RedisDriver implements CacheDriver {
+export default class RedisDriver extends CacheDriver {
   constructor(private readonly client: IORedis) {}
 
   async get(key: string) {

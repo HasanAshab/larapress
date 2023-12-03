@@ -1,15 +1,13 @@
 import CursorPaginator from "./CursorPaginator";
 
 /**
- * Plugin for pagination support 
+ * Plugin for documents pagination 
 */
 export default function Paginate(schema: any) {
-  schema.statics.paginateCursor = async function(req: Request) {
+  schema.statics.paginateCursor = function(req: Request) {
     const query = this.find();
-    const exec = query.exec;
-    query.exec = async function(op: string) {
-      await this.paginateCursor(req);
-      await exec.apply(this)
+    query.exec = function() {
+      return this.paginateCursor(req);
     }
     return query;
   }

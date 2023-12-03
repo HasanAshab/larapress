@@ -1,5 +1,4 @@
-import { Schema } from "mongoose";
-
+import { Schema, Model, Document } from "mongoose";
 
 function transformDocument() {
   this.id = this._id.toHexString();
@@ -8,10 +7,14 @@ function transformDocument() {
   return this;
 }
 
+
 /**
- * Plugin to transform documents (including lean)
+ * Plugin to customize mongoose
  */
-export default function Transform(schema: Schema) {
+export default function Core(schema: Schema) {
+  /**
+   * Transform lean documents
+   */
   schema.post(/find/, function(result) {
     if(!result || !this._mongooseOptions.lean) return;
     if(Array.isArray(result))
