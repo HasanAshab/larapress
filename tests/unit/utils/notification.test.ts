@@ -1,10 +1,12 @@
 jest.mock("~/core/abstract/Job");
 jest.unmock("Notification");
 
+import DB from "DB";
 import Notification from "Notification";
 import Mail from "Mail";
 import SendNotification from "~/app/jobs/SendNotification";
 import User from "~/app/models/User";
+import NotificationModel from "~/app/models/Notification";
 import BaseNotification from "~/core/abstract/Notification";
 
 class TestMail {}
@@ -18,7 +20,12 @@ class TestNotification extends BaseNotification {
 }
 
 describe("notification", () => {
-  beforeEach(() => {
+  beforeAll(async () => {
+    await DB.connect();
+  });
+  
+  beforeEach(async () => {
+    await DB.reset(["Notification"]);
     Mail.mockClear();
   });
   
@@ -37,9 +44,13 @@ describe("notification", () => {
       via = () => ["site"];
       sendSite(notifiable) {
         expect(user).toBe(notifiable);
+        return { foo: "bar" }
       }
     }
     await Notification.send(user, new Test);
+    
+    const { data } = await NotificationModel.findOne();
+    expect(data).toEqual({ foo: "bar" });
   });
 
   it("Should send notification to multiple users", async () => {
@@ -58,10 +69,17 @@ describe("notification", () => {
     class Test extends TestNotification {
       sendSite(notifiable) {
         expect(user).toBe(notifiable);
+        return { foo: "bar" }
       }
     }
     await Notification.send(user, new Test);
     Mail.assertSentTo(user.email, TestMail);
+    const notifications = await NotificationModel.find();
+    
+    expect(notifications).toHaveLength(2);
+    notifications.forEach(({ data }) => {
+      expect(data).toEqual({ foo: "bar" });
+    });
   });
   
   it.only("Shouldn't send notification immedietly in queued Notification", async () => {
