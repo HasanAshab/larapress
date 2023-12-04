@@ -9,7 +9,7 @@ import URL from "URL";
 export default class CategoryController extends Controller {
   @RequestHandler
   async index(req: AuthenticRequest) {
-    return await Category.find().paginateReq(req);
+    return await Category.find();
   }
 
   @RequestHandler

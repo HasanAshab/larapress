@@ -6,7 +6,7 @@ import CursorPaginator from "./CursorPaginator";
 export default function Paginate(schema: any) {
   schema.statics.paginateCursor = function(req: Request) {
     const query = this.find();
-    query.exec = function() {
+    query.then = function() {
       return this.paginateCursor(req);
     }
     return query;

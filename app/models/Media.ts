@@ -1,8 +1,7 @@
 import { model, Schema, Document, Model } from "mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 
-const MediaSchema = new Schema<MediaDocument>(
-{
+const MediaSchema = new Schema<MediaDocument>({
   mediableId: {
     type: Schema.Types.ObjectId,
     required: true,
@@ -24,9 +23,7 @@ const MediaSchema = new Schema<MediaDocument>(
     enum: ["public", "private"],
     default: "public"
   }
-},
-{ timestamps: false }
-);
+});
 
 
 MediaSchema.plugin(HasFactory);

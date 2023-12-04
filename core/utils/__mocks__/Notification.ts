@@ -10,6 +10,7 @@ export default class Notification {
   }
   
   static async send<DocType extends NotifiableDocument>(notifiables:  DocType | DocType[], notification: NotificationClass<DocType>) {
+    log("mock")
     notifiables = Array.isArray(notifiables) ? notifiables: [notifiables];
     for (const notifiable of notifiables) {
       const channels = await notification.via(notifiable);

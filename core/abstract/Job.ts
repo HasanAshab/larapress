@@ -1,17 +1,12 @@
 import Queue from "Queue";
 
-export interface JobOptions {
-  shouldQueue: boolean;
-  dispatchAfter: number;
-}
-
 export default abstract class Job<Data = object> {
   channel = "default";
   concurrency = 1;
   tries = 1;
   timeout = 10000;
   
-  private options: JobOptions = {
+  private options = {
     shouldQueue: true,
     dispatchAfter: 0
   };

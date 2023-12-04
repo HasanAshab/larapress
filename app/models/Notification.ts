@@ -16,14 +16,14 @@ const NotificationSchema = new Schema<NotificationDocument, Model<NotificationDo
   },
   data: {
     required: true,
-    type: Object
+    type: Schema.Types.Mixed
   },
   readAt: {
     type: Date,
     default: null
   },
 },
-{ timestamps: true }
+{ timestamps: { createdAt: true, updatedAt: false } }
 );
 
 NotificationSchema.methods.markAsRead = async function(){
@@ -44,8 +44,8 @@ NotificationSchema.plugin(HasFactory);
 
 export interface INotification {
   userId: Schema.Types.ObjectId;
-  title: string;
-  message: string;
+  type: string;
+  data: unknown[] | object;
   readAt: Date | null;
 }
 

@@ -2,8 +2,7 @@ import { model, Schema, Document, Model } from "mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import Mediable, { MediableDocument } from "~/app/plugins/Mediable";
 
-const CategorySchema = new Schema<CategoryDocument>(
-{
+const CategorySchema = new Schema<CategoryDocument>({
   name: {
     required: true,
     type: String
@@ -17,9 +16,7 @@ const CategorySchema = new Schema<CategoryDocument>(
     required: true,
     type: String
   }
-},
-{ timestamps: true }
-);
+});
 
 CategorySchema.plugin(HasFactory);
 CategorySchema.plugin(Mediable);

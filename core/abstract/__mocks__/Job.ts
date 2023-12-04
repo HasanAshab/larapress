@@ -2,40 +2,51 @@ import expect from "expect";
 import MockDataContainer from "~/tests/MockDataContainer";
 
 export default abstract class Job {
-  static shouldQueue = true;
-  static dispatchAfter = 0;
-  public concurrency = 1;
-  public tries = 1;
-  public timeout = 10000;
-  abstract handle(data: unknown): Promise<void>;
+  channel = "default";
+  concurrency = 1;
+  tries = 1;
+  timeout = 10000;
   
-  static mockClear() {
-    MockDataContainer.Job = [this.name]
+  private options = {
+    shouldQueue: true,
+    dispatchAfter: 0
+  };
+  
+  constructor() {
+    this.mockClear();
   }
   
-  static delay(ms: number) {
-    this.dispatchAfter = ms;
+  abstract handle(data: any): Promise<void>;
+  
+  delay(ms: number) {
+    this.options.dispatchAfter = ms;
     return this;
   }
   
-  static withoutQueue() {
-    this.shouldQueue = false;
+  withoutQueue() {
+    this.options.shouldQueue = false;
     return this;
   }
   
-  static resetOptions() {
-    this.shouldQueue = true;
-    this.dispatchAfter = 0;
+
+  resetOptions() {
+    this.options = {
+      shouldQueue: true,
+      dispatchAfter: 0
+    }
+    return this;
   }
   
-  static async dispatch(data: unknown) {
-    MockDataContainer.Job.push(this.name)
+  async dispatch(data: unknown) {
+    MockDataContainer.Job.push(this)
     this.resetOptions();
   }
   
-  static assertDispatched(job = Job.name) {
+  mockClear() {
+    MockDataContainer.Job = []
+  }
+  
+  assertDispatched(job = this) {
     expect(MockDataContainer.Job).toContain(job)
   }
 }
-
-Job.mockClear();
