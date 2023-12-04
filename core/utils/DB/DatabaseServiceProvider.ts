@@ -6,7 +6,6 @@ import Helpers from "./plugins/Helpers";
 import Assertable from "./plugins/Assertable";
 import Hidden from "./plugins/Hidden";
 import Paginate from "./plugins/Paginate";
-import Policy from "./plugins/Policy";
 
 
 export default class DatabaseServiceProvider extends ServiceProvider {
@@ -22,7 +21,6 @@ export default class DatabaseServiceProvider extends ServiceProvider {
     mongoose.plugin(Assertable);
     mongoose.plugin(Hidden);
     mongoose.plugin(Paginate);
-    mongoose.plugin(Policy);
   }
   
   private discoverModels() {

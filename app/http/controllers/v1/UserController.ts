@@ -59,7 +59,7 @@ export default class UserController extends Controller {
   @RequestHandler
   async delete(req: AuthenticRequest, res: Response, username: string) {
     const user = await User.findOneOrFail({ username });
-    if(!req.user.can("delete", user))
+    if(req.user.cannot("delete", user))
       return res.status(403).message();
     await user.delete();
     res.sendStatus(204);

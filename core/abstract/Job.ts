@@ -1,10 +1,8 @@
 import Queue from "Queue";
-import nodeCron from "node-cron";
 
 export interface JobOptions {
   shouldQueue: boolean;
   dispatchAfter: number;
-  cron: string | null;
 }
 
 export default abstract class Job<Data = object> {
@@ -15,8 +13,7 @@ export default abstract class Job<Data = object> {
   
   private options: JobOptions = {
     shouldQueue: true,
-    dispatchAfter: 0,
-    cron: null
+    dispatchAfter: 0
   };
   
   public abstract handle(data: Data): Promise<void>;
@@ -31,24 +28,17 @@ export default abstract class Job<Data = object> {
     return this;
   }
   
-  repeat(cron: string) {
-    this.options.cron = cron;
-    return this;
-  }
-  
+
   resetOptions() {
     this.options = {
       shouldQueue: true,
-      dispatchAfter: 0,
-      cron: null
+      dispatchAfter: 0
     }
     return this;
   }
   
   async dispatch(data: Data) {
-    if(this.options.cron)
-      nodeCron.schedule(this.options.cron, () => this.exec(data));
-    else await this.exec(data);
+    await this.exec(data);
     this.resetOptions();
   }
   

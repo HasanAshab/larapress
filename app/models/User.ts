@@ -1,11 +1,13 @@
 import { model, Schema, Document, Model } from "mongoose";
 import Authenticatable, { AuthenticatableDocument } from "~/app/plugins/Authenticatable";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
+import HasPolicy, { HasPolicyDocument } from "~/app/plugins/HasFactory";
 import HasApiTokens, { HasApiTokensDocument } from "~/app/plugins/HasApiTokens";
 import Notifiable, { NotifiableDocument } from "~/app/plugins/Notifiable";
 import Mediable, { MediableDocument } from "~/app/plugins/Mediable";
 //import Billable, { BillableDocument } from "~/app/plugins/Billable";
 import Settings, { SettingsDocument } from "~/app/models/Settings";
+import UserPolicy from "~/app/policies/UserPolicy";
 
 const UserSchema = new Schema<UserDocument>({
   name: String,
@@ -59,6 +61,7 @@ UserSchema.method("createDefaultSettings", function() {
 
 UserSchema.plugin(Authenticatable);
 UserSchema.plugin(HasFactory);
+UserSchema.plugin(HasPolicy, UserPolicy);
 UserSchema.plugin(HasApiTokens);
 UserSchema.plugin(Notifiable);
 UserSchema.plugin(Mediable);
@@ -78,7 +81,7 @@ export interface IUser {
   externalId: Record<string, string>;
 }
 
-export interface UserDocument extends Document, IUser, AuthenticatableDocument, MediableDocument, HasApiTokensDocument, NotifiableDocument<UserDocument> {
+export interface UserDocument extends Document, IUser, AuthenticatableDocument, HasPolicyDocument<UserPolicy>, MediableDocument, HasApiTokensDocument, NotifiableDocument<UserDocument> {
   settings: Query<SettingsDocument, SettingsDocument>;
   createDefaultSettings(): Promise<SettingsDocument>;
 };
