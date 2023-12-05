@@ -32,6 +32,7 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
       } 
       else return resolve(paramType);
     })
+    
     const args = await Promise.all(resolveParamPromises);
     return await handler.apply(this, args);
   }

@@ -14,8 +14,8 @@ export default class ContactController extends Controller {
   @RequestHandler
   async index(req: AuthenticRequest) {
     return ListContactResource.collection(
-      await Contact.paginateCursor(req).lean()
-     //await Contact.find().lean().paginateCursor(req)
+      //await Contact.paginateCursor(req).lean()
+      await Contact.find().lean().paginateCursor(req)
     );
   }
   
@@ -36,10 +36,11 @@ export default class ContactController extends Controller {
       filter.status = req.query.status;
 
     const results = await Contact
-      .find(filter, { score: { $meta: "textScore" } })
+     // .find(filter, { score: { $meta: "textScore" } })
+      .find()
       .sort({ score: { $meta: "textScore" } })
       .select('-score')
-      .cursorPaginate(req);
+     // .cursorPaginate(req);
     Cache.put(cacheKey, results, 5 * 3600).then(log);
     return results;
   }

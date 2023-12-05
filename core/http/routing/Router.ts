@@ -140,7 +140,8 @@ export class Router {
         reqParamName = key;
       }
     }
-    return reqParamName && this.resolvers[reqParamName]?.(params[reqParamName]);
+    return await this.resolvers[reqParamName]?.(params[name])
+      ?? params[name];
   }
   
 
@@ -291,7 +292,7 @@ export class Router {
       const controllerInstance = resolve<any>(controller);
       
       if(typeof controllerInstance[key] !== "function")
-        throw new Error(`${key} handler doesn't exist on ${Controller.name}`);
+        throw new Error(`${key} handler doesn't exist on ${controller.name}`);
       
       const appendRuntimeHelpers = req => {
         req.routeName = name;
