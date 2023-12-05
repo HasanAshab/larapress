@@ -1,20 +1,45 @@
-import mongoose, { ConnectOptions } from "mongoose";
+import { connect, disconnect, model, modelNames, ConnectOptions, Document } from "mongoose";
 import Config from "Config";
 import fs from "fs";
+import expect from "expect";
 
 export default class DB {
   static async connect() {
-    await mongoose.connect(Config.get("database.url"), Config.get("database.options"));
+    await connect(Config.get("database.url"), Config.get("database.options"));
   }
   
   static async disconnect() {
-    await mongoose.disconnect();
+    await disconnect();
   }
   
-  static async reset(models = mongoose.modelNames()) {
+  static async reset(models = modelNames()) {
     const promises = [];
     for (const name of models)
-      promises.push(mongoose.model(name).deleteMany());
+      promises.push(model(name).deleteMany());
     await Promise.all(promises);
+  }
+  
+  static model(name: string) {
+    const Model = model(name);
+    
+    Model.assertCount = async function(expectedCount: number) {
+      expect(await this.count()).toBe(expectedCount);
+    }
+    
+    Model.assertHas = async function(data: object) {
+      const document = await this.findOne(data);
+      expect(document).not.toBeNull();
+    }
+    
+    Model.assertMissing = async function(data: object) {
+      const document = await this.findOne(data);
+      expect(document).toBeNull();
+    }
+    
+    Model.assertDocumentExists = async function(document: Document) {
+      expect(await document.exists).toBe(true);
+    }
+    
+    return Model;
   }
 }
