@@ -116,8 +116,8 @@ export function isPureObject(target: any): target is object {
 /**
  * Stop execution for given time
 */
-export function sleep(ms: number) {
-  return new Promise(r => setTimeout(r, ms));
+export function sleep(seconds: number) {
+  return new Promise(r => setTimeout(r, seconds * 1000));
 }
 
 

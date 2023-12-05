@@ -54,4 +54,12 @@ describe("Cache", () => {
       expect(await Cache.driver(driverName).get("key")).toBe(null);
     }
   });
+  
+  it("Should remember cache", async () => {
+    for(const driverName of drivers) {
+      Cache.driver(driverName).put("key", "data")
+      const value = Cache.driver(driverName).remember("key", 1000, () => {});
+      expect(value).toBe("data");
+    }
+  });
 });

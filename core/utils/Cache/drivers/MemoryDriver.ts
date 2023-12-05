@@ -2,15 +2,23 @@ import CacheDriver, { CacheData } from "../CacheDriver";
 import memoryCache from "memory-cache";
 
 export default class MemoryDriver extends CacheDriver {
-  async get(key: string) {
-    return memoryCache.get(key);
+  async get(key: string, deserialize = true) {
+    let data = memoryCache.get(key);
+
+    if(deserialize) {
+      data = this.deserialize(data);
+    }
+    
+    return data;
   }
   
-  async put(key: string, data: CacheData, expiry?: number) {
-    data = typeof data === "string" 
-      ? data
-      : JSON.stringify(data);
-    memoryCache.put(key, data, expiry && expiry * 1000)
+  async put<T extends CacheData>(key: string, data: T, expiryInSeconds?: number) {
+    const serializedData = this.serialize(data);
+    const expiryInMilliseconds = expiryInSeconds ? expiryInSeconds * 1000 : undefined;
+
+    memoryCache.put(key, serializedData, expiryInMilliseconds);
+    
+    return data;
   }
   
   async delete(key: string){

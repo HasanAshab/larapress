@@ -1,11 +1,11 @@
 import Manager from "~/core/abstract/Manager";
-import Config from "Config";
-import CacheDriver, { CacheData } from "./CacheDriver";
+import type CacheDriver, { CacheData, Resolver } from "./CacheDriver";
 import MemoryDriver from "./drivers/MemoryDriver";
 import RedisDriver from "./drivers/RedisDriver";
+import Config from "Config";
 
 export default class CacheManager extends Manager implements CacheDriver {
-  get defaultDriver() {
+  defaultDriver() {
     return Config.get<string>("cache.default");
   }
   
@@ -17,8 +17,8 @@ export default class CacheManager extends Manager implements CacheDriver {
     return resolve(RedisDriver);
   }
   
-  get(key: string) {
-    return this.driver().get(key);
+  get(key: string, deserialize?: boolean) {
+    return this.driver().get(key, deserialize);
   }
 
   put(key: string, data: CacheData, expiry?: number) {
@@ -39,5 +39,13 @@ export default class CacheManager extends Manager implements CacheDriver {
   
   flush() {
     return this.driver().flush();
+  }
+  
+  remember(key: string, expiry: number, resolver: Resolver) {
+    return this.driver().remember(key, expiry, resolver);
+  }
+  
+  rememberForever(key: string, resolver: Resolver) {
+    return this.driver().rememberForever(key, resolver);
   }
 }

@@ -1,8 +1,9 @@
 export type CacheData = string | number | boolean | CacheData[] | Record<string, CacheData>;
+export type Resolver = () => CacheData | Promise<CacheData>;
 
 export default abstract class CacheDriver {
-  abstract get(key: string): Promise<string | null>;
-  abstract put(key: string, data: CacheData, expiry?: number): Promise<void>;
+  abstract get(key: string, deserialize?: boolean): Promise<CacheData | null>;
+  abstract put<T extends CacheData>(key: string, data: T, expiry?: number): Promise<T>;
   abstract delete(key: string): Promise<void>;
   abstract increment(key: string): Promise<number>;
   abstract decrement(key: string): Promise<number>;
@@ -22,13 +23,25 @@ export default abstract class CacheDriver {
     return newValue;
   }
   
-  async remember(key: string, expiry: number, resolver: (() => CacheData | Promise<CacheData>)) {
+  async remember(key: string, expiry: number, resolver: Resolver) {
     return await this.get(key) ?? 
       await this.put(key, await resolver(), expiry);
   }
   
-  async rememberForever(key: string, resolver: (() => CacheData | Promise<CacheData>)) {
+  async rememberForever(key: string, resolver: Resolver) {
     return await this.get(key) ?? 
       await this.put(key, await resolver());
+  }
+  
+  protected serialize(data: CacheData) {
+    return typeof data !== "string"
+      ? JSON.stringify(data)
+      : data;
+  }
+  
+  protected deserialize(data: CacheData) {
+    return data && typeof data === "string"
+      ? JSON.parse(data)
+      : data;
   }
 }
