@@ -28,7 +28,7 @@ export default class ContactController extends Controller {
   @RequestHandler
   async search(req: SearchContactRequest) {
     const cacheKey = `$_SEARCH(${req.query.q}:${req.query.status}:${req.query.limit}:${req.query.cursor})`;
-    const cachedResults = await Cache.get(cacheKey);
+    const cachedResults = await Cache.get(cacheKey, false);
     if (cachedResults)
       return cachedResults;
     const filter: any = { $text: { $search: req.query.q } };

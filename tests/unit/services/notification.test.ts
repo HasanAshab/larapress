@@ -34,7 +34,7 @@ describe("notification", () => {
     Mail.assertSentTo(user.email, TestMail);
   });
   
-  it.only("Should send notification via site (database)", async () => {
+  it("Should send notification via site (database)", async () => {
     const user = await User.factory().create();
     class Test extends TestNotification {
       via = () => ["site"];
@@ -63,9 +63,9 @@ describe("notification", () => {
     const user = await User.factory().create();
     await notificationService.send(user, new TestNotification);
     
-    const { data } = await Notification.findOne();
-    
-    expect(data).toEqual({ foo: "bar" });
     Mail.assertSentTo(user.email, TestMail);
+    await DB.model("Notification").assertHas({ 
+      data: { foo: "bar" }
+    });
   });
 });

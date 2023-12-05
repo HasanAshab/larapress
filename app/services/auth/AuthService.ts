@@ -101,7 +101,7 @@ export default class AuthService {
   private async assertFailedAttemptLimitNotExceed(email: string) {
     const key = this.getFailedAttemptCacheKey(email);
     await this.mutex.acquire();
-    let failedAttemptsCount = parseInt(await Cache.get(key) ?? 0);
+    let failedAttemptsCount = await Cache.get(key) ?? 0;
     this.mutex.release();
     if(failedAttemptsCount > 3)
       throw new LoginAttemptLimitExceededException();
