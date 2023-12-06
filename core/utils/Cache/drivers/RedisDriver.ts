@@ -18,15 +18,16 @@ export default class RedisDriver extends CacheDriver {
     return data;
   }
 
-  async put<T extends CacheData>(key: string, data: T, expiry?: number) {
+  async put<T extends CacheData>(key: string, data: T, expiry?: number, returnSerialized = false) {
+    const serializedData = this.serialize(data);
     if (expiry) {
-      await this.client.set(key, this.serialize(data), "EX", expiry);
+      await this.client.set(key, serializedData, "EX", expiry);
     }
     else {
-      await this.client.set(key, this.serialize(data));
+      await this.client.set(key, serializedData);
     }
     
-    return data;
+    return returnSerialized ? serializedData : data;
   }
   
   async delete(key: string) {

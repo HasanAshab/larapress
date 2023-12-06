@@ -1,5 +1,6 @@
 import { model, Schema, Document, Model } from "mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
+import Searchable, { SearchableDocument } from "~/app/plugins/Searchable";
 
 const ContactSchema = new Schema<ContactDocument>(
   {
@@ -29,6 +30,7 @@ const ContactSchema = new Schema<ContactDocument>(
 ContactSchema.index({ subject: 'text', message: 'text' });
 
 ContactSchema.plugin(HasFactory);
+ContactSchema.plugin(Searchable);
 
 export interface IContact {
   email: string;
@@ -37,7 +39,7 @@ export interface IContact {
   status: "opened" | "closed";
 };
 
-export interface ContactDocument extends Document, IContact {};
+export interface ContactDocument extends Document, IContact, SearchableDocument {};
 interface ContactModel extends Model<ContactDocument>, HasFactoryModel {};
 
 export default model<ContactDocument, ContactModel>("Contact", ContactSchema);

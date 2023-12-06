@@ -42,6 +42,11 @@ const SettingsSchema = new Schema<SettingsDocument>({
   }, {})
 });
 
+
+SettingsSchema.before("create", console.log)
+SettingsSchema.after("create", console.log)
+
+
 export interface ISettings {
   userId: Schema.Types.ObjectId;
   notification: {

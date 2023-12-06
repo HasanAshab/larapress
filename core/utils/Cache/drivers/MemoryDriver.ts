@@ -12,13 +12,13 @@ export default class MemoryDriver extends CacheDriver {
     return data;
   }
   
-  async put<T extends CacheData>(key: string, data: T, expiryInSeconds?: number) {
+  async put<T extends CacheData>(key: string, data: T, expiryInSeconds?: number, returnSerialized = false) {
     const serializedData = this.serialize(data);
     const expiryInMilliseconds = expiryInSeconds ? expiryInSeconds * 1000 : undefined;
 
     memoryCache.put(key, serializedData, expiryInMilliseconds);
     
-    return data;
+    return returnSerialized ? serializedData : data;
   }
   
   async delete(key: string){

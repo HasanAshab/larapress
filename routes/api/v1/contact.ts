@@ -11,6 +11,7 @@ Router.controller(ContactController).group(() => {
    // middlewares: ["auth", "roles:admin"]
   }, () => {
     Router.get("/", "index");
+    Router.get("/suggest", "suggest");
     Router.get("/search", "search");
     Router.get("/:rawContact", "show");
     Router.delete("/:id", "delete");

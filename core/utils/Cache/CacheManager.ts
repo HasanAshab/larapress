@@ -45,7 +45,16 @@ export default class CacheManager extends Manager implements CacheDriver {
     return this.driver().remember(key, expiry, resolver);
   }
   
+  rememberSerialized(key: string, expiry: number, resolver: Resolver) {
+    return this.driver().rememberSerialized(key, expiry, resolver);
+  }
+  
   rememberForever(key: string, resolver: Resolver) {
     return this.driver().rememberForever(key, resolver);
   }
+  
+  rememberSerializedForever(key: string, resolver: Resolver) {
+    return this.driver().rememberSerializedForever(key, resolver);
+  }
+  
 }

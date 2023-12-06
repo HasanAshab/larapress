@@ -48,7 +48,7 @@ const UserSchema = new Schema<UserDocument>({
 { timestamps: true }
 );
 
-  
+
 UserSchema.virtual("settings").get(function() {
   return Settings.findOne({ userId: this._id });
 });
@@ -66,7 +66,6 @@ UserSchema.plugin(HasApiTokens);
 UserSchema.plugin(Notifiable);
 UserSchema.plugin(Mediable);
 //UserSchema.plugin(Billable);
-
 
 export interface IUser {
   name: string;

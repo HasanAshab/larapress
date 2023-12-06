@@ -42,4 +42,10 @@ export default function Helpers(schema: Schema) {
     return await this.constructor.exists({ _id: this._id });
   });
 
+  schema.query.when = function(condition: boolean, queryBuilder) {
+    if(condition) {
+      queryBuilder(this);
+    }
+    return this;
+  }
 }

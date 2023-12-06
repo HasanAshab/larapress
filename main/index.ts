@@ -33,19 +33,22 @@ app.server.on("connection", () => {
   console.log(`*New connection: [${time}]`);
 });
 
-/*
-import User from "~/app/models/User";
 
+import User from "~/app/models/User";
+import Settings from "~/app/models/Settings";
 
 (async () => {
-const user = await User.findOne().includeHiddenFields();
+  
+//const user = await User.findOne()
 //await user.update({name: "binod2"})
  // console.log(await user.delete())
   //await user.refresh()
-  console.log(user)
-
+  //console.log(user)
+const s = await Settings.create({
+  userId: new User()._id
+})
 })()
-*/
+
 
 /*
 import User, { UserDocument } from "~/app/models/User";

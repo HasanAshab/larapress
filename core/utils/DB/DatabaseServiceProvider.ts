@@ -1,11 +1,12 @@
 import ServiceProvider from "~/core/abstract/ServiceProvider";
 import fs from "fs";
 import mongoose from "mongoose";
-import Core from "./plugins/Core";
+import Lifecycle from "./plugins/Lifecycle";
 import Helpers from "./plugins/Helpers";
 import Assertable from "./plugins/Assertable";
-import Hidden from "./plugins/Hidden";
 import Paginate from "./plugins/Paginate";
+import Transform from "./plugins/Transform";
+import Hidden from "./plugins/Hidden";
 
 
 export default class DatabaseServiceProvider extends ServiceProvider {
@@ -16,11 +17,12 @@ export default class DatabaseServiceProvider extends ServiceProvider {
   }
   
   private registerGlobalPlugins() {
-    mongoose.plugin(Core);
+    mongoose.plugin(Lifecycle);
     mongoose.plugin(Helpers);
     mongoose.plugin(Assertable);
-    mongoose.plugin(Hidden);
     mongoose.plugin(Paginate);
+    mongoose.plugin(Transform);
+    mongoose.plugin(Hidden);
   }
   
   private discoverModels() {
