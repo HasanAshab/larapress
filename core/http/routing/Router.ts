@@ -151,7 +151,6 @@ export class Router {
   
   model(param: string, modelName: string, queryCustomizer?: Function) {
     const Model = model(modelName);
-    
     const bindField = (field: string, suffix = "") => {
       this.bind(param + suffix, value => {
         let query = Model.findOneOrFail({ [field]: value });

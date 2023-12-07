@@ -1,18 +1,26 @@
-// shob CastError e r log hoibo na + prottec tai .stack nai
-laravel
-
 import { constructor } from "types";
 import { Request, Response } from "express";
-import Exception from "~/core/exceptions/Exception";
+import Exception from "./Exception";
 
-export type Renderer<T> = 
-| ((this: T, res: Response) => any)
-| ((this: T, req: Request, res: Response) => any);
+
+export type Reporter<Ctx = any> = (this: Ctx) => Promise<boolean> | boolean;
+
+export interface Renderer<Ctx = any> {
+  (this: Ctx, res: Response): Promise<void> | void;
+  (this: Ctx, req: Request, res: Response): Promise<void> | void;
+}
+
+interface Handlers<Ctx = any> {
+  report: Reporter<Ctx>;
+  render: Renderer<Ctx>;
+}
+
 
 export default class Handler {
+  // TODO optimize
   protected dontReport: constructor[] = [];
-  private renderers = new Map<constructor, Renderer<any>>;
-
+  private exceptions = new Map<constructor, Partial<Handlers>>;
+  
   constructor() {
     this.register();
   }
@@ -20,69 +28,89 @@ export default class Handler {
   register() {
     //
   }
-
-  async handle(err: any, req: Request, res: Response) {
-    const shouldReport = this.shouldReport(err);
-
-    const renderer = this.getRendererFor(err, req);
-    if(renderer) {
-      renderer.length === 2
-        ? renderer(req, res)
-        : renderer(res);
-      shouldReport && renderer.report();
-    }
-    
-    else if(err instanceof Exception) {
-      err.render(req, res);
-      shouldReport && err.shouldReport && err.report(req);
-    }
-    
-    if(!res.headersSent) {
-      env("NODE_ENV") === "production"
-        ? res.status(500).message()
-        : res.status(500).json({ error: err.stack });
-      
-      shouldReport && log(`${new Date().toLocaleString()}\n${req.originalUrl} - ${req.method} - ${req.ip}\nStack: ${err.stack}`);
-    }
-  };
   
+  async handle(err: any, req: Request, res: Response) {
+    const { report, render } = this.getHandlerOf(err);
+
+    if(this.shouldReport(err) && await report() !== false) {
+      this.report(err);
+    }
+  
+    render.length === 2
+      ? await render(req, res)
+      : await render(res);
+
+    !res.headersSent && this.render(err, res);
+  }
+
   protected on<T extends constructor>(exception: T) {
     const that = this;
+    
+    this.exceptions.set(exception, {});
+
     function dontReport() {
       that.dontReport.push(exception);
       return this;
     }
     
-    function render(renderer: Renderer<T>) {
-      that.renderers.set(exception, renderer);
+    function report(reporter: Reporter<T>) {
+      const handlers = that.exceptions.get(exception);
+      handlers.report = reporter;
+      that.exceptions.set(exception, handlers);
       return this;
     }
     
-    return { dontReport, render };
+    function render(renderer: Renderer<T>) {
+      const handlers = that.exceptions.get(exception);
+      handlers.render = renderer;
+      that.exceptions.set(exception, handlers);
+      return this;
+    }
+    
+    return { dontReport, report, render };
   }
 
-  private getRendererFor(err: any, req: Request) {
-    let renderer: Renderer<any> | null = null;
-    for(const [ exception, rawRenderer ] of this.renderers.entries()) {
+  private getHandlerOf(err: any) {
+    const handlers = {} as Handlers;
+
+    if(err instanceof Exception) {
+      handlers.report = err.report?.bind(err);
+      handlers.render = err.render?.bind(err);
+    }
+    
+    if(handlers.report && handlers.render) {
+      return handlers;
+    }
+    
+    for(const [exception, exceptionHandlers] of this.exceptions.entries()) {
       if(err instanceof exception) {
-         renderer = rawRenderer;
-         break;
+        handlers.report = exceptionHandlers.report?.bind(err);
+        handlers.render = exceptionHandlers.render?.bind(err);
+        break;
       }
     }
     
-    if(!renderer) {
-      return null;
-    }
+    handlers.report = handlers.report ?? (() => true);
+    handlers.report = handlers.report ?? (() => {});
     
-    //err.request = req;
-    err.report = function() {
-      return log(`${new Date().toLocaleString()}\n${req.originalUrl} - ${req.method} - ${req.ip}\nStack: ${this}`);
-    }
-
-    return renderer.bind(err);
+    return handlers;
   }
   
-  private shouldReport(err) {
+  
+  private shouldReport(err: any) {
+    if(err instanceof Exception) {
+      return err.shouldReport;
+    }
     return !this.dontReport.some(exception => err instanceof exception);
+  }
+  
+  private async report(err: any) {
+    await log(`\n\n${new Date().toLocaleString()}\n${err}\nStack: ${err.stack}`);
+  }
+  
+  private render(err: any, res: Response) {
+    env("NODE_ENV") === "production"
+      ? res.status(500).message()
+      : res.status(500).json({ error: err.stack });
   }
 }
