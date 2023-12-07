@@ -4,7 +4,7 @@ import { Schema, Model, Document } from "mongoose";
  * The global transformer
  */
 function transformDocument() {
-  this.id = this._id.toHexString();
+  this.id = this._id?.toHexString();
   delete this._id;
   delete this.__v;
   return this;

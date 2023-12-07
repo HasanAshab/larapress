@@ -32,7 +32,7 @@ export default class ContactController extends Controller {
     const cacheKey = `contacts.suggest:${q},${status},${limit}`;
     
     const results = await Cache.rememberSerialized(cacheKey, 5 * 60 * 60, () => {
-      return Contact.search(q).limit(limit).select("subject").when(status, query => {
+      return Contact.search(q).limit(limit).select({ subject: 1, score: 1, _id: 0 }).when(status, query => {
         query.where("status").equals(status);
       });
     });
@@ -56,7 +56,7 @@ export default class ContactController extends Controller {
   
   @RequestHandler
   async show(rawContact: IContact) {
-    return rawContact;
+    return ShowContactResource.make(rawContact);
   }
   
   @RequestHandler

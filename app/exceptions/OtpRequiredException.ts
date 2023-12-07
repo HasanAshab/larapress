@@ -1,4 +1,4 @@
-import Exception from "~/core/abstract/Exception";
+import Exception from "~/core/exceptions/Exception";
 import { Request, Response } from "express";
 
 export default class OtpRequiredException extends Exception {

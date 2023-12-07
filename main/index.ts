@@ -33,7 +33,7 @@ app.server.on("connection", () => {
   console.log(`*New connection: [${time}]`);
 });
 
-
+/*
 import User from "~/app/models/User";
 import Settings from "~/app/models/Settings";
 
@@ -48,7 +48,7 @@ const s = await Settings.create({
   userId: new User()._id
 })
 })()
-
+*/
 
 /*
 import User, { UserDocument } from "~/app/models/User";

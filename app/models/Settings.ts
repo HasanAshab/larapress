@@ -43,7 +43,9 @@ const SettingsSchema = new Schema<SettingsDocument>({
 });
 
 
-SettingsSchema.before("create", console.log)
+SettingsSchema.before("create", obj => {
+  obj["twoFactorAuth.enabled"] = true
+})
 SettingsSchema.after("create", console.log)
 
 

@@ -10,7 +10,7 @@ import formDataParser from "express-fileupload";
 import URL from "URL";
 import Router from "./Router";
 import type { MiddlewareAliaseWithOrWithoutOptions } from "./middleware";
-import ErrorHandler from "~/app/http/middlewares/ErrorHandler";
+import ExceptionHandler from "~/app/exceptions/Handler";
 
 export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
@@ -117,8 +117,9 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   */
   protected registerErrorHandler() {
     this.app.assertRunningInWeb();
-    const errorHandler = new ErrorHandler();
-    const handler = errorHandler.handle.bind(errorHandler);
-    this.app.http.use(handler);
+    const exceptionHandler = new ExceptionHandler();
+    this.app.http.use(async (err, req, res, next) => {
+      await exceptionHandler.handle(err, req, res);
+    });
   }
 }

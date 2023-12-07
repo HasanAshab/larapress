@@ -11,14 +11,11 @@ interface SearchableDocument extends Document {
 export default function Searchable(schema: Schema) {
 
   schema.statics.search = function (query: string) {
-    const q = this.find(
+    return this.find(
         { $text: { $search: query } },
         { score: { $meta: "textScore" } }
       )
       .sort({ score: { $meta: "textScore" } })
-      .select('-score')
-      log(q)
-      return q
   };
   
 }

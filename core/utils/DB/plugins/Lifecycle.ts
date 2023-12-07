@@ -11,12 +11,19 @@ Schema.prototype.after = function(event: string, listener) {
   this._lifecycle.on(event + ".after", listener);
 }
 
-const { create } = Model;
+const { create, deleteMany } = Model;
 
 Model.create = async function(...args) {
   await this.schema._lifecycle.emit("create.before", args[0]);
   const document = await create.apply(this, args);
   await this.schema._lifecycle.emit("create.after", document);
+  return document;
+}
+
+Model.deleteMany = async function(...args) {
+  await this.schema._lifecycle.emit("delete.before", args[0]);
+  const document = await deleteMany.apply(this, args);
+  await this.schema._lifecycle.emit("delete.after", document);
   return document;
 }
 
