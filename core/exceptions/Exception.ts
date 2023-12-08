@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
+import type { Reporter, Renderer } from "./Handler";
 
 interface Exception {
-  report: Reporter<this>;
+  report?: Reporter<this>;
   render?: Renderer<this>;
 }
 

@@ -1,6 +1,6 @@
 import ExceptionHandler from "~/core/exceptions/Handler";
-import jwt from "jsonwebtoken";
-import Validator from "Validator";
+import { JsonWebTokenError } from "jsonwebtoken";
+import { ValidationError } from "Validator";
 import { CastError } from "mongoose";
 
 export default class Handler extends ExceptionHandler {
@@ -20,12 +20,13 @@ export default class Handler extends ExceptionHandler {
         }
       });
 
-    
-    this.on(jwt.JsonWebTokenError).dontReport().render(function(res) {
+
+    this.on(JsonWebTokenError).dontReport().render(function(res) {
       res.status(401).message("Invalid or expired token!");
     });
     
-    this.on(Validator.ValidationError).dontReport().render(function(res) {
+    
+    this.on(ValidationError).dontReport().render(function(res) {
       const errors = this.details.reduce((errors: Record<string, string>, detail: any) => {
         const field = detail.path[0];
         errors[field] = detail.message;
@@ -37,5 +38,6 @@ export default class Handler extends ExceptionHandler {
         errors
       });
     });
+    
   }
 }

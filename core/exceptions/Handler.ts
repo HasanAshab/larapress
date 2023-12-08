@@ -1,6 +1,7 @@
 import { constructor } from "types";
 import { Request, Response } from "express";
 import Exception from "./Exception";
+import ExceptionHandleOptions from "./ExceptionHandleOptions";
 
 
 export type Reporter<Ctx = any> = (this: Ctx) => Promise<boolean> | boolean;
@@ -17,13 +18,14 @@ interface Handlers<Ctx = any> {
 
 
 export default class Handler {
-  // TODO optimize
   protected dontReport: constructor[] = [];
-  private exceptions = new Map<constructor, Partial<Handlers>>;
+  exceptions = new Map<constructor, Partial<Handlers>>;
+  
   
   constructor() {
     this.register();
   }
+  
   
   register() {
     //
@@ -42,34 +44,14 @@ export default class Handler {
 
     !res.headersSent && this.render(err, res);
   }
-
+  
   protected on<T extends constructor>(exception: T) {
-    const that = this;
-    
-    this.exceptions.set(exception, {});
-
-    function dontReport() {
-      that.dontReport.push(exception);
-      return this;
-    }
-    
-    function report(reporter: Reporter<T>) {
-      const handlers = that.exceptions.get(exception);
-      handlers.report = reporter;
-      that.exceptions.set(exception, handlers);
-      return this;
-    }
-    
-    function render(renderer: Renderer<T>) {
-      const handlers = that.exceptions.get(exception);
-      handlers.render = renderer;
-      that.exceptions.set(exception, handlers);
-      return this;
-    }
-    
-    return { dontReport, report, render };
+    const handlers = {};
+    this.exceptions.set(exception, handlers);
+  
+    return new ExceptionHandleOptions<T>(exception, handlers, this.dontReport);
   }
-
+  
   private getHandlerOf(err: any) {
     const handlers = {} as Handlers;
 
@@ -96,7 +78,6 @@ export default class Handler {
     return handlers;
   }
   
-  
   private shouldReport(err: any) {
     if(err instanceof Exception) {
       return err.shouldReport;
@@ -114,3 +95,4 @@ export default class Handler {
       : res.status(500).json({ error: err.stack });
   }
 }
+
