@@ -1,4 +1,4 @@
-import Factory from "~/core/abstract/Factory";
+import Factory from "~/core/database/Factory";
 import { faker } from "@faker-js/faker";
 import { ICategory, CategoryDocument } from "~/app/models/Category";
 

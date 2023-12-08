@@ -1,4 +1,4 @@
-import Factory from "~/core/abstract/Factory";
+import Factory from "~/core/database/Factory";
 import { faker } from "@faker-js/faker";
 import User, { UserDocument } from "~/app/models/User";
 import type { INotification, NotificationDocument } from "~/app/models/Notification";
@@ -7,6 +7,7 @@ export default class NotificationFactory extends Factory<INotification, Notifica
   definition() {
     return {
       userId: new User()._id,
+      type: "TestNotification",
       data: { text: faker.lorem.words(5) },
       readAt: new Date()
     };

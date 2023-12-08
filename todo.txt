@@ -1,3 +1,2 @@
 2. typesafe policy + before()
-3. encapsulate cron().schedule() logic
 4. user.toHuman(...)

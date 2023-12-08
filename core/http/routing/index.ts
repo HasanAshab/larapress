@@ -1,3 +1,3 @@
 import Router from "./Router";
 
-export resolve<Router>(Router);
+export default resolve<Router>(Router);

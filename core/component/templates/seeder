@@ -1,4 +1,4 @@
-import Seeder from "~/core/abstract/Seeder";
+import Seeder from "~/core/database/Seeder";
 import {{name}} from "~/app/models/{{name}}";
 
 export default class {{name}}Seeder extends Seeder {

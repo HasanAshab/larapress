@@ -1,6 +1,6 @@
 import Queue from "Queue";
 
-export default abstract class Job<Data = object> {
+export default abstract class Job<Data = never> {
   channel = "default";
   concurrency = 1;
   tries = 1;

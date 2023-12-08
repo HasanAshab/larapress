@@ -7,11 +7,10 @@ export default abstract class Seeder {
   /**
    * Call other seeders
   */
-  async call(seedersName: string[]) {
-    for(const name of seedersName) {
-      const { default: Seeder } = await import("~/database/seeders/" + name);
+  async call(seeders: typeof Seeder[]) {
+    seeders.forEach(Seeder => {
       const seeder = new Seeder();
       await seeder.run();
-    }
+    });
   }
 }

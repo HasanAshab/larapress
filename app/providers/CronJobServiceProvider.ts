@@ -1,8 +1,5 @@
-import ServiceProvider from "~/core/abstract/ServiceProvider";
+import ServiceProvider from "~/core/providers/CronJobServiceProvider";
 import PruneDatabase from "~/app/jobs/PruneDatabase";
-
-import { schedule as cronSchedule } from "node-cron";
-
 
 export default class CronJobServiceProvider extends ServiceProvider {
   /**
@@ -12,13 +9,5 @@ export default class CronJobServiceProvider extends ServiceProvider {
     this.cron("* * 1 * *").schedule(() => {
       PruneDatabase.dispatch();
     });
-  }
-  
-  protected cron(expression: string) {
-    const schedule = (job: (() => any | Promise<any>)) => {
-      cronSchedule(expression, job);
-    }
-    
-    return { schedule };
   }
 }
