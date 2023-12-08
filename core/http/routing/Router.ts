@@ -3,6 +3,7 @@ import type Route from "./Route";
 import type { Controller, InvokableController, APIResourceController } from "./controller";
 import type { MiddlewareAliaseWithOrWithoutOptions } from "./middleware";
 import fs from "fs";
+import type { Express } from "express";
 import middlewareConfig from "~/config/middleware";
 import MethodInjector from "MethodInjector";
 import RouteOptions from "./RouteOptions";
@@ -279,13 +280,10 @@ export class Router {
   }
   
 
-  build(router = ExpressRouter()) {
-    router.use((req, res, next) => {
-      this.request.inject(req);
-      this.response.inject(res);
-      next();
-    });
-    
+  build(http: Express) {
+    this.request.inject(http.request);
+    this.response.inject(http.response);
+
     for(const { method, path, metadata, middlewares } of this.stack) {
       const { controller, key, name } = metadata;
       const controllerInstance = resolve<any>(controller);
@@ -323,12 +321,12 @@ export class Router {
           next(err);
         }
       }
-      router[method](path, this.resolveMiddleware(...middlewares), requestHandler);
+      http[method](path, this.resolveMiddleware(...middlewares), requestHandler);
     }
     
-    router.all("*", this.fallbackHandler);
+    http.all("*", this.fallbackHandler);
     
-    return router;
+    return http;
   }
 }
 

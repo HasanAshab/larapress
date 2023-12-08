@@ -5,12 +5,16 @@ import cors from "cors";
 import helmet from "helmet";
 import { modelNames } from "mongoose";
 import { lowerFirst } from "lodash";
+import { getStatusText } from "http-status-codes";
 import bodyParser from "body-parser";
 import formDataParser from "express-fileupload";
 import URL from "URL";
 import Router from "./Router";
 import type { MiddlewareAliaseWithOrWithoutOptions } from "./middleware";
 import ExceptionHandler from "~/app/exceptions/Handler";
+import URL from "URL";
+import JsonResource from "~/core/http/resources/JsonResource";
+import ResourceCollection from "~/core/http/resources/ResourceCollection";
 
 export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
@@ -31,10 +35,12 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   boot() {
     if(!this.app.runningInWeb()) return;
     this.serveApiDoc && this.serveDocs();
+    
     this.registerSecurityMiddlewares();
     this.registerRequestPayloadParsers();
     this.registerGlobalMiddlewares();
     this.bindModelsImplicitly && this.bindModels();
+    this.customizeHttp();
     this.setupRoutes();
     this.serveStaticFolder();
     this.registerErrorHandler();
@@ -93,8 +99,75 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
    * Register routes to express
    */
-  protected registerRoutes(): void;
+  protected abstract registerRoutes(): void;
+  
+  /**
+   * Inject and customize http helpers
+   */
+  protected customizeHttp() {
+    Router.request.add("file", function(name: string) {
+      return this.files?.[name] ?? null;
+    });
     
+    Router.request.add("hasFile", function(name: string) {
+      return !!this.file(name);
+    });
+    
+    Router.request.getter("fullUrl", function() {
+      return this.protocol + '://' + this.get('host') + this.originalUrl;
+    });
+    
+    Router.request.getter("fullPath", function() {
+      return this.protocol + '://' + this.get('host') + this.path;
+    });
+   
+    Router.request.getter("hasValidSignature", function() {
+      if(!this._hasValidSignature) {
+        this._hasValidSignature = URL.hasValidSignature(this.fullUrl);
+      }
+      return this._hasValidSignature;
+    });
+    
+    Router.response.add("json", function(data: string | object) {
+      if (!this.get('Content-Type')) {
+        this.set('Content-Type', 'application/json');
+      }
+      
+      if(typeof data === "string")
+        return this.send(data);
+        
+      data = JSON.stringify(data, (key, value) => {
+        if(value instanceof JsonResource || value instanceof ResourceCollection) {
+          value.withResponse(this.req, this);
+          return value.transform(this.req);
+        }
+        return value;
+      });
+      
+      
+      this.send(data);
+    });
+    
+    Router.response.add("sendStatus", function(code: number) {
+      this.status(code).json({});
+    });
+    
+    Router.response.add("message", function(text?: string) {
+      this.json({
+        success: this.statusCode >= 200 && this.statusCode < 300,
+        message: text || getStatusText(this.statusCode),
+      });
+    });
+    
+    Router.response.add("redirectToClient", function(path = '/') {
+      this.redirect(URL.client(path));
+    });
+    
+    Router.response.add("sendFileFromStorage", function(storagePath: string) {
+      this.sendFile(base("storage", storagePath));
+    });
+  }
+
   /**
    * Register routes to express
    */
