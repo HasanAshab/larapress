@@ -1,7 +1,9 @@
 import Factory from "~/core/database/Factory";
 import { faker } from "@faker-js/faker";
+import { I{{name}}, {{name}}Document } from "~/app/models/{{name}}";
 
-export default class {{name}}Factory extends Factory {
+
+export default class {{name}}Factory extends Factory<I{{name}}, {{name}}Document> {
   /**
    * Return initial state of the {{name}}
   */

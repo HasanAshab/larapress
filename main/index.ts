@@ -35,20 +35,18 @@ app.server.on("connection", () => {
 
 /*
 import User from "~/app/models/User";
-import Settings from "~/app/models/Settings";
 
 (async () => {
+
+const [ user1, user2 ] = await User.find().limit(2)
+console.log(user1,user2)
+
+console.log(await user1.can("delete", user2))
+
   
-//const user = await User.findOne()
-//await user.update({name: "binod2"})
- // console.log(await user.delete())
-  //await user.refresh()
-  //console.log(user)
-const s = await Settings.create({
-  userId: new User()._id
-})
 })()
 */
+
 
 /*
 import User, { UserDocument } from "~/app/models/User";

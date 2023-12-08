@@ -56,5 +56,4 @@ export default class CacheManager extends Manager implements CacheDriver {
   rememberSerializedForever(key: string, resolver: Resolver) {
     return this.driver().rememberSerializedForever(key, resolver);
   }
-  
 }

@@ -1,6 +1,9 @@
-export default class {{name}}Policy {
+import { {{name}}Document } from "~/app/models/{{name}}";
+import type { Policy } from "~/app/plugins/HasPolicy";
+
+export default class {{name}}Policy implements Policy<{{name}}Document> {
   /*
-  read(user, blog){
+  read(user: {{name}}Document, blog: BlogDocument){
     return true;
   }
   */

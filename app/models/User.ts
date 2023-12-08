@@ -1,7 +1,7 @@
 import { model, Schema, Document, Model } from "mongoose";
 import Authenticatable, { AuthenticatableDocument } from "~/app/plugins/Authenticatable";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
-import HasPolicy, { HasPolicyDocument } from "~/app/plugins/HasFactory";
+import HasPolicy, { HasPolicyDocument } from "~/app/plugins/HasPolicy";
 import HasApiTokens, { HasApiTokensDocument } from "~/app/plugins/HasApiTokens";
 import Notifiable, { NotifiableDocument } from "~/app/plugins/Notifiable";
 import Mediable, { MediableDocument } from "~/app/plugins/Mediable";
