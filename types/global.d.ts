@@ -8,6 +8,7 @@ declare global {
   function randomStr(length: number): string;
   function isPureObject(target: any): target is object;
   function sleep(ms: number): Promise<void>;
+  function toHumanReadableFormat(date: string | Date): string;
   function resolve<T = unknown>(dependency: string | Function): T;
 }
 

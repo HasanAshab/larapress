@@ -37,6 +37,7 @@ export interface IContact {
   subject: string;
   message: string;
   status: "opened" | "closed";
+  createdAt: Date;
 };
 
 export interface ContactDocument extends Document, IContact, SearchableDocument {};

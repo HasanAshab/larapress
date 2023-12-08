@@ -1,7 +1,6 @@
-import ServiceProvider from "~/core/abstract/ServiceProvider";
+import ServiceProvider from "~/core/providers/ServiceProvider";
 import fs from "fs";
 import mongoose from "mongoose";
-import Lifecycle from "./plugins/Lifecycle";
 import Helpers from "./plugins/Helpers";
 import Assertable from "./plugins/Assertable";
 import Paginate from "./plugins/Paginate";
@@ -17,7 +16,6 @@ export default class DatabaseServiceProvider extends ServiceProvider {
   }
   
   private registerGlobalPlugins() {
-    mongoose.plugin(Lifecycle);
     mongoose.plugin(Helpers);
     mongoose.plugin(Assertable);
     mongoose.plugin(Paginate);

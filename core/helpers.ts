@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import fs from "fs/promises";
 import path from "path";
 import { container } from "tsyringe";
+import { formatDistanceToNow } from 'date-fns';
 
 
 /**
@@ -120,6 +121,15 @@ export function sleep(seconds: number) {
   return new Promise(r => setTimeout(r, seconds * 1000));
 }
 
+/**
+ * Convert a date to human readable format like `20 minutes ago`
+ */
+export function toHumanReadableFormat(date: string | Date) {
+  if(typeof date === "string") {
+    date = new Date(date);
+  }
+  return formatDistanceToNow(date, { addSuffix: true });
+}
 
 /**
  * Resolve dependency

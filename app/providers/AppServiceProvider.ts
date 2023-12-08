@@ -1,4 +1,4 @@
-import ServiceProvider from "~/core/abstract/ServiceProvider";
+import ServiceProvider from "~/core/providers/ServiceProvider";
 
 export default class AppServiceProvider extends ServiceProvider {
   /**

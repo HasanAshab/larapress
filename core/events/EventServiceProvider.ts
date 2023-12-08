@@ -1,4 +1,4 @@
-import ServiceProvider from "~/core/abstract/ServiceProvider";
+import ServiceProvider from "~/core/providers/ServiceProvider";
 import Event from "./Event";
 
 export default abstract class EventServiceProvider extends ServiceProvider {

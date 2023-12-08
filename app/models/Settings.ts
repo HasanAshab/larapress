@@ -43,12 +43,6 @@ const SettingsSchema = new Schema<SettingsDocument>({
 });
 
 
-SettingsSchema.before("create", obj => {
-  obj["twoFactorAuth.enabled"] = true
-})
-SettingsSchema.after("create", console.log)
-
-
 export interface ISettings {
   userId: Schema.Types.ObjectId;
   notification: {

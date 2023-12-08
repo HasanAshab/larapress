@@ -1,4 +1,4 @@
-import ServiceProvider from "~/core/abstract/ServiceProvider";
+import ServiceProvider from "~/core/providers/ServiceProvider";
 import express from "express";
 import swaggerUi from "swagger-ui-express";
 import cors from "cors";

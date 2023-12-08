@@ -1,4 +1,4 @@
-import ServiceProvider from "~/core/abstract/ServiceProvider";
+import ServiceProvider from "~/core/providers/ServiceProvider";
 import Config from "Config";
 import { container } from "tsyringe";
 import IORedis from "ioredis";

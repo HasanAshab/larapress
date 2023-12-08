@@ -30,14 +30,21 @@ export default class ContactController extends Controller {
   async suggest(req: SuggestContactRequest, res: Response) {
     const { q, status, limit } = req.query;
     const cacheKey = `contacts.suggest:${q},${status},${limit}`;
+ /*   
+    const qq = Contact.search(q).limit(limit).select("subject").select("message").when(status, query => {
+        query.where("status").equals(status);
+      });
+   // qq._fields["score"] = 0
     
+    log(qq)
+    return await qq*/
     const results = await Cache.rememberSerialized(cacheKey, 5 * 60 * 60, () => {
-      return Contact.search(q).limit(limit).select({ subject: 1, score: 1, _id: 0 }).when(status, query => {
+      return Contact.search(q).limit(limit).select("-_id +score subject").when(status, query => {
         query.where("status").equals(status);
       });
     });
-    log(results)
-    res.send(results);
+
+    res.json(results);
   }
   
   @RequestHandler
@@ -51,7 +58,7 @@ export default class ContactController extends Controller {
       }).paginateCursor(req);
     });
     
-    res.send(results);
+    res.json(results);
   }
   
   @RequestHandler

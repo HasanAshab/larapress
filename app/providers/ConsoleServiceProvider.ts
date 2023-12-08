@@ -1,4 +1,4 @@
-import ServiceProvider from "~/core/abstract/ServiceProvider";
+import ServiceProvider from "~/core/providers/ServiceProvider";
 import { SamerArtisan } from 'samer-artisan';
 
 export default class ConsoleServiceProvider extends ServiceProvider {

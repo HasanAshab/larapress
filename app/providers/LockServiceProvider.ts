@@ -1,4 +1,4 @@
-import ServiceProvider from "~/core/abstract/ServiceProvider";
+import ServiceProvider from "~/core/providers/ServiceProvider";
 import { container } from "tsyringe";
 import { Mutex } from 'async-mutex';
 

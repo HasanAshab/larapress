@@ -56,17 +56,23 @@ export default class RouteServiceProvider extends ServiceProvider {
       return this._hasValidSignature;
     });
     
-    Router.response.add("json", function(obj: object) {
-      const data = JSON.stringify(obj, (key, value) => {
+    Router.response.add("json", function(data: string | object) {
+      if (!this.get('Content-Type')) {
+        this.set('Content-Type', 'application/json');
+      }
+      
+      if(typeof data === "string")
+        return this.send(data);
+        
+      data = JSON.stringify(data, (key, value) => {
         if(value instanceof JsonResource || value instanceof ResourceCollection) {
           value.withResponse(this.req, this);
           return value.transform(this.req);
         }
         return value;
       });
-      if (!this.get('Content-Type')) {
-        this.set('Content-Type', 'application/json');
-      }
+      
+      
       this.send(data);
     });
     

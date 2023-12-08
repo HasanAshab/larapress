@@ -16,6 +16,8 @@ export default function Searchable(schema: Schema) {
         { score: { $meta: "textScore" } }
       )
       .sort({ score: { $meta: "textScore" } })
+      .select("-score");
+    
   };
   
 }

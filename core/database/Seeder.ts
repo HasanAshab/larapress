@@ -8,9 +8,9 @@ export default abstract class Seeder {
    * Call other seeders
   */
   async call(seeders: typeof Seeder[]) {
-    seeders.forEach(Seeder => {
+    for(const Seeder of seeders) {
       const seeder = new Seeder();
       await seeder.run();
-    });
+    }
   }
 }
