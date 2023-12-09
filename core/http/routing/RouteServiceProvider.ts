@@ -169,7 +169,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   }
 
   /**
-   * Register routes to express
+   * Setup express routes
    */
   protected setupRoutes() {
     this.registerRoutes();
