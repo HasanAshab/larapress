@@ -1,6 +1,5 @@
-//import { autoload } from "~/package";
-const { autoload } = require(process.cwd() + "/package");
+import packageConfig from "../package.json" assert { type: "json" };
 
-for(const path of autoload)
-  Object.assign(globalThis, require(path));
-  
+for(const path of packageConfig.autoload) {
+  Object.assign(globalThis, await import(path));
+}

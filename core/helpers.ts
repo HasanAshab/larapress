@@ -7,7 +7,11 @@ import fs from "fs/promises";
 import path from "path";
 import { container } from "tsyringe";
 import { formatDistanceToNow } from 'date-fns';
+import { fileURLToPath } from 'url';
 
+
+export const filename = (url: string) => fileURLToPath(url);
+export const dirname = (url: string) => fileURLToPath(new URL('.', url));
 
 /**
  * Logs data on different channels based on config
@@ -24,6 +28,7 @@ export async function log(data: any) {
     console.log(data)
   }
 }
+
 
 /**
  * Logs messages with a beautified call stack.
@@ -65,7 +70,7 @@ export async function putEnv(data: Record<string, string>) {
  * Converts to absolute path
 */
 export function base(...basePaths: string[]) {
-  return path.join(__dirname, "..", ...basePaths);
+  return path.join(dirname(import.meta.url), "..", ...basePaths);
 }
 
 /**

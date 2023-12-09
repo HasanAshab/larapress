@@ -1,3 +1,3 @@
 import Config from "Config";
 
-Config.load();
+await Config.load();

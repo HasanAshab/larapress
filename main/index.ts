@@ -1,9 +1,12 @@
 import "reflect-metadata";
 import "dotenv/config";
 
+/*
 if(process.env.NODE_ENV === "production" || process.env.NODE_ENV === "loadTest") {
   require('module-alias/register');
 }
+*/
+
 import "~/vendor/autoload";
 import "Config/load";
 import Config from "Config";

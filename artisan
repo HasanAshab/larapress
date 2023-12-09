@@ -1,13 +1,1 @@
-require("reflect-metadata");
-require("dotenv/config");
-require("module-alias/register");
-
-process.env.NODE_ENV = "shell";
-
-require("~/vendor/autoload");
-require("Config/load");
-require("~/main/app");
-
-const { SamerArtisan } = require('samer-artisan');
-
-SamerArtisan.root(__dirname).parse().then(() => process.exit(0));
+node --no-warnings --loader ./vendor/loader.js --experimental-specifier-resolution=node artisan.ts $@

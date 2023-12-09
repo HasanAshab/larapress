@@ -1,6 +1,6 @@
 import Notification from "~/core/abstract/Notification";
 import { NotifiableDocument } from "~/app/plugins/Notifiable";
-import { capitalize } from "lodash";
+import { capitalize } from "lodash-es";
 import { singleton } from "tsyringe";
 import notificationConfig from "~/config/notification";
 

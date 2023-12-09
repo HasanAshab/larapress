@@ -7,8 +7,8 @@ export default class ConsoleServiceProvider extends ServiceProvider {
   */
   boot() {
     SamerArtisan.load([
-      "dist/app/commands",
-      "dist/core/component/commands"
+      "app/commands",
+      "core/component/commands"
     ]);
   }
 }

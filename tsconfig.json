@@ -3,9 +3,9 @@
     "files": true
   },
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2020",
     "lib": ["es2021", "dom"],
-    "module": "commonjs",
+    "module": "esnext",
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
@@ -13,6 +13,7 @@
       "~/*": ["*"],
       "types": ["types"]
     },
+    "moduleResolution": "node",
     "strict": true,
     "alwaysStrict": true,
     "esModuleInterop": true,
