@@ -7,26 +7,19 @@ export default abstract class EventServiceProvider extends ServiceProvider {
   /**
    * Boot event service
   */
-  boot() {
-    if(this.app.runningInWeb()) {
-      this.subscribeListeners();
-    }
+  async boot() {
+    if(!this.app.runningInWeb()) return;
+    
+    await this.events.entries().map(([eventName, listenerPaths]) => {
+      return typeof listenerPaths === "string"
+        ? this.subscribeListener(eventName, listenerPaths)
+        : listenerPaths.map(path => this.subscribeListener(eventName, path));
+    });
   }
   
-  /**
-   * Subscribe all events to global Event Emitter
-  */
-  private subscribeListeners() {
-    for(const eventName in this.events) {
-      const listenerPaths = this.events[eventName];
-      if(typeof listenerPaths === "string")
-        this.subscribeListener(eventName, listenerPaths)
-      else listenerPaths.forEach(path => this.subscribeListener(eventName, path));
-    }
-  }
-  
-  private subscribeListener(event: string, path: string) {
-    const Listener = require(path).default;
+
+  private async subscribeListener(event: string, path: string) {
+    const { default: Listener } = await import(path);
     const listener = new Listener();
     Event.on(event, listener.dispatch.bind(listener));
   }

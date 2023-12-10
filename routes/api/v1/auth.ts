@@ -19,7 +19,7 @@ Router.controller(AuthController).group(() => {
   
   // User password management
   Router.prefix("/password").group(() => {
-    Router.post("/forgot", "sendResetPasswordEmail").middleware("recaptcha", "limit:10000,2");
+    Router.post("/forgot", "forgotPassword").middleware("recaptcha", "limit:10000,2");
     Router.patch("/reset", "resetPassword");
     Router.patch("/change", "changePassword").middleware("auth", "verified");
   });

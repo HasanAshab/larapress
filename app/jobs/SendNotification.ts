@@ -24,7 +24,7 @@ class SendNotification extends Job<Data> {
   
   async handle({ notifiables, notification }: Data){
     return console.log(notification, notifiables)
-    const NotificationClass = require(notification.path).default;
+    const { default: NotificationClass } = await import(notification.path);
     const notificationInstance = new NotificationClass(notification.data);
     const notifiableDocuments = await this.fetchNotifiableDocuments(notifiables);
     await this.notificationService.send(notifiableDocuments, notificationInstance);

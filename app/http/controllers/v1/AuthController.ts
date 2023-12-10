@@ -2,15 +2,14 @@ import Controller from "~/app/http/controllers/Controller";
 import { RequestHandler } from "~/core/decorators";
 import { Request, AuthenticRequest, Response } from "~/core/express";
 import { injectable } from "tsyringe";
-import LoginRequest from "~/app/http/requests/v1/LoginRequest";
-import RegisterRequest from "~/app/http/requests/v1/RegisterRequest";
-import LoginWithRecoveryCodeRequest from "~/app/http/requests/v1/LoginWithRecoveryCodeRequest";
-import SocialLoginFinalStepRequest from "~/app/http/requests/v1/SocialLoginFinalStepRequest";
-import ResendEmailVerificationRequest from "~/app/http/requests/v1/ResendEmailVerificationRequest";
-import SendResetPasswordEmailRequest from "~/app/http/requests/v1/SendResetPasswordEmailRequest";
-import ResetPasswordRequest from "~/app/http/requests/v1/ResetPasswordRequest";
-import ChangePasswordRequest from "~/app/http/requests/v1/ChangePasswordRequest";
-import ChangePhoneNumberRequest from "~/app/http/requests/v1/ChangePhoneNumberRequest";
+import LoginRequest from "~/app/http/requests/v1/auth/login/LoginRequest";
+import RegisterRequest from "~/app/http/requests/v1/auth/RegisterRequest";
+import LoginWithRecoveryCodeRequest from "~/app/http/requests/v1/auth/login/LoginWithRecoveryCodeRequest";
+import SocialLoginFinalStepRequest from "~/app/http/requests/v1/auth/login/SocialLoginFinalStepRequest";
+import ResendEmailVerificationRequest from "~/app/http/requests/v1/auth/ResendEmailVerificationRequest";
+import ForgotPasswordRequest from "~/app/http/requests/v1/auth/password/ForgotPasswordRequest";
+import ResetPasswordRequest from "~/app/http/requests/v1/auth/password/ResetPasswordRequest";
+import SetupTwoFactorAuthRequest from "~/app/http/requests/v1/auth/SetupTwoFactorAuthRequest";
 import AuthService from "~/app/services/auth/AuthService";
 import TwoFactorAuthService from "~/app/services/auth/TwoFactorAuthService";
 import PasswordService from "~/app/services/auth/PasswordService";
@@ -22,19 +21,11 @@ import URL from "URL";
 
 @injectable()
 export default class AuthController extends Controller {
-  constructor(private readonly authService: AuthService) {
+  constructor(private readonly authService: AuthService, private readonly twoFactorAuthService: TwoFactorAuthService) {
     super();
   }
   
   @RequestHandler
-  /*
-  @ApiCreatedResponse({
-    message: "The user is successfully registered",
-    example: {
-      message: 
-      token: 
-    }
-  })*/
   async register(req: RegisterRequest, res: Response){
     const { email, username, password } = req.body;
     const user = await this.authService.register(email, username, password, req.file("profile"));
@@ -122,7 +113,7 @@ export default class AuthController extends Controller {
   };
   
   @RequestHandler
-  async sendResetPasswordEmail(req: SendResetPasswordEmailRequest, res: Response){
+  async forgotPassword(req: ForgotPasswordRequest, res: Response){
     const user = await User.findOne(req.body);
     if(user?.password)
       await user.sendResetPasswordNotification();
@@ -136,32 +127,26 @@ export default class AuthController extends Controller {
     await passwordService.reset(user, token, password);
     return "Password changed successfully!";
   };
-
-  @RequestHandler
-  async changePassword(req: ChangePasswordRequest, passwordService: PasswordService) {
-    const { oldPassword, newPassword } = req.body;
-    await passwordService.change(req.user, oldPassword, newPassword);
-    return "Password changed!";
-  };
- 
-  @RequestHandler
-  async changePhoneNumber(req: ChangePhoneNumberRequest, res: Response, twoFactorAuthService: TwoFactorAuthService) {
-    const { phoneNumber, otp } = req.body;
-    if(req.user.phoneNumber && req.user.phoneNumber === phoneNumber)
-      return res.status(400).message("Phone number is same as old one!");
-    req.user.phoneNumber = phoneNumber;
-    if(!otp) {
-      await twoFactorAuthService.sendOtp(req.user, "sms");
-      return "6 digit OTP code sent to phone number!";
-    }
-    await twoFactorAuthService.verifyOtp(req.user, "sms", otp);
-    await req.user.save();
-    return "Phone number updated!";
-  }
   
   @RequestHandler
-  async sendOtp(user: UserDocument, twoFactorAuthService: TwoFactorAuthService) {
-    twoFactorAuthService.sendOtp(user).catch(log);
+  async setupTwoFactorAuth(req: SetupTwoFactorAuthRequest){
+    const { enable, method } = req.body;
+   
+    if(!enable) {
+      await this.twoFactorAuthService.disable(req.user);
+      return "Two Factor Auth disabled!";
+    }
+    
+    return {
+      message: "Two Factor Auth enabled!",
+      data: await this.twoFactorAuthService.enable(req.user, method)
+    };
+  }
+  
+
+  @RequestHandler
+  async sendOtp(user: UserDocument) {
+    this.twoFactorAuthService.sendOtp(user).catch(log);
     return "6 digit OTP code sent to phone number!";
   }
   

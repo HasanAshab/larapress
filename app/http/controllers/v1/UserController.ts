@@ -2,8 +2,12 @@ import Controller from "~/app/http/controllers/Controller";
 import { RequestHandler } from "~/core/decorators";
 import { AuthenticRequest, Response } from "~/core/express";
 import User from "~/app/models/User";
-import UpdateProfileRequest from "~/app/http/requests/v1/UpdateProfileRequest";
+import TwoFactorAuthService from "~/app/services/auth/TwoFactorAuthService";
+import PasswordService from "~/app/services/auth/PasswordService";
+import UpdateProfileRequest from "~/app/http/requests/v1/user/UpdateProfileRequest";
 import UserProfileResource from "~/app/http/resources/v1/user/UserProfileResource";
+import ChangePasswordRequest from "~/app/http/requests/v1/user/ChangePasswordRequest";
+import ChangePhoneNumberRequest from "~/app/http/requests/v1/user/ChangePhoneNumberRequest";
 import ShowUserResource from "~/app/http/resources/v1/user/ShowUserResource";
 import ListUserResource from "~/app/http/resources/v1/user/ListUserResource";
 
@@ -69,6 +73,28 @@ export default class UserController extends Controller {
   async makeAdmin(username: string) {
     await User.updateOneOrFail({ username }, { role: "admin" });
     return "Admin role granted!";
+  }
+  
+  @RequestHandler
+  async changePassword(req: ChangePasswordRequest, passwordService: PasswordService) {
+    const { oldPassword, newPassword } = req.body;
+    await passwordService.change(req.user, oldPassword, newPassword);
+    return "Password changed!";
+  };
+ 
+  @RequestHandler
+  async changePhoneNumber(req: ChangePhoneNumberRequest, res: Response, twoFactorAuthService: TwoFactorAuthService) {
+    const { phoneNumber, otp } = req.body;
+    if(req.user.phoneNumber && req.user.phoneNumber === phoneNumber)
+      return res.status(400).message("Phone number is same as old one!");
+    req.user.phoneNumber = phoneNumber;
+    if(!otp) {
+      await twoFactorAuthService.sendOtp(req.user, "sms");
+      return "6 digit OTP code sent to phone number!";
+    }
+    await twoFactorAuthService.verifyOtp(req.user, "sms", otp);
+    await req.user.save();
+    return "Phone number updated!";
   }
 }
 

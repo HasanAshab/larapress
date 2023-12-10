@@ -4,11 +4,11 @@ import Config from "Config";
 import { ISettings } from "~/app/models/Settings";
 import { DeepPartial } from "utility-types";
 
-interface UpdateNotificationSettingsRequest {
+interface SetupNotificationPreferenceRequest {
   body: ISettings["notification"];
 }
 
-class UpdateNotificationSettingsRequest extends AuthenticRequest {
+class SetupNotificationPreferenceRequest extends AuthenticRequest {
   static rules() {
     const { channels, types } = Config.get("notification");
     const channelsSchema: Record<string, any> = {}
@@ -23,4 +23,4 @@ class UpdateNotificationSettingsRequest extends AuthenticRequest {
   }
 }
 
-export default UpdateNotificationSettingsRequest;
+export default SetupNotificationPreferenceRequest;

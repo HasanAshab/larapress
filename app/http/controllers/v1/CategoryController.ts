@@ -2,8 +2,8 @@ import Controller from "~/app/http/controllers/Controller";
 import { RequestHandler } from "~/core/decorators";
 import { Request, AuthenticRequest, Response } from "~/core/express";
 import Category, { ICategory } from "~/app/models/Category";
-import CategoryRequest from "~/app/http/requests/v1/CategoryRequest";
-import UpdateCategoryRequest from "~/app/http/requests/v1/UpdateCategoryRequest";
+import CategoryRequest from "~/app/http/requests/v1/category/CategoryRequest";
+import UpdateCategoryRequest from "~/app/http/requests/v1/category/UpdateCategoryRequest";
 import URL from "URL";
 
 export default class CategoryController extends Controller {

@@ -1,7 +1,7 @@
 import Application from "~/core/Application";
 
 // Create Application instance
-const app: Application = new Application();
+const app = await Application.create();
 
 export default app;
 

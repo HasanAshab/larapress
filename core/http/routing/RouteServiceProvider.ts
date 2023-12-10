@@ -32,9 +32,9 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
    * Boot route services
   */
-  boot() {
+  async boot() {
     if(!this.app.runningInWeb()) return;
-    this.serveApiDoc && this.serveDocs();
+    this.serveApiDoc && await this.serveDocs();
     
     this.registerSecurityMiddlewares();
     this.registerRequestPayloadParsers();
@@ -60,9 +60,10 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
    * Serve api documentation with swagger 
   */
-  protected serveDocs() {
+  protected async serveDocs() {
     this.app.assertRunningInWeb();
-    this.app.http.use("/docs", swaggerUi.serve, swaggerUi.setup(require("~/docs/data")));
+    const data = await import("~/docs/data");
+    this.app.http.use("/docs", swaggerUi.serve, swaggerUi.setup(data));
   }
   
   

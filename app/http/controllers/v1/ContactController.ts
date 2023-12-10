@@ -1,15 +1,14 @@
 import Controller from "~/app/http/controllers/Controller";
 import { RequestHandler } from "~/core/decorators";
 import { AuthenticRequest, Response } from "~/core/express";
-import ContactRequest from "~/app/http/requests/v1/ContactRequest";
-import SuggestContactRequest from "~/app/http/requests/v1/SuggestContactRequest";
-import SearchContactRequest from "~/app/http/requests/v1/SearchContactRequest";
-import UpdateContactStatusRequest from "~/app/http/requests/v1/UpdateContactStatusRequest";
 import Contact, { IContact } from "~/app/models/Contact";
-import User from "~/app/models/User";
+import Cache from "Cache";
+import ContactRequest from "~/app/http/requests/v1/contact/ContactRequest";
+import SuggestContactRequest from "~/app/http/requests/v1/contact/SuggestContactRequest";
+import SearchContactRequest from "~/app/http/requests/v1/contact/SearchContactRequest";
+import UpdateContactStatusRequest from "~/app/http/requests/v1/contact/UpdateContactStatusRequest";
 import ListContactResource from "~/app/http/resources/v1/contact/ListContactResource";
 import ShowContactResource from "~/app/http/resources/v1/contact/ShowContactResource";
-import Cache from "Cache";
 
 export default class ContactController extends Controller {
   @RequestHandler

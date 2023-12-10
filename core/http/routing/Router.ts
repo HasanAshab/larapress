@@ -18,7 +18,7 @@ export type BindingResolver = (value: string) => any | Promise<any>;
 
 export class Router {
   /**
-   * Stack of route
+   * Stack of registered routes
    */
   stack: Route[] = [];
   
@@ -258,7 +258,6 @@ export class Router {
    * Used for a simple File Based Routing.
   */
   discover(base: string) {
-    const pathPathPair: Record<string, string> = {}
     const stack = [base];
     while (stack.length > 0) {
       const currentPath = stack.pop();

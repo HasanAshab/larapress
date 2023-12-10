@@ -25,37 +25,39 @@ export default class Application extends EventEmitter {
   /**
   * Booting callback of all providers
   */
-  private bootingCallbacks: (() => void)[] = [];
+  private bootingCallbacks: (() => void | Promise<void>)[] = [];
 
   /**
    * Create a Application instance
   */ 
-  constructor() {
-    super();
-    if(this.runningInWeb()) {
+  static async create() {
+    const app = new Application;
+    if(app.runningInWeb()) {
       // if app is running on web we need http support
-      this.http = express();
-      this.server = createServer(this.http);
+      app.http = express();
+      app.server = createServer(app.http);
     }
-    this.registerServiceProviders();
-    this.bootProviders();
-    this.emit("booted");
-    this.flush();
+    await app.registerServiceProviders();
+    await app.bootProviders();
+    app.emit("booted");
+    app.flush();
+    return app;
   }
   
   /**
    * Run all booting callbacks
   */
   private bootProviders() {
-    this.bootingCallbacks.forEach(cb => cb());
+    return this.bootingCallbacks.map(cb => cb());
   }
   
   /**
    * Register all service providers
   */
-  private registerServiceProviders() {
-    Config.get<string[]>("app.providers").forEach(path => {
-      this.register(require(path).default);
+  private async registerServiceProviders() {
+    await Config.get<string[]>("app.providers").map(async path => {
+      const { default: Provider } = await import(path);
+      this.register(Provider);
     });
   }
   

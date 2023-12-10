@@ -1,13 +1,11 @@
 import { Request } from "~/core/express";
 import Validator from "Validator";
 
-interface SendResetPasswordEmailRequest {
-  body: { 
-    email: string;
-  }
+interface ForgotPasswordRequest {
+  body: { email: string };
 }
 
-class SendResetPasswordEmailRequest extends Request {
+class ForgotPasswordRequest extends Request {
   static rules() {
     return {
       email: Validator.string().email().required()
@@ -15,4 +13,4 @@ class SendResetPasswordEmailRequest extends Request {
   }
 }
 
-export default  SendResetPasswordEmailRequest;
+export default  ForgotPasswordRequest;

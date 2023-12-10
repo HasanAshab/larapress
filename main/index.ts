@@ -3,11 +3,15 @@ import "dotenv/config";
 
 /*
 if(process.env.NODE_ENV === "production" || process.env.NODE_ENV === "loadTest") {
-  require('module-alias/register');
+  await import('module-alias/register');
 }
 */
 
 import "~/vendor/autoload";
+
+
+console.log(global)
+
 import "Config/load";
 import Config from "Config";
 import app from "~/main/app";
