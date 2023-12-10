@@ -18,7 +18,7 @@
     "build": "tsc",
     "start": "NODE_ENV=production node dist/main",
     "start:loadTest": "NODE_ENV=loadTest node dist/main",
-    "dev": "nodemon -q --no-warnings --loader ./vendor/loader.js -e ts --experimental-specifier-resolution=node main/index.ts"
+    "dev": "nodemon --no-warnings --loader ./vendor/loader.js -e ts,json --experimental-specifier-resolution=node main/index.ts"
   },
   "author": "Hasan Ashab",
   "license": "ISC",
@@ -45,7 +45,7 @@
     "lodash-es": "^4.17.21",
     "memory-cache": "^0.2.0",
     "module-alias": "^2.2.3",
-    "mongoose": "^8.0.1",
+    "mongoose": "^8.0.3",
     "node-cron": "^3.0.2",
     "nodemailer": "^6.9.1",
     "nodemailer-express-handlebars": "^6.1.0",

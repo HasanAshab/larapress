@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { capitalize } from "lodash-es";
 
 type CustomCreator = () => object;
 
@@ -20,7 +20,7 @@ export default abstract class Manager {
   protected createDriver(driver: string) {
     if (this.customCreators[driver])
       return this.customCreators[driver]();
-    const method = `create${_.capitalize(driver)}Driver` as keyof this;
+    const method = `create${capitalize(driver)}Driver` as keyof this;
     if (typeof this[method] === "function")
       return (this[method] as any)();
     throw new Error(`Driver ${driver} not supported.`);

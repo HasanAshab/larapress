@@ -1,1 +1,1 @@
-node --no-warnings --loader ./vendor/loader.js --experimental-specifier-resolution=node artisan.ts $@
+node --no-warnings --loader ./vendor/loader.js --experimental-specifier-resolution=node ./core/cli.ts $@

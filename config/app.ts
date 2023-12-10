@@ -10,9 +10,8 @@ export default {
     privateKey: null
   },
   log: "console",
-
   providers: [
-    "DB/DatabaseServiceProvider",
+    "~/core/database/DatabaseServiceProvider",
     "Cache/CacheServiceProvider",
     "~/app/providers/EventServiceProvider",
     "~/app/providers/RouteServiceProvider",

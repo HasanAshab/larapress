@@ -1,6 +1,6 @@
 import { Request } from "express";
 import { Document, LeanDocument } from "mongoose";
-import { last } from "lodash";
+import { last } from "lodash-es";
 
 export default class CursorPaginator<DocType extends Document> {
   constructor(protected req: Request, protected items: DocType[] | LeanDocument<DocType>[], protected cursor?: string) {

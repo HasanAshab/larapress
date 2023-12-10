@@ -1,33 +1,13 @@
 import "reflect-metadata";
 import "dotenv/config";
 
-/*
-if(process.env.NODE_ENV === "production" || process.env.NODE_ENV === "loadTest") {
-  await import('module-alias/register');
-}
-*/
+await import("~/vendor/autoload");
+await import("Config/load");
 
-import "~/vendor/autoload";
-
-
-console.log(global)
-
-import "Config/load";
-import Config from "Config";
-import app from "~/main/app";
-import DB from "DB";
-
+const { default: app } = await import("~/main/app");
+const { default: Config } = await import("Config");
 
 app.assertRunningInWeb();
-
-// Connecting to database
-if(Config.get("database.connect")) {
-  DB.connect().then(() => {
-    console.log("Connected to Database!");
-  }).catch(err => {
-    console.log("Couldn't connect to Database. reason: " + err);
-  });
-}
 
 const port = Config.get<number>("app.port");
 
@@ -39,6 +19,7 @@ app.server.on("connection", () => {
   const time = new Date().toLocaleTimeString("en-US", { hour12: true });
   console.log(`*New connection: [${time}]`);
 });
+
 
 /*
 import User from "~/app/models/User";
@@ -53,7 +34,6 @@ console.log(await user1.can("delete", user2))
   
 })()
 */
-
 
 /*
 import User, { UserDocument } from "~/app/models/User";

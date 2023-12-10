@@ -4,7 +4,7 @@ import swaggerUi from "swagger-ui-express";
 import cors from "cors";
 import helmet from "helmet";
 import { modelNames } from "mongoose";
-import { lowerFirst } from "lodash";
+import { lowerFirst } from "lodash-es";
 import { getStatusText } from "http-status-codes";
 import bodyParser from "body-parser";
 import formDataParser from "express-fileupload";

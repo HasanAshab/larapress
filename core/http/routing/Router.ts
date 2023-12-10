@@ -9,8 +9,8 @@ import MethodInjector from "MethodInjector";
 import RouteOptions from "./RouteOptions";
 import { join } from "path";
 import { model } from "mongoose";
-import { cloneDeep, capitalize } from "lodash";
-import { singular } from "pluralize";
+import { cloneDeep, capitalize } from "lodash-es";
+import pluralize from "pluralize";
 import { Router as ExpressRouter, NextFunction, RequestHandler, Request, Response } from "express";
 
 
@@ -127,7 +127,7 @@ export class Router {
     }, () => {
       this.get("/", "index").name("index");
       this.post("/", "store").name("store");
-      this.get("/:raw" + capitalize(singular(name)), "show").name("show");
+      this.get("/:raw" + capitalize(pluralize.singular(name)), "show").name("show");
       this.put("/:id", "update").name("update");
       this.delete("/:id", "delete").name("delete");
     });

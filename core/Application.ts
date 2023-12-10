@@ -48,17 +48,19 @@ export default class Application extends EventEmitter {
    * Run all booting callbacks
   */
   private bootProviders() {
-    return this.bootingCallbacks.map(cb => cb());
+    return Promise.all(this.bootingCallbacks.map(cb => cb()));
   }
   
   /**
    * Register all service providers
   */
   private async registerServiceProviders() {
-    await Config.get<string[]>("app.providers").map(async path => {
+    const registerPromises = Config.get<string[]>("app.providers").map(async path => {
       const { default: Provider } = await import(path);
       this.register(Provider);
     });
+    
+    await Promise.all(registerPromises);
   }
   
   /**

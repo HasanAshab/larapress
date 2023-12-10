@@ -1,7 +1,7 @@
 import { Request, Response } from "~/core/express";
 import { Document, LeanDocument } from "mongoose";
 import JsonResource from "./JsonResource";
-import CursorPaginator from "DB/plugins/Paginate/CursorPaginator";
+import CursorPaginator from "~/core/database/plugins/Paginate/CursorPaginator";
 
 export default abstract class ResourceCollection<DocType extends Document> {
   protected abstract collects: JsonResource<DocType>;

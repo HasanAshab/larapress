@@ -9,6 +9,6 @@ import "Config/load";
 
 import { SamerArtisan } from 'samer-artisan';
 
-SamerArtisan.root(dirname(import.meta.url))
+SamerArtisan.root(base())
   .add("app/commands/Search")
-    .parse().then(() => process.exit(0));
+  .parse().then(() => process.exit(0));

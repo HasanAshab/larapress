@@ -1,5 +1,7 @@
 import packageConfig from "../package.json" assert { type: "json" };
 
-for(const path of packageConfig.autoload) {
+const loadPromises = packageConfig.autoload.map(async path => {
   Object.assign(globalThis, await import(path));
-}
+});
+
+await Promise.all(loadPromises);

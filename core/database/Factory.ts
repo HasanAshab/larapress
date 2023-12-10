@@ -1,5 +1,5 @@
 import { Model, Document } from "mongoose";
-import { merge } from "lodash";
+import { merge } from "lodash-es";
 
 export type StateCustomizer<IDoc> = (docState: IDoc) => IDoc;
 export type ExternalCallback<DocType> = (docs: DocType[]) => Promise<void> | void;

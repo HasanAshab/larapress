@@ -1,14 +1,14 @@
 import type { Handlers, Reporter, Renderer } from "./Handler";
 
 export default class ExceptionHandleOptions<T extends constructor> {
-  constructor(private readonly exception: T, private handlers: Partial<Handlers<T>>, private _dontReport: constructor[]) {
+  constructor(private readonly exception: T, private handlers: Partial<Handlers<T>>, private dontReportingExceptions: constructor[]) {
     this.exception = exception;
     this.handlers = handlers;
-    this._dontReport = _dontReport;
+    this.dontReportingExceptions = dontReportingExceptions;
   }
   
   dontReport() {
-    this._dontReport.push(this.exception);
+    this.dontReportingExceptions.push(this.exception);
     return this;
   }
     
