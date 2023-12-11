@@ -14,7 +14,7 @@ export default class QueueWorker extends Command {
       await this.setupJobs();
       this.subscribeListeners();
       this.info("listening for jobs...\n\n");
-    })
+    });
   }
   
   private subscribeListeners() {
@@ -32,7 +32,7 @@ export default class QueueWorker extends Command {
     const jobFiles = await readdir("app/jobs");
     await jobFiles.map(async jobFileName => {
       const jobName = jobFileName.split(".")[0];
-      const { default: job as Job } = await import("~/app/jobs/" + jobName);
+      const job = await importDefault<Job>("~/app/jobs/" + jobName);
       const processor = (task: any) => job.handle(task.data);
       Queue.channel(job.channel).process(job.constructor.name, job.concurrency, processor);
     });

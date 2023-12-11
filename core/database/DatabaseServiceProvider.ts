@@ -1,6 +1,7 @@
 import ServiceProvider from "~/core/providers/ServiceProvider";
 import { readdir } from "fs/promises";
 import { set as setMongooseConfig, plugin as mongoosePlugin } from "mongoose";
+import Config from "Config";
 import Helpers from "./plugins/Helpers";
 import Assertable from "./plugins/Assertable";
 import Paginate from "./plugins/Paginate";

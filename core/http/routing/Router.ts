@@ -177,12 +177,12 @@ export class Router {
     * this.resolveMiddleware("foo", "bar")
     * this.resolveMiddleware("foo:opt1", "bar:opt1,opt2")
   */
+  //TODO Async
   resolveMiddleware(...keysWithOptions: MiddlewareAliaseWithOrWithoutOptions[]): RequestHandler[] {
-    const handlers: RequestHandler[] = [];
-    keysWithOptions.forEach(keyWithOptions => {
+    return keysWithOptions.reduce(async keyWithOptions => {
       const [key, optionString] = keyWithOptions.split(":");
       const options = optionString ? optionString.split(",") : [];
-      const MiddlewareClass = require(middlewareConfig.aliases[key as MiddlewareAliase]).default;
+      const MiddlewareClass = await importDefault<constructor>(middlewareConfig.aliases[key as MiddlewareAliase]);
       const middleware = new MiddlewareClass();
       const handler = async function(req: Request, res: Response, next: NextFunction) {
         try {
@@ -194,7 +194,6 @@ export class Router {
       }
       handlers.push(handler);
     });
-    return handlers;
   }
   
   group(config: Partial<RouterConfig>, cb: string | (() => void)) {
@@ -257,6 +256,7 @@ export class Router {
    * Discovers routes from a base directory and prefix its paths.
    * Used for a simple File Based Routing.
   */
+  //TODO Async
   discover(base: string) {
     const stack = [base];
     while (stack.length > 0) {

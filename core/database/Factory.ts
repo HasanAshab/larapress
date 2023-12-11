@@ -1,10 +1,16 @@
 import { Model, Document } from "mongoose";
 import { merge } from "lodash-es";
+import { faker } from "@faker-js/faker";
 
 export type StateCustomizer<IDoc> = (docState: IDoc) => IDoc;
 export type ExternalCallback<DocType> = (docs: DocType[]) => Promise<void> | void;
 
 export default abstract class Factory<IDoc extends object, DocType extends Document> {
+ /**
+  * Fake data generator
+  */
+  protected faker = faker;
+  
   /**
    * Number of documents to be generated
   */

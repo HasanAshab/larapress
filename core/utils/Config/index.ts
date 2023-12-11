@@ -28,6 +28,10 @@ export default class Config {
   static set(data: object) {
     merge(this.data, this.flattenData(data));
   }
+  
+  static has(key: string) {
+    return !!this.data[key];
+  }
 
   static flattenData(obj: Record<string, any>, prefix = '') {
     const flatObject: Record<string, any> = {};

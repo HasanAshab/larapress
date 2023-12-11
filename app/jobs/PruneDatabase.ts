@@ -1,25 +1,25 @@
 import Job from "~/core/abstract/Job";
-import { models } from "mongoose";
+import mongoose from "mongoose";
 import DB from "DB";
 
 
 class PruneDatabase extends Job {
   async handle() {
     await DB.connect();
-    await Promise.all(
-      Object.entries(models).map(async ([name, Model]) => {
-        for(const field in Model.schema.obj) {
-          const fieldData: any = Model.schema.obj[field];
-          if(fieldData.cascade)
-            await this.pruneModel(name, fieldData.ref, field);
-        }
-      })
-    );
+    
+    const prunePromises = Object.entries(mongoose.models).map(([name, Model]) => {
+      const fieldBasedPrunePromises = Object.entries(Model.schema.obj).map(([field, fieldData]) => {
+        if(fieldData.cascade)
+          return this.pruneModel(name, fieldData.ref, field);
+      });
+      return Promise.all(fieldBasedPrunePromises);
+    });
+
+    await Promise.all(prunePromises);
   }
   
   private async pruneModel(name: string, parent: string, localField: string) {
-    const Model = models[name];
-    const ParentModel = models[parent];
+    const { [name]: Model, [parent]: ParentModel } = mongoose.models;
     const parentIds = await ParentModel.distinct('_id').exec();
     const { deletedCount } = await Model.deleteMany({ [localField]: { $nin: parentIds } }).exec();
   }

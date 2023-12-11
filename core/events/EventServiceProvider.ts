@@ -10,7 +10,7 @@ export default abstract class EventServiceProvider extends ServiceProvider {
   async boot() {
     if(!this.app.runningInWeb()) return;
     
-    const subscribePromises = this.events.entries().map(([eventName, listenerPaths]) => {
+    const subscribePromises = Object.entries(this.events).map(([eventName, listenerPaths]) => {
       return typeof listenerPaths === "string"
         ? this.subscribeListener(eventName, listenerPaths)
         : listenerPaths.map(path => this.subscribeListener(eventName, path));

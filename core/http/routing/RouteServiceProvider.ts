@@ -62,7 +62,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   */
   protected async serveDocs() {
     this.app.assertRunningInWeb();
-    const data = await import("~/docs/data");
+    const data = await import("~/docs/data", { assert: { type: "json" } });
     this.app.http.use("/docs", swaggerUi.serve, swaggerUi.setup(data));
   }
   

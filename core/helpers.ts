@@ -13,6 +13,17 @@ import { fileURLToPath } from 'url';
 export const filename = (url: string) => fileURLToPath(url);
 export const dirname = (url: string) => fileURLToPath(new URL('.', url));
 
+
+export async function importModule<T = unknown>(specifier: string) {
+  return (await import(specifier)) as T;
+}
+
+export async function importDefault<T = unknown>(specifier: string) {
+  const { default: Module } = await import(specifier);
+  return Module as T;
+}
+
+
 /**
  * Logs data on different channels based on config
 */

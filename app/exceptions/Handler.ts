@@ -1,5 +1,5 @@
 import ExceptionHandler from "~/core/exceptions/Handler";
-import { JsonWebTokenError } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { ValidationError } from "Validator";
 import { CastError } from "mongoose";
 
@@ -21,7 +21,7 @@ export default class Handler extends ExceptionHandler {
       });
 
 
-    this.on(JsonWebTokenError).dontReport().render(function(res) {
+    this.on(jwt.JsonWebTokenError).dontReport().render(function(res) {
       res.status(401).message("Invalid or expired token!");
     });
     

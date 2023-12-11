@@ -1,14 +1,13 @@
 import Factory from "~/core/database/Factory";
-import { faker } from "@faker-js/faker";
 import { IUser, UserDocument } from "~/app/models/User";
 import Settings from "~/app/models/Settings";
 
 export default class UserFactory extends Factory<IUser, UserDocument> {
   definition() {
     return {
-      name: faker.person.firstName(),
-      username: faker.person.firstName(),
-      email: faker.internet.email(),
+      name: this.faker.person.firstName(),
+      username: this.faker.person.firstName(),
+      email: this.faker.internet.email(),
       phoneNumber: null,
       password: "$2a$10$GDX4uWSk4bnj5YEde3.LneT1yNyZZFhAXCPO9MkXGEmPJVSIb4jZi", // "password"
       verified: true,
@@ -53,7 +52,7 @@ export default class UserFactory extends Factory<IUser, UserDocument> {
     });
   }
   
-  withProfile(url = "www.example.com/fake-url") {
+  withProfile(url = this.faker.internet.avatar()) {
     return this.state((user: IUser) => {
       user.profile = url;
       return user;
