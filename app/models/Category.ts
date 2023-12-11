@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
+import { model, Schema, Document, Model } from "mongoose";
 import HasFactory, { HasFactoryModel } from "~/app/plugins/HasFactory";
 import Mediable, { MediableDocument } from "~/app/plugins/Mediable";
 
-const CategorySchema = new mongoose.Schema<CategoryDocument>({
+const CategorySchema = new Schema<CategoryDocument>({
   name: {
     required: true,
     type: String
@@ -28,7 +28,7 @@ export interface ICategory {
   icon: string;
 }
 
-export interface CategoryDocument extends mongoose.Document, ICategory, MediableDocument {};
-interface CategoryModel extends mongoose.Model<CategoryDocument>, HasFactoryModel {};
+export interface CategoryDocument extends Document, ICategory, MediableDocument {};
+interface CategoryModel extends Model<CategoryDocument>, HasFactoryModel {};
 
-export default mongoose.model<CategoryDocument, CategoryModel>("Category", CategorySchema);
+export default model<CategoryDocument, CategoryModel>("Category", CategorySchema);

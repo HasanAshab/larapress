@@ -38,10 +38,10 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
     
     this.registerSecurityMiddlewares();
     this.registerRequestPayloadParsers();
-    this.registerGlobalMiddlewares();
+    await this.registerGlobalMiddlewares();
     this.bindModelsImplicitly && this.bindModels();
     this.customizeHttp();
-    this.setupRoutes();
+    await this.setupRoutes();
     this.serveStaticFolder();
     this.registerErrorHandler();
   }
@@ -83,9 +83,9 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
    * Register version specefic global middlewares.
   */
-  protected registerGlobalMiddlewares() {
+  protected async registerGlobalMiddlewares() {
     this.app.assertRunningInWeb();
-    const middlewares = Router.resolveMiddleware(...this.globalMiddlewares);
+    const middlewares = await Router.resolveMiddleware(...this.globalMiddlewares);
     this.app.http.use(...middlewares);
   }
   
@@ -100,7 +100,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
    * Register routes to express
    */
-  protected abstract registerRoutes(): void;
+  protected abstract registerRoutes(): void | Promise<void>;
   
   /**
    * Inject and customize http helpers
@@ -172,9 +172,10 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   /**
    * Setup express routes
    */
-  protected setupRoutes() {
-    this.registerRoutes();
+  protected async setupRoutes() {
+    await this.registerRoutes();
     Router.build(this.app.http)
+    log(Router.stack)
   }
   
   /**

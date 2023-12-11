@@ -15,6 +15,7 @@ import { Router as ExpressRouter, NextFunction, RequestHandler, Request, Respons
 
 
 export type BindingResolver = (value: string) => any | Promise<any>;
+export type RouterCallback = () => void | Promise<void>;
 
 export class Router {
   /**
@@ -120,7 +121,7 @@ export class Router {
   }
   
   apiResource(name: string, controller: APIResourceController) {
-    this.group({
+    return this.group({
       prefix: name,
       controller,
       as: name + "."
@@ -179,12 +180,12 @@ export class Router {
   */
   //TODO Async
   resolveMiddleware(...keysWithOptions: MiddlewareAliaseWithOrWithoutOptions[]): RequestHandler[] {
-    return keysWithOptions.reduce(async keyWithOptions => {
+    const promises = keysWithOptions.map(async keyWithOptions => {
       const [key, optionString] = keyWithOptions.split(":");
       const options = optionString ? optionString.split(",") : [];
       const MiddlewareClass = await importDefault<constructor>(middlewareConfig.aliases[key as MiddlewareAliase]);
       const middleware = new MiddlewareClass();
-      const handler = async function(req: Request, res: Response, next: NextFunction) {
+      return async function(req: Request, res: Response, next: NextFunction) {
         try {
           await middleware.handle(req, res, next, ...options);
         }
@@ -192,62 +193,73 @@ export class Router {
           next(err)
         }
       }
-      handlers.push(handler);
     });
+    
+    return Promise.all(promises);
   }
   
-  group(config: Partial<RouterConfig>, cb: string | (() => void)) {
+  async group(config: Partial<RouterConfig>, cb: string | RouterCallback) {
     const oldConfig = cloneDeep(this.config);
-    if(config.prefix)
+    
+    if(config.prefix) {
       config.prefix = join(oldConfig.prefix, config.prefix);
-    if(config.as)
+    }
+    if(config.as) {
       config.as = oldConfig.as + config.as;
+    }
     
     Object.assign(this.config, config);
-    typeof cb === "string" ? require(cb) : cb();
+    
+    typeof cb === "string" 
+      ? await import(cb) 
+      : await cb();
+    
     this.config = oldConfig;
   }
   
   prefix(path: string) {
     const group = (cb: () => void) => {
-      this.group({ prefix: path }, cb);
+      return this.group({ prefix: path }, cb);
     }
     const load = (routerPath: string) => {
-      this.group({ prefix: path }, routerPath);
+      return this.group({ prefix: path }, routerPath);
     }
     return { group, load };
   }
   
   as(name: string) {
     const group = (cb: () => void) => {
-      this.group({ as: name }, cb);
+      return this.group({ as: name }, cb);
     }
     
     const load = (routerPath: string) => {
-      this.group({ as: name }, routerPath);
+      return this.group({ as: name }, routerPath);
     }
     return { group, load };
   }
   
   controller(ControllerClass: Controller) {
     const group = (cb: () => void) => {
-      this.group({ controller: ControllerClass }, cb);
+      return this.group({ controller: ControllerClass }, cb);
     }
     
     const load = (routerPath: string) => {
-      this.group({ controller: ControllerClass }, routerPath);
+      return this.group({ controller: ControllerClass }, routerPath);
     }
     return { group, load };
   }
   
   middleware(aliases: MiddlewareAliaseWithOrWithoutOptions | MiddlewareAliaseWithOrWithoutOptions[]) {
-    aliases = typeof aliases === "string" ? [aliases] : aliases;
+    if(typeof aliases === "string") {
+      aliases = [aliases];
+    }
+    
     const group = (cb: () => void) => {
-      this.group({ middlewares: aliases as MiddlewareAliaseWithOrWithoutOptions[] }, cb);
+      return this.group({ middlewares: aliases as MiddlewareAliaseWithOrWithoutOptions[] }, cb);
     }
     
     const load = (routerPath: string) => {
-      this.group({ middlewares: aliases as MiddlewareAliaseWithOrWithoutOptions[] }, routerPath);
+      return this.group({ middlewares: aliases as MiddlewareAliaseWithOrWithoutOptions[] }, routerPath);
     }
     return { group, load };
   }
@@ -257,7 +269,7 @@ export class Router {
    * Used for a simple File Based Routing.
   */
   //TODO Async
-  discover(base: string) {
+  async discover(base: string) {
     const stack = [base];
     while (stack.length > 0) {
       const currentPath = stack.pop();
@@ -268,7 +280,8 @@ export class Router {
         const status = fs.statSync(itemPath);
         if (status.isFile()) {
           const itemPathEndpoint = itemPath.replace(base, "").split(".")[0].toLowerCase().replace(/index$/, "");
-          this.prefix(itemPathEndpoint).group("~/" + itemPath.split(".")[0]);
+          const routerPath = "~/" + itemPath.split(".")[0];
+          await this.prefix(itemPathEndpoint).load(routerPath);
         }
         else if (status.isDirectory()) {
           stack.push(itemPath);

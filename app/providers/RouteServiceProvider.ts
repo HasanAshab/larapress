@@ -17,12 +17,9 @@ export default class RouteServiceProvider extends ServiceProvider {
     super.boot();
   }
   
-  protected registerRoutes() {
-    Router.group({
-      prefix: "api/v1",
-      as: "v1_"
-    }, () => {
-      Router.discover("routes/api/v1");
+  protected async registerRoutes() {
+    await Router.group({ prefix: "api/v1", as: "v1_" }, async () => {
+      await Router.discover("routes/api/v1");
     });
   }
 }
