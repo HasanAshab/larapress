@@ -7,6 +7,7 @@ import Config from "Config";
 //import Paginate from "./plugins/Paginate";
 //import Transform from "./plugins/Transform";
 //import Hidden from "./plugins/Hidden";
+//import Testable from "./plugins/Testable";
 import DB from "DB";
 
 
@@ -30,6 +31,9 @@ export default class DatabaseServiceProvider extends ServiceProvider {
 //     mongoosePlugin(Paginate);
 //     mongoosePlugin(Transform);
 //     mongoosePlugin(Hidden);
+    if(env("NODE_ENV") === "test") {
+   //   mongoosePlugin(Testable);
+    }
   }
   
   private async discoverModels() {

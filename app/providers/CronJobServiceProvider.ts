@@ -7,7 +7,7 @@ export default class CronJobServiceProvider extends ServiceProvider {
   */ 
   boot() {
     this.cron("* * 1 * *").schedule(() => {
-      PruneDatabase.dispatch();
+      //PruneDatabase.dispatch();
     });
   }
 }
