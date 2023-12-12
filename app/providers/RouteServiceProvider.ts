@@ -12,9 +12,9 @@ export default class RouteServiceProvider extends ServiceProvider {
     "limit:1000,5"
   ];
   
-  boot() {
+  async boot() {
     if(!this.app.runningInWeb()) return;
-    super.boot();
+    await super.boot();
   }
   
   protected async registerRoutes() {

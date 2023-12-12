@@ -178,7 +178,6 @@ export class Router {
     * this.resolveMiddleware("foo", "bar")
     * this.resolveMiddleware("foo:opt1", "bar:opt1,opt2")
   */
-  //TODO Async
   resolveMiddleware(...keysWithOptions: MiddlewareAliaseWithOrWithoutOptions[]): RequestHandler[] {
     const promises = keysWithOptions.map(async keyWithOptions => {
       const [key, optionString] = keyWithOptions.split(":");
@@ -268,7 +267,6 @@ export class Router {
    * Discovers routes from a base directory and prefix its paths.
    * Used for a simple File Based Routing.
   */
-  //TODO Async
   async discover(base: string) {
     const stack = [base];
     while (stack.length > 0) {
@@ -291,8 +289,7 @@ export class Router {
     this.reset();
   }
   
-
-  build(http: Express) {
+  async build(http: Express) {
     this.request.inject(http.request);
     this.response.inject(http.response);
 
@@ -333,7 +330,7 @@ export class Router {
           next(err);
         }
       }
-      http[method](path, this.resolveMiddleware(...middlewares), requestHandler);
+      http[method](path, await this.resolveMiddleware(...middlewares), requestHandler);
     }
     
     http.all("*", this.fallbackHandler);

@@ -1,4 +1,4 @@
-import { connect, disconnect, model, modelNames, ConnectOptions, Document } from "mongoose";
+import { connect, disconnect, syncIndexes, model, modelNames, ConnectOptions, Document } from "mongoose";
 import Config from "Config";
 import fs from "fs";
 import expect from "expect";
@@ -6,6 +6,7 @@ import expect from "expect";
 export default class DB {
   static async connect() {
     await connect(Config.get("database.url"), Config.get("database.options"));
+    await syncIndexes();
   }
   
   static async disconnect() {

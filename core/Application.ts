@@ -1,8 +1,7 @@
-import { RawResponse } from "types";
 import { createServer, Server } from "http"
 import express, { Express } from "express";
 import EventEmitter from "events";
-import ServiceProvider from "~/core/abstract/ServiceProvider";
+import ServiceProvider from "~/core/providers/ServiceProvider";
 import fs from "fs";
 import Config from "Config";
 import URL from "URL";

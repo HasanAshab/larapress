@@ -5,27 +5,28 @@ import AuthController from "~/app/http/controllers/v1/AuthController";
  * Endpoints to authenticate users
 */
 
-Router.controller(AuthController).group(() => {
+await Router.controller(AuthController).group(async () => {
   // Login with various methods
-  Router.prefix("/login").group(() => {
+  await Router.prefix("/login").group(async () => {
     Router.post("/", "login").middleware("limit:2000,2", "recaptcha");
     Router.post("/recovery-code", "loginWithRecoveryCode").middleware("limit:2000,1", "recaptcha");
+    
     // Social login provided by Google, Facebook OAuth
-    Router.prefix("/social/:provider(google|facebook)").group(() => {
+    await Router.prefix("/social/:provider(google|facebook)").group(() => {
       Router.get("/", "redirectToSocialLoginProvider");
       Router.post("/final-step", "socialLoginFinalStep");
     });
   });
   
   // User password management
-  Router.prefix("/password").group(() => {
+  await Router.prefix("/password").group(() => {
     Router.post("/forgot", "forgotPassword").middleware("recaptcha", "limit:10000,2");
     Router.patch("/reset", "resetPassword");
     Router.patch("/change", "changePassword").middleware("auth", "verified");
   });
 
   // Verify user
-  Router.prefix("/verify").group(() => {
+  await Router.prefix("/verify").group(() => {
     Router.get("/:id/:token", "verifyEmail").name("verify");
     Router.post("/resend", "resendEmailVerification").middleware("limit:60000,1");
   });

@@ -7,8 +7,8 @@ const NotificationSchema = new Schema<NotificationDocument, Model<NotificationDo
     required: true,
     ref: "User",
     type: Schema.Types.ObjectId,
+    index: true,
     cascade: true,
-    index: true
   },
   type: {
     required: true,

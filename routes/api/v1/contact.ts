@@ -3,10 +3,10 @@ import ContactController from "~/app/http/controllers/v1/ContactController";
 
 // Endpoints for contact
 
-Router.controller(ContactController).group(() => {
+await Router.controller(ContactController).group(async () => {
   Router.post("/", "store");
   
-  Router.group({
+  await Router.group({
     prefix: "/inquiries",
    // middlewares: ["auth", "roles:admin"]
   }, () => {

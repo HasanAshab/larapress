@@ -3,5 +3,8 @@ export default {
   url: env("DATABASE_URL"),
   options: {
     maxPoolSize: 1,
-  }
+  },
+  models: [
+    "app/models"
+  ]
 };

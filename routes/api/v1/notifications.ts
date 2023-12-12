@@ -3,7 +3,7 @@ import NotificationController from "~/app/http/controllers/v1/NotificationContro
 
 // Endpoints for notification
 
-Router.group({
+await Router.group({
   controller: NotificationController,
   middlewares: ["auth", "verified"],
   as: "notification."

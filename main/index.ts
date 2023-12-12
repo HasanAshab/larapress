@@ -1,13 +1,16 @@
 import "reflect-metadata";
 import "dotenv/config";
-import type Config from "Config";
+import type Configuration from "Config";
 import type Application from "~/core/Application";
 
 await import("~/vendor/autoload");
 await import("Config/load");
 
-const app = await importDefault<Application>("~/main/app");
-const Config = await importDefault<Config>("Config");
+
+const app: Application = await importDefault<Application>("~/main/app");
+const Config = await importDefault<typeof Configuration>("Config");
+
+import b from "~/main/b";
 
 app.assertRunningInWeb();
 

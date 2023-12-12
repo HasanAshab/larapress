@@ -21,7 +21,6 @@ const CategorySchema = new Schema<CategoryDocument>({
 CategorySchema.plugin(HasFactory);
 CategorySchema.plugin(Mediable);
 
-
 export interface ICategory {
   name: string;
   slug: string;
@@ -30,5 +29,5 @@ export interface ICategory {
 
 export interface CategoryDocument extends Document, ICategory, MediableDocument {};
 interface CategoryModel extends Model<CategoryDocument>, HasFactoryModel {};
-
+export const b = {}
 export default model<CategoryDocument, CategoryModel>("Category", CategorySchema);
