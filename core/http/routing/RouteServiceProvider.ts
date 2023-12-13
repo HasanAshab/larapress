@@ -1,18 +1,17 @@
 import ServiceProvider from "~/core/providers/ServiceProvider";
-import express from "express";
+import { static as serveStatic, Request, Response, NextFunction } from "express";
 import swaggerUi from "swagger-ui-express";
 import cors from "cors";
 import helmet from "helmet";
 import { modelNames } from "mongoose";
 import { lowerFirst } from "lodash-es";
 import { getStatusText } from "http-status-codes";
-import bodyParser from "body-parser";
+import { json as jsonParser, urlencoded as urlencodedParser } from "body-parser";
 import formDataParser from "express-fileupload";
 import URL from "URL";
 import Router from "./Router";
 import type { MiddlewareAliaseWithOrWithoutOptions } from "./middleware";
 import ExceptionHandler from "~/app/exceptions/Handler";
-import URL from "URL";
 import JsonResource from "~/core/http/resources/JsonResource";
 import ResourceCollection from "~/core/http/resources/ResourceCollection";
 
@@ -62,7 +61,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   */
   protected async serveDocs() {
     this.app.assertRunningInWeb();
-    const data = await import("~/docs/data", { assert: { type: "json" } });
+    const data = await import("~/docs/data.json", { assert: { type: "json" } });
     this.app.http.use("/docs", swaggerUi.serve, swaggerUi.setup(data));
   }
   
@@ -72,12 +71,12 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   */
   protected registerRequestPayloadParsers() {
     this.app.assertRunningInWeb();
-    this.app.http.use(bodyParser.json({ limit: "1mb" }));
-    this.app.http.use(bodyParser.urlencoded({
+    this.app.http.use(jsonParser({ limit: "1mb" }));
+    this.app.http.use(formDataParser());
+    this.app.http.use(urlencodedParser({
       extended: false,
       limit: "1mb"
     }));
-    this.app.http.use(formDataParser());
   }
   
   /**
@@ -106,11 +105,11 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
    * Inject and customize http helpers
    */
   protected customizeHttp() {
-    Router.request.add("file", function(name: string) {
+    Router.request.method("file", function(name: string) {
       return this.files?.[name] ?? null;
     });
     
-    Router.request.add("hasFile", function(name: string) {
+    Router.request.method("hasFile", function(name: string) {
       return !!this.file(name);
     });
     
@@ -129,7 +128,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
       return this._hasValidSignature;
     });
     
-    Router.response.add("json", function(data: string | object) {
+    Router.response.method("json", function(data: string | object) {
       if (!this.get('Content-Type')) {
         this.set('Content-Type', 'application/json');
       }
@@ -149,22 +148,22 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
       this.send(data);
     });
     
-    Router.response.add("sendStatus", function(code: number) {
+    Router.response.method("sendStatus", function(code: number) {
       this.status(code).json({});
     });
     
-    Router.response.add("message", function(text?: string) {
+    Router.response.method("message", function(text?: string) {
       this.json({
         success: this.statusCode >= 200 && this.statusCode < 300,
         message: text || getStatusText(this.statusCode),
       });
     });
     
-    Router.response.add("redirectToClient", function(path = '/') {
+    Router.response.method("redirectToClient", function(path = '/') {
       this.redirect(URL.client(path));
     });
     
-    Router.response.add("sendFileFromStorage", function(storagePath: string) {
+    Router.response.method("sendFileFromStorage", function(storagePath: string) {
       this.sendFile(base("storage", storagePath));
     });
   }
@@ -173,9 +172,9 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
    * Setup express routes
    */
   protected async setupRoutes() {
+    this.app.assertRunningInWeb();
     await this.registerRoutes();
     Router.build(this.app.http)
-    log(Router.stack)
   }
   
   /**
@@ -183,7 +182,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   */
   protected serveStaticFolder() {
     this.app.assertRunningInWeb();
-    this.app.http.use("/api/files", express.static(base("storage/public")));
+    this.app.http.use("/api/files", serveStatic(base("storage/public")));
     URL.add("file.serve", "api/files/:path");
   }
   
@@ -193,7 +192,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   protected registerErrorHandler() {
     this.app.assertRunningInWeb();
     const exceptionHandler = new ExceptionHandler();
-    this.app.http.use(async (err, req, res, next) => {
+    this.app.http.use(async (err: any, req: Request, res: Response, next: NextFunction) => {
       await exceptionHandler.handle(err, req, res);
     });
   }

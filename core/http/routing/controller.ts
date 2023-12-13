@@ -1,6 +1,6 @@
 export type Handler = (...args: any[]) => any | Promise<any>;
 
-export type Controller<Keys extends string> = {
+export type Controller<Keys extends string = any> = {
     new (...args: any[]): { [Key in Keys]: Handler } & any;
 }
 

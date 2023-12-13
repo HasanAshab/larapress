@@ -51,7 +51,7 @@ export default class URL extends BaseURL {
 
   static temporarySignedRoute(routeName: string, expireAt: number, data?: Record < string, string | number >) {
     const url = new this(this.route(routeName, data));
-    url.searchParams.set("exp", expireAt);
+    url.searchParams.set("exp", expireAt.toString());
     const signature = createHmac('sha256', Config.get("app.key")).update(url.href).digest('hex');
     return url.href;
   }
@@ -65,7 +65,7 @@ export default class URL extends BaseURL {
     const signature = url.searchParams.get("signature");
     const expireAt = url.searchParams.get("exp");
 
-    if (!signature || (expireAt && Date.now() > expireAt)) {
+    if (!signature || (expireAt && Date.now() > parseInt(expireAt))) {
       return false;
     }
     

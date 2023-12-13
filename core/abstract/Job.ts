@@ -1,8 +1,8 @@
 import Queue from "Queue";
 
 export default abstract class Job<
-  Data extends object | never = never;
-  JobArguments = (Data extends object ? [data: Data] : []);
+  Data extends object | never = never,
+  JobArguments = (Data extends object ? [data: Data] : [])
 > {
   channel = "default";
   concurrency = 1;

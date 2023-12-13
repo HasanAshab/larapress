@@ -42,7 +42,7 @@ describe("notification", () => {
     
     await notificationService.send(user, new Test);
     
-    await DB.model("Notification").assertHas({ 
+    await Notification.assertHas({ 
       data: { foo: "bar" }
     });
   });
@@ -64,7 +64,7 @@ describe("notification", () => {
     await notificationService.send(user, new TestNotification);
     
     Mail.assertSentTo(user.email, TestMail);
-    await DB.model("Notification").assertHas({ 
+    await Notification.assertHas({ 
       data: { foo: "bar" }
     });
   });

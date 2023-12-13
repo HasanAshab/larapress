@@ -34,7 +34,24 @@ export default function RequestHandler(target: any, propertyKey: string, descrip
     })
     
     const args = await Promise.all(resolveParamPromises);
-    return await handler.apply(this, args);
+    
+    try {
+      const result = await handler.apply(this, args);
+      if(!res.headersSent) {
+        if(!result) {
+          res.end();
+        }
+        else if(typeof result === "string") {
+          res.message(result)
+        }
+        else {
+          res.json(result);
+        }
+      }
+    }
+    catch(err) {
+      next(err)
+    }
   }
 };
 

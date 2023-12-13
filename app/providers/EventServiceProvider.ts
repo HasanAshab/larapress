@@ -4,7 +4,7 @@ export default class EventServiceProvider extends ServiceProvider {
   /**
   * Register Events and its listeners path
   */
-  protected events: Record<string, string | string[]> = {
+  protected events = {
     Registered: [
       "~/app/listeners/SendEmailVerificationNotification",
       "~/app/listeners/SendNewUserJoinedNotificationToAdmins"

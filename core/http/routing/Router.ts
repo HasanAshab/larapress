@@ -1,17 +1,17 @@
 import type RouterConfig from "./RouterConfig";
 import type Route from "./Route";
 import type { Controller, InvokableController, APIResourceController } from "./controller";
-import type { MiddlewareAliaseWithOrWithoutOptions } from "./middleware";
+import type { MiddlewareAliase, MiddlewareAliaseWithOrWithoutOptions } from "./middleware";
+import { Router as ExpressRouter, NextFunction, RequestHandler, Request, Response } from "express";
 import fs from "fs";
 import type { Express } from "express";
 import middlewareConfig from "~/config/middleware";
 import MethodInjector from "MethodInjector";
 import RouteOptions from "./RouteOptions";
 import { join } from "path";
-import { model } from "mongoose";
+import { model, Query } from "mongoose";
 import { cloneDeep, capitalize } from "lodash-es";
 import pluralize from "pluralize";
-import { Router as ExpressRouter, NextFunction, RequestHandler, Request, Response } from "express";
 
 
 export type BindingResolver = (value: string) => any | Promise<any>;
@@ -67,6 +67,7 @@ export class Router {
       method,
       path: join(this.config.prefix, path),
       middlewares: [...this.config.middlewares],
+      metadata: {} as any
     }
     
     if(Array.isArray(action)) {
@@ -151,14 +152,12 @@ export class Router {
     this.resolvers[param] = resolver;
   }
   
-  model(param: string, modelName: string, queryCustomizer?: Function) {
+  model(param: string, modelName: string, queryCustomizer?: ((query: Query<Document, Document>) => any)) {
     const Model = model(modelName);
     const bindField = (field: string, suffix = "") => {
       this.bind(param + suffix, value => {
         let query = Model.findOneOrFail({ [field]: value });
-        if(queryCustomizer) {
-          query = queryCustomizer(query);
-        }
+        queryCustomizer?.(query);
         return query.exec();
       });
     }
@@ -178,11 +177,12 @@ export class Router {
     * this.resolveMiddleware("foo", "bar")
     * this.resolveMiddleware("foo:opt1", "bar:opt1,opt2")
   */
-  resolveMiddleware(...keysWithOptions: MiddlewareAliaseWithOrWithoutOptions[]): RequestHandler[] {
+  resolveMiddleware(...keysWithOptions: MiddlewareAliaseWithOrWithoutOptions[]): Promise<RequestHandler[]> {
     const promises = keysWithOptions.map(async keyWithOptions => {
       const [key, optionString] = keyWithOptions.split(":");
       const options = optionString ? optionString.split(",") : [];
-      const MiddlewareClass = await importDefault<constructor>(middlewareConfig.aliases[key as MiddlewareAliase]);
+      const path = middlewareConfig.aliases[key as keyof MiddlewareAliase];
+      const MiddlewareClass = await importDefault<constructor>(path);
       const middleware = new MiddlewareClass();
       return async function(req: Request, res: Response, next: NextFunction) {
         try {
@@ -208,7 +208,7 @@ export class Router {
     }
     
     Object.assign(this.config, config);
-    
+
     typeof cb === "string" 
       ? await import(cb) 
       : await cb();
@@ -264,8 +264,8 @@ export class Router {
   }
   
   /**
-   * Discovers routes from a base directory and prefix its paths.
-   * Used for a simple File Based Routing.
+   * Discovers routes from a base directory 
+   * and prefix its paths based on filename.
   */
   async discover(base: string) {
     const stack = [base];
@@ -296,40 +296,10 @@ export class Router {
     for(const { method, path, metadata, middlewares } of this.stack) {
       const { controller, key, name } = metadata;
       const controllerInstance = resolve<any>(controller);
-      
-      if(typeof controllerInstance[key] !== "function")
+      const requestHandler = controllerInstance[key]?.bind(controllerInstance);
+      if(typeof requestHandler !== "function")
         throw new Error(`${key} handler doesn't exist on ${controller.name}`);
-      
-      const appendRuntimeHelpers = req => {
-        req.routeName = name;
-        
-        req.routeIs = function(name: string | RegExp) {
-          return (typeof name === "string" && name === this.routeName)
-            || (name instanceof RegExp && name.test(this.routeName));
-        }
-        return req;
-      }
-      
-      const requestHandler = async function(req: Request, res: Response, next: NextFunction) {
-        try {
-          req = appendRuntimeHelpers(req);
-          const result = await controllerInstance[key](req, res, next);
-          if(!res.headersSent) {
-            if(!result) {
-              res.end();
-            }
-            else if(typeof result === "string") {
-              res.message(result)
-            }
-            else {
-              res.json(result);
-            }
-          }
-        }
-        catch(err) {
-          next(err);
-        }
-      }
+
       http[method](path, await this.resolveMiddleware(...middlewares), requestHandler);
     }
     

@@ -3,9 +3,11 @@ import { UploadedFile } from "express-fileupload";
 declare global {
   namespace Express {
     interface Request {
-      files: Record<string, UploadedFile | UploadedFile[]>;
       fullUrl: string;
+      _hasValidSignature?: boolean;
       hasValidSignature: boolean;
+      file(name: string): null | UploadedFile | UploadedFile[];
+      hasFile(name: string): boolean;
     }
 
     interface Response {

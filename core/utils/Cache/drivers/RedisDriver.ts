@@ -18,7 +18,7 @@ export default class RedisDriver extends CacheDriver {
     return data;
   }
 
-  async put<T extends CacheData>(key: string, data: T, expiry?: number, returnSerialized = false) {
+  async put<T extends CacheData, U extends boolean>(key: string, data: T, expiry?: number, returnSerialized?: U): Promise<U extends true ? string : T> {
     const serializedData = this.serialize(data);
     if (expiry) {
       await this.client.set(key, serializedData, "EX", expiry);

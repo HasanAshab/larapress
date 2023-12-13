@@ -3,7 +3,7 @@ export type Resolver = () => CacheData | Promise<CacheData>;
 
 export default abstract class CacheDriver {
   abstract get(key: string, deserialize?: boolean): Promise<CacheData | null>;
-  abstract put<T extends CacheData>(key: string, data: T, expiry?: number, returnSerialized?: boolean): Promise<T>;
+  abstract put<T extends CacheData, U extends boolean>(key: string, data: T, expiry?: number, returnSerialized?: U): Promise<U extends true ? string : T>;
   abstract delete(key: string): Promise<void>;
   abstract increment(key: string): Promise<number>;
   abstract decrement(key: string): Promise<number>;
