@@ -3,8 +3,9 @@ import {
   getFormat,
   transformSource,
   load,
-//} from "ts-node/esm/transpile-only";
-} from "ts-node/esm";
+} from "ts-node/esm/transpile-only";
+//} from "ts-node/esm";
+
 import * as tsConfigPaths from "tsconfig-paths"
 export { getFormat, transformSource, load };
 
@@ -15,3 +16,4 @@ export function resolve(specifier, context, defaultResolver) {
   const mappedSpecifier = matchPath(specifier);
   return resolveTs(mappedSpecifier ?? specifier, context, defaultResolver);
 }
+

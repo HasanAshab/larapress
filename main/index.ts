@@ -6,7 +6,7 @@ import type Application from "~/core/Application";
 await import("~/vendor/autoload");
 await import("Config/load");
 
-import "~/main/b";
+//import "~/main/b";
 
 
 const app: Application = await importDefault<Application>("~/main/app");

@@ -17,7 +17,7 @@ import pluralize from "pluralize";
 export type BindingResolver = (value: string) => any | Promise<any>;
 export type RouterCallback = () => void | Promise<void>;
 
-export class Router {
+export class Router<MiddlewareAliases> {
   /**
    * Stack of registered routes
    */
