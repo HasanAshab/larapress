@@ -1,5 +1,4 @@
 import ServiceProvider from "~/core/http/routing/RouteServiceProvider";
-import Router from "~/core/http/routing/Router";
 
 export default class RouteServiceProvider extends ServiceProvider {
   /**
@@ -18,8 +17,8 @@ export default class RouteServiceProvider extends ServiceProvider {
   }
   
   protected async registerRoutes() {
-    await Router.group({ prefix: "api/v1", as: "v1_" }, async () => {
-      await Router.discover("routes/api/v1");
+    await this.router.group({ prefix: "api/v1", as: "v1_" }, async () => {
+      await this.router.discover("routes/api/v1");
     });
   }
 }

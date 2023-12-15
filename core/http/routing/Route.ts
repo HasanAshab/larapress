@@ -2,7 +2,7 @@ import type { constructor } from "types";
 import type { MiddlewareAliaseWithOrWithoutOptions } from "./middleware";
 
 export default interface Route {
-  method: RequestMethod;
+  method: string;
   path: string;
   middlewares: MiddlewareAliaseWithOrWithoutOptions[];
   metadata: {

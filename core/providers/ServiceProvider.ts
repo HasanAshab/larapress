@@ -1,7 +1,7 @@
 import type Application from "~/core/Application";
 
 export default abstract class ServiceProvider {
-  constructor(public app: Application) {
+  constructor(public readonly app: Application) {
     this.app = app;
   }
   

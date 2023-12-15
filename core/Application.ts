@@ -30,12 +30,14 @@ export default class Application extends EventEmitter {
    * Create a Application instance
   */ 
   static async create() {
-    const app = new Application;
+    const app = new this();
+    
     if(app.runningInWeb()) {
       // if app is running on web we need http support
       app.http = express();
       app.server = createServer(app.http);
     }
+    
     await app.registerServiceProviders();
     await app.bootProviders();
     app.emit("booted");
@@ -55,8 +57,8 @@ export default class Application extends EventEmitter {
   */
   private async registerServiceProviders() {
     const registerPromises = Config.get<string[]>("app.providers").map(async path => {
-      const { default: Provider } = await import(path);
-      this.register(Provider);
+      const Provider = await importDefault<typeof ServiceProvider>(path);
+      await this.register(Provider);
     });
     
     await Promise.all(registerPromises);
@@ -102,9 +104,9 @@ export default class Application extends EventEmitter {
   /**
    * Register a provider
   */
-  private register(Provider: typeof ServiceProvider) {
+  private async register(Provider: typeof ServiceProvider) {
     const provider = new (Provider as any)(this);
-    provider.register?.();
+    await provider.register?.();
     if (provider.boot) {
       this.bootingCallbacks.push(provider.boot.bind(provider));
     }

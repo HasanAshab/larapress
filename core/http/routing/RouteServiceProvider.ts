@@ -1,4 +1,5 @@
 import ServiceProvider from "~/core/providers/ServiceProvider";
+import { container } from "tsyringe";
 import { static as serveStatic, Request, Response, NextFunction } from "express";
 import swaggerUi from "swagger-ui-express";
 import cors from "cors";
@@ -6,19 +7,23 @@ import helmet from "helmet";
 import { modelNames } from "mongoose";
 import { lowerFirst } from "lodash-es";
 import { getStatusText } from "http-status-codes";
-import { json as jsonParser, urlencoded as urlencodedParser } from "body-parser";
+import bodyParser from "body-parser";
 import formDataParser from "express-fileupload";
 import URL from "URL";
 import Router from "./Router";
+import MiddlewareManager from "./MiddlewareManager";
+import middlewareConfig from "~/config/middleware";
 import type { MiddlewareAliaseWithOrWithoutOptions } from "./middleware";
 import ExceptionHandler from "~/app/exceptions/Handler";
 import JsonResource from "~/core/http/resources/JsonResource";
 import ResourceCollection from "~/core/http/resources/ResourceCollection";
 
 export default abstract class RouteServiceProvider extends ServiceProvider {
+  protected router!: Router;
+
   /**
    * Whether API documentation should be served
-  */
+   */
   protected serveApiDoc = env("NODE_ENV") === "development";
  
  /**
@@ -29,10 +34,21 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   protected abstract globalMiddlewares: MiddlewareAliaseWithOrWithoutOptions[];
   
   /**
+   * Register route service
+   */
+  async register() {
+    const middlewareManager = await MiddlewareManager.create(middlewareConfig);
+    this.router = new Router(this.app.http, middlewareManager);
+    
+    container.register(Router, { useValue: this.router });
+  }
+  
+  /**
    * Boot route services
   */
   async boot() {
     if(!this.app.runningInWeb()) return;
+    
     this.serveApiDoc && await this.serveDocs();
     
     this.registerSecurityMiddlewares();
@@ -71,9 +87,9 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   */
   protected registerRequestPayloadParsers() {
     this.app.assertRunningInWeb();
-    this.app.http.use(jsonParser({ limit: "1mb" }));
+    this.app.http.use(bodyParser.json({ limit: "1mb" }));
     this.app.http.use(formDataParser());
-    this.app.http.use(urlencodedParser({
+    this.app.http.use(bodyParser.urlencoded({
       extended: false,
       limit: "1mb"
     }));
@@ -84,15 +100,15 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   */
   protected async registerGlobalMiddlewares() {
     this.app.assertRunningInWeb();
-    const middlewares = await Router.resolveMiddleware(...this.globalMiddlewares);
+    const middlewares = this.router.middleware.get(this.globalMiddlewares);
     this.app.http.use(...middlewares);
   }
   
   
   protected bindModels() {
     modelNames().forEach(modelName => {
-      Router.model(lowerFirst(modelName), modelName);
-      Router.model("raw" + modelName, modelName, query => query.lean());
+      this.router.model(lowerFirst(modelName), modelName);
+      this.router.model("raw" + modelName, modelName, query => query.lean());
     });
   }
   
@@ -105,30 +121,30 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
    * Inject and customize http helpers
    */
   protected customizeHttp() {
-    Router.request.method("file", function(name: string) {
+    this.router.request.method("file", function(name: string) {
       return this.files?.[name] ?? null;
     });
     
-    Router.request.method("hasFile", function(name: string) {
+    this.router.request.method("hasFile", function(name: string) {
       return !!this.file(name);
     });
     
-    Router.request.getter("fullUrl", function() {
+    this.router.request.getter("fullUrl", function() {
       return this.protocol + '://' + this.get('host') + this.originalUrl;
     });
     
-    Router.request.getter("fullPath", function() {
+    this.router.request.getter("fullPath", function() {
       return this.protocol + '://' + this.get('host') + this.path;
     });
    
-    Router.request.getter("hasValidSignature", function() {
+    this.router.request.getter("hasValidSignature", function() {
       if(!this._hasValidSignature) {
         this._hasValidSignature = URL.hasValidSignature(this.fullUrl);
       }
       return this._hasValidSignature;
     });
     
-    Router.response.method("json", function(data: string | object) {
+    this.router.response.method("json", function(data: string | object) {
       if (!this.get('Content-Type')) {
         this.set('Content-Type', 'application/json');
       }
@@ -148,22 +164,22 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
       this.send(data);
     });
     
-    Router.response.method("sendStatus", function(code: number) {
+    this.router.response.method("sendStatus", function(code: number) {
       this.status(code).json({});
     });
     
-    Router.response.method("message", function(text?: string) {
+    this.router.response.method("message", function(text?: string) {
       this.json({
         success: this.statusCode >= 200 && this.statusCode < 300,
         message: text || getStatusText(this.statusCode),
       });
     });
     
-    Router.response.method("redirectToClient", function(path = '/') {
+    this.router.response.method("redirectToClient", function(path = '/') {
       this.redirect(URL.client(path));
     });
     
-    Router.response.method("sendFileFromStorage", function(storagePath: string) {
+    this.router.response.method("sendFileFromStorage", function(storagePath: string) {
       this.sendFile(base("storage", storagePath));
     });
   }
@@ -174,7 +190,7 @@ export default abstract class RouteServiceProvider extends ServiceProvider {
   protected async setupRoutes() {
     this.app.assertRunningInWeb();
     await this.registerRoutes();
-    Router.build(this.app.http)
+    this.router.build(this.app.http)
   }
   
   /**

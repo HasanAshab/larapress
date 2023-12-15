@@ -17,7 +17,7 @@ import pluralize from "pluralize";
 export type BindingResolver = (value: string) => any | Promise<any>;
 export type RouterCallback = () => void | Promise<void>;
 
-export class Router<MiddlewareAliases> {
+export default class Router<MiddlewareAliase extends string> {
   /**
    * Stack of registered routes
    */
@@ -37,11 +37,17 @@ export class Router<MiddlewareAliases> {
   };
 
   /**
-   * Callbacks for resolve bindings 
+   * Callbacks for resolve param bindings 
   */
   private resolvers: Record<string, BindingResolver> = {};
   
   private fallbackHandler: RequestHandler = (req: Request, res: Response) => res.status(404).json();
+  
+  
+  constructor(public readonly http: Express, protected readonly middleware: MiddlewareManager<MiddlewareAliase>) {
+    this.http = http;
+    this.middleware = middleware;
+  }
   
   /**
    * Reset scope based configuration
@@ -94,7 +100,7 @@ export class Router<MiddlewareAliases> {
     }
     
     this.stack.push(route);
-    return new RouteOptions(this.config, route);
+    return new RouteOptions<MiddlewareAliase>(this.config, route);
   }
   
   
@@ -289,24 +295,23 @@ export class Router<MiddlewareAliases> {
     this.reset();
   }
   
-  async build(http: Express) {
-    this.request.inject(http.request);
-    this.response.inject(http.response);
+  async build() {
+    this.request.inject(this.http.request);
+    this.response.inject(this.http.response);
 
     for(const { method, path, metadata, middlewares } of this.stack) {
       const { controller, key, name } = metadata;
       const controllerInstance = resolve<any>(controller);
       const requestHandler = controllerInstance[key]?.bind(controllerInstance);
+      
       if(typeof requestHandler !== "function")
         throw new Error(`${key} handler doesn't exist on ${controller.name}`);
 
-      http[method](path, await this.resolveMiddleware(...middlewares), requestHandler);
+      this.http[method as keyof Express](path, e.make(...middlewares), requestHandler);
     }
     
-    http.all("*", this.fallbackHandler);
+    this.http.all("*", this.fallbackHandler);
     
-    return http;
+    return this.http;
   }
 }
-
-export default new Router;

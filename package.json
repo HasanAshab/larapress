@@ -12,7 +12,7 @@
     "build": "tsc",
     "start": "NODE_ENV=production node dist/main",
     "start:loadTest": "NODE_ENV=loadTest node dist/main",
-    "dev": "nodemon -e ts --exec 'node --no-warnings --loader ./vendor/loader.js --experimental-specifier-resolution=node main/index.ts'"
+    "dev": "nodemon --ignore node_modules/ -e ts --exec 'node --no-warnings --loader ./vendor/loader.js --experimental-specifier-resolution=node main/index.ts'"
   },
   "author": "Hasan Ashab",
   "license": "ISC",
